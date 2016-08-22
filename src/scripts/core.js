@@ -816,7 +816,7 @@ require([
             }
 
             //not an exclusive group item
-            else {
+            else if (wimOptions.includeInLayerList) {
 
                 //create layer toggle
                 //var button = $('<div align="left" style="cursor: pointer;padding:5px;"><span class="glyphspan glyphicon glyphicon-check"></span>&nbsp;&nbsp;' + layerName + '</div>');
