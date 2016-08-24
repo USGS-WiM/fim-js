@@ -4,6 +4,8 @@ html, body {
 }
 
 body {
+    margin: 0;
+    padding: 0;
     padding-top: 50px;
     background-image: url("../images/wimlogoCompact.png");
     background-repeat: no-repeat;
@@ -30,6 +32,12 @@ body {
 
 #floodSlider {
     padding: 25px;
+    float: left;
+    width: 200px;
+}
+
+#floodSlider, #sliderText {
+    display: inline;
 }
 
 #aboutNav{
