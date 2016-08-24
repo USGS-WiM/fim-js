@@ -733,7 +733,12 @@ require([
 
             //add layer to map
             //layer.addTo(map);
-            map.addLayer(layer);
+            if (wimOptions.layerIndex !== undefined) {
+                map.addLayer(layer, wimOptions.layerIndex);
+            } else {
+                map.addLayer(layer);
+            }
+
 
             //add layer to layer list
             mapLayers.push([exclusiveGroupName,camelize(layerName),layer]);
