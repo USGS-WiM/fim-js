@@ -219,7 +219,7 @@ require([
     $("#floodMin").click(function(){
         $("#floodToolsDiv").css("visibility", "hidden");
         //map.getLayer("fimExtents").setVisibility(false);
-        $("#huc-download-alert").slideDown(250);
+        $("#flood-tools-alert").slideDown(250);
     });
 
     $("#floodClose").click(function(){
@@ -229,7 +229,7 @@ require([
 
     $("#floodToolsOpen").click(function(){
         $("#floodToolsDiv").css("visibility", "visible");
-        $("#huc-download-alert").slideUp(250);
+        $("#flood-tools-alert").slideUp(250);
     });
 
     map.on('layer-add', function (evt) {
