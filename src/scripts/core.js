@@ -420,17 +420,27 @@ require([
 
                         $("#floodToolsDiv").css("visibility", "visible");
                         var instance = $('#floodToolsDiv').data('lobiPanel');
-                        instance.unpin();
-                        var docHeight = $(document).height() * 0.9;
-                        var docWidth = $(document).width() * 0.9;
+                        var docHeight = $(document).height();
+                        var docWidth = $(document).width();
+                        var percentageOfScreen = 0.9;
+                        var floodToolsHeight = docHeight*percentageOfScreen
+                        var floodToolsWidth = docWidth*percentageOfScreen;
                         if (docHeight < 500) {
-                            $("#floodToolsDiv").height(docHeight);
+                            $("#floodToolsDiv").height(floodToolsHeight);
                         }
                         if (docWidth < 500) {
-                            $("#floodToolsDiv").width(docWidth);
+                            $("#floodToolsDiv").width(floodToolsWidth);
                         }
 
-                        instance.setPosition(100, 100);//
+                        var instanceX = docWidth*0.5-$("#floodToolsDiv").width()*0.5;
+                        var instanceY = docHeight*0.5-$("#floodToolsDiv").height()*0.5
+                        console.log(instanceX);
+                        console.log(instanceY);
+
+                        instance.setPosition(instanceX, instanceY);
+                        if (instance.isPinned() == true) {
+                            instance.unpin();
+                        }
 
                     }
 
