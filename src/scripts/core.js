@@ -214,11 +214,23 @@ require([
     });
 
     $("#floodToolsDiv .dropdown").prepend("<div id='floodClose'><b>X</b></div>");
+    $("#floodToolsDiv .dropdown").prepend("<div id='floodMin'><b>_</b></div>");
+
+    $("#floodMin").click(function(){
+        $("#floodToolsDiv").css("visibility", "hidden");
+        //map.getLayer("fimExtents").setVisibility(false);
+        $("#huc-download-alert").slideDown(250);
+    });
 
     $("#floodClose").click(function(){
         $("#floodToolsDiv").css("visibility", "hidden");
         map.getLayer("fimExtents").setVisibility(false);
-    })
+    });
+
+    $("#floodToolsOpen").click(function(){
+        $("#floodToolsDiv").css("visibility", "visible");
+        $("#huc-download-alert").slideUp(250);
+    });
 
     map.on('layer-add', function (evt) {
         var layer = evt.layer.id;
@@ -433,9 +445,7 @@ require([
                         }
 
                         var instanceX = docWidth*0.5-$("#floodToolsDiv").width()*0.5;
-                        var instanceY = docHeight*0.5-$("#floodToolsDiv").height()*0.5
-                        console.log(instanceX);
-                        console.log(instanceY);
+                        var instanceY = docHeight*0.5-$("#floodToolsDiv").height()*0.5;
 
                         instance.setPosition(instanceX, instanceY);
                         if (instance.isPinned() == true) {
