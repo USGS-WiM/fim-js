@@ -200,7 +200,23 @@ require([
         map.infoWindow.show(evt.mapPoint);
 
         map.infoWindow.show();*/
+    });//
+
+    $("#floodToolsDiv").lobiPanel({
+        unpin: false,
+        reload: false,
+        minimize: false,
+        close: false,
+        expand: false,
+        editTitle: false
     });
+
+    $("#floodToolsDiv .dropdown").prepend("<div id='floodClose'><b>X</b></div>");
+
+    $("#floodClose").click(function(){
+        $("#floodToolsDiv").css("visibility", "hidden");
+        map.getLayer("fimExtents").setVisibility(false);
+    })
 
     map.on('layer-add', function (evt) {
         var layer = evt.layer.id;
@@ -345,7 +361,7 @@ require([
 
                                 feature.setInfoTemplate(template);
 
-                                var infoWindowClose = dojo.connect(map.infoWindow, "onHide", function(evt) {
+                                var infoWindowClose = dojo.connect($("#floodToolsDiv"), "onHide", function(evt) {
                                     map.getLayer("fimExtents").setVisibility(false);
                                     $("#slider").css("visibility", "hidden");
                                     dojo.disconnect(map.infoWindow, infoWindowClose);
@@ -400,7 +416,10 @@ require([
                             map.getLayer("fimExtents").setLayerDefinitions(layerDefinitions);
                         });
 
-                        $("#slider").css("visibility", "visible");
+                        $("#floodToolsDiv").css("visibility", "visible");
+                        var instance = $('#floodToolsDiv').data('lobiPanel');
+                        instance.unpin();
+                        instance.setPosition(500, 100);
 
                     }
 
