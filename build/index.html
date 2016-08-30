@@ -35,7 +35,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="http://usgs.gov">
+            <a class="navbar-brand" href="http://www.usgs.gov">
                 <img alt="USGS logo" height="38px" src="images/USGS_ID_white.png">
                 <span class='hidden-xs' style='font-size:20px;display:inline-block;'>&nbsp;&nbsp;Flood Inundation Mapper</span>
             </a>
@@ -210,7 +210,7 @@
             </div>
 
             <!-- flood tools -->
-            <div class="panel panel-default wim-sidebar-panel">
+            <!--<div id="floodToolsDiv" class="panel panel-default wim-sidebar-panel">
                 <div class="panel-heading" id="floodToolsPanelHeader">
                     <h4 class="panel-title">
                         <a class="collapsed" data-toggle="collapse" href="#floodToolsPanel" aria-expanded="true" aria-controls="floodToolsPanel">
@@ -229,7 +229,7 @@
                         </div>
                     </form>
                 </div>
-            </div>
+            </div>-->
 
             <!-- # closing div tag for accordion style panels -->
             <!--</div>-->
@@ -258,6 +258,45 @@
                         <div id="legendDiv" class="panel-body"></div>
                     </div>
                 </div>
+
+                <div id="floodToolsDiv" class="panel panel-default floodToolsClass">
+                    <div class="panel-heading">
+                        <div class="panel-title">
+                            <h4>Flood Tools</h4>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div id="floodToolsPanel" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="floodToolsPanelHeader">
+                            <form id="slider">
+                                <input id="floodSlider" type="range" name="stage" value="0" min="0" max="10" class="vertical-slider">
+                                <div id="sliderText">
+                                    Selected gage height: <br/><label id="selectedValue"></label> ft<br/>
+                                    Site number: <br/><label id="siteNumber"></label>
+                                    <label>Select a gage height to view the flooded area</label>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!--<div id="floodPanel" class="panel panel-default floodToolsClass">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            Flood Tools
+                        </h4>
+                    </div>
+                    <div id="floodToolsPanelDrag" class="panel-body">
+                        <!--<label id="floodStartLabelDrag">Click a FIM site to see flood polygons and information for the site</label>
+                        <form id="sliderDrag">
+                            <input id="floodSliderDrag" type="range" name="stage" value="0" min="0" max="10" class="vertical-slider">
+                            <div id="sliderTextDrag">
+                                Selected gage height: <br/><label id="selectedValueDrag"></label> ft<br/>
+                                Site number: <br/><label id="siteNumberDrag"></label>
+                                <label>Select a gage height to view the flooded area</label>
+                            </div>
+                        </form>
+                    </div>
+                </div>-->
 
             </div>
 
