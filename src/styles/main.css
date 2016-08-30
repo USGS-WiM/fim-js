@@ -322,8 +322,8 @@ a.lgi-zoom:hover {
 .wim-alert-fixed {
     display: none;
     position: fixed;
-    top: 50px;
-    right: 350px;
+    top: 80px;
+    right: 5px;
     z-index: 5000;
     width: 280px;
     box-sizing: border-box;
