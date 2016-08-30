@@ -87,6 +87,28 @@
     </div><!-- /.modal-dialog -->
 </div>
 
+<div class="wim-alert-fixed" id="huc-download-alert"
+     style="position: fixed; top: 50px; right: 325px; color: #000; background-color: #f9f9f9; border-color: rgba(0,0,0.75);">
+    <i class="ion-close-round close-alert" style="float: right;"></i> <!-- Close Button - MUST INCLUDE -->
+    <div id="innerAlert">
+        <h4><b>Flood Tools</b></h4>
+        <p>flood tools available if you <a id="floodToolsOpen">click here</a></p>
+    </div>
+</div>
+<script> <!-- To close alert -->
+$(".close-alert").click(function(){
+    $(this).parent().slideUp(250);
+    map.getLayer("fimExtents").setVisibility(false);
+    //map.getLayer("huc8").setVisibility(false);
+    ///map.graphics.clear();
+});
+</script>
+<style>
+    .close-alert:hover{
+        cursor: pointer;
+    }
+</style>
+
 <div id="aboutModal" class="modal fade"  tabindex="-1" role="dialog" >
     <div class="modal-dialog  modal-lg">
         <div class="modal-content">
