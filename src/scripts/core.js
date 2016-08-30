@@ -208,7 +208,9 @@ require([
         minimize: false,
         close: false,
         expand: false,
-        editTitle: false
+        editTitle: false,
+        maxWidth: 500,
+        maxHeight: 500
     });
 
     $("#floodToolsDiv .dropdown").prepend("<div id='floodClose'><b>X</b></div>");
@@ -419,6 +421,15 @@ require([
                         $("#floodToolsDiv").css("visibility", "visible");
                         var instance = $('#floodToolsDiv').data('lobiPanel');
                         instance.unpin();
+                        var docHeight = $(document).height() * 0.9;
+                        var docWidth = $(document).width() * 0.9;
+                        if (docHeight < 500) {
+                            $("#floodToolsDiv").height(docHeight);
+                        }
+                        if (docWidth < 500) {
+                            $("#floodToolsDiv").width(docWidth);
+                        }
+
                         instance.setPosition(100, 100);//
 
                     }
