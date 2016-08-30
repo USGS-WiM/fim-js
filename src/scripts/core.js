@@ -419,7 +419,7 @@ require([
                         $("#floodToolsDiv").css("visibility", "visible");
                         var instance = $('#floodToolsDiv').data('lobiPanel');
                         instance.unpin();
-                        instance.setPosition(500, 100);
+                        instance.setPosition(100, 100);//
 
                     }
 
