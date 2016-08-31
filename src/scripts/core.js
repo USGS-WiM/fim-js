@@ -213,8 +213,8 @@ require([
         maxHeight: 500
     });
 
-    $("#floodToolsDiv .dropdown").prepend("<div id='floodClose'><b>X</b></div>");
-    $("#floodToolsDiv .dropdown").prepend("<div id='floodMin'><b>_</b></div>");
+    $("#floodToolsDiv .dropdown").prepend("<div id='floodClose' title='close'><b>X</b></div>");
+    $("#floodToolsDiv .dropdown").prepend("<div id='floodMin' title='collapse'><b>_</b></div>");
 
     $("#floodMin").click(function(){
         $("#floodToolsDiv").css("visibility", "hidden");
@@ -262,7 +262,7 @@ require([
                     url: siteUrl,
                     headers: {'Accept': '*/*'},
                     success: function (data) {
-                        console.log(data);
+                        /*console.log(data);
                         var paramArray = data.split("DD")[1].split("#");
                         paramArray.shift();
                         $.each(paramArray, function(key, value) {
@@ -275,7 +275,7 @@ require([
                             param_dd[param] = dd;
                         });
 
-                        console.log(param_dd);
+                        console.log(param_dd);*/
 
                         //var url = "http://waterservices.usgs.gov/nwis/site/?format=gm&sites="+attr['Name']+"&siteOutput=expanded&outputDataTypeCd=iv&hasDataTypeCd=iv&parameterCd=00065,00060,00010,00095,63680,99133";
                         var url = "http://waterservices.usgs.gov/nwis/iv/?format=json&sites="+attr['SITE_NO']+"&parameterCd=00060,00065";
@@ -342,6 +342,14 @@ require([
 
                                         var formattedDate = dateFormat(valDate);
 
+                                        if (variable == "Discharge") {
+                                            $("#floodMaxDischarge").text(varValue);
+                                            $("#floodMinDischarge").text(varValue);
+                                        } else if (variable == "Gage height") {
+                                            $("#floodMaxGage").text(varValue);
+                                            $("#floodMinGage").text(varValue);
+                                        }
+
                                         var rtLabel = "";
                                         if (varValue == "-999999") {
                                             rtLabel = "<label class='paramLabel'>" + variable + ": <span style='font-weight: normal'>N/A</span></label><br/>";
@@ -353,13 +361,13 @@ require([
 
                                         var siteNo = feature.attributes.Name;
 
-                                        /*if (dateInRange(valDate,startDate) == true) {
+                                        if (dateInRange(valDate,startDate) == true) {
                                             var nwisGraphUrl = "http://waterdata.usgs.gov/nwisweb/graph?agency_cd=USGS&site_no="+siteNo+"&parm_cd="+variableCode+"&begin_date=" + startDate + "&end_date="+todayDate//+"&dd_nu="+param_dd[variableCode];
 
                                             var nwisChart = "<br/><br/><label>"+ variable + "</label><br/><img src='" + nwisGraphUrl + "'/>";
 
                                             nwisHtml = nwisHtml + nwisChart;
-                                        }*/
+                                        }
 
                                     }
 
@@ -383,8 +391,8 @@ require([
 
                                 map.infoWindow.setFeatures([feature]);
 
-                                map.infoWindow.show(feature.geometry);
-                                map.infoWindow.resize(450,450);
+                                /*map.infoWindow.show(feature.geometry);
+                                map.infoWindow.resize(450,450);*/
 
                             },
                             error: function (error) {

@@ -119,6 +119,8 @@
     <div id="innerAlert">
         <h4><b>Flood Tools</b></h4>
         <p>flood tools available if you <a id="floodToolsOpen">click here</a></p>
+        Current gage height: <br/><label id="floodMinGage" class="current"></label> feet<br/>
+        Current discharge: <br/><label id="floodMinDischarge" class="current"></label> cfs
     </div>
 </div>
 <script> <!-- To close alert -->
@@ -126,7 +128,7 @@ $(".close-alert").click(function(){
     $(this).parent().slideUp(250);
     map.getLayer("fimExtents").setVisibility(false);
     //map.getLayer("huc8").setVisibility(false);
-    ///map.graphics.clear();
+    //map.graphics.clear();
 });
 </script>
 <style>
@@ -289,7 +291,7 @@ $(".close-alert").click(function(){
             <!--<button id="legendClose" type="button" class="close" data-dismiss="legend" aria-label="Close" aria-hidden="true">x</button>-->
             <!--<h4><b>Explanation</b></h4>-->
             <!--<div id="legendDiv"></div>-->
-            <!--</div>-->
+            <!--</div> -->
 
             <div id="mapDiv">
 
@@ -319,7 +321,9 @@ $(".close-alert").click(function(){
                                 <input id="floodSlider" type="range" name="stage" value="0" min="0" max="10" class="vertical-slider">
                                 <div id="sliderText">
                                     Selected gage height: <br/><label id="selectedValue"></label> ft<br/>
-                                    Site number: <br/><label id="siteNumber"></label>
+                                    Site number: <br/><label id="siteNumber"></label><br/>
+                                    Current gage height: <br/><label id="floodMaxGage" class="current"></label> feet<br/>
+                                    Current discharge: <br/><label id="floodMaxDischarge" class="current"></label> cfs
                                     <label>Select a gage height to view the flooded area</label>
                                 </div>
                             </form>

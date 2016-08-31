@@ -34,6 +34,15 @@ body {
     padding: 25px;
     float: left;
     width: 200px;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.current {
+    color: red;
+}
+
+#slider {
+    height: 200px;
 }
 
 #floodSlider, #sliderText {
@@ -241,9 +250,43 @@ body {
 
 #floodClose {
     cursor: pointer;
+    display: inline;
     padding-top: 3px;
     padding-right: 6px;
     font-size: 14px;
+    font-weight: bold;
+}
+
+#floodMin {
+    cursor: pointer;
+    display: inline;
+    padding-right: 15px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
 }
 
 .lgi-zoom {
@@ -446,11 +489,6 @@ input[type="checkbox"], input[type="radio"] {
 
 .zoomClose {
     color: white;
-}
-
-#slider {
-    opacity: 80;
-    height: 100px;
 }
 
 /*styles to be removed when wim styles are created*/
