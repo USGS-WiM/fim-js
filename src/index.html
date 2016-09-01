@@ -312,21 +312,33 @@ $(".close-alert").click(function(){
                 <div id="floodToolsDiv" class="panel panel-default floodToolsClass">
                     <div class="panel-heading">
                         <div class="panel-title">
-                            <h4>Flood Tools</h4>
+                            <h4 id="floodToolsPanelHeader"></h4>
                         </div>
                     </div>
                     <div class="panel-body">
+
                         <div id="floodToolsPanel" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="floodToolsPanelHeader">
-                            <form id="slider">
-                                <input id="floodSlider" type="range" name="stage" value="0" min="0" max="10" class="vertical-slider">
-                                <div id="sliderText">
-                                    Selected gage height: <br/><label id="selectedValue"></label> ft<br/>
-                                    Site number: <br/><label id="siteNumber"></label><br/>
-                                    Current gage height: <br/><label id="floodMaxGage" class="current"></label> feet<br/>
-                                    Current discharge: <br/><label id="floodMaxDischarge" class="current"></label> cfs
-                                    <label>Select a gage height to view the flooded area</label>
+                            <ul class="nav nav-tabs" id="floodToolsTabs">
+                                <li role="presentation" class="active"><a id="floodToolsTab" href="#floodToolsTabPane" data-toggle="tab"><i class="fa fa-question-circle"></i>&nbsp;Flood Tools</a></li>
+                                <li role="presentation"><a id="servicesAndDataTab" href="#servicesAndDataTabPane" data-toggle="tab"><i class="fa fa-exclamation-circle"></i>&nbsp;Services and Data</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div role="tabpanel" class="tab-pane active" id="floodToolsTabPane">
+                                    <form id="slider">
+                                        <input id="floodSlider" type="range" name="stage" value="0" min="0" max="10" class="vertical-slider">
+                                        <div id="sliderText">
+                                            Selected gage height: <br/><label id="selectedValue"></label> ft<br/>
+                                            Site number: <br/><label id="siteNumber"></label><br/>
+                                            Current gage height: <br/><label id="floodMaxGage" class="current"></label> feet<br/>
+                                            Current discharge: <br/><label id="floodMaxDischarge" class="current"></label> cfs
+                                            <label>Select a gage height to view the flooded area</label>
+                                        </div>
+                                    </form>
                                 </div>
-                            </form>
+                                <div role="tabpanel" class="tab-pane" id="servicesAndDataTabPane">
+                                    <label>Services and data info here.</label>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
