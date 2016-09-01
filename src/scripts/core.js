@@ -422,6 +422,8 @@ require([
 
                         results = featureSet.features;
 
+                        $("#floodToolsPanelHeader").text(attr["STATE"] + ": " + attr["COMMUNITY"]);
+
                         $("#siteNumber").text(attr["SITE_NO"]);
                         $("#floodSlider").attr({"min": 0, "max": results.length-1});
                         $("#floodSlider")[0].value = 0;
