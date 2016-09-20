@@ -42,11 +42,16 @@ body {
 }
 
 #slider {
-    height: 200px;
+    height: 300px;
+    vertical-align: middle;
 }
 
 #floodSlider, #sliderText {
     display: inline;
+}
+
+#sliderText {
+    padding-top: 50px;
 }
 
 #aboutNav{

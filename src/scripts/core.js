@@ -13,6 +13,8 @@ var maxLegendDivHeight;
 var dragInfoWindows = true;
 var defaultMapCenter = [-95.6, 38.6];
 
+var siteAttr;
+
 var results;
 
 require([
@@ -202,6 +204,7 @@ require([
         map.infoWindow.show();*/
     });//
 
+    // Using Lobipanel: https://github.com/arboshiki/lobipanel
     $("#floodToolsDiv").lobiPanel({
         unpin: false,
         reload: false,
@@ -225,6 +228,8 @@ require([
     $("#floodClose").click(function(){
         $("#floodToolsDiv").css("visibility", "hidden");
         map.getLayer("fimExtents").setVisibility(false);
+        map.getLayer("fimBreach").setVisibility(false);
+        map.getLayer("fimSuppLyrs").setVisibility(false);
     });
 
     $("#floodToolsOpen").click(function(){
@@ -242,11 +247,12 @@ require([
 
                 var feature = evt.graphic;
                 var attr = feature.attributes;
+                siteAttr = attr;
 
                 var siteNo = feature.attributes.SITE_NO;
 
                 //var siteUrl = "http://waterdata.usgs.gov/nwis/uv?search_site_no=07183500&period=1&format=rdb";
-                var siteUrl = "http://fim.wim.usgs.gov/proxies/httpProxy/Default.aspx?site_no="+siteNo+"&site_info=true";
+                var siteUrl = "https://services.wim.usgs.gov/proxies/httpProxy/Default.aspx?site_no="+siteNo+"&site_info=true";
 
                 var param_dd = {};
 
@@ -255,6 +261,23 @@ require([
                 }
 
                 map.getLayer("fimExtents").setVisibility(true);
+                map.getLayer("fimBreach").setVisibility(true);
+                var suppLyrs = map.getLayer("fimSuppLyrs");
+                var suppLyrsDef = [];
+                suppLyrsDef[0] = "USGSID = '" + siteNo + "'";
+                suppLyrsDef[1] = "USGSID = '" + siteNo + "'";
+                suppLyrs.setLayerDefinitions(suppLyrsDef);
+                suppLyrs.setVisibility(true);
+
+                $("#usgsSiteNoMin").text(siteNo);
+                $("#usgsSiteNoMin").attr("href", "http://waterdata.usgs.gov/nwis/uv?site_no="+siteNo);
+                $("#nwsSiteIDMin").text(feature.attributes.AHPS_ID);
+                $("#nwsSiteIDMin").attr("href", "http://water.weather.gov/ahps2/hydrograph.php?gage="+feature.attributes.AHPS_ID);
+
+                $("#usgsSiteNoMax").text(siteNo);
+                $("#usgsSiteNoMax").attr("href", "http://waterdata.usgs.gov/nwis/uv?site_no="+siteNo);
+                $("#nwsSiteIDMax").text(feature.attributes.AHPS_ID);
+                $("#nwsSiteIDMax").attr("href", "http://water.weather.gov/ahps2/hydrograph.php?gage="+feature.attributes.AHPS_ID);
 
                 $.ajax({
                     dataType: 'text',
@@ -262,7 +285,7 @@ require([
                     url: siteUrl,
                     headers: {'Accept': '*/*'},
                     success: function (data) {
-                        /*console.log(data);
+                        /* console.log(data);
                         var paramArray = data.split("DD")[1].split("#");
                         paramArray.shift();
                         $.each(paramArray, function(key, value) {
@@ -385,6 +408,8 @@ require([
 
                                 var infoWindowClose = dojo.connect($("#floodToolsDiv"), "onHide", function(evt) {
                                     map.getLayer("fimExtents").setVisibility(false);
+                                    map.getLayer("fimBreach").setVisibility(false);
+                                    map.getLayer("fimSuppLyrs").setVisibility(false);
                                     $("#slider").css("visibility", "hidden");
                                     dojo.disconnect(map.infoWindow, infoWindowClose);
                                 });
@@ -432,12 +457,14 @@ require([
                         var layerDefinitions = [];
                         layerDefinitions[0] = "USGSID = '" + attr["SITE_NO"] + "' AND STAGE = " + results[0].attributes["STAGE"];
                         map.getLayer("fimExtents").setLayerDefinitions(layerDefinitions);
+                        map.getLayer("fimBreach").setLayerDefinitions(layerDefinitions);
 
                         $("#slider").on("input change", function() {
                             $("#selectedValue").text(results[$("#floodSlider")[0].value].attributes["STAGE"]);
                             var layerDefinitions = [];
                             layerDefinitions[0] = "USGSID = '" + attr["SITE_NO"] + "' AND STAGE = " + results[$("#floodSlider")[0].value].attributes["STAGE"];
                             map.getLayer("fimExtents").setLayerDefinitions(layerDefinitions);
+                            map.getLayer("fimBreach").setLayerDefinitions(layerDefinitions);
                         });
 
                         $("#floodToolsDiv").css("visibility", "visible");
@@ -467,6 +494,12 @@ require([
                 }
 
             });
+        }
+    });
+
+    map.on("click", function(evt) {
+        if (siteAttr.HAS_GRIDS && map.getLayer("fimExtents").visible == true) {
+            //come back to this to deal with grid clicks
         }
     });
 

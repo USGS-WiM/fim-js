@@ -25,14 +25,14 @@ require([
             "includeInLayerList": true,
             "layers": {
                 "FIM Sites": {
-                    "url" : "http://fim.wim.usgs.gov/arcgis/rest/services/FIMMapper/sites/MapServer/0",
+                    "url" : "http://gis.wim.usgs.gov/arcgis/rest/services/FIMMapper/sites/MapServer/0",
                     "options": {
                         "id": "fimSites",
                         "opacity": 1.00,
                         "mode": FeatureLayer.MODE_ONDEMAND,
                         "outFields": ["*"],
                         "definitionExpression": "Public = 1",
-                        ////"infoTemplate": fimInfoTemplate,
+                        //"infoTemplate": fimInfoTemplate,
                         "visible": true
                     },
                     "wimOptions": {
@@ -43,11 +43,41 @@ require([
                         "includeLegend" : false
                     }
                 },
-                "FIM flood extents": {
-                    "url" : "http://fim.wim.usgs.gov/arcgis/rest/services/FIMMapper/floodExtents/MapServer",
+                "Flood-inundation area": {
+                    "url" : "http://gis.wim.usgs.gov/arcgis/rest/services/FIMMapper/floodExtents/MapServer",
                     "options": {
                         "id": "fimExtents",
+                        "opacity": 0.75,
+                        "visible": false
+                    },
+                    "wimOptions": {
+                        "type": "layer",
+                        "layerType": "agisDynamic",
+                        "includeInLayerList": false,
+                        "hasOpacitySlider": true,
+                        "includeLegend" : true
+                    }
+                },
+                "Area of uncertainty (where applicable)": {
+                    "url" : "http://gis.wim.usgs.gov/arcgis/rest/services/FIMMapper/breach/MapServer",
+                    "options": {
+                        "id": "fimBreach",
                         "opacity": 0.35,
+                        "visible": false
+                    },
+                    "wimOptions": {
+                        "type": "layer",
+                        "layerType": "agisDynamic",
+                        "includeInLayerList": false,
+                        "hasOpacitySlider": true,
+                        "includeLegend" : true
+                    }
+                },
+                "Supplemental layers": {
+                    "url" : "http://gis.wim.usgs.gov/arcgis/rest/services/FIMMapper/suppLyrs/MapServer",
+                    "options": {
+                        "id": "fimSuppLyrs",
+                        "opacity": 1.0,
                         "visible": false
                     },
                     "wimOptions": {
@@ -105,7 +135,7 @@ require([
                         "includeLegend" : true
                     }
                 },
-                "FIM sites legend": {
+                "USGS FIM Sites (NWS forecast category)": {
                     "url" : "http://gis.wim.usgs.gov/ArcGIS/rest/services/FIMMapper/fimi_sites_for_legend/MapServer",
                     "options": {
                         "id": "fimSitesLegend",
