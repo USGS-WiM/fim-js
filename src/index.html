@@ -8,6 +8,7 @@
     <!-- build:css styles/vendor.css -->
     <!-- bower:css -->
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="bower_components/fontawesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="bower_components/wim-styles/template/css/base.css" />
     <link rel="stylesheet" href="bower_components/lobipanel/css/lobipanel.css"/>
     <link rel="stylesheet" href="bower_components/bootstrap-sidebar/dist/css/sidebar.css" />
@@ -119,14 +120,23 @@
     <div id="innerAlert">
         <h4><b>Flood Tools</b></h4>
         <p>flood tools available if you <a id="floodToolsOpen">click here</a></p>
-        Current gage height: <br/><label id="floodMinGage" class="current"></label> feet<br/>
-        Current discharge: <br/><label id="floodMinDischarge" class="current"></label> cfs
+        <p>
+            <b>Current conditions</b><br/>
+            Gage height: <label id="floodMinGage" class="current"></label> feet<br/>
+            Discharge: <label id="floodMinDischarge" class="current"></label> cfs<br/>
+        </p>
+        <p>
+            USGS Site No: <a id="usgsSiteNoMin" target="_blank" href=""></a><br/>
+            NWS Site ID: <a id="nwsSiteIDMin" target="_blank" href=""></a>
+        </p>
     </div>
 </div>
 <script> <!-- To close alert -->
 $(".close-alert").click(function(){
     $(this).parent().slideUp(250);
     map.getLayer("fimExtents").setVisibility(false);
+    map.getLayer("fimBreach").setVisibility(false);
+    map.getLayer("fimSuppLyrs").setVisibility(false);
     //map.getLayer("huc8").setVisibility(false);
     //map.graphics.clear();
 });
@@ -319,20 +329,26 @@ $(".close-alert").click(function(){
 
                         <div id="floodToolsPanel" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="floodToolsPanelHeader">
                             <ul class="nav nav-tabs" id="floodToolsTabs">
-                                <li role="presentation" class="active"><a id="floodToolsTab" href="#floodToolsTabPane" data-toggle="tab"><i class="fa fa-question-circle"></i>&nbsp;Flood Tools</a></li>
-                                <li role="presentation"><a id="servicesAndDataTab" href="#servicesAndDataTabPane" data-toggle="tab"><i class="fa fa-exclamation-circle"></i>&nbsp;Services and Data</a></li>
+                                <li role="presentation" class="active"><a id="floodToolsTab" href="#floodToolsTabPane" data-toggle="tab"><i class="fa fa-umbrella"></i>&nbsp;Flood Tools</a></li>
+                                <li role="presentation"><a id="servicesAndDataTab" href="#servicesAndDataTabPane" data-toggle="tab"><i class="fa fa-server"></i>&nbsp;Services and Data</a></li>
                             </ul>
                             <div class="tab-content">
                                 <div role="tabpanel" class="tab-pane active" id="floodToolsTabPane">
                                     <form id="slider">
                                         <input id="floodSlider" type="range" name="stage" value="0" min="0" max="10" class="vertical-slider">
                                         <div id="sliderText">
-                                            Selected gage height: <br/><label id="selectedValue"></label> ft<br/>
-                                            Site number: <br/><label id="siteNumber"></label><br/>
-                                            Current gage height: <br/><label id="floodMaxGage" class="current"></label> feet<br/>
-                                            Current discharge: <br/><label id="floodMaxDischarge" class="current"></label> cfs
-                                            <label>Select a gage height to view the flooded area</label>
+                                            Selected gage height: <br/><label for="floodSlider" id="selectedValue"></label> ft<br/>
+                                            <div>
+                                                <b>Current conditions</b><br/>
+                                                Gage height: <label id="floodMaxGage" class="current"></label> feet<br/>
+                                                Discharge: <label id="floodMaxDischarge" class="current"></label> cfs<br/>
+                                            </div>
+                                            <div>
+                                                USGS Site No: <a id="usgsSiteNoMax" target="_blank" href=""></a><br/>
+                                                NWS Site ID: <a id="nwsSiteIDMax" target="_blank" href=""></a>
+                                            </div>
                                         </div>
+                                        <label>Select a gage height to view the flooded area</label>
                                     </form>
                                 </div>
                                 <div role="tabpanel" class="tab-pane" id="servicesAndDataTabPane">
