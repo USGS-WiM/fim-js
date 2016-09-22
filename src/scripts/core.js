@@ -498,6 +498,7 @@ require([
     });
 
     map.on("click", function(evt) {
+        //$("[id*='fimExtents'] .esriLegendLayerLabel").hide();
         if (siteAttr.HAS_GRIDS && map.getLayer("fimExtents").visible == true) {
             //come back to this to deal with grid clicks
         }
@@ -832,6 +833,12 @@ require([
                 map.addLayer(layer);
             }
 
+            if (wimOptions.legendLabel == false) {
+                var style = document.createElement('style');
+                style.type = 'text/css';
+                style.innerHTML = '[id*=' + layer.id + '] .esriLegendLayerLabel { display: none; }';
+                document.getElementsByTagName('head')[0].appendChild(style);
+            }
 
             //add layer to layer list
             mapLayers.push([exclusiveGroupName,camelize(layerName),layer]);
@@ -1099,16 +1106,16 @@ require([
                 var legendItemDiv = $('<div align="left" id="' + camelize(layerName) + '"><strong>&nbsp;&nbsp;' + layerName + '</strong></br></div>');
                 $('#legendDiv').append(legendItemDiv);
 
+
+
                 //get legend REST endpoint for swatch
                 $.getJSON(layerDetails.url + '/legend?f=json', function (legendResponse) {
 
                     console.log(layerName,'legendResponse',legendResponse);
 
-
-
                     //make list of layers for legend
                     if (layerDetails.options.layers) {
-                        //console.log(layerName, 'has visisble layers property')
+                        // console.log(layerName, 'has visisble layers property')
                         //if there is a layers option included, use that
                         var visibleLayers = layerDetails.options.layers;
                     }
@@ -1185,7 +1192,6 @@ require([
             layerInfos: legendLayers
         }, "legendDiv");
         legend.startup();
-
 
     });//end of require statement containing legend building code
 

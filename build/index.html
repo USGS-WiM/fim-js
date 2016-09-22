@@ -309,17 +309,18 @@ $(".close-alert").click(function(){
                                 <div role="tabpanel" class="tab-pane active" id="floodToolsTabPane">
                                     <form id="slider">
                                         <input id="floodSlider" type="range" name="stage" value="0" min="0" max="10" class="vertical-slider">
-                                        <div id="sliderText">
                                             Selected gage height: <br/><label for="floodSlider" id="selectedValue"></label> ft<br/>
-                                            <div>
+                                        </input>
+                                        <div id="sliderText">
+                                            <p>
                                                 <b>Current conditions</b><br/>
                                                 Gage height: <label id="floodMaxGage" class="current"></label> feet<br/>
                                                 Discharge: <label id="floodMaxDischarge" class="current"></label> cfs<br/>
-                                            </div>
-                                            <div>
+                                            </p>
+                                            <p>
                                                 USGS Site No: <a id="usgsSiteNoMax" target="_blank" href=""></a><br/>
                                                 NWS Site ID: <a id="nwsSiteIDMax" target="_blank" href=""></a>
-                                            </div>
+                                            </p>
                                         </div>
                                         <label>Select a gage height to view the flooded area</label>
                                     </form>

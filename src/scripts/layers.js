@@ -55,7 +55,8 @@ require([
                         "layerType": "agisDynamic",
                         "includeInLayerList": false,
                         "hasOpacitySlider": true,
-                        "includeLegend" : true
+                        "includeLegend" : true,
+                        "legendLabel": false
                     }
                 },
                 "Area of uncertainty (where applicable)": {
@@ -70,7 +71,8 @@ require([
                         "layerType": "agisDynamic",
                         "includeInLayerList": false,
                         "hasOpacitySlider": true,
-                        "includeLegend" : true
+                        "includeLegend" : true,
+                        "legendLabel": false
                     }
                 },
                 "Supplemental layers": {
@@ -116,7 +118,8 @@ require([
                         "layerType": "agisDynamic",
                         "includeInLayerList": true,
                         "hasOpacitySlider": true,
-                        "includeLegend" : true
+                        "includeLegend" : true,
+                        "legendLabel": false
                     }
                 },
                 "AHPS Forecast Sites": {
@@ -148,7 +151,8 @@ require([
                         "includeInLayerList": false,
                         "hasOpacitySlider": false,
                         "includeLegend" : true,
-                        "layerIndex": 0
+                        "layerIndex": 0,
+                        "legendLabel": false
                     }
                 }
             }
