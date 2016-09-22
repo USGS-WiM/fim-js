@@ -54,6 +54,18 @@ body {
     padding-top: 50px;
 }
 
+.noShow {
+    visibility: hidden;
+}
+
+/*div[id*='fimExtents'] .esriLegendLayerLabel {
+    visibility: hidden;
+}
+
+div[id*='fimBreach'] .esriLegendLayerLabel {
+    visibility: hidden;
+}*/
+
 #aboutNav{
     letter-spacing: 2px;
     position: relative; top: 2px;
