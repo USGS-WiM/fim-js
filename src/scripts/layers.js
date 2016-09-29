@@ -145,7 +145,7 @@ require([
                         "opacity": 1.0,
                         "visible": true
                     },
-                    "wimOptions": {//
+                    "wimOptions": {
                         "type": "layer",
                         "layerType": "agisDynamic",
                         "includeInLayerList": false,
@@ -154,7 +154,23 @@ require([
                         "layerIndex": 0,
                         "legendLabel": false
                     }
-                }
+                }/*,
+                "grids2": {
+                    "url" : "http://gis.wim.usgs.gov/ArcGIS/rest/services/FIMTest/grids_2/MapServer",
+                    "options": {
+                        "id": "fimGrid2",
+                        "opacity": 1.0,
+                        "visible": true
+                    },
+                    "wimOptions": {//
+                        "type": "layer",
+                        "layerType": "agisDynamic",
+                        "includeInLayerList": false,
+                        "hasOpacitySlider": false,
+                        "includeLegend" : true
+                        //"legendLabel": false
+                    }
+                }//http://gis.wim.usgs.gov/ArcGIS/rest/services/FIMTest/grids_1_test/MapServer*/
             }
         }
     ]

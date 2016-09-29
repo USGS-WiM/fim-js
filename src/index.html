@@ -330,6 +330,7 @@ $(".close-alert").click(function(){
                         <div id="floodToolsPanel" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="floodToolsPanelHeader">
                             <ul class="nav nav-tabs" id="floodToolsTabs">
                                 <li role="presentation" class="active"><a id="floodToolsTab" href="#floodToolsTabPane" data-toggle="tab"><i class="fa fa-umbrella"></i>&nbsp;Flood Tools</a></li>
+                                <li role="presentation"><a id="webCamTab" href="#webCamTabPane" data-toggle="tab"><i class="fa fa-video-camera"></i>&nbsp;Web Cam</a></li>
                                 <li role="presentation"><a id="servicesAndDataTab" href="#servicesAndDataTabPane" data-toggle="tab"><i class="fa fa-server"></i>&nbsp;Services and Data</a></li>
                             </ul>
                             <div class="tab-content">
@@ -351,6 +352,9 @@ $(".close-alert").click(function(){
                                         </div>
                                         <label>Select a gage height to view the flooded area</label>
                                     </form>
+                                </div>
+                                <div role="tabpanel" class="tab-pane" id="webCamTabPane">
+                                    <iframe id="webCamIFrame"></iframe>
                                 </div>
                                 <div role="tabpanel" class="tab-pane" id="servicesAndDataTabPane">
                                     <label>Services and data info here.</label>
