@@ -121,6 +121,7 @@ require([
         }
         map.infoWindow.set('highlight', true);
     });
+
     //displays map scale on scale change (i.e. zoom level)
     on(map, "zoom-end", function () {
         var scale =  map.getScale().toFixed(0);
@@ -212,7 +213,7 @@ require([
         close: false,
         expand: false,
         editTitle: false,
-        maxWidth: 500,
+        maxWidth: 800,
         maxHeight: 500
     });
 
@@ -269,6 +270,9 @@ require([
                 suppLyrs.setLayerDefinitions(suppLyrsDef);
                 suppLyrs.setVisibility(true);
 
+                $("[id*='Tab']").parents("li").removeClass("active");
+                $(".nav-tabs #floodToolsTab").tab("show");
+
                 $("#usgsSiteNoMin").text(siteNo);
                 $("#usgsSiteNoMin").attr("href", "http://waterdata.usgs.gov/nwis/uv?site_no="+siteNo);
                 $("#nwsSiteIDMin").text(feature.attributes.AHPS_ID);
@@ -278,6 +282,13 @@ require([
                 $("#usgsSiteNoMax").attr("href", "http://waterdata.usgs.gov/nwis/uv?site_no="+siteNo);
                 $("#nwsSiteIDMax").text(feature.attributes.AHPS_ID);
                 $("#nwsSiteIDMax").attr("href", "http://water.weather.gov/ahps2/hydrograph.php?gage="+feature.attributes.AHPS_ID);
+
+                if (feature.attributes.HAS_WEBCAM == "1") {
+                    $("#webCamTab").show();
+                    $("#webCamIFrame").attr("src", "http://services.wim.usgs.gov/webCam/webCamNew/Default.aspx?webCamInfo=" + feature.attributes.WEBCAM_INFO);
+                } else if (feature.attributes.HAS_WEBCAM == "0") {
+                    $("#webCamTab").hide();
+                }
 
                 $.ajax({
                     dataType: 'text',
@@ -499,8 +510,10 @@ require([
 
     map.on("click", function(evt) {
         //$("[id*='fimExtents'] .esriLegendLayerLabel").hide();
-        if (siteAttr.HAS_GRIDS && map.getLayer("fimExtents").visible == true) {
+        if (siteAttr.HAS_GRIDS == 1 && map.getLayer("fimExtents").visible == true) {
+            //alert('now what?');
             //come back to this to deal with grid clicks
+
         }
     });
 
