@@ -283,11 +283,19 @@ require([
                 $("#nwsSiteIDMax").text(feature.attributes.AHPS_ID);
                 $("#nwsSiteIDMax").attr("href", "http://water.weather.gov/ahps2/hydrograph.php?gage="+feature.attributes.AHPS_ID);
 
+                //Web cam check and set up
                 if (feature.attributes.HAS_WEBCAM == "1") {
                     $("#webCamTab").show();
                     $("#webCamIFrame").attr("src", "http://services.wim.usgs.gov/webCam/webCamNew/Default.aspx?webCamInfo=" + feature.attributes.WEBCAM_INFO);
                 } else if (feature.attributes.HAS_WEBCAM == "0") {
                     $("#webCamTab").hide();
+                }
+
+                //More Info check and setup
+                if (feature.attributes.HAS_MOREINFO == "1") {
+                    $("#moreInfoTab").show();
+                } else if (feature.attributes.HAS_MOREINFO == "1") {
+                    $("#moreInfoTab").hide();
                 }
 
                 $.ajax({
