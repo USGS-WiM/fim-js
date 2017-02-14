@@ -9,7 +9,6 @@
     <!-- bower:css -->
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="bower_components/fontawesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="bower_components/wim-styles/template/css/base.css" />
     <link rel="stylesheet" href="bower_components/lobipanel/css/lobipanel.css"/>
     <link rel="stylesheet" href="bower_components/bootstrap-sidebar/dist/css/sidebar.css" />
     <link rel="stylesheet" href="bower_components/bootstrap-map-js/dist/css/bootstrapmap.min.css" />
@@ -101,11 +100,11 @@
                     <div id="geosearch"><div id="sapi_searchTextBoxDiv"></div></div>
                 </div>
                 <form id="geosearch-form" class="form-inline">
-                    <div class="checkbox">
+                    <!--<div class="checkbox">
                         <label>
                             <input id="chkExtent" type="checkbox"> Search in Map Only
                         </label>
-                    </div>
+                    </div>-->
                     <button id="btnGeosearch" type="button" class="btn btn-success btn-fixed" data-dismiss="modal"> Go </button>
                     <button id="btnDismiss" type="submit" class="btn btn-default btn-fixed" data-dismiss="modal">Dismiss</button>
                 </form>
@@ -115,7 +114,7 @@
 </div>
 
 <div class="wim-alert-fixed" id="flood-tools-alert"
-     style="position: fixed; top: 100px; right: 5px; color: #000; background-color: #f9f9f9; border-color: rgba(0,0,0.75);">
+     style="position: fixed; top: 100px; right: 5px; color: #000; background-color: #f9f9f9; border-color: rgba(0,0,0,0.75);">
     <i class="ion-close-round close-alert" style="float: right;"></i> <!-- Close Button - MUST INCLUDE -->
     <div id="innerAlert">
         <h4><b>Flood Tools</b></h4>
@@ -332,12 +331,13 @@ $(".close-alert").click(function(){
                                 <li role="presentation" class="active"><a id="floodToolsTab" href="#floodToolsTabPane" data-toggle="tab"><i class="fa fa-umbrella"></i>&nbsp;Flood Tools</a></li>
                                 <li role="presentation"><a id="webCamTab" href="#webCamTabPane" data-toggle="tab"><i class="fa fa-video-camera"></i>&nbsp;Web Cam</a></li>
                                 <li role="presentation"><a id="servicesAndDataTab" href="#servicesAndDataTabPane" data-toggle="tab"><i class="fa fa-server"></i>&nbsp;Services and Data</a></li>
+                                <li role="presentation"><a id="moreInfoTab" href="#moreInfoTabPane" data-toggle="tab"><i class="fa fa-question-circle"></i>&nbsp;More Info</a></li>
                             </ul>
                             <div class="tab-content">
                                 <div role="tabpanel" class="tab-pane active" id="floodToolsTabPane">
                                     <form id="slider">
                                         <input id="floodSlider" type="range" name="stage" value="0" min="0" max="10" class="vertical-slider">
-                                            Selected gage height: <br/><label for="floodSlider" id="selectedValue"></label> ft<br/>
+                                        Selected gage height: <br/><label for="floodSlider" id="selectedValue"></label> ft<br/>
                                         </input>
                                         <div id="sliderText">
                                             <p>
@@ -358,6 +358,9 @@ $(".close-alert").click(function(){
                                 </div>
                                 <div role="tabpanel" class="tab-pane" id="servicesAndDataTabPane">
                                     <label>Services and data info here.</label>
+                                </div>
+                                <div role="tabpanel" class="tab-pane" id="moreInfoTabPane">
+                                    <label>More info here.</label>
                                 </div>
                             </div>
                         </div>
