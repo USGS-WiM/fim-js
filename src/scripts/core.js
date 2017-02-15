@@ -17,6 +17,8 @@ var siteAttr;
 
 var results;
 
+var fimiMoreInfoUrl = "http://fim.wim.usgs.gov/arcgis/rest/services/FIMMapper/fim_add_info/MapServer/1";
+
 require([
     'esri/arcgis/utils',
     'esri/map',
