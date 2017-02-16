@@ -19,6 +19,7 @@ var results;
 
 var fimiMoreInfoUrl = "http://fim.wim.usgs.gov/arcgis/rest/services/FIMMapper/fim_add_info/MapServer/1";
 
+
 require([
     'esri/arcgis/utils',
     'esri/map',
@@ -189,8 +190,8 @@ require([
 
     //end code for adding draggability to infoWindow
 
-    on(map, "click", function(evt) {
-        /*var graphic = new Graphic();
+    /*on(map, "click", function(evt) {
+        var graphic = new Graphic();
 
         var feature = graphic;
 
@@ -204,8 +205,8 @@ require([
         map.infoWindow.setFeatures([feature]);
         map.infoWindow.show(evt.mapPoint);
 
-        map.infoWindow.show();*/
-    });//
+        map.infoWindow.show();
+    });*/
 
     // Using Lobipanel: https://github.com/arboshiki/lobipanel
     $("#floodToolsDiv").lobiPanel({
@@ -294,11 +295,27 @@ require([
                 }
 
                 //More Info check and setup
-                if (feature.attributes.HAS_MOREINFO == "1") {
-                    $("#moreInfoTab").show();
-                } else if (feature.attributes.HAS_MOREINFO == "1") {
-                    $("#moreInfoTab").hide();
-                }
+                $.ajax({
+                    dataType: 'json',
+                    type: 'GET',
+                    url: fimiMoreInfoUrl + "/query?where=USGSID%20%3D%20" + siteNo + "&outFields=ADD_INFO&f=json",
+                    headers: {'Accept': '*/*'},
+                    success: function (data) {
+
+                        if (data.features.length > 0) {
+                            $("#moreInfo").text(data.features[0].attributes.ADD_INFO);
+                            $("#moreInfoTab").show();
+                            $(".nav-tabs a[href='#moreInfoTabPane']").tab('show');
+                        } else {
+                            $("#moreInfo").text("Loading...");
+                            $("#moreInfoTab").hide();
+                        }
+
+                    },
+                    error: function (error) {
+                        console.log("Error processing the JSON. The error is:" + error);
+                    }
+                });
 
                 $.ajax({
                     dataType: 'text',
@@ -322,7 +339,7 @@ require([
                         console.log(param_dd);*/
 
                         //var url = "http://waterservices.usgs.gov/nwis/site/?format=gm&sites="+attr['Name']+"&siteOutput=expanded&outputDataTypeCd=iv&hasDataTypeCd=iv&parameterCd=00065,00060,00010,00095,63680,99133";
-                        var url = "http://waterservices.usgs.gov/nwis/iv/?format=json&sites="+attr['SITE_NO']+"&parameterCd=00060,00065";
+                        var url = "https://waterservices.usgs.gov/nwis/iv/?format=json&sites="+attr['SITE_NO']+"&parameterCd=00060,00065";
 
                         var rtHtml = "";
                         var nwisHtml = "";
@@ -425,7 +442,7 @@ require([
                                     "<br/><span>Most recent measurement(s) <span style='font-size: smaller; color: darkblue'><i>(local time)</i></span> - see <a target='_blank' href='http://waterdata.usgs.gov/nwis/uv?site_no=" + siteNo + "'>NWIS Site</a> for more details</span>" +
                                     "<div id='nwisCharts'>" + nwisHtml + "</div>");
 
-                                feature.setInfoTemplate(template);
+                                /*feature.setInfoTemplate(template);
 
                                 var infoWindowClose = dojo.connect($("#floodToolsDiv"), "onHide", function(evt) {
                                     map.getLayer("fimExtents").setVisibility(false);
@@ -435,7 +452,7 @@ require([
                                     dojo.disconnect(map.infoWindow, infoWindowClose);
                                 });
 
-                                map.infoWindow.setFeatures([feature]);
+                                map.infoWindow.setFeatures([feature]);*/
 
                                 /*map.infoWindow.show(feature.geometry);
                                 map.infoWindow.resize(450,450);*/
