@@ -29,7 +29,7 @@ require([
             "includeInLayerList": true,
             "layers": {
                 "FIM Sites": {
-                    "url" : "https://gis.wim.usgs.gov/arcgis/rest/services/FIMTest/sites_test/MapServer/0",
+                    "url" : "https://gis.wim.usgs.gov/arcgis/rest/services/FIMMapper/sites/MapServer/0",
                     "options": {
                         "id": "fimSites",
                         "opacity": 1.00,
