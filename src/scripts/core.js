@@ -18,6 +18,7 @@ var siteAttr;
 var results;
 
 var fimiMoreInfoUrl = "http://fim.wim.usgs.gov/arcgis/rest/services/FIMMapper/fim_add_info/MapServer/1";
+var ahpsForecastUrl = "https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Observations/ahps_riv_gauges/MapServer/0";
 
 
 require([
@@ -32,6 +33,7 @@ require([
     'esri/geometry/webMercatorUtils',
     'esri/graphic',
     'esri/layers/ArcGISTiledMapServiceLayer',
+    'esri/renderers/UniqueValueRenderer',
     'esri/symbols/PictureMarkerSymbol',
     'esri/tasks/query',
     'esri/tasks/QueryTask',
@@ -53,6 +55,7 @@ require([
     webMercatorUtils,
     Graphic,
     ArcGISTiledMapServiceLayer,
+    UniqueValueRenderer,
     PictureMarkerSymbol,
     esriQuery,
     QueryTask,
@@ -188,6 +191,7 @@ require([
         map.addLayer(nationalMapBasemap);
     });
 
+
     //end code for adding draggability to infoWindow
 
     /*on(map, "click", function(evt) {
@@ -247,7 +251,78 @@ require([
 
         if (layer == "fimSites") {
 
-            map.getLayer(layer).on('click', function(evt) {
+            var initialSiteLoad = map.getLayer(layer).on('update-end', function(evt) {
+                var ahpsIds = [];
+                var graphics = evt.target.graphics;
+                $.each(graphics, function (index, feature) {
+                    if (feature.attributes["AHPS_ID"] != null) {
+                        ahpsIds.push("'" + feature.attributes["AHPS_ID"].toUpperCase() + "'");
+                    }
+                });
+
+                //ahpsIds.map(function(x){ return x.toUpperCase() })
+
+                $.ajax({
+                    dataType: 'json',
+                    type: 'GET',
+                    url: ahpsForecastUrl + "/query?returnGeometry=false&where=GaugeLID%20in%20%28" + ahpsIds + "%29&outFields=status%2Cgaugelid&f=json",
+                    headers: {'Accept': '*/*'},
+                    success: function (data) {
+                        console.log(data);
+
+                        var floodAttr = data.features;
+
+                        var i;
+
+                        for (i = 0; i < floodAttr.length; i++) {
+                            for (var j = 0; j < graphics.length; j++) {
+                                //console.log(floodAttr[i].attributes.gaugelid.toLowerCase() + " : " + map.getLayer(layer).graphics[j].attributes.AHPS_ID)
+                                if (map.getLayer(layer).graphics[j].attributes.AHPS_ID == floodAttr[i].attributes.gaugelid.toLowerCase()) {
+                                    map.getLayer(layer).graphics[j].attributes["floodCondition"] = floodAttr[i].attributes.status;
+                                    if (map.getLayer(layer).graphics[j].attributes.AHPS_ID == "cpei3") {
+                                        console.log('here');
+                                    }
+                                }
+
+                            }
+                        }
+
+                        var symWidth = 13.44;
+                        var symHeight = 11;
+
+                        var defaultSym = new PictureMarkerSymbol('./images/default.png', symWidth, symHeight);
+                        var actionSym = new PictureMarkerSymbol('./images/action.png', symWidth, symHeight);
+                        var majorSym = new PictureMarkerSymbol('./images/major.png', symWidth, symHeight);
+                        var minorSym = new PictureMarkerSymbol('./images/minor.png', symWidth, symHeight);
+                        var moderateSym = new PictureMarkerSymbol('./images/moderate.png', symWidth, symHeight);
+                        var no_floodingSym = new PictureMarkerSymbol('./images/no_flooding.png', symWidth, symHeight);
+
+                        var sitesRenderer = new UniqueValueRenderer(defaultSym, "floodCondition");
+                        sitesRenderer.addValue("action", actionSym);
+                        sitesRenderer.addValue("major", majorSym);
+                        sitesRenderer.addValue("minor", minorSym);
+                        sitesRenderer.addValue("moderate", moderateSym);
+                        sitesRenderer.addValue("no_flooding", no_floodingSym);
+
+                        //map.getLayer(layer).setRenderer(sitesRenderer);
+
+                        for (var i=0; i < map.getLayer(layer).graphics.length; i++) {
+                            map.graphics.add(map.getLayer(layer).graphics[i]);
+                        }
+                        map.graphics.setRenderer(sitesRenderer);
+                        map.graphics.refresh();
+
+                        initialSiteLoad.remove();
+
+                    },
+                    error: function (error) {
+                        console.log("Error processing the JSON. The error is:" + error);
+                    }
+                });
+
+            });
+
+            map.graphics.on('click', function(evt) {
 
                 var feature = evt.graphic;
                 var attr = feature.attributes;
@@ -832,6 +907,9 @@ require([
                     if (layerDetails.wimOptions && layerDetails.wimOptions.includeLegend == true){
                         legendLayers.push({layer:layer, title: layerName});
                     }
+                    /*if (layerDetails.wimOptions.renderer !== undefined) {
+                        layer.setRenderer(layerDetails.wimOptions.renderer);
+                    }*/
                     addLayer(group.groupHeading, group.showGroupHeading, layer, layerName, exclusiveGroupName, layerDetails.options, layerDetails.wimOptions);
                     //addMapServerLegend(layerName, layerDetails);
                 }
