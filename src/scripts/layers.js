@@ -35,7 +35,7 @@ require([
                         "opacity": 1.00,
                         "mode": FeatureLayer.MODE_ONDEMAND,
                         "outFields": ["*"],
-                        "definitionExpression": "Public = 1",
+                        "definitionExpression": "Public = 1 AND MULTI_SITE = 0",
                         //"infoTemplate": fimInfoTemplate,
                         "visible": true
                     },
