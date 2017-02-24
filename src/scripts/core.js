@@ -19,6 +19,7 @@ var results;
 
 var fimiMoreInfoUrl = "http://fim.wim.usgs.gov/arcgis/rest/services/FIMMapper/fim_add_info/MapServer/1";
 var ahpsForecastUrl = "https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Observations/ahps_riv_gauges/MapServer/0";
+var proxyUrl = "https://services.wim.usgs.gov/proxies/httpProxy/Default.aspx?";
 
 
 require([
@@ -330,9 +331,6 @@ require([
 
                 var siteNo = feature.attributes.SITE_NO;
 
-                //var siteUrl = "http://waterdata.usgs.gov/nwis/uv?search_site_no=07183500&period=1&format=rdb";
-                var siteUrl = "https://services.wim.usgs.gov/proxies/httpProxy/Default.aspx?site_no="+siteNo+"&site_info=true";
-
                 var param_dd = {};
 
                 if (map.getLevel() < 12) {
@@ -395,34 +393,19 @@ require([
                 $.ajax({
                     dataType: 'text',
                     type: 'GET',
-                    url: siteUrl,
+                    url: proxyUrl + "site_no="+siteNo+"&site_info=true",
                     headers: {'Accept': '*/*'},
                     success: function (data) {
-                        /* console.log(data);
-                        var paramArray = data.split("DD")[1].split("#");
-                        paramArray.shift();
-                        $.each(paramArray, function(key, value) {
-                            if (paramArray[key] == "\n") {
-                                return false;
-                            }
-                            var lineItems = paramArray[key].trim();
-                            var dd = lineItems.substring(0, 2);
-                            var param = lineItems.substring(5, 10);
-                            param_dd[param] = dd;
-                        });
-
-                        console.log(param_dd);*/
-
-                        //var url = "http://waterservices.usgs.gov/nwis/site/?format=gm&sites="+attr['Name']+"&siteOutput=expanded&outputDataTypeCd=iv&hasDataTypeCd=iv&parameterCd=00065,00060,00010,00095,63680,99133";
-                        var url = "https://waterservices.usgs.gov/nwis/iv/?format=json&sites="+attr['SITE_NO']+"&parameterCd=00060,00065";
-
                         var rtHtml = "";
                         var nwisHtml = "";
+
+                        //var ivUrl = "http://waterservices.usgs.gov/nwis/site/?format=gm&sites="+attr['Name']+"&siteOutput=expanded&outputDataTypeCd=iv&hasDataTypeCd=iv&parameterCd=00065,00060,00010,00095,63680,99133";
+                        var ivUrl = "https://waterservices.usgs.gov/nwis/iv/?format=json&sites="+attr['SITE_NO']+"&parameterCd=00060,00065";
 
                         $.ajax({
                             dataType: 'json',
                             type: 'GET',
-                            url: url,
+                            url: ivUrl,
                             headers: {'Accept': '*/*'},
                             success: function (data) {
                                 var siteData = data;
@@ -507,7 +490,6 @@ require([
 
                                     }
 
-                                    //$("#rtInfo").html(rtHtml);
                                 });
 
                                 var siteName = siteData.value.timeSeries[0].sourceInfo.siteName;
@@ -517,25 +499,58 @@ require([
                                     "<br/><span>Most recent measurement(s) <span style='font-size: smaller; color: darkblue'><i>(local time)</i></span> - see <a target='_blank' href='http://waterdata.usgs.gov/nwis/uv?site_no=" + siteNo + "'>NWIS Site</a> for more details</span>" +
                                     "<div id='nwisCharts'>" + nwisHtml + "</div>");
 
-                                /*feature.setInfoTemplate(template);
-
-                                var infoWindowClose = dojo.connect($("#floodToolsDiv"), "onHide", function(evt) {
-                                    map.getLayer("fimExtents").setVisibility(false);
-                                    map.getLayer("fimBreach").setVisibility(false);
-                                    map.getLayer("fimSuppLyrs").setVisibility(false);
-                                    $("#slider").css("visibility", "hidden");
-                                    dojo.disconnect(map.infoWindow, infoWindowClose);
-                                });
-
-                                map.infoWindow.setFeatures([feature]);*/
-
-                                /*map.infoWindow.show(feature.geometry);
-                                map.infoWindow.resize(450,450);*/
-
                             },
                             error: function (error) {
                                 console.log("Error processing the JSON. The error is:" + error);
                             }
+                        });
+                    },
+                    error: function (error) {
+                        console.log("Error processing the JSON. The error is:" + error);
+                    }
+                });
+
+                //call for observed (NWIS) hydro data
+                $.ajax({
+                    dataType: 'text',
+                    type: 'GET',
+                    url: proxyUrl + "site_no="+siteNo+"&hydroGet=true",
+                    headers: {'Accept': '*/*'},
+                    success: function (data) {
+
+                        var siteData = parseXml(data);
+                        var values = siteData.documentElement.children[1].children[2].children
+                        if (siteData) {
+                            //window.alert(siteData.documentElement.children[1].children[2]);
+                        }
+
+                        var finalDataArray = [];
+
+                        $.each(values, function(key, value) {
+
+                            if (value.attributes.dateTime !== undefined) {
+                                var time = value.attributes.dateTime.value;
+                                var value = Number(value.textContent);
+
+                                finalDataArray.push([time,value]);
+                            }
+
+                        });
+
+                        //var siteName = siteData.value.timeSeries[0].sourceInfo.siteName;
+
+                        var hydroChart = new Highcharts.Chart('hydroChart', {
+                            chart: {
+                                type: 'line',
+                                height: 325,
+                                width: 600
+                            },
+                            title: {
+                                text: "chart"
+                            },
+                            series: [{
+                                data: finalDataArray
+                            }]
                         });
                     },
                     error: function (error) {
@@ -607,6 +622,7 @@ require([
                 }
 
             });
+
         }
     });
 
