@@ -330,8 +330,7 @@ require([
                 siteAttr = attr;
 
                 var siteNo = feature.attributes.SITE_NO;
-
-                var param_dd = {};
+                var ahpsID = feature.attributes.AHPS_ID;
 
                 if (map.getLevel() < 12) {
                     map.centerAndZoom(feature.geometry, 13);
@@ -511,33 +510,58 @@ require([
                 });
 
                 //call for observed (NWIS) hydro data
-                $.ajax({
+                var nwisCall = $.ajax({
                     dataType: 'text',
                     type: 'GET',
                     url: proxyUrl + "site_no="+siteNo+"&hydroGet=true",
-                    headers: {'Accept': '*/*'},
-                    success: function (data) {
+                    headers: {'Accept': '*/*'}
+                });
 
-                        var siteData = parseXml(data);
+                var nwsCall = $.ajax({
+                    dataType: 'xml',
+                    type: 'GET',
+                    url: proxyUrl + "ahpsID="+ahpsID,
+                    headers: {'Accept': '*/*'}
+                });
+
+                $.when(nwisCall,nwsCall)
+                    .done(function(nwisData,nwsData) {
+
+                        //NWIS data handling
+                        var siteData = parseXml(nwisData[0]);
                         var values = siteData.documentElement.children[1].children[2].children
-                        if (siteData) {
-                            //window.alert(siteData.documentElement.children[1].children[2]);
-                        }
 
-                        var finalDataArray = [];
+                        var finalNWISDataArray = [];
+                        var finalNWSDataArray = [];
 
                         $.each(values, function(key, value) {
 
                             if (value.attributes.dateTime !== undefined) {
-                                var time = value.attributes.dateTime.value;
+                                var time = dateFix(value.attributes.dateTime.value,"nwis");
                                 var value = Number(value.textContent);
 
-                                finalDataArray.push([time,value]);
+                                finalNWISDataArray.push([time,value]);
                             }
 
                         });
 
-                        //var siteName = siteData.value.timeSeries[0].sourceInfo.siteName;
+                        //NWS data handling
+                        //NWSDatum = (forecastArray[0].primary.name == 'Stage') ? 'primary' : 'secondary';
+                        var nwsValues = nwsData[0].children[0].children[7].children;
+                        var nwsDatum = (nwsValues[0].children[1].attributes.name.value == "Stage") ? 1 : 2;
+
+                        $.each(nwsValues, function(key, value) {
+
+                            if (value.children[0].textContent !== "") {
+                                var time = dateFix(value.children[0].textContent,"nws");
+                                var value = Number(value.children[1].textContent);
+
+                                finalNWSDataArray.push([time,value]);
+                            }
+
+                        });
+
+                        //var siteName = siteData.documentElement.children[1].children[0].children[0].textContent;
 
                         var hydroChart = new Highcharts.Chart('hydroChart', {
                             chart: {
@@ -546,17 +570,32 @@ require([
                                 width: 600
                             },
                             title: {
-                                text: "chart"
+                                text: ""
                             },
                             series: [{
-                                data: finalDataArray
-                            }]
+                                data: finalNWISDataArray,
+                                name: "NWIS Observed"
+                            },{
+                                data: finalNWSDataArray,
+                                name: "NWS Predicted"
+                            }],
+                            xAxis: {
+                                type: "datetime"
+                            },
+                            yAxis: {
+                                labels: {
+                                    format: "{value} ft"
+                                },
+                                title: {
+                                    text: "Gage height"
+                                }
+                            }
                         });
-                    },
-                    error: function (error) {
-                        console.log("Error processing the JSON. The error is:" + error);
-                    }
-                });
+                    })
+                    .fail(function() {
+                        alert('there was an issue');
+                    });
+
 
                 var floodExtentsUrl = map.getLayer("fimExtents").url + "/0";
 
@@ -687,6 +726,31 @@ require([
         outFormat = dateSplit[0] + " " + utcDate.split(" ")[4];
 
         return outFormat;
+    }
+
+    function dateFix(date,series) {
+        var outDate;
+
+        console.log(date);
+        var dateSplit = date.split("T");
+        var YMD = dateSplit[0].split("-");
+        if (series == "nwis") {
+            var HMS = dateSplit[1].split(".")[0].split(":");
+        } else if (series == "nws") {
+            var HMS = dateSplit[1].split("-")[0].split(":");
+        }
+
+
+        var year = Number(YMD[0]);
+        var month = Number(YMD[1])-1;
+        var day = Number(YMD[2]);
+        var hour = Number(HMS[0]);
+        var minute = Number(HMS[1]);
+        var second = Number(HMS[2]);
+
+        outDate = Date.UTC(year,month,day,hour,minute,second);
+
+        return outDate;
     }
 
     var geocoder = new Geocoder({
