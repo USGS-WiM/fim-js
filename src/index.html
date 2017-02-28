@@ -34,6 +34,7 @@
     <script src="bower_components/jquery-ui/jquery-ui.js"></script>
     <script src="bower_components/jquery.nicescroll/jquery.nicescroll.min.js"></script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="bower_components/highcharts/highcharts.js"></script>
     <script src="bower_components/lobipanel/js/lobipanel.js"></script>
     <script src="bower_components/bootstrap-sidebar/dist/js/sidebar.js"></script>
     <script src="bower_components/bootstrap-map-js/dist/js/bootstrapmap.min.js"></script>
@@ -329,6 +330,7 @@ $(".close-alert").click(function(){
                         <div id="floodToolsPanel" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="floodToolsPanelHeader">
                             <ul class="nav nav-tabs" id="floodToolsTabs">
                                 <li role="presentation" class="active"><a id="floodToolsTab" href="#floodToolsTabPane" data-toggle="tab"><i class="fa fa-umbrella"></i>&nbsp;Flood Tools</a></li>
+                                <li role="presentation"><a id="hydroTab" href="#hydroTabPane" data-toggle="tab"><i class="fa fa-line-chart"></i>&nbsp;Hydrograph</a></li>
                                 <li role="presentation"><a id="webCamTab" href="#webCamTabPane" data-toggle="tab"><i class="fa fa-video-camera"></i>&nbsp;Web Cam</a></li>
                                 <li role="presentation"><a id="servicesAndDataTab" href="#servicesAndDataTabPane" data-toggle="tab"><i class="fa fa-server"></i>&nbsp;Services and Data</a></li>
                                 <li role="presentation"><a id="moreInfoTab" href="#moreInfoTabPane" data-toggle="tab"><i class="fa fa-question-circle"></i>&nbsp;More Info</a></li>
@@ -352,6 +354,9 @@ $(".close-alert").click(function(){
                                         </div>
                                         <label>Select a gage height to view the flooded area</label>
                                     </form>
+                                </div>
+                                <div role="tabpanel" class="tab-pane" id="hydroTabPane">
+                                    <div id="hydroChart"></div>
                                 </div>
                                 <div role="tabpanel" class="tab-pane" id="webCamTabPane">
                                     <iframe id="webCamIFrame"></iframe>
