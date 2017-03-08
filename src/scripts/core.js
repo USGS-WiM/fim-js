@@ -19,6 +19,7 @@ var results;
 
 var fimiMoreInfoUrl = "http://fim.wim.usgs.gov/arcgis/rest/services/FIMMapper/fim_add_info/MapServer/1";
 var ahpsForecastUrl = "https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Observations/ahps_riv_gauges/MapServer/0";
+var nwisUrl = "https://waterservices.usgs.gov/nwis/iv/?format=nwjson&period=P7D&parameterCd=00065&sites=";
 var proxyUrl = "https://services.wim.usgs.gov/proxies/httpProxy/Default.aspx?";
 
 
@@ -74,6 +75,7 @@ require([
         basemap: 'gray',
         //center: [-95.6, 38.6],
         center: defaultMapCenter,
+        logo: false,
         zoom: 5
     });
     //button for returning to initial extent
@@ -359,12 +361,12 @@ require([
                 $("#nwsSiteIDMax").attr("href", "http://water.weather.gov/ahps2/hydrograph.php?gage="+feature.attributes.AHPS_ID);
 
                 //Web cam check and set up
-                if (feature.attributes.HAS_WEBCAM == "1") {
+                /*if (feature.attributes.HAS_WEBCAM == "1") {
                     $("#webCamTab").show();
                     $("#webCamIFrame").attr("src", "http://services.wim.usgs.gov/webCam/webCamNew/Default.aspx?webCamInfo=" + feature.attributes.WEBCAM_INFO);
                 } else if (feature.attributes.HAS_WEBCAM == "0") {
                     $("#webCamTab").hide();
-                }
+                }*/
 
                 //More Info check and setup
                 $.ajax({
@@ -513,14 +515,15 @@ require([
                 var nwisCall = $.ajax({
                     dataType: 'text',
                     type: 'GET',
-                    url: proxyUrl + "site_no="+siteNo+"&hydroGet=true",
+                    //url: proxyUrl + "site_no="+siteNo+"&hydroGet=true",
+                    url: nwisUrl + siteNo,
                     headers: {'Accept': '*/*'}
                 });
 
                 var nwsCall = $.ajax({
                     dataType: 'xml',
                     type: 'GET',
-                    url: proxyUrl + "ahpsID="+ahpsID,
+                    url: proxyUrl + "ahpsID=" + ahpsID,
                     headers: {'Accept': '*/*'}
                 });
 
@@ -528,17 +531,17 @@ require([
                     .done(function(nwisData,nwsData) {
 
                         //NWIS data handling
-                        var siteData = parseXml(nwisData[0]);
-                        var values = siteData.documentElement.children[1].children[2].children
+                        var siteData = $.parseJSON(nwisData[0]);
+                        var values = siteData.data[0].time_series_data
 
                         var finalNWISDataArray = [];
                         var finalNWSDataArray = [];
 
                         $.each(values, function(key, value) {
 
-                            if (value.attributes.dateTime !== undefined) {
-                                var time = dateFix(value.attributes.dateTime.value,"nwis");
-                                var value = Number(value.textContent);
+                            if (value[0] !== undefined) {
+                                var time = value[0];
+                                var value = value[1];
 
                                 finalNWISDataArray.push([time,value]);
                             }
@@ -546,23 +549,27 @@ require([
                         });
 
                         //NWS data handling
-                        //NWSDatum = (forecastArray[0].primary.name == 'Stage') ? 'primary' : 'secondary';
-                        var nwsValues = nwsData[0].children[0].children[7].children;
-                        var nwsDatum = (nwsValues[0].children[1].attributes.name.value == "Stage") ? 1 : 2;
+                        if (nwsData[0].children[0].children[0].textContent != "no nws data") {
+                            var nwsIndex = getNwsForecastIndex(nwsData[0].children[0].children);
+                            var nwsValues = nwsData[0].children[0].children[nwsIndex].children;
+                            if (nwsValues.length > 0) {
+                                var nwsDatum = (nwsValues[0].children[1].attributes.name.value == "Stage") ? 1 : 2;
+                                $.each(nwsValues, function(key, value) {
 
-                        $.each(nwsValues, function(key, value) {
+                                    if (value.children[0].textContent !== "") {
+                                        var time = dateFix(value.children[0].textContent,"nws");
+                                        var value = Number(value.children[nwsDatum].textContent);
 
-                            if (value.children[0].textContent !== "") {
-                                var time = dateFix(value.children[0].textContent,"nws");
-                                var value = Number(value.children[1].textContent);
+                                        finalNWSDataArray.push([time,value]);
+                                    }
 
-                                finalNWSDataArray.push([time,value]);
+                                });
                             }
-
-                        });
+                        }
 
                         //var siteName = siteData.documentElement.children[1].children[0].children[0].textContent;
 
+                        //$("#hydroChart").empty();
                         var hydroChart = new Highcharts.Chart('hydroChart', {
                             chart: {
                                 type: 'line',
@@ -673,6 +680,19 @@ require([
 
         }
     });
+
+    function getNwsForecastIndex(obj) {
+        var index;
+        for (var i=0; i < obj.length; i++) {
+            if (obj[i].nodeName == "forecast") {
+                index = i;
+            }
+            if (i == obj.length-1 && obj[i].nodeName != "forecast") {
+                index = null;
+            }
+        }
+        return index;
+    }
 
     function getTodayDate() {
         var today = new Date();
