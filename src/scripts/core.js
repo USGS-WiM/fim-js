@@ -533,6 +533,24 @@ require([
                     headers: {'Accept': '*/*'}
                 });
 
+                $("#floodToolsDiv").css("visibility", "visible");
+                var instance = $('#floodToolsDiv').data('lobiPanel');
+                var docHeight = $(document).height();
+                var docWidth = $(document).width();
+                var percentageOfScreen = 0.9;
+                var floodToolsHeight = docHeight*percentageOfScreen
+                var floodToolsWidth = docWidth*percentageOfScreen;
+                var highChartWidth = 600;
+                var highChartHeight = 325;
+                if (docHeight < 500) {
+                    $("#floodToolsDiv").height(floodToolsHeight);
+                    highChartHeight = $("#floodToolsDiv").height() - 50;
+                }
+                if (docWidth < 500) {
+                    $("#floodToolsDiv").width(floodToolsWidth);
+                    highChartWidth = $("#floodToolsDiv").width() - 50;
+                }
+
                 $.when(nwisCall,nwsCall)
                     .done(function(nwisData,nwsData) {
 
@@ -579,8 +597,8 @@ require([
                         var hydroChart = new Highcharts.Chart('hydroChart', {
                             chart: {
                                 type: 'line',
-                                height: 325,
-                                width: 600
+                                height: highChartHeight,
+                                width: highChartWidth
                             },
                             title: {
                                 text: ""
@@ -646,20 +664,6 @@ require([
                             map.getLayer("fimExtents").setLayerDefinitions(layerDefinitions);
                             map.getLayer("fimBreach").setLayerDefinitions(layerDefinitions);
                         });
-
-                        $("#floodToolsDiv").css("visibility", "visible");
-                        var instance = $('#floodToolsDiv').data('lobiPanel');
-                        var docHeight = $(document).height();
-                        var docWidth = $(document).width();
-                        var percentageOfScreen = 0.9;
-                        var floodToolsHeight = docHeight*percentageOfScreen
-                        var floodToolsWidth = docWidth*percentageOfScreen;
-                        if (docHeight < 500) {
-                            $("#floodToolsDiv").height(floodToolsHeight);
-                        }
-                        if (docWidth < 500) {
-                            $("#floodToolsDiv").width(floodToolsWidth);
-                        }
 
                         var instanceX = docWidth*0.5-$("#floodToolsDiv").width()*0.5;
                         var instanceY = docHeight*0.5-$("#floodToolsDiv").height()*0.5;
@@ -1034,11 +1038,18 @@ require([
                 else if (layerDetails.wimOptions.layerType === 'agisDynamic') {
                     var layer = new ArcGISDynamicMapServiceLayer(layerDetails.url, layerDetails.options);
                     //check if include in legend is true
-                    if (layerDetails.wimOptions && layerDetails.wimOptions.includeLegend == true){
-                        legendLayers.push({layer:layer, title: layerName});
+                    if (layerDetails.wimOptions && layerDetails.wimOptions.layerDefinitions) {
+                        var layerDefs = [];
+                        $.each(layerDetails.wimOptions.layerDefinitions, function (index, def) {
+                            layerDefs[index] = def;
+                        });
+                        layer.setLayerDefinitions(layerDefs);
                     }
                     if (layerDetails.visibleLayers) {
                         layer.setVisibleLayers(layerDetails.visibleLayers);
+                    }
+                    if (layerDetails.wimOptions && layerDetails.wimOptions.includeLegend == true){
+                        legendLayers.push({layer:layer, title: layerName});
                     }
                     //map.addLayer(layer);
                     addLayer(group.groupHeading, group.showGroupHeading, layer, layerName, exclusiveGroupName, layerDetails.options, layerDetails.wimOptions);
