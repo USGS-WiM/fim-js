@@ -360,6 +360,12 @@ require([
                 $("#nwsSiteIDMax").text(feature.attributes.AHPS_ID);
                 $("#nwsSiteIDMax").attr("href", "http://water.weather.gov/ahps2/hydrograph.php?gage="+feature.attributes.AHPS_ID);
 
+                if (attr.HAS_GRIDS == 1) {
+                    $("#gridLabel").show();
+                } else {
+                    $("#gridLabel").hide();
+                }
+
                 //Web cam check and set up
                 /*if (feature.attributes.HAS_WEBCAM == "1") {
                     $("#webCamTab").show();
