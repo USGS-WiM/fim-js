@@ -123,8 +123,9 @@ require([
                         "layerType": "agisDynamic",
                         "includeInLayerList": true,
                         "hasOpacitySlider": true,
-                        "includeLegend" : true,
-                        "legendLabel": false
+                        "includeLegend" : false,
+                        "legendLabel": false,
+                        "layerDefinitions": {1: "prod_type LIKE '%Flood%'"}
                     }
                 },
                 "AHPS Forecast Sites": {
