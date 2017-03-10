@@ -12,11 +12,14 @@
     <link rel="stylesheet" href="bower_components/lobipanel/css/lobipanel.css"/>
     <link rel="stylesheet" href="bower_components/bootstrap-sidebar/dist/css/sidebar.css" />
     <link rel="stylesheet" href="bower_components/bootstrap-map-js/dist/css/bootstrapmap.min.css" />
+
     <!-- endbower -->
     <!-- endbuild -->
     <!-- CSS for the mapping components -->
     <link rel="stylesheet" href="https://js.arcgis.com/3.14/dijit/themes/claro/claro.css">
     <link rel="stylesheet" href="https://js.arcgis.com/3.14/esri/css/esri.css">
+
+    <link rel="stylesheet" href="https://txpub.usgs.gov/DSS/search_api/2.0/api/search_api.css"/>
 
     <!-- build:css styles/main.css -->
     <link rel="stylesheet" href="styles/main.css">
@@ -38,12 +41,12 @@
     <script src="bower_components/lobipanel/js/lobipanel.js"></script>
     <script src="bower_components/bootstrap-sidebar/dist/js/sidebar.js"></script>
     <script src="bower_components/bootstrap-map-js/dist/js/bootstrapmap.min.js"></script>
+
     <!-- endbower -->
     <!-- endbuild -->
 
-
     <script src="http://js.arcgis.com/3.13/"></script>
-
+    <script type="text/javascript" src="https://txpub.usgs.gov/DSS/search_api/2.0/api/search_api.min.js"></script>
 
     <!-- build:js scripts/combined.js -->
     <script src="scripts/utilities.js"></script>
@@ -98,7 +101,7 @@
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <div id="geosearch"><div id="sapi_searchTextBoxDiv"></div></div>
+                    <div id="geosearch"></div>
                 </div>
                 <form id="geosearch-form" class="form-inline">
                     <!--<div class="checkbox">
