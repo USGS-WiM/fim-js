@@ -783,7 +783,55 @@ require([
         return outDate;
     }
 
-    var geocoder = new Geocoder({
+    // create search_api widget in element "geosearch"
+    search_api.create( "geosearch", {
+        on_result: function(o) {
+            // what to do when a location is found
+            // o.result is geojson point feature of location with properties
+
+            // zoom to location
+            require(["esri/geometry/Extent"], function(Extent) {
+                var noExtents = ["GNIS_MAJOR", "GNIS_MINOR", "ZIPCODE", "AREACODE"];
+                var noExtentCheck = noExtents.indexOf(o.result.properties["Source"])
+                if (noExtentCheck == -1) {
+                    map.setExtent(
+                        new esri.geometry.Extent({
+                            xmin: o.result.properties.LonMin,
+                            ymin: o.result.properties.LatMin,
+                            xmax: o.result.properties.LonMax,
+                            ymax: o.result.properties.LatMax,
+                            spatialReference: {"wkid":4326}
+                        }),
+                        true
+                    );
+                } else {
+                    //map.setCenter();
+                    require( ["esri/geometry/Point"], function(Point) {
+                        map.centerAndZoom(
+                            new Point( o.result.properties.Lon, o.result.properties.Lat ),
+                            12
+                        );
+                    });
+                }
+
+            });
+
+        },
+        "include_usgs_sw": true,
+        "include_usgs_gw": true,
+        "include_usgs_sp": true,
+        "include_usgs_at": true,
+        "include_usgs_ot": true,
+        "include_huc2": true,
+        "include_huc4": true,
+        "include_huc6": true,
+        "include_huc8": true,
+        "include_huc10": true,
+        "include_huc12": true
+
+    });
+
+    /*var geocoder = new Geocoder({
         value: '',
         maxLocations: 25,
         autoComplete: true,
@@ -804,24 +852,24 @@ require([
     // Symbols
     var sym = createPictureSymbol('../images/purple-pin.png', 0, 12, 13, 24);
 
-    map.on('load', function (){
+    /*map.on('load', function (){
         map.infoWindow.set('highlight', false);
         map.infoWindow.set('titleInBody', false);
-    });
+    });*/
 
     // Geosearch functions
-    on(dom.byId('btnGeosearch'),'click', geosearch);
+    //on(dom.byId('btnGeosearch'),'click', geosearch);
 
     // Optionally confine search to map extent
-    function setSearchExtent (){
+    /*function setSearchExtent (){
         if (dom.byId('chkExtent').checked === 1) {
             geocoder.activeGeocoder.searchExtent = map.extent;
         } else {
             geocoder.activeGeocoder.searchExtent = null;
         }
-    }
-    function geosearch() {
-        setSearchExtent();
+    }*/
+    /*function geosearch() {
+        //setSearchExtent();
         var def = geocoder.find();
         def.then(function (res){
             geocodeResults(res);
@@ -898,7 +946,7 @@ require([
                 'contentType': 'image/png',
                 'width':xWidth, 'height': yHeight
             });
-    }
+    }*/
 
     // Show modal dialog; handle legend sizing (both on doc ready)
     $(document).ready(function(){
