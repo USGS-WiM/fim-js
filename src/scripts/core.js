@@ -82,6 +82,7 @@ require([
     //bring this line back after experiment////////////////////////////
     ////allLayers = mapLayers;
 
+
     var lods = [
         {"level" : 0, "resolution" : 156543.03392800014, "scale" : 591657527.591555},
         {"level" : 1, "resolution" : 78271.51696399994, "scale" : 295828763.795777},
@@ -376,7 +377,6 @@ require([
                 var attr = feature.attributes;
                 siteAttr = attr;
                 results = null;
-
                 getGridInfo();
 
                 //code to query related records for site and get logos and created/reviewed by cooperators
@@ -427,10 +427,18 @@ require([
 
                 var siteNo = siteAttr.SITE_NO;
                 var ahpsID = siteAttr.AHPS_ID;
+                var state = siteAttr.STATE;
+                var community = siteAttr.COMMUNITY;
 
                 if (map.getLevel() < 12) {
                     map.centerAndZoom(feature.geometry, 13);
                 }
+
+                // Google Analytics
+                ga('send','event','Map','click','Site clicked');
+                var dimensionValue = siteNo + ", " + state +", " + community;
+                ga('send','event','map','click', {'dimension1': dimensionValue});
+                // End Google Analytics
 
                 map.getLayer("fimExtents").setVisibility(true);
                 map.getLayer("fimBreach").setVisibility(true);

@@ -54,6 +54,20 @@
     <script src="scripts/core.js"></script>
     <!-- endbuild -->
 
+    <!-- Google Analytics -->
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-61219868-23', 'auto');
+        /*ga('set', 'dimension1', dimensionValue);*/
+        ga('send', 'pageview');
+
+    </script>
+    <!-- End Google Analytics -->
+
 </head>
 <body>
 
@@ -71,12 +85,12 @@
             </a>
         </div>
 
-        <button id="geosearchNav" type="button" class="btn btn-primary navbar-btn pull-right">
+        <button id="geosearchNav" type="button" class="btn btn-primary navbar-btn pull-right" onclick="ga('send','event','navbar','click','Find Location Modal Opened');">
             <span class="glyphicon glyphicon-search"></span>
             <span id="geosearchButtonText"> Find Location</span>
         </button>
 
-        <button id="aboutNav" class="btn btn-default navbar-btn pull-right">
+        <button id="aboutNav" class="btn btn-default navbar-btn pull-right" onclick="ga('send','event','navbar','click','About Modal');">
             <i class="fa fa-question-circle"></i><span class="hidden-xs">&nbsp;&nbsp;About</span>
         </button>
 
@@ -109,7 +123,7 @@
                             <input id="chkExtent" type="checkbox"> Search in Map Only
                         </label>
                     </div>-->
-                    <button id="btnGeosearch" type="button" class="btn btn-success btn-fixed" data-dismiss="modal"> Go </button>
+                    <button id="btnGeosearch" type="button" class="btn btn-success btn-fixed" data-dismiss="modal" onclick="ga('send','event','navbar','click','Find Location Search Performed');"> Go </button>
                     <button id="btnDismiss" type="submit" class="btn btn-default btn-fixed" data-dismiss="modal">Dismiss</button>
                 </form>
             </div>
@@ -136,8 +150,8 @@
             NWS Site ID: <a id="nwsSiteIDMin" target="_blank" href=""></a>
         </p>
     </div>
-</div>
-<script> <!-- To close alert -->
+</div> 
+<script> //To close alert
 $(".close-alert").click(function(){
     $(this).parent().slideUp(250);
     map.getLayer("fimExtents").setVisibility(false);
@@ -163,7 +177,7 @@ $(".close-alert").click(function(){
             <div id="aboutModalBody" class="modal-body">
                 <ul class="nav nav-tabs" id="aboutModalTabs">
                     <li role="presentation"><a id="aboutTab" href="#aboutTabPane" data-toggle="tab"><i class="fa fa-question-circle"></i>&nbsp;About the application</a></li>
-                    <li role="presentation" class="active"><a id="disclaimerTab" href="#disclaimerTabPane" data-toggle="tab"><i class="fa fa-exclamation-circle"></i>&nbsp;Disclaimer</a></li>
+                    <li role="presentation" class="active"><a id="disclaimerTab" href="#disclaimerTabPane" data-toggle="tab" onclick="ga('send','event','About Modal','click','Disclaimer');"><i class="fa fa-exclamation-circle"></i>&nbsp;Disclaimer</a></li>
                 </ul>
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane" id="aboutTabPane"></br>
@@ -335,11 +349,11 @@ $(".close-alert").click(function(){
 
                         <div id="floodToolsPanel" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="floodToolsPanelHeader">
                             <ul class="nav nav-tabs" id="floodToolsTabs">
-                                <li role="presentation" class="active"><a id="floodToolsTab" href="#floodToolsTabPane" data-toggle="tab"><i class="fa fa-umbrella"></i>&nbsp;Flood Tools</a></li>
-                                <li role="presentation"><a id="hydroTab" href="#hydroTabPane" data-toggle="tab"><i class="fa fa-line-chart"></i>&nbsp;Hydrograph</a></li>
+                                <li role="presentation" class="active"><a id="floodToolsTab" href="#floodToolsTabPane" data-toggle="tab" onclick="ga('send','event','Flood Tools Panel','click','Flood Tools');"><i class="fa fa-umbrella"></i>&nbsp;Flood Tools</a></li>
+                                <li role="presentation"><a id="hydroTab" href="#hydroTabPane" data-toggle="tab" onclick="ga('send','event','Flood Tools Panel','click','Hydrograph');"><i class="fa fa-line-chart"></i>&nbsp;Hydrograph</a></li>
                                 <!--<li role="presentation"><a id="webCamTab" href="#webCamTabPane" data-toggle="tab"><i class="fa fa-video-camera"></i>&nbsp;Web Cam</a></li>-->
-                                <li role="presentation"><a id="servicesAndDataTab" href="#servicesAndDataTabPane" data-toggle="tab"><i class="fa fa-server"></i>&nbsp;Services and Data</a></li>
-                                <li role="presentation"><a id="moreInfoTab" href="#moreInfoTabPane" data-toggle="tab"><i class="fa fa-question-circle"></i>&nbsp;More Info</a></li>
+                                <li role="presentation"><a id="servicesAndDataTab" href="#servicesAndDataTabPane" data-toggle="tab" onclick="ga('send','event','Flood Tools Panel','click','Services and Data');"><i class="fa fa-server"></i>&nbsp;Services and Data</a></li>
+                                <li role="presentation"><a id="moreInfoTab" href="#moreInfoTabPane" data-toggle="tab" onclick="ga('send','event','Flood Tools Panel','click','More Info');"><i class="fa fa-question-circle"></i>&nbsp;More Info</a></li>
                             </ul>
                             <div class="tab-content">
                                 <div role="tabpanel" class="tab-pane active" id="floodToolsTabPane">
@@ -432,8 +446,8 @@ $(".close-alert").click(function(){
 
             </div>
 
-            <div id="homeButton"></div>
-            <div id="locateButton"></div>
+            <div onclick="ga('send','event','Map Button','click','Home icon');"><div id="homeButton"></div></div>
+            <div onclick="ga('send','event','Map Button','click','Location icon');"><div id="locateButton"></div></div>
 
             <div id="latLngScale" class="latLngScale">
                 <span class="hover-content"> <b>Map scale </b></span>
