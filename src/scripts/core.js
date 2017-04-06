@@ -83,13 +83,33 @@ require([
     ////allLayers = mapLayers;
 
 
-  
+    var lods = [
+        {"level" : 0, "resolution" : 156543.03392800014, "scale" : 591657527.591555},
+        {"level" : 1, "resolution" : 78271.51696399994, "scale" : 295828763.795777},
+        {"level" : 2, "resolution" : 39135.75848200009, "scale" : 147914381.897889},
+        {"level" : 3, "resolution" : 19567.87924099992, "scale" : 73957190.948944},
+        {"level" : 4, "resolution" : 9783.93962049996, "scale" : 36978595.474472},
+        {"level" : 5, "resolution" : 4891.96981024998, "scale" : 18489297.737236},
+        {"level" : 6, "resolution" : 2445.98490512499, "scale" : 9244648.868618},
+        {"level" : 7, "resolution" : 1222.992452562495, "scale" : 4622324.434309},
+        {"level" : 8, "resolution" : 611.4962262813797, "scale" : 2311162.217155},
+        {"level" : 9, "resolution" : 305.74811314055756, "scale" : 1155581.108577},
+        {"level" : 10, "resolution" : 152.87405657041106, "scale" : 577790.554289},
+        {"level" : 11, "resolution" : 76.43702828507324, "scale" : 288895.277144},
+        {"level" : 12, "resolution" : 38.21851414253662, "scale" : 144447.638572},
+        {"level" : 13, "resolution" : 19.10925707126831, "scale" : 72223.819286},
+        {"level" : 14, "resolution" : 9.554628535634155, "scale" : 36111.909643},
+        {"level" : 15, "resolution" : 4.77731426794937, "scale" : 18055.954822},
+        {"level" : 16, "resolution" : 2.388657133974685, "scale" : 9027.977411},
+        {"level" : 17, "resolution" : 1.1943285668550503, "scale" : 4513.988705}
+    ];
 
     map = Map('mapDiv', {
         basemap: 'gray',
         //center: [-95.6, 38.6],
         center: defaultMapCenter,
         logo: false,
+        lods: lods,
         zoom: 5
     });
     //button for returning to initial extent
@@ -262,6 +282,16 @@ require([
         $("#flood-tools-alert").slideUp(250);
     });
 
+    $("#waterAlertLink").click(function() {
+       $("#waterAlertLink").attr("href", "https://water.usgs.gov/wateralert/subscribe/?fim=1&intro=1&site_no=" + siteAttr.SITE_NO + "&agency_cd=USGS&type_cd=st&parms=00065:" + results[$("#floodSlider")[0].value].attributes["STAGE"]);
+       $("#waterAlertLink").click();
+    });
+
+    $("#disclaimerLink").click(function() {
+        $("#aboutModal").modal('show');
+        $("#disclaimerTab").trigger('click');
+    })
+
     //map.getLayer("fimGrid2").on("load", gridsLayerComp);
 
     map.on('layer-add', function (evt) {
@@ -348,6 +378,52 @@ require([
                 siteAttr = attr;
                 results = null;
                 getGridInfo();
+
+                //code to query related records for site and get logos and created/reviewed by cooperators
+                //first set anything that can be set with site attributes
+                $("#downloadData").attr("href", siteAttr.DATA_LINK);
+                $("#reportCover").attr("src", siteAttr.REP_THUMB);
+                $("#downloadReport").attr("href", siteAttr.REP_LINK);
+
+                //related records query
+                $.ajax({
+                    dataType: 'json',
+                    type: 'GET',
+                    url: map.getLayer("fimSites").url + "/queryRelatedRecords?objectIds=" + siteAttr.OBJECTID +
+                        "&relationshipId=0&outFields=*&definitionExpression=&returnGeometry=true&maxAllowableOffset=&geometryPrecision=&outSR=&returnZ=false&returnM=false&gdbVersion=&f=json",
+                    headers: {'Accept': '*/*'},
+                    success: function (data) {
+
+                        if (data.relatedRecordGroups[0].relatedRecords.length > 0) {
+                            var relatedRecords = data.relatedRecordGroups[0].relatedRecords;
+                            var furnished = false;
+                            $.each(relatedRecords, function (index, value) {
+                                if (value.attributes["TYPE"] == "C") {
+                                    $('#mapsCreatedBy').append("<a target='_blank' href='" + value.attributes["URL"] + "'>" + value.attributes["ENTITY"] + "</a><br/>");
+                                } else if (value.attributes["TYPE"] == "R") {
+                                    $('#mapsReviewedBy').append("<a target='_blank' href='" + value.attributes["URL"] + "'>" + value.attributes["ENTITY"] + "</a><br/>");
+                                } else if (value.attributes["TYPE"] == "L") {
+                                    $('#logos').append("<img src='https://s3.amazonaws.com/wimcloud.usgs.gov/FIM/logos/" + value.attributes["ENTITY"] + "'/>");
+                                } else if (value.attributes["TYPE"] == "F") {
+                                    $('#recordsLogo').attr("src", "https://s3.amazonaws.com/wimcloud.usgs.gov/FIM/logos/" + value.attributes["ENTITY"]);
+                                    furnished = true;
+                                }
+                            });
+
+                            if (furnished == true) {
+                                $('#usgsDefaultLogo').hide();
+                                $('#recordsLogo').show();
+                            } else if (furnished == false) {
+                                $('#usgsDefaultLogo').show();
+                                $('#recordsLogo').hide();
+                            }
+                        }
+
+                    },
+                    error: function (error) {
+                        console.log("Error processing the JSON. The error is:" + error);
+                    }
+                });
 
                 var siteNo = siteAttr.SITE_NO;
                 var ahpsID = siteAttr.AHPS_ID;
@@ -677,6 +753,7 @@ require([
                         $("#floodSlider").attr({"min": 0, "max": results.length-1});
                         $("#floodSlider")[0].value = 0;
                         $("#selectedValue").text(results[0].attributes["STAGE"]);
+                        $("#floodMinSelectedGage").text(results[0].attributes["STAGE"]);
 
                         var layerDefinitions = [];
                         layerDefinitions[0] = "USGSID = '" + attr["SITE_NO"] + "' AND STAGE = " + results[0].attributes["STAGE"];
@@ -685,6 +762,7 @@ require([
 
                         $("#slider").on("input change", function() {
                             $("#selectedValue").text(results[$("#floodSlider")[0].value].attributes["STAGE"]);
+                            $("#floodMinSelectedGage").text(results[$("#floodSlider")[0].value].attributes["STAGE"]);
                             var layerDefinitions = [];
                             layerDefinitions[0] = "USGSID = '" + attr["SITE_NO"] + "' AND STAGE = " + results[$("#floodSlider")[0].value].attributes["STAGE"];
                             map.getLayer("fimExtents").setLayerDefinitions(layerDefinitions);
