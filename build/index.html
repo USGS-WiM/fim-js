@@ -95,6 +95,9 @@
         <h4><b>Flood Tools</b></h4>
         <p>flood tools available if you <a id="floodToolsOpen">click here</a></p>
         <p>
+            Selected gage height: <label id="floodMinSelectedGage" class="current"></label> feet<br/>
+        </p>
+        <p>
             <b>Current conditions</b><br/>
             Gage height: <label id="floodMinGage" class="current"></label> feet<br/>
             Discharge: <label id="floodMinDischarge" class="current"></label> cfs<br/>
@@ -160,7 +163,7 @@ $(".close-alert").click(function(){
                         For more information on AHPS forecasts, please see:
                         <a href="http://water.weather.gov/ahps/pcpn_and_river_forecasting.pdf">http://water.weather.gov/ahps/pcpn_and_river_forecasting.pdf</a></p>
 
-                        <p>Additional information about WiM is available at <a target="_blank" href="http://wim.usgs.gov">http://wim.usgs.gov</a></p>
+                        <p>Flood-inundation map services can be found <a target="_blank" href="https://gis.wim.usgs.gov/arcgis/rest/services/FIMMapper">here</a>.</p>
 
                         <p>Version x.x.x</p>
 
@@ -312,10 +315,13 @@ $(".close-alert").click(function(){
                             <div class="tab-content">
                                 <div role="tabpanel" class="tab-pane active" id="floodToolsTabPane">
                                     <form id="slider">
-                                        <input id="floodSlider" type="range" name="stage" value="0" min="0" max="10" class="vertical-slider">
-                                        Selected gage height: <br/><label for="floodSlider" id="selectedValue"></label> ft<br/>
-                                        </input>
+                                        <input id="floodSlider" type="range" name="stage" value="0" min="0" max="10" class="vertical-slider"/>
+                                        <img id="usgsDefaultLogo" src="images/usgsLogoSm.jpg"/>
+                                        <img id="recordsLogo" src=""/>
                                         <div id="sliderText">
+                                            <p>
+                                                Selected gage height: <br/>
+                                                <label for="floodSlider" id="selectedValue"></label> ft<br/></p>
                                             <p>
                                                 <b>Current conditions</b><br/>
                                                 Gage height: <label id="floodMaxGage" class="current"></label> feet<br/>
@@ -336,10 +342,40 @@ $(".close-alert").click(function(){
                                     <iframe id="webCamIFrame"></iframe>
                                 </div>-->
                                 <div role="tabpanel" class="tab-pane" id="servicesAndDataTabPane">
-                                    <label>Services and data info here.</label>
+                                    <img src="images/IWRSSlogo.jpg"/>
+                                    <h4>Sign up for WaterAlert for this site</h4>
+                                    <p>
+                                        Water information texted directly to you...<br/>
+                                        simply subscribe to <a id="waterAlertLink" target="_blank" href="">WaterAlert!</a>
+                                    </p>
+                                    <h4>Project contacts for more information</h4>
+                                    <p>Maps created by
+                                        <div id="mapsCreatedBy">
+
+                                        </div>
+                                    </p>
+                                    <p>Maps reviewed by
+                                        <div id="mapsReviewedBy">
+
+                                        </div>
+                                    </p>
+                                    <h4>Data downloads and metadata</h4>
+                                    <p><a id="downloadData" target="_blank" href="">Download data</a></p>
+                                    <img id="reportCover" src=""/>
+                                    <h4>References</h4>
+                                    <p><a id="downloadReport" target="_blank" href="">Download report</a></p>
+                                    <p>
+                                        <div id="logos"></div>
+                                    </p>
+                                    <p>
+                                        <img src="images/noaaLogo.png"/>
+                                        <img src="images/usgsGreen.gif"/>
+                                        <a id="disclaimerLink" target="_blank" href="javascript:void(0)">Disclaimer</a>
+                                        <a target="_blank" href="http://www.nws.noaa.gov/survey/nws-survey.php?code=inundate">NWS feedback form</a>
+                                    </p>
                                 </div>
                                 <div role="tabpanel" class="tab-pane" id="moreInfoTabPane">
-                                    <label id="moreInfo">Loading ...</label>
+                                    <div id="moreInfo">Loading ...</div>
                                 </div>
                             </div>
                         </div>
