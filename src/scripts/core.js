@@ -334,6 +334,9 @@ require([
                 var siteNo = feature.attributes.SITE_NO;
                 var ahpsID = feature.attributes.AHPS_ID;
 
+                /*var dimensionValue = 'siteNo';
+                ga('set', 'dimension1', dimensionValue);*/
+
                 if (map.getLevel() < 12) {
                     map.centerAndZoom(feature.geometry, 13);
                 }
