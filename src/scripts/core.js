@@ -351,6 +351,8 @@ require([
 
                 var siteNo = siteAttr.SITE_NO;
                 var ahpsID = siteAttr.AHPS_ID;
+                var state = siteAttr.STATE;
+                var community = siteAttr.COMMUNITY;
 
                 if (map.getLevel() < 12) {
                     map.centerAndZoom(feature.geometry, 13);
@@ -358,7 +360,7 @@ require([
 
                 // Google Analytics
                 ga('send','event','Map','click','Site clicked');
-                var dimensionValue = siteNo;
+                var dimensionValue = siteNo + ", " + state +", " + community;
                 ga('send','event','map','click', {'dimension1': dimensionValue});
                 // End Google Analytics
 
