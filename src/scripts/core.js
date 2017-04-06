@@ -82,6 +82,9 @@ require([
     //bring this line back after experiment////////////////////////////
     ////allLayers = mapLayers;
 
+
+  
+
     map = Map('mapDiv', {
         basemap: 'gray',
         //center: [-95.6, 38.6],
@@ -344,15 +347,22 @@ require([
                 var attr = feature.attributes;
                 siteAttr = attr;
                 results = null;
-
                 getGridInfo();
 
                 var siteNo = siteAttr.SITE_NO;
                 var ahpsID = siteAttr.AHPS_ID;
+                var state = siteAttr.STATE;
+                var community = siteAttr.COMMUNITY;
 
                 if (map.getLevel() < 12) {
                     map.centerAndZoom(feature.geometry, 13);
                 }
+
+                // Google Analytics
+                ga('send','event','Map','click','Site clicked');
+                var dimensionValue = siteNo + ", " + state +", " + community;
+                ga('send','event','map','click', {'dimension1': dimensionValue});
+                // End Google Analytics
 
                 map.getLayer("fimExtents").setVisibility(true);
                 map.getLayer("fimBreach").setVisibility(true);
