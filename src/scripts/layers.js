@@ -160,13 +160,45 @@ require([
                         "layerIndex": 0,
                         "legendLabel": false
                     }
-                }/*,
+                },
+                "grids1": {
+                    "url" : "https://gis.wim.usgs.gov/ArcGIS/rest/services/FIMMapper/grids_1/MapServer",
+                    "options": {
+                        "id": "fimGrid1",
+                        "opacity": 0.0,
+                        "visible": false
+                    },
+                    "wimOptions": {//
+                        "type": "layer",
+                        "layerType": "agisDynamic",
+                        "includeInLayerList": false,
+                        "hasOpacitySlider": false,
+                        "includeLegend" : true
+                        //"legendLabel": false
+                    }
+                },
                 "grids2": {
-                    "url" : "http://gis.wim.usgs.gov/ArcGIS/rest/services/FIMTest/grids_2/MapServer",
+                    "url" : "https://gis.wim.usgs.gov/ArcGIS/rest/services/FIMMapper/grids_2/MapServer",
                     "options": {
                         "id": "fimGrid2",
-                        "opacity": 1.0,
-                        "visible": true
+                        "opacity": 0.0,
+                        "visible": false
+                    },
+                    "wimOptions": {//
+                        "type": "layer",
+                        "layerType": "agisDynamic",
+                        "includeInLayerList": false,
+                        "hasOpacitySlider": false,
+                        "includeLegend" : true
+                        //"legendLabel": false
+                    }
+                },
+                "grids3": {
+                    "url" : "https://gis.wim.usgs.gov/ArcGIS/rest/services/FIMMapper/grids_3/MapServer",
+                    "options": {
+                        "id": "fimGrid3",
+                        "opacity": 0.0,
+                        "visible": false
                     },
                     "wimOptions": {//
                         "type": "layer",

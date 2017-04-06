@@ -10,7 +10,7 @@ var map;
 var allLayers;
 var maxLegendHeight;
 var maxLegendDivHeight;
-var dragInfoWindows = true;
+var dragInfoWindows = false;
 var defaultMapCenter = [-95.6, 38.6];
 
 var siteAttr;
@@ -21,6 +21,13 @@ var fimiMoreInfoUrl = "http://fim.wim.usgs.gov/arcgis/rest/services/FIMMapper/fi
 var ahpsForecastUrl = "https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Observations/ahps_riv_gauges/MapServer/0";
 var nwisUrl = "https://waterservices.usgs.gov/nwis/iv/?format=nwjson&period=P7D&parameterCd=00065&sites=";
 var proxyUrl = "https://services.wim.usgs.gov/proxies/httpProxy/Default.aspx?";
+
+var gridInfos = [];
+var grid1Infos;
+var grid2Infos;
+var grid3Infos;
+var gridLayerIndex;
+var gridLayerIndexArrColl = [];
 
 
 require([
@@ -37,6 +44,8 @@ require([
     'esri/layers/ArcGISTiledMapServiceLayer',
     'esri/renderers/UniqueValueRenderer',
     'esri/symbols/PictureMarkerSymbol',
+    'esri/tasks/IdentifyParameters',
+    'esri/tasks/IdentifyTask',
     'esri/tasks/query',
     'esri/tasks/QueryTask',
     'dojo/dnd/Moveable',
@@ -59,6 +68,8 @@ require([
     ArcGISTiledMapServiceLayer,
     UniqueValueRenderer,
     PictureMarkerSymbol,
+    IdentifyParameters,
+    IdentifyTask,
     esriQuery,
     QueryTask,
     Moveable,
@@ -248,6 +259,8 @@ require([
         $("#flood-tools-alert").slideUp(250);
     });
 
+    //map.getLayer("fimGrid2").on("load", gridsLayerComp);
+
     map.on('layer-add', function (evt) {
         var layer = evt.layer.id;
         var actualLayer = evt.layer;
@@ -330,9 +343,12 @@ require([
                 var feature = evt.graphic;
                 var attr = feature.attributes;
                 siteAttr = attr;
+                results = null;
 
-                var siteNo = feature.attributes.SITE_NO;
-                var ahpsID = feature.attributes.AHPS_ID;
+                getGridInfo();
+
+                var siteNo = siteAttr.SITE_NO;
+                var ahpsID = siteAttr.AHPS_ID;
 
                 /*var dimensionValue = 'siteNo';
                 ga('set', 'dimension1', dimensionValue);*/
@@ -682,17 +698,156 @@ require([
 
             });
 
+        } else if (layer == "fimGrid1" || layer == "fimGrid2" || layer == "fimGrid3") {
+            //var layer = evt.layer.id;
+            var grids;
+            switch (layer) {
+                case "fimGrid1":
+                    grid1Infos = map.getLayer(layer).layerInfos;
+                    break;
+                case "fimGrid2":
+                    grid2Infos = map.getLayer(layer).layerInfos;
+                    break;
+                case "fimGrid3":
+                    grid3Infos = map.getLayer(layer).layerInfos;
+                    break;
+
+            }
         }
+
     });
+
+    function getGridInfo() {
+        var gridServ = null;
+        switch (siteAttr.GRID_SERV) {
+            case 1:
+                gridServ = grid1Infos;
+                break;
+            case 2:
+                gridServ = grid2Infos;
+                break;
+            case 3:
+                gridServ = grid3Infos;
+                break;
+            case null:
+                gridServ = null;
+                break;
+        }
+
+        if (gridServ != null) {
+            var id;
+            var shortName;
+            var gridID;
+            for (var i = 0; i < gridServ.length; i++) {
+                var tempGridInfo = gridServ[i].name.split('_');
+                shortName = tempGridInfo[0];
+                gridID = tempGridInfo[1];
+                id = gridServ[i].id;
+                if (shortName == siteAttr.SHORT_NAME) {
+                    /*var tempName:String = fimi_grids.layerInfos[i].name;
+                     var tempGage:String = tempGridInfo[1] + '.' + tempGridInfo[2];
+                     var tempGageNumber:Number = parseFloat(tempGage);
+                     gridInfos.addItem({index: id, name: tempName, gage: tempGageNumber.toFixed(2)});*/
+                     gridInfos.push({index: id, shortname: shortName, gridid: gridID});
+                }
+            }
+        }
+
+    }
 
     map.on("click", function(evt) {
         //$("[id*='fimExtents'] .esriLegendLayerLabel").hide();
-        if (siteAttr.HAS_GRIDS == 1 && map.getLayer("fimExtents").visible == true) {
-            //alert('now what?');
+        var identifyParameters = new IdentifyParameters();
+        if (siteAttr != null && siteAttr.HAS_GRIDS == 1 && map.getLayer("fimExtents").visible == true && evt.target.localName != "image") {
             //come back to this to deal with grid clicks
+            var grid_serv = siteAttr.GRID_SERV;
+            identifyParameters.layerIds = [];
+            gridLayerIndexArrColl = [];
 
+            for (var i=0; i < gridInfos.length; i++) {
+                if (gridInfos[i].shortname == siteAttr.SHORT_NAME && Number(gridInfos[i].gridid) == results[$("#floodSlider")[0].value].attributes["GRIDID"]) {
+                    identifyParameters.layerIds.push([gridInfos[i].index]);
+                    gridLayerIndexArrColl.push(gridInfos[i].index);
+                    gridLayerIndex = gridInfos[i].index;
+                } else if (gridInfos[i].shortname == siteAttr.SHORT_NAME && gridInfos[i].gridid == results[$("#floodSlider")[0].value].attributes["GRIDID"]+'b') {
+                    identifyParameters.layerIds.push([gridInfos[i].index]);
+                    gridLayerIndexArrColl.push(gridInfos[i].index);
+                    gridLayerIndex = gridInfos[i].index;
+                }
+            }
+
+            identifyParameters.width = map.width;
+            identifyParameters.height = map.height;
+            identifyParameters.geometry = evt.mapPoint;
+            identifyParameters.tolerance = 1;
+            identifyParameters.mapExtent = map.extent;
+            identifyParameters.spatialReference = map.spatialReference;
+
+            var identifyTask = new IdentifyTask("https://gis.wim.usgs.gov/ArcGIS/rest/services/FIMMapper/grids_" + grid_serv + "/MapServer");
+            identifyTask.showBusyCursor = true;
+
+            var deferredResult = identifyTask.execute(identifyParameters);
+
+            deferredResult.addCallback(function(response) {
+
+                map.infoWindow.hide();
+
+                if (response[0].feature.attributes["Pixel Value"] != "NoData") {
+                    var depthRange = siteAttr.DEPTH_RANG;
+                    if (depthRange == null) {
+                        depthRange = 1;
+                    }
+
+                    var factor = (Number(depthRange)/2) % 0.5;
+                    if (factor == 0) { //second half of OR only to handle libraries without depth range even though it is a required field
+                        factor = 0.5;
+                    }
+
+                    var gridAttr = response[0].feature.attributes["Pixel Value"];
+                    var rndGridValue = roundToNearest(factor,gridAttr);
+
+                    var lowValue = rndGridValue-Number(depthRange)/2;
+                    var highValue = rndGridValue+Number(depthRange)/2;
+
+                    //code to adjust value so range falls on .0s and .5s
+                    var roundingRemainder = (rndGridValue+Number(depthRange)/2) % 0.5;
+                    if (roundingRemainder != 0) {
+                        var diff = rndGridValue - gridAttr;
+                        if (diff > 0) {
+                            lowValue = Number((rndGridValue - Number(depthRange)/2 - factor).toFixed(1));
+                            highValue = Number((rndGridValue + Number(depthRange)/2 - factor).toFixed(1));
+                        } else {
+                            lowValue = Number((rndGridValue - Number(depthRange)/2 + factor).toFixed(1));
+                            highValue = Number((rndGridValue + Number(depthRange)/2 + factor).toFixed(1));
+                        }
+                    }
+
+                    //check for negative values of lowValue
+                    if (lowValue < 0) {
+                        lowValue = 0;
+                    }
+
+                    //using depth range value in site file
+                    var range = lowValue.toString() + ' - ' + highValue.toString();
+
+                    var template = new esri.InfoTemplate("Water depth <a target='_blank' href='" + siteAttr.REP_LINK + "'><i style='color: white' class='fa fa-question-circle'></a>",
+                        "<b>Range:</b> " + range + " ft");
+
+                    var feature = response[0].feature;
+                    feature.setInfoTemplate(template);
+
+                    map.infoWindow.setFeatures([feature]);
+                    map.infoWindow.resize(175,125);
+                    map.infoWindow.show(evt.mapPoint);
+                }
+
+            });
         }
     });
+
+    function roundToNearest(roundTo, value) {
+        return Math.round(value/roundTo)*roundTo;
+    }
 
     function getNwsForecastIndex(obj) {
         var index;
@@ -1157,7 +1312,7 @@ require([
                         });
                     });
 
-                    var exGroupDiv = $('<div id="' + camelize(exclusiveGroupName) + '" class="btn-group-vertical" data-toggle="buttons"></div');
+                    var exGroupDiv = $('<div id="' + camelize(exclusiveGroupName) + '" class="btn-group-vertical" data-toggle="buttons"></div>');
                     $('#toggle').append(exGroupDiv);
                 }
 
