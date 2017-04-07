@@ -385,6 +385,10 @@ require([
                 $("#reportCover").attr("src", siteAttr.REP_THUMB);
                 $("#downloadReport").attr("href", siteAttr.REP_LINK);
 
+                $('#mapsCreatedBy').empty();
+                $('#mapsReviewedBy').empty();
+                $('#logos').empty();
+
                 //related records query
                 $.ajax({
                     dataType: 'json',
