@@ -439,9 +439,9 @@ require([
                 }
 
                 // Google Analytics
-                ga('send','event','Map','click','Site clicked');
+                /*ga('send','event','Map','click','Site clicked');*/
                 var dimensionValue = siteNo + ", " + state +", " + community;
-                ga('send','event','map','click', {'dimension1': dimensionValue});
+                ga('send','event','Map','click', 'Site Clicked', {'dimension1': dimensionValue});
                 // End Google Analytics
 
                 map.getLayer("fimExtents").setVisibility(true);
@@ -1499,6 +1499,11 @@ require([
                     } else {
                         layer.setVisibility(true);
                     }
+
+                    // Google Analytics
+                    var dimensionValue = layerName + "";
+                    ga('send','event','layer','click', 'layer toggle', {'dimension2': dimensionValue});
+                    // End Google Analytics
 
                 });
             }
