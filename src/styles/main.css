@@ -49,6 +49,14 @@ body {
     height: 300px;
     vertical-align: middle;
 }
+.slider-view-body{
+  padding: 30px 0 0 0;
+  font-size: 14px;
+  font-weight: 400;
+}
+.slider-view-body a{
+  font-weight: bolder;
+}
 
 #floodSlider, #sliderText {
     display: inline;
@@ -158,10 +166,20 @@ div[id*='fimBreach'] .esriLegendLayerLabel {
     display: block;
     width: 100%;
     margin: 0;
-    padding: 0 0 0 8px;
+    padding: 30px 0 0 8px;
     opacity: .75;
     text-align: center;
     color: #6E7490;
+}
+.sidebar_footer{
+  display: block;
+  box-sizing: border-box;
+  padding: 10px;
+}
+.sidebar_footer a{
+  display: inline-block;
+  padding: 2px 4px;
+  font-size: 10px;
 }
 
 .latLngScale {
@@ -371,7 +389,48 @@ a.lgi-zoom:hover {
 }
 
 .navbar-brand {
-    padding:7px 4px;
+    padding:7px 0 7px 4px;
+    color: #fff !important;
+    font-size: 18px;
+    font-weight: 400;
+    padding-left: 0 !important;
+}
+.navbar-brand b{
+  font-weight: 400;
+}
+.navbar-brand img{
+  margin-right: 16px;
+  display: inline;
+  height: 28px;
+  width: auto;
+  margin-left: 15px;
+}
+@media (max-width: 540px) {
+    .navbar-brand span{
+      margin-top: 10px;
+      display: inline-block;
+      line-height: 11px !important;
+      padding-left:0 !important;
+    }
+    .navbar-brand {
+      font-size: 11px;
+      word-spacing: 100%;
+      letter-spacing: -0.25px;
+    }
+    .navbar-brand b{
+      display: block;
+    }
+    .navbar-brand img{
+      margin-right: 5px;
+      margin-left: 0;
+    }
+
+    #navbar .container-fluid{
+      padding-right: 0 !important;
+    }
+    #navbar .container-fluid button{
+      margin: 0 !important;
+    }
 }
 
 .ion-close-round:before {
@@ -559,5 +618,160 @@ input[type=range]:focus {
 
 input[type=range]:focus::-webkit-slider-runnable-track {
     background: #ccc;
+}
+
+
+
+
+/*Map control styles*/
+#legendElement{
+  position: fixed;
+  right: 15px;
+  top: 65px;
+}
+#mapDiv_zoom_slider{
+  margin-top: -42px;
+}
+#locateButton,
+#homeButton{
+  margin-top: 30px;
+}
+
+
+/*Misc styles*/
+#moreInfo{
+  padding-top: 30px;
+}
+#servicesAndDataTabPane{
+  box-sizing: border-box;
+  padding: 25px;
+}
+
+#floodMin{
+  position: relative;
+  top: -7px;
+  padding-bottom: 7px;
+}
+.dropdown-toggle{
+  display: none !important;
+}
+
+.panel-title{
+  display: -webkit-flex;
+  display: flex;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+}
+@media (max-width: 520px) {
+  #floodToolsPanelHeader{
+    font-size: 12px;
+    letter-spacing: -0.25px;
+  }
+  .panel-heading .dropdown{
+    position: absolute;
+  }
+  .nav-tabs li{
+    width: 100%;
+    text-align: center;
+    padding: 4px;
+  }
+  .nav-tabs li a{
+    border-radius: 2px;
+    border-left: none !important;
+    border-top: none !important;
+    border-right: none !important;
+    border-bottom: none !important;
+    font-size: 12px;
+    padding: 4px;
+  }
+  .vertical-slider{
+      -webkit-appearance: none;
+      -webkit-transform: rotate(0);
+      transform: rotate(0);
+      box-sizing: border-box;
+      padding: 0 !important;
+      width: 100% !important;
+      margin: 0 auto;
+      margin-top: 35px !important;
+      margin-bottom: 35px !important;
+  }
+}
+
+
+.search-help{
+  display: block;
+  width: 100%;
+  text-align: center;
+  padding-top: 15px;
+  font-size: 12px;
+}
+.search-help b{
+  display: block;
+  margin: 0 auto;
+  font-size: 14px;
+  margin-bottom: 8px;
+  margin-top: 25px;
+}
+.search-help code{
+  display: inline-block;
+  margin: 2px;
+}
+
+#geosearch{
+  display: -webkit-flex;
+  display: flex;
+  -webkit-justify-content: center;
+  justify-content: center;
+
+}
+.geosearch-form-buttons{
+  display: -webkit-flex;
+  display: flex;
+  -webkit-justify-content: center;
+  justify-content: center;
+}
+.geosearch-form-buttons button{
+  margin: 0 5px;
+}
+
+#floodToolsOpen{
+  font-size: 16px;
+  line-height: 30px;
+  display: -webkit-flex;
+  box-sizing: border-box;
+  padding: 4px 8px;
+  transition: 0.2s;
+  margin-bottom: 15px;
+  display: flex;
+  width: 100%;
+  background-color: #1E2732;
+  color: #FFF;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+}
+#floodToolsOpen:hover{
+  cursor: pointer !important;
+  transition: 0.2s;
+}
+#floodToolsOpen img{
+  transition: 0.2s;
+  opacity: 0.5;
+}
+#floodToolsOpen:hover img{
+  transition: 0.2s;
+  opacity: 1;
+}
+#flood-tools-alert .ion-close-round{
+  /*position: relative;*/
+  position: absolute !important;
+  top: 3px;
+  right: 3px;
+  opacity: 0.5;
+  transition: 0.2s;
+}
+#flood-tools-alert .ion-close-round:hover{
+  opacity: 1;
+  cursor: pointer;
+  transition: 0.2s;
 }
 /*end styles to be removed when wim styles are created*/
