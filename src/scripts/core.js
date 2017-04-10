@@ -1743,4 +1743,6 @@ $(document).ready(function () {
     //    $('#legend').hide();
     //});
 
+
 });
+$('body').text( $('body').text().replace("●", ''));
