@@ -726,6 +726,24 @@ require([
                                 title: {
                                     text: "Gage height"
                                 }
+                            },
+                            tooltip: {
+                                formatter: function() {
+                                    var date = new Date(this.x);
+                                    var dayOfWeek = getDay(date);
+                                    var month = getMonth(date);
+                                    var dayOfMonth = date.getDate()
+                                    var hours = date.getHours().toString();
+                                    var minutes = date.getMinutes().toString();
+                                    if (hours.length == 1) {
+                                        hours = "0"+hours;
+                                    }
+                                    if (minutes.length == 1) {
+                                        minutes = "0"+minutes;
+                                    }
+                                    return dayOfWeek + ', ' + month + ' ' + dayOfMonth + ', ' + hours + ':' + minutes + '<br/>' +
+                                        this.series.name + ': <b>' + this.y + ' ft</b>';
+                                }
                             }
                         });
                     })
@@ -971,7 +989,6 @@ require([
     }
 
     function dateInRange(valDate,startDate) {
-        console.log('valDate: ' + valDate + ', startDate: ' + startDate);
         var inRange = false;
 
         var valDateSub = valDate.substring(0,10);
@@ -993,8 +1010,6 @@ require([
     function dateFormat(valDate) {
         var outFormat = "";
 
-        console.log(valDate);
-
         var dateSplit = valDate.split("T");
 
         var utcFormat = dateSplit[0] + " " + dateSplit[1].split(".")[0] + " UTC";
@@ -1008,7 +1023,6 @@ require([
     function dateFix(date,series) {
         var outDate;
 
-        console.log(date);
         var dateSplit = date.split("T");
         var YMD = dateSplit[0].split("-");
         if (series == "nwis") {
@@ -1029,6 +1043,62 @@ require([
 
         return outDate;
     }
+
+    function getDay(date) {
+        var day;
+        switch (date.getDay()) {
+            case 0:
+                day = "Sunday";
+                break;
+            case 1:
+                day = "Monday";
+                break;
+            case 2:
+                day = "Tuesday";
+                break;
+            case 3:
+                day = "Wednesday";
+                break;
+            case 4:
+                day = "Thursday";
+                break;
+            case 5:
+                day = "Friday";
+                break;
+            case 6:
+                day = "Saturday";
+        }
+        return day;
+    }
+
+    function getMonth(date) {
+        var month;
+        switch (date.getMonth()) {
+            case 0:
+                month = "January";
+                break;
+            case 1:
+                month = "February";
+                break;
+            case 2:
+                month = "March";
+                break;
+            case 3:
+                month = "April";
+                break;
+            case 4:
+                month = "May";
+                break;
+            case 5:
+                month = "June";
+                break;
+            case 6:
+                month = "July";
+        }
+        return month;
+    }
+
+
 
     // create search_api widget in element "geosearch"
     search_api.create( "geosearch", {
