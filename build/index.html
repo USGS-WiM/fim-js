@@ -12,9 +12,10 @@
 
     <link rel="stylesheet" href="https://txpub.usgs.gov/DSS/search_api/2.0/api/search_api.css"/>
 
-    <link rel="stylesheet" href="styles/main.css">
+
     <!-- <link rel="stylesheet" href="styles/base.css"> -->
     <link rel="stylesheet" href="styles/base.css">
+    <link rel="stylesheet" href="styles/main.css">
 
     <link rel="shortcut icon" href="/favicon.ico">
 
@@ -50,8 +51,8 @@
                 <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" href="http://www.usgs.gov">
-                <img alt="USGS logo" height="38px" src="images/USGS_ID_white.png">
-                <span class='hidden-xs' style='font-size:20px;display:inline-block;'>&nbsp;&nbsp;Flood Inundation Mapper</span>
+                <img alt="USGS logo" src="images/USGS_ID_white.png">
+                <span>Flood <b>Inundation</b> Mapper</span>
             </a>
         </div>
 
@@ -93,8 +94,23 @@
                             <input id="chkExtent" type="checkbox"> Search in Map Only
                         </label>
                     </div>-->
-                    <button id="btnGeosearch" type="button" class="btn btn-success btn-fixed" data-dismiss="modal" onclick="ga('send','event','navbar','click','Find Location Search Performed');"> Go </button>
-                    <button id="btnDismiss" type="submit" class="btn btn-default btn-fixed" data-dismiss="modal">Dismiss</button>
+                    <div class="geosearch-form-buttons">
+                      <button id="btnDismiss" type="submit" class="btn btn-default btn-fixed" data-dismiss="modal">Dismiss</button>
+                      <button id="btnGeosearch" type="button" class="btn btn-success btn-fixed" data-dismiss="modal" onclick="ga('send','event','navbar','click','Find Location Search Performed');"> Go </button>
+                    </div>
+
+                    <div class="search-help">
+                      <b>Supported Search Strings:</b>
+                      <code>GNIS locations</code>
+                      <code>USGS Sites</code>
+                      <code>Zip Codes</code>
+                      <code>Area Codes</code>
+                      <code>States</code>
+                      <code>Lat/Long (ie. '43.9,-72.1')</code>
+                      <code>Street Address</code>
+                      <br/><br/>
+                      Search provided by <a href="https://txpub.usgs.gov/dss/search_api/2.0/" target="_blank">USGS Search JavaScript API</a>
+                    </div>
                 </form>
             </div>
         </div><!-- /.modal-content -->
@@ -105,8 +121,7 @@
      style="position: fixed; top: 100px; right: 5px; color: #000; background-color: #f9f9f9; border-color: rgba(0,0,0,0.75);">
     <i class="ion-close-round close-alert" style="float: right;"></i> <!-- Close Button - MUST INCLUDE -->
     <div id="innerAlert">
-        <h4><b>Flood Tools</b></h4>
-        <p>flood tools available if you <a id="floodToolsOpen">click here</a></p>
+        <a id="floodToolsOpen">Flood Tools <img src="images/maximize.png"/></a>
         <p>
             Selected gage height: <label id="floodMinSelectedGage" class="current"></label> feet<br/>
         </p>
@@ -120,7 +135,7 @@
             NWS Site ID: <a id="nwsSiteIDMin" target="_blank" href=""></a>
         </p>
     </div>
-</div> 
+</div>
 <script> //To close alert
 $(".close-alert").click(function(){
     $(this).parent().slideUp(250);
@@ -284,6 +299,15 @@ $(".close-alert").click(function(){
             <!-- # closing div tag for accordion style panels -->
             <!--</div>-->
             <div class="identification pull-right">powered by  <a href="http://wim.usgs.gov/" target="_blank">WiM</a></div>
+            <div class="sidebar_footer">
+              <a href="https://usgs.gov/" target="_blank">USGS Home</a>
+              <a href="https://answers.usgs.gov/" target="_blank">Contact USGS</a>
+              <a href="https://search.usgs.gov/" target="_blank">Search USGS</a>
+              <a href="https://www2.usgs.gov/laws/accessibility.html" target="_blank">Accessibility</a>
+              <a href="https://www2.usgs.gov/foia/" target="_blank">FOIA</a>
+              <a href="https://www2.usgs.gov/laws/privacy.html" target="_blank">Privacy</a>
+              <a href="https://www2.usgs.gov/laws/policies_notices.html" target="_blank">Policies & Notices</a>
+            </div>
         </div>
         <div class="col-md-9 col-lg-10 col-md-offset-3 col-lg-offset-2 no-col-padding keepit100">
             <!-- legend, associated with legend buttons. to be removed if we stick with the in-map legend toggle -->
@@ -328,24 +352,28 @@ $(".close-alert").click(function(){
                             <div class="tab-content">
                                 <div role="tabpanel" class="tab-pane active" id="floodToolsTabPane">
                                     <form id="slider">
+
                                         <input id="floodSlider" type="range" name="stage" value="0" min="0" max="10" class="vertical-slider"/>
-                                        <img id="usgsDefaultLogo" src="images/usgsLogoSm.jpg"/>
-                                        <img id="recordsLogo" src=""/>
-                                        <div id="sliderText">
-                                            <p>
-                                                Selected gage height: <br/>
-                                                <label for="floodSlider" id="selectedValue"></label> ft<br/></p>
-                                            <p>
-                                                <b>Current conditions</b><br/>
-                                                Gage height: <label id="floodMaxGage" class="current"></label> feet<br/>
-                                                Discharge: <label id="floodMaxDischarge" class="current"></label> cfs<br/>
-                                            </p>
-                                            <p>
-                                                USGS Site No: <a id="usgsSiteNoMax" target="_blank" href=""></a><br/>
-                                                NWS Site ID: <a id="nwsSiteIDMax" target="_blank" href=""></a>
-                                            </p>
+
+                                        <div class="slider-view-body">
+                                          <img id="usgsDefaultLogo" src="images/usgsLogoSm.jpg"/>
+                                          <img id="recordsLogo" src=""/>
+                                          <div id="sliderText">
+                                              <p>
+                                                  <br/>Selected gage height:
+                                                  <label for="floodSlider" id="selectedValue"></label>ft<br/></p>
+                                              <p>
+                                                  <b>Current conditions</b><br/>
+                                                  Gage height: <label id="floodMaxGage" class="current"></label> feet<br/>
+                                                  Discharge: <label id="floodMaxDischarge" class="current"></label> cfs<br/>
+                                              </p>
+                                              <p>
+                                                  USGS Site No: <a id="usgsSiteNoMax" target="_blank" href=""></a><br/>
+                                                  NWS Site ID: <a id="nwsSiteIDMax" target="_blank" href=""></a>
+                                              </p>
+                                          </div>
+                                          <label id="gridLabel">Click on map for estimated water depth</label>
                                         </div>
-                                        <label id="gridLabel">Click on map for estimated water depth</label>
                                     </form>
                                 </div>
                                 <div role="tabpanel" class="tab-pane" id="hydroTabPane">
@@ -383,7 +411,9 @@ $(".close-alert").click(function(){
                                     <p>
                                         <img src="images/noaaLogo.png"/>
                                         <img src="images/usgsGreen.gif"/>
+                                        <br/><br/>
                                         <a id="disclaimerLink" target="_blank" href="javascript:void(0)">Disclaimer</a>
+                                        <br/>
                                         <a target="_blank" href="http://www.nws.noaa.gov/survey/nws-survey.php?code=inundate">NWS feedback form</a>
                                     </p>
                                 </div>
