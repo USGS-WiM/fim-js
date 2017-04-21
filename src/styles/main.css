@@ -886,8 +886,8 @@ input[type=range]:focus::-webkit-slider-runnable-track {
         margin-top: 15px;
         box-sizing: border-box;
         padding: 0 15px;
-        -webkit-flex-direction: row;
-        flex-direction: row;
+        -webkit-flex-direction: row-reverse;
+        flex-direction: row-reverse;
         position: relative;
         width: 100%;
         margin-left: 0px;
@@ -957,5 +957,15 @@ input[type=range]:focus::-webkit-slider-runnable-track {
     justify-content: space-between;
 }
 #servicesAndDataTabPane img{
-    max-width: 220px;
+    max-width: 100%;
+}
+@media (max-width: 520px) {
+    .data-flex{
+        display: -webkit-flex;
+        display: flex;
+        -webkit-flex-direction: column;
+        flex-direction: column;
+        -webkit-justify-content: space-between;
+        justify-content: space-between;
+    }
 }
