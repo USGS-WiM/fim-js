@@ -777,6 +777,9 @@ require([
                         $("#selectedValue").text(results[0].attributes["STAGE"]);
                         $("#floodMinSelectedGage").text(results[0].attributes["STAGE"]);
 
+                        $(".slider-min").text(results[0].attributes["STAGE"]);
+                        $(".slider-max").text(results[results.length-1].attributes["STAGE"])
+
                         var layerDefinitions = [];
                         layerDefinitions[0] = "USGSID = '" + attr["SITE_NO"] + "' AND STAGE = " + results[0].attributes["STAGE"];
                         map.getLayer("fimExtents").setLayerDefinitions(layerDefinitions);
