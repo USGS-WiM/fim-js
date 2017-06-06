@@ -303,6 +303,10 @@ require([
         map.addLayer(nationalMapBasemap);
     });
 
+    map.on('basemap-change', function(evt) {
+        map.reorderLayer(map.getLayer("fimSitesLegend"), 0);
+    });
+
 
     //end code for adding draggability to infoWindow
 
