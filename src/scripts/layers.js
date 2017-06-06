@@ -148,7 +148,7 @@ require([
                     "url" : "https://gis.wim.usgs.gov/ArcGIS/rest/services/FIMMapper/fimi_sites_for_legend/MapServer",
                     "options": {
                         "id": "fimSitesLegend",
-                        "opacity": 0.0,
+                        "opacity": 1.0,
                         "visible": true
                     },
                     "wimOptions": {
@@ -157,7 +157,7 @@ require([
                         "includeInLayerList": false,
                         "hasOpacitySlider": false,
                         "includeLegend" : true,
-                        //"layerIndex": 0,
+                        "layerIndex": 0,
                         "legendLabel": false
                     }
                 },
