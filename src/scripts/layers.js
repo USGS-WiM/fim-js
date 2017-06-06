@@ -33,7 +33,7 @@ require([
                     "options": {
                         "id": "fimSites",
                         "opacity": 1.00,
-                        "mode": FeatureLayer.MODE_ONDEMAND,
+                        "mode": FeatureLayer.MODE_SNAPSHOT,
                         "outFields": ["*"],
                         "definitionExpression": "Public = 1 AND MULTI_SITE = 0",
                         //"infoTemplate": fimInfoTemplate,
@@ -148,7 +148,7 @@ require([
                     "url" : "https://gis.wim.usgs.gov/ArcGIS/rest/services/FIMMapper/fimi_sites_for_legend/MapServer",
                     "options": {
                         "id": "fimSitesLegend",
-                        "opacity": 1.0,
+                        "opacity": 0.0,
                         "visible": true
                     },
                     "wimOptions": {
@@ -157,7 +157,7 @@ require([
                         "includeInLayerList": false,
                         "hasOpacitySlider": false,
                         "includeLegend" : true,
-                        "layerIndex": 0,
+                        //"layerIndex": 0,
                         "legendLabel": false
                     }
                 },
@@ -165,7 +165,7 @@ require([
                     "url" : "https://gis.wim.usgs.gov/ArcGIS/rest/services/FIMMapper/grids_1/MapServer",
                     "options": {
                         "id": "fimGrid1",
-                        "opacity": 0.0,
+                        "opacity": 1.0,
                         "visible": false
                     },
                     "wimOptions": {//

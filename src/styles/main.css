@@ -180,8 +180,8 @@ div[id*='fimBreach'] .esriLegendLayerLabel {
 .latLngScale {
     position:absolute;
     padding:4px;
-    bottom:1.6em;
-    left: 20px;
+    bottom:5em;
+    left: 10px;
     /*width:250px*/
     /*height:320px;*/
     z-index:1;

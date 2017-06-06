@@ -13,6 +13,8 @@ var maxLegendDivHeight;
 var dragInfoWindows = false;
 var defaultMapCenter = [-95.6, 38.6];
 
+var printCount = 0;
+
 var siteAttr;
 
 var results;
@@ -33,10 +35,11 @@ var gridLayerIndexArrColl = [];
 require([
     'esri/arcgis/utils',
     'esri/map',
+    'esri/dijit/Geocoder',
     'esri/dijit/HomeButton',
     'esri/dijit/LocateButton',
-    'esri/dijit/Geocoder',
     'esri/dijit/PopupTemplate',
+    'esri/dijit/Scalebar',
     'esri/geometry/Multipoint',
     'esri/geometry/Point',
     'esri/geometry/webMercatorUtils',
@@ -46,6 +49,10 @@ require([
     'esri/symbols/PictureMarkerSymbol',
     'esri/tasks/IdentifyParameters',
     'esri/tasks/IdentifyTask',
+    'esri/tasks/LegendLayer',
+    'esri/tasks/PrintTask',
+    'esri/tasks/PrintParameters',
+    'esri/tasks/PrintTemplate',
     'esri/tasks/query',
     'esri/tasks/QueryTask',
     'dojo/dnd/Moveable',
@@ -57,10 +64,11 @@ require([
 ], function (
     arcgisUtils,
     Map,
+    Geocoder,
     HomeButton,
     LocateButton,
-    Geocoder,
     PopupTemplate,
+    Scalebar,
     Multipoint,
     Point,
     webMercatorUtils,
@@ -70,6 +78,10 @@ require([
     PictureMarkerSymbol,
     IdentifyParameters,
     IdentifyTask,
+    LegendLayer,
+    PrintTask,
+    PrintParameters,
+    PrintTemplate,
     esriQuery,
     QueryTask,
     Moveable,
@@ -81,6 +93,10 @@ require([
 
     //bring this line back after experiment////////////////////////////
     ////allLayers = mapLayers;
+
+    esriConfig.defaults.io.corsEnabledServers.push("fim.wim.usgs.gov");
+    esriConfig.defaults.io.corsEnabledServers.push("gis.wim.usgs.gov");
+    esri.config.defaults.io.proxyUrl = proxyUrl;
 
 
     var lods = [
@@ -112,16 +128,25 @@ require([
         lods: lods,
         zoom: 5
     });
+
     //button for returning to initial extent
     var home = new HomeButton({
         map: map
     }, "homeButton");
     home.startup();
+
     //button for finding and zooming to user's location
     var locate = new LocateButton({
         map: map
     }, "locateButton");
     locate.startup();
+
+    //scalebar
+    var scalebar = new Scalebar({
+        map: map,
+        scalebarUnit: "dual"
+    });
+
 
     //following block forces map size to override problems with default behavior
     $(window).resize(function () {
@@ -135,6 +160,55 @@ require([
         else {
             $('#legendElement').css('height', 'initial');
         }
+
+        /*if ($("#floodToolsDiv").css("visibility") == "visible") {
+            var instance = $('#floodToolsDiv').data('lobiPanel');
+            var docHeight = $(document).height();
+            var docWidth = $(document).width();
+            var percentageOfScreen = 0.9;
+            var floodToolsHeight = docHeight*percentageOfScreen
+            var floodToolsWidth = docWidth*percentageOfScreen;
+            var highChartWidth = 600;
+            var highChartHeight = 325;
+
+            if (docHeight < 500) {
+                $("#floodToolsDiv").height(floodToolsHeight);
+                $("#floodToolsDiv").each(function() {
+                    $(this).find("*").height("100%");
+                });
+                highChartHeight = $("#floodToolsDiv").height() - 50;
+            }
+            if (docWidth < 500) {
+                $("#floodToolsDiv").width(floodToolsWidth);
+                $("#floodToolsDiv").each(function() {
+                    $(this).find("*").width("100%");
+                });
+                highChartWidth = $("#floodToolsDiv").width() - 50;
+            }
+
+            var instanceX = docWidth*0.5-$("#floodToolsDiv").width()*0.5;
+            var instanceY = docHeight*0.5-$("#floodToolsDiv").height()*0.5;
+
+            instance.setPosition(instanceX, instanceY);
+        }*/
+
+    });
+
+    $('#aboutModal').modal('show');
+    $('#disclaimerTab').trigger('click');
+
+    function showPrintModal() {
+        $('#printModal').modal('show');
+    }
+
+    $('#printNavButton').click(function(){
+        showPrintModal();
+    });
+
+    $('#printExecuteButton').click(function (e) {
+        e.preventDefault();
+        $(this).button('loading');
+        printMap();
     });
 
     //displays map scale on map load
@@ -163,6 +237,7 @@ require([
             }.bind(this));
         }
         map.infoWindow.set('highlight', true);
+        $('[class^="scalebar"]').attr('bottom', '40px');
     });
 
     //displays map scale on scale change (i.e. zoom level)
@@ -275,6 +350,7 @@ require([
         map.getLayer("fimExtents").setVisibility(false);
         map.getLayer("fimBreach").setVisibility(false);
         map.getLayer("fimSuppLyrs").setVisibility(false);
+        map.infoWindow.hide();
     });
 
     $("#floodToolsOpen").click(function(){
@@ -383,6 +459,9 @@ require([
                 //first set anything that can be set with site attributes
                 $("#downloadData").attr("href", siteAttr.DATA_LINK);
                 $("#reportCover").attr("src", siteAttr.REP_THUMB);
+                $("#reportCover").click(function() {
+                    window.open(siteAttr.REP_LINK);
+                });
                 $("#downloadReport").attr("href", siteAttr.REP_LINK);
 
                 $('#mapsCreatedBy').empty();
@@ -716,6 +795,13 @@ require([
                                 data: finalNWSDataArray,
                                 name: "NWS Predicted"
                             }],
+                            plotOptions: {
+                                series: {
+                                    marker: {
+                                        enabled: false
+                                    }
+                                }
+                            },
                             xAxis: {
                                 type: "datetime"
                             },
@@ -1151,6 +1237,80 @@ require([
 
     });
 
+    function printMap() {
+
+        var sitesLayer = map.getLayer("fimSites");
+
+        sitesLayer.setVisibility(false);
+
+        var printParams = new PrintParameters();
+        printParams.map = map;
+
+        var template = new PrintTemplate();
+        /*template.exportOptions = {
+            width: 500,
+            height: 400,
+            dpi: 300
+        };*/
+        template.format = "PDF";
+        template.layout = "FIMpage2design";
+        template.preserveScale = false;
+        /*var sitesLegendLayer = new LegendLayer();
+        sitesLegendLayer.layerId = "fimSites";*/
+        //legendLayer.subLayerIds = [*];
+
+        var userTitle = $("#printTitle").val();
+        //if user does not provide title, use default. otherwise apply user title
+        if (userTitle == "") {
+            template.layoutOptions = {
+                "titleText": "FIM",
+                "authorText" : "Flood Inundation Mapping",
+                "copyrightText": "This page was produced by the FIM and the WiM",
+                "customTextElements": [
+                    { "mapTitle": "Flood-Inundation Map for the Wabash River at Terre Haute, Indiana at the U.S. Geological Survey Streamgage Number " + siteAttr.SITE_NO },
+                    { "mapSeries": siteAttr.REPORT }
+                ]
+                ///"legendLayers": [sitesLegendLayer]
+            };
+        } else {
+            template.layoutOptions = {
+                "titleText": userTitle,
+                "authorText" : "Flood Inundation Mapping",
+                "copyrightText": "This page was prgit pulloduced by the FIM and the WiM",
+                "customTextElements": [
+                    { "mapTitle": "Flood-Inundation Map for the " + siteAttr.COMMUNITY + " at the U.S. Geological Survey Streamgage Number " + siteAttr.SITE_NO },
+                    { "mapSeries": siteAttr.REPORT }
+                ]
+                //"legendLayers": [sitesLegendLayer]
+            };
+        }
+
+        //"legendLayers": [legendLayer]
+        var docTitle = template.layoutOptions.titleText;
+        printParams.template = template;
+        var printMap = new PrintTask("https://gis.wim.usgs.gov/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task");
+        printMap.execute(printParams, printDone, printError);
+
+        sitesLayer.setVisibility(true);
+
+        function printDone(event) {
+            //alert(event.url);
+            //window.open(event.url, "_blank");
+            printCount++;
+            //var printJob = $('<a href="'+ event.url +'" target="_blank">Printout ' + printCount + ' </a>');
+            var printJob = $('<p><label>' + printCount + ': </label>&nbsp;&nbsp;<a href="'+ event.url +'" target="_blank">' + docTitle +' </a></p>');
+            //$("#print-form").append(printJob);
+            $("#printJobsDiv").find("p.toRemove").remove();
+            $("#printModalBody").append(printJob);
+            $("#printTitle").val("");
+            $("#printExecuteButton").button('reset');
+        }
+
+        function printError(event) {
+            alert("Sorry, an unclear print error occurred. Please try refreshing the application to fix the problem");
+        }
+    }
+
     /*var geocoder = new Geocoder({
         value: '',
         maxLocations: 25,
@@ -1428,7 +1588,6 @@ require([
 
         function addLayer(groupHeading, showGroupHeading, layer, layerName, exclusiveGroupName, options, wimOptions) {
 
-            //add layer to map
             //layer.addTo(map);
             if (wimOptions.layerIndex !== undefined) {
                 map.addLayer(layer, wimOptions.layerIndex);
