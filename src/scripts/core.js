@@ -19,7 +19,7 @@ var siteAttr;
 
 var results;
 
-var fimiMoreInfoUrl = "http://fim.wim.usgs.gov/arcgis/rest/services/FIMMapper/fim_add_info/MapServer/1";
+var fimiMoreInfoUrl = "https://fim.wim.usgs.gov/arcgis/rest/services/FIMMapper/fim_add_info/MapServer/1";
 var ahpsForecastUrl = "https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Observations/ahps_riv_gauges/MapServer/0";
 var nwisUrl = "https://waterservices.usgs.gov/nwis/iv/?format=nwjson&period=P7D&parameterCd=00065&sites=";
 var proxyUrl = "https://services.wim.usgs.gov/proxies/httpProxy/Default.aspx?";
@@ -264,7 +264,7 @@ require([
         $('#longitude').html(geographicMapCenter.x.toFixed(3));
     });
 
-    var nationalMapBasemap = new ArcGISTiledMapServiceLayer('http://basemap.nationalmap.gov/arcgis/rest/services/USGSTopo/MapServer');
+    var nationalMapBasemap = new ArcGISTiledMapServiceLayer('https://basemap.nationalmap.gov/arcgis/rest/services/USGSTopo/MapServer');
     //on clicks to swap basemap. map.removeLayer is required for nat'l map b/c it is not technically a basemap, but a tiled layer.
     on(dom.byId('btnStreets'), 'click', function () {
         map.setBasemap('streets');
@@ -456,6 +456,7 @@ require([
                 var feature = evt.graphic;
                 var attr = feature.attributes;
                 siteAttr = attr;
+                //window.location.href = "http://fim.wim.usgs.gov/fim-js-dev/?site_no=" + siteAttr.SITE_NO;
                 results = null;
                 getGridInfo();
 
@@ -463,7 +464,7 @@ require([
                 //first set anything that can be set with site attributes
                 $("#downloadData").attr("href", siteAttr.DATA_LINK);
                 $("#reportCover").attr("src", siteAttr.REP_THUMB);
-                $("#reportCover").click(function() {
+                $("#reportCover").off("click").click(function() {
                     window.open(siteAttr.REP_LINK);
                 });
                 $("#downloadReport").attr("href", siteAttr.REP_LINK);
@@ -540,14 +541,14 @@ require([
                 $(".nav-tabs #floodToolsTab").tab("show");
 
                 $("#usgsSiteNoMin").text(siteNo);
-                $("#usgsSiteNoMin").attr("href", "http://waterdata.usgs.gov/nwis/uv?site_no="+siteNo);
+                $("#usgsSiteNoMin").attr("href", "https://waterdata.usgs.gov/nwis/uv?site_no="+siteNo);
                 $("#nwsSiteIDMin").text(feature.attributes.AHPS_ID);
-                $("#nwsSiteIDMin").attr("href", "http://water.weather.gov/ahps2/hydrograph.php?gage="+feature.attributes.AHPS_ID);
+                $("#nwsSiteIDMin").attr("href", "https://water.weather.gov/ahps2/hydrograph.php?gage="+feature.attributes.AHPS_ID);
 
                 $("#usgsSiteNoMax").text(siteNo);
-                $("#usgsSiteNoMax").attr("href", "http://waterdata.usgs.gov/nwis/uv?site_no="+siteNo);
+                $("#usgsSiteNoMax").attr("href", "https://waterdata.usgs.gov/nwis/uv?site_no="+siteNo);
                 $("#nwsSiteIDMax").text(feature.attributes.AHPS_ID);
-                $("#nwsSiteIDMax").attr("href", "http://water.weather.gov/ahps2/hydrograph.php?gage="+feature.attributes.AHPS_ID);
+                $("#nwsSiteIDMax").attr("href", "https://water.weather.gov/ahps2/hydrograph.php?gage="+feature.attributes.AHPS_ID);
 
                 if (attr.HAS_GRIDS == 1) {
                     $("#gridLabel").show();
@@ -558,7 +559,7 @@ require([
                 //Web cam check and set up
                 /*if (feature.attributes.HAS_WEBCAM == "1") {
                     $("#webCamTab").show();
-                    $("#webCamIFrame").attr("src", "http://services.wim.usgs.gov/webCam/webCamNew/Default.aspx?webCamInfo=" + feature.attributes.WEBCAM_INFO);
+                    $("#webCamIFrame").attr("src", "https://services.wim.usgs.gov/webCam/webCamNew/Default.aspx?webCamInfo=" + feature.attributes.WEBCAM_INFO);
                 } else if (feature.attributes.HAS_WEBCAM == "0") {
                     $("#webCamTab").hide();
                 }*/
@@ -677,7 +678,7 @@ require([
                                         var siteNo = feature.attributes.Name;
 
                                         if (dateInRange(valDate,startDate) == true) {
-                                            var nwisGraphUrl = "http://waterdata.usgs.gov/nwisweb/graph?agency_cd=USGS&site_no="+siteNo+"&parm_cd="+variableCode+"&begin_date=" + startDate + "&end_date="+todayDate//+"&dd_nu="+param_dd[variableCode];
+                                            var nwisGraphUrl = "https://waterdata.usgs.gov/nwisweb/graph?agency_cd=USGS&site_no="+siteNo+"&parm_cd="+variableCode+"&begin_date=" + startDate + "&end_date="+todayDate//+"&dd_nu="+param_dd[variableCode];
 
                                             var nwisChart = "<br/><br/><label>"+ variable + "</label><br/><img src='" + nwisGraphUrl + "'/>";
 
@@ -692,7 +693,7 @@ require([
 
                                 var template = new esri.InfoTemplate("<span class=''>" + siteName + "</span>",
                                     "<div id='rtInfo'>" + rtHtml + "</div>" +
-                                    "<br/><span>Most recent measurement(s) <span style='font-size: smaller; color: darkblue'><i>(local time)</i></span> - see <a target='_blank' href='http://waterdata.usgs.gov/nwis/uv?site_no=" + siteNo + "'>NWIS Site</a> for more details</span>" +
+                                    "<br/><span>Most recent measurement(s) <span style='font-size: smaller; color: darkblue'><i>(local time)</i></span> - see <a target='_blank' href='https://waterdata.usgs.gov/nwis/uv?site_no=" + siteNo + "'>NWIS Site</a> for more details</span>" +
                                     "<div id='nwisCharts'>" + nwisHtml + "</div>");
 
                             },
@@ -1866,7 +1867,7 @@ require([
             else if (layerDetails.wimOptions.layerType === 'agisWMS') {
 
                 //for WMS layers, for now just add layer title
-                var legendItem = $('<div align="left" id="' + camelize(layerName) + '"><img alt="Legend Swatch" src="http://placehold.it/25x41" /><strong>&nbsp;&nbsp;' + layerName + '</strong></br></div>');
+                var legendItem = $('<div align="left" id="' + camelize(layerName) + '"><img alt="Legend Swatch" src="https://placehold.it/25x41" /><strong>&nbsp;&nbsp;' + layerName + '</strong></br></div>');
                 $('#legendDiv').append(legendItem);
 
             }
