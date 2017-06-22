@@ -8,16 +8,12 @@ require([
     "esri/InfoTemplate",
     "esri/layers/WMSLayerInfo",
     "esri/layers/FeatureLayer",
-    "esri/renderers/UniqueValueRenderer",
-    "esri/symbols/PictureMarkerSymbol",
     'dojo/domReady!'
 ], function(
     Extent,
     InfoTemplate,
     WMSLayerInfo,
-    FeatureLayer,
-    UniqueValueRenderer,
-    PictureMarkerSymbol
+    FeatureLayer
 ) {
 
     //var fimInfoTemplate = new InfoTemplate("${SITE_NO}", "Community:  ${COMMUNITY}");
