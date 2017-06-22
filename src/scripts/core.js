@@ -31,9 +31,12 @@ var grid3Infos;
 var gridLayerIndex;
 var gridLayerIndexArrColl = [];
 
+var siteClick;
+
 
 require([
     'esri/arcgis/utils',
+    'esri/Color',
     'esri/map',
     'esri/dijit/Geocoder',
     'esri/dijit/HomeButton',
@@ -42,11 +45,14 @@ require([
     'esri/dijit/Scalebar',
     'esri/geometry/Multipoint',
     'esri/geometry/Point',
+    'esri/geometry/screenUtils',
     'esri/geometry/webMercatorUtils',
     'esri/graphic',
     'esri/layers/ArcGISTiledMapServiceLayer',
+    'esri/layers/FeatureLayer',
     'esri/renderers/UniqueValueRenderer',
     'esri/symbols/PictureMarkerSymbol',
+    'esri/symbols/SimpleFillSymbol',
     'esri/tasks/IdentifyParameters',
     'esri/tasks/IdentifyTask',
     'esri/tasks/LegendLayer',
@@ -63,6 +69,7 @@ require([
     'dojo/domReady!'
 ], function (
     arcgisUtils,
+    Color,
     Map,
     Geocoder,
     HomeButton,
@@ -71,11 +78,14 @@ require([
     Scalebar,
     Multipoint,
     Point,
+    screenUtils,
     webMercatorUtils,
     Graphic,
     ArcGISTiledMapServiceLayer,
+    FeatureLayer,
     UniqueValueRenderer,
     PictureMarkerSymbol,
+    SimpleFillSymbol,
     IdentifyParameters,
     IdentifyTask,
     LegendLayer,
@@ -147,6 +157,38 @@ require([
         scalebarUnit: "dual"
     });
 
+    var url_string = window.location;
+    var url = new URL(url_string);
+    var site_no_param = "";
+    if (url.search != undefined) {
+        var params = url.search;
+        if (params.search("site_no") != -1) {
+            site_no_param = params.split("site_no=")[1];
+        }
+    }
+
+    map.on('extent-change', function(evt) {
+        if (site_no_param != "") {
+
+            var fim_sites = map.graphics.graphics;
+            $.each(fim_sites, function(index, value) {
+                if (value.attributes != undefined && value.attributes.SITE_NO == site_no_param) {
+                    var screenPoint = screenUtils.toScreenGeometry(map.extent, map.width, map.height, value.geometry);
+                    var event = new MouseEvent('click', {
+                        'view': window,
+                        'bubbles': true,
+                        'cancelable': true,
+                        'x': screenPoint.x,
+                        'y': screenPoint.y
+                    });
+                    var e = new jQuery.Event("click");
+                    e.pageX = 1305;
+                    e.pageY = 327;
+                    $(value)[0].trigger("click");
+                }
+            });
+        }
+    })
 
     //following block forces map size to override problems with default behavior
     $(window).resize(function () {
@@ -389,6 +431,9 @@ require([
                     }
                 });
 
+                //map.getLayer(layer).attr("flood_condition", "_blank_");
+                //map.getLayer(layer).refresh();
+
                 //ahpsIds.map(function(x){ return x.toUpperCase() })
 
                 $.ajax({
@@ -397,7 +442,6 @@ require([
                     url: ahpsForecastUrl + "/query?returnGeometry=false&where=GaugeLID%20in%20%28" + ahpsIds + "%29&outFields=status%2Cgaugelid&f=json",
                     headers: {'Accept': '*/*'},
                     success: function (data) {
-                        console.log(data);
 
                         var floodAttr = data.features;
 
@@ -407,10 +451,11 @@ require([
                             for (var j = 0; j < graphics.length; j++) {
                                 //console.log(floodAttr[i].attributes.gaugelid.toLowerCase() + " : " + map.getLayer(layer).graphics[j].attributes.AHPS_ID)
                                 if (map.getLayer(layer).graphics[j].attributes.AHPS_ID == floodAttr[i].attributes.gaugelid.toLowerCase()) {
-                                    map.getLayer(layer).graphics[j].attributes["floodCondition"] = floodAttr[i].attributes.status;
+                                    map.getLayer(layer).graphics[j].attributes.FLOOD_CONDITION = floodAttr[i].attributes.status;
+                                    /*console.log(floodAttr[i].attributes.status);
                                     if (map.getLayer(layer).graphics[j].attributes.AHPS_ID == "cpei3") {
                                         console.log('here');
-                                    }
+                                    }*/
                                 }
 
                             }
@@ -426,7 +471,7 @@ require([
                         var moderateSym = new PictureMarkerSymbol('./images/moderate.png', symWidth, symHeight);
                         var no_floodingSym = new PictureMarkerSymbol('./images/no_flooding.png', symWidth, symHeight);
 
-                        var sitesRenderer = new UniqueValueRenderer(defaultSym, "floodCondition");
+                        var sitesRenderer = new UniqueValueRenderer(defaultSym, "FLOOD_CONDITION");
                         sitesRenderer.addValue("action", actionSym);
                         sitesRenderer.addValue("major", majorSym);
                         sitesRenderer.addValue("minor", minorSym);
@@ -435,13 +480,49 @@ require([
 
                         //map.getLayer(layer).setRenderer(sitesRenderer);
 
-                        for (var i=0; i < map.getLayer(layer).graphics.length; i++) {
-                            map.graphics.add(map.getLayer(layer).graphics[i]);
-                        }
-                        map.graphics.setRenderer(sitesRenderer);
-                        map.graphics.refresh();
+                        /*for (var i=0; i < map.getLayer(layer).graphics.length; i++) {
+                            //map.graphics.add(map.getLayer(layer).graphics[i]);
+                        }*/
+                        map.getLayer(layer).setRenderer(sitesRenderer);
+                        map.getLayer(layer).redraw();
+                        //map.getLayer(layer).refresh();
+                        //var mapLevel = map.getLevel();
+                        //map.setLevel(mapLevel - 1);
+                        //map.setLevel(mapLevel);
 
                         initialSiteLoad.remove();
+
+                        if (site_no_param != "") {
+
+                            var fim_sites = map.getLayer(layer).graphics;
+                            $.each(fim_sites, function(index, value) {
+                                if (value.attributes != undefined && value.attributes.SITE_NO == site_no_param) {
+                                    var screenPoint = screenUtils.toScreenGeometry(map.extent, map.width, map.height, value.geometry);
+                                    var event = new MouseEvent('click', {
+                                        'view': window,
+                                        'bubbles': false,
+                                        'cancelable': true
+                                    });
+                                    var graphic = value;
+                                    //$(graphic)[0].trigger('click');
+                                    graphic._shape.rawNode.id = site_no_param;
+                                    $("#" + site_no_param).on('click', siteClick);
+                                    $("#" + site_no_param).trigger(event);
+                                    /*graphic.emit("click", {
+                                        bubbles: true,
+                                        cancelable: true
+                                    });*/
+                                    /*var e = new jQuery.Event("click");
+                                    e.screenX = screenPoint.x;
+                                    e.screenY = screenPoint.y;
+                                    $(window).trigger(e);
+                                    map.graphics.graphics[index].emit("click", {
+                                        bubbles: true,
+                                        cancelable: true
+                                    });*/
+                                }
+                            });
+                        }
 
                     },
                     error: function (error) {
@@ -449,11 +530,52 @@ require([
                     }
                 });
 
+                /*if (site_no_param != "") {
+
+                    var query = new esriQuery(); // Create a Query Object
+                    query.where = "SITE_NO = " + site_no_param; // Select the first point from the Feature Layer
+                    query.returnGeometry = true;
+
+                    var selectionSymbol = new SimpleFillSymbol().setColor(new Color([255,255,0,0.5]));;
+                    map.getLayer(layer).setSelectionSymbol(selectionSymbol);
+
+                    map.getLayer(layer).selectFeatures(query, FeatureLayer.SELECTION_NEW);*/
+
+                    /*var fim_sites = graphics;
+                    $.each(fim_sites, function(index, value) {
+                        if (value.attributes != undefined && value.attributes.SITE_NO == site_no_param) {
+                            var screenPoint = screenUtils.toScreenGeometry(map.extent, map.width, map.height, value.geometry);
+                            var event = new MouseEvent('click', {
+                                'view': window,
+                                'bubbles': true,
+                                'cancelable': true,
+                                'x': screenPoint.x,
+                                'y': screenPoint.y
+                            });
+                            var graphic = value;
+                            //$(graphic).trigger('click');
+                            var e = new jQuery.Event("click");
+                            e.screenX = screenPoint.x;
+                            e.screenY = screenPoint.y;
+                            $(window).trigger(e);
+                            map.graphics.graphics[index].emit("click", {
+                                bubbles: true,
+                                cancelable: true
+                            });
+                        }
+                    });
+                }*/
+
             });
 
-            map.graphics.on('click', function(evt) {
+            var siteClick = function(evt) {
 
-                var feature = evt.graphic;
+                var feature;
+                if (evt.graphic != undefined) {
+                    feature = evt.graphic;
+                } else {
+                    feature = evt.currentTarget.e_graphic;
+                }
                 var attr = feature.attributes;
                 siteAttr = attr;
                 //window.location.href = "http://fim.wim.usgs.gov/fim-js-dev/?site_no=" + siteAttr.SITE_NO;
@@ -478,7 +600,7 @@ require([
                     dataType: 'json',
                     type: 'GET',
                     url: map.getLayer("fimSites").url + "/queryRelatedRecords?objectIds=" + siteAttr.OBJECTID +
-                        "&relationshipId=0&outFields=*&definitionExpression=&returnGeometry=true&maxAllowableOffset=&geometryPrecision=&outSR=&returnZ=false&returnM=false&gdbVersion=&f=json",
+                    "&relationshipId=0&outFields=*&definitionExpression=&returnGeometry=true&maxAllowableOffset=&geometryPrecision=&outSR=&returnZ=false&returnM=false&gdbVersion=&f=json",
                     headers: {'Accept': '*/*'},
                     success: function (data) {
 
@@ -558,11 +680,11 @@ require([
 
                 //Web cam check and set up
                 /*if (feature.attributes.HAS_WEBCAM == "1") {
-                    $("#webCamTab").show();
-                    $("#webCamIFrame").attr("src", "https://services.wim.usgs.gov/webCam/webCamNew/Default.aspx?webCamInfo=" + feature.attributes.WEBCAM_INFO);
-                } else if (feature.attributes.HAS_WEBCAM == "0") {
-                    $("#webCamTab").hide();
-                }*/
+                 $("#webCamTab").show();
+                 $("#webCamIFrame").attr("src", "https://services.wim.usgs.gov/webCam/webCamNew/Default.aspx?webCamInfo=" + feature.attributes.WEBCAM_INFO);
+                 } else if (feature.attributes.HAS_WEBCAM == "0") {
+                 $("#webCamTab").hide();
+                 }*/
 
                 //More Info check and setup
                 $.ajax({
@@ -897,7 +1019,9 @@ require([
 
                 }
 
-            });
+            }
+
+            map.getLayer("fimSites").on('click', siteClick);
 
         } else if (layer == "fimGrid1" || layer == "fimGrid2" || layer == "fimGrid3") {
             //var layer = evt.layer.id;
