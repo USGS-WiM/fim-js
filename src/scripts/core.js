@@ -925,10 +925,13 @@ require([
                             },{
                                 data: finalNWSDataArray,
                                 name: "NWS Predicted",
+                                color: 'black',
                                 marker: {
                                     enabled: true,
                                     symbol: 'circle',
-                                    color: 'white'
+                                    fillColor: 'white',
+                                    lineColor: 'black',
+                                    lineWidth: 1
                                 }
                             }],
                             xAxis: {
