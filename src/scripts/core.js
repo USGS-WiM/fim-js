@@ -917,18 +917,20 @@ require([
                             },
                             series: [{
                                 data: finalNWISDataArray,
-                                name: "NWIS Observed"
+                                name: "NWIS Observed",
+                                color: "black",
+                                marker: {
+                                    enabled: false,
+                                }
                             },{
                                 data: finalNWSDataArray,
-                                name: "NWS Predicted"
-                            }],
-                            plotOptions: {
-                                series: {
-                                    marker: {
-                                        enabled: false
-                                    }
+                                name: "NWS Predicted",
+                                marker: {
+                                    enabled: true,
+                                    symbol: 'circle',
+                                    color: 'white'
                                 }
-                            },
+                            }],
                             xAxis: {
                                 type: "datetime"
                             },
