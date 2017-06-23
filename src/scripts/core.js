@@ -158,16 +158,15 @@ require([
     });
 
     var url_string = window.location;
-    var url = new URL(url_string);
     var site_no_param = "";
-    if (url.search != undefined) {
-        var params = url.search;
+    if (url_string.search != undefined) {
+        var params = url_string.search;
         if (params.search("site_no") != -1) {
             site_no_param = params.split("site_no=")[1];
         }
     }
 
-    map.on('extent-change', function(evt) {
+    /*map.on('extent-change', function(evt) {
         if (site_no_param != "") {
 
             var fim_sites = map.graphics.graphics;
@@ -188,7 +187,7 @@ require([
                 }
             });
         }
-    })
+    })*/
 
     //following block forces map size to override problems with default behavior
     $(window).resize(function () {
@@ -497,31 +496,20 @@ require([
                             var fim_sites = map.getLayer(layer).graphics;
                             $.each(fim_sites, function(index, value) {
                                 if (value.attributes != undefined && value.attributes.SITE_NO == site_no_param) {
-                                    var screenPoint = screenUtils.toScreenGeometry(map.extent, map.width, map.height, value.geometry);
+                                    /*var screenPoint = screenUtils.toScreenGeometry(map.extent, map.width, map.height, value.geometry);
                                     var event = new MouseEvent('click', {
                                         'view': window,
                                         'bubbles': false,
                                         'cancelable': true
-                                    });
+                                    });*/
                                     var graphic = value;
                                     //$(graphic)[0].trigger('click');
                                     graphic._shape.rawNode.id = site_no_param;
                                     $("#" + site_no_param).on('click', siteClick);
-                                    $("#" + site_no_param).trigger(event);
-                                    /*graphic.emit("click", {
-                                        bubbles: true,
-                                        cancelable: true
-                                    });*/
-                                    /*var e = new jQuery.Event("click");
-                                    e.screenX = screenPoint.x;
-                                    e.screenY = screenPoint.y;
-                                    $(window).trigger(e);
-                                    map.graphics.graphics[index].emit("click", {
-                                        bubbles: true,
-                                        cancelable: true
-                                    });*/
+                                    $("#" + site_no_param).trigger('click');
                                 }
                             });
+
                         }
 
                     },
@@ -931,7 +919,7 @@ require([
                                     symbol: 'circle',
                                     fillColor: 'white',
                                     lineColor: 'black',
-                                    lineWidth: 1
+                                    lineWidth: 1.25
                                 }
                             }],
                             xAxis: {
