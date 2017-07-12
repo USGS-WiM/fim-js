@@ -252,7 +252,22 @@ require([
         printMap();
     });
 
-    //displays map scale on map load
+    $('#shareLink').click(function(){
+        showShareModal();
+    });
+
+    function showShareModal() {
+        $('#shareModal').modal('show');
+        //create a URL query string with extent
+        var shareQueryString = "?site_no=" + siteAttr.SITE_NO;
+        var cleanURL = document.location.href;
+        //below line for local testing only. replace with above line for production
+        //var cleanURL = "https://fim.wim.usgs.gov/fim-js-dev/";
+        var shareURL = cleanURL + shareQueryString;
+        $("#siteURL").html('<span class="label label-default"><span class="glyphicon glyphicon-link"></span> site link</span><code>' + shareURL + '</code>');
+    }
+
+    ///displays map scale on map load
     on(map, "load", function() {
         var scale =  map.getScale().toFixed(0);
         $('#scale')[0].innerHTML = addCommas(scale);
@@ -975,7 +990,10 @@ require([
 
                         results = featureSet.features;
 
-                        $("#floodToolsPanelHeader").text(attr["STATE"] + ": " + attr["COMMUNITY"]);
+                        $("#floodToolsPanelHeader").html(attr["STATE"] + ": " + attr["COMMUNITY"] + " (<span id='shareLink'><span class='glyphicon glyphicon glyphicon-share'></span> SHARE</span>)");
+                        $("#shareLink").click(function() {
+                            showShareModal();
+                        });
 
                         $("#siteNumber").text(attr["SITE_NO"]);
                         $("#floodSlider").attr({"min": 0, "max": results.length-1});

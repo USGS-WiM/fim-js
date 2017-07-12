@@ -34,6 +34,10 @@ body {
     z-index: 100000000;
 }
 
+#shareModal {
+    z-index: 100000000;
+}
+
 
 
 .current {
