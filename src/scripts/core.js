@@ -261,6 +261,7 @@ require([
         //create a URL query string with extent
         var shareQueryString = "?site_no=" + siteAttr.SITE_NO;
         var cleanURL = document.location.href;
+        cleanURL = cleanURL.split("?")[0];
         //below line for local testing only. replace with above line for production
         //var cleanURL = "https://fim.wim.usgs.gov/fim-js-dev/";
         var shareURL = cleanURL + shareQueryString;
