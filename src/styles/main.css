@@ -40,7 +40,14 @@ body {
     z-index: 100000000;
 }
 
-
+.dijitTooltipContainer {
+    border: solid black 1px;
+    background: white;
+    color: black;
+    border-radius: 5px;
+    font-size: small;
+    padding: 2px;
+}
 
 .current {
     color: red;
