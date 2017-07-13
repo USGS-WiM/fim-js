@@ -24,6 +24,8 @@ body {
     /*padding-bottom: 0;*/
     text-transform: uppercase;
     letter-spacing: 2px;
+    text-align: center;
+    box-sizing: border-box;
     position: relative;
     top: 2px;
     transition: .2s;
@@ -390,8 +392,9 @@ a.lgi-zoom:hover {
 .navbar-brand {
     padding:7px 0 7px 4px;
     color: #fff !important;
-    font-size: 18px;
+    font-size: 14px;
     font-weight: 400;
+    letter-spacing: -1px !important;
     padding-left: 0 !important;
 }
 .navbar-brand b{
@@ -729,7 +732,7 @@ input[type=range]:focus::-webkit-slider-runnable-track {
   line-height: 30px;
   display: -webkit-flex;
   box-sizing: border-box;
-  padding: 4px 8px;
+  padding: 4px 1px;
   transition: 0.2s;
   margin-bottom: 15px;
   display: flex;
@@ -739,8 +742,9 @@ input[type=range]:focus::-webkit-slider-runnable-track {
   -webkit-justify-content: space-between;
   justify-content: space-between;
   position: absolute;
-  margin-left: -18px;
-  margin-top: -14px;
+  margin-left: -19px;
+  margin-top: -42px;
+  box-sizing: content-box;
 }
 #floodToolsOpen:hover{
   cursor: pointer !important;
@@ -767,13 +771,13 @@ input[type=range]:focus::-webkit-slider-runnable-track {
     opacity: 1;
 }
 #flood-tools-alert{
-    position: fixed; 
+    position: fixed;
     top: 100%;
     margin-top: -185px;
-    height: 175px; 
-    right: 5px; 
-    color: #000; 
-    background-color: #f9f9f9; 
+    height: 175px;
+    right: 5px;
+    color: #000;
+    background-color: #f9f9f9;
     border-color: rgba(0,0,0,0.75);
 }
 /*end styles to be removed when wim styles are created*/
@@ -942,7 +946,7 @@ input[type=range]:focus::-webkit-slider-runnable-track {
     top: 4px;
 }
 #floodMin:before{
-    content: '\f068';
+    content: '\f066';
     font-family: FontAwesome;
     font-size: 18px;
 }
@@ -972,4 +976,150 @@ input[type=range]:focus::-webkit-slider-runnable-track {
         -webkit-justify-content: space-between;
         justify-content: space-between;
     }
+}
+
+
+
+/*
+  Mitch
+  7/13
+*/
+#aboutNav{
+  transition: 0.2s;
+  color: white !important;
+  font-weight: 500 !important;
+}
+#aboutNav:hover{
+  opacity: 0.65;
+  transition: 0.2s;
+}
+#shareLink{
+  font-size: 12px;
+  margin: 0 10px;
+  transition: 0.2;
+  position: relative;
+  top: -1px;
+  letter-spacing: 0.5px;
+}
+#shareLink:hover{
+  cursor: pointer !important;
+  color: #4574CC !important;
+  transition: 0.2;
+}
+
+/*LATLNG*/
+#latLngScale{
+  bottom: 55px !important;
+}
+
+/*Rotation Lock*/
+#rotationLock{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: -webkit-flex;
+  display: none;
+  -webkit-flex-direction: column;
+  flex-direction: column;
+  -webkit-justify-content: center;
+  justify-content: center;
+  color: white;
+  box-sizing: border-box;
+  padding: 50px 5% 0 5%;
+  text-align: center;
+  background-color: black;
+  font-size: 16px;
+  font-weight: 300;
+  z-index: 1000000000000;
+}
+#rotationLock i{
+  margin-top: 20px;
+  font-size: 92px;
+}
+
+@media screen
+  and (max-device-width: 800px)
+  and (orientation: landscape) {
+    #rotationLock{
+      display: -webkit-flex !important;
+      display: flex !important;
+    }
+}
+
+
+/*User Guide*/
+#userGuideNav{
+  color: white !important;
+  background-color: transparent !important;
+  border: none !important;
+  font-weight: 500 !important;
+  transition: 0.2s !important;
+  font-size: 11px !important;
+}
+#userGuideNav:focus{
+  outline: none !important;
+}
+#userGuideNav:hover{
+  opacity: 0.65 !important;
+  transition: 0.2s !important;
+}
+#navbar button{
+  padding: 0 7px 2px 7px !important;
+}
+
+
+/*User Guide Modal*/
+.user-guide-header{
+    display: block;
+    text-align: center;
+    font-size: 16pt;
+    box-sizing: border-box;
+    padding: 10px 0 25px 0;
+}
+
+.user-guide-item{
+    display: block;
+    box-sizing: border-box;
+    padding: 35px 15px 35px 0;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+.user-guide-item:nth-child(even){
+    background-color: rgba(0,0,0,0.04);
+}
+
+.user-guide-item .user-guide-item-image{
+    display: inline-block;
+    width: 100%;
+    height: 100px;
+}
+.user-guide-item img{
+    display: block;
+    height: 100%;
+    margin: 0 auto;
+    width: auto;
+    max-height: 100%;
+    max-width: 100%;
+    border: 4px solid rgba(0,0,0,0.15);
+}
+.user-guide-item p{
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -webkit-flex-grow: 2;
+    flex-grow: 2;
+    padding-left: 15px !important;
+    padding-right: 20px !important;
+    box-sizing: border-box;
+    font-size: 12pt;
+}
+.user-guide-item p b{
+    color: rgba(0,0,0,0.6);
+    display: block;
+    font-weight: bolder;
+    padding-bottom: 10px;
 }

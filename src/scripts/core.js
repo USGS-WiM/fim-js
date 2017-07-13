@@ -991,7 +991,7 @@ require([
 
                         results = featureSet.features;
 
-                        $("#floodToolsPanelHeader").html(attr["STATE"] + ": " + attr["COMMUNITY"] + " (<span id='shareLink'><span class='glyphicon glyphicon glyphicon-share'></span> SHARE</span>)");
+                        $("#floodToolsPanelHeader").html(attr["STATE"] + ": " + attr["COMMUNITY"] + " <span id='shareLink'>(<span class='glyphicon glyphicon glyphicon-share'></span> Share)</span>");
                         $("#shareLink").click(function() {
                             showShareModal();
                         });
@@ -1584,6 +1584,12 @@ require([
         }
         $('#aboutNav').click(function(){
             showAboutModal();
+        });
+        function showUserGuideModal () {
+            $('#userGuideModal').modal('show');
+        }
+        $('#userGuideNav').click(function(){
+            showUserGuideModal();
         });
 
         $("#html").niceScroll();
