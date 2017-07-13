@@ -279,7 +279,7 @@ require([
 
     dialog = new TooltipDialog({
         id: "tooltipDialog",
-        style: "position: absolute; width: 250px; font: normal normal normal 10pt Helvetica;z-index:100"
+        style: "position: absolute; font: normal normal normal 10pt Helvetica;z-index:100"
     });
     dialog.startup();
 
@@ -310,8 +310,6 @@ require([
         }
         map.infoWindow.set('highlight', true);
         $('[class^="scalebar"]').attr('bottom', '40px');
-
-        map.getLayer("fimSites").graphics.on("mouse-out", closeDialog);
     });
 
     function closeDialog() {
@@ -460,13 +458,14 @@ require([
 
             var initialSiteLoad = map.getLayer(layer).on('update-end', function(evt) {
 
-                evt.graphics.on("mouse-over", function(evt){
-                    var t = "<b>${STATE}</b> : ${COMMUNITY}";
+                on(evt.target, "mouse-out", closeDialog);
+
+                on(evt.target, "mouse-over", function(evt){
+                    var t = "${STATE}: ${COMMUNITY}";
 
                     var content = esriLang.substitute(evt.graphic.attributes,t);
                     dialog.setContent(content);
 
-                    domStyle.set(dialog.domNode, "opacity", 0.85);
                     dijitPopup.open({
                         popup: dialog,
                         x: evt.pageX,
