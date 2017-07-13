@@ -7,6 +7,7 @@
  *///
 
 var map;
+var dialog;
 var allLayers;
 var maxLegendHeight;
 var maxLegendDivHeight;
@@ -48,6 +49,7 @@ require([
     'esri/geometry/screenUtils',
     'esri/geometry/webMercatorUtils',
     'esri/graphic',
+    'esri/lang',
     'esri/layers/ArcGISTiledMapServiceLayer',
     'esri/layers/FeatureLayer',
     'esri/renderers/UniqueValueRenderer',
@@ -61,10 +63,13 @@ require([
     'esri/tasks/PrintTemplate',
     'esri/tasks/query',
     'esri/tasks/QueryTask',
+    'dijit/popup',
+    'dijit/TooltipDialog',
     'dojo/dnd/Moveable',
     'dojo/query',
     'dojo/dom',
     'dojo/dom-class',
+    'dojo/dom-style',
     'dojo/on',
     'dojo/domReady!'
 ], function (
@@ -81,6 +86,7 @@ require([
     screenUtils,
     webMercatorUtils,
     Graphic,
+    esriLang,
     ArcGISTiledMapServiceLayer,
     FeatureLayer,
     UniqueValueRenderer,
@@ -94,10 +100,13 @@ require([
     PrintTemplate,
     esriQuery,
     QueryTask,
+    dijitPopup,
+    TooltipDialog,
     Moveable,
     query,
     dom,
     domClass,
+    domStyle,
     on
 ) {
 
@@ -268,6 +277,12 @@ require([
         $("#siteURL").html('<span class="label label-default"><span class="glyphicon glyphicon-link"></span> site link</span><code>' + shareURL + '</code>');
     }
 
+    dialog = new TooltipDialog({
+        id: "tooltipDialog",
+        style: "position: absolute; width: 250px; font: normal normal normal 10pt Helvetica;z-index:100"
+    });
+    dialog.startup();
+
     ///displays map scale on map load
     on(map, "load", function() {
         var scale =  map.getScale().toFixed(0);
@@ -295,7 +310,13 @@ require([
         }
         map.infoWindow.set('highlight', true);
         $('[class^="scalebar"]').attr('bottom', '40px');
+
+        map.getLayer("fimSites").graphics.on("mouse-out", closeDialog);
     });
+
+    function closeDialog() {
+        dijitPopup.close(dialog);
+    }
 
     //displays map scale on scale change (i.e. zoom level)
     on(map, "zoom-end", function () {
@@ -438,6 +459,21 @@ require([
         if (layer == "fimSites") {
 
             var initialSiteLoad = map.getLayer(layer).on('update-end', function(evt) {
+
+                evt.graphics.on("mouse-over", function(evt){
+                    var t = "<b>${STATE}</b> : ${COMMUNITY}";
+
+                    var content = esriLang.substitute(evt.graphic.attributes,t);
+                    dialog.setContent(content);
+
+                    domStyle.set(dialog.domNode, "opacity", 0.85);
+                    dijitPopup.open({
+                        popup: dialog,
+                        x: evt.pageX,
+                        y: evt.pageY
+                    });
+                });
+
                 var ahpsIds = [];
                 var graphics = evt.target.graphics;
                 $.each(graphics, function (index, feature) {
