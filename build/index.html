@@ -69,6 +69,9 @@
         <button id="aboutNav" class="btn btn-default navbar-btn pull-right" onclick="ga('send','event','navbar','click','About Modal');">
             <i class="fa fa-question-circle"></i><span class="hidden-xs">&nbsp;&nbsp;About</span>
         </button>
+        <button id="userGuideNav" class="btn btn-default navbar-btn pull-right" onclick="ga('send','event','navbar','click','User Guide');">
+            <i class="fa fa-book"></i><span class="hidden-xs">&nbsp;&nbsp;User Guide</span>
+        </button>
 
         <!-- legend buttton for navbar. to be removed if we like the in-map legend toggle -->
         <!--<button id="legendButtonNavBar" type="button" class="btn btn-primary navbar-btn pull-right" style="margin-right: 1em;"><span class="glyphicon glyphicon-list"></span> Legend</button>-->
@@ -163,13 +166,12 @@
 </div>
 
 <div class="wim-alert-fixed" id="flood-tools-alert">
-    
+
     <div id="innerAlert">
         <a id="floodToolsOpen">
-            Flood Tools 
+            &nbsp;&nbsp;Flood Tools
             <div class="flood-tools-open-controls">
                 <img src="images/maximize.png" class="flood-tools-maximize"/>
-                <i class="ion-close-round close-alert" style="float: right;"></i> <!-- Close Button - MUST INCLUDE -->
             </div>
         </a>
         <p>
@@ -206,7 +208,7 @@ $(".close-alert").click(function(){
     <div class="modal-dialog  modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <button class="close" type="button" data-dismiss="modal" aria-hidden="true" style="color:gray;">&times;</button>
+                <button class="close" type="button" data-dismiss="modal" aria-hidden="true" style="color: #313131;">&times;</button>
                 <h4 class="modal-title">Flood Inundation Mapper</h4>
             </div>
             <div id="aboutModalBody" class="modal-body">
@@ -264,11 +266,128 @@ $(".close-alert").click(function(){
                 <p style="color:black; margin-left:35px;text-align:left">
                     For more information about the FIM Web Interface please contact <a href="https://wim.usgs.gov/" target="_blank"><img src="images/wimvectorxs.png" id="wim_logo"></a>
                 </p>
-                <button class=" btn btn-default close" type="button" data-dismiss="modal" aria-hidden="true" style="color:gray;" class="btn btn-default">Close</button>
+                <button class=" btn btn-default close" type="button" data-dismiss="modal" aria-hidden="true" class="btn btn-default">Close</button>
             </div>
         </div><!-- /.modal-content -->
     </div> <!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
+
+
+
+<!-- User Guide Modal -->
+<div id="userGuideModal" class="modal fade"  tabindex="-1" role="dialog" >
+    <div class="modal-dialog  modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" type="button" data-dismiss="modal" aria-hidden="true" style="color:gray;">&times;</button>
+                <h4 class="modal-title">Map Interface User Guide</h4>
+            </div>
+            <div id="aboutModalBody" class="modal-body">
+                <ul class="nav nav-tabs" id="aboutModalTabs">
+                    <li role="presentation" class="active"><a id="searchTab" href="#searchTabPane" data-toggle="tab"><i class="fa fa-search"></i>&nbsp;Search, Zoom</a></li>
+                    <li role="presentation"><a id="iconTab" href="#iconTabPane" data-toggle="tab"><i class="fa fa-list"></i>&nbsp;Explanation</a></li>
+                    <li role="presentation"><a id="layersTab" href="#layersTabPane" data-toggle="tab"><i class="fa fa-map"></i>&nbsp;Map selection</a></li>
+                    <li role="presentation"><a id="floodToolsTab" href="#floodToolsPane" data-toggle="tab"><i class="fa fa-map"></i>&nbsp;Flood Tools</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="searchTabPane">
+                        <span class="user-guide-header">Search, zoom, and print capabilities</span>
+                        <div class="user-guide-item">
+                            <div class="user-guide-item-image"><img src="images/userguide/search.png"/></div>
+                            <p><b>Searching</b>The search option allows the user to search for a location such as a city, state, zip code, or general place name.</p>
+                        </div>
+                        <div class="user-guide-item">
+                            <div class="user-guide-item-image"><img src="images/userguide/zoom.png"/></div>
+                            <p><b>Navigating the map</b>The scroll wheel on the mouse can be used to zoom, and in the upper left area of the tool are "+" and "&#45;" icons to zoom in and out, respectively.</p>
+                        </div>
+                        <div class="user-guide-item">
+                            <div class="user-guide-item-image"><img src="images/userguide/home.png"/></div>
+                            <p><b>Home Location</b>The crosshair button will zoom the map to your location, and the home button will center the US on the map.</p>
+                        </div>
+                        <div class="user-guide-item">
+                            <div class="user-guide-item-image"><img src="images/userguide/points.png"/></div>
+                            <p><b>Opening a site</b>Clicking on an arrow or circle at a site will bring up a window with details about the site, graphs of the original data and model predictions (for some constituents), and a table of the other trend results at the same site.</p>
+                        </div>
+                        <div class="user-guide-item">
+                            <div class="user-guide-item-image"><img src="images/userguide/window.png"/></div>
+                            <p><b>Moving site window</b>Reposition the site info pop-up window with the mouse see the rest of the underlying map if necessary.</p>
+                        </div>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="iconTabPane">
+                        <span class="user-guide-header">Explanation</span>
+                        <div class="user-guide-item">
+                            <div class="user-guide-item-image"><img src="images/userguide/explanation-min.png"/></div>
+                            <p><b>Explanation display</b>The Explanation box can be collapsed to display more of the mapped area.</p>
+                        </div>
+                        <div class="user-guide-item">
+                            <div class="user-guide-item-image"><img src="images/userguide/explanation.png"/></div>
+                            <p><b>Using the Explanation</b>The expanded Explanation box explains the arrows and circles that appear for each site, displaying the results from the statistical analysis of trends.</p>
+                        </div>
+                        <p>
+                          A likelihood-based approach is used to report these trend results. When the trend is "likely up" or "likely down", the trend likelihood value associated with the trend is between 0.85 and 1.0 -- in other words, the chance of the trend occurring in the specified direction is at least an 85 out of 100. When the trend is "somewhat likely up" or "somewhat likely down", the trend likelihood value associated with the trend is between 0.7 and 0.85 -- in other words, the chance of the trend occurring in the specified direction is between 70 and 85 out of 100. When the trend is "about as likely as not", the trend likelihood value associated with the trend is less than 0.7 -- in other words, the chance of the trend being either upward or downward is less than 70 out of 100.
+                        </p>
+
+                        <p>
+                          This likelihood-based approach is used as an alternative to the null-hypothesis significance testing (NHST) approach that is often used when reporting water-quality trends. The likelihood-based approach gives people more intuitive information on the certainty of a trend estimate, and provides more evidence of a growing problem or initial clean-up successes. Consider an example where the chance of an upward trend in nitrate concentrations at a site is 80 out of 100 (a trend likelihood value of 0.80). Using the NHST approach and a traditional alpha value of either 0.05 or 0.1, the trend would be reported as nonsignificant. Using the likelihood-based approach, the trend would be reported instead as "somewhat likely up". The NHST approach could lead to a false sense of security because it indicates that there isn't strong proof of a growing problem. The likelihood-based approach indicates instead that it is somewhat likely conditions in the stream are not improving, giving people more information to use when making decisions about watershed management.
+                        </p>
+
+                        <p>
+                          For more information on the philosophy of the likelihood-based approach, please see Hirsch and others (2015), "A bootstrap method for estimating uncertainty of water quality trends", at <a href="http://dx.doi.org/10.1016/j.envsoft.2015.07.017" target="_blank">http://dx.doi.org/10.1016/j.envsoft.2015.07.017</a>. Trend likelihood values for nutrients, sediment, salinity, major ions, and carbon were determined using the bootstrap approach in that same report. Trend likelihood values for pesticides and aquatic ecology metrics were determined using the p-value reported from their respective trend tests, using the equation 1-(p-value/2). See Vecchia and others (2008), "Modeling Variability and Trends in Pesticide Concentrations in Streams", at <a href="http://onlinelibrary.wiley.com/doi/10.1111/j.1752-1688.2008.00225.x/pdf" target="_blank">http://onlinelibrary.wiley.com/doi/10.1111/j.1752-1688.2008.00225.x/pdf</a> for more information on calculating p-values in the pesticide models. See Oelsner, G.P., Sprague, L.A., Murphy, J.C., Zuellig, R.E., Johnson, H.M., Ryberg, K.R., Falcone, J.A., Stets, E.G., Vecchia, A.V., Riskin, M.L., De Cicco, L.A., Mills, T.J., and Farmer, W.H., 2017, Water- Quality Trends in the Nation's Rivers and Streams 1972-2012-Data Preparation, Statistical Methods, and Trend Results: U.S. Geological Survey Scientific Investigations Report 2017-5006, in press. for more information on calculating p-values in the ecology models.
+                        </p>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="layersTabPane">
+                        <span class="user-guide-header">Map selection options</span>
+                        <div class="user-guide-item">
+                            <div class="user-guide-item-image"><img src="images/userguide/basemaps.png"/></div>
+                            <p><b>Changing the basemap style</b>The "Basemaps" sidebar allows a user to show various geographic information or landscape imagery as a background layer beneath the trend results.</p>
+                        </div>
+                        <div class="user-guide-item">
+                            <div class="user-guide-item-image"><img src="images/userguide/layers.png"/></div>
+                            <p><b>Changing or adding map layers</b>The "Map Layers" sidebar allows a user to show land use for 1974, 1982, 1992, 2002, or 2012 as a background layer beneath the trend results.</p>
+                        </div>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="floodToolsPane">
+                        <span class="user-guide-header">Flood Tools</span>
+                        <div class="user-guide-item">
+                            <div class="user-guide-item-image"><img src="images/userguide/fttabs.png"/></div>
+                            <p><b>Switching Tabs</b>Fill this text in.</p>
+                        </div>
+                        <div class="user-guide-item">
+                            <div class="user-guide-item-image"><img src="images/userguide/slider.png"/></div>
+                            <p><b>Adjusting selected height using slider</b>Fill this text in.</p>
+                        </div>
+                        <div class="user-guide-item">
+                            <div class="user-guide-item-image"><img src="images/userguide/graph.png"/></div>
+                            <p><b>Interacting with the hydro-graph</b>Fill this text in.</p>
+                        </div>
+                        <div class="user-guide-item">
+                            <div class="user-guide-item-image"><img src="images/userguide/ftmin.png"/></div>
+                            <p><b>Minimizing flood tools</b>Fill this text in.</p>
+                        </div>
+                        <div class="user-guide-item">
+                            <div class="user-guide-item-image"><img src="images/userguide/ftmax.png"/></div>
+                            <p><b>Maximizing flood tools</b>Fill this text in.</p>
+                        </div>
+                        <div class="user-guide-item">
+                            <div class="user-guide-item-image"><img src="images/userguide/ftclose.png"/></div>
+                            <p><b>Closing flood tools</b>Fill this text in.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <form id="disclaimerButtons" id="disclaimer-form" class="form-inline" style="text-align:center;">
+                <button id="enterMapper" type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                <br/><br/>
+            </form>
+
+        </div><!-- /.modal-content -->
+    </div> <!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+
 
 <!-- Begin page content -->
 <div class="container-fluid keepit100">
@@ -457,7 +576,7 @@ $(".close-alert").click(function(){
                                             <img src="images/IWRSSlogo.jpg"/>
                                         </div>
                                     </div>
-                                    
+
                                     <h4>Project contacts for more information</h4>
                                     <p>Maps created by
                                         <div id="mapsCreatedBy">
@@ -470,28 +589,31 @@ $(".close-alert").click(function(){
                                         </div>
                                     </p>
 
+
+
                                     <div class="data-flex">
-                                        <div>
-                                            <h4>Data downloads and metadata</h4>
-                                            <p><a id="downloadData" target="_blank" href="">Download data</a></p>
-                                            <img id="reportCover" src=""/>
-                                        </div>
-                                        <div>
-                                            <h4>References</h4>
-                                            <p><a id="downloadReport" target="_blank" href="">Download report</a></p>
-                                            <p>
-                                                <div id="logos"></div>
-                                            </p>
-                                            <p>
-                                                <img src="images/noaaLogo.png"/>
-                                                <img src="images/usgsGreen.gif"/>
-                                                <br/><br/>
-                                                <a id="disclaimerLink" target="_blank" href="javascript:void(0)">Disclaimer</a>
-                                                <br/>
-                                                <a target="_blank" href="https://www.nws.noaa.gov/survey/nws-survey.php?code=inundate">NWS feedback form</a>
-                                            </p>
-                                        </div>
+                                      <div>
+                                          <h4>References</h4>
+                                          <p><a id="downloadReport" target="_blank" href="">Download report</a></p>
+                                          <h4>Data downloads and metadata</h4>
+                                          <p><a id="downloadData" target="_blank" href="">Download data</a></p>
+                                          <img id="reportCover" src="" style="display:block; max-width: 300px; width: auto; height: auto;"/>
+                                      </div>
+
+                                      <div style="display: flex; justify-content: flex-end; flex-direction: column;">
+                                          <div>
+                                            <div id="logos"></div>
+                                            <img src="images/noaaLogo.png"/>
+                                            <img src="images/usgsGreen.gif"/>
+                                            <br/><br/>
+                                            <a id="disclaimerLink" target="_blank" href="javascript:void(0)">Disclaimer</a>
+                                            <br/>
+                                            <a target="_blank" href="https://www.nws.noaa.gov/survey/nws-survey.php?code=inundate">NWS feedback form</a>
+                                          </div>
+                                      </div>
                                     </div>
+
+
 
                                 </div>
                                 <div role="tabpanel" class="tab-pane" id="moreInfoTabPane">
@@ -540,5 +662,12 @@ $(".close-alert").click(function(){
         <div class="col-xs-7 col-sm-3 col-md-3 sidebar sidebar-right sidebar-animate"></div>
     </div>
 </div>
+
+
+<div id="rotationLock">
+  <div>Portrait mode is required on smaller screens. Please rotate your device.</div>
+  <i class="fa fa-mobile" aria-hidden="true"></i>
+</div>
+
 </body>
 </html>
