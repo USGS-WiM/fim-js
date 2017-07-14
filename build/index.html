@@ -265,8 +265,12 @@ $(".close-alert").click(function(){
             <div class="modal-footer">
                 <p style="color:black; margin-left:35px;text-align:left">
                     For more information about the FIM Web Interface please contact <a href="https://wim.usgs.gov/" target="_blank"><img src="images/wimvectorxs.png" id="wim_logo"></a>
+
+                    <div style="text-align:center">
+                      <button class=" btn btn-default close" type="button" data-dismiss="modal" aria-hidden="true" class="btn btn-default" style="float:none;">Close</button>
+                    </div>
+
                 </p>
-                <button class=" btn btn-default close" type="button" data-dismiss="modal" aria-hidden="true" class="btn btn-default">Close</button>
             </div>
         </div><!-- /.modal-content -->
     </div> <!-- /.modal-dialog -->
@@ -506,7 +510,7 @@ $(".close-alert").click(function(){
 
                 <div id="floodToolsDiv" class="panel panel-default floodToolsClass">
                     <div class="panel-heading">
-                        <div class="panel-title">
+                        <div class="panel-title" id="floodToolsTitle">
                             <h4 id="floodToolsPanelHeader"></h4>
                         </div>
                     </div>
@@ -573,7 +577,7 @@ $(".close-alert").click(function(){
                                             </p>
                                         </div>
                                         <div>
-                                            <img src="images/IWRSSlogo.jpg"/>
+                                            <img src="images/IWRSSlogo.png"/>
                                         </div>
                                     </div>
 
@@ -604,7 +608,7 @@ $(".close-alert").click(function(){
                                           <div>
                                             <div id="logos"></div>
                                             <img src="images/noaaLogo.png"/>
-                                            <img src="images/usgsGreen.gif"/>
+                                            <img src="images/usgsLogoSm.jpg"/>
                                             <br/><br/>
                                             <a id="disclaimerLink" target="_blank" href="javascript:void(0)">Disclaimer</a>
                                             <br/>
@@ -667,6 +671,10 @@ $(".close-alert").click(function(){
 <div id="rotationLock">
   <div>Portrait mode is required on smaller screens. Please rotate your device.</div>
   <i class="fa fa-mobile" aria-hidden="true"></i>
+</div>
+
+<div id="usgs-loader">
+  Loading...
 </div>
 
 </body>

@@ -974,7 +974,8 @@ require([
                                 }
                             }],
                             xAxis: {
-                                type: "datetime"
+                                type: "datetime",
+                                tickInterval: 24*3600*1000
                             },
                             yAxis: {
                                 labels: {
