@@ -3,6 +3,9 @@ html, body {
     overflow:hidden;
 }
 
+
+
+
 body {
     margin: 0;
     padding: 0;
@@ -605,19 +608,24 @@ input[type=range]{
 
 input[type=range]::-webkit-slider-runnable-track {
     width: 300px;
-    height: 5px;
-    background: #ccc !important;
+    height: 3px;
+    background: rgba(0,0,0,0.5) !important;
     border: none;
     border-radius: 3px;
 }
+input[type=range],
+input[type=range]:focus {
+  outline: none !important;
+}
 
+input[type=range]::-moz-slider-thumb,
 input[type=range]::-webkit-slider-thumb {
     -webkit-appearance: none;
     border: none;
     height: 16px;
     width: 16px;
     border-radius: 50%;
-    background: goldenrod;
+    background: #4574CC;
     margin-top: -5px;
 }
 
@@ -626,7 +634,7 @@ input[type=range]:focus {
 }
 
 input[type=range]:focus::-webkit-slider-runnable-track {
-    background: #ccc;
+  background: rgba(0,0,0,0.5) !important;
 }
 
 
@@ -807,8 +815,12 @@ input[type=range]:focus::-webkit-slider-runnable-track {
     /*width: 200px;*/
     color: rgba(255, 255, 255, 0.8);
     height: 0;
+    background-color: transparent !important;
     margin-top: 90px;
     margin-bottom: 90px;
+}
+input[type=range]::-moz-range-track {
+  background: rgba(0,0,0,0.5) !important;
 }
 .slider-values{
     display: -webkit-flex;
@@ -1007,6 +1019,8 @@ input[type=range]:focus::-webkit-slider-runnable-track {
   position: relative;
   top: -1px;
   letter-spacing: 0.5px;
+  color: #4574CC;
+  text-decoration: underline;
 }
 #shareLink:hover{
   cursor: pointer !important;
@@ -1129,4 +1143,90 @@ input[type=range]:focus::-webkit-slider-runnable-track {
     display: block;
     font-weight: bolder;
     padding-bottom: 10px;
+}
+
+
+/*
+  7-14 GH issues
+  7-14 GH issues
+  7-14 GH issues
+*/
+
+/*Panel Title*/
+#floodToolsTitle{
+  display: inline-block;
+  max-width: 85% !important;
+  white-space: pre-wrap;
+  height: auto;
+  line-height: 4px;
+}
+#floodToolsTitle h4{
+  line-height: 20px;
+}
+
+
+a{
+  word-break: break-all !important;
+}
+
+
+
+
+#usgs-loader{
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+  flex-direction: column;
+  -webkit-justify-content: flex-end;
+  justify-content: flex-end;
+  text-align: center;
+  height: 200px;
+  width: 200px;
+  border-radius: 50%;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  margin-top: -100px;
+  margin-left: -100px;
+  background-color: rgba(0,0,30,0.8);
+  color: white;
+  font-weight: lighter;
+  box-sizing: border-box;
+  font-size: 18px;
+  padding: 15px 15px 35px 15px;
+  z-index: 50000000000;
+  background-image: url("../images/usgs-loading.svg");
+  background-position: center center;
+  background-size: 100px 100px;
+  background-repeat: no-repeat;
+  display: none !important;
+}
+
+/*.loading-blur{
+  -webkit-filter: blur(3px);
+  filter: blur(3px);
+
+}*/
+
+.loading-hide{
+  visibility: hidden !important;
+}
+
+.loading-background{
+  background-image: url("../images/usgs-loading.svg");
+  background-position: center center;
+  background-size: 100px 100px;
+  background-repeat: no-repeat;
+  background-color: rgba(0,0,20,0.92) !important;
+}
+.loading-background:before{
+  content: 'Loading...';
+  color: white;
+  box-sizing: border-box;
+  padding: 15px;
+  position: relative;
+  top: 15px;
+  width: 100%;
+  text-align: center;
+  width: 100%;
 }

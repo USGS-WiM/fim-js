@@ -294,8 +294,12 @@ $(".close-alert").click(function(){
             <div class="modal-footer">
                 <p style="color:black; margin-left:35px;text-align:left">
                     For more information about the FIM Web Interface please contact <a href="https://wim.usgs.gov/" target="_blank"><img src="images/wimvectorxs.png" id="wim_logo"></a>
+
+                    <div style="text-align:center">
+                      <button class=" btn btn-default close" type="button" data-dismiss="modal" aria-hidden="true" class="btn btn-default" style="float:none;">Close</button>
+                    </div>
+
                 </p>
-                <button class=" btn btn-default close" type="button" data-dismiss="modal" aria-hidden="true" class="btn btn-default">Close</button>
             </div>
         </div><!-- /.modal-content -->
     </div> <!-- /.modal-dialog -->
@@ -533,13 +537,13 @@ $(".close-alert").click(function(){
                     </div>
                 </div>
 
-                <div id="floodToolsDiv" class="panel panel-default floodToolsClass">
-                    <div class="panel-heading">
-                        <div class="panel-title">
+                <div id="floodToolsDiv" class="panel panel-default floodToolsClass loading-background">
+                    <div class="panel-heading loading-hide">
+                        <div class="panel-title" id="floodToolsTitle">
                             <h4 id="floodToolsPanelHeader"></h4>
                         </div>
                     </div>
-                    <div class="panel-body">
+                    <div class="panel-body loading-hide">
 
                         <div id="floodToolsPanel" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="floodToolsPanelHeader">
                             <ul class="nav nav-tabs" id="floodToolsTabs">
@@ -696,6 +700,10 @@ $(".close-alert").click(function(){
 <div id="rotationLock">
   <div>Portrait mode is required on smaller screens. Please rotate your device.</div>
   <i class="fa fa-mobile" aria-hidden="true"></i>
+</div>
+
+<div id="usgs-loader">
+  Loading...
 </div>
 
 </body>
