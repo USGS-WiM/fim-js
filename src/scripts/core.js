@@ -34,6 +34,8 @@ var gridLayerIndexArrColl = [];
 
 var siteClick;
 
+var loadedInitialLibrary = false;
+
 
 require([
     'esri/arcgis/utils',
@@ -884,7 +886,10 @@ require([
                     headers: {'Accept': '*/*'}
                 });
 
-                $("#floodToolsDiv").css("visibility", "visible");
+                $("#floodToolsDiv .panel-heading").addClass('loading-hide');
+                $("#floodToolsDiv .panel-body").addClass('loading-hide');
+                $("#floodToolsDiv").addClass('loading-background');
+
                 var instance = $('#floodToolsDiv').data('lobiPanel');
                 var docHeight = $(document).height();
                 var docWidth = $(document).width();
@@ -901,6 +906,17 @@ require([
                     $("#floodToolsDiv").width(floodToolsWidth);
                     highChartWidth = $("#floodToolsDiv").width() - 50;
                 }
+
+                var instanceX = docWidth*0.5-$("#floodToolsDiv").width()*0.5;
+                var instanceY = docHeight*0.5-$("#floodToolsDiv").height()*0.5;
+
+                if (loadedInitialLibrary == false) {
+                    instance.setPosition(instanceX, instanceY);
+                }
+
+                loadedInitialLibrary = true;
+
+                $("#floodToolsDiv").css("visibility", "visible");
 
                 $.when(nwisCall,nwsCall)
                     .done(function(nwisData,nwsData) {
@@ -1027,7 +1043,7 @@ require([
 
                         results = featureSet.features;
 
-                        $("#floodToolsPanelHeader").html(attr["STATE"] + ": " + attr["COMMUNITY"] + " <span id='shareLink'>(<span class='glyphicon glyphicon glyphicon-share'></span> Share)</span>");
+                        $("#floodToolsPanelHeader").html(attr["STATE"] + ": " + attr["COMMUNITY"] + "   <span id='shareLink' style='white-space: nowrap; margin-left: 0px; padding-left: 0px'><span class='glyphicon glyphicon glyphicon-share'></span> Share</span>");
                         $("#shareLink").click(function() {
                             showShareModal();
                         });
@@ -1058,10 +1074,14 @@ require([
                         var instanceX = docWidth*0.5-$("#floodToolsDiv").width()*0.5;
                         var instanceY = docHeight*0.5-$("#floodToolsDiv").height()*0.5;
 
-                        instance.setPosition(instanceX, instanceY);
+                        //instance.setPosition(instanceX, instanceY);
                         if (instance.isPinned() == true) {
                             instance.unpin();
                         }
+
+                        $("#floodToolsDiv .panel-heading").removeClass('loading-hide');
+                        $("#floodToolsDiv .panel-body").removeClass('loading-hide');
+                        $("#floodToolsDiv").removeClass('loading-background');
 
                     }
 
@@ -1620,6 +1640,7 @@ require([
         }
         $('#aboutNav').click(function(){
             showAboutModal();
+            $('#aboutTab').trigger('click');
         });
         function showUserGuideModal () {
             $('#userGuideModal').modal('show');
