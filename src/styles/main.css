@@ -1209,6 +1209,7 @@ a{
 }
 
 .loading-background{
+  background-image: url("../images/ajax-loader.gif");
   background-image: url("../images/usgs-loading.svg");
   background-position: center center;
   background-size: 100px 100px;
@@ -1219,9 +1220,11 @@ a{
   content: 'Loading...';
   color: white;
   box-sizing: border-box;
-  padding: 15px;
+  padding: 35px;
   position: relative;
-  top: 15px;
+  font-size: 18px;
+  top: 35px;
+  right: 0px;
   width: 100%;
   text-align: center;
   width: 100%;
