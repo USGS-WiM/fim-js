@@ -46,6 +46,7 @@ require([
     'esri/dijit/LocateButton',
     'esri/dijit/PopupTemplate',
     'esri/dijit/Scalebar',
+    'esri/geometry/Extent',
     'esri/geometry/Multipoint',
     'esri/geometry/Point',
     'esri/geometry/screenUtils',
@@ -83,6 +84,7 @@ require([
     LocateButton,
     PopupTemplate,
     Scalebar,
+    Extent,
     Multipoint,
     Point,
     screenUtils,
@@ -144,10 +146,11 @@ require([
     map = Map('mapDiv', {
         basemap: 'gray',
         //center: [-95.6, 38.6],
-        center: defaultMapCenter,
+        //center: defaultMapCenter,
+        extent: new Extent({xmin:-14604975.868501369,ymin:2014268.5693704432,xmax:-6787608.111721899,ymax:7106809.141840672,spatialReference:{wkid:102100}}),
+        fitExtent: true,
         logo: false,
-        lods: lods,
-        zoom: 5
+        lods: lods
     });
 
     //button for returning to initial extent
@@ -177,7 +180,7 @@ require([
         }
     }
 
-    /*map.on('extent-change', function(evt) {
+    map.on('extent-change', function(evt) {
         if (site_no_param != "") {
 
             var fim_sites = map.graphics.graphics;
@@ -198,7 +201,7 @@ require([
                 }
             });
         }
-    })*/
+    })
 
     //following block forces map size to override problems with default behavior
     $(window).resize(function () {
