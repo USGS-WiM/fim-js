@@ -472,7 +472,7 @@ require([
 
             var initialSiteLoad = map.getLayer(layer).on('update-end', function(evt) {
 
-                on(evt.target, "mouse-out", closeDialog);
+                /*on(evt.target, "mouse-out", closeDialog);
 
                 on(evt.target, "mouse-over", function(evt){
                     var t = "${STATE}: ${COMMUNITY}";
@@ -485,7 +485,7 @@ require([
                         x: evt.pageX,
                         y: evt.pageY
                     });
-                });
+                });*/
 
                 var ahpsIds = [];
                 var graphics = evt.target.graphics;
@@ -525,8 +525,8 @@ require([
                             }
                         }
 
-                        var symWidth = 13.44;
-                        var symHeight = 11;
+                        var symWidth = 15.88;
+                        var symHeight = 13;
 
                         var defaultSym = new PictureMarkerSymbol('./images/default.png', symWidth, symHeight);
                         var actionSym = new PictureMarkerSymbol('./images/action.png', symWidth, symHeight);
@@ -926,6 +926,10 @@ require([
                     instance.setPosition(instanceX, instanceY);
                 }
 
+                if (instance.isPinned() == true) {
+                    instance.unpin();
+                }
+
                 loadedInitialLibrary = true;
 
                 $("#floodToolsDiv").css("visibility", "visible");
@@ -1085,11 +1089,6 @@ require([
 
                         var instanceX = docWidth*0.5-$("#floodToolsDiv").width()*0.5;
                         var instanceY = docHeight*0.5-$("#floodToolsDiv").height()*0.5;
-
-                        //instance.setPosition(instanceX, instanceY);
-                        if (instance.isPinned() == true) {
-                            instance.unpin();
-                        }
 
                         $("#floodToolsDiv .panel-heading").removeClass('loading-hide');
                         $("#floodToolsDiv .panel-body").removeClass('loading-hide');
