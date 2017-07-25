@@ -147,7 +147,7 @@ require([
         basemap: 'gray',
         //center: [-95.6, 38.6],
         //center: defaultMapCenter,
-        extent: new Extent({xmin:-14604975.868501369,ymin:2014268.5693704432,xmax:-6787608.111721899,ymax:7106809.141840672,spatialReference:{wkid:102100}}),
+        extent: new Extent({xmin:-13949451.913927872,ymin:2816551.6182514396,xmax:-7335508.730469899,ymax:6385243.594828801,spatialReference:{wkid:102100}}),
         fitExtent: true,
         logo: false,
         lods: lods
