@@ -277,7 +277,19 @@ require([
         //var cleanURL = "https://fim.wim.usgs.gov/fim-js-dev/";
         var shareURL = cleanURL + shareQueryString;
         $("#siteURL").html('<span class="label label-default"><span class="glyphicon glyphicon-link"></span> site link</span><code>' + shareURL + '</code>');
+
+        // Hidden Input for copy button
+        var $temp = $("<input id='shareURLInput'>");
+        $("body").append($temp);
+        $temp.val(shareURL);
     }
+
+    $("#copyShareURL").click(function(){
+      // Copy hidden input text
+      $('#shareURLInput').select();
+      document.execCommand("copy");
+      $('#shareURLInput').remove();
+    });
 
     dialog = new TooltipDialog({
         id: "tooltipDialog",
