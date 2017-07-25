@@ -1109,7 +1109,7 @@ input[type=range]::-moz-range-track {
 .user-guide-item .user-guide-item-image{
     display: inline-block;
     width: 100%;
-    height: 100px;
+    height: 150px;
 }
 .user-guide-item img{
     display: block;

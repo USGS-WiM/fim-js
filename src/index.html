@@ -189,6 +189,9 @@
             <div id="shareModalBody" class="modal-body">
                 <p>Use this url to share a direct link to this site </p>
                 <span id="siteURL"></span>
+                <br/><br/>
+                <button class="btn btn-default" type="button" id="copyShareURL">Copy Link</button>
+
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
@@ -318,13 +321,13 @@ $(".close-alert").click(function(){
             </div>
             <div id="aboutModalBody" class="modal-body">
                 <ul class="nav nav-tabs" id="aboutModalTabs">
-                    <li role="presentation" class="active"><a id="searchTab" href="#searchTabPane" data-toggle="tab"><i class="fa fa-search"></i>&nbsp;Search, Zoom</a></li>
-                    <li role="presentation"><a id="iconTab" href="#iconTabPane" data-toggle="tab"><i class="fa fa-list"></i>&nbsp;Explanation</a></li>
-                    <li role="presentation"><a id="layersTab" href="#layersTabPane" data-toggle="tab"><i class="fa fa-map"></i>&nbsp;Map selection</a></li>
-                    <li role="presentation"><a id="floodToolsTab" href="#floodToolsPane" data-toggle="tab"><i class="fa fa-map"></i>&nbsp;Flood Tools</a></li>
+                    <!-- <li role="presentation" class="active"><a id="searchTab" href="#searchTabPane" data-toggle="tab"><i class="fa fa-search"></i>&nbsp;Search, Zoom</a></li> -->
+                    <!-- <li role="presentation"><a id="iconTab" href="#iconTabPane" data-toggle="tab"><i class="fa fa-list"></i>&nbsp;Explanation</a></li> -->
+                    <li role="presentation" class="active"><a id="layersTab" href="#layersTabPane" data-toggle="tab"><i class="fa fa-map"></i>&nbsp;Navigation & Map Selection</a></li>
+                    <li role="presentation"><a id="floodToolsTab" href="#floodToolsPane" data-toggle="tab"><i class="fa fa-list"></i>&nbsp;Site Selection & Flood Tools</a></li>
                 </ul>
                 <div class="tab-content">
-                    <div role="tabpanel" class="tab-pane active" id="searchTabPane">
+                    <div role="tabpanel" class="tab-pane" id="searchTabPane">
                         <span class="user-guide-header">Search, zoom, and print capabilities</span>
                         <div class="user-guide-item">
                             <div class="user-guide-item-image"><img src="images/userguide/search.png"/></div>
@@ -357,54 +360,59 @@ $(".close-alert").click(function(){
                             <div class="user-guide-item-image"><img src="images/userguide/explanation.png"/></div>
                             <p><b>Using the Explanation</b>The expanded Explanation box explains the arrows and circles that appear for each site, displaying the results from the statistical analysis of trends.</p>
                         </div>
-                        <p>
-                          A likelihood-based approach is used to report these trend results. When the trend is "likely up" or "likely down", the trend likelihood value associated with the trend is between 0.85 and 1.0 -- in other words, the chance of the trend occurring in the specified direction is at least an 85 out of 100. When the trend is "somewhat likely up" or "somewhat likely down", the trend likelihood value associated with the trend is between 0.7 and 0.85 -- in other words, the chance of the trend occurring in the specified direction is between 70 and 85 out of 100. When the trend is "about as likely as not", the trend likelihood value associated with the trend is less than 0.7 -- in other words, the chance of the trend being either upward or downward is less than 70 out of 100.
-                        </p>
-
-                        <p>
-                          This likelihood-based approach is used as an alternative to the null-hypothesis significance testing (NHST) approach that is often used when reporting water-quality trends. The likelihood-based approach gives people more intuitive information on the certainty of a trend estimate, and provides more evidence of a growing problem or initial clean-up successes. Consider an example where the chance of an upward trend in nitrate concentrations at a site is 80 out of 100 (a trend likelihood value of 0.80). Using the NHST approach and a traditional alpha value of either 0.05 or 0.1, the trend would be reported as nonsignificant. Using the likelihood-based approach, the trend would be reported instead as "somewhat likely up". The NHST approach could lead to a false sense of security because it indicates that there isn't strong proof of a growing problem. The likelihood-based approach indicates instead that it is somewhat likely conditions in the stream are not improving, giving people more information to use when making decisions about watershed management.
-                        </p>
-
-                        <p>
-                          For more information on the philosophy of the likelihood-based approach, please see Hirsch and others (2015), "A bootstrap method for estimating uncertainty of water quality trends", at <a href="http://dx.doi.org/10.1016/j.envsoft.2015.07.017" target="_blank">http://dx.doi.org/10.1016/j.envsoft.2015.07.017</a>. Trend likelihood values for nutrients, sediment, salinity, major ions, and carbon were determined using the bootstrap approach in that same report. Trend likelihood values for pesticides and aquatic ecology metrics were determined using the p-value reported from their respective trend tests, using the equation 1-(p-value/2). See Vecchia and others (2008), "Modeling Variability and Trends in Pesticide Concentrations in Streams", at <a href="http://onlinelibrary.wiley.com/doi/10.1111/j.1752-1688.2008.00225.x/pdf" target="_blank">http://onlinelibrary.wiley.com/doi/10.1111/j.1752-1688.2008.00225.x/pdf</a> for more information on calculating p-values in the pesticide models. See Oelsner, G.P., Sprague, L.A., Murphy, J.C., Zuellig, R.E., Johnson, H.M., Ryberg, K.R., Falcone, J.A., Stets, E.G., Vecchia, A.V., Riskin, M.L., De Cicco, L.A., Mills, T.J., and Farmer, W.H., 2017, Water- Quality Trends in the Nation's Rivers and Streams 1972-2012-Data Preparation, Statistical Methods, and Trend Results: U.S. Geological Survey Scientific Investigations Report 2017-5006, in press. for more information on calculating p-values in the ecology models.
-                        </p>
                     </div>
-                    <div role="tabpanel" class="tab-pane" id="layersTabPane">
-                        <span class="user-guide-header">Map selection options</span>
+                    <div role="tabpanel" class="tab-pane active" id="layersTabPane">
+                        <span class="user-guide-header">Navigation & Map Selection</span>
+                        <div class="user-guide-item">
+                            <div class="user-guide-item-image"><img src="images/userguide/search.png"/></div>
+                            <p><b>Find Location/Search</b>This button allows the user to search for a location such as a city, state, zip code, or general place name.</p>
+                        </div>
+                        <div class="user-guide-item">
+                            <div class="user-guide-item-image"><img src="images/userguide/zoom.png"/></div>
+                            <p><b>Zooming</b>The scroll wheel on the mouse can be used to control zooming. In the upper left area of the map interface are "+" and "-" icons; these can also be used to zoom in and out, respectively.</p>
+                        </div>
+                        <div class="user-guide-item">
+                            <div class="user-guide-item-image"><img src="images/userguide/home.png"/></div>
+                            <p><b>Home Button</b>The "Default extent" (Home icon) button will center the US on the map interface. The "Find my location" (Crosshair icon) button will zoom the map interface to your current location.</p>
+                        </div>
+                        <div class="user-guide-item">
+                            <div class="user-guide-item-image"><img src="images/userguide/mobile-menu.png"/></div>
+                            <p><b>Mobile Sidebar</b>On mobile devices, additional basemap and map layer selection option can be accessed by clicking on the 3-line icon which is shown in the most upper left corner of the map interface.</p>
+                        </div>
                         <div class="user-guide-item">
                             <div class="user-guide-item-image"><img src="images/userguide/basemaps.png"/></div>
-                            <p><b>Changing the basemap style</b>The "Basemaps" sidebar allows a user to show various geographic information or landscape imagery as a background layer beneath the trend results.</p>
+                            <p><b>Basemaps</b>The "Basemaps" sidebar allows a user to choose and show various geographic information or landscape imagery as a background layer beneath the flood map layers.</p>
                         </div>
                         <div class="user-guide-item">
                             <div class="user-guide-item-image"><img src="images/userguide/layers.png"/></div>
-                            <p><b>Changing or adding map layers</b>The "Map Layers" sidebar allows a user to show land use for 1974, 1982, 1992, 2002, or 2012 as a background layer beneath the trend results.</p>
+                            <p><b>Map Layers</b>The "Map Layers" sidebar allows a user to choose and show additional map layers that are available from National Weather Service.</p>
                         </div>
                     </div>
                     <div role="tabpanel" class="tab-pane" id="floodToolsPane">
-                        <span class="user-guide-header">Flood Tools</span>
+                        <span class="user-guide-header">Site Selection & Flood Tools</span>
                         <div class="user-guide-item">
-                            <div class="user-guide-item-image"><img src="images/userguide/fttabs.png"/></div>
-                            <p><b>Switching Tabs</b>Fill this text in.</p>
+                            <div class="user-guide-item-image"><img src="images/userguide/points.png"/></div>
+                            <p><b>Selecting a Site</b>A user can select a site by clicking on any of the triangle symbols on the map interface. When a site is selected, a separate window will pop-up; this window will have several tabs with additional information about the site.</p>
                         </div>
                         <div class="user-guide-item">
-                            <div class="user-guide-item-image"><img src="images/userguide/slider.png"/></div>
-                            <p><b>Adjusting selected height using slider</b>Fill this text in.</p>
+                            <div class="user-guide-item-image"><img src="images/userguide/window.png"/></div>
+                            <p><b>Adjusting Popup Position</b>The pop-up window can be repositioned with mouse cursor and/or can be minimized to see the rest of the flood map layers if necessary.</p>
                         </div>
                         <div class="user-guide-item">
-                            <div class="user-guide-item-image"><img src="images/userguide/graph.png"/></div>
-                            <p><b>Interacting with the hydro-graph</b>Fill this text in.</p>
+                            <div class="user-guide-item-image"><img src="images/userguide/floodtools.png"/></div>
+                            <p><b>Flood Tools</b>In most cases, the first tab that a user will see, is called "Flood Tools". Moving the slider to a different stream gage height/stage shows how the surrounding community would be affected at different water levels.</p>
                         </div>
                         <div class="user-guide-item">
-                            <div class="user-guide-item-image"><img src="images/userguide/ftmin.png"/></div>
-                            <p><b>Minimizing flood tools</b>Fill this text in.</p>
+                            <div class="user-guide-item-image"><img src="images/userguide/depth.png"/></div>
+                            <p><b>Water Depth</b>Click in the inundated area to display estimated water depths.</p>
                         </div>
                         <div class="user-guide-item">
-                            <div class="user-guide-item-image"><img src="images/userguide/ftmax.png"/></div>
-                            <p><b>Maximizing flood tools</b>Fill this text in.</p>
+                            <div class="user-guide-item-image"><img src="images/userguide/window.png"/></div>
+                            <p><b>Hydrograph</b>Change to the "Hydrograph" tab to view the observed and predicted (if available) gage height/stage data.</p>
                         </div>
                         <div class="user-guide-item">
-                            <div class="user-guide-item-image"><img src="images/userguide/ftclose.png"/></div>
-                            <p><b>Closing flood tools</b>Fill this text in.</p>
+                            <div class="user-guide-item-image"><img src="images/userguide/services.png"/></div>
+                            <p><b>Services & Data</b>The "Service and Data" tab includes access to study documentation and GIS data layers. Users can also sign up to receive text or email from the USGS when waters are rising in rivers and streams through WaterAlert. Users can use the flood inundation maps to determine what WaterAlert threshold to sign up for based on how flood levels will impact their area.</p>
                         </div>
                     </div>
                 </div>
