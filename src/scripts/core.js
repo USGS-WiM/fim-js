@@ -46,6 +46,7 @@ require([
     'esri/dijit/LocateButton',
     'esri/dijit/PopupTemplate',
     'esri/dijit/Scalebar',
+    'esri/geometry/Extent',
     'esri/geometry/Multipoint',
     'esri/geometry/Point',
     'esri/geometry/screenUtils',
@@ -83,6 +84,7 @@ require([
     LocateButton,
     PopupTemplate,
     Scalebar,
+    Extent,
     Multipoint,
     Point,
     screenUtils,
@@ -144,10 +146,11 @@ require([
     map = Map('mapDiv', {
         basemap: 'gray',
         //center: [-95.6, 38.6],
-        center: defaultMapCenter,
+        //center: defaultMapCenter,
+        extent: new Extent({xmin:-13949451.913927872,ymin:2816551.6182514396,xmax:-7335508.730469899,ymax:6385243.594828801,spatialReference:{wkid:102100}}),
+        fitExtent: true,
         logo: false,
-        lods: lods,
-        zoom: 5
+        lods: lods
     });
 
     //button for returning to initial extent
@@ -177,7 +180,7 @@ require([
         }
     }
 
-    /*map.on('extent-change', function(evt) {
+    map.on('extent-change', function(evt) {
         if (site_no_param != "") {
 
             var fim_sites = map.graphics.graphics;
@@ -198,7 +201,7 @@ require([
                 }
             });
         }
-    })*/
+    })
 
     //following block forces map size to override problems with default behavior
     $(window).resize(function () {
@@ -472,7 +475,7 @@ require([
 
             var initialSiteLoad = map.getLayer(layer).on('update-end', function(evt) {
 
-                on(evt.target, "mouse-out", closeDialog);
+                /*on(evt.target, "mouse-out", closeDialog);
 
                 on(evt.target, "mouse-over", function(evt){
                     var t = "${STATE}: ${COMMUNITY}";
@@ -485,7 +488,7 @@ require([
                         x: evt.pageX,
                         y: evt.pageY
                     });
-                });
+                });*/
 
                 var ahpsIds = [];
                 var graphics = evt.target.graphics;
@@ -525,8 +528,8 @@ require([
                             }
                         }
 
-                        var symWidth = 13.44;
-                        var symHeight = 11;
+                        var symWidth = 15.88;
+                        var symHeight = 13;
 
                         var defaultSym = new PictureMarkerSymbol('./images/default.png', symWidth, symHeight);
                         var actionSym = new PictureMarkerSymbol('./images/action.png', symWidth, symHeight);
@@ -926,6 +929,10 @@ require([
                     instance.setPosition(instanceX, instanceY);
                 }
 
+                if (instance.isPinned() == true) {
+                    instance.unpin();
+                }
+
                 loadedInitialLibrary = true;
 
                 $("#floodToolsDiv").css("visibility", "visible");
@@ -1085,11 +1092,6 @@ require([
 
                         var instanceX = docWidth*0.5-$("#floodToolsDiv").width()*0.5;
                         var instanceY = docHeight*0.5-$("#floodToolsDiv").height()*0.5;
-
-                        //instance.setPosition(instanceX, instanceY);
-                        if (instance.isPinned() == true) {
-                            instance.unpin();
-                        }
 
                         $("#floodToolsDiv .panel-heading").removeClass('loading-hide');
                         $("#floodToolsDiv .panel-body").removeClass('loading-hide');
