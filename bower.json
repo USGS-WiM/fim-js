@@ -9,7 +9,8 @@
     "jquery.nicescroll": "inuyaksa/jquery.nicescroll#~3.6.0",
     "bootstrap": "latest",
     "wim-styles": "USGS-WiM/wim-styles",
-    "bootstrap-sidebar" : "^0.2.0",
-    "bootstrap-map-js" : "latest"
+    "bootstrap-sidebar": "^0.2.0",
+    "bootstrap-map-js": "latest",
+    "highcharts": "~5.0.7"
   }
 }
