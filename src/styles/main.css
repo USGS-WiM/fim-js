@@ -1229,3 +1229,12 @@ a{
   text-align: center;
   width: 100%;
 }
+
+
+
+@media (max-width: 550px) {
+  .modal-body .nav-tabs li{
+    display: block;
+    width: 100%;
+  }
+}
