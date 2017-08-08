@@ -433,8 +433,8 @@ require([
         maxHeight: 500
     });
 
-    $("#floodToolsDiv .dropdown").prepend("<div id='floodClose' title='close'><b>X</b></div>");
-    $("#floodToolsDiv .dropdown").prepend("<div id='floodMin' title='collapse'><b>_</b></div>");
+    $("#floodToolsDiv .dropdown").prepend("<div id='floodClose' title='close'></div>");
+    $("#floodToolsDiv .dropdown").prepend("<div id='floodMin' title='collapse'></div>");
 
     $("#floodMin").click(function(){
         $("#floodToolsDiv").css("visibility", "hidden");
@@ -463,7 +463,7 @@ require([
     $("#disclaimerLink").click(function() {
         $("#aboutModal").modal('show');
         $("#disclaimerTab").trigger('click');
-    })
+    });
 
     //map.getLayer("fimGrid2").on("load", gridsLayerComp);
 
