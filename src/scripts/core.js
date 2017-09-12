@@ -393,7 +393,7 @@ require([
     });
 
     on(dom.byId('btnNatlMap'), 'click', function () {
-        map.addLayer(nationalMapBasemap);
+        map.addLayer(nationalMapBasemap, 2);
     });
 
     map.on('basemap-change', function(evt) {
