@@ -1,0 +1,30 @@
+{
+  "name": "fim-js",
+  "organization": "U.S. Geological Survey",
+  "description": "Flood Inundation Mapper",
+  "status": "Production",
+  "homepage": "https://fim.wim.usgs.gov/fim",
+  "downloadURL": "https://github.com/usgs-wim/fim-js/archive/master.zip",
+  "openSourceProject": 1,
+  "license": "https://github.com/usgs-wim/fim-js/blob/master/LICENSE.md",
+  "vcs": "git",
+  "repository": "https://github.com/usgs-wim/fim-js.git",
+
+  "tags": [
+    "fim",
+    "wim",
+    "usgs"
+  ],
+  "languages": [
+    "javascript",
+    "html"
+  ],
+
+  "contact": {
+    "name": "Nicholas Estes",
+    "email": "njestes@usgs.gov"
+  },
+  "updated": {
+    "metadataLastUpdated": "10/26/2017"
+  }
+}

@@ -144,10 +144,10 @@ require([
     ];
 
     map = Map('mapDiv', {
-        basemap: 'gray',
+        basemap: 'topo',
         //center: [-95.6, 38.6],
         //center: defaultMapCenter,
-        extent: new Extent({xmin:-13949451.913927872,ymin:2816551.6182514396,xmax:-7335508.730469899,ymax:6385243.594828801,spatialReference:{wkid:102100}}),
+        extent: new Extent({xmin:-14556056.17039887,ymin:1947003.984479506,xmax:-6728904.473998902,ymax:7254791.228600735,spatialReference:{wkid:102100}}),
         fitExtent: true,
         logo: false,
         lods: lods
