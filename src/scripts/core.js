@@ -1780,9 +1780,11 @@ require([
                     if (layerDetails.wimOptions && layerDetails.wimOptions.includeLegend == true) {
                         if (layerDetails.wimOptions.legendTitle) {
                             legendLayerName = layerDetails.wimOptions.legendTitle;
+                        } else {
+                            legendLayerName = layerName;
                         }
-                        if (layerDetails.wimOptions.legendPlacement && layerDetails.wimOptions.legendPlacement == 'last') {
-                            legendLayers.splice(0, 0, {layer: layer, title: legendLayerName});
+                        if (layerDetails.wimOptions.legendPlacement) {
+                            legendLayers.splice(layerDetails.wimOptions.legendPlacement, 0, {layer: layer, title: legendLayerName});
                         } else {
                             legendLayers.push({layer: layer, title: legendLayerName});
                         }
@@ -1818,8 +1820,19 @@ require([
                     if (layerDetails.visibleLayers) {
                         layer.setVisibleLayers(layerDetails.visibleLayers);
                     }
-                    if (layerDetails.wimOptions && layerDetails.wimOptions.includeLegend == true){
-                        legendLayers.push({layer:layer, title: layerName});
+                    var legendLayerName;
+                    //check if include in legend is true
+                    if (layerDetails.wimOptions && layerDetails.wimOptions.includeLegend == true) {
+                        if (layerDetails.wimOptions.legendTitle) {
+                            legendLayerName = layerDetails.wimOptions.legendTitle;
+                        } else {
+                            legendLayerName = layerName;
+                        }
+                        if (layerDetails.wimOptions.legendPlacement != null && layerDetails.wimOptions.legendPlacement >= 0) {
+                            legendLayers.splice(layerDetails.wimOptions.legendPlacement, 0, {layer: layer, title: legendLayerName});
+                        } else {
+                            legendLayers.push({layer: layer, title: legendLayerName});
+                        }
                     }
                     //map.addLayer(layer);
                     addLayer(group.groupHeading, group.showGroupHeading, layer, layerName, exclusiveGroupName, layerDetails.options, layerDetails.wimOptions);

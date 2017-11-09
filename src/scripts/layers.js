@@ -124,8 +124,9 @@ require([
                         "layerType": "agisDynamic",
                         "includeInLayerList": true,
                         "hasOpacitySlider": true,
-                        "includeLegend" : false,
+                        "includeLegend" : true,
                         "legendLabel": false,
+                        "legendPlacement": 0,
                         "layerDefinitions": {1: "prod_type LIKE '%Flood%'"}
                     }
                 },
@@ -242,7 +243,7 @@ require([
                         'layerIndex': 0,
                         'includeLegend': true,
                         'legendTitle': 'AHPS Forecast Sites',
-                        'legendPlacement': 'last'
+                        'legendPlacement': 1
                     }
                 },
                 'Moderate flooding': {
