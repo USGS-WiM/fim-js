@@ -865,6 +865,14 @@ require([
 
                                     }
 
+                                    if ($("#floodMaxDischarge").text().length == 0 || $("#floodMaxDischarge").text() == "-99999") {
+                                        $("#floodMaxDischarge").text("n/a");
+                                    }
+                                    if ($("#floodMaxGage").text().length == 0 || $("#floodMaxGage").text() == "-99999") {
+                                        $("#floodMaxGage").text("n/a");
+                                    }
+
+
                                 });
 
                                 var siteName = siteData.value.timeSeries[0].sourceInfo.siteName;
@@ -901,6 +909,7 @@ require([
                     headers: {'Accept': '*/*'}
                 });
 
+                $("#flood-tools-alert").slideUp(250);
                 $("#floodToolsDiv .panel-heading").addClass('loading-hide');
                 $("#floodToolsDiv .panel-body").addClass('loading-hide');
                 $("#floodToolsDiv").addClass('loading-background');
@@ -1764,8 +1773,6 @@ require([
 
             //sub-loop over layers within this groupType
             $.each(group.layers, function (layerName,layerDetails) {
-
-
 
                 //check for exclusiveGroup for this layer
                 var exclusiveGroupName = '';
