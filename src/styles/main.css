@@ -1238,3 +1238,7 @@ a{
     width: 100%;
   }
 }
+
+#major,#moderate,#minor,#near,#noflood {
+    padding-left: 20px !important;
+}
