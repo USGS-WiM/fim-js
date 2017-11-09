@@ -1775,16 +1775,16 @@ require([
 
                 if (layerDetails.wimOptions.layerType === 'agisFeature') {
                     var layer = new FeatureLayer(layerDetails.url, layerDetails.options);
-
+                    var legendLayerName;
                     //check if include in legend is true
                     if (layerDetails.wimOptions && layerDetails.wimOptions.includeLegend == true) {
                         if (layerDetails.wimOptions.legendTitle) {
-                            layerName = layerDetails.wimOptions.legendTitle;
+                            legendLayerName = layerDetails.wimOptions.legendTitle;
                         }
                         if (layerDetails.wimOptions.legendPlacement && layerDetails.wimOptions.legendPlacement == 'last') {
-                            legendLayers.splice(0, 0, {layer: layer, title: layerName});
+                            legendLayers.splice(0, 0, {layer: layer, title: legendLayerName});
                         } else {
-                            legendLayers.push({layer: layer, title: layerName});
+                            legendLayers.push({layer: layer, title: legendLayerName});
                         }
                     }
                     /*if (layerDetails.wimOptions.renderer !== undefined) {
