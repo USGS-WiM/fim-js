@@ -1492,7 +1492,7 @@ require([
             template.layoutOptions = {
                 "titleText": "FIM",
                 "authorText" : "Flood Inundation Mapping",
-                "copyrightText": "This page was produced by the FIM and the WiM",
+                "copyrightText": "This page was produced by the FIM and the WIM",
                 "customTextElements": [
                     { "mapTitle": "Flood-Inundation Map for the Wabash River at Terre Haute, Indiana at the U.S. Geological Survey Streamgage Number " + siteAttr.SITE_NO },
                     { "mapSeries": siteAttr.REPORT }
@@ -1503,7 +1503,7 @@ require([
             template.layoutOptions = {
                 "titleText": userTitle,
                 "authorText" : "Flood Inundation Mapping",
-                "copyrightText": "This page was prgit pulloduced by the FIM and the WiM",
+                "copyrightText": "This page was produced by the FIM and the WIM",
                 "customTextElements": [
                     { "mapTitle": "Flood-Inundation Map for the " + siteAttr.COMMUNITY + " at the U.S. Geological Survey Streamgage Number " + siteAttr.SITE_NO },
                     { "mapSeries": siteAttr.REPORT }
@@ -1775,9 +1775,17 @@ require([
 
                 if (layerDetails.wimOptions.layerType === 'agisFeature') {
                     var layer = new FeatureLayer(layerDetails.url, layerDetails.options);
+
                     //check if include in legend is true
-                    if (layerDetails.wimOptions && layerDetails.wimOptions.includeLegend == true){
-                        legendLayers.push({layer:layer, title: layerName});
+                    if (layerDetails.wimOptions && layerDetails.wimOptions.includeLegend == true) {
+                        if (layerDetails.wimOptions.legendTitle) {
+                            layerName = layerDetails.wimOptions.legendTitle;
+                        }
+                        if (layerDetails.wimOptions.legendPlacement && layerDetails.wimOptions.legendPlacement == 'last') {
+                            legendLayers.splice(0, 0, {layer: layer, title: layerName});
+                        } else {
+                            legendLayers.push({layer: layer, title: layerName});
+                        }
                     }
                     /*if (layerDetails.wimOptions.renderer !== undefined) {
                         layer.setRenderer(layerDetails.wimOptions.renderer);
@@ -1801,10 +1809,10 @@ require([
                     var layer = new ArcGISDynamicMapServiceLayer(layerDetails.url, layerDetails.options);
                     //check if include in legend is true
                     if (layerDetails.wimOptions && layerDetails.wimOptions.layerDefinitions) {
-                        var layerDefs = [];
-                        $.each(layerDetails.wimOptions.layerDefinitions, function (index, def) {
+                        var layerDefs = layerDetails.wimOptions.layerDefinitions;
+                        /*$.each(layerDetails.wimOptions.layerDefinitions, function (index, def) {
                             layerDefs[index] = def;
-                        });
+                        });*/
                         layer.setLayerDefinitions(layerDefs);
                     }
                     if (layerDetails.visibleLayers) {
@@ -1964,6 +1972,17 @@ require([
                         layer.setVisibility(false);
                     } else {
                         layer.setVisibility(true);
+                    }
+
+                    if (wimOptions.otherLayersToggled) {
+                        $.each(wimOptions.otherLayersToggled, function (key, value) {
+                            var lyr = map.getLayer(value);
+                            if (lyr.visible != layer.visible) {
+                                $("#"+lyr.id).find('i.glyphspan').toggleClass('fa-check-square-o fa-square-o');
+                                $("#"+lyr.id).find('button').button('toggle');
+                                lyr.setVisibility(layer.visible);
+                            }
+                        });
                     }
 
                     // Google Analytics
