@@ -34,6 +34,8 @@ var gridLayerIndexArrColl = [];
 
 var siteClick;
 
+var extentResults = null;
+
 var loadedInitialLibrary = false;
 
 
@@ -637,6 +639,13 @@ require([
                 //window.location.href = "http://fim.wim.usgs.gov/fim-js-dev/?site_no=" + siteAttr.SITE_NO;
                 results = null;
                 getGridInfo();
+                extentResults = null;
+
+                $("#floodMaxGage").text("");
+                $("#floodMaxDischarge").text("");
+
+                $("#floodSlider")[0].value = 0;
+                $("#floodSlider").trigger("change");
 
                 //code to query related records for site and get logos and created/reviewed by cooperators
                 //first set anything that can be set with site attributes
@@ -650,6 +659,8 @@ require([
                 $('#mapsCreatedBy').empty();
                 $('#mapsReviewedBy').empty();
                 $('#logos').empty();
+
+
 
                 //related records query
                 $.ajax({
@@ -839,9 +850,15 @@ require([
                                         if (variable == "Discharge") {
                                             $("#floodMaxDischarge").text(varValue);
                                             $("#floodMinDischarge").text(varValue);
+                                            if ($("#floodMaxDischarge").text().length == 0 || $("#floodMaxDischarge").text() == "-99999") {
+                                                $("#floodMaxDischarge").text("n/a");
+                                            }
                                         } else if (variable == "Gage height") {
                                             $("#floodMaxGage").text(varValue);
                                             $("#floodMinGage").text(varValue);
+                                            if ($("#floodMaxGage").text().length == 0 || $("#floodMaxGage").text() == "-99999") {
+                                                $("#floodMaxGage").text("n/a");
+                                            }
                                         }
 
                                         var rtLabel = "";
@@ -865,13 +882,7 @@ require([
 
                                     }
 
-                                    if ($("#floodMaxDischarge").text().length == 0 || $("#floodMaxDischarge").text() == "-99999") {
-                                        $("#floodMaxDischarge").text("n/a");
-                                    }
-                                    if ($("#floodMaxGage").text().length == 0 || $("#floodMaxGage").text() == "-99999") {
-                                        $("#floodMaxGage").text("n/a");
-                                    }
-
+                                    snapToFlood();
 
                                 });
 
@@ -1048,6 +1059,7 @@ require([
                                 }
                             }
                         });
+
                     })
                     .fail(function() {
                         alert('there was an issue');
@@ -1070,6 +1082,7 @@ require([
                     if (featureSet.features.length > 0) {
 
                         results = featureSet.features;
+                        extentResults = results;
 
                         $("#floodToolsPanelHeader").html(attr["STATE"] + ": " + attr["COMMUNITY"] + "   <span id='shareLink' style='white-space: nowrap; margin-left: 0px; padding-left: 0px'><span class='glyphicon glyphicon glyphicon-share'></span> Share</span>");
                         $("#shareLink").click(function() {
@@ -1091,20 +1104,20 @@ require([
                         map.getLayer("fimBreach").setLayerDefinitions(layerDefinitions);
 
                         $("#slider").on("input change", function() {
-                            $("#selectedValue").text(results[$("#floodSlider")[0].value].attributes["STAGE"]);
-                            $("#floodMinSelectedGage").text(results[$("#floodSlider")[0].value].attributes["STAGE"]);
-                            var layerDefinitions = [];
-                            layerDefinitions[0] = "USGSID = '" + attr["SITE_NO"] + "' AND STAGE = " + results[$("#floodSlider")[0].value].attributes["STAGE"];
-                            map.getLayer("fimExtents").setLayerDefinitions(layerDefinitions);
-                            map.getLayer("fimBreach").setLayerDefinitions(layerDefinitions);
+                            if (results != null) {
+                                $("#selectedValue").text(results[$("#floodSlider")[0].value].attributes["STAGE"]);
+                                $("#floodMinSelectedGage").text(results[$("#floodSlider")[0].value].attributes["STAGE"]);
+                                var layerDefinitions = [];
+                                layerDefinitions[0] = "USGSID = '" + attr["SITE_NO"] + "' AND STAGE = " + results[$("#floodSlider")[0].value].attributes["STAGE"];
+                                map.getLayer("fimExtents").setLayerDefinitions(layerDefinitions);
+                                map.getLayer("fimBreach").setLayerDefinitions(layerDefinitions);
+                            }
                         });
 
                         var instanceX = docWidth*0.5-$("#floodToolsDiv").width()*0.5;
                         var instanceY = docHeight*0.5-$("#floodToolsDiv").height()*0.5;
 
-                        $("#floodToolsDiv .panel-heading").removeClass('loading-hide');
-                        $("#floodToolsDiv .panel-body").removeClass('loading-hide');
-                        $("#floodToolsDiv").removeClass('loading-background');
+                        snapToFlood();
 
                     }
 
@@ -1132,6 +1145,35 @@ require([
         }
 
     });
+
+    function snapToFlood() {
+        if ($("#floodMaxGage").text().length > 0 && extentResults != null) {
+            var myArray = extentResults;
+            // this should be current stage
+            var myNum = Number($("#floodMaxGage").text());
+
+            var closestNum;
+            var closestArrayItem;
+            var tempNum;
+
+            for(var i=0; i<myArray.length; i++){
+
+                tempNum = Math.abs(myArray[i].attributes.STAGE - myNum);
+
+                if(tempNum < closestNum || i == 0){
+                    closestNum = tempNum;
+                    closestArrayItem = i;
+                }
+
+            }
+            $("#floodSlider")[0].value = closestArrayItem;
+            $("#floodSlider").trigger("change");
+
+            $("#floodToolsDiv .panel-heading").removeClass('loading-hide');
+            $("#floodToolsDiv .panel-body").removeClass('loading-hide');
+            $("#floodToolsDiv").removeClass('loading-background');
+        }
+    }
 
     function getGridInfo() {
         var gridServ = null;
