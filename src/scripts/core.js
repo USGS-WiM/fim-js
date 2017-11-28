@@ -647,6 +647,8 @@ require([
                 $("#floodSlider")[0].value = 0;
                 $("#floodSlider").trigger("change");
 
+                $("#zoomToLibExtent").hide();
+
                 //code to query related records for site and get logos and created/reviewed by cooperators
                 //first set anything that can be set with site attributes
                 $("#downloadData").attr("href", siteAttr.DATA_LINK);
@@ -1076,6 +1078,27 @@ require([
 
                 var extentQueryTask = new QueryTask(floodExtentsUrl);
                 extentQueryTask.execute(extentQuery, extentResult);
+
+
+                //code for getting extent of library and setting up for zoom button to go to full extent of library
+                extentQuery.returnGeometry = true;
+                extentQuery.orderByFields = ["STAGE DESC"];
+                extentQuery.num = 1;
+
+                var extentQueryTask = new QueryTask(floodExtentsUrl);
+                extentQueryTask.execute(extentQuery, extentOnlyResult);
+
+                function extentOnlyResult(featureSet) {
+                    var libExtent = featureSet.features[0].geometry.getExtent();
+                    $("#zoomToLibExtent").show();
+                    $("#zoomToLibExtent").on('click', function(event) {
+                        map.setExtent(libExtent, true);
+                        //$("#zoomToLibExtent").off();
+                        //event.preventDefault();
+                    });
+                }
+                //end of code for getting extent of library
+
 
                 function extentResult(featureSet) {
 
