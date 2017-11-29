@@ -35,6 +35,7 @@ var gridLayerIndexArrColl = [];
 var siteClick;
 
 var extentResults = null;
+var libExtent = null;
 
 var loadedInitialLibrary = false;
 
@@ -647,6 +648,8 @@ require([
                 $("#floodSlider")[0].value = 0;
                 $("#floodSlider").trigger("change");
 
+                $("#zoomToLibExtent").hide();
+
                 //code to query related records for site and get logos and created/reviewed by cooperators
                 //first set anything that can be set with site attributes
                 $("#downloadData").attr("href", siteAttr.DATA_LINK);
@@ -850,13 +853,13 @@ require([
                                         if (variable == "Discharge") {
                                             $("#floodMaxDischarge").text(varValue);
                                             $("#floodMinDischarge").text(varValue);
-                                            if ($("#floodMaxDischarge").text().length == 0 || $("#floodMaxDischarge").text() == "-99999") {
+                                            if ($("#floodMaxDischarge").text().length == 0 || $("#floodMaxDischarge").text() == "-999999") {
                                                 $("#floodMaxDischarge").text("n/a");
                                             }
                                         } else if (variable == "Gage height") {
                                             $("#floodMaxGage").text(varValue);
                                             $("#floodMinGage").text(varValue);
-                                            if ($("#floodMaxGage").text().length == 0 || $("#floodMaxGage").text() == "-99999") {
+                                            if ($("#floodMaxGage").text().length == 0 || $("#floodMaxGage").text() == "-999999") {
                                                 $("#floodMaxGage").text("n/a");
                                             }
                                         }
@@ -1077,6 +1080,27 @@ require([
                 var extentQueryTask = new QueryTask(floodExtentsUrl);
                 extentQueryTask.execute(extentQuery, extentResult);
 
+
+                //code for getting extent of library and setting up for zoom button to go to full extent of library
+                extentQuery.returnGeometry = true;
+                extentQuery.orderByFields = ["STAGE DESC"];
+                extentQuery.num = 1;
+
+                var extentQueryTask = new QueryTask(floodExtentsUrl);
+                extentQueryTask.execute(extentQuery, extentOnlyResult);
+
+                function extentOnlyResult(featureSet) {
+                    libExtent = featureSet.features[0].geometry.getExtent();
+                    $("#zoomToLibExtent").show();
+                    $("#zoomToLibExtent").on('click', function(event) {
+                        map.setExtent(libExtent, true);
+                        //$("#zoomToLibExtent").off();
+                        //event.preventDefault();
+                    });
+                }
+                //end of code for getting extent of library
+
+
                 function extentResult(featureSet) {
 
                     if (featureSet.features.length > 0) {
@@ -1248,7 +1272,7 @@ require([
 
             deferredResult.addCallback(function(response) {
 
-                map.infoWindow.hide();
+                //map.infoWindow.hide();
 
                 if (response[0].feature.attributes["Pixel Value"] != "NoData") {
                     var depthRange = siteAttr.DEPTH_RANG;
