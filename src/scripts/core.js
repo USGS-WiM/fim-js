@@ -35,6 +35,7 @@ var gridLayerIndexArrColl = [];
 var siteClick;
 
 var extentResults = null;
+var libExtent = null;
 
 var loadedInitialLibrary = false;
 
@@ -852,13 +853,13 @@ require([
                                         if (variable == "Discharge") {
                                             $("#floodMaxDischarge").text(varValue);
                                             $("#floodMinDischarge").text(varValue);
-                                            if ($("#floodMaxDischarge").text().length == 0 || $("#floodMaxDischarge").text() == "-99999") {
+                                            if ($("#floodMaxDischarge").text().length == 0 || $("#floodMaxDischarge").text() == "-999999") {
                                                 $("#floodMaxDischarge").text("n/a");
                                             }
                                         } else if (variable == "Gage height") {
                                             $("#floodMaxGage").text(varValue);
                                             $("#floodMinGage").text(varValue);
-                                            if ($("#floodMaxGage").text().length == 0 || $("#floodMaxGage").text() == "-99999") {
+                                            if ($("#floodMaxGage").text().length == 0 || $("#floodMaxGage").text() == "-999999") {
                                                 $("#floodMaxGage").text("n/a");
                                             }
                                         }
@@ -1089,7 +1090,7 @@ require([
                 extentQueryTask.execute(extentQuery, extentOnlyResult);
 
                 function extentOnlyResult(featureSet) {
-                    var libExtent = featureSet.features[0].geometry.getExtent();
+                    libExtent = featureSet.features[0].geometry.getExtent();
                     $("#zoomToLibExtent").show();
                     $("#zoomToLibExtent").on('click', function(event) {
                         map.setExtent(libExtent, true);
@@ -1271,7 +1272,7 @@ require([
 
             deferredResult.addCallback(function(response) {
 
-                map.infoWindow.hide();
+                //map.infoWindow.hide();
 
                 if (response[0].feature.attributes["Pixel Value"] != "NoData") {
                     var depthRange = siteAttr.DEPTH_RANG;
