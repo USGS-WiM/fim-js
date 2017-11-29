@@ -39,6 +39,11 @@ body {
     z-index: 100000000;
 }
 
+#zoomToLibExtent {
+    display: none;
+    margin-top: -30px;
+}
+
 .dijitTooltipContainer {
     border: solid black 1px;
     background: white;
@@ -1237,4 +1242,8 @@ a{
     display: block;
     width: 100%;
   }
+}
+
+#major,#moderate,#minor,#near,#noflood {
+    padding-left: 30px !important;
 }
