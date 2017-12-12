@@ -663,7 +663,20 @@ require([
                 $('#mapsReviewedBy').empty();
                 $('#logos').empty();
 
+                $('#aouCheckBox').prop('checked', true);
+                if (siteAttr.HAS_BREACH == 1) {
+                    $('#aouCheck').show();
+                } else {
+                    $('#aouCheck').hide();
+                }
 
+                $('#aouCheckBox').on('click', function(evt) {
+                    if (evt.currentTarget.checked == true) {
+                        map.getLayer('fimBreach').setVisibility(true);
+                    } else if (evt.currentTarget.checked == false) {
+                        map.getLayer('fimBreach').setVisibility(false);
+                    }
+                });
 
                 //related records query
                 $.ajax({

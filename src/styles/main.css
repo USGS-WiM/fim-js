@@ -1165,6 +1165,10 @@ input[type=range]::-moz-range-track {
   line-height: 20px;
 }
 
+#aouCheck {
+    display: none;
+}
+
 
 a{
   word-break: break-all !important;
