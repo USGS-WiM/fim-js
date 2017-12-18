@@ -35,7 +35,7 @@ body {
     color: rgba(255,255,255,.35);
 }
 
-#aboutModal, #userGuideModal, #shareModal, #geosearchModal {
+#aboutModal, #userGuideModal, #shareModal {
     z-index: 100000000;
 }
 
@@ -297,6 +297,10 @@ div[id*='fimBreach'] .esriLegendLayerLabel {
     /*min-width: 150px;*/
     border-radius: 4px;
     visibility: hidden;
+}
+
+#geoSearchModal {
+    z-index: 4;
 }
 
 #webCamIFrame {
