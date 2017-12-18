@@ -39,6 +39,8 @@ var libExtent = null;
 
 var loadedInitialLibrary = false;
 
+var currentBasemap;
+
 
 require([
     'esri/arcgis/utils',
@@ -360,7 +362,7 @@ require([
         $('#longitude').html(geographicMapCenter.x.toFixed(3));
     });
 
-    var nationalMapBasemap = new ArcGISTiledMapServiceLayer('https://basemap.nationalmap.gov/arcgis/rest/services/USGSTopo/MapServer');
+    var nationalMapBasemap = new ArcGISTiledMapServiceLayer('https://basemap.nationalmap.gov/arcgis/rest/services/USGSTopo/MapServer', {id: 'tnm'});
     //on clicks to swap basemap. map.removeLayer is required for nat'l map b/c it is not technically a basemap, but a tiled layer.
     on(dom.byId('btnStreets'), 'click', function () {
         map.setBasemap('streets');
@@ -396,6 +398,7 @@ require([
     });
 
     on(dom.byId('btnNatlMap'), 'click', function () {
+        map.setBasemap("topo");
         map.addLayer(nationalMapBasemap, 2);
     });
 
@@ -675,6 +678,34 @@ require([
                         map.getLayer('fimBreach').setVisibility(true);
                     } else if (evt.currentTarget.checked == false) {
                         map.getLayer('fimBreach').setVisibility(false);
+                    }
+                });
+
+                if (map.getLayer("tnm") != undefined) {
+                    currentBasemap = "tnm";
+                } else {
+                    currentBasemap = map.getBasemap();
+                }
+
+                if (currentBasemap == "hybrid") {
+                    currentBasemap = "topo";
+                    $('#satCheckBox').prop('checked', true);
+                } else {
+                    $('#satCheckBox').prop('checked', false);
+                }
+
+                $('#satCheckBox').on('click', function(evt) {
+                    if (evt.currentTarget.checked == true) {
+                        map.setBasemap("hybrid");
+                        map.removeLayer(nationalMapBasemap);
+                    } else if (evt.currentTarget.checked == false) {
+                        if (currentBasemap == "tnm") {
+                            map.setBasemap("topo");
+                            map.addLayer(nationalMapBasemap);
+                        } else {
+                            map.setBasemap(currentBasemap);
+                            map.removeLayer(nationalMapBasemap);
+                        }
                     }
                 });
 
