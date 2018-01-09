@@ -39,11 +39,11 @@ var libExtent = null;
 
 var loadedInitialLibrary = false;
 
-var majorCount;
-var moderateCount;
-var minorCount;
-var actionCount;
-var nofloodCount;
+var majorCount = 0;
+var moderateCount = 0;
+var minorCount = 0;
+var actionCount = 0;
+var nofloodCount = 0;
 
 
 require([
@@ -1190,7 +1190,7 @@ require([
             ahpsQueryCount.where = "Status = 'normal' OR Status = 'no_flooding' OR Status = 'minor' OR Status = 'moderate' OR Status = 'major' OR Status = 'old' OR Status = 'action'";
             ahpsQueryCount.outFields = ["status"];
             ahpsQueryCount.returnGeometry = false;
-            var ahpsQueryTask = new QueryTask(map.getLayer("ahpsSites").url + '/0');
+            var ahpsQueryTask = new QueryTask(map.getLayer("ahpsSites").url + '/1');
             ahpsQueryTask.execute(ahpsQueryCount, ahpsCountResult, queryFault);
         }
 
@@ -1227,10 +1227,18 @@ require([
             }
 
             //var text = 'test';
-            var text = "Major flooding (" + majorCount + ")";
+            var majorText = "Major flooding (" + majorCount + ")";
+            var moderateText = "Moderate flooding (" + moderateCount + ")";
+            var minorText = "Minor flooding (" + minorCount + ")";
+            var actionText = "Action flooding (" + actionCount + ")";
+            var nofloodText = "No flooding (" + nofloodCount + ")";
 
-            $("#majorFloodingLabel")[0].html(text);
-        }
+            $("#majorFloodingLabel")[0].textContent = majorText;
+            $("#moderateFloodingLabel")[0].textContent = moderateText;
+            $("#minorFloodingLabel")[0].textContent = minorText;
+            $("#nearFloodLabel")[0].textContent = actionText;
+            $("#noFloodingLabel")[0].textContent = nofloodText;
+        }//
 
         function queryFault(evt) {
             console.log("error: " + evt);
