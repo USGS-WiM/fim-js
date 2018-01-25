@@ -664,6 +664,8 @@ require([
                 $('#mapsReviewedBy').empty();
                 $('#logos').empty();
 
+                $('#gridsCheckBox').prop('checked', false);
+
                 $('#aouCheckBox').prop('checked', true);
                 if (siteAttr.HAS_BREACH == 1) {
                     $('#aouCheck').show();
