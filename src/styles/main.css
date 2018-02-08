@@ -814,6 +814,12 @@ input[type=range]:focus::-webkit-slider-runnable-track {
     width: 200px;
     display: block;
 }
+.ftl-mobile{
+  display: none;
+}
+.ftl-desktop{
+  display: block;
+}
 #floodSlider {
     padding: 25px;
     float: left;
@@ -902,6 +908,15 @@ input[type=range]::-moz-range-track {
     .flood-tools-left{
         text-align: center;
         width: 100%;
+    }
+    .ftl-mobile{
+      display: block;
+    }
+    .ftl-desktop{
+      display: none;
+    }
+    #floodToolsPanel{
+      width: 100%;
     }
     #floodSlider {
         float: none;
@@ -1254,4 +1269,64 @@ a{
 
 #major,#moderate,#minor,#near,#noflood {
     padding-left: 30px !important;
+}
+
+
+/*Mitch Feb 6*/
+.flood-tools-checkboxes{
+  display: block;
+  height: auto;
+  text-align:center;
+}
+
+#satBasemap,
+#aouCheck{
+  display: inline-block !important;
+  font-size: 12px;
+  font-weight: 600;
+  box-sizing: border-box;
+  padding: 4px 5px;
+}
+#satBasemap input,
+#aouCheck input{
+  margin-right: 5px;
+  position: relative;
+  top: -1px;
+}
+
+
+.flood-tools-logos{
+  display: block;
+  text-align: center;
+  box-sizing: border-box;
+  padding: 10px 0 0 0;
+}
+.flood-tools-logos img{
+  display: inline-block;
+  height: 30px;
+  width: auto;
+}
+
+#floodToolsDiv .panel-body{
+  display:-webkit-flex;
+  display:flex;
+}
+#floodToolsDiv .panel-body *{
+  font-size: 12px;
+  line-height: 14px
+}
+.ftl-desktop{
+  min-width: 191px;
+  max-width: 191px;
+  width: 191px;
+}
+
+.nav-tabs li a{
+  padding: 5px 10px;
+}
+
+
+.modal-logos img{
+  display: inline-block;
+  margin: 4px;
 }
