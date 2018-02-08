@@ -1184,10 +1184,6 @@ input[type=range]::-moz-range-track {
   line-height: 20px;
 }
 
-#aouCheck {
-    display: none;
-}
-
 
 a{
   word-break: break-all !important;
@@ -1281,7 +1277,7 @@ a{
 
 #satBasemap,
 #aouCheck{
-  display: inline-block !important;
+  display: inline-block;
   font-size: 12px;
   font-weight: 600;
   box-sizing: border-box;
