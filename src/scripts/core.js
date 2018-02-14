@@ -39,6 +39,8 @@ var libExtent = null;
 
 var loadedInitialLibrary = false;
 
+var currentBasemap;
+
 
 require([
     'esri/arcgis/utils',
@@ -360,7 +362,7 @@ require([
         $('#longitude').html(geographicMapCenter.x.toFixed(3));
     });
 
-    var nationalMapBasemap = new ArcGISTiledMapServiceLayer('https://basemap.nationalmap.gov/arcgis/rest/services/USGSTopo/MapServer');
+    var nationalMapBasemap = new ArcGISTiledMapServiceLayer('https://basemap.nationalmap.gov/arcgis/rest/services/USGSTopo/MapServer', {id: 'tnm'});
     //on clicks to swap basemap. map.removeLayer is required for nat'l map b/c it is not technically a basemap, but a tiled layer.
     on(dom.byId('btnStreets'), 'click', function () {
         map.setBasemap('streets');
@@ -396,6 +398,7 @@ require([
     });
 
     on(dom.byId('btnNatlMap'), 'click', function () {
+        map.setBasemap("topo");
         map.addLayer(nationalMapBasemap, 2);
     });
 
@@ -432,6 +435,8 @@ require([
         close: false,
         expand: false,
         editTitle: false,
+        width: 800,
+        height: 500,
         maxWidth: 800,
         maxHeight: 500
     });
@@ -646,7 +651,7 @@ require([
                 $("#floodMaxGage").text("");
                 $("#floodMaxDischarge").text("");
 
-                $("#floodSlider")[0].value = 0;
+                $("#floodSlider").value = 0;
                 $("#floodSlider").trigger("change");
 
                 $("#zoomToLibExtent").hide();
@@ -695,6 +700,34 @@ require([
                     } else if (evt.currentTarget.checked == false) {
                         map.getLayer('fimExtents').setVisibility(true);
                         map.getLayer('fimGrid' + siteAttr.GRID_SERV).setVisibility(false);
+                    }
+                });
+
+                if (map.getLayer("tnm") != undefined) {
+                    currentBasemap = "tnm";
+                } else {
+                    currentBasemap = map.getBasemap();
+                }
+
+                if (currentBasemap == "hybrid") {
+                    currentBasemap = "topo";
+                    $('#satCheckBox').prop('checked', true);
+                } else {
+                    $('#satCheckBox').prop('checked', false);
+                }
+
+                $('#satCheckBox').on('click', function(evt) {
+                    if (evt.currentTarget.checked == true) {
+                        map.setBasemap("hybrid");
+                        map.removeLayer(nationalMapBasemap);
+                    } else if (evt.currentTarget.checked == false) {
+                        if (currentBasemap == "tnm") {
+                            map.setBasemap("topo");
+                            map.addLayer(nationalMapBasemap);
+                        } else {
+                            map.setBasemap(currentBasemap);
+                            map.removeLayer(nationalMapBasemap);
+                        }
                     }
                 });
 
@@ -967,7 +1000,7 @@ require([
                 var percentageOfScreen = 0.9;
                 var floodToolsHeight = docHeight*percentageOfScreen
                 var floodToolsWidth = docWidth*percentageOfScreen;
-                var highChartWidth = 600;
+                var highChartWidth = 450;
                 var highChartHeight = 325;
                 if (docHeight < 500) {
                     $("#floodToolsDiv").height(floodToolsHeight);
@@ -1147,8 +1180,8 @@ require([
                         });
 
                         $("#siteNumber").text(attr["SITE_NO"]);
-                        $("#floodSlider").attr({"min": 0, "max": results.length-1});
-                        $("#floodSlider")[0].value = 0;
+                        $(".floodSlider").attr({"min": 0, "max": results.length-1});
+                        $("#floodSlider").value = 0;
                         $("#selectedValue").text(results[0].attributes["STAGE"]);
                         $("#floodMinSelectedGage").text(results[0].attributes["STAGE"]);
 
@@ -1159,6 +1192,7 @@ require([
                         layerDefinitions[0] = "USGSID = '" + attr["SITE_NO"] + "' AND STAGE = " + results[0].attributes["STAGE"];
                         map.getLayer("fimExtents").setLayerDefinitions(layerDefinitions);
                         map.getLayer("fimBreach").setLayerDefinitions(layerDefinitions);
+
 
                         gridLayerIndexArrColl = [];
 
@@ -1181,7 +1215,23 @@ require([
                         //map.getLayer(gridLayer).setVisibility(true);
 
 
-                        $("#slider").on("input change", function() {
+                        $(".floodSlider").on("change", function() {
+                            if (results != null) {
+                                $("#selectedValue").text(results[this.value].attributes["STAGE"]);
+                                $("#floodMinSelectedGage").text(results[this.value].attributes["STAGE"]);
+                                if (this.className.indexOf('desktop') != -1) {
+                                    $(".mobile")[0].value = this.value;
+                                } else {
+                                    $(".desktop")[0].value = this.value;
+                                }
+                                var layerDefinitions = [];
+                                layerDefinitions[0] = "USGSID = '" + attr["SITE_NO"] + "' AND STAGE = " + results[this.value].attributes["STAGE"];
+                                map.getLayer("fimExtents").setLayerDefinitions(layerDefinitions);
+                                map.getLayer("fimBreach").setLayerDefinitions(layerDefinitions);
+                            }
+                        });
+
+                        /*$(".desktop").on("input change", function() 
                             if (results != null) {
                                 $("#selectedValue").text(results[$("#floodSlider")[0].value].attributes["STAGE"]);
                                 $("#floodMinSelectedGage").text(results[$("#floodSlider")[0].value].attributes["STAGE"]);
@@ -1208,7 +1258,7 @@ require([
                                 //map.getLayer(gridLayer).setVisibility(true);
                                 
                             }
-                        });
+                        });*/
 
                         var instanceX = docWidth*0.5-$("#floodToolsDiv").width()*0.5;
                         var instanceY = docHeight*0.5-$("#floodToolsDiv").height()*0.5;
@@ -1262,7 +1312,7 @@ require([
                 }
 
             }
-            $("#floodSlider")[0].value = closestArrayItem;
+            $(".floodSlider").value = closestArrayItem;
             $("#floodSlider").trigger("change");
 
             $("#floodToolsDiv .panel-heading").removeClass('loading-hide');
