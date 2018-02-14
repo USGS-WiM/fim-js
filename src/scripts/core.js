@@ -152,7 +152,7 @@ require([
         basemap: 'topo',
         //center: [-95.6, 38.6],
         //center: defaultMapCenter,
-        extent: new Extent({xmin:-14556056.17039887,ymin:1947003.984479506,xmax:-6728904.473998902,ymax:7254791.228600735,spatialReference:{wkid:102100}}),
+        extent: new Extent({xmin:-13876072.366774123,ymin:3500204.399233875,xmax:-7413780.247433899,ymax:6324093.972200677,spatialReference:{wkid:102100}}),
         fitExtent: true,
         logo: false,
         lods: lods
@@ -451,6 +451,7 @@ require([
     $("#floodClose").click(function(){
         $("#floodToolsDiv").css("visibility", "hidden");
         map.getLayer("fimExtents").setVisibility(false);
+        map.getLayer("fimGrid"+siteAttr.GRID_SERV).setVisibility(false);
         map.getLayer("fimBreach").setVisibility(false);
         map.getLayer("fimSuppLyrs").setVisibility(false);
         map.infoWindow.hide();
@@ -681,6 +682,7 @@ require([
                     }
                 });
 
+              
                 if (map.getLayer("tnm") != undefined) {
                     currentBasemap = "tnm";
                 } else {
@@ -706,6 +708,23 @@ require([
                             map.setBasemap(currentBasemap);
                             map.removeLayer(nationalMapBasemap);
                         }
+                    }
+                });
+
+                //$('#gridsCheckBox').prop('checked', true);
+                if (siteAttr.HAS_GRIDS == 1) {
+                    $('#gridsCheck').show();
+                } else {
+                    $('#gridsCheck').hide();
+                }
+
+                $('#gridsCheckBox').on('click', function(evt) {
+                    if (evt.currentTarget.checked == true) {
+                        map.getLayer('fimExtents').setVisibility(false);
+                        map.getLayer('fimGrid' + siteAttr.GRID_SERV).setVisibility(true);
+                    } else if (evt.currentTarget.checked == false) {
+                        map.getLayer('fimExtents').setVisibility(true);
+                        map.getLayer('fimGrid' + siteAttr.GRID_SERV).setVisibility(false);
                     }
                 });
 
@@ -1171,6 +1190,27 @@ require([
                         map.getLayer("fimExtents").setLayerDefinitions(layerDefinitions);
                         map.getLayer("fimBreach").setLayerDefinitions(layerDefinitions);
 
+                        gridLayerIndexArrColl = [];
+
+                        for (var i=0; i < gridInfos.length; i++) {
+                            if (gridInfos[i].shortname == siteAttr.SHORT_NAME && Number(gridInfos[i].gridid) == results[$("#floodSlider")[0].value].attributes["GRIDID"]) {
+                                gridLayerIndexArrColl.push(gridInfos[i].index);
+                                gridLayerIndex = gridInfos[i].index;
+                            } else if (gridInfos[i].shortname == siteAttr.SHORT_NAME && gridInfos[i].gridid == results[$("#floodSlider")[0].value].attributes["GRIDID"]+'b') {
+                                gridLayerIndexArrColl.push(gridInfos[i].index);
+                                gridLayerIndex = gridInfos[i].index;
+                            }
+                        }
+
+                        //set grids layer definitions/choose the right layer here and in next input change function
+                        console.log('grid stuff');
+                        var gridLayer = "fimGrid" + siteAttr.GRID_SERV;
+                        var gridVisLayer = [];
+                        gridVisLayer.push(gridLayerIndex);
+                        map.getLayer(gridLayer).setVisibleLayers(gridVisLayer);
+                        //map.getLayer(gridLayer).setVisibility(true);
+
+
                         $("#slider").on("input change", function() {
                             if (results != null) {
                                 $("#selectedValue").text(results[$("#floodSlider")[0].value].attributes["STAGE"]);
@@ -1179,6 +1219,24 @@ require([
                                 layerDefinitions[0] = "USGSID = '" + attr["SITE_NO"] + "' AND STAGE = " + results[$("#floodSlider")[0].value].attributes["STAGE"];
                                 map.getLayer("fimExtents").setLayerDefinitions(layerDefinitions);
                                 map.getLayer("fimBreach").setLayerDefinitions(layerDefinitions);
+
+                                for (var i=0; i < gridInfos.length; i++) {
+                                    if (gridInfos[i].shortname == siteAttr.SHORT_NAME && Number(gridInfos[i].gridid) == results[$("#floodSlider")[0].value].attributes["GRIDID"]) {
+                                        gridLayerIndexArrColl.push(gridInfos[i].index);
+                                        gridLayerIndex = gridInfos[i].index;
+                                    } else if (gridInfos[i].shortname == siteAttr.SHORT_NAME && gridInfos[i].gridid == results[$("#floodSlider")[0].value].attributes["GRIDID"]+'b') {
+                                        gridLayerIndexArrColl.push(gridInfos[i].index);
+                                        gridLayerIndex = gridInfos[i].index;
+                                    }
+                                }
+
+                                //set grids layer definitions/choose the right layer here and in next input change function
+                                var gridLayer = "fimGrid" + siteAttr.GRID_SERV;
+                                var gridVisLayer = [];
+                                gridVisLayer.push(gridLayerIndex);
+                                map.getLayer(gridLayer).setVisibleLayers(gridVisLayer);
+                                //map.getLayer(gridLayer).setVisibility(true);
+                                
                             }
                         });
 
@@ -1284,8 +1342,10 @@ require([
     map.on("click", function(evt) {
         //$("[id*='fimExtents'] .esriLegendLayerLabel").hide();
         var identifyParameters = new IdentifyParameters();
-        if (siteAttr != null && siteAttr.HAS_GRIDS == 1 && map.getLayer("fimExtents").visible == true && evt.target.localName != "image") {
+        if (siteAttr != null && siteAttr.HAS_GRIDS == 1 && (map.getLayer("fimExtents").visible == true || map.getLayer("fimGrid" + siteAttr.GRID_SERV).visible == true) && evt.target.localName != "image") {
             //come back to this to deal with grid clicks
+
+            //getGridLayerIndex();
             var grid_serv = siteAttr.GRID_SERV;
             identifyParameters.layerIds = [];
             gridLayerIndexArrColl = [];
