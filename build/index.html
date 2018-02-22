@@ -532,6 +532,26 @@ $(".close-alert").click(function(){
                     </div>
                     <div class="panel-body">
 
+                        <div class="flood-tools-left ftl-desktop">
+                            <div class="slider-values">
+                                <div class="slider-max">52</div>
+                                <div class="slider-min">12</div>
+                            </div>
+                            <input id="floodSlider" type="range" name="stage" value="0" min="0" max="10" class="vertical-slider floodSlider desktop"/>
+                            <div class="flood-tools-checkboxes">
+                              <div id="satBasemap">
+                                  <input id="satCheckBox" type="checkbox" checked>View Satellite Imagery</input>
+                              </div>
+                              <div id="aouCheck">
+                                  <input id="aouCheckBox" type="checkbox" checked>Include Area of Uncertainty</input>
+                              </div>
+                            </div>
+                            <div class="flood-tools-logos">
+                              <img id="usgsDefaultLogo" src="images/usgsLogoSm.jpg"/>
+                              <img id="recordsLogo" src=""/>
+                            </div>
+                        </div>
+
                         <div id="floodToolsPanel" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="floodToolsPanelHeader">
                             <ul class="nav nav-tabs" id="floodToolsTabs">
                                 <li role="presentation" class="active"><a id="floodToolsTab" href="#floodToolsTabPane" data-toggle="tab" onclick="ga('send','event','Flood Tools Panel','click','Flood Tools');"><i class="fa fa-umbrella"></i>&nbsp;Flood Tools</a></li>
@@ -541,16 +561,33 @@ $(".close-alert").click(function(){
                                 <li role="presentation"><a id="moreInfoTab" href="#moreInfoTabPane" data-toggle="tab" onclick="ga('send','event','Flood Tools Panel','click','More Info');"><i class="fa fa-question-circle"></i>&nbsp;More Info</a></li>
                             </ul>
                             <div class="tab-content">
+
+
+
+
                                 <div role="tabpanel" class="tab-pane active" id="floodToolsTabPane">
                                     <form id="slider" class="flood-tools">
-                                        <div class="flood-tools-left">
+                                        <div class="flood-tools-left ftl-mobile">
                                             <div class="slider-values">
                                                 <div class="slider-max">52</div>
                                                 <div class="slider-min">12</div>
                                             </div>
-                                            <input id="floodSlider" type="range" name="stage" value="0" min="0" max="10" class="vertical-slider"/>
-                                            <img id="usgsDefaultLogo" src="images/usgsLogoSm.jpg"/>
-                                            <img id="recordsLogo" src=""/>
+                                            <input id="floodSlider" type="range" name="stage" value="0" min="0" max="10" class="vertical-slider floodSlider mobile"/>
+                                            <div class="flood-tools-checkboxes">
+                                              <div id="satBasemap">
+                                                  <input id="satCheckBox" type="checkbox" checked>View Satellite Imagery</input>
+                                              </div>
+                                              <div id="gridsCheck">
+                                                <input id="gridsCheckBox" type="checkbox">View grids</input>
+                                              </div>
+                                              <div id="aouCheck">
+                                                  <input id="aouCheckBox" type="checkbox" checked>Include Area of Uncertainty</input>
+                                              </div>
+                                            </div>
+                                            <div class="flood-tools-logos">
+                                              <img id="usgsDefaultLogo" src="images/usgsLogoSm.jpg"/>
+                                              <img id="recordsLogo" src=""/>
+                                            </div>
                                         </div>
                                         <div class="flood-tools-right">
                                             <div class="flood-tools-item">
@@ -622,7 +659,7 @@ $(".close-alert").click(function(){
                                       </div>
 
                                       <div style="display: flex; justify-content: flex-end; flex-direction: column;">
-                                          <div>
+                                          <div class="modal-logos">
                                             <div id="logos"></div>
                                             <img src="images/noaaLogo.png"/>
                                             <img style="width: 100px" src="images/usgs-logo_black.png"/>
