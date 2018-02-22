@@ -1275,21 +1275,23 @@ a{
   text-align:center;
 }
 
-#satBasemap,
-#aouCheck{
+.flood-tools-checkboxes div{
   display: inline-block;
   font-size: 12px;
   font-weight: 600;
   box-sizing: border-box;
   padding: 4px 5px;
 }
-#satBasemap input,
-#aouCheck input{
+.flood-tools-checkboxes div input{
   margin-right: 5px;
   position: relative;
-  top: -1px;
+  top: -3px;
 }
-
+@media (max-width: 767px) {
+  .flood-tools-checkboxes div input{
+    top: -4px;
+  }
+}
 
 .flood-tools-logos{
   display: block;
@@ -1325,4 +1327,72 @@ a{
 .modal-logos img{
   display: inline-block;
   margin: 4px;
+}
+
+
+
+/*Mitch FEB18*/
+#zoomToLibExtent{
+  margin-bottom: 25px;
+}
+
+.btn.close{
+  background-color: rgba(68,115,255,1) !important;
+  color: white;
+  opacity: 1 !important;
+  font-size: 14px;
+  text-shadow: none !important;
+  margin-top: 25px;
+  font-weight: 400;
+  text-transform: lowercase;
+  letter-spacing: 1px;
+  transition: 0.2s;
+  padding: 12px 15px !important;
+  display: block;
+  margin: 25px auto 0 auto;
+  float: none;
+}
+
+.btn.close:hover{
+  background-color: rgba(68,115,255,0.75) !important;
+  transition: 0.2s;
+  cursor: pointer;
+}
+
+
+@media (max-width: 767px) {
+  .flood-tools-checkboxes div{
+    display: -webkit-flex;
+    display: flex;
+    -webkit-justify-content: center;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+  }
+}
+
+#floodToolsTabs{
+  width: 450px;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+}
+@media (max-width: 767px) {
+  #floodToolsTabs{
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+  }
+}
+#floodToolsTabs a{
+  border-radius: 0 !important;
+  border-bottom: 1px solid #ddd !important;
+  font-size: 10.5px !important;
+  padding: 5px !important;
+  letter-spacing: -0.35px !important;
+
+}
+#floodToolsTabs > li.active a{
+  border-radius: 0 !important;
+  border-bottom: 1px solid #ddd !important;
 }
