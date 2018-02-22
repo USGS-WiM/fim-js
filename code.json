@@ -1,4 +1,4 @@
-{
+[{
   "name": "fim-js",
   "organization": "U.S. Geological Survey",
   "description": "Flood Inundation Mapper",
@@ -27,4 +27,4 @@
   "updated": {
     "metadataLastUpdated": "10/26/2017"
   }
-}
+}]
