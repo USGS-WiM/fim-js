@@ -44,6 +44,7 @@ var moderateCount = 0;
 var minorCount = 0;
 var actionCount = 0;
 var nofloodCount = 0;
+var currentBasemap;
 
 
 require([
@@ -156,7 +157,7 @@ require([
         basemap: 'topo',
         //center: [-95.6, 38.6],
         //center: defaultMapCenter,
-        extent: new Extent({xmin:-14556056.17039887,ymin:1947003.984479506,xmax:-6728904.473998902,ymax:7254791.228600735,spatialReference:{wkid:102100}}),
+        extent: new Extent({xmin:-13876072.366774123,ymin:3500204.399233875,xmax:-7413780.247433899,ymax:6324093.972200677,spatialReference:{wkid:102100}}),
         fitExtent: true,
         logo: false,
         lods: lods
@@ -366,7 +367,7 @@ require([
         $('#longitude').html(geographicMapCenter.x.toFixed(3));
     });
 
-    var nationalMapBasemap = new ArcGISTiledMapServiceLayer('https://basemap.nationalmap.gov/arcgis/rest/services/USGSTopo/MapServer');
+    var nationalMapBasemap = new ArcGISTiledMapServiceLayer('https://basemap.nationalmap.gov/arcgis/rest/services/USGSTopo/MapServer', {id: 'tnm'});
     //on clicks to swap basemap. map.removeLayer is required for nat'l map b/c it is not technically a basemap, but a tiled layer.
     on(dom.byId('btnStreets'), 'click', function () {
         map.setBasemap('streets');
@@ -402,6 +403,7 @@ require([
     });
 
     on(dom.byId('btnNatlMap'), 'click', function () {
+        map.setBasemap("topo");
         map.addLayer(nationalMapBasemap, 2);
     });
 
@@ -438,6 +440,8 @@ require([
         close: false,
         expand: false,
         editTitle: false,
+        width: 800,
+        height: 500,
         maxWidth: 800,
         maxHeight: 500
     });
@@ -454,6 +458,7 @@ require([
     $("#floodClose").click(function(){
         $("#floodToolsDiv").css("visibility", "hidden");
         map.getLayer("fimExtents").setVisibility(false);
+        map.getLayer("fimGrid"+siteAttr.GRID_SERV).setVisibility(false);
         map.getLayer("fimBreach").setVisibility(false);
         map.getLayer("fimSuppLyrs").setVisibility(false);
         map.infoWindow.hide();
@@ -651,7 +656,7 @@ require([
                 $("#floodMaxGage").text("");
                 $("#floodMaxDischarge").text("");
 
-                $("#floodSlider")[0].value = 0;
+                $("#floodSlider").value = 0;
                 $("#floodSlider").trigger("change");
 
                 $("#zoomToLibExtent").hide();
@@ -669,6 +674,8 @@ require([
                 $('#mapsReviewedBy').empty();
                 $('#logos').empty();
 
+                $('#gridsCheckBox').prop('checked', false);
+
                 $('#aouCheckBox').prop('checked', true);
                 if (siteAttr.HAS_BREACH == 1) {
                     $('#aouCheck').show();
@@ -681,6 +688,51 @@ require([
                         map.getLayer('fimBreach').setVisibility(true);
                     } else if (evt.currentTarget.checked == false) {
                         map.getLayer('fimBreach').setVisibility(false);
+                    }
+                });
+
+                //$('#gridsCheckBox').prop('checked', true);
+                if (siteAttr.HAS_GRIDS == 1) {
+                    $('#gridsCheck').show();
+                } else {
+                    $('#gridsCheck').hide();
+                }
+
+                $('#gridsCheckBox, #gridsCheckBox2').on('click', function(evt) {
+                    if (evt.currentTarget.checked == true) {
+                        map.getLayer('fimExtents').setVisibility(false);
+                        map.getLayer('fimGrid' + siteAttr.GRID_SERV).setVisibility(true);
+                    } else if (evt.currentTarget.checked == false) {
+                        map.getLayer('fimExtents').setVisibility(true);
+                        map.getLayer('fimGrid' + siteAttr.GRID_SERV).setVisibility(false);
+                    }
+                });
+
+                if (map.getLayer("tnm") != undefined) {
+                    currentBasemap = "tnm";
+                } else {
+                    currentBasemap = map.getBasemap();
+                }
+
+                if (currentBasemap == "hybrid") {
+                    currentBasemap = "topo";
+                    $('#satCheckBox').prop('checked', true);
+                } else {
+                    $('#satCheckBox').prop('checked', false);
+                }
+
+                $('#satCheckBox').on('click', function(evt) {
+                    if (evt.currentTarget.checked == true) {
+                        map.setBasemap("hybrid");
+                        map.removeLayer(nationalMapBasemap);
+                    } else if (evt.currentTarget.checked == false) {
+                        if (currentBasemap == "tnm") {
+                            map.setBasemap("topo");
+                            map.addLayer(nationalMapBasemap);
+                        } else {
+                            map.setBasemap(currentBasemap);
+                            map.removeLayer(nationalMapBasemap);
+                        }
                     }
                 });
 
@@ -953,7 +1005,7 @@ require([
                 var percentageOfScreen = 0.9;
                 var floodToolsHeight = docHeight*percentageOfScreen
                 var floodToolsWidth = docWidth*percentageOfScreen;
-                var highChartWidth = 600;
+                var highChartWidth = 450;
                 var highChartHeight = 325;
                 if (docHeight < 500) {
                     $("#floodToolsDiv").height(floodToolsHeight);
@@ -1133,8 +1185,8 @@ require([
                         });
 
                         $("#siteNumber").text(attr["SITE_NO"]);
-                        $("#floodSlider").attr({"min": 0, "max": results.length-1});
-                        $("#floodSlider")[0].value = 0;
+                        $(".floodSlider").attr({"min": 0, "max": results.length-1});
+                        $("#floodSlider").value = 0;
                         $("#selectedValue").text(results[0].attributes["STAGE"]);
                         $("#floodMinSelectedGage").text(results[0].attributes["STAGE"]);
 
@@ -1146,7 +1198,62 @@ require([
                         map.getLayer("fimExtents").setLayerDefinitions(layerDefinitions);
                         map.getLayer("fimBreach").setLayerDefinitions(layerDefinitions);
 
-                        $("#slider").on("input change", function() {
+
+                        gridLayerIndexArrColl = [];
+
+                        for (var i=0; i < gridInfos.length; i++) {
+                            if (gridInfos[i].shortname == siteAttr.SHORT_NAME && Number(gridInfos[i].gridid) == results[$("#floodSlider")[0].value].attributes["GRIDID"]) {
+                                gridLayerIndexArrColl.push(gridInfos[i].index);
+                                gridLayerIndex = gridInfos[i].index;
+                            } else if (gridInfos[i].shortname == siteAttr.SHORT_NAME && gridInfos[i].gridid == results[$("#floodSlider")[0].value].attributes["GRIDID"]+'b') {
+                                gridLayerIndexArrColl.push(gridInfos[i].index);
+                                gridLayerIndex = gridInfos[i].index;
+                            }
+                        }
+
+                        //set grids layer definitions/choose the right layer here and in next input change function
+                        console.log('grid stuff');
+                        var gridLayer = "fimGrid" + siteAttr.GRID_SERV;
+                        var gridVisLayer = [];
+                        gridVisLayer.push(gridLayerIndex);
+                        map.getLayer(gridLayer).setVisibleLayers(gridVisLayer);
+                        //map.getLayer(gridLayer).setVisibility(true);
+
+
+                        $(".floodSlider").on("change", function() {
+                            if (results != null) {
+                                $("#selectedValue").text(results[this.value].attributes["STAGE"]);
+                                $("#floodMinSelectedGage").text(results[this.value].attributes["STAGE"]);
+                                if (this.className.indexOf('desktop') != -1) {
+                                    $(".mobile")[0].value = this.value;
+                                } else {
+                                    $(".desktop")[0].value = this.value;
+                                }
+                                var layerDefinitions = [];
+                                layerDefinitions[0] = "USGSID = '" + attr["SITE_NO"] + "' AND STAGE = " + results[this.value].attributes["STAGE"];
+                                map.getLayer("fimExtents").setLayerDefinitions(layerDefinitions);
+                                map.getLayer("fimBreach").setLayerDefinitions(layerDefinitions);
+
+                                for (var i=0; i < gridInfos.length; i++) {
+                                    if (gridInfos[i].shortname == siteAttr.SHORT_NAME && Number(gridInfos[i].gridid) == results[$("#floodSlider")[0].value].attributes["GRIDID"]) {
+                                        gridLayerIndexArrColl.push(gridInfos[i].index);
+                                        gridLayerIndex = gridInfos[i].index;
+                                    } else if (gridInfos[i].shortname == siteAttr.SHORT_NAME && gridInfos[i].gridid == results[$("#floodSlider")[0].value].attributes["GRIDID"]+'b') {
+                                        gridLayerIndexArrColl.push(gridInfos[i].index);
+                                        gridLayerIndex = gridInfos[i].index;
+                                    }
+                                }
+
+                                //set grids layer definitions/choose the right layer here and in next input change function
+                                var gridLayer = "fimGrid" + siteAttr.GRID_SERV;
+                                var gridVisLayer = [];
+                                gridVisLayer.push(gridLayerIndex);
+                                map.getLayer(gridLayer).setVisibleLayers(gridVisLayer);
+                                //map.getLayer(gridLayer).setVisibility(true);
+                            }
+                        });
+
+                        /*$(".desktop").on("input change", function() 
                             if (results != null) {
                                 $("#selectedValue").text(results[$("#floodSlider")[0].value].attributes["STAGE"]);
                                 $("#floodMinSelectedGage").text(results[$("#floodSlider")[0].value].attributes["STAGE"]);
@@ -1154,8 +1261,26 @@ require([
                                 layerDefinitions[0] = "USGSID = '" + attr["SITE_NO"] + "' AND STAGE = " + results[$("#floodSlider")[0].value].attributes["STAGE"];
                                 map.getLayer("fimExtents").setLayerDefinitions(layerDefinitions);
                                 map.getLayer("fimBreach").setLayerDefinitions(layerDefinitions);
+
+                                for (var i=0; i < gridInfos.length; i++) {
+                                    if (gridInfos[i].shortname == siteAttr.SHORT_NAME && Number(gridInfos[i].gridid) == results[$("#floodSlider")[0].value].attributes["GRIDID"]) {
+                                        gridLayerIndexArrColl.push(gridInfos[i].index);
+                                        gridLayerIndex = gridInfos[i].index;
+                                    } else if (gridInfos[i].shortname == siteAttr.SHORT_NAME && gridInfos[i].gridid == results[$("#floodSlider")[0].value].attributes["GRIDID"]+'b') {
+                                        gridLayerIndexArrColl.push(gridInfos[i].index);
+                                        gridLayerIndex = gridInfos[i].index;
+                                    }
+                                }
+
+                                //set grids layer definitions/choose the right layer here and in next input change function
+                                var gridLayer = "fimGrid" + siteAttr.GRID_SERV;
+                                var gridVisLayer = [];
+                                gridVisLayer.push(gridLayerIndex);
+                                map.getLayer(gridLayer).setVisibleLayers(gridVisLayer);
+                                //map.getLayer(gridLayer).setVisibility(true);
+                                
                             }
-                        });
+                        });*/
 
                         var instanceX = docWidth*0.5-$("#floodToolsDiv").width()*0.5;
                         var instanceY = docHeight*0.5-$("#floodToolsDiv").height()*0.5;
@@ -1266,7 +1391,7 @@ require([
                 }
 
             }
-            $("#floodSlider")[0].value = closestArrayItem;
+            $(".floodSlider").value = closestArrayItem;
             $("#floodSlider").trigger("change");
 
             $("#floodToolsDiv .panel-heading").removeClass('loading-hide');
@@ -1316,8 +1441,10 @@ require([
     map.on("click", function(evt) {
         //$("[id*='fimExtents'] .esriLegendLayerLabel").hide();
         var identifyParameters = new IdentifyParameters();
-        if (siteAttr != null && siteAttr.HAS_GRIDS == 1 && map.getLayer("fimExtents").visible == true && evt.target.localName != "image") {
+        if (siteAttr != null && siteAttr.HAS_GRIDS == 1 && (map.getLayer("fimExtents").visible == true || map.getLayer("fimGrid" + siteAttr.GRID_SERV).visible == true) && evt.target.localName != "image") {
             //come back to this to deal with grid clicks
+
+            //getGridLayerIndex();
             var grid_serv = siteAttr.GRID_SERV;
             identifyParameters.layerIds = [];
             gridLayerIndexArrColl = [];

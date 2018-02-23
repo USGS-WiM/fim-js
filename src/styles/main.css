@@ -286,9 +286,9 @@ div[id*='fimBreach'] .esriLegendLayerLabel {
 .floodToolsClass {
     position:absolute;
     /*top:100px;
-    left:100px;*/
-    width:650px;
-    height:450px;
+    left:100px;
+    width:695px;
+    height:450px;*//**/
     z-index:3;
     color: black;
     background-color: rgb(255,255,255);
@@ -808,11 +808,17 @@ input[type=range]:focus::-webkit-slider-runnable-track {
 .flood-tools{
     display: -webkit-flex;
     display: flex;
-    width: 100%;
+    width: 95%;
 }
 .flood-tools-left{
     width: 200px;
     display: block;
+}
+.ftl-mobile{
+  display: none;
+}
+.ftl-desktop{
+  display: block;
 }
 #floodSlider {
     padding: 25px;
@@ -903,6 +909,15 @@ input[type=range]::-moz-range-track {
     .flood-tools-left{
         text-align: center;
         width: 100%;
+    }
+    .ftl-mobile{
+      display: block;
+    }
+    .ftl-desktop{
+      display: none;
+    }
+    #floodToolsPanel{
+      width: 100%;
     }
     #floodSlider {
         float: none;
@@ -1170,10 +1185,6 @@ input[type=range]::-moz-range-track {
   line-height: 20px;
 }
 
-#aouCheck {
-    display: none;
-}
-
 
 a{
   word-break: break-all !important;
@@ -1255,4 +1266,134 @@ a{
 
 #major,#moderate,#minor,#near,#noflood {
     padding-left: 30px !important;
+}
+
+
+/*Mitch Feb 6*/
+.flood-tools-checkboxes{
+  display: block;
+  height: auto;
+  text-align:center;
+}
+
+.flood-tools-checkboxes div{
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 600;
+  box-sizing: border-box;
+  padding: 4px 5px;
+}
+.flood-tools-checkboxes div input{
+  margin-right: 5px;
+  position: relative;
+  top: -3px;
+}
+@media (max-width: 767px) {
+  .flood-tools-checkboxes div input{
+    top: -4px;
+  }
+}
+
+.flood-tools-logos{
+  display: block;
+  text-align: center;
+  box-sizing: border-box;
+  padding: 10px 0 0 0;
+}
+.flood-tools-logos img{
+  display: inline-block;
+  height: 30px;
+  width: auto;
+}
+
+#floodToolsDiv .panel-body{
+  display:-webkit-flex;
+  display:flex;
+}
+#floodToolsDiv .panel-body *{
+  font-size: 12px;
+  line-height: 14px
+}
+.ftl-desktop{
+  min-width: 191px;
+  max-width: 191px;
+  width: 191px;
+}
+
+.nav-tabs li a{
+  padding: 5px 10px;
+}
+
+
+.modal-logos img{
+  display: inline-block;
+  margin: 4px;
+}
+
+
+
+/*Mitch FEB18*/
+#zoomToLibExtent{
+  margin-bottom: 25px;
+}
+
+.btn.close{
+  background-color: rgba(68,115,255,1) !important;
+  color: white;
+  opacity: 1 !important;
+  font-size: 14px;
+  text-shadow: none !important;
+  margin-top: 25px;
+  font-weight: 400;
+  text-transform: lowercase;
+  letter-spacing: 1px;
+  transition: 0.2s;
+  padding: 12px 15px !important;
+  display: block;
+  margin: 25px auto 0 auto;
+  float: none;
+}
+
+.btn.close:hover{
+  background-color: rgba(68,115,255,0.75) !important;
+  transition: 0.2s;
+  cursor: pointer;
+}
+
+
+@media (max-width: 767px) {
+  .flood-tools-checkboxes div{
+    display: -webkit-flex;
+    display: flex;
+    -webkit-justify-content: center;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+  }
+}
+
+#floodToolsTabs{
+  width: 450px;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+}
+@media (max-width: 767px) {
+  #floodToolsTabs{
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+  }
+}
+#floodToolsTabs a{
+  border-radius: 0 !important;
+  border-bottom: 1px solid #ddd !important;
+  font-size: 10.5px !important;
+  padding: 5px !important;
+  letter-spacing: -0.35px !important;
+
+}
+#floodToolsTabs > li.active a{
+  border-radius: 0 !important;
+  border-bottom: 1px solid #ddd !important;
 }

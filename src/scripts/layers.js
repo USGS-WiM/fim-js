@@ -151,7 +151,7 @@ require([
                     "url" : "https://gis.wim.usgs.gov/ArcGIS/rest/services/FIMMapper/grids_1/MapServer",
                     "options": {
                         "id": "fimGrid1",
-                        "opacity": 1.0,
+                        "opacity": 0.7,
                         "visible": false
                     },
                     "wimOptions": {//
@@ -167,7 +167,7 @@ require([
                     "url" : "https://gis.wim.usgs.gov/ArcGIS/rest/services/FIMMapper/grids_2/MapServer",
                     "options": {
                         "id": "fimGrid2",
-                        "opacity": 0.0,
+                        "opacity": 0.7,
                         "visible": false
                     },
                     "wimOptions": {//
@@ -183,7 +183,7 @@ require([
                     "url" : "https://gis.wim.usgs.gov/ArcGIS/rest/services/FIMMapper/grids_3/MapServer",
                     "options": {
                         "id": "fimGrid3",
-                        "opacity": 0.0,
+                        "opacity": 0.7,
                         "visible": false
                     },
                     "wimOptions": {//
