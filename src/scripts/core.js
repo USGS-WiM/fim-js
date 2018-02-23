@@ -1136,7 +1136,7 @@ require([
 
                     })
                     .fail(function() {
-                        alert('there was an issue');
+                        //alert('there was an issue');
                     });
 
 
