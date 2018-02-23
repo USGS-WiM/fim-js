@@ -894,6 +894,7 @@ input[type=range]::-moz-range-track {
     box-sizing: border-box;
     padding: 15px 0 35px 0;
 }
+
 @media (max-width: 520px) {
     .flood-tools{
         -webkit-flex-direction: column;

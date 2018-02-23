@@ -39,6 +39,11 @@ var libExtent = null;
 
 var loadedInitialLibrary = false;
 
+var majorCount = 0;
+var moderateCount = 0;
+var minorCount = 0;
+var actionCount = 0;
+var nofloodCount = 0;
 var currentBasemap;
 
 
@@ -1305,6 +1310,63 @@ require([
                     break;
 
             }
+        } else if (layer == "noflood") {
+            var ahpsQueryCount = new esriQuery();
+            ahpsQueryCount.where = "Status = 'normal' OR Status = 'no_flooding' OR Status = 'minor' OR Status = 'moderate' OR Status = 'major' OR Status = 'old' OR Status = 'action'";
+            ahpsQueryCount.outFields = ["status"];
+            ahpsQueryCount.returnGeometry = false;
+            var ahpsQueryTask = new QueryTask(map.getLayer("ahpsSites").url + '/1');
+            ahpsQueryTask.execute(ahpsQueryCount, ahpsCountResult, queryFault);
+        }
+
+        function ahpsCountResult(featureSet) {
+            console.log(featureSet.features.length);
+            var i;
+            for (i=0; i < featureSet.features.length-1; i++) {
+                if (featureSet.features[i].attributes.status == 'major') {
+                    if (majorCount == undefined) {
+                        majorCount = 0;
+                    }
+                    majorCount += 1;
+                } else if (featureSet.features[i].attributes.status == 'moderate') {
+                    if (moderateCount == undefined) {
+                        moderateCount = 0;
+                    }
+                    moderateCount += 1;
+                } else if (featureSet.features[i].attributes.status == 'minor') {
+                    if (minorCount == undefined) {
+                        minorCount = 0;
+                    }
+                    minorCount += 1;
+                } else if (featureSet.features[i].attributes.status == 'action') {
+                    if (actionCount == undefined) {
+                        actionCount = 0;
+                    }
+                    actionCount += 1;
+                } else if (featureSet.features[i].attributes.status == 'no_flooding') {
+                    if (nofloodCount == undefined) {
+                        nofloodCount = 0;
+                    }
+                    nofloodCount += 1;
+                }
+            }
+
+            //var text = 'test';
+            var majorText = "Major flooding (" + majorCount + ")";
+            var moderateText = "Moderate flooding (" + moderateCount + ")";
+            var minorText = "Minor flooding (" + minorCount + ")";
+            var actionText = "Action flooding (" + actionCount + ")";
+            var nofloodText = "No flooding (" + nofloodCount + ")";
+
+            $("#majorFloodingLabel")[0].textContent = majorText;
+            $("#moderateFloodingLabel")[0].textContent = moderateText;
+            $("#minorFloodingLabel")[0].textContent = minorText;
+            $("#nearFloodLabel")[0].textContent = actionText;
+            $("#noFloodingLabel")[0].textContent = nofloodText;
+        }//
+
+        function queryFault(evt) {
+            console.log("error: " + evt);
         }
 
     });
@@ -2179,7 +2241,7 @@ require([
                     var button = $('<div class="btn-group-vertical lyrTogDiv" style="cursor: pointer;" data-toggle="buttons"> <button id="' + layer.id + '"type="button" class="btn btn-default active" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="glyphspan fa fa-check-square-o"></i>&nbsp;&nbsp;' + layerName + '</button></span></div>');
                 } else {
                     //no icons; button not selected
-                    var button = $('<div class="btn-group-vertical lyrTogDiv" style="cursor: pointer;" data-toggle="buttons"> <button id="' + layer.id + '"type="button" class="btn btn-default" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="glyphspan fa fa-square-o"></i>&nbsp;&nbsp;' + layerName + '</button> </div>');
+                    var button = $('<div class="btn-group-vertical lyrTogDiv" style="cursor: pointer;" data-toggle="buttons"> <button id="' + layer.id + '"type="button" class="btn btn-default" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="glyphspan fa fa-square-o"></i>&nbsp;&nbsp;<label id="' + camelize(layerName) + 'Label" class="ahpsLabel">' + layerName + '</label></button> </div>');
                 }
 
                 //click listener for regular
