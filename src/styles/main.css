@@ -1449,3 +1449,7 @@ a{
 #legendElement #legendHeading h4 a{
   padding-bottom: 11px;
 }
+
+#major{
+  margin-top:5px !important;
+}
