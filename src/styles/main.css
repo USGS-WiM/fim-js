@@ -557,14 +557,11 @@ a.lgi-zoom:hover {
     text-align: center;
 }
 
-#wim_logo {
-    background: #000 0 0;
-    border-radius: 5px;
-    width: 45px;
+#wim_logo{
+  height: 30px;
 }
 
 #wim_logo:hover{
-    background: blue none repeat scroll 0 0;
     cursor: pointer;
 }
 
@@ -652,7 +649,7 @@ input[type=range]:focus::-webkit-slider-runnable-track {
   top: 65px;
   max-height: calc(100% - 300px) !important;
 }
-@media (max-width: 520px) {
+@media (max-width: 767px) {
     #legendElement{
         max-width: 240px;
     }
@@ -686,7 +683,7 @@ input[type=range]:focus::-webkit-slider-runnable-track {
   -webkit-justify-content: space-between;
   justify-content: space-between;
 }
-@media (max-width: 520px) {
+@media (max-width: 767px) {
   #floodToolsPanelHeader{
     font-size: 12px;
     letter-spacing: -0.25px;
@@ -706,7 +703,7 @@ input[type=range]:focus::-webkit-slider-runnable-track {
     border-right: none !important;
     border-bottom: none !important;
     font-size: 12px;
-    padding: 4px;
+    padding: 10px 10px 11px 10px;
   }
 }
 
@@ -895,7 +892,7 @@ input[type=range]::-moz-range-track {
     padding: 15px 0 35px 0;
 }
 
-@media (max-width: 520px) {
+@media (max-width: 767px) {
     .flood-tools{
         -webkit-flex-direction: column;
         flex-direction: column;
@@ -1007,7 +1004,7 @@ input[type=range]::-moz-range-track {
 #servicesAndDataTabPane img{
     max-width: 100%;
 }
-@media (max-width: 520px) {
+@media (max-width: 767px) {
     .data-flex{
         display: -webkit-flex;
         display: flex;
@@ -1321,7 +1318,7 @@ a{
 }
 
 .nav-tabs li a{
-  padding: 5px 10px;
+  padding: 10px 10px 11px 10px;
 }
 
 
@@ -1396,4 +1393,63 @@ a{
 #floodToolsTabs > li.active a{
   border-radius: 0 !important;
   border-bottom: 1px solid #ddd !important;
+}
+
+
+/*Feb 22 Fixes*/
+@media (max-width: 767px) {
+    #floodToolsDiv{
+      top: 65px;
+      left: 5%;
+      width: 90%;
+    }
+    #floodToolsDiv .panel-body{
+      width: 100%;
+    }
+    #floodToolsTabs{
+      width: 100%;
+    }
+    #zoomToLibExtent{
+      margin-bottom: 60px;
+    }
+    .lobipanel > .panel-heading .dropdown{
+      position: absolute;
+    }
+}
+
+#layersPanel .pull-right.glyphicon{
+  left: 5px;
+}
+
+#sidebar .panel-collapse .btn-group-vertical button{
+  padding: 0 10px;
+}
+
+#sidebar .panel-collapse .btn-group-vertical label:hover{
+  border-left: 2px solid transparent;
+}
+
+.modal-content{
+  border-radius: 4px;
+  box-shadow: 0 5px 30px 0 rgba(0,0,60,0.25), 0 1px 3px 0 rgba(0,0,80,0.12);
+}
+
+#legendElement{
+  box-shadow: 0 5px 30px 0 rgba(0,0,60,0.25), 0 1px 3px 0 rgba(0,0,80,0.12);
+  border-radius:3px !important;
+}
+#legendElement *{
+  border-radius: 3px;
+}
+#legendElement, #legendHeading{
+  text-transform: none !important;
+  font-weight: 900 !important;
+}
+
+#legendElement #legendHeading h4 a{
+  padding-bottom: 11px;
+}
+
+#major{
+  margin-top:5px !important;
 }
