@@ -32,6 +32,8 @@ var grid3Infos;
 var gridLayerIndex;
 var gridLayerIndexArrColl = [];
 
+var gridsArray = [1,2,3];
+
 var siteClick;
 
 var extentResults = null;
@@ -697,6 +699,11 @@ require([
                 } else {
                     $('#gridsCheck').hide();
                 }
+                
+                $.each(gridsArray, function(item) {
+                    map.getLayer('fimGrid' + gridsArray[item]).setVisibility(false);
+                });
+                
 
                 $('#gridsCheckBox, #gridsCheckBox2').on('click', function(evt) {
                     if (evt.currentTarget.checked == true) {
