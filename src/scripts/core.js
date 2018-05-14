@@ -658,8 +658,9 @@ require([
                 $("#floodMaxGage").text("");
                 $("#floodMaxDischarge").text("");
                 
-                $(".mobile")[0].value = 0;
-                $(".desktop")[0].value = 0;
+                $(".floodSlider").each(function(index) {
+                    this.value = 0;
+                })
                 $("#floodSlider").trigger("change");
 
                 $("#zoomToLibExtent").hide();
