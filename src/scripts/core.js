@@ -666,11 +666,26 @@ require([
                 //code to query related records for site and get logos and created/reviewed by cooperators
                 //first set anything that can be set with site attributes
                 $("#downloadData").attr("href", siteAttr.DATA_LINK);
-                $("#reportCover").attr("src", siteAttr.REP_THUMB);
+
+                //code for showing or hiding report thumbnail
+                if (siteAttr.REP_THUMB != "NONE") {
+                    $("#reportCover").attr("src", siteAttr.REP_THUMB);
+                    $("#reportCover").show();
+                } else {
+                    $("#reportCover").hide();
+                }
+
                 $("#reportCover").off("click").click(function() {
                     window.open(siteAttr.REP_LINK);
                 });
-                $("#downloadReport").attr("href", siteAttr.REP_LINK);
+
+                //code to add report link or text saying no report available
+                if (siteAttr.REP_LINK != "NONE") {
+                    $("#downloadReport").html("<a id='downloadReport' target='_blank' href='" + siteAttr.REP_LINK + "'>Download report</a>");
+                } else {
+                    $("#downloadReport").text("Report not currently available for this site.");
+                }
+                
 
                 $('#mapsCreatedBy').empty();
                 $('#mapsReviewedBy').empty();
@@ -1521,9 +1536,16 @@ require([
 
                     //using depth range value in site file
                     var range = lowValue.toString() + ' - ' + highValue.toString();
-
-                    var template = new esri.InfoTemplate("Water depth <a target='_blank' href='" + siteAttr.REP_LINK + "'><i style='color: white' class='fa fa-question-circle'></a>",
+                    
+                    var template;
+                    if (siteAttr.REP_LINK != "NONE") {
+                        template = new esri.InfoTemplate("Water depth <a target='_blank' href='" + siteAttr.REP_LINK + "'><i style='color: white' class='fa fa-question-circle'></a>",
                         "<b>Range:</b> " + range + " ft");
+                    } else {
+                        template = new esri.InfoTemplate("Water depth",
+                        "<b>Range:</b> " + range + " ft");
+                    }
+                    
 
                     var feature = response[0].feature;
                     feature.setInfoTemplate(template);
