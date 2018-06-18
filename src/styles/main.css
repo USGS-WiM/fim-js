@@ -173,24 +173,33 @@ div[id*='fimBreach'] .esriLegendLayerLabel {
 
 .identification {
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 0px;
     font-size: 9pt;
+    font-weight: 600;
     display: block;
     width: 100%;
+    opacity: 1;
     margin: 0;
-    padding: 30px 0 0 8px;
-    opacity: .75;
+    padding: 30px 0 10px 0px;
     text-align: center;
     color: #6E7490;
+}
+.identification #wim_logo{
+    height: 18px;
+    margin-left: 2px;
+    margin-top: -3px;
 }
 .sidebar_footer{
   display: block;
   box-sizing: border-box;
   padding: 10px;
 }
+.sidebar_footer{
+    line-height: 13px;
+}
 .sidebar_footer a{
   display: inline-block;
-  padding: 2px 4px;
+  padding: 0px 4px;
   font-size: 10px;
 }
 
@@ -553,14 +562,18 @@ a.lgi-zoom:hover {
     text-align: center;
 }
 
-#wim_logo {
-    background: #000 0 0;
-    border-radius: 5px;
-    width: 45px;
+#wim_logo{
+    transition: 0.2s;
+    height: 22px;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    padding: 0;
 }
 
 #wim_logo:hover{
-    background: blue none repeat scroll 0 0;
+    transition: 0.2s;
+    -webkit-transform: scale(1.07);
+    transform: scale(1.07);
     cursor: pointer;
 }
 
@@ -646,7 +659,11 @@ input[type=range]:focus::-webkit-slider-runnable-track {
   position: fixed;
   right: 15px;
   top: 65px;
+  border-radius: 4px;
   max-height: calc(100% - 300px) !important;
+}
+#legendElement .panel-title a{
+    font-weight: 600;
 }
 @media (max-width: 520px) {
     #legendElement{
@@ -660,6 +677,14 @@ input[type=range]:focus::-webkit-slider-runnable-track {
 #locateButton,
 #homeButton{
   margin-top: 30px;
+  background-color: #10152C;
+  border-radius: 4px;
+}
+#mapDiv_zoom_slider{
+    border-radius:4px;
+}
+#legendElement #legendHeading{
+    border-radius: 4px;
 }
 
 
@@ -843,6 +868,40 @@ input[type=range]::-moz-range-track {
     text-align: right;
     color: rgba(0,0,0,0.5);
 }
+/* Flood levels side of slider */
+.slider-flood-levels{
+    display: block;
+    width: 10px;
+    height: 140px;
+    margin-top: 15px;
+    /* height: 150px;
+    margin-top: 10px; */
+    
+    right: -55px;
+    position: absolute;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    overflow:hidden;
+}
+.slider-flood-levels #sliderActionLevel,
+.slider-flood-levels #sliderMinorLevel,
+.slider-flood-levels #sliderModerateLevel,
+.slider-flood-levels #sliderMajorLevel{
+    display: block;
+    width: 100%;
+    height: 10px;
+    position:absolute;
+    bottom: 0;
+}
+.slider-flood-levels #sliderActionLevel{background-color:#FDFB51; z-index:40;}
+.slider-flood-levels #sliderMinorLevel{background-color:#FAA629; z-index:30;}
+.slider-flood-levels #sliderModerateLevel{background-color:#FC0D1B; z-index:20;}
+.slider-flood-levels #sliderMajorLevel{background-color:#C326FB; z-index:10;}
+
+
+
 .flood-tools-left img{
     display: block;
     margin: 0 auto;
@@ -1032,6 +1091,12 @@ input[type=range]::-moz-range-track {
 /*LATLNG*/
 #latLngScale{
   bottom: 55px !important;
+  border-radius: 4px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.07), 0 3px 6px rgba(0, 0, 0, 0.08);
+  background-color: #FFF !important;
+  letter-spacing: 0px !important;
+  font-weight: 600;
+  font-size: 11px;
 }
 
 /*Rotation Lock*/
@@ -1086,6 +1151,9 @@ input[type=range]::-moz-range-track {
 #userGuideNav:hover{
   opacity: 0.65 !important;
   transition: 0.2s !important;
+}
+#navbar{
+    background-color: #10152C !important;
 }
 #navbar button{
   padding: 0 7px 2px 7px !important;
@@ -1246,4 +1314,49 @@ a{
 
 #major,#moderate,#minor,#near,#noflood {
     padding-left: 30px !important;
+}
+
+
+/* Float Search API above modal */
+.modal{
+    z-index: 11100 !important;
+}
+.search-api-menu{
+    z-index: 11500 !important;
+}
+.search-api-menu *{
+    max-height: 60vh !important;
+    overflow:auto;
+    
+}
+
+.search-api-menu *::-webkit-scrollbar{width:0!important;}
+
+.modal-footer .close{
+    font-weight: 500;
+    background-color: #0F8AFF;
+    opacity: 1;
+    color: white;
+    text-shadow: none;
+    transition: 0.2s;
+    font-size: 16px;
+    letter-spacing: 0.5px;
+    float: none;
+    margin-top: 10px;
+    padding: 8px 20px 10px 20px;
+}
+.modal-footer .close:hover{
+    cursor: pointer;
+    transition: 0.2s;
+    background-color: #0070DB !important;
+}
+.modal-footer p{
+    font-weight: 600 !important;
+    font-size: 12px !important;
+}
+
+/* Border radius and shadow for modal */
+.modal-content{
+    border-radius: 5px;
+    box-shadow: 0 19px 38px rgba(0, 0, 0, 0.30), 0 15px 12px rgba(0, 0, 0, 0.22);
 }

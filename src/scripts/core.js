@@ -450,6 +450,7 @@ require([
         map.getLayer("fimExtents").setVisibility(false);
         map.getLayer("fimBreach").setVisibility(false);
         map.getLayer("fimSuppLyrs").setVisibility(false);
+        $('#hydroChart').highcharts().destroy();
         map.infoWindow.hide();
     });
 
@@ -960,11 +961,16 @@ require([
 
                 $("#floodToolsDiv").css("visibility", "visible");
 
+                var floodStageBands = [];
+
+                
                 $.when(nwisCall,nwsCall)
                     .done(function(nwisData,nwsData) {
 
                         //NWIS data handling
                         var siteData = $.parseJSON(nwisData[0]);
+
+                        var rawFloodStageData = [].slice.call(nwsData[0].childNodes[0].children[1].children);
                         var values = siteData.data[0].time_series_data
 
                         var finalNWISDataArray = [];
@@ -980,6 +986,100 @@ require([
                             }
 
                         });
+
+
+                        console.log("Raw Data");
+                        console.log(rawFloodStageData);
+                        
+
+                        // Clean up raw data - remove empty values
+                        var cleanFloodStageData = [];
+                        $.each(rawFloodStageData, function(key, value) {
+                            if(value.localName == 'action' || value.localName == 'flood' || value.localName == 'moderate' || value.localName == 'major'){
+                                cleanFloodStageData.push({'levelValue': value.textContent, 'label': value.localName});
+                            }
+                        });
+                        console.log("Cleaned Up Data");
+                        console.log(cleanFloodStageData);
+                        
+                        floodStageBands = [];
+
+                        var bandColor = "#ffffff";
+                        var labelText = "";
+                        var toValue = 0;
+                        var fromValue = 0;
+
+                        if(cleanFloodStageData[0]){
+                            $.each(cleanFloodStageData, function(key, value) {
+
+                                // Push flood stage to chart 
+                                var addFloodStage = function(){
+                                    floodStageBands.push({
+                                        'color': bandColor, 
+                                        'from': fromValue, 
+                                        'to': toValue,
+                                        'label':{
+                                            'text': labelText
+                                        }
+                                    });
+                                }
+    
+                                if(value.label == 'action'){
+                                    labelText = "Action";
+                                    bandColor = "#FDFB51";
+                                }
+                                if(value.label == 'flood'){
+                                    labelText = "Minor Flooding";
+                                    bandColor = "#FAA629";
+                                }
+                                if(value.label == 'moderate'){
+                                    labelText = "Moderate Flooding";
+                                    bandColor = "#FC0D1B";
+                                }
+                                if(value.label == 'major'){
+                                    labelText = "Major Flooding";
+                                    bandColor = "#C326FB";
+                                }
+    
+                                // Only if data for that level exists
+                                if(value.levelValue){
+                                    fromValue = parseFloat(value.levelValue);
+                                    if(cleanFloodStageData[key + 1]){
+                                        toValue = parseFloat(cleanFloodStageData[key + 1].levelValue);
+                                    }else{
+                                        toValue = parseFloat(value.levelValue + 10);
+                                    }
+                                    addFloodStage();
+                                }
+                                
+    
+                            });
+                            console.log("Bands to add to Chart");
+                            console.log(floodStageBands);
+
+                            console.log("SLIDER MIN");
+                            console.log($(".slider-min").text())
+                            console.log("SLIDER MAX");
+                            console.log($(".slider-max").text())
+                            var sliderMin = parseFloat($(".slider-min").text());
+                            var sliderMax = parseFloat($(".slider-max").text());
+                            var sliderTotalDiff = sliderMax - sliderMin;
+                            // Set slider colors 
+                            // var sliderTotalDiff = 15;
+                            // var sliderTotalDiff = (results[results.length-1].attributes["STAGE"]) - (results[0].attributes["STAGE"])
+                            $(".slider-flood-levels").show();
+                            if(floodStageBands[0]){
+                                $("#sliderActionLevel").css( "height", (floodStageBands[0].to - sliderMin) / sliderTotalDiff * 100 + '%' );
+                                $("#sliderMinorLevel").css( "height", (floodStageBands[1].to - sliderMin) / sliderTotalDiff * 100 + '%' );
+                                $("#sliderModerateLevel").css( "height", (floodStageBands[2].to - sliderMin) / sliderTotalDiff * 100 + '%' );
+                                $("#sliderMajorLevel").css( "height", '100%' );
+                            }else{
+                                $(".slider-flood-levels").hide();
+                            }
+                            // $("#sliderMajorLevel").css( "height", floodStageBands[3].from / sliderTotalDiff * 100 + '%' );
+    
+                        }
+                        
 
                         //NWS data handling
                         if (nwsData[0].children[0].children[0].textContent != "no nws data") {
@@ -1036,12 +1136,20 @@ require([
                                 tickInterval: 24*3600*1000
                             },
                             yAxis: {
+                                resize: {
+                                    enabled: true
+                                },
+                                // max: function(){
+                                    
+                                // },
+                                //   max: 100,
                                 labels: {
                                     format: "{value} ft"
                                 },
                                 title: {
                                     text: "Gage height"
-                                }
+                                },
+                                plotBands: floodStageBands
                             },
                             tooltip: {
                                 formatter: function() {
@@ -1060,6 +1168,26 @@ require([
                                     return dayOfWeek + ', ' + month + ' ' + dayOfMonth + ', ' + hours + ':' + minutes + '<br/>' +
                                         this.series.name + ': <b>' + this.y + ' ft</b>';
                                 }
+                            }
+                        }, function(hydroChart){
+
+                            // If data for bands exists...
+                            if(floodStageBands[0]){
+                                console.log("Chart Loaded");
+                                var chartYMax = 10;
+                                if (hydroChart.yAxis[0].max < floodStageBands[0].from){
+                                    chartYMax = floodStageBands[0].from + 1;
+                                }else if (floodStageBands[0].from < hydroChart.yAxis[0].max < floodStageBands[0].to){
+                                    chartYMax = floodStageBands[1].from + 1;
+                                }else if (floodStageBands[1].from < hydroChart.yAxis[0].max < floodStageBands[1].to){
+                                    chartYMax = floodStageBands[2].from + 1;
+                                }else if (floodStageBands[2].from < hydroChart.yAxis[0].max < floodStageBands[2].to){
+                                    chartYMax = floodStageBands[3].from + 1;
+                                }else if (floodStageBands[3].from < hydroChart.yAxis[0].max < floodStageBands[3].to){
+                                    chartYMax = floodStageBands[3].to + 1;
+                                }
+                                console.log(chartYMax);
+                                hydroChart.yAxis[0].setExtremes(null, chartYMax);
                             }
                         });
 
@@ -1137,6 +1265,9 @@ require([
                                 map.getLayer("fimBreach").setLayerDefinitions(layerDefinitions);
                             }
                         });
+
+
+
 
                         var instanceX = docWidth*0.5-$("#floodToolsDiv").width()*0.5;
                         var instanceY = docHeight*0.5-$("#floodToolsDiv").height()*0.5;

@@ -118,7 +118,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title">Find Location</h4>
             </div>
             <div class="modal-body">
@@ -158,7 +158,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title"><span class="glyphicon glyphicon-print"></span> Print Map</h4>
             </div>
             <div id="printModalBody" class="modal-body">
@@ -183,7 +183,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title"><span class="glyphicon glyphicon-link"></span> Site share link</h4>
             </div>
             <div id="shareModalBody" class="modal-body">
@@ -296,7 +296,7 @@ $(".close-alert").click(function(){
 
             <div class="modal-footer">
                 <p style="color:black; margin-left:35px;text-align:left">
-                    For more information about the FIM Web Interface please contact <a href="https://wim.usgs.gov/" target="_blank"><img src="images/wimvectorxs.png" id="wim_logo"></a>
+                    For more information about the FIM Web Interface please contact <a href="https://wim.usgs.gov/" target="_blank"><img src="images/wim_abbr_black.png" id="wim_logo"></a>
 
                     <div style="text-align:center">
                       <button class=" btn btn-default close" type="button" data-dismiss="modal" aria-hidden="true" class="btn btn-default" style="float:none;">Close</button>
@@ -426,8 +426,10 @@ $(".close-alert").click(function(){
                 </div>
             </div>
 
-            <form id="disclaimerButtons" id="disclaimer-form" class="form-inline" style="text-align:center;">
-                <button id="enterMapper" type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            <form id="disclaimerButtons" id="disclaimer-form" class="modal-footer" style="text-align:center;">
+                <!-- <button id="enterMapper" type="button" class="btn btn-primary" data-dismiss="modal">Close</button> -->
+                <button class=" btn btn-default close" type="button" data-dismiss="modal" aria-hidden="true"style="float:none;">Close</button>
+                
                 <br/><br/>
             </form>
 
@@ -518,7 +520,7 @@ $(".close-alert").click(function(){
 
             <!-- # closing div tag for accordion style panels -->
             <!--</div>-->
-            <div class="identification pull-right">powered by  <a href="https://wim.usgs.gov/" target="_blank">WIM</a></div>
+            <div class="identification pull-right">powered by  <a href="https://wim.usgs.gov/" target="_blank"><img src="images/wim_abbr_black.png" id="wim_logo"></a></div>
             <div class="sidebar_footer">
               <a href="https://usgs.gov/" target="_blank">USGS Home</a>
               <a href="https://answers.usgs.gov/" target="_blank">Contact USGS</a>
@@ -576,6 +578,12 @@ $(".close-alert").click(function(){
                                             <div class="slider-values">
                                                 <div class="slider-max">52</div>
                                                 <div class="slider-min">12</div>
+                                                <div class="slider-flood-levels">
+                                                    <div id="sliderActionLevel"></div>
+                                                    <div id="sliderMinorLevel"></div>
+                                                    <div id="sliderModerateLevel"></div>
+                                                    <div id="sliderMajorLevel"></div>
+                                                </div>
                                             </div>
                                             <input id="floodSlider" type="range" name="stage" value="0" min="0" max="10" class="vertical-slider"/>
                                             <img id="usgsDefaultLogo" src="images/usgsLogoSm.jpg"/>
