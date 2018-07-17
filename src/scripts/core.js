@@ -32,12 +32,21 @@ var grid3Infos;
 var gridLayerIndex;
 var gridLayerIndexArrColl = [];
 
+var gridsArray = [1,2,3];
+
 var siteClick;
 
 var extentResults = null;
 var libExtent = null;
 
 var loadedInitialLibrary = false;
+
+var majorCount = 0;
+var moderateCount = 0;
+var minorCount = 0;
+var actionCount = 0;
+var nofloodCount = 0;
+var currentBasemap;
 
 
 require([
@@ -150,7 +159,7 @@ require([
         basemap: 'topo',
         //center: [-95.6, 38.6],
         //center: defaultMapCenter,
-        extent: new Extent({xmin:-14556056.17039887,ymin:1947003.984479506,xmax:-6728904.473998902,ymax:7254791.228600735,spatialReference:{wkid:102100}}),
+        extent: new Extent({xmin:-13876072.366774123,ymin:3500204.399233875,xmax:-7413780.247433899,ymax:6324093.972200677,spatialReference:{wkid:102100}}),
         fitExtent: true,
         logo: false,
         lods: lods
@@ -360,7 +369,7 @@ require([
         $('#longitude').html(geographicMapCenter.x.toFixed(3));
     });
 
-    var nationalMapBasemap = new ArcGISTiledMapServiceLayer('https://basemap.nationalmap.gov/arcgis/rest/services/USGSTopo/MapServer');
+    var nationalMapBasemap = new ArcGISTiledMapServiceLayer('https://basemap.nationalmap.gov/arcgis/rest/services/USGSTopo/MapServer', {id: 'tnm'});
     //on clicks to swap basemap. map.removeLayer is required for nat'l map b/c it is not technically a basemap, but a tiled layer.
     on(dom.byId('btnStreets'), 'click', function () {
         map.setBasemap('streets');
@@ -396,6 +405,7 @@ require([
     });
 
     on(dom.byId('btnNatlMap'), 'click', function () {
+        map.setBasemap("topo");
         map.addLayer(nationalMapBasemap, 2);
     });
 
@@ -432,6 +442,8 @@ require([
         close: false,
         expand: false,
         editTitle: false,
+        width: 800,
+        height: 500,
         maxWidth: 800,
         maxHeight: 500
     });
@@ -448,6 +460,7 @@ require([
     $("#floodClose").click(function(){
         $("#floodToolsDiv").css("visibility", "hidden");
         map.getLayer("fimExtents").setVisibility(false);
+        map.getLayer("fimGrid"+siteAttr.GRID_SERV).setVisibility(false);
         map.getLayer("fimBreach").setVisibility(false);
         map.getLayer("fimSuppLyrs").setVisibility(false);
         $('#hydroChart').highcharts().destroy();
@@ -645,8 +658,10 @@ require([
 
                 $("#floodMaxGage").text("");
                 $("#floodMaxDischarge").text("");
-
-                $("#floodSlider")[0].value = 0;
+                
+                $(".floodSlider").each(function(index) {
+                    this.value = 0;
+                })
                 $("#floodSlider").trigger("change");
 
                 $("#zoomToLibExtent").hide();
@@ -654,17 +669,97 @@ require([
                 //code to query related records for site and get logos and created/reviewed by cooperators
                 //first set anything that can be set with site attributes
                 $("#downloadData").attr("href", siteAttr.DATA_LINK);
-                $("#reportCover").attr("src", siteAttr.REP_THUMB);
+
+                //code for showing or hiding report thumbnail
+                if (siteAttr.REP_THUMB != "NONE") {
+                    $("#reportCover").attr("src", siteAttr.REP_THUMB);
+                    $("#reportCover").show();
+                } else {
+                    $("#reportCover").hide();
+                }
+
                 $("#reportCover").off("click").click(function() {
                     window.open(siteAttr.REP_LINK);
                 });
-                $("#downloadReport").attr("href", siteAttr.REP_LINK);
+
+                //code to add report link or text saying no report available
+                if (siteAttr.REP_LINK != "NONE") {
+                    $("#downloadReport").html("<a id='downloadReport' target='_blank' href='" + siteAttr.REP_LINK + "'>Download report</a>");
+                } else {
+                    $("#downloadReport").text("Report not currently available for this site.");
+                }
+                
 
                 $('#mapsCreatedBy').empty();
                 $('#mapsReviewedBy').empty();
                 $('#logos').empty();
 
+                $('#gridsCheckBox').prop('checked', false);
 
+                $('#aouCheckBox').prop('checked', true);
+                if (siteAttr.HAS_BREACH == 1) {
+                    $('#aouCheck').show();
+                } else {
+                    $('#aouCheck').hide();
+                }
+
+                $('#aouCheckBox').on('click', function(evt) {
+                    if (evt.currentTarget.checked == true) {
+                        map.getLayer('fimBreach').setVisibility(true);
+                    } else if (evt.currentTarget.checked == false) {
+                        map.getLayer('fimBreach').setVisibility(false);
+                    }
+                });
+
+                //$('#gridsCheckBox').prop('checked', true);
+                if (siteAttr.HAS_GRIDS == 1) {
+                    $('#gridsCheck').show();
+                } else {
+                    $('#gridsCheck').hide();
+                }
+                
+                $.each(gridsArray, function(item) {
+                    map.getLayer('fimGrid' + gridsArray[item]).setVisibility(false);
+                });
+                
+
+                $('#gridsCheckBox, #gridsCheckBox2').on('click', function(evt) {
+                    if (evt.currentTarget.checked == true) {
+                        map.getLayer('fimExtents').setVisibility(false);
+                        map.getLayer('fimGrid' + siteAttr.GRID_SERV).setVisibility(true);
+                    } else if (evt.currentTarget.checked == false) {
+                        map.getLayer('fimExtents').setVisibility(true);
+                        map.getLayer('fimGrid' + siteAttr.GRID_SERV).setVisibility(false);
+                    }
+                });
+
+                if (map.getLayer("tnm") != undefined) {
+                    currentBasemap = "tnm";
+                } else {
+                    currentBasemap = map.getBasemap();
+                }
+
+                if (currentBasemap == "hybrid") {
+                    currentBasemap = "topo";
+                    $('#satCheckBox').prop('checked', true);
+                } else {
+                    $('#satCheckBox').prop('checked', false);
+                }
+
+                $('#satCheckBox').on('click', function(evt) {
+                    if (evt.currentTarget.checked == true) {
+                        map.setBasemap("hybrid");
+                        map.removeLayer(nationalMapBasemap);
+                    } else if (evt.currentTarget.checked == false) {
+                        if (currentBasemap == "tnm") {
+                            map.setBasemap("topo");
+                            map.addLayer(nationalMapBasemap);
+                        } else {
+                            map.setBasemap(currentBasemap);
+                            map.removeLayer(nationalMapBasemap);
+                        }
+                    }
+                });
 
                 //related records query
                 $.ajax({
@@ -935,7 +1030,7 @@ require([
                 var percentageOfScreen = 0.9;
                 var floodToolsHeight = docHeight*percentageOfScreen
                 var floodToolsWidth = docWidth*percentageOfScreen;
-                var highChartWidth = 600;
+                var highChartWidth = 450;
                 var highChartHeight = 325;
                 if (docHeight < 500) {
                     $("#floodToolsDiv").height(floodToolsHeight);
@@ -1067,15 +1162,22 @@ require([
                             // Set slider colors 
                             // var sliderTotalDiff = 15;
                             // var sliderTotalDiff = (results[results.length-1].attributes["STAGE"]) - (results[0].attributes["STAGE"])
-                            $(".slider-flood-levels").show();
-                            if(floodStageBands[0]){
-                                $("#sliderActionLevel").css( "height", (floodStageBands[0].to - sliderMin) / sliderTotalDiff * 100 + '%' );
-                                $("#sliderMinorLevel").css( "height", (floodStageBands[1].to - sliderMin) / sliderTotalDiff * 100 + '%' );
-                                $("#sliderModerateLevel").css( "height", (floodStageBands[2].to - sliderMin) / sliderTotalDiff * 100 + '%' );
-                                $("#sliderMajorLevel").css( "height", '100%' );
-                            }else{
-                                $(".slider-flood-levels").hide();
-                            }
+                            
+                            
+                            // $(".slider-flood-levels").show();
+                            // if(floodStageBands[0]){
+                            //     console.log("LEVELS ")
+                            //     console.log((floodStageBands[0].to - sliderMin) / sliderTotalDiff * 100 + '%' );
+                            //     console.log((floodStageBands[1].to - sliderMin) / sliderTotalDiff * 100 + '%' );
+                            //     console.log((floodStageBands[2].to - sliderMin) / sliderTotalDiff * 100 + '%' );
+
+                            //     $(".sliderActionLevel").css( "height", (floodStageBands[0].to - sliderMin) / sliderTotalDiff * 100 + '%' );
+                            //     $(".sliderMinorLevel").css( "height", (floodStageBands[1].to - sliderMin) / sliderTotalDiff * 100 + '%' );
+                            //     $(".sliderModerateLevel").css( "height", (floodStageBands[2].to - sliderMin) / sliderTotalDiff * 100 + '%' );
+                            //     $(".sliderMajorLevel").css( "height", '100%' );
+                            // }else{
+                            //     $(".slider-flood-levels").hide();
+                            // }
                             // $("#sliderMajorLevel").css( "height", floodStageBands[3].from / sliderTotalDiff * 100 + '%' );
     
                         }
@@ -1193,7 +1295,7 @@ require([
 
                     })
                     .fail(function() {
-                        alert('there was an issue');
+                        //alert('there was an issue');
                     });
 
 
@@ -1242,8 +1344,8 @@ require([
                         });
 
                         $("#siteNumber").text(attr["SITE_NO"]);
-                        $("#floodSlider").attr({"min": 0, "max": results.length-1});
-                        $("#floodSlider")[0].value = 0;
+                        $(".floodSlider").attr({"min": 0, "max": results.length-1});
+                        $("#floodSlider").value = 0;
                         $("#selectedValue").text(results[0].attributes["STAGE"]);
                         $("#floodMinSelectedGage").text(results[0].attributes["STAGE"]);
 
@@ -1255,7 +1357,62 @@ require([
                         map.getLayer("fimExtents").setLayerDefinitions(layerDefinitions);
                         map.getLayer("fimBreach").setLayerDefinitions(layerDefinitions);
 
-                        $("#slider").on("input change", function() {
+
+                        gridLayerIndexArrColl = [];
+
+                        for (var i=0; i < gridInfos.length; i++) {
+                            if (gridInfos[i].shortname == siteAttr.SHORT_NAME && Number(gridInfos[i].gridid) == results[$("#floodSlider")[0].value].attributes["GRIDID"]) {
+                                gridLayerIndexArrColl.push(gridInfos[i].index);
+                                gridLayerIndex = gridInfos[i].index;
+                            } else if (gridInfos[i].shortname == siteAttr.SHORT_NAME && gridInfos[i].gridid == results[$("#floodSlider")[0].value].attributes["GRIDID"]+'b') {
+                                gridLayerIndexArrColl.push(gridInfos[i].index);
+                                gridLayerIndex = gridInfos[i].index;
+                            }
+                        }
+
+                        //set grids layer definitions/choose the right layer here and in next input change function
+                        console.log('grid stuff');
+                        var gridLayer = "fimGrid" + siteAttr.GRID_SERV;
+                        var gridVisLayer = [];
+                        gridVisLayer.push(gridLayerIndex);
+                        map.getLayer(gridLayer).setVisibleLayers(gridVisLayer);
+                        //map.getLayer(gridLayer).setVisibility(true);
+
+
+                        $(".floodSlider").on("change", function() {
+                            if (results != null) {
+                                $("#selectedValue").text(results[this.value].attributes["STAGE"]);
+                                $("#floodMinSelectedGage").text(results[this.value].attributes["STAGE"]);
+                                if (this.className.indexOf('desktop') != -1) {
+                                    $(".mobile")[0].value = this.value;
+                                } else {
+                                    $(".desktop")[0].value = this.value;
+                                }
+                                var layerDefinitions = [];
+                                layerDefinitions[0] = "USGSID = '" + attr["SITE_NO"] + "' AND STAGE = " + results[this.value].attributes["STAGE"];
+                                map.getLayer("fimExtents").setLayerDefinitions(layerDefinitions);
+                                map.getLayer("fimBreach").setLayerDefinitions(layerDefinitions);
+
+                                for (var i=0; i < gridInfos.length; i++) {
+                                    if (gridInfos[i].shortname == siteAttr.SHORT_NAME && Number(gridInfos[i].gridid) == results[$("#floodSlider")[0].value].attributes["GRIDID"]) {
+                                        gridLayerIndexArrColl.push(gridInfos[i].index);
+                                        gridLayerIndex = gridInfos[i].index;
+                                    } else if (gridInfos[i].shortname == siteAttr.SHORT_NAME && gridInfos[i].gridid == results[$("#floodSlider")[0].value].attributes["GRIDID"]+'b') {
+                                        gridLayerIndexArrColl.push(gridInfos[i].index);
+                                        gridLayerIndex = gridInfos[i].index;
+                                    }
+                                }
+
+                                //set grids layer definitions/choose the right layer here and in next input change function
+                                var gridLayer = "fimGrid" + siteAttr.GRID_SERV;
+                                var gridVisLayer = [];
+                                gridVisLayer.push(gridLayerIndex);
+                                map.getLayer(gridLayer).setVisibleLayers(gridVisLayer);
+                                //map.getLayer(gridLayer).setVisibility(true);
+                            }
+                        });
+
+                        /*$(".desktop").on("input change", function() 
                             if (results != null) {
                                 $("#selectedValue").text(results[$("#floodSlider")[0].value].attributes["STAGE"]);
                                 $("#floodMinSelectedGage").text(results[$("#floodSlider")[0].value].attributes["STAGE"]);
@@ -1263,8 +1420,26 @@ require([
                                 layerDefinitions[0] = "USGSID = '" + attr["SITE_NO"] + "' AND STAGE = " + results[$("#floodSlider")[0].value].attributes["STAGE"];
                                 map.getLayer("fimExtents").setLayerDefinitions(layerDefinitions);
                                 map.getLayer("fimBreach").setLayerDefinitions(layerDefinitions);
+
+                                for (var i=0; i < gridInfos.length; i++) {
+                                    if (gridInfos[i].shortname == siteAttr.SHORT_NAME && Number(gridInfos[i].gridid) == results[$("#floodSlider")[0].value].attributes["GRIDID"]) {
+                                        gridLayerIndexArrColl.push(gridInfos[i].index);
+                                        gridLayerIndex = gridInfos[i].index;
+                                    } else if (gridInfos[i].shortname == siteAttr.SHORT_NAME && gridInfos[i].gridid == results[$("#floodSlider")[0].value].attributes["GRIDID"]+'b') {
+                                        gridLayerIndexArrColl.push(gridInfos[i].index);
+                                        gridLayerIndex = gridInfos[i].index;
+                                    }
+                                }
+
+                                //set grids layer definitions/choose the right layer here and in next input change function
+                                var gridLayer = "fimGrid" + siteAttr.GRID_SERV;
+                                var gridVisLayer = [];
+                                gridVisLayer.push(gridLayerIndex);
+                                map.getLayer(gridLayer).setVisibleLayers(gridVisLayer);
+                                //map.getLayer(gridLayer).setVisibility(true);
+                                
                             }
-                        });
+                        });*/
 
 
 
@@ -1297,6 +1472,63 @@ require([
                     break;
 
             }
+        } else if (layer == "noflood") {
+            var ahpsQueryCount = new esriQuery();
+            ahpsQueryCount.where = "Status = 'normal' OR Status = 'no_flooding' OR Status = 'minor' OR Status = 'moderate' OR Status = 'major' OR Status = 'old' OR Status = 'action'";
+            ahpsQueryCount.outFields = ["status"];
+            ahpsQueryCount.returnGeometry = false;
+            var ahpsQueryTask = new QueryTask(map.getLayer("ahpsSites").url + '/1');
+            ahpsQueryTask.execute(ahpsQueryCount, ahpsCountResult, queryFault);
+        }
+
+        function ahpsCountResult(featureSet) {
+            console.log(featureSet.features.length);
+            var i;
+            for (i=0; i < featureSet.features.length-1; i++) {
+                if (featureSet.features[i].attributes.status == 'major') {
+                    if (majorCount == undefined) {
+                        majorCount = 0;
+                    }
+                    majorCount += 1;
+                } else if (featureSet.features[i].attributes.status == 'moderate') {
+                    if (moderateCount == undefined) {
+                        moderateCount = 0;
+                    }
+                    moderateCount += 1;
+                } else if (featureSet.features[i].attributes.status == 'minor') {
+                    if (minorCount == undefined) {
+                        minorCount = 0;
+                    }
+                    minorCount += 1;
+                } else if (featureSet.features[i].attributes.status == 'action') {
+                    if (actionCount == undefined) {
+                        actionCount = 0;
+                    }
+                    actionCount += 1;
+                } else if (featureSet.features[i].attributes.status == 'no_flooding') {
+                    if (nofloodCount == undefined) {
+                        nofloodCount = 0;
+                    }
+                    nofloodCount += 1;
+                }
+            }
+
+            //var text = 'test';
+            var majorText = "Major flooding (" + majorCount + ")";
+            var moderateText = "Moderate flooding (" + moderateCount + ")";
+            var minorText = "Minor flooding (" + minorCount + ")";
+            var actionText = "Action flooding (" + actionCount + ")";
+            var nofloodText = "No flooding (" + nofloodCount + ")";
+
+            $("#majorFloodingLabel")[0].textContent = majorText;
+            $("#moderateFloodingLabel")[0].textContent = moderateText;
+            $("#minorFloodingLabel")[0].textContent = minorText;
+            $("#nearFloodLabel")[0].textContent = actionText;
+            $("#noFloodingLabel")[0].textContent = nofloodText;
+        }//
+
+        function queryFault(evt) {
+            console.log("error: " + evt);
         }
 
     });
@@ -1321,7 +1553,7 @@ require([
                 }
 
             }
-            $("#floodSlider")[0].value = closestArrayItem;
+            $(".floodSlider").value = closestArrayItem;
             $("#floodSlider").trigger("change");
 
             $("#floodToolsDiv .panel-heading").removeClass('loading-hide');
@@ -1371,8 +1603,10 @@ require([
     map.on("click", function(evt) {
         //$("[id*='fimExtents'] .esriLegendLayerLabel").hide();
         var identifyParameters = new IdentifyParameters();
-        if (siteAttr != null && siteAttr.HAS_GRIDS == 1 && map.getLayer("fimExtents").visible == true && evt.target.localName != "image") {
+        if (siteAttr != null && siteAttr.HAS_GRIDS == 1 && (map.getLayer("fimExtents").visible == true || map.getLayer("fimGrid" + siteAttr.GRID_SERV).visible == true) && evt.target.localName != "image") {
             //come back to this to deal with grid clicks
+
+            //getGridLayerIndex();
             var grid_serv = siteAttr.GRID_SERV;
             identifyParameters.layerIds = [];
             gridLayerIndexArrColl = [];
@@ -1442,9 +1676,16 @@ require([
 
                     //using depth range value in site file
                     var range = lowValue.toString() + ' - ' + highValue.toString();
-
-                    var template = new esri.InfoTemplate("Water depth <a target='_blank' href='" + siteAttr.REP_LINK + "'><i style='color: white' class='fa fa-question-circle'></a>",
+                    
+                    var template;
+                    if (siteAttr.REP_LINK != "NONE") {
+                        template = new esri.InfoTemplate("Water depth <a target='_blank' href='" + siteAttr.REP_LINK + "'><i style='color: white' class='fa fa-question-circle'></a>",
                         "<b>Range:</b> " + range + " ft");
+                    } else {
+                        template = new esri.InfoTemplate("Water depth",
+                        "<b>Range:</b> " + range + " ft");
+                    }
+                    
 
                     var feature = response[0].feature;
                     feature.setInfoTemplate(template);
@@ -2169,7 +2410,7 @@ require([
                     var button = $('<div class="btn-group-vertical lyrTogDiv" style="cursor: pointer;" data-toggle="buttons"> <button id="' + layer.id + '"type="button" class="btn btn-default active" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="glyphspan fa fa-check-square-o"></i>&nbsp;&nbsp;' + layerName + '</button></span></div>');
                 } else {
                     //no icons; button not selected
-                    var button = $('<div class="btn-group-vertical lyrTogDiv" style="cursor: pointer;" data-toggle="buttons"> <button id="' + layer.id + '"type="button" class="btn btn-default" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="glyphspan fa fa-square-o"></i>&nbsp;&nbsp;' + layerName + '</button> </div>');
+                    var button = $('<div class="btn-group-vertical lyrTogDiv" style="cursor: pointer;" data-toggle="buttons"> <button id="' + layer.id + '"type="button" class="btn btn-default" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="glyphspan fa fa-square-o"></i>&nbsp;&nbsp;<label id="' + camelize(layerName) + 'Label" class="ahpsLabel">' + layerName + '</label></button> </div>');
                 }
 
                 //click listener for regular
