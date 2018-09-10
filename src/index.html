@@ -589,6 +589,7 @@ $(".close-alert").click(function(){
                                 <li role="presentation" class="active"><a id="floodToolsTab" href="#floodToolsTabPane" data-toggle="tab" onclick="ga('send','event','Flood Tools Panel','click','Flood Tools');"><i class="fa fa-umbrella"></i>&nbsp;Flood Tools</a></li>
                                 <li role="presentation"><a id="hydroTab" href="#hydroTabPane" data-toggle="tab" onclick="ga('send','event','Flood Tools Panel','click','Hydrograph');"><i class="fa fa-line-chart"></i>&nbsp;Hydrograph</a></li>
                                 <!--<li role="presentation"><a id="webCamTab" href="#webCamTabPane" data-toggle="tab"><i class="fa fa-video-camera"></i>&nbsp;Web Cam</a></li>-->
+                                <li role="presentation" id="hazusTabElement"><a id="hazusTab" href="#hazusTabPane" data-toggle="tab" onclick="ga('send','event','Flood Tools Panel','click','HAZUS');"><i class="fa fa-money"></i>&nbsp;HAZUS</a></li>
                                 <li role="presentation"><a id="servicesAndDataTab" href="#servicesAndDataTabPane" data-toggle="tab" onclick="ga('send','event','Flood Tools Panel','click','Services and Data');"><i class="fa fa-server"></i>&nbsp;Services and Data</a></li>
                                 <li role="presentation"><a id="moreInfoTab" href="#moreInfoTabPane" data-toggle="tab" onclick="ga('send','event','Flood Tools Panel','click','More Info');"><i class="fa fa-question-circle"></i>&nbsp;More Info</a></li>
                             </ul>
@@ -652,6 +653,17 @@ $(".close-alert").click(function(){
                                 <!--<div role="tabpanel" class="tab-pane" id="webCamTabPane">
                                     <iframe id="webCamIFrame"></iframe>
                                 </div>-->
+                                <div role="tabpanel" class="tab-pane" id="hazusTabPane">
+                                    <table id="hazusTable" style="width:100%">
+                                        <tr>
+                                            <th>Site Number</th>
+                                            <th>Stage</th> 
+                                            <th>Number of Buildings Damaged</th>
+                                            <th>Building Losses</th>
+                                            <th>Essential Facilities Impacted</th>
+                                        </tr>
+                                    </table>
+                                </div>
                                 <div role="tabpanel" class="tab-pane" id="servicesAndDataTabPane">
 
                                     <div class="data-flex">

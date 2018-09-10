@@ -1164,6 +1164,36 @@ require([
                     });
 
 
+                var hazusQuery = new esriQuery();
+                hazusQuery.returnGeometry = false;
+                hazusQuery.outFields = ["*"];
+                hazusQuery.orderByFields = ["STAGE ASC"];
+                hazusQuery.where = "USGSID = '" + attr["SITE_NO"] + "'";
+                
+                // Using fim HAZUS url found in layers.js. edit there, if needed.
+                var hazusQueryTask = new QueryTask(fimHazusUrl);
+                hazusQueryTask.execute(hazusQuery, hazusResult);
+
+                function hazusResult(featureSet) {
+                    if (featureSet.features.length > 0) {
+                        $("#hazusTabElement").show();
+                        $("#hazusTable tr td").remove();
+                        for (var i=0; i < featureSet.features.length; i++) {
+                            var essFacImp = "";
+                            if (featureSet.features[i].attributes["EssentialFacilityImpacted"] == null) {
+                                essFacImp = "n/a";
+                            } else {
+                                essFacImp = featureSet.features[i].attributes["EssentialFacilityImpacted"];
+                            }
+                            var html = "<tr><td>" + featureSet.features[i].attributes["USGSID"] + "</td><td>" + featureSet.features[i].attributes["STAGE"] + "</td><td>" + featureSet.features[i].attributes["BuildingDamaged"] + "</td><td>" + featureSet.features[i].attributes["BuildingLosses"] + "</td><td>" + essFacImp + "</td></tr>";
+                            $("#hazusTable").append(html);
+                        }
+                    } else {
+                        $("#hazusTabElement").hide();
+                    }
+                }
+
+
                 var floodExtentsUrl = map.getLayer("fimExtents").url + "/0";
 
                 var extentQuery = new esriQuery();
