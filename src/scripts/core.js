@@ -1164,6 +1164,36 @@ require([
                     });
 
 
+                var hazusQuery = new esriQuery();
+                hazusQuery.returnGeometry = false;
+                hazusQuery.outFields = ["*"];
+                hazusQuery.orderByFields = ["STAGE ASC"];
+                hazusQuery.where = "USGSID = '" + attr["SITE_NO"] + "'";
+                
+                // Using fim HAZUS url found in layers.js. edit there, if needed.
+                var hazusQueryTask = new QueryTask(fimHazusUrl);
+                hazusQueryTask.execute(hazusQuery, hazusResult);
+
+                function hazusResult(featureSet) {
+
+                    if (featureSet.features.length > 0) {
+
+                        // Site ID and Stage Label
+                        $("#hazusTableSiteLabel").html(featureSet.features[0].attributes["USGSID"]);
+
+                        $("#hazusTabElement").show();
+                        $("#hazusTable tr td").remove();
+                        for (var i=0; i < featureSet.features.length; i++) {
+                            var html = "<tr id='hazus" + featureSet.features[i].attributes["STAGE"] + "'><td>" + featureSet.features[i].attributes["STAGE"] + "</td><td>" + featureSet.features[i].attributes["BuildingDamaged"] + 
+                            "</td><td>$" + featureSet.features[i].attributes["BuildingLosses"].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "</td><td>" + featureSet.features[i].attributes["EssentialFacilityImpacted"] + "</td></tr>";
+                            $("#hazusTable").append(html);
+                        }
+                    } else {
+                        $("#hazusTabElement").hide();
+                    }
+                }
+
+
                 var floodExtentsUrl = map.getLayer("fimExtents").url + "/0";
 
                 var extentQuery = new esriQuery();
@@ -1248,6 +1278,12 @@ require([
                             if (results != null) {
                                 $("#selectedValue").text(results[this.value].attributes["STAGE"]);
                                 $("#floodMinSelectedGage").text(results[this.value].attributes["STAGE"]);
+                                
+                                //Adjustments to hazus tab for slider change
+                                $("#hazusTableSelectedStageLabel").text(results[this.value].attributes["STAGE"] + " ft");
+                                $("#hazusTable tr").removeClass('active');
+                                $("#hazus" + results[this.value].attributes["STAGE"]).addClass('active');
+
                                 if (this.className.indexOf('desktop') != -1) {
                                     $(".mobile")[0].value = this.value;
                                 } else {
