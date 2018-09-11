@@ -1175,7 +1175,12 @@ require([
                 hazusQueryTask.execute(hazusQuery, hazusResult);
 
                 function hazusResult(featureSet) {
+
                     if (featureSet.features.length > 0) {
+
+                        // Site ID and Stage Label
+                        $("#hazusTableSiteLabel").html(featureSet.features[0].attributes["USGSID"]);
+
                         $("#hazusTabElement").show();
                         $("#hazusTable tr td").remove();
                         for (var i=0; i < featureSet.features.length; i++) {
@@ -1185,7 +1190,7 @@ require([
                             } else {
                                 essFacImp = featureSet.features[i].attributes["EssentialFacilityImpacted"];
                             }
-                            var html = "<tr><td>" + featureSet.features[i].attributes["USGSID"] + "</td><td>" + featureSet.features[i].attributes["STAGE"] + "</td><td>" + featureSet.features[i].attributes["BuildingDamaged"] + "</td><td>" + featureSet.features[i].attributes["BuildingLosses"] + "</td><td>" + essFacImp + "</td></tr>";
+                            var html = "<tr><td>" + featureSet.features[i].attributes["STAGE"] + "</td><td>" + featureSet.features[i].attributes["BuildingDamaged"].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "</td><td>$" + featureSet.features[i].attributes["BuildingLosses"].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "</td><td>" + essFacImp + "</td></tr>";
                             $("#hazusTable").append(html);
                         }
                     } else {

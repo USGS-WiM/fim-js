@@ -2147,12 +2147,39 @@ a {
 #legendElement #legendDiv {
   background-color: rgba(255, 255, 255, 0.75) !important;
 }
+#hazusTableLabels {
+  padding: 15px 0;
+  display: flex;
+  justify-content: space-between;
+}
+#hazusTableLabels .hazus-label {
+  font-size: 12px;
+  letter-spacing: -0.2px;
+}
+#hazusTableLabels .hazus-label b {
+  font-weight: 500;
+  display: block;
+  color: rgba(5, 9, 32, 0.5);
+}
+#hazusTableLabels .hazus-label span {
+  font-weight: 600;
+  font-size: 18px;
+  padding-top: 2px;
+  display: block;
+}
 #hazusTable {
-  margin: 15px auto;
+  margin: 0 auto 15px auto;
 }
 #hazusTable tr {
   font-size: 10px;
   border-bottom: 1px solid rgba(5, 9, 32, 0.1);
+}
+#hazusTable tr.active {
+  background-color: #4776C9;
+}
+#hazusTable tr.active td,
+#hazusTable tr.active th {
+  color: white;
 }
 #hazusTable tr td,
 #hazusTable tr th {
@@ -2160,25 +2187,26 @@ a {
   padding: 5px 6px;
   font-size: 10px !important;
 }
+#hazusTable tr td:nth-child(2),
+#hazusTable tr th:nth-child(2),
 #hazusTable tr td:nth-child(3),
 #hazusTable tr th:nth-child(3),
 #hazusTable tr td:nth-child(4),
-#hazusTable tr th:nth-child(4),
-#hazusTable tr td:nth-child(5),
-#hazusTable tr th:nth-child(5) {
+#hazusTable tr th:nth-child(4) {
   text-align: right;
 }
-#hazusTable tr td:nth-child(3),
-#hazusTable tr th:nth-child(3) {
-  width: 80px !important;
+#hazusTable tr td:nth-child(2),
+#hazusTable tr th:nth-child(2) {
+  width: 110px !important;
 }
-#hazusTable tr td:nth-child(5),
-#hazusTable tr th:nth-child(5) {
+#hazusTable tr td:nth-child(4),
+#hazusTable tr th:nth-child(4) {
   width: 120px;
 }
 #hazusTable tr th {
   color: rgba(5, 9, 32, 0.4) !important;
   line-height: 11px !important;
+  padding-bottom: 4px;
 }
 #hazusTable tr td {
   font-size: 12px !important;
