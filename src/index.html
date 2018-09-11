@@ -553,15 +553,26 @@ $(".close-alert").click(function(){
                     </div>
                 </div>
 
+
+
+                <!-- 
+                    Single Site
+                    Flood Tools Div
+                 -->
+
                 <div id="floodToolsDiv" class="panel panel-default floodToolsClass ">
+                    <!-- Modal Title -->
                     <div class="panel-heading">
                         <div class="panel-title" id="floodToolsTitle">
                             <h4 id="floodToolsPanelHeader"></h4>
                         </div>
                     </div>
-                    <div class="panel-body">
+                    <!-- Modal body -->
+                    <!-- Set class depending on how many sites - add twosite if multisite  -->
+                    <div class="panel-body twosite">
 
                         <div class="flood-tools-left ftl-desktop">
+
                             <div class="slider-values">
                                 <div class="slider-max">52</div>
                                 <div class="slider-min">12</div>
@@ -590,6 +601,38 @@ $(".close-alert").click(function(){
                             </div>
                         </div>
 
+                        <!-- Multisite - 2nd slider -->
+                        <div class="flood-tools-left ftl-desktop second-site">
+                            <div class="slider-values">
+                                <div class="slider-max">52</div>
+                                <div class="slider-min">12</div>
+                                <div class="slider-flood-levels">
+                                    <div class="sliderActionLevel"></div>
+                                    <div class="sliderMinorLevel"></div>
+                                    <div class="sliderModerateLevel"></div>
+                                    <div class="sliderMajorLevel"></div>
+                                </div>
+                            </div>
+                            <input id="floodSlider" type="range" name="stage" value="0" min="0" max="10" class="vertical-slider floodSlider desktop"/>
+                            <div class="flood-tools-checkboxes">
+                                <div id="satBasemap">
+                                    <input id="satCheckBox" type="checkbox" checked>View Satellite Imagery</input>
+                                </div>
+                                <div id="gridsCheck">
+                                <input id="gridsCheckBox" type="checkbox">View grids</input>
+                                </div>
+                                <div id="aouCheck">
+                                    <input id="aouCheckBox" type="checkbox" checked>Include Area of Uncertainty</input>
+                                </div>
+                            </div>
+                            <div class="flood-tools-logos">
+                                <img id="usgsDefaultLogo" src="images/usgsLogoSm.jpg"/>
+                                <img id="recordsLogo" src=""/>
+                            </div>
+                        </div>
+
+
+                        <!-- Flood tools main with tabs -->
                         <div id="floodToolsPanel" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="floodToolsPanelHeader">
                             <ul class="nav nav-tabs" id="floodToolsTabs">
                                 <li role="presentation" class="active"><a id="floodToolsTab" href="#floodToolsTabPane" data-toggle="tab" onclick="ga('send','event','Flood Tools Panel','click','Flood Tools');"><i class="fa fa-umbrella"></i>&nbsp;Flood Tools</a></li>
@@ -633,7 +676,34 @@ $(".close-alert").click(function(){
                                               <img id="recordsLogo" src=""/>
                                             </div>
                                         </div>
+
+
                                         <div class="flood-tools-right">
+                                            <div class="flood-tools-item">
+                                                <span class="flood-tools-label">Selected gage height:</span>
+                                                <span class="flood-tools-value"><label for="floodSlider" id="selectedValue"></label> feet</span>
+                                            </div>
+                                            <div class="flood-tools-item">
+                                                <span class="flood-tools-header"><b>Current Conditions</b></span>
+                                                <span class="flood-tools-label">Gage height:</span>
+                                                <span class="flood-tools-value"><label id="floodMaxGage" class="current"></label> feet</span>
+                                                <br/>
+                                                <span class="flood-tools-label">Discharge:</span>
+                                                <span class="flood-tools-value"><label id="floodMaxDischarge" class="current"></label> feet</span>
+                                            </div>
+                                            <div class="flood-tools-item">
+                                                <span class="flood-tools-label">USGS Site No:</span>
+                                                <span class="flood-tools-value"><a id="usgsSiteNoMax" target="_blank" href=""></a></span>
+                                                <br/>
+                                                <span class="flood-tools-label">NWS Site ID:</span>
+                                                <span class="flood-tools-value"><a id="nwsSiteIDMax" target="_blank" href=""></a></span>
+                                            </div>
+                                            <label id="gridLabel">Click on map for estimated water depth</label>
+                                            <button id="zoomToLibExtent" title="click to zoom to the extent of the flood library" class="btn btn-default" type="button">Zoom</button>
+                                        </div>
+
+                                        <!-- Multisite second-site -->
+                                        <div class="flood-tools-right second-site">
                                             <div class="flood-tools-item">
                                                 <span class="flood-tools-label">Selected gage height:</span>
                                                 <span class="flood-tools-value"><label for="floodSlider" id="selectedValue"></label> feet</span>

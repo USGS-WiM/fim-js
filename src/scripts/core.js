@@ -1153,32 +1153,35 @@ require([
                             console.log(floodStageBands);
 
                             console.log("SLIDER MIN");
-                            console.log($(".slider-min").text())
+                            console.log($(".slider-min:first").text())
                             console.log("SLIDER MAX");
-                            console.log($(".slider-max").text())
-                            var sliderMin = parseFloat($(".slider-min").text());
-                            var sliderMax = parseFloat($(".slider-max").text());
+                            console.log($(".slider-max:first").text())
+                            var sliderMin = parseFloat($(".slider-min:first").text());
+                            var sliderMax = parseFloat($(".slider-max:first").text());
                             var sliderTotalDiff = sliderMax - sliderMin;
+
+                            console.log("SLIDER max TOTAL ")
+                            console.log(sliderMax)
                             // Set slider colors 
                             // var sliderTotalDiff = 15;
                             // var sliderTotalDiff = (results[results.length-1].attributes["STAGE"]) - (results[0].attributes["STAGE"])
                             
                             
-                            // $(".slider-flood-levels").show();
-                            // if(floodStageBands[0]){
-                            //     console.log("LEVELS ")
-                            //     console.log((floodStageBands[0].to - sliderMin) / sliderTotalDiff * 100 + '%' );
-                            //     console.log((floodStageBands[1].to - sliderMin) / sliderTotalDiff * 100 + '%' );
-                            //     console.log((floodStageBands[2].to - sliderMin) / sliderTotalDiff * 100 + '%' );
+                            $(".slider-flood-levels").show();
+                            if(floodStageBands[0]){
+                                console.log("LEVELS ")
+                                console.log((floodStageBands[0].to - sliderMin) / sliderTotalDiff * 100 + '%' );
+                                console.log((floodStageBands[1].to - sliderMin) / sliderTotalDiff * 100 + '%' );
+                                console.log((floodStageBands[2].to - sliderMin) / sliderTotalDiff * 100 + '%' );
 
-                            //     $(".sliderActionLevel").css( "height", (floodStageBands[0].to - sliderMin) / sliderTotalDiff * 100 + '%' );
-                            //     $(".sliderMinorLevel").css( "height", (floodStageBands[1].to - sliderMin) / sliderTotalDiff * 100 + '%' );
-                            //     $(".sliderModerateLevel").css( "height", (floodStageBands[2].to - sliderMin) / sliderTotalDiff * 100 + '%' );
-                            //     $(".sliderMajorLevel").css( "height", '100%' );
-                            // }else{
-                            //     $(".slider-flood-levels").hide();
-                            // }
-                            // $("#sliderMajorLevel").css( "height", floodStageBands[3].from / sliderTotalDiff * 100 + '%' );
+                                $(".sliderActionLevel").css( "height", (floodStageBands[0].to - sliderMin) / sliderTotalDiff * 100 + '%' );
+                                $(".sliderMinorLevel").css( "height", (floodStageBands[1].to - sliderMin) / sliderTotalDiff * 100 + '%' );
+                                $(".sliderModerateLevel").css( "height", (floodStageBands[2].to - sliderMin) / sliderTotalDiff * 100 + '%' );
+                                $(".sliderMajorLevel").css( "height", '100%' );
+                            }else{
+                                $(".slider-flood-levels").hide();
+                            }
+                            $("#sliderMajorLevel").css( "height", floodStageBands[3].from / sliderTotalDiff * 100 + '%' );
     
                         }
                         
