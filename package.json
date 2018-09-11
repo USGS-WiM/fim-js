@@ -23,5 +23,8 @@
 		"del": "^1.1.1",
 		"open": "0.0.5",
 		"wiredep": "^1.4.4"
+	},
+	"dependencies": {
+		"browser-sync": "^2.24.7"
 	}
 }
