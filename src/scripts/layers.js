@@ -3,6 +3,8 @@
  */
 var allLayers;
 
+var fimHazusUrl = "https://gis.wim.usgs.gov/arcgis/rest/services/FIMMapper/sites/MapServer/2";
+
 require([
     "esri/geometry/Extent",
     "esri/InfoTemplate",

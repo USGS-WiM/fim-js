@@ -1,3 +1,4 @@
+@black: #050920;
 #aboutModalBody{
 
 }
@@ -22,4 +23,80 @@
 // Less transparent explanation
 #legendElement #legendDiv{
     background-color: rgba(255,255,255,0.75) !important;
+}
+
+
+// Hazus Table
+// Hazus Table
+// Hazus Table
+#hazusTableLabels{
+    padding: 15px 0;
+    display: flex;
+    justify-content: space-between;
+
+    .hazus-label{
+        font-size: 12px;
+        letter-spacing: -0.2px;
+
+        b{
+            font-weight: 500;
+            display: block;
+            color: fade(@black, 50%);
+        }
+        span{
+            font-weight: 600;
+            font-size: 18px;
+            padding-top: 2px;
+            display: block;
+        }
+    }
+}
+#hazusTable{
+    margin: 0 auto 15px auto;
+
+    tr{
+        font-size: 10px;
+        border-bottom: 1px solid fade(@black, 10%);
+
+        &.active{
+            background-color: #4776C9;
+
+            td, th{
+                color: white;
+            }
+        }
+
+        td,th{
+            box-sizing: border-box;
+            padding: 5px 6px;
+            font-size: 10px !important;
+
+            &:nth-child(2),
+            &:nth-child(3),
+            &:nth-child(4){
+                text-align: right;
+            }
+
+            &:nth-child(2){
+                width: 110px !important;
+            }
+            &:nth-child(4){
+                width: 120px;
+            }
+        }
+
+        // Table Header
+        th{
+            color: fade(@black, 40%) !important;
+            line-height: 11px !important;
+            padding-bottom: 4px;
+        }
+
+        // Table body
+        td{
+            font-size: 12px !important;
+            color: @black;
+            font-weight: 600 !important;
+        }
+    }
 }
