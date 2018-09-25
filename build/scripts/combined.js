@@ -1,2 +1,3613 @@
-function addCommas(e){e+="";for(var t=e.split("."),i=t[0],a=t.length>1?"."+t[1]:"",o=/(\d+)(\d{3})/;o.test(i);)i=i.replace(o,"$1,$2");return i+a}function camelize(e){return e.replace(/(?:^\w|[A-Z]|\b\w)/g,function(e,t){return 0==t?e.toLowerCase():e.toUpperCase()}).replace(/\s+/g,"")}var parseXml;parseXml=window.DOMParser?function(e){return(new window.DOMParser).parseFromString(e,"text/xml")}:"undefined"!=typeof window.ActiveXObject&&new window.ActiveXObject("Microsoft.XMLDOM")?function(e){var t=new window.ActiveXObject("Microsoft.XMLDOM");return t.async="false",t.loadXML(e),t}:function(){return null};var allLayers;require(["esri/geometry/Extent","esri/InfoTemplate","esri/layers/WMSLayerInfo","esri/layers/FeatureLayer","dojo/domReady!"],function(e,t,i,a){var o=new t("Flood stage: ${status}","<b>Location</b>:  ${location}<br/><b>Waterbody</b>: ${waterbody}<br/><b>Forecast</b>: ${forecast}<br/><b>Gage ID</b>: ${gaugelid}<br/><b>Date/Time</b>: ${fcsttime}<br/><b>URL</b>: <a target='_blank' href='${url}'>Click here for more info</a><br/>");allLayers=[{groupHeading:"available layers",showGroupHeading:!1,includeInLayerList:!0,layers:{"FIM Sites":{url:"https://gis.wim.usgs.gov/arcgis/rest/services/FIMMapper/sites/MapServer/0",options:{id:"fimSites",opacity:1,mode:a.MODE_SNAPSHOT,outFields:["*"],definitionExpression:"Public = 1 AND MULTI_SITE = 0",visible:!0},wimOptions:{type:"layer",layerType:"agisFeature",includeInLayerList:!1,hasOpacitySlider:!0,includeLegend:!1}},"Flood-inundation area":{url:"https://gis.wim.usgs.gov/arcgis/rest/services/FIMMapper/floodExtents/MapServer",options:{id:"fimExtents",opacity:.75,visible:!1},wimOptions:{type:"layer",layerType:"agisDynamic",includeInLayerList:!1,hasOpacitySlider:!0,includeLegend:!0,legendLabel:!1}},"Area of uncertainty (where applicable)":{url:"https://gis.wim.usgs.gov/arcgis/rest/services/FIMMapper/breach/MapServer",options:{id:"fimBreach",opacity:.35,visible:!1},wimOptions:{type:"layer",layerType:"agisDynamic",includeInLayerList:!1,hasOpacitySlider:!0,includeLegend:!0,legendLabel:!1}},"Supplemental layers":{url:"https://gis.wim.usgs.gov/arcgis/rest/services/FIMMapper/suppLyrs/MapServer",options:{id:"fimSuppLyrs",opacity:1,visible:!1},wimOptions:{type:"layer",layerType:"agisDynamic",includeInLayerList:!1,hasOpacitySlider:!0,includeLegend:!0}},"National Weather Service Radar":{url:"https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Observations/radar_base_reflectivity/MapServer",options:{id:"nwsRadar",opacity:.65,visible:!1},wimOptions:{type:"layer",layerType:"agisDynamic",includeInLayerList:!0,hasOpacitySlider:!0,includeLegend:!1}},"Flood Watches and Warnings":{url:"https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Forecasts_Guidance_Warnings/watch_warn_adv/MapServer",visibleLayers:[1],options:{id:"floodWatchWarn",opacity:.65,visible:!1},wimOptions:{type:"layer",layerType:"agisDynamic",includeInLayerList:!0,hasOpacitySlider:!0,includeLegend:!0,legendLabel:!1,legendPlacement:0,layerDefinitions:{1:"prod_type LIKE '%Flood%'"}}},"USGS FIM Sites (NWS forecast category)":{url:"https://gis.wim.usgs.gov/ArcGIS/rest/services/FIMMapper/fimi_sites_for_legend/MapServer",options:{id:"fimSitesLegend",opacity:1,visible:!0},wimOptions:{type:"layer",layerType:"agisDynamic",includeInLayerList:!1,hasOpacitySlider:!1,includeLegend:!0,layerIndex:0,legendLabel:!1}},grids1:{url:"https://gis.wim.usgs.gov/ArcGIS/rest/services/FIMMapper/grids_1/MapServer",options:{id:"fimGrid1",opacity:.7,visible:!1},wimOptions:{type:"layer",layerType:"agisDynamic",includeInLayerList:!1,hasOpacitySlider:!1,includeLegend:!0}},grids2:{url:"https://gis.wim.usgs.gov/ArcGIS/rest/services/FIMMapper/grids_2/MapServer",options:{id:"fimGrid2",opacity:.7,visible:!1},wimOptions:{type:"layer",layerType:"agisDynamic",includeInLayerList:!1,hasOpacitySlider:!1,includeLegend:!0}},grids3:{url:"https://gis.wim.usgs.gov/ArcGIS/rest/services/FIMMapper/grids_3/MapServer",options:{id:"fimGrid3",opacity:.7,visible:!1},wimOptions:{type:"layer",layerType:"agisDynamic",includeInLayerList:!1,hasOpacitySlider:!1,includeLegend:!0}}}},{groupHeading:"AHPS Forecast Sites",showGroupHeading:!1,includeInLayerList:!0,moreinfo:"https://www.fws.gov/wetlands/Documents/Scalable-Wetland-Mapping-Fact-Sheet.pdf",otherLayersToggled:["major","moderate","minor","near","noflood","obs"],layers:{"AHPS Forecast Sites":{url:"https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Observations/ahps_riv_gauges/MapServer",visibleLayers:[-1],options:{id:"ahpsSites",opacity:1,visible:!1},wimOptions:{type:"layer",layerType:"agisDynamic",includeInLayerList:!0,hasOpacitySlider:!0,includeLegend:!0,layerIndex:-1,otherLayersToggled:["major","moderate","minor","near","noflood"]}},"Major flooding":{url:"https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Observations/ahps_riv_gauges/MapServer/1",options:{id:"major",mode:a.MODE_SNAPSHOT,outFields:["location","waterbody","forecast","gaugelid","fcsttime","url"],opacity:.6,infoTemplate:o,visible:!1,definitionExpression:"status = 'major'"},wimOptions:{type:"layer",layerType:"agisFeature",opacity:1,mode:a.MODE_SNAPSHOT,outFields:["*"],includeInLayerList:!0,layerIndex:0,includeLegend:!0,legendTitle:"AHPS Forecast Sites",legendPlacement:1}},"Moderate flooding":{url:"https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Observations/ahps_riv_gauges/MapServer/1",options:{id:"moderate",mode:a.MODE_SNAPSHOT,outFields:["location","waterbody","forecast","gaugelid","fcsttime","url"],opacity:.6,infoTemplate:o,visible:!1,definitionExpression:"status = 'moderate'"},wimOptions:{type:"layer",layerType:"agisFeature",opacity:1,mode:a.MODE_SNAPSHOT,outFields:["*"],includeInLayerList:!0,layerIndex:0,includeLegend:!1}},"Minor flooding":{url:"https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Observations/ahps_riv_gauges/MapServer/1",options:{id:"minor",mode:a.MODE_SNAPSHOT,outFields:["location","waterbody","forecast","gaugelid","fcsttime","url"],opacity:.6,infoTemplate:o,visible:!1,definitionExpression:"status = 'minor'"},wimOptions:{type:"layer",layerType:"agisFeature",opacity:1,mode:a.MODE_SNAPSHOT,outFields:["*"],includeInLayerList:!0,layerIndex:0,includeLegend:!1}},"Near flood":{url:"https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Observations/ahps_riv_gauges/MapServer/1",options:{id:"near",mode:a.MODE_SNAPSHOT,outFields:["location","waterbody","forecast","gaugelid","fcsttime","url"],opacity:.6,infoTemplate:o,visible:!1,definitionExpression:"status = 'action'"},wimOptions:{type:"layer",layerType:"agisFeature",opacity:1,mode:a.MODE_SNAPSHOT,outFields:["*"],includeInLayerList:!0,layerIndex:0,includeLegend:!1}},"No flooding":{url:"https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Observations/ahps_riv_gauges/MapServer/1",options:{id:"noflood",mode:a.MODE_ONDEMAND,outFields:["location","waterbody","forecast","gaugelid","fcsttime","url"],opacity:.6,infoTemplate:o,visible:!1,definitionExpression:"status = 'no_flooding'"},wimOptions:{type:"layer",layerType:"agisFeature",opacity:1,mode:a.MODE_SNAPSHOT,outFields:["*"],includeInLayerList:!0,layerIndex:0,includeLegend:!1}}}}]});var map,dialog,allLayers,maxLegendHeight,maxLegendDivHeight,dragInfoWindows=!1,defaultMapCenter=[-95.6,38.6],printCount=0,siteAttr,results,fimiMoreInfoUrl="https://fim.wim.usgs.gov/arcgis/rest/services/FIMMapper/fim_add_info/MapServer/1",ahpsForecastUrl="https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Observations/ahps_riv_gauges/MapServer/0",nwisUrl="https://waterservices.usgs.gov/nwis/iv/?format=nwjson&period=P7D&parameterCd=00065&sites=",proxyUrl="https://services.wim.usgs.gov/proxies/httpProxy/Default.aspx?",gridInfos=[],grid1Infos,grid2Infos,grid3Infos,gridLayerIndex,gridLayerIndexArrColl=[],gridsArray=[1,2,3],siteClick,extentResults=null,libExtent=null,loadedInitialLibrary=!1,majorCount=0,moderateCount=0,minorCount=0,actionCount=0,nofloodCount=0,currentBasemap;require(["esri/arcgis/utils","esri/Color","esri/map","esri/dijit/Geocoder","esri/dijit/HomeButton","esri/dijit/LocateButton","esri/dijit/PopupTemplate","esri/dijit/Scalebar","esri/geometry/Extent","esri/geometry/Multipoint","esri/geometry/Point","esri/geometry/screenUtils","esri/geometry/webMercatorUtils","esri/graphic","esri/lang","esri/layers/ArcGISTiledMapServiceLayer","esri/layers/FeatureLayer","esri/renderers/UniqueValueRenderer","esri/symbols/PictureMarkerSymbol","esri/symbols/SimpleFillSymbol","esri/tasks/IdentifyParameters","esri/tasks/IdentifyTask","esri/tasks/LegendLayer","esri/tasks/PrintTask","esri/tasks/PrintParameters","esri/tasks/PrintTemplate","esri/tasks/query","esri/tasks/QueryTask","dijit/popup","dijit/TooltipDialog","dojo/dnd/Moveable","dojo/query","dojo/dom","dojo/dom-class","dojo/dom-style","dojo/on","dojo/domReady!"],function(e,t,i,a,o,r,s,n,l,d,c,p,u,g,m,f,y,h,v,b,x,S,w,L,I,T,D,M,O,k,A,_,E,N,C,G){function F(){$("#printModal").modal("show")}function R(){$("#shareModal").modal("show");var e="?site_no="+siteAttr.SITE_NO,t=document.location.href;t=t.split("?")[0];var i=t+e;$("#siteURL").html('<span class="label label-default"><span class="glyphicon glyphicon-link"></span> site link</span><code>'+i+"</code>");var a=$("<input id='shareURLInput'>");$("body").append(a),a.val(i)}function P(){if($("#floodMaxGage").text().length>0&&null!=extentResults){for(var e,t,i,a=extentResults,o=Number($("#floodMaxGage").text()),r=0;r<a.length;r++)i=Math.abs(a[r].attributes.STAGE-o),(e>i||0==r)&&(e=i,t=r);$(".floodSlider").value=t,$("#floodSlider").trigger("change"),$("#floodToolsDiv .panel-heading").removeClass("loading-hide"),$("#floodToolsDiv .panel-body").removeClass("loading-hide"),$("#floodToolsDiv").removeClass("loading-background")}}function H(){var e=null;switch(siteAttr.GRID_SERV){case 1:e=grid1Infos;break;case 2:e=grid2Infos;break;case 3:e=grid3Infos;break;case null:e=null}if(null!=e)for(var t,i,a,o=0;o<e.length;o++){var r=e[o].name.split("_");i=r[0],a=r[1],t=e[o].id,i==siteAttr.SHORT_NAME&&gridInfos.push({index:t,shortname:i,gridid:a})}}function j(e,t){return Math.round(t/e)*e}function z(e){for(var t,i=0;i<e.length;i++)"forecast"==e[i].nodeName&&(t=i),i==e.length-1&&"forecast"!=e[i].nodeName&&(t=null);return t}function B(){var e=new Date,t=e.getDate(),i=e.getMonth()+1,a=e.getFullYear();return 10>t&&(t="0"+t),10>i&&(i="0"+i),e=a+"-"+i+"-"+t}function U(e,t){var i=!1,a=e.substring(0,10),o=a.split("-"),r=t.split("-"),s=new Date(o[0],o[1]-1,o[2]),n=new Date(r[0],r[1]-1,r[2]);return s>=n&&(i=!0),i}function V(e){var t="",i=e.split("T"),a=i[0]+" "+i[1].split(".")[0]+" UTC",o=new Date(a).toString();return t=i[0]+" "+o.split(" ")[4]}function W(e,t){var i,a=e.split("T"),o=a[0].split("-");if("nwis"==t)var r=a[1].split(".")[0].split(":");else if("nws"==t)var r=a[1].split("-")[0].split(":");var s=Number(o[0]),n=Number(o[1])-1,l=Number(o[2]),d=Number(r[0]),c=Number(r[1]),p=Number(r[2]);return i=Date.UTC(s,n,l,d,c,p)}function q(e){var t;switch(e.getDay()){case 0:t="Sunday";break;case 1:t="Monday";break;case 2:t="Tuesday";break;case 3:t="Wednesday";break;case 4:t="Thursday";break;case 5:t="Friday";break;case 6:t="Saturday"}return t}function Z(e){var t;switch(e.getMonth()){case 0:t="January";break;case 1:t="February";break;case 2:t="March";break;case 3:t="April";break;case 4:t="May";break;case 5:t="June";break;case 6:t="July";break;case 7:t="August";break;case 8:t="September";break;case 9:t="October";break;case 10:t="November";break;case 11:t="December"}return t}function Y(){function e(e){printCount++;var t=$("<p><label>"+printCount+': </label>&nbsp;&nbsp;<a href="'+e.url+'" target="_blank">'+s+" </a></p>");$("#printJobsDiv").find("p.toRemove").remove(),$("#printModalBody").append(t),$("#printTitle").val(""),$("#printExecuteButton").button("reset")}function t(e){alert("Sorry, an unclear print error occurred. Please try refreshing the application to fix the problem")}var i=map.getLayer("fimSites");i.setVisibility(!1);var a=new I;a.map=map;var o=new T;o.format="PDF",o.layout="FIMpage2design",o.preserveScale=!1;var r=$("#printTitle").val();""==r?o.layoutOptions={titleText:"FIM",authorText:"Flood Inundation Mapping",copyrightText:"This page was produced by the FIM and the WIM",customTextElements:[{mapTitle:"Flood-Inundation Map for the Wabash River at Terre Haute, Indiana at the U.S. Geological Survey Streamgage Number "+siteAttr.SITE_NO},{mapSeries:siteAttr.REPORT}]}:o.layoutOptions={titleText:r,authorText:"Flood Inundation Mapping",copyrightText:"This page was produced by the FIM and the WIM",customTextElements:[{mapTitle:"Flood-Inundation Map for the "+siteAttr.COMMUNITY+" at the U.S. Geological Survey Streamgage Number "+siteAttr.SITE_NO},{mapSeries:siteAttr.REPORT}]};var s=o.layoutOptions.titleText;a.template=o;var n=new L("https://gis.wim.usgs.gov/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task");n.execute(a,e,t),i.setVisibility(!0)}esriConfig.defaults.io.corsEnabledServers.push("fim.wim.usgs.gov"),esriConfig.defaults.io.corsEnabledServers.push("gis.wim.usgs.gov"),esri.config.defaults.io.proxyUrl=proxyUrl;var X=[{level:0,resolution:156543.03392800014,scale:591657527.591555},{level:1,resolution:78271.51696399994,scale:295828763.795777},{level:2,resolution:39135.75848200009,scale:147914381.897889},{level:3,resolution:19567.87924099992,scale:73957190.948944},{level:4,resolution:9783.93962049996,scale:36978595.474472},{level:5,resolution:4891.96981024998,scale:18489297.737236},{level:6,resolution:2445.98490512499,scale:9244648.868618},{level:7,resolution:1222.992452562495,scale:4622324.434309},{level:8,resolution:611.4962262813797,scale:2311162.217155},{level:9,resolution:305.74811314055756,scale:1155581.108577},{level:10,resolution:152.87405657041106,scale:577790.554289},{level:11,resolution:76.43702828507324,scale:288895.277144},{level:12,resolution:38.21851414253662,scale:144447.638572},{level:13,resolution:19.10925707126831,scale:72223.819286},{level:14,resolution:9.554628535634155,scale:36111.909643},{level:15,resolution:4.77731426794937,scale:18055.954822},{level:16,resolution:2.388657133974685,scale:9027.977411},{level:17,resolution:1.1943285668550503,scale:4513.988705}];map=i("mapDiv",{basemap:"topo",extent:new l({xmin:-13876072.366774123,ymin:3500204.399233875,xmax:-7413780.247433899,ymax:6324093.972200677,spatialReference:{wkid:102100}}),fitExtent:!0,logo:!1,lods:X});var J=new o({map:map},"homeButton");J.startup();var K=new r({map:map},"locateButton");K.startup();var Q=(new n({map:map,scalebarUnit:"dual"}),window.location),ee="";if(void 0!=Q.search){var te=Q.search;-1!=te.search("site_no")&&(ee=te.split("site_no=")[1])}map.on("extent-change",function(e){if(""!=ee){var t=map.graphics.graphics;$.each(t,function(e,t){if(void 0!=t.attributes&&t.attributes.SITE_NO==ee){var i=p.toScreenGeometry(map.extent,map.width,map.height,t.geometry),a=(new MouseEvent("click",{view:window,bubbles:!0,cancelable:!0,x:i.x,y:i.y}),new jQuery.Event("click"));a.pageX=1305,a.pageY=327,$(t)[0].trigger("click")}})}}),$(window).resize(function(){$("#legendCollapse").hasClass("in")?(maxLegendHeight=.9*$("#mapDiv").height(),$("#legendElement").css("height",maxLegendHeight),$("#legendElement").css("max-height",maxLegendHeight),maxLegendDivHeight=$("#legendElement").height()-parseInt($("#legendHeading").css("height").replace("px","")),$("#legendDiv").css("max-height",maxLegendDivHeight)):$("#legendElement").css("height","initial")}),$("#aboutModal").modal("show"),$("#disclaimerTab").trigger("click"),$("#printNavButton").click(function(){F()}),$("#printExecuteButton").click(function(e){e.preventDefault(),$(this).button("loading"),Y()}),$("#shareLink").click(function(){R()}),$("#copyShareURL").click(function(){$("#shareURLInput").select(),document.execCommand("copy"),$("#shareURLInput").remove()}),dialog=new k({id:"tooltipDialog",style:"position: absolute; font: normal normal normal 10pt Helvetica;z-index:100"}),dialog.startup(),G(map,"load",function(){var e=map.getScale().toFixed(0);$("#scale")[0].innerHTML=addCommas(e);var t=u.webMercatorToGeographic(map.extent.getCenter());if($("#latitude").html(t.y.toFixed(3)),$("#longitude").html(t.x.toFixed(3)),1==dragInfoWindows){var i=_(".title",map.infoWindow.domNode)[0],a=new A(map.infoWindow.domNode,{handle:i});G(a,"FirstMove",function(){var e=_(".outerPointer",map.infoWindow.domNode)[0];N.add(e,"hidden");var e=_(".pointer",map.infoWindow.domNode)[0];N.add(e,"hidden")}.bind(this))}map.infoWindow.set("highlight",!0),$('[class^="scalebar"]').attr("bottom","40px")}),G(map,"zoom-end",function(){var e=map.getScale().toFixed(0);$("#scale")[0].innerHTML=addCommas(e)}),G(map,"mouse-move",function(e){if($("#mapCenterLabel").css("display","none"),null!=e.mapPoint){var t=u.webMercatorToGeographic(e.mapPoint);$("#latitude").html(t.y.toFixed(3)),$("#longitude").html(t.x.toFixed(3))}}),G(map,"pan-end",function(){$("#mapCenterLabel").css("display","inline");var e=u.webMercatorToGeographic(map.extent.getCenter());$("#latitude").html(e.y.toFixed(3)),$("#longitude").html(e.x.toFixed(3))});var ie=new f("https://basemap.nationalmap.gov/arcgis/rest/services/USGSTopo/MapServer",{id:"tnm"});G(E.byId("btnStreets"),"click",function(){map.setBasemap("streets"),map.removeLayer(ie)}),G(E.byId("btnSatellite"),"click",function(){map.setBasemap("satellite"),map.removeLayer(ie)}),G(E.byId("btnHybrid"),"click",function(){map.setBasemap("hybrid"),map.removeLayer(ie)}),G(E.byId("btnTerrain"),"click",function(){map.setBasemap("terrain"),map.removeLayer(ie)}),G(E.byId("btnGray"),"click",function(){map.setBasemap("gray"),map.removeLayer(ie)}),G(E.byId("btnNatGeo"),"click",function(){map.setBasemap("national-geographic"),map.removeLayer(ie)}),G(E.byId("btnOSM"),"click",function(){map.setBasemap("osm"),map.removeLayer(ie)}),G(E.byId("btnTopo"),"click",function(){map.setBasemap("topo"),map.removeLayer(ie)}),G(E.byId("btnNatlMap"),"click",function(){map.setBasemap("topo"),map.addLayer(ie,2)}),map.on("basemap-change",function(e){map.reorderLayer(map.getLayer("fimSitesLegend"),0)}),$("#floodToolsDiv").lobiPanel({unpin:!1,reload:!1,minimize:!1,close:!1,expand:!1,editTitle:!1,width:800,height:500,maxWidth:800,maxHeight:500}),$("#floodToolsDiv .dropdown").prepend("<div id='floodClose' title='close'></div>"),$("#floodToolsDiv .dropdown").prepend("<div id='floodMin' title='collapse'></div>"),$("#floodMin").click(function(){$("#floodToolsDiv").css("visibility","hidden"),$("#flood-tools-alert").slideDown(250)}),$("#floodClose").click(function(){$("#floodToolsDiv").css("visibility","hidden"),map.getLayer("fimExtents").setVisibility(!1),map.getLayer("fimGrid"+siteAttr.GRID_SERV).setVisibility(!1),map.getLayer("fimBreach").setVisibility(!1),map.getLayer("fimSuppLyrs").setVisibility(!1),$("#hydroChart").highcharts().destroy(),map.infoWindow.hide()}),$("#floodToolsOpen").click(function(){$("#floodToolsDiv").css("visibility","visible"),$("#flood-tools-alert").slideUp(250)}),$("#waterAlertLink").click(function(){$("#waterAlertLink").attr("href","https://water.usgs.gov/wateralert/subscribe/?fim=1&intro=1&site_no="+siteAttr.SITE_NO+"&agency_cd=USGS&type_cd=st&parms=00065:"+results[$("#floodSlider")[0].value].attributes.STAGE),$("#waterAlertLink").click()}),$("#disclaimerLink").click(function(){$("#aboutModal").modal("show"),$("#disclaimerTab").trigger("click")}),map.on("layer-add",function(e){function t(e){console.log(e.features.length);var t;for(t=0;t<e.features.length-1;t++)"major"==e.features[t].attributes.status?(void 0==majorCount&&(majorCount=0),majorCount+=1):"moderate"==e.features[t].attributes.status?(void 0==moderateCount&&(moderateCount=0),moderateCount+=1):"minor"==e.features[t].attributes.status?(void 0==minorCount&&(minorCount=0),minorCount+=1):"action"==e.features[t].attributes.status?(void 0==actionCount&&(actionCount=0),actionCount+=1):"no_flooding"==e.features[t].attributes.status&&(void 0==nofloodCount&&(nofloodCount=0),nofloodCount+=1);var i="Major flooding ("+majorCount+")",a="Moderate flooding ("+moderateCount+")",o="Minor flooding ("+minorCount+")",r="Action flooding ("+actionCount+")",s="No flooding ("+nofloodCount+")";$("#majorFloodingLabel")[0].textContent=i,$("#moderateFloodingLabel")[0].textContent=a,$("#minorFloodingLabel")[0].textContent=o,$("#nearFloodLabel")[0].textContent=r,$("#noFloodingLabel")[0].textContent=s}function i(e){console.log("error: "+e)}var a=e.layer.id;e.layer;if("fimSites"==a){var o=map.getLayer(a).on("update-end",function(e){var t=[],i=e.target.graphics;$.each(i,function(e,i){null!=i.attributes.AHPS_ID&&t.push("'"+i.attributes.AHPS_ID.toUpperCase()+"'")}),$.ajax({dataType:"json",type:"GET",url:ahpsForecastUrl+"/query?returnGeometry=false&where=GaugeLID%20in%20%28"+t+"%29&outFields=status%2Cgaugelid&f=json",headers:{Accept:"*/*"},success:function(e){var t,s=e.features;for(t=0;t<s.length;t++)for(var n=0;n<i.length;n++)map.getLayer(a).graphics[n].attributes.AHPS_ID==s[t].attributes.gaugelid.toLowerCase()&&(map.getLayer(a).graphics[n].attributes.FLOOD_CONDITION=s[t].attributes.status);var l=15.88,d=13,c=new v("./images/default.png",l,d),p=new v("./images/action.png",l,d),u=new v("./images/major.png",l,d),g=new v("./images/minor.png",l,d),m=new v("./images/moderate.png",l,d),f=new v("./images/no_flooding.png",l,d),y=new h(c,"FLOOD_CONDITION");if(y.addValue("action",p),y.addValue("major",u),y.addValue("minor",g),y.addValue("moderate",m),y.addValue("no_flooding",f),map.getLayer(a).setRenderer(y),map.getLayer(a).redraw(),o.remove(),""!=ee){var b=map.getLayer(a).graphics;$.each(b,function(e,t){if(void 0!=t.attributes&&t.attributes.SITE_NO==ee){var i=t;i._shape.rawNode.id=ee,$("#"+ee).on("click",r),$("#"+ee).trigger("click")}})}},error:function(e){console.log("Error processing the JSON. The error is:"+e)}})}),r=function(e){function t(e){libExtent=e.features[0].geometry.getExtent(),$("#zoomToLibExtent").show(),$("#zoomToLibExtent").on("click",function(e){map.setExtent(libExtent,!0)})}function i(e){if(e.features.length>0){results=e.features,extentResults=results,$("#floodToolsPanelHeader").html(o.STATE+": "+o.COMMUNITY+"   <span id='shareLink' style='white-space: nowrap; margin-left: 0px; padding-left: 0px'><span class='glyphicon glyphicon glyphicon-share'></span> Share</span>"),$("#shareLink").click(function(){R()}),$("#siteNumber").text(o.SITE_NO),$(".floodSlider").attr({min:0,max:results.length-1}),$("#floodSlider").value=0,$("#selectedValue").text(results[0].attributes.STAGE),$("#floodMinSelectedGage").text(results[0].attributes.STAGE),$(".slider-min").text(results[0].attributes.STAGE),$(".slider-max").text(results[results.length-1].attributes.STAGE);var t=[];t[0]="USGSID = '"+o.SITE_NO+"' AND STAGE = "+results[0].attributes.STAGE,map.getLayer("fimExtents").setLayerDefinitions(t),map.getLayer("fimBreach").setLayerDefinitions(t),gridLayerIndexArrColl=[];for(var i=0;i<gridInfos.length;i++)gridInfos[i].shortname==siteAttr.SHORT_NAME&&Number(gridInfos[i].gridid)==results[$("#floodSlider")[0].value].attributes.GRIDID?(gridLayerIndexArrColl.push(gridInfos[i].index),gridLayerIndex=gridInfos[i].index):gridInfos[i].shortname==siteAttr.SHORT_NAME&&gridInfos[i].gridid==results[$("#floodSlider")[0].value].attributes.GRIDID+"b"&&(gridLayerIndexArrColl.push(gridInfos[i].index),gridLayerIndex=gridInfos[i].index);console.log("grid stuff");var a="fimGrid"+siteAttr.GRID_SERV,r=[];r.push(gridLayerIndex),map.getLayer(a).setVisibleLayers(r),$(".floodSlider").on("change",function(){if(null!=results){$("#selectedValue").text(results[this.value].attributes.STAGE),$("#floodMinSelectedGage").text(results[this.value].attributes.STAGE),-1!=this.className.indexOf("desktop")?$(".mobile")[0].value=this.value:$(".desktop")[0].value=this.value;var e=[];e[0]="USGSID = '"+o.SITE_NO+"' AND STAGE = "+results[this.value].attributes.STAGE,map.getLayer("fimExtents").setLayerDefinitions(e),map.getLayer("fimBreach").setLayerDefinitions(e);for(var t=0;t<gridInfos.length;t++)gridInfos[t].shortname==siteAttr.SHORT_NAME&&Number(gridInfos[t].gridid)==results[$("#floodSlider")[0].value].attributes.GRIDID?(gridLayerIndexArrColl.push(gridInfos[t].index),gridLayerIndex=gridInfos[t].index):gridInfos[t].shortname==siteAttr.SHORT_NAME&&gridInfos[t].gridid==results[$("#floodSlider")[0].value].attributes.GRIDID+"b"&&(gridLayerIndexArrColl.push(gridInfos[t].index),gridLayerIndex=gridInfos[t].index);var i="fimGrid"+siteAttr.GRID_SERV,a=[];a.push(gridLayerIndex),map.getLayer(i).setVisibleLayers(a)}});.5*y-.5*$("#floodToolsDiv").width(),.5*f-.5*$("#floodToolsDiv").height();P()}}var a;a=void 0!=e.graphic?e.graphic:e.currentTarget.e_graphic;var o=a.attributes;siteAttr=o,results=null,H(),extentResults=null,$("#floodMaxGage").text(""),$("#floodMaxDischarge").text(""),$(".floodSlider").each(function(e){this.value=0}),$("#floodSlider").trigger("change"),$("#zoomToLibExtent").hide(),$("#downloadData").attr("href",siteAttr.DATA_LINK),"NONE"!=siteAttr.REP_THUMB?($("#reportCover").attr("src",siteAttr.REP_THUMB),$("#reportCover").show()):$("#reportCover").hide(),$("#reportCover").off("click").click(function(){window.open(siteAttr.REP_LINK)}),"NONE"!=siteAttr.REP_LINK?$("#downloadReport").html("<a id='downloadReport' target='_blank' href='"+siteAttr.REP_LINK+"'>Download report</a>"):$("#downloadReport").text("Report not currently available for this site."),$("#mapsCreatedBy").empty(),$("#mapsReviewedBy").empty(),$("#logos").empty(),$("#gridsCheckBox").prop("checked",!1),$("#aouCheckBox").prop("checked",!0),1==siteAttr.HAS_BREACH?$("#aouCheck").show():$("#aouCheck").hide(),$("#aouCheckBox").on("click",function(e){1==e.currentTarget.checked?map.getLayer("fimBreach").setVisibility(!0):0==e.currentTarget.checked&&map.getLayer("fimBreach").setVisibility(!1)}),1==siteAttr.HAS_GRIDS?$("#gridsCheck").show():$("#gridsCheck").hide(),$.each(gridsArray,function(e){map.getLayer("fimGrid"+gridsArray[e]).setVisibility(!1)}),$("#gridsCheckBox, #gridsCheckBox2").on("click",function(e){1==e.currentTarget.checked?(map.getLayer("fimExtents").setVisibility(!1),map.getLayer("fimGrid"+siteAttr.GRID_SERV).setVisibility(!0)):0==e.currentTarget.checked&&(map.getLayer("fimExtents").setVisibility(!0),map.getLayer("fimGrid"+siteAttr.GRID_SERV).setVisibility(!1))}),currentBasemap=void 0!=map.getLayer("tnm")?"tnm":map.getBasemap(),"hybrid"==currentBasemap?(currentBasemap="topo",$("#satCheckBox").prop("checked",!0)):$("#satCheckBox").prop("checked",!1),$("#satCheckBox").on("click",function(e){1==e.currentTarget.checked?(map.setBasemap("hybrid"),map.removeLayer(ie)):0==e.currentTarget.checked&&("tnm"==currentBasemap?(map.setBasemap("topo"),map.addLayer(ie)):(map.setBasemap(currentBasemap),map.removeLayer(ie)))}),$.ajax({dataType:"json",type:"GET",url:map.getLayer("fimSites").url+"/queryRelatedRecords?objectIds="+siteAttr.OBJECTID+"&relationshipId=0&outFields=*&definitionExpression=&returnGeometry=true&maxAllowableOffset=&geometryPrecision=&outSR=&returnZ=false&returnM=false&gdbVersion=&f=json",headers:{Accept:"*/*"},success:function(e){if(e.relatedRecordGroups[0].relatedRecords.length>0){var t=e.relatedRecordGroups[0].relatedRecords,i=!1;$.each(t,function(e,t){"C"==t.attributes.TYPE?$("#mapsCreatedBy").append("<a target='_blank' href='"+t.attributes.URL+"'>"+t.attributes.ENTITY+"</a><br/>"):"R"==t.attributes.TYPE?$("#mapsReviewedBy").append("<a target='_blank' href='"+t.attributes.URL+"'>"+t.attributes.ENTITY+"</a><br/>"):"L"==t.attributes.TYPE?$("#logos").append("<img src='https://s3.amazonaws.com/wimcloud.usgs.gov/FIM/logos/"+t.attributes.ENTITY+"'/>"):"F"==t.attributes.TYPE&&($("#recordsLogo").attr("src","https://s3.amazonaws.com/wimcloud.usgs.gov/FIM/logos/"+t.attributes.ENTITY),i=!0)}),1==i?($("#usgsDefaultLogo").hide(),$("#recordsLogo").show()):0==i&&($("#usgsDefaultLogo").show(),$("#recordsLogo").hide())}},error:function(e){console.log("Error processing the JSON. The error is:"+e)}});var r=siteAttr.SITE_NO,s=siteAttr.AHPS_ID,n=siteAttr.STATE,l=siteAttr.COMMUNITY;map.getLevel()<12&&map.centerAndZoom(a.geometry,13);var d=r+", "+n+", "+l;ga("send","event","Map","click","Site Clicked",{dimension1:d}),map.getLayer("fimExtents").setVisibility(!0),map.getLayer("fimBreach").setVisibility(!0);var c=map.getLayer("fimSuppLyrs"),p=[];p[0]="USGSID = '"+r+"'",p[1]="USGSID = '"+r+"'",c.setLayerDefinitions(p),c.setVisibility(!0),$("[id*='Tab']").parents("li").removeClass("active"),$(".nav-tabs #floodToolsTab").tab("show"),$("#usgsSiteNoMin").text(r),$("#usgsSiteNoMin").attr("href","https://waterdata.usgs.gov/nwis/uv?site_no="+r),$("#nwsSiteIDMin").text(a.attributes.AHPS_ID),$("#nwsSiteIDMin").attr("href","https://water.weather.gov/ahps2/hydrograph.php?gage="+a.attributes.AHPS_ID),$("#usgsSiteNoMax").text(r),$("#usgsSiteNoMax").attr("href","https://waterdata.usgs.gov/nwis/uv?site_no="+r),$("#nwsSiteIDMax").text(a.attributes.AHPS_ID),$("#nwsSiteIDMax").attr("href","https://water.weather.gov/ahps2/hydrograph.php?gage="+a.attributes.AHPS_ID),1==o.HAS_GRIDS?$("#gridLabel").show():$("#gridLabel").hide(),$.ajax({dataType:"json",type:"GET",url:fimiMoreInfoUrl+"/query?where=USGSID%20%3D%20"+r+"&outFields=ADD_INFO&f=json",headers:{Accept:"*/*"},success:function(e){e.features.length>0?($("#moreInfo").text(e.features[0].attributes.ADD_INFO),$("#moreInfoTab").show(),$(".nav-tabs a[href='#moreInfoTabPane']").tab("show")):($("#moreInfo").text("Loading..."),$("#moreInfoTab").hide())},error:function(e){console.log("Error processing the JSON. The error is:"+e)}}),$.ajax({dataType:"text",type:"GET",url:proxyUrl+"site_no="+r+"&site_info=true",headers:{Accept:"*/*"},success:function(e){var t="",i="",s="https://waterservices.usgs.gov/nwis/iv/?format=json&sites="+o.SITE_NO+"&parameterCd=00060,00065";$.ajax({dataType:"json",type:"GET",url:s,headers:{Accept:"*/*"},success:function(e){var o=e,s="",n="";$.each(o.value.timeSeries,function(e,o){n=o.variable.variableCode[0].value;var r=o.variable.unit.unitAbbreviation,l="";if(o.values[0].value.length>0){var l=o.values[0].value[0].value;switch(n){case"00060":s="Discharge";break;case"00065":s="Gage height";break;case"00010":s="Temperature, water";break;case"00300":s="Dissolved oxygen";break;case"00400":s="pH";break;case"00095":s="Specific cond at 25C";break;case"32283":s="Chlorophyll, in situ";break;case"63680":s="Turbidity, Form Neph";break;case"99133":s="NO3+NO2,water,insitu"}var d=B(),c=B(),p=o.values[0].value[0].dateTime,u=V(p);"Discharge"==s?($("#floodMaxDischarge").text(l),$("#floodMinDischarge").text(l),(0==$("#floodMaxDischarge").text().length||"-999999"==$("#floodMaxDischarge").text())&&$("#floodMaxDischarge").text("n/a")):"Gage height"==s&&($("#floodMaxGage").text(l),$("#floodMinGage").text(l),(0==$("#floodMaxGage").text().length||"-999999"==$("#floodMaxGage").text())&&$("#floodMaxGage").text("n/a"));var g="";g="-999999"==l?"<label class='paramLabel'>"+s+": <span style='font-weight: normal'>N/A</span></label><br/>":"<label class='paramLabel'>"+s+": <span style='font-weight: normal'>"+l+" "+r+" <span style='font-size: smaller; color: darkblue'><i>("+u+"</i>)</span></span></label><br/>",t+=g;var m=a.attributes.Name;if(1==U(p,d)){var f="https://waterdata.usgs.gov/nwisweb/graph?agency_cd=USGS&site_no="+m+"&parm_cd="+n+"&begin_date="+d+"&end_date="+c,y="<br/><br/><label>"+s+"</label><br/><img src='"+f+"'/>";i+=y}}P()});var l=o.value.timeSeries[0].sourceInfo.siteName;new esri.InfoTemplate("<span class=''>"+l+"</span>","<div id='rtInfo'>"+t+"</div><br/><span>Most recent measurement(s) <span style='font-size: smaller; color: darkblue'><i>(local time)</i></span> - see <a target='_blank' href='https://waterdata.usgs.gov/nwis/uv?site_no="+r+"'>NWIS Site</a> for more details</span><div id='nwisCharts'>"+i+"</div>")},error:function(e){console.log("Error processing the JSON. The error is:"+e)}})},error:function(e){console.log("Error processing the JSON. The error is:"+e)}});var u=$.ajax({dataType:"text",type:"GET",url:nwisUrl+r,headers:{Accept:"*/*"}}),g=$.ajax({dataType:"xml",type:"GET",url:proxyUrl+"ahpsID="+s,headers:{Accept:"*/*"}});$("#flood-tools-alert").slideUp(250),$("#floodToolsDiv .panel-heading").addClass("loading-hide"),$("#floodToolsDiv .panel-body").addClass("loading-hide"),
-$("#floodToolsDiv").addClass("loading-background");var m=$("#floodToolsDiv").data("lobiPanel"),f=$(document).height(),y=$(document).width(),h=.9,v=f*h,b=y*h,x=450,S=325;500>f&&($("#floodToolsDiv").height(v),S=$("#floodToolsDiv").height()-50),500>y&&($("#floodToolsDiv").width(b),x=$("#floodToolsDiv").width()-50);var w=.5*y-.5*$("#floodToolsDiv").width(),L=.5*f-.5*$("#floodToolsDiv").height();0==loadedInitialLibrary&&m.setPosition(w,L),1==m.isPinned()&&m.unpin(),loadedInitialLibrary=!0,$("#floodToolsDiv").css("visibility","visible");var I=[];$.when(u,g).done(function(e,t){var i=$.parseJSON(e[0]),a=[].slice.call(t[0].childNodes[0].children[1].children),o=i.data[0].time_series_data,r=[],s=[];$.each(o,function(e,t){if(void 0!==t[0]){var i=t[0],t=t[1];r.push([i,t])}}),console.log("Raw Data"),console.log(a);var n=[];$.each(a,function(e,t){("action"==t.localName||"flood"==t.localName||"moderate"==t.localName||"major"==t.localName)&&n.push({levelValue:t.textContent,label:t.localName})}),console.log("Cleaned Up Data"),console.log(n),I=[];var l="#ffffff",d="",c=0,p=0;if(n[0]){$.each(n,function(e,t){var i=function(){I.push({color:l,from:p,to:c,label:{text:d}})};"action"==t.label&&(d="Action",l="#FDFB51"),"flood"==t.label&&(d="Minor Flooding",l="#FAA629"),"moderate"==t.label&&(d="Moderate Flooding",l="#FC0D1B"),"major"==t.label&&(d="Major Flooding",l="#C326FB"),t.levelValue&&(p=parseFloat(t.levelValue),c=n[e+1]?parseFloat(n[e+1].levelValue):parseFloat(t.levelValue+10),i())}),console.log("Bands to add to Chart"),console.log(I),console.log("SLIDER MIN"),console.log($(".slider-min").text()),console.log("SLIDER MAX"),console.log($(".slider-max").text());parseFloat($(".slider-min").text()),parseFloat($(".slider-max").text())}if("no nws data"!=t[0].children[0].children[0].textContent){var u=z(t[0].children[0].children),g=t[0].children[0].children[u].children;if(g.length>0){var m="Stage"==g[0].children[1].attributes.name.value?1:2;$.each(g,function(e,t){if(""!==t.children[0].textContent){var i=W(t.children[0].textContent,"nws"),t=Number(t.children[m].textContent);s.push([i,t])}})}}new Highcharts.Chart("hydroChart",{chart:{type:"line",height:S,width:x},title:{text:""},series:[{data:r,name:"NWIS Observed",color:"black",marker:{enabled:!1}},{data:s,name:"NWS Predicted",color:"black",marker:{enabled:!0,symbol:"circle",fillColor:"white",lineColor:"black",lineWidth:1.25}}],xAxis:{type:"datetime",tickInterval:864e5},yAxis:{resize:{enabled:!0},labels:{format:"{value} ft"},title:{text:"Gage height"},plotBands:I},tooltip:{formatter:function(){var e=new Date(this.x),t=q(e),i=Z(e),a=e.getDate(),o=e.getHours().toString(),r=e.getMinutes().toString();return 1==o.length&&(o="0"+o),1==r.length&&(r="0"+r),t+", "+i+" "+a+", "+o+":"+r+"<br/>"+this.series.name+": <b>"+this.y+" ft</b>"}}},function(e){if(I[0]){console.log("Chart Loaded");var t=10;e.yAxis[0].max<I[0].from?t=I[0].from+1:I[0].from<e.yAxis[0].max<I[0].to?t=I[1].from+1:I[1].from<e.yAxis[0].max<I[1].to?t=I[2].from+1:I[2].from<e.yAxis[0].max<I[2].to?t=I[3].from+1:I[3].from<e.yAxis[0].max<I[3].to&&(t=I[3].to+1),console.log(t),e.yAxis[0].setExtremes(null,t)}})}).fail(function(){});var T=map.getLayer("fimExtents").url+"/0",O=new D;O.returnGeometry=!1,O.outFields=["*"],O.orderByFields=["STAGE ASC"],O.where="USGSID = '"+o.SITE_NO+"'";var k=new M(T);k.execute(O,i),O.returnGeometry=!0,O.orderByFields=["STAGE DESC"],O.num=1;var k=new M(T);k.execute(O,t)};map.getLayer("fimSites").on("click",r)}else if("fimGrid1"==a||"fimGrid2"==a||"fimGrid3"==a){switch(a){case"fimGrid1":grid1Infos=map.getLayer(a).layerInfos;break;case"fimGrid2":grid2Infos=map.getLayer(a).layerInfos;break;case"fimGrid3":grid3Infos=map.getLayer(a).layerInfos}}else if("noflood"==a){var s=new D;s.where="Status = 'normal' OR Status = 'no_flooding' OR Status = 'minor' OR Status = 'moderate' OR Status = 'major' OR Status = 'old' OR Status = 'action'",s.outFields=["status"],s.returnGeometry=!1;var n=new M(map.getLayer("ahpsSites").url+"/1");n.execute(s,t,i)}}),map.on("click",function(e){var t=new x;if(null!=siteAttr&&1==siteAttr.HAS_GRIDS&&(1==map.getLayer("fimExtents").visible||1==map.getLayer("fimGrid"+siteAttr.GRID_SERV).visible)&&"image"!=e.target.localName){var i=siteAttr.GRID_SERV;t.layerIds=[],gridLayerIndexArrColl=[];for(var a=0;a<gridInfos.length;a++)gridInfos[a].shortname==siteAttr.SHORT_NAME&&Number(gridInfos[a].gridid)==results[$("#floodSlider")[0].value].attributes.GRIDID?(t.layerIds.push([gridInfos[a].index]),gridLayerIndexArrColl.push(gridInfos[a].index),gridLayerIndex=gridInfos[a].index):gridInfos[a].shortname==siteAttr.SHORT_NAME&&gridInfos[a].gridid==results[$("#floodSlider")[0].value].attributes.GRIDID+"b"&&(t.layerIds.push([gridInfos[a].index]),gridLayerIndexArrColl.push(gridInfos[a].index),gridLayerIndex=gridInfos[a].index);t.width=map.width,t.height=map.height,t.geometry=e.mapPoint,t.tolerance=1,t.mapExtent=map.extent,t.spatialReference=map.spatialReference;var o=new S("https://gis.wim.usgs.gov/ArcGIS/rest/services/FIMMapper/grids_"+i+"/MapServer");o.showBusyCursor=!0;var r=o.execute(t);r.addCallback(function(t){if("NoData"!=t[0].feature.attributes["Pixel Value"]){var i=siteAttr.DEPTH_RANG;null==i&&(i=1);var a=Number(i)/2%.5;0==a&&(a=.5);var o=t[0].feature.attributes["Pixel Value"],r=j(a,o),s=r-Number(i)/2,n=r+Number(i)/2,l=(r+Number(i)/2)%.5;if(0!=l){var d=r-o;d>0?(s=Number((r-Number(i)/2-a).toFixed(1)),n=Number((r+Number(i)/2-a).toFixed(1))):(s=Number((r-Number(i)/2+a).toFixed(1)),n=Number((r+Number(i)/2+a).toFixed(1)))}0>s&&(s=0);var c,p=s.toString()+" - "+n.toString();c="NONE"!=siteAttr.REP_LINK?new esri.InfoTemplate("Water depth <a target='_blank' href='"+siteAttr.REP_LINK+"'><i style='color: white' class='fa fa-question-circle'></a>","<b>Range:</b> "+p+" ft"):new esri.InfoTemplate("Water depth","<b>Range:</b> "+p+" ft");var u=t[0].feature;u.setInfoTemplate(c),map.infoWindow.setFeatures([u]),map.infoWindow.resize(175,125),map.infoWindow.show(e.mapPoint)}})}}),search_api.create("geosearch",{on_result:function(e){require(["esri/geometry/Extent"],function(t){var i=["GNIS_MAJOR","GNIS_MINOR","ZIPCODE","AREACODE"],a=i.indexOf(e.result.properties.Source);-1==a?map.setExtent(new esri.geometry.Extent({xmin:e.result.properties.LonMin,ymin:e.result.properties.LatMin,xmax:e.result.properties.LonMax,ymax:e.result.properties.LatMax,spatialReference:{wkid:4326}}),!0):require(["esri/geometry/Point"],function(t){map.centerAndZoom(new t(e.result.properties.Lon,e.result.properties.Lat),12)})})},include_usgs_sw:!0,include_usgs_gw:!0,include_usgs_sp:!0,include_usgs_at:!0,include_usgs_ot:!0,include_huc2:!0,include_huc4:!0,include_huc6:!0,include_huc8:!0,include_huc10:!0,include_huc12:!0}),$(document).ready(function(){function e(){$("#geosearchModal").modal("show")}function t(){$("#aboutModal").modal("show")}function i(){$("#userGuideModal").modal("show")}$("#geosearchNav").click(function(){e()}),$("#aboutNav").click(function(){t(),$("#aboutTab").trigger("click")}),$("#userGuideNav").click(function(){i()}),$("#html").niceScroll(),$("#sidebar").niceScroll(),$("#sidebar").scroll(function(){$("#sidebar").getNiceScroll().resize()}),$("#legendDiv").niceScroll(),maxLegendHeight=.9*$("#mapDiv").height(),$("#legendElement").css("max-height",maxLegendHeight),$("#legendCollapse").on("shown.bs.collapse",function(){maxLegendHeight=.9*$("#mapDiv").height(),$("#legendElement").css("max-height",maxLegendHeight),maxLegendDivHeight=$("#legendElement").height()-parseInt($("#legendHeading").css("height").replace("px","")),$("#legendDiv").css("max-height",maxLegendDivHeight)}),$("#legendCollapse").on("hide.bs.collapse",function(){$("#legendElement").css("height","initial")})}),require(["esri/dijit/Legend","esri/tasks/locator","esri/tasks/query","esri/tasks/QueryTask","esri/graphicsUtils","esri/geometry/Point","esri/geometry/Extent","esri/layers/ArcGISDynamicMapServiceLayer","esri/layers/FeatureLayer","esri/SpatialReference","esri/layers/WMSLayer","esri/layers/WMSLayerInfo","dijit/form/CheckBox","dijit/form/RadioButton","dojo/query","dojo/dom","dojo/dom-class","dojo/dom-construct","dojo/dom-style","dojo/on"],function(e,t,i,a,o,r,s,n,l,d,c,p,u,g,m,f,y,h,v,b){function x(e,t,i,a,o,s,n){if(void 0!==n.layerIndex?map.addLayer(i,n.layerIndex):map.addLayer(i),0==n.legendLabel){var l=document.createElement("style");l.type="text/css",l.innerHTML="[id*="+i.id+"] .esriLegendLayerLabel { display: none; }",document.getElementsByTagName("head")[0].appendChild(l)}if(w.push([o,camelize(a),i]),o){if(!$("#"+camelize(o)).length){var c=$('<div id="'+camelize(o+" Root")+'" class="btn-group-vertical lyrTog" style="cursor: pointer;" data-toggle="buttons"> <button type="button" class="btn btn-default active" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="glyphspan fa fa-check-square-o"></i>&nbsp;&nbsp;'+o+"</button> </div>");c.click(function(e){c.find("i.glyphspan").toggleClass("fa-check-square-o fa-square-o"),$.each(w,function(e,t){var i=map.getLayer(t[2].id);if(t[0]==o)if($("#"+t[1]).find("i.glyphspan").hasClass("fa-dot-circle-o")&&c.find("i.glyphspan").hasClass("fa-check-square-o")){console.log("adding layer: ",t[1]),map.addLayer(t[2]);var i=map.getLayer(t[2].id);i.setVisibility(!0)}else c.find("i.glyphspan").hasClass("fa-square-o")&&(console.log("removing layer: ",t[1]),map.removeLayer(t[2]))})});var p=$('<div id="'+camelize(o)+'" class="btn-group-vertical" data-toggle="buttons"></div>');$("#toggle").append(p)}if(i.visible)var u=$('<div id="'+camelize(a)+'" class="btn-group-vertical lyrTog" style="cursor: pointer;" data-toggle="buttons"> <label class="btn btn-default"  style="font-weight: bold;text-align: left"> <input type="radio" name="'+camelize(o)+'" autocomplete="off"><i class="glyphspan fa fa-dot-circle-o '+camelize(o)+'"></i>&nbsp;&nbsp;'+a+"</label> </div>");else var u=$('<div id="'+camelize(a)+'" class="btn-group-vertical lyrTog" style="cursor: pointer;" data-toggle="buttons"> <label class="btn btn-default"  style="font-weight: bold;text-align: left"> <input type="radio" name="'+camelize(o)+'" autocomplete="off"><i class="glyphspan fa fa-circle-o '+camelize(o)+'"></i>&nbsp;&nbsp;'+a+"</label> </div>");$("#"+camelize(o)).append(u),u.click(function(e){if($(this).find("i.glyphspan").hasClass("fa-circle-o")){$(this).find("i.glyphspan").toggleClass("fa-dot-circle-o fa-circle-o");var t=$(this)[0].id;$.each(w,function(e,i){if(i[0]==o)if(i[1]==t&&$("#"+camelize(o+" Root")).find("i.glyphspan").hasClass("fa-check-square-o")){console.log("adding layer: ",i[1]),map.addLayer(i[2]);var a=map.getLayer(i[2].id);a.setVisibility(!0)}else i[1]==t&&$("#"+camelize(o+" Root")).find("i.glyphspan").hasClass("fa-square-o")?console.log("groud heading not checked"):(console.log("removing layer: ",i[1]),map.removeLayer(i[2]),$("#"+i[1]).find("i.glyphspan").hasClass("fa-dot-circle-o")&&$("#"+i[1]).find("i.glyphspan").toggleClass("fa-dot-circle-o fa-circle-o"))})}})}else if(n.includeInLayerList){if(i.visible&&void 0!==n.hasOpacitySlider&&1==n.hasOpacitySlider&&void 0!==n.hasZoomto&&1==n.hasZoomto)var u=$('<div class="btn-group-vertical lyrTogDiv" style="cursor: pointer;" data-toggle="buttons"> <button id="'+i.id+'"type="button" class="btn btn-default active" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="glyphspan fa fa-check-square-o"></i>&nbsp;&nbsp;'+a+'<span id="opacity'+camelize(a)+'" class="glyphspan glyphicon glyphicon-adjust pull-right opacity"></span><span class="glyphicon glyphicon-search pull-right zoomto"></span></button></div>');else if(i.visible||void 0===n.hasOpacitySlider||1!=n.hasOpacitySlider||void 0===n.hasZoomto||1!=n.hasZoomto)if(i.visible&&void 0!==n.hasOpacitySlider&&1==n.hasOpacitySlider)var u=$('<div class="btn-group-vertical lyrTogDiv" style="cursor: pointer;" data-toggle="buttons"> <button id="'+i.id+'"type="button" class="btn btn-default active" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="glyphspan fa fa-check-square-o"></i>&nbsp;&nbsp;'+a+'<span id="opacity'+camelize(a)+'" class="glyphspan glyphicon glyphicon-adjust pull-right"></button></div>');else if(i.visible||void 0===n.hasOpacitySlider||1!=n.hasOpacitySlider)if(i.visible&&0==n.hasOpacitySlider&&void 0!==n.hasZoomto&&1==n.hasZoomto)var u=$('<div class="btn-group-vertical lyrTogDiv" style="cursor: pointer;" data-toggle="buttons"> <button id="'+i.id+'"type="button" class="btn btn-default active" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="glyphspan fa fa-check-square-o"></i>&nbsp;&nbsp;'+a+'<span class="glyphicon glyphicon-search pull-right zoomto"></span></button></span></div>');else if(i.visible||0!=n.hasOpacitySlider||void 0===n.hasZoomto||1!=n.hasZoomto)if(i.visible)var u=$('<div class="btn-group-vertical lyrTogDiv" style="cursor: pointer;" data-toggle="buttons"> <button id="'+i.id+'"type="button" class="btn btn-default active" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="glyphspan fa fa-check-square-o"></i>&nbsp;&nbsp;'+a+"</button></span></div>");else var u=$('<div class="btn-group-vertical lyrTogDiv" style="cursor: pointer;" data-toggle="buttons"> <button id="'+i.id+'"type="button" class="btn btn-default" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="glyphspan fa fa-square-o"></i>&nbsp;&nbsp;<label id="'+camelize(a)+'Label" class="ahpsLabel">'+a+"</label></button> </div>");else var u=$('<div class="btn-group-vertical lyrTogDiv" style="cursor: pointer;" data-toggle="buttons"> <button id="'+i.id+'"type="button" class="btn btn-default" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="glyphspan fa fa-square-o"></i>&nbsp;&nbsp;'+a+'<span class="glyphicon glyphicon-search pull-right zoomto"></span></button></span></div>');else var u=$('<div class="btn-group-vertical lyrTogDiv" style="cursor: pointer;" data-toggle="buttons"> <button id="'+i.id+'"type="button" class="btn btn-default" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="glyphspan fa fa-square-o"></i>&nbsp;&nbsp;'+a+'<span id="opacity'+camelize(a)+'" class="glyphspan glyphicon glyphicon-adjust pull-right"></button></div>');else var u=$('<div class="btn-group-vertical lyrTogDiv" style="cursor: pointer;" data-toggle="buttons"> <button id="'+i.id+'"type="button" class="btn btn-default" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="glyphspan fa fa-square-o"></i>&nbsp;&nbsp;'+a+'<span id="opacity'+camelize(a)+'" class="glyphspan glyphicon glyphicon-adjust pull-right opacity"></span><span class="glyphicon glyphicon-search pull-right zoomto"></span></button></div>');u.click(function(e){$(this).find("i.glyphspan").toggleClass("fa-check-square-o fa-square-o"),$(this).find("button").button("toggle"),e.preventDefault(),e.stopPropagation(),$("#"+camelize(a)).toggle(),i.visible?i.setVisibility(!1):i.setVisibility(!0),n.otherLayersToggled&&$.each(n.otherLayersToggled,function(e,t){var a=map.getLayer(t);a.visible!=i.visible&&($("#"+a.id).find("i.glyphspan").toggleClass("fa-check-square-o fa-square-o"),$("#"+a.id).find("button").button("toggle"),a.setVisibility(i.visible))});var t=a+"";ga("send","event","layer","click","layer toggle",{dimension2:t})})}if(t){var g=camelize(e);if(!$("#"+g).length){var m=$('<div id="'+g+'"><div class="alert alert-info" role="alert"><strong>'+e+"</strong></div></div>");$("#toggle").append(m)}o?($("#"+g).append(c),$("#"+g).append(p)):($("#"+g).append(u),$("#opacity"+camelize(a)).length>0&&$("#opacity"+camelize(a)).hover(function(){$(".opacitySlider").remove();var e=map.getLayer(s.id).opacity,t=$('<div class="opacitySlider"><label id="opacityValue">Opacity: '+e+'</label><label class="opacityClose pull-right">X</label><input id="slider" type="range"></div>');$("body").append(t),$("#slider")[0].value=100*e,$(".opacitySlider").css("left",event.clientX-180),$(".opacitySlider").css("top",event.clientY-50),$(".opacitySlider").mouseleave(function(){$(".opacitySlider").remove()}),$(".opacityClose").click(function(){$(".opacitySlider").remove()}),$("#slider").change(function(e){var t=$("#slider")[0].value/100;console.log("o: "+t),$("#opacityValue").html("Opacity: "+t),map.getLayer(s.id).setOpacity(t)})}),$(".zoomto").hover(function(e){$(".zoomDialog").remove();var t=this.parentNode.id,i=$('<div class="zoomDialog"><label class="zoomClose pull-right">X</label><br><div class="list-group"><a href="#" id="zoomscale" class="list-group-item lgi-zoom zoomscale">Zoom to scale</a> <a id="zoomcenter" href="#" class="list-group-item lgi-zoom zoomcenter">Zoom to center</a><a id="zoomextent" href="#" class="list-group-item lgi-zoom zoomextent">Zoom to extent</a></div></div>');$("body").append(i),$(".zoomDialog").css("left",event.clientX-80),$(".zoomDialog").css("top",event.clientY-5),$(".zoomDialog").mouseleave(function(){$(".zoomDialog").remove()}),$(".zoomClose").click(function(){$(".zoomDialog").remove()}),$("#zoomscale").click(function(e){var i=map.getLayer(t).minScale;map.setScale(i)}),$("#zoomcenter").click(function(e){var t=new r(defaultMapCenter,new d({wkid:4326}));map.centerAt(t)}),$("#zoomextent").click(function(e){var i=map.getLayer(t).fullExtent;map.setExtent(i)})}))}else $("#toggle").append(u)}var S=[],w=[];$.each(allLayers,function(e,t){console.log("processing: ",t.groupHeading),$.each(t.layers,function(e,i){var a="";if(i.wimOptions.exclusiveGroupName&&(a=i.wimOptions.exclusiveGroupName),"agisFeature"===i.wimOptions.layerType){var o,r=new l(i.url,i.options);i.wimOptions&&1==i.wimOptions.includeLegend&&(o=i.wimOptions.legendTitle?i.wimOptions.legendTitle:e,i.wimOptions.legendPlacement?S.splice(i.wimOptions.legendPlacement,0,{layer:r,title:o}):S.push({layer:r,title:o})),x(t.groupHeading,t.showGroupHeading,r,e,a,i.options,i.wimOptions)}else if("agisWMS"===i.wimOptions.layerType){var r=new c(i.url,{resourceInfo:i.options.resourceInfo,visibleLayers:i.options.visibleLayers},i.options);i.wimOptions&&1==i.wimOptions.includeLegend&&S.push({layer:r,title:e}),x(t.groupHeading,t.showGroupHeading,r,e,a,i.options,i.wimOptions)}else if("agisDynamic"===i.wimOptions.layerType){var r=new n(i.url,i.options);if(i.wimOptions&&i.wimOptions.layerDefinitions){var s=i.wimOptions.layerDefinitions;r.setLayerDefinitions(s)}i.visibleLayers&&r.setVisibleLayers(i.visibleLayers);var o;i.wimOptions&&1==i.wimOptions.includeLegend&&(o=i.wimOptions.legendTitle?i.wimOptions.legendTitle:e,null!=i.wimOptions.legendPlacement&&i.wimOptions.legendPlacement>=0?S.splice(i.wimOptions.legendPlacement,0,{layer:r,title:o}):S.push({layer:r,title:o})),x(t.groupHeading,t.showGroupHeading,r,e,a,i.options,i.wimOptions)}})});var L=new e({map:map,layerInfos:S},"legendDiv");L.startup()})}),$(document).ready(function(){}),$("body").text($("body").text().replace("●",""));
+/**
+ * Created by bdraper on 4/17/2015.
+ */
+//utility function for formatting numbers with commas every 3 digits
+function addCommas(nStr) {
+    nStr += '';
+    var x = nStr.split('.');
+    var x1 = x[0];
+    var x2 = x.length > 1 ? '.' + x[1] : '';
+    var rgx = /(\d+)(\d{3})/;
+    while (rgx.test(x1)) {
+        x1 = x1.replace(rgx, '$1' + ',' + '$2');
+    }
+    return x1 + x2;
+}
+
+function camelize(str) {
+    return str.replace(/(?:^\w|[A-Z]|\b\w)/g, function(letter, index) {
+        return index == 0 ? letter.toLowerCase() : letter.toUpperCase();
+    }).replace(/\s+/g, '');
+}
+
+var parseXml;
+
+if (window.DOMParser) {
+    parseXml = function(xmlStr) {
+        return ( new window.DOMParser() ).parseFromString(xmlStr, "text/xml");
+    };
+} else if (typeof window.ActiveXObject != "undefined" && new window.ActiveXObject("Microsoft.XMLDOM")) {
+    parseXml = function(xmlStr) {
+        var xmlDoc = new window.ActiveXObject("Microsoft.XMLDOM");
+        xmlDoc.async = "false";
+        xmlDoc.loadXML(xmlStr);
+        return xmlDoc;
+    };
+} else {
+    parseXml = function() { return null; }
+}
+/**
+ * Created by bdraper on 4/27/2015.
+ */
+var allLayers;
+
+var floodExtentsMultiTableUrl = "https://gis.wim.usgs.gov/arcgis/rest/services/FIMMapper/floodExtentsMulti/MapServer/1";
+var fimHazusUrl = "https://gis.wim.usgs.gov/arcgis/rest/services/FIMMapper/sites/MapServer/2";
+
+require([
+    "esri/geometry/Extent",
+    "esri/InfoTemplate",
+    "esri/layers/WMSLayerInfo",
+    "esri/layers/FeatureLayer",
+    'dojo/domReady!'
+], function(
+    Extent,
+    InfoTemplate,
+    WMSLayerInfo,
+    FeatureLayer
+) {
+
+    var ahpsInfoTemplate = new InfoTemplate("Flood stage: ${status}", "<b>Location</b>:  ${location}<br/>" +
+        "<b>Waterbody</b>: ${waterbody}<br/>" +
+        "<b>Forecast</b>: ${forecast}<br/>" +
+        "<b>Gage ID</b>: ${gaugelid}<br/>" +
+        "<b>Date/Time</b>: ${fcsttime}<br/>" +
+        "<b>URL</b>: <a target='_blank' href='${url}'>Click here for more info</a><br/>");
+
+    allLayers = [
+        {
+            "groupHeading": "available layers",
+            "showGroupHeading": false,
+            "includeInLayerList": true,
+            "layers": {
+                "FIM Sites": {
+                    "url" : "https://gis.wim.usgs.gov/arcgis/rest/services/FIMMapper/sites/MapServer/0",
+                    "options": {
+                        "id": "fimSites",
+                        "opacity": 1.00,
+                        "mode": FeatureLayer.MODE_SNAPSHOT,
+                        "outFields": ["*"],
+                        "definitionExpression": "Public = 1 OR Public = 0 AND (MULTI_SITE = 0 OR MULTI_SITE = 1)",
+                        //"infoTemplate": fimInfoTemplate,
+                        "visible": true
+                    },
+                    "wimOptions": {
+                        "type": "layer",
+                        "layerType": "agisFeature",
+                        "includeInLayerList": false,
+                        "hasOpacitySlider": true,
+                        "includeLegend" : false//,
+                        //"renderer": sitesRenderer
+                    }
+                },
+                "Flood-inundation area": {
+                    "url" : "https://gis.wim.usgs.gov/arcgis/rest/services/FIMMapper/floodExtents/MapServer",
+                    "options": {
+                        "id": "fimExtents",
+                        "opacity": 0.75,
+                        "visible": false
+                    },
+                    "wimOptions": {
+                        "type": "layer",
+                        "layerType": "agisDynamic",
+                        "includeInLayerList": false,
+                        "hasOpacitySlider": true,
+                        "includeLegend" : true,
+                        "legendLabel": false
+                    }
+                },
+                "Flood-inundation area - two sites": {
+                    "url" : "https://gis.wim.usgs.gov/arcgis/rest/services/FIMMapper/floodExtentsMulti/MapServer",
+                    "options": {
+                        "id": "fimExtentsMulti",
+                        "opacity": 0.75,
+                        "visible": false
+                    },
+                    "wimOptions": {
+                        "type": "layer",
+                        "layerType": "agisDynamic",
+                        "includeInLayerList": false,
+                        "hasOpacitySlider": true,
+                        "includeLegend" : true,
+                        "legendLabel": false
+                    }
+                },
+                "Flood-inundation area - three sites": {
+                    "url" : "https://gis.wim.usgs.gov/arcgis/rest/services/FIMMapper/floodExtentsThreeSites/MapServer",
+                    "options": {
+                        "id": "fimExtentsThreeSites",
+                        "opacity": 0.75,
+                        "visible": false
+                    },
+                    "wimOptions": {
+                        "type": "layer",
+                        "layerType": "agisDynamic",
+                        "includeInLayerList": false,
+                        "hasOpacitySlider": true,
+                        "includeLegend" : true,
+                        "legendLabel": false
+                    }
+                },
+                "Area of uncertainty (where applicable)": {
+                    "url" : "https://gis.wim.usgs.gov/arcgis/rest/services/FIMMapper/breach/MapServer",
+                    "options": {
+                        "id": "fimBreach",
+                        "opacity": 0.35,
+                        "visible": false
+                    },
+                    "wimOptions": {
+                        "type": "layer",
+                        "layerType": "agisDynamic",
+                        "includeInLayerList": false,
+                        "hasOpacitySlider": true,
+                        "includeLegend" : true,
+                        "legendLabel": false
+                    }
+                },
+                "Area of uncertainty (where applicable, two sites)": {
+                    "url" : "https://gis.wim.usgs.gov/arcgis/rest/services/FIMMapper/breachMulti/MapServer",
+                    "options": {
+                        "id": "fimBreachMulti",
+                        "opacity": 0.35,
+                        "visible": false
+                    },
+                    "wimOptions": {
+                        "type": "layer",
+                        "layerType": "agisDynamic",
+                        "includeInLayerList": false,
+                        "hasOpacitySlider": true,
+                        "includeLegend" : true,
+                        "legendLabel": false
+                    }
+                },
+                "Supplemental layers": {
+                    "url" : "https://gis.wim.usgs.gov/arcgis/rest/services/FIMMapper/suppLyrs/MapServer",
+                    "options": {
+                        "id": "fimSuppLyrs",
+                        "opacity": 1.0,
+                        "visible": false
+                    },
+                    "wimOptions": {
+                        "type": "layer",
+                        "layerType": "agisDynamic",
+                        "includeInLayerList": false,
+                        "hasOpacitySlider": true,
+                        "includeLegend" : true
+                    }
+                },
+                "National Weather Service Radar": {
+                    "url" : "https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Observations/radar_base_reflectivity/MapServer",
+                    "options": {
+                        "id": "nwsRadar",
+                        "opacity": 0.65,
+                        "visible": false
+                    },
+                    "wimOptions": {
+                        "type": "layer",
+                        "layerType": "agisDynamic",
+                        "includeInLayerList": true,
+                        "hasOpacitySlider": true,
+                        "includeLegend" : false
+                    }
+                },
+                "Flood Watches and Warnings": {
+                    "url" : "https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Forecasts_Guidance_Warnings/watch_warn_adv/MapServer",
+                    "visibleLayers": [1],
+                    "options": {
+                        "id": "floodWatchWarn",
+                        "opacity": 0.65,
+                        "visible": false
+                    },
+                    "wimOptions": {
+                        "type": "layer",
+                        "layerType": "agisDynamic",
+                        "includeInLayerList": true,
+                        "hasOpacitySlider": true,
+                        "includeLegend" : true,
+                        "legendLabel": false,
+                        "legendPlacement": 0,
+                        "layerDefinitions": {1: "prod_type LIKE '%Flood%'"}
+                    }
+                },
+                /*"USGS FIM Sites (NWS forecast category)": {
+                    "url" : "https://gis.wim.usgs.gov/ArcGIS/rest/services/FIMMapper/fimi_sites_for_legend/MapServer",
+                    "options": {
+                        "id": "fimSitesLegend",
+                        "opacity": 1.0,
+                        "visible": true
+                    },
+                    "wimOptions": {
+                        "type": "layer",
+                        "layerType": "agisDynamic",
+                        "includeInLayerList": false,
+                        "hasOpacitySlider": false,
+                        "includeLegend" : true,
+                        "layerIndex": 0,
+                        "legendLabel": false
+                    }
+                },*/
+                "grids1": {
+                    "url" : "https://gis.wim.usgs.gov/ArcGIS/rest/services/FIMMapper/grids_1/MapServer",
+                    "options": {
+                        "id": "fimGrid1",
+                        "opacity": 0.7,
+                        "visible": false
+                    },
+                    "wimOptions": {//
+                        "type": "layer",
+                        "layerType": "agisDynamic",
+                        "includeInLayerList": false,
+                        "hasOpacitySlider": false,
+                        "includeLegend" : true
+                        //"legendLabel": false
+                    }
+                },
+                "grids2": {
+                    "url" : "https://gis.wim.usgs.gov/ArcGIS/rest/services/FIMMapper/grids_2/MapServer",
+                    "options": {
+                        "id": "fimGrid2",
+                        "opacity": 0.7,
+                        "visible": false
+                    },
+                    "wimOptions": {//
+                        "type": "layer",
+                        "layerType": "agisDynamic",
+                        "includeInLayerList": false,
+                        "hasOpacitySlider": false,
+                        "includeLegend" : true
+                        //"legendLabel": false
+                    }
+                },
+                "grids3": {
+                    "url" : "https://gis.wim.usgs.gov/ArcGIS/rest/services/FIMMapper/grids_3/MapServer",
+                    "options": {
+                        "id": "fimGrid3",
+                        "opacity": 0.7,
+                        "visible": false
+                    },
+                    "wimOptions": {//
+                        "type": "layer",
+                        "layerType": "agisDynamic",
+                        "includeInLayerList": false,
+                        "hasOpacitySlider": false,
+                        "includeLegend" : true
+                        //"legendLabel": false
+                    }
+                },
+                "grids4": {
+                    "url" : "https://gis.wim.usgs.gov/ArcGIS/rest/services/FIMMapper/grids_4/MapServer",
+                    "options": {
+                        "id": "fimGrid4",
+                        "opacity": 0.7,
+                        "visible": false
+                    },
+                    "wimOptions": {//
+                        "type": "layer",
+                        "layerType": "agisDynamic",
+                        "includeInLayerList": false,
+                        "hasOpacitySlider": false,
+                        "includeLegend" : true
+                        //"legendLabel": false
+                    }
+                }//http://gis.wim.usgs.gov/ArcGIS/rest/services/FIMTest/grids_1_test/MapServer*/
+            }
+        },
+        {
+            'groupHeading': 'AHPS Forecast Sites',
+            'showGroupHeading': false,
+            'includeInLayerList': true,
+            'moreinfo': "https://www.fws.gov/wetlands/Documents/Scalable-Wetland-Mapping-Fact-Sheet.pdf",
+            'otherLayersToggled': ['major','moderate','minor','near','noflood','obs'],
+            'layers': {
+                "AHPS Forecast Sites": {
+                    "url" : "https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Observations/ahps_riv_gauges/MapServer",
+                    "visibleLayers": [-1],
+                    "options": {
+                        "id": "ahpsSites",
+                        "opacity": 1.0,
+                        "visible": false
+                    },
+                    "wimOptions": {
+                        "type": "layer",
+                        "layerType": "agisDynamic",
+                        "includeInLayerList": true,
+                        "hasOpacitySlider": true,
+                        "includeLegend" : true,
+                        'layerIndex': -1,
+                        'otherLayersToggled': ['major','moderate','minor','near','noflood']
+                    }
+                },
+                'Major flooding':{
+                    'url' : 'https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Observations/ahps_riv_gauges/MapServer/1',
+                    'options':{
+                        'id': 'major',
+                        "mode": FeatureLayer.MODE_SNAPSHOT,
+                        "outFields": ["location","waterbody","forecast","gaugelid","fcsttime","url"],
+                        'opacity': 0.6,
+                        'infoTemplate': ahpsInfoTemplate,
+                        'visible': false,
+                        'definitionExpression': "status = 'major'"
+                    },
+                    'wimOptions': {
+                        'type': 'layer',
+                        'layerType': 'agisFeature',
+                        "opacity": 1.00,
+                        "mode": FeatureLayer.MODE_SNAPSHOT,
+                        "outFields": ["*"],
+                        'includeInLayerList': true,
+                        'layerIndex': 0,
+                        'includeLegend': true,
+                        'legendTitle': 'AHPS Forecast Sites',
+                        'legendPlacement': 1
+                    }
+                },
+                'Moderate flooding': {
+                    'url' : 'https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Observations/ahps_riv_gauges/MapServer/1',
+                    'options':{
+                        'id': 'moderate',
+                        "mode": FeatureLayer.MODE_SNAPSHOT,
+                        "outFields": ["location","waterbody","forecast","gaugelid","fcsttime","url"],
+                        'opacity': 0.6,
+                        'infoTemplate': ahpsInfoTemplate,
+                        'visible': false,
+                        'definitionExpression': "status = 'moderate'"
+                    },
+                    'wimOptions': {
+                        'type': 'layer',
+                        'layerType': 'agisFeature',
+                        "opacity": 1.00,
+                        "mode": FeatureLayer.MODE_SNAPSHOT,
+                        "outFields": ["*"],
+                        'includeInLayerList': true,
+                        'layerIndex': 0,
+                        'includeLegend' : false
+                    }
+                },
+                'Minor flooding': {
+                    'url' : 'https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Observations/ahps_riv_gauges/MapServer/1',
+                    'options':{
+                        'id': 'minor',
+                        "mode": FeatureLayer.MODE_SNAPSHOT,
+                        "outFields": ["location","waterbody","forecast","gaugelid","fcsttime","url"],
+                        'opacity': 0.6,
+                        'infoTemplate': ahpsInfoTemplate,
+                        'visible': false,
+                        'definitionExpression': "status = 'minor'"
+                    },
+                    'wimOptions': {
+                        'type': 'layer',
+                        'layerType': 'agisFeature',
+                        "opacity": 1.00,
+                        "mode": FeatureLayer.MODE_SNAPSHOT,
+                        "outFields": ["*"],
+                        'includeInLayerList': true,
+                        'layerIndex': 0,
+                        'includeLegend' : false
+                    }
+                },
+                'Near flood': {
+                    'url' : 'https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Observations/ahps_riv_gauges/MapServer/1',
+                    'options':{
+                        'id': 'near',
+                        "mode": FeatureLayer.MODE_SNAPSHOT,
+                        "outFields": ["location","waterbody","forecast","gaugelid","fcsttime","url"],
+                        'opacity': 0.6,
+                        'infoTemplate': ahpsInfoTemplate,
+                        'visible': false,
+                        'definitionExpression': "status = 'action'"
+                    },
+                    'wimOptions': {
+                        'type': 'layer',
+                        'layerType': 'agisFeature',
+                        "opacity": 1.00,
+                        "mode": FeatureLayer.MODE_SNAPSHOT,
+                        "outFields": ["*"],
+                        'includeInLayerList': true,
+                        'layerIndex': 0,
+                        'includeLegend' : false
+                    }
+                },
+                'No flooding': {
+                    'url' : 'https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Observations/ahps_riv_gauges/MapServer/1',
+                    'options':{
+                        'id': 'noflood',
+                        "mode": FeatureLayer.MODE_ONDEMAND,
+                        "outFields": ["location","waterbody","forecast","gaugelid","fcsttime","url"],
+                        'opacity': 0.6,
+                        'infoTemplate': ahpsInfoTemplate,
+                        'visible': false,
+                        'definitionExpression': "status = 'no_flooding'"
+                    },
+                    'wimOptions': {
+                        'type': 'layer',
+                        'layerType': 'agisFeature',
+                        'opacity': 1.00,
+                        'mode': FeatureLayer.MODE_SNAPSHOT,
+                        'outFields': ["*"],
+                        'includeInLayerList': true,
+                        'layerIndex': 0,
+                        'includeLegend' : false
+                    }
+                }/*,
+                'observation > 24 hrs old': {
+                    'url' : 'https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Observations/ahps_riv_gauges/MapServer',
+                    'visibleLayers': [0],
+                    'options':{
+                        'id': 'obs',
+                        'opacity': 0.6,
+                        'visible': false,
+                        'mode': FeatureLayer.MODE_SNAPSHOT,
+                        'definitionExpression': "status = 'out_of_service'"
+                    },
+                    'wimOptions': {
+                        'type': 'layer',
+                        'layerType': 'agisFeature',
+                        'mode': FeatureLayer.MODE_SNAPSHOT,
+                        'includeInLayerList': true,
+                        'includeLegend' : true,
+                        'mode': FeatureLayer.MODE_SNAPSHOT,
+                        'otherLayersToggled': ['major','moderate','minor','near','noflood']
+                    }
+                }*/
+            }
+        }
+    ]
+
+});
+
+
+
+
+
+
+//for jshint
+'use strict';
+// Generated on 2015-04-13 using generator-wim 0.0.1
+
+/**
+ * Created by bdraper on 4/3/2015.
+ *///
+
+var map;
+var dialog;
+var allLayers;
+var maxLegendHeight;
+var maxLegendDivHeight;
+var dragInfoWindows = false;
+var defaultMapCenter = [-95.6, 38.6];
+
+var printCount = 0;
+
+var siteAttr;
+
+var results;
+
+var fimiMoreInfoUrl = "https://fim.wim.usgs.gov/arcgis/rest/services/FIMMapper/fim_add_info/MapServer/1";
+var ahpsForecastUrl = "https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Observations/ahps_riv_gauges/MapServer/0";
+var nwisUrl = "https://waterservices.usgs.gov/nwis/iv/?format=nwjson&period=P7D&parameterCd=00065&sites=";
+var proxyUrl = "https://services.wim.usgs.gov/proxies/httpProxy/Default.aspx?";
+
+var gridInfos = [];
+var grid1Infos;
+var grid2Infos;
+var grid3Infos;
+var grid4Infos;
+var gridLayerIndex;
+var gridLayerIndexArrColl = [];
+
+var gridsArray = [1,2,3,4];
+
+var siteClick;
+
+var extentResults = null;
+var libExtent = null;
+
+var siteNo;
+var siteNo_2;
+var siteNo_3;
+
+var gageValues = [];
+var gageValues2 = [];
+var gageValues3 = [];
+var altitudeValues = [];
+var altitudeValues2 = [];
+var altitudeValues3 = [];
+var gagePairs = [];
+
+var loadedInitialLibrary = false;
+
+var majorCount = 0;
+var moderateCount = 0;
+var minorCount = 0;
+var actionCount = 0;
+var nofloodCount = 0;
+var currentBasemap;
+
+
+require([
+    'esri/arcgis/utils',
+    'esri/Color',
+    'esri/map',
+    'esri/dijit/Geocoder',
+    'esri/dijit/HomeButton',
+    'esri/dijit/LocateButton',
+    'esri/dijit/PopupTemplate',
+    'esri/dijit/Scalebar',
+    'esri/geometry/Extent',
+    'esri/geometry/Multipoint',
+    'esri/geometry/Point',
+    'esri/geometry/screenUtils',
+    'esri/geometry/webMercatorUtils',
+    'esri/graphic',
+    'esri/lang',
+    'esri/layers/ArcGISTiledMapServiceLayer',
+    'esri/layers/FeatureLayer',
+    'esri/renderers/UniqueValueRenderer',
+    'esri/symbols/PictureMarkerSymbol',
+    'esri/symbols/SimpleFillSymbol',
+    'esri/tasks/IdentifyParameters',
+    'esri/tasks/IdentifyTask',
+    'esri/tasks/LegendLayer',
+    'esri/tasks/PrintTask',
+    'esri/tasks/PrintParameters',
+    'esri/tasks/PrintTemplate',
+    'esri/tasks/query',
+    'esri/tasks/QueryTask',
+    'dijit/popup',
+    'dijit/TooltipDialog',
+    'dojo/dnd/Moveable',
+    'dojo/query',
+    'dojo/dom',
+    'dojo/dom-class',
+    'dojo/dom-style',
+    'dojo/on',
+    'dojo/domReady!'
+], function (
+    arcgisUtils,
+    Color,
+    Map,
+    Geocoder,
+    HomeButton,
+    LocateButton,
+    PopupTemplate,
+    Scalebar,
+    Extent,
+    Multipoint,
+    Point,
+    screenUtils,
+    webMercatorUtils,
+    Graphic,
+    esriLang,
+    ArcGISTiledMapServiceLayer,
+    FeatureLayer,
+    UniqueValueRenderer,
+    PictureMarkerSymbol,
+    SimpleFillSymbol,
+    IdentifyParameters,
+    IdentifyTask,
+    LegendLayer,
+    PrintTask,
+    PrintParameters,
+    PrintTemplate,
+    esriQuery,
+    QueryTask,
+    dijitPopup,
+    TooltipDialog,
+    Moveable,
+    query,
+    dom,
+    domClass,
+    domStyle,
+    on
+) {
+
+    //bring this line back after experiment////////////////////////////
+    ////allLayers = mapLayers;
+
+    esriConfig.defaults.io.corsEnabledServers.push("fim.wim.usgs.gov");
+    esriConfig.defaults.io.corsEnabledServers.push("gis.wim.usgs.gov");
+    esri.config.defaults.io.proxyUrl = proxyUrl;
+
+
+    var lods = [
+        {"level" : 0, "resolution" : 156543.03392800014, "scale" : 591657527.591555},
+        {"level" : 1, "resolution" : 78271.51696399994, "scale" : 295828763.795777},
+        {"level" : 2, "resolution" : 39135.75848200009, "scale" : 147914381.897889},
+        {"level" : 3, "resolution" : 19567.87924099992, "scale" : 73957190.948944},
+        {"level" : 4, "resolution" : 9783.93962049996, "scale" : 36978595.474472},
+        {"level" : 5, "resolution" : 4891.96981024998, "scale" : 18489297.737236},
+        {"level" : 6, "resolution" : 2445.98490512499, "scale" : 9244648.868618},
+        {"level" : 7, "resolution" : 1222.992452562495, "scale" : 4622324.434309},
+        {"level" : 8, "resolution" : 611.4962262813797, "scale" : 2311162.217155},
+        {"level" : 9, "resolution" : 305.74811314055756, "scale" : 1155581.108577},
+        {"level" : 10, "resolution" : 152.87405657041106, "scale" : 577790.554289},
+        {"level" : 11, "resolution" : 76.43702828507324, "scale" : 288895.277144},
+        {"level" : 12, "resolution" : 38.21851414253662, "scale" : 144447.638572},
+        {"level" : 13, "resolution" : 19.10925707126831, "scale" : 72223.819286},
+        {"level" : 14, "resolution" : 9.554628535634155, "scale" : 36111.909643},
+        {"level" : 15, "resolution" : 4.77731426794937, "scale" : 18055.954822},
+        {"level" : 16, "resolution" : 2.388657133974685, "scale" : 9027.977411},
+        {"level" : 17, "resolution" : 1.1943285668550503, "scale" : 4513.988705}
+    ];
+
+    map = Map('mapDiv', {
+        basemap: 'topo',
+        //center: [-95.6, 38.6],
+        //center: defaultMapCenter,
+        extent: new Extent({xmin:-13876072.366774123,ymin:3500204.399233875,xmax:-7413780.247433899,ymax:6324093.972200677,spatialReference:{wkid:102100}}),
+        fitExtent: true,
+        logo: false,
+        lods: lods
+    });
+
+    //button for returning to initial extent
+    var home = new HomeButton({
+        map: map
+    }, "homeButton");
+    home.startup();
+
+    //button for finding and zooming to user's location
+    var locate = new LocateButton({
+        map: map
+    }, "locateButton");
+    locate.startup();
+
+    //scalebar
+    var scalebar = new Scalebar({
+        map: map,
+        scalebarUnit: "dual"
+    });
+
+    var url_string = window.location;
+    var site_no_param = "";
+    if (url_string.search != undefined) {
+        var params = url_string.search;
+        if (params.search("site_no") != -1) {
+            site_no_param = params.split("site_no=")[1];
+        }
+    }
+
+    map.on('extent-change', function(evt) {
+        if (site_no_param != "") {
+
+            var fim_sites = map.graphics.graphics;
+            $.each(fim_sites, function(index, value) {
+                if (value.attributes != undefined && value.attributes.SITE_NO == site_no_param) {
+                    var screenPoint = screenUtils.toScreenGeometry(map.extent, map.width, map.height, value.geometry);
+                    var event = new MouseEvent('click', {
+                        'view': window,
+                        'bubbles': true,
+                        'cancelable': true,
+                        'x': screenPoint.x,
+                        'y': screenPoint.y
+                    });
+                    var e = new jQuery.Event("click");
+                    e.pageX = 1305;
+                    e.pageY = 327;
+                    $(value)[0].trigger("click");
+                }
+            });
+        }
+    })
+
+    //following block forces map size to override problems with default behavior
+    $(window).resize(function () {
+        if ($("#legendCollapse").hasClass('in')) {
+            maxLegendHeight =  ($('#mapDiv').height()) * 0.90;
+            $('#legendElement').css('height', maxLegendHeight);
+            $('#legendElement').css('max-height', maxLegendHeight);
+            maxLegendDivHeight = ($('#legendElement').height()) - parseInt($('#legendHeading').css("height").replace('px',''));
+            $('#legendDiv').css('max-height', maxLegendDivHeight);
+        }
+        else {
+            $('#legendElement').css('height', 'initial');
+        }
+
+        /*if ($("#floodToolsDiv").css("visibility") == "visible") {
+            var instance = $('#floodToolsDiv').data('lobiPanel');
+            var docHeight = $(document).height();
+            var docWidth = $(document).width();
+            var percentageOfScreen = 0.9;
+            var floodToolsHeight = docHeight*percentageOfScreen
+            var floodToolsWidth = docWidth*percentageOfScreen;
+            var highChartWidth = 600;
+            var highChartHeight = 325;
+
+            if (docHeight < 500) {
+                $("#floodToolsDiv").height(floodToolsHeight);
+                $("#floodToolsDiv").each(function() {
+                    $(this).find("*").height("100%");
+                });
+                highChartHeight = $("#floodToolsDiv").height() - 50;
+            }
+            if (docWidth < 500) {
+                $("#floodToolsDiv").width(floodToolsWidth);
+                $("#floodToolsDiv").each(function() {
+                    $(this).find("*").width("100%");
+                });
+                highChartWidth = $("#floodToolsDiv").width() - 50;
+            }
+
+            var instanceX = docWidth*0.5-$("#floodToolsDiv").width()*0.5;
+            var instanceY = docHeight*0.5-$("#floodToolsDiv").height()*0.5;
+
+            instance.setPosition(instanceX, instanceY);
+        }*/
+
+    });
+
+    $('#aboutModal').modal('show');
+    $('#disclaimerTab').trigger('click');
+
+    function showPrintModal() {
+        $('#printModal').modal('show');
+    }
+
+    $('#printNavButton').click(function(){
+        showPrintModal();
+    });
+
+    $('#printExecuteButton').click(function (e) {
+        e.preventDefault();
+        $(this).button('loading');
+        printMap();
+    });
+
+    $('#shareLink').click(function(){
+        showShareModal();
+    });
+
+    function showShareModal() {
+        $('#shareModal').modal('show');
+        //create a URL query string with extent
+        var shareQueryString = "?site_no=" + siteAttr.SITE_NO;
+        var cleanURL = document.location.href;
+        cleanURL = cleanURL.split("?")[0];
+        //below line for local testing only. replace with above line for production
+        //var cleanURL = "https://fim.wim.usgs.gov/fim-js-dev/";
+        var shareURL = cleanURL + shareQueryString;
+        $("#siteURL").html('<span class="label label-default"><span class="glyphicon glyphicon-link"></span> site link</span><code>' + shareURL + '</code>');
+
+        // Hidden Input for copy button
+        var $temp = $("<input id='shareURLInput'>");
+        $("body").append($temp);
+        $temp.val(shareURL);
+    }
+
+    $("#copyShareURL").click(function(){
+      // Copy hidden input text
+      $('#shareURLInput').select();
+      document.execCommand("copy");
+      $('#shareURLInput').remove();
+    });
+
+    dialog = new TooltipDialog({
+        id: "tooltipDialog",
+        style: "position: absolute; font: normal normal normal 10pt Helvetica;z-index:100"
+    });
+    dialog.startup();
+
+    ///displays map scale on map load
+    on(map, "load", function() {
+        var scale =  map.getScale().toFixed(0);
+        $('#scale')[0].innerHTML = addCommas(scale);
+        var initMapCenter = webMercatorUtils.webMercatorToGeographic(map.extent.getCenter());
+        $('#latitude').html(initMapCenter.y.toFixed(3));
+        $('#longitude').html(initMapCenter.x.toFixed(3));
+
+        //code for adding draggability to infoWindow. http://www.gavinr.com/2015/04/13/arcgis-javascript-draggable-infowindow/
+        if (dragInfoWindows == true) {
+            var handle = query(".title", map.infoWindow.domNode)[0];
+            var dnd = new Moveable(map.infoWindow.domNode, {
+                handle: handle
+            });
+
+            // when the infoWindow is moved, hide the arrow:
+            on(dnd, 'FirstMove', function() {
+                // hide pointer and outerpointer (used depending on where the pointer is shown)
+                var arrowNode =  query(".outerPointer", map.infoWindow.domNode)[0];
+                domClass.add(arrowNode, "hidden");
+
+                var arrowNode =  query(".pointer", map.infoWindow.domNode)[0];
+                domClass.add(arrowNode, "hidden");
+            }.bind(this));
+        }
+        map.infoWindow.set('highlight', true);
+        $('[class^="scalebar"]').attr('bottom', '40px');
+    });
+
+    function closeDialog() {
+        dijitPopup.close(dialog);
+    }
+
+    //displays map scale on scale change (i.e. zoom level)
+    on(map, "zoom-end", function () {
+        var scale =  map.getScale().toFixed(0);
+        $('#scale')[0].innerHTML = addCommas(scale);
+    });
+
+    //updates lat/lng indicator on mouse move. does not apply on devices w/out mouse. removes "map center" label
+    on(map, "mouse-move", function (cursorPosition) {
+        $('#mapCenterLabel').css("display", "none");
+        if (cursorPosition.mapPoint != null) {
+            var geographicMapPt = webMercatorUtils.webMercatorToGeographic(cursorPosition.mapPoint);
+            $('#latitude').html(geographicMapPt.y.toFixed(3));
+            $('#longitude').html(geographicMapPt.x.toFixed(3));
+        }
+    });
+    //updates lat/lng indicator to map center after pan and shows "map center" label.
+    on(map, "pan-end", function () {
+        //displays latitude and longitude of map center
+        $('#mapCenterLabel').css("display", "inline");
+        var geographicMapCenter = webMercatorUtils.webMercatorToGeographic(map.extent.getCenter());
+        $('#latitude').html(geographicMapCenter.y.toFixed(3));
+        $('#longitude').html(geographicMapCenter.x.toFixed(3));
+    });
+
+    var nationalMapBasemap = new ArcGISTiledMapServiceLayer('https://basemap.nationalmap.gov/arcgis/rest/services/USGSTopo/MapServer', {id: 'tnm'});
+    //on clicks to swap basemap. map.removeLayer is required for nat'l map b/c it is not technically a basemap, but a tiled layer.
+    on(dom.byId('btnStreets'), 'click', function () {
+        map.setBasemap('streets');
+        map.removeLayer(nationalMapBasemap);
+    });
+    on(dom.byId('btnSatellite'), 'click', function () {
+        map.setBasemap('satellite');
+        map.removeLayer(nationalMapBasemap);
+    });
+    on(dom.byId('btnHybrid'), 'click', function () {
+        map.setBasemap('hybrid');
+        map.removeLayer(nationalMapBasemap);
+    });
+    on(dom.byId('btnTerrain'), 'click', function () {
+        map.setBasemap('terrain');
+        map.removeLayer(nationalMapBasemap);
+    });
+    on(dom.byId('btnGray'), 'click', function () {
+        map.setBasemap('gray');
+        map.removeLayer(nationalMapBasemap);
+    });
+    on(dom.byId('btnNatGeo'), 'click', function () {
+        map.setBasemap('national-geographic');
+        map.removeLayer(nationalMapBasemap);
+    });
+    on(dom.byId('btnOSM'), 'click', function () {
+        map.setBasemap('osm');
+        map.removeLayer(nationalMapBasemap);
+    });
+    on(dom.byId('btnTopo'), 'click', function () {
+        map.setBasemap('topo');
+        map.removeLayer(nationalMapBasemap);
+    });
+
+    on(dom.byId('btnNatlMap'), 'click', function () {
+        map.setBasemap("topo");
+        map.addLayer(nationalMapBasemap, 2);
+    });
+
+    map.on('basemap-change', function(evt) {
+        map.reorderLayer(map.getLayer("fimSitesLegend"), 0);
+    });
+
+
+    //end code for adding draggability to infoWindow
+
+    /*on(map, "click", function(evt) {
+        var graphic = new Graphic();
+
+        var feature = graphic;
+
+        var template = new esri.InfoTemplate("test popup",
+            "attributes and stuff go here");
+
+        //ties the above defined InfoTemplate to the feature result returned from a click event
+
+        feature.setInfoTemplate(template);
+
+        map.infoWindow.setFeatures([feature]);
+        map.infoWindow.show(evt.mapPoint);
+
+        map.infoWindow.show();
+    });*/
+
+    // Using Lobipanel: https://github.com/arboshiki/lobipanel
+    $("#floodToolsDiv").lobiPanel({
+        unpin: false,
+        reload: false,
+        minimize: false,
+        close: false,
+        expand: false,
+        editTitle: false,
+        width: 800,
+        height: 500,
+        maxWidth: 800,
+        maxHeight: 500
+    });
+
+    $("#floodToolsDiv .dropdown").prepend("<div id='floodClose' title='close'></div>");
+    $("#floodToolsDiv .dropdown").prepend("<div id='floodMin' title='collapse'></div>");
+
+    $("#floodMin").click(function(){
+        $("#floodToolsDiv").css("visibility", "hidden");
+        //map.getLayer("fimExtents").setVisibility(false);
+        $("#flood-tools-alert").slideDown(250);
+    });
+
+    $("#floodClose").click(function(){
+        $("#floodToolsDiv").css("visibility", "hidden");
+        map.getLayer("fimExtents").setVisibility(false);
+        map.getLayer("fimGrid"+siteAttr.GRID_SERV).setVisibility(false);
+        map.getLayer("fimBreach").setVisibility(false);
+        map.getLayer("fimSuppLyrs").setVisibility(false);
+        map.getLayer("fimExtentsMulti").setVisibility(false);
+        map.getLayer("fimBreachMulti").setVisibility(false);
+        //REVISIT: when dealing with three sites
+        //map.getLayer("fimExtentsThreeSites").setVisibility(false);
+        //map.getLayer("fimBreachThreeSites").setVisibility(false);
+        $('#hydroChart').highcharts().destroy();
+        map.infoWindow.hide();
+    });
+
+    $("#floodToolsOpen").click(function(){
+        $("#floodToolsDiv").css("visibility", "visible");
+        $("#flood-tools-alert").slideUp(250);
+    });
+
+    $("#waterAlertLink").click(function() {
+       $("#waterAlertLink").attr("href", "https://water.usgs.gov/wateralert/subscribe/?fim=1&intro=1&site_no=" + siteAttr.SITE_NO + "&agency_cd=USGS&type_cd=st&parms=00065:" + results[$(".first-site #floodSlider")[0].value].attributes["STAGE"]);
+       $("#waterAlertLink").click();
+    });
+
+    $("#disclaimerLink").click(function() {
+        $("#aboutModal").modal('show');
+        $("#disclaimerTab").trigger('click');
+    });
+
+    //map.getLayer("fimGrid2").on("load", gridsLayerComp);
+
+    map.on('layer-add', function (evt) {
+        var layer = evt.layer.id;
+        var actualLayer = evt.layer;
+
+        if (layer == "fimSites") {
+
+            var initialSiteLoad = map.getLayer(layer).on('update-end', function(evt) {
+
+                /*on(evt.target, "mouse-out", closeDialog);
+
+                on(evt.target, "mouse-over", function(evt){
+                    var t = "${STATE}: ${COMMUNITY}";
+
+                    var content = esriLang.substitute(evt.graphic.attributes,t);
+                    dialog.setContent(content);
+
+                    dijitPopup.open({
+                        popup: dialog,
+                        x: evt.pageX,
+                        y: evt.pageY
+                    });
+                });*/
+
+                var ahpsIds = [];
+                var graphics = evt.target.graphics;
+                $.each(graphics, function (index, feature) {
+                    if (feature.attributes["AHPS_ID"] != null) {
+                        ahpsIds.push("'" + feature.attributes["AHPS_ID"].toUpperCase() + "'");
+                    }
+                });
+
+                //map.getLayer(layer).attr("flood_condition", "_blank_");
+                //map.getLayer(layer).refresh();
+
+                //ahpsIds.map(function(x){ return x.toUpperCase() })
+
+                $.ajax({
+                    dataType: 'json',
+                    type: 'GET',
+                    url: ahpsForecastUrl + "/query?returnGeometry=false&where=GaugeLID%20in%20%28" + ahpsIds + "%29&outFields=status%2Cgaugelid&f=json",
+                    headers: {'Accept': '*/*'},
+                    success: function (data) {
+
+                        var floodAttr = data.features;
+
+                        var i;
+
+                        for (i = 0; i < floodAttr.length; i++) {
+                            for (var j = 0; j < graphics.length; j++) {
+                                //console.log(floodAttr[i].attributes.gaugelid.toLowerCase() + " : " + map.getLayer(layer).graphics[j].attributes.AHPS_ID)
+                                if (map.getLayer(layer).graphics[j].attributes.AHPS_ID == floodAttr[i].attributes.gaugelid.toLowerCase()) {
+                                    map.getLayer(layer).graphics[j].attributes.FLOOD_CONDITION = floodAttr[i].attributes.status;
+                                    /*console.log(floodAttr[i].attributes.status);
+                                    if (map.getLayer(layer).graphics[j].attributes.AHPS_ID == "cpei3") {
+                                        console.log('here');
+                                    }*/
+                                }
+
+                            }
+                        }
+
+                        var symWidth = 15.88;
+                        var symHeight = 13;
+
+                        var defaultSym = new PictureMarkerSymbol('./images/default.png', symWidth, symHeight);
+                        var actionSym = new PictureMarkerSymbol('./images/action.png', symWidth, symHeight);
+                        var majorSym = new PictureMarkerSymbol('./images/major.png', symWidth, symHeight);
+                        var minorSym = new PictureMarkerSymbol('./images/minor.png', symWidth, symHeight);
+                        var moderateSym = new PictureMarkerSymbol('./images/moderate.png', symWidth, symHeight);
+                        var no_floodingSym = new PictureMarkerSymbol('./images/no_flooding.png', symWidth, symHeight);
+
+                        var sitesRenderer = new UniqueValueRenderer(defaultSym, "FLOOD_CONDITION");
+                        sitesRenderer.addValue("action", actionSym);
+                        sitesRenderer.addValue("major", majorSym);
+                        sitesRenderer.addValue("minor", minorSym);
+                        sitesRenderer.addValue("moderate", moderateSym);
+                        sitesRenderer.addValue("no_flooding", no_floodingSym);
+
+                        //map.getLayer(layer).setRenderer(sitesRenderer);
+
+                        /*for (var i=0; i < map.getLayer(layer).graphics.length; i++) {
+                            //map.graphics.add(map.getLayer(layer).graphics[i]);
+                        }*/
+                        map.getLayer(layer).setRenderer(sitesRenderer);
+                        map.getLayer(layer).redraw();
+                        //map.getLayer(layer).refresh();
+                        //var mapLevel = map.getLevel();
+                        //map.setLevel(mapLevel - 1);
+                        //map.setLevel(mapLevel);
+
+                        initialSiteLoad.remove();
+
+                        if (site_no_param != "") {
+
+                            var fim_sites = map.getLayer(layer).graphics;
+                            $.each(fim_sites, function(index, value) {
+                                if (value.attributes != undefined && value.attributes.SITE_NO == site_no_param) {
+                                    /*var screenPoint = screenUtils.toScreenGeometry(map.extent, map.width, map.height, value.geometry);
+                                    var event = new MouseEvent('click', {
+                                        'view': window,
+                                        'bubbles': false,
+                                        'cancelable': true
+                                    });*/
+                                    var graphic = value;
+                                    //$(graphic)[0].trigger('click');
+                                    graphic._shape.rawNode.id = site_no_param;
+                                    $("#" + site_no_param).on('click', siteClick);
+                                    $("#" + site_no_param).trigger('click');
+                                }
+                            });
+
+                        }
+
+                    },
+                    error: function (error) {
+                        console.log("Error processing the JSON. The error is:" + error);
+                    }
+                });
+
+                /*if (site_no_param != "") {
+
+                    var query = new esriQuery(); // Create a Query Object
+                    query.where = "SITE_NO = " + site_no_param; // Select the first point from the Feature Layer
+                    query.returnGeometry = true;
+
+                    var selectionSymbol = new SimpleFillSymbol().setColor(new Color([255,255,0,0.5]));;
+                    map.getLayer(layer).setSelectionSymbol(selectionSymbol);
+
+                    map.getLayer(layer).selectFeatures(query, FeatureLayer.SELECTION_NEW);*/
+
+                    /*var fim_sites = graphics;
+                    $.each(fim_sites, function(index, value) {
+                        if (value.attributes != undefined && value.attributes.SITE_NO == site_no_param) {
+                            var screenPoint = screenUtils.toScreenGeometry(map.extent, map.width, map.height, value.geometry);
+                            var event = new MouseEvent('click', {
+                                'view': window,
+                                'bubbles': true,
+                                'cancelable': true,
+                                'x': screenPoint.x,
+                                'y': screenPoint.y
+                            });
+                            var graphic = value;
+                            //$(graphic).trigger('click');
+                            var e = new jQuery.Event("click");
+                            e.screenX = screenPoint.x;
+                            e.screenY = screenPoint.y;
+                            $(window).trigger(e);
+                            map.graphics.graphics[index].emit("click", {
+                                bubbles: true,
+                                cancelable: true
+                            });
+                        }
+                    });
+                }*/
+
+            });
+
+            var siteClick = function(evt) {
+                
+                var feature;
+                if (evt.graphic != undefined) {
+                    feature = evt.graphic;
+                } else {
+                    feature = evt.currentTarget.e_graphic;
+                }
+                var attr = feature.attributes;
+                siteAttr = attr;
+
+                if (siteAttr["MULTI_SITE"] == 0) {
+                    $(".second-site").hide();
+                    $(".third-site").hide();
+                    sitePopup(evt);
+                } else if (siteAttr["MULTI_SITE"] == 1) {
+                    $(".second-site").show();
+                    $(".third-site").hide();
+                    var multiSitesQuery = new esriQuery(); 
+                    multiSitesQuery.returnGeometry = false;
+                    multiSitesQuery.where = "site_no =" + siteAttr["SITE_NO"];
+                    multiSitesQuery.outFields = ["combo_id"];
+                    
+                    var multiSitesQueryTask = new QueryTask(floodExtentsMultiTableUrl);	
+                    multiSitesQueryTask.execute(multiSitesQuery, multiSitesResult);
+
+                    function multiSitesResult(featureSet) {
+                        var multiQuery = new esriQuery();
+                        multiQuery.returnGeometry = false;
+                        multiQuery.where = "combo_id = " + featureSet.features[0].attributes.combo_id;
+                        multiQuery.outFields = ["site_no,combo_id,ordinal"];
+                        
+                        var multiQueryTask = new QueryTask(floodExtentsMultiTableUrl);
+                        multiQueryTask.execute(multiQuery, multiInitResult);
+                        
+                        function multiInitResult(featureSet) {
+                            sitePopup(evt, featureSet);
+                        }
+                    }
+                }
+                
+            }
+
+            var sitePopup = function(evt, sites = null) {
+
+                var feature;
+                if (evt.graphic != undefined) {
+                    feature = evt.graphic;
+                } else {
+                    feature = evt.currentTarget.e_graphic;
+                }
+                var attr = feature.attributes;
+                siteAttr = attr;
+
+                if (sites && sites.features.length > 1) {
+                    for (var i=0; i<sites.features.length; i++) {
+                        if (sites.features[i].attributes.ordinal == 1) {
+                            siteNo = sites.features[i].attributes.site_no;
+                            if (siteNo.toString().length == 7) { 
+                                siteNo = '0' + siteNo;
+                            } else {
+                                siteNo = sites.features[0].attributes.site_no;
+                            }
+                        } else if (sites.features[i].attributes.ordinal == 2) {
+                            siteNo_2 = sites.features[i].attributes.site_no;
+                            if (siteNo_2.toString().length == 7) { 
+                                siteNo_2 = '0' + siteNo_2;
+                            } else {
+                                siteNo_2 = sites.features[0].attributes.site_no;
+                            }
+                        }
+                    }
+                } else {
+                    siteNo = siteAttr["SITE_NO"];
+                }
+
+                $("#flood-tools-alert").slideUp(250);
+                $("#floodToolsDiv .panel-heading").addClass('loading-hide');
+                $("#floodToolsDiv .panel-body").addClass('loading-hide');
+                $("#floodToolsDiv").addClass('loading-background');
+                
+                results = null;
+                getGridInfo();
+                extentResults = null;
+                gageValues = [];
+                gageValues2 = [];
+                gageValues3 = [];
+                gagePairs = [];
+
+                map.getLayer("fimExtents").setVisibility(false);
+                map.getLayer("fimExtentsMulti").setVisibility(false);
+                map.getLayer("fimExtentsThreeSites").setVisibility(false);
+                map.getLayer("fimBreach").setVisibility(false);
+                map.getLayer("fimBreachMulti").setVisibility(false);
+                
+                $(".first-site #floodMaxGage").text("");
+                $(".second-site #floodMaxGage").text("");
+                $(".third-site #floodMaxGage").text("");
+                $(".first-site #floodMaxDischarge").text("");
+                $(".second-site #floodMaxDischarge").text("");
+                $(".third-site #floodMaxDischarge").text("");
+                $(".floodSlider").each(function(index) {
+                    this.value = 0;
+                })
+                $(".floodSlider").trigger("change");
+
+                $("#zoomToLibExtent").hide();
+
+                //code to query related records for site and get logos and created/reviewed by cooperators
+                //first set anything that can be set with site attributes
+                $("#downloadData").attr("href", siteAttr.DATA_LINK);
+
+                //code for showing or hiding report thumbnail
+                if (siteAttr.REP_THUMB != "NONE") {
+                    $("#reportCover").attr("src", siteAttr.REP_THUMB);
+                    $("#reportCover").show();
+                } else {
+                    $("#reportCover").hide();
+                }
+
+                $("#reportCover").off("click").click(function() {
+                    window.open(siteAttr.REP_LINK);
+                });
+
+                //code to add report link or text saying no report available
+                if (siteAttr.REP_LINK != "NONE") {
+                    $("#downloadReport").html("<a id='downloadReport' target='_blank' href='" + siteAttr.REP_LINK + "'>Download report</a>");
+                } else {
+                    $("#downloadReport").text("Report not currently available for this site.");
+                }
+                
+
+                $('#mapsCreatedBy').empty();
+                $('#mapsReviewedBy').empty();
+                $('#logos').empty();
+
+                $('#gridsCheckBox').prop('checked', false);
+
+                $('#aouCheckBox').prop('checked', true);
+                if (siteAttr.HAS_BREACH == 1) {
+                    $('#aouCheck').show();
+                } else {
+                    $('#aouCheck').hide();
+                }
+
+                $('#aouCheckBox').on('click', function(evt) {
+                    if (evt.currentTarget.checked == true) {
+                        map.getLayer('fimBreach').setVisibility(true);
+                    } else if (evt.currentTarget.checked == false) {
+                        map.getLayer('fimBreach').setVisibility(false);
+                    }
+                });
+
+                //$('#gridsCheckBox').prop('checked', true);
+                if (siteAttr.HAS_GRIDS == 1) {
+                    $('#gridsCheck').show();
+                } else {
+                    $('#gridsCheck').hide();
+                }
+                
+                $.each(gridsArray, function(item) {
+                    map.getLayer('fimGrid' + gridsArray[item]).setVisibility(false);
+                });
+                
+                // REVISIT: need to adjust once displaying mutli site flood extents
+                $('#gridsCheckBox, #gridsCheckBox2').on('click', function(evt) {
+                    if (evt.currentTarget.checked == true) {
+                        switch (siteAttr["MULTI_SITE"]) {
+                            case 0:
+                                map.getLayer('fimExtents').setVisibility(false);
+                                break;
+                            case 1:
+                                map.getLayer('fimExtentsMulti').setVisibility(false);
+                                break;
+                            case (2 || 3):
+                                map.getLayer('fimExtentsThreeSites').setVisibility(false);
+                                break;
+                        }
+                        map.getLayer('fimGrid' + siteAttr.GRID_SERV).setVisibility(true);
+                    } else if (evt.currentTarget.checked == false) {
+                        switch (siteAttr["MULTI_SITE"]) {
+                            case 0:
+                                map.getLayer('fimExtents').setVisibility(true);
+                                break;
+                            case 1:
+                                map.getLayer('fimExtentsMulti').setVisibility(true);
+                                break;
+                            case (2 || 3):
+                                map.getLayer('fimExtentsThreeSites').setVisibility(true);
+                                break;
+                        }
+                        map.getLayer('fimGrid' + siteAttr.GRID_SERV).setVisibility(false);
+                    }
+                });
+
+                if (map.getLayer("tnm") != undefined) {
+                    currentBasemap = "tnm";
+                } else {
+                    currentBasemap = map.getBasemap();
+                }
+
+                if (currentBasemap == "hybrid") {
+                    currentBasemap = "topo";
+                    $('#satCheckBox').prop('checked', true);
+                } else {
+                    $('#satCheckBox').prop('checked', false);
+                }
+
+                $('#satCheckBox').on('click', function(evt) {
+                    if (evt.currentTarget.checked == true) {
+                        map.setBasemap("hybrid");
+                        map.removeLayer(nationalMapBasemap);
+                    } else if (evt.currentTarget.checked == false) {
+                        if (currentBasemap == "tnm") {
+                            map.setBasemap("topo");
+                            map.addLayer(nationalMapBasemap);
+                        } else {
+                            map.setBasemap(currentBasemap);
+                            map.removeLayer(nationalMapBasemap);
+                        }
+                    }
+                });
+
+                //related records query
+                $.ajax({
+                    dataType: 'json',
+                    type: 'GET',
+                    url: map.getLayer("fimSites").url + "/queryRelatedRecords?objectIds=" + siteAttr.OBJECTID +
+                    "&relationshipId=0&outFields=*&definitionExpression=&returnGeometry=true&maxAllowableOffset=&geometryPrecision=&outSR=&returnZ=false&returnM=false&gdbVersion=&f=json",
+                    headers: {'Accept': '*/*'},
+                    success: function (data) {
+
+                        if (data.relatedRecordGroups[0].relatedRecords.length > 0) {
+                            var relatedRecords = data.relatedRecordGroups[0].relatedRecords;
+                            var furnished = false;
+                            $.each(relatedRecords, function (index, value) {
+                                if (value.attributes["TYPE"] == "C") {
+                                    $('#mapsCreatedBy').append("<a target='_blank' href='" + value.attributes["URL"] + "'>" + value.attributes["ENTITY"] + "</a><br/>");
+                                } else if (value.attributes["TYPE"] == "R") {
+                                    $('#mapsReviewedBy').append("<a target='_blank' href='" + value.attributes["URL"] + "'>" + value.attributes["ENTITY"] + "</a><br/>");
+                                } else if (value.attributes["TYPE"] == "L") {
+                                    $('#logos').append("<img src='https://s3.amazonaws.com/wimcloud.usgs.gov/FIM/logos/" + value.attributes["ENTITY"] + "'/>");
+                                } else if (value.attributes["TYPE"] == "F") {
+                                    $('#recordsLogo').attr("src", "https://s3.amazonaws.com/wimcloud.usgs.gov/FIM/logos/" + value.attributes["ENTITY"]);
+                                    furnished = true;
+                                }
+                            });
+
+                            if (furnished == true) {
+                                $('#usgsDefaultLogo').hide();
+                                $('#recordsLogo').show();
+                            } else if (furnished == false) {
+                                $('#usgsDefaultLogo').show();
+                                $('#recordsLogo').hide();
+                            }
+                        }
+
+                    },
+                    error: function (error) {
+                        console.log("Error processing the JSON. The error is:" + error);
+                    }
+                });
+
+                //var siteNo = siteAttr.SITE_NO;
+                var ahpsID = siteAttr.AHPS_ID;
+                var state = siteAttr.STATE;
+                var community = siteAttr.COMMUNITY;
+
+                if (map.getLevel() < 12) {
+                    map.centerAndZoom(feature.geometry, 13);
+                }
+
+                // Google Analytics
+                /*ga('send','event','Map','click','Site clicked');*/
+                var dimensionValue = siteNo + ", " + state +", " + community;
+                ga('send','event','Map','click', 'Site Clicked', {'dimension1': dimensionValue});
+                // End Google Analytics
+
+                var suppLyrs = map.getLayer("fimSuppLyrs");
+                var suppLyrsDef = [];
+                suppLyrsDef[0] = "USGSID = '" + siteNo + "'";
+                suppLyrsDef[1] = "USGSID = '" + siteNo + "'";
+                suppLyrs.setLayerDefinitions(suppLyrsDef);
+                suppLyrs.setVisibility(true);
+
+                $("[id*='Tab']").parents("li").removeClass("active");
+                $(".nav-tabs #floodToolsTab").tab("show");
+
+                $("#usgsSiteNoMin").text(siteNo);
+                $("#usgsSiteNoMin").attr("href", "https://waterdata.usgs.gov/nwis/uv?site_no="+siteNo);
+                $("#nwsSiteIDMin").text(feature.attributes.AHPS_ID);
+                $("#nwsSiteIDMin").attr("href", "https://water.weather.gov/ahps2/hydrograph.php?gage="+feature.attributes.AHPS_ID);
+
+                $(".first-site #usgsSiteNoMax").text(siteNo);
+                $(".first-site #usgsSiteNoMax").attr("href", "https://waterdata.usgs.gov/nwis/uv?site_no="+siteNo);
+                $(".first-site #nwsSiteIDMax").text(feature.attributes.AHPS_ID);
+                $(".first-site #nwsSiteIDMax").attr("href", "https://water.weather.gov/ahps2/hydrograph.php?gage="+feature.attributes.AHPS_ID);
+
+                if (attr.HAS_GRIDS == 1) {
+                    $("#gridLabel").show();
+                } else {
+                    $("#gridLabel").hide();
+                }
+
+                //Web cam check and set up
+                /*if (feature.attributes.HAS_WEBCAM == "1") {
+                 $("#webCamTab").show();
+                 $("#webCamIFrame").attr("src", "https://services.wim.usgs.gov/webCam/webCamNew/Default.aspx?webCamInfo=" + feature.attributes.WEBCAM_INFO);
+                 } else if (feature.attributes.HAS_WEBCAM == "0") {
+                 $("#webCamTab").hide();
+                 }*/
+
+                //More Info check and setup
+                $.ajax({
+                    dataType: 'json',
+                    type: 'GET',
+                    url: fimiMoreInfoUrl + "/query?where=USGSID%20%3D%20" + siteNo + "&outFields=ADD_INFO&f=json",
+                    headers: {'Accept': '*/*'},
+                    success: function (data) {
+
+                        if (data.features.length > 0) {
+                            $("#moreInfo").text(data.features[0].attributes.ADD_INFO);
+                            $("#moreInfoTab").show();
+                            $(".nav-tabs a[href='#moreInfoTabPane']").tab('show');
+                        } else {
+                            $("#moreInfo").text("Loading...");
+                            $("#moreInfoTab").hide();
+                        }
+
+                    },
+                    error: function (error) {
+                        console.log("Error processing the JSON. The error is:" + error);
+                    }
+                });
+
+                $.ajax({
+                    dataType: 'text',
+                    type: 'GET',
+                    url: proxyUrl + "site_no="+siteNo+"&site_info=true",
+                    headers: {'Accept': '*/*'},
+                    success: function (data) {
+                        var rtHtml = "";
+                        var nwisHtml = "";
+
+                        //var ivUrl = "http://waterservices.usgs.gov/nwis/site/?format=gm&sites="+attr['Name']+"&siteOutput=expanded&outputDataTypeCd=iv&hasDataTypeCd=iv&parameterCd=00065,00060,00010,00095,63680,99133";
+                        var ivUrl = "https://waterservices.usgs.gov/nwis/iv/?format=json&sites="+attr['SITE_NO']+"&parameterCd=00060,00065";
+
+                        $.ajax({
+                            dataType: 'json',
+                            type: 'GET',
+                            url: ivUrl,
+                            headers: {'Accept': '*/*'},
+                            success: function (data) {
+                                var siteData = data;
+                                var variable = "";
+                                var variableCode = "";
+                                //if siteData.
+                                //rtHtml = ""
+                                $.each(siteData.value.timeSeries, function(key, value) {
+                                    /*console.log("key: " + key + ", value: " + value);
+                                     console.log(
+                                     "var code: " + value.variable.variableCode[0].value +
+                                     ", units: " + value.variable.unit.unitAbbreviation +
+                                     ", value: " + value.values[0].value[0].value);*/
+
+                                    variableCode = value.variable.variableCode[0].value;
+                                    var units = value.variable.unit.unitAbbreviation;
+                                    var varValue = "";
+                                    if (value.values[0].value.length > 0) {
+                                        var varValue = value.values[0].value[0].value;
+                                        switch (variableCode) {
+                                            case "00060":
+                                                variable = "Discharge";
+                                                break;
+                                            case "00065":
+                                                variable = "Gage height";
+                                                break;
+                                            case "00010":
+                                                variable = "Temperature, water";
+                                                break;
+                                            case "00300":
+                                                variable = "Dissolved oxygen";
+                                                break;
+                                            case "00400":
+                                                variable = "pH";
+                                                break;
+                                            case "00095":
+                                                variable = "Specific cond at 25C";
+                                                break;
+                                            case "32283":
+                                                variable = "Chlorophyll, in situ";
+                                                break;
+                                            case "63680":
+                                                variable = "Turbidity, Form Neph";
+                                                break;
+                                            case "99133":
+                                                variable = "NO3+NO2,water,insitu";
+                                                break;
+                                        }
+
+                                        var startDate = getTodayDate();
+                                        var todayDate = getTodayDate();
+                                        var valDate = value.values[0].value[0].dateTime;
+
+                                        var formattedDate = dateFormat(valDate);
+
+                                        if (variable == "Discharge") {
+                                            $(".first-site #floodMaxDischarge").text(varValue);
+                                            $("#floodMinDischarge").text(varValue);
+                                            if ($(".first-site #floodMaxDischarge").text().length == 0 || $(".first-site #floodMaxDischarge").text() == "-999999") {
+                                                $(".first-site #floodMaxDischarge").text("n/a");
+                                            }
+                                        } else if (variable == "Gage height") {
+                                            $(".first-site #floodMaxGage").text(varValue);
+                                            $("#floodMinGage").text(varValue);
+                                            if ($(".first-site #floodMaxGage").text().length == 0 || $(".first-site #floodMaxGage").text() == "-999999") {
+                                                $(".first-site #floodMaxGage").text("n/a");
+                                            }
+                                        }
+
+                                        var rtLabel = "";
+                                        if (varValue == "-999999") {
+                                            rtLabel = "<label class='paramLabel'>" + variable + ": <span style='font-weight: normal'>N/A</span></label><br/>";
+                                        } else {
+                                            rtLabel = "<label class='paramLabel'>" + variable + ": <span style='font-weight: normal'>" + varValue + " " + units + " <span style='font-size: smaller; color: darkblue'><i>(" + formattedDate + "</i>)</span></span></label><br/>";
+                                        }
+
+                                        rtHtml = rtHtml + rtLabel;
+
+                                        var siteNoTemp = feature.attributes.Name;
+
+                                        if (dateInRange(valDate,startDate) == true) {
+                                            var nwisGraphUrl = "https://waterdata.usgs.gov/nwisweb/graph?agency_cd=USGS&site_no="+siteNoTemp+"&parm_cd="+variableCode+"&begin_date=" + startDate + "&end_date="+todayDate//+"&dd_nu="+param_dd[variableCode];
+
+                                            var nwisChart = "<br/><br/><label>"+ variable + "</label><br/><img src='" + nwisGraphUrl + "'/>";
+
+                                            nwisHtml = nwisHtml + nwisChart;
+                                        }
+
+                                    }
+
+                                    snapToFlood();
+
+                                });
+
+                                var siteName = siteData.value.timeSeries[0].sourceInfo.siteName;
+
+                                var template = new esri.InfoTemplate("<span class=''>" + siteName + "</span>",
+                                    "<div id='rtInfo'>" + rtHtml + "</div>" +
+                                    "<br/><span>Most recent measurement(s) <span style='font-size: smaller; color: darkblue'><i>(local time)</i></span> - see <a target='_blank' href='https://waterdata.usgs.gov/nwis/uv?site_no=" + siteNo + "'>NWIS Site</a> for more details</span>" +
+                                    "<div id='nwisCharts'>" + nwisHtml + "</div>");
+
+                            },
+                            error: function (error) {
+                                console.log("Error processing the JSON. The error is:" + error);
+                            }
+                        });
+                    },
+                    error: function (error) {
+                        console.log("Error processing the JSON. The error is:" + error);
+                    }
+                });
+
+                //call for observed (NWIS) hydro data
+                var nwisCall = $.ajax({
+                    dataType: 'text',
+                    type: 'GET',
+                    //url: proxyUrl + "site_no="+siteNo+"&hydroGet=true",
+                    url: nwisUrl + siteNo,
+                    headers: {'Accept': '*/*'}
+                });
+
+                var nwsCall = $.ajax({
+                    dataType: 'xml',
+                    type: 'GET',
+                    url: proxyUrl + "ahpsID=" + ahpsID,
+                    headers: {'Accept': '*/*'}
+                });
+
+                var instance = $('#floodToolsDiv').data('lobiPanel');
+                var docHeight = $(document).height();
+                var docWidth = $(document).width();
+                var percentageOfScreen = 0.9;
+                var floodToolsHeight = docHeight*percentageOfScreen
+                var floodToolsWidth = docWidth*percentageOfScreen;
+                var highChartWidth = 450;
+                var highChartHeight = 325;
+                if (docHeight < 500) {
+                    $("#floodToolsDiv").height(floodToolsHeight);
+                    highChartHeight = $("#floodToolsDiv").height() - 50;
+                }
+                if (docWidth < 500) {
+                    $("#floodToolsDiv").width(floodToolsWidth);
+                    highChartWidth = $("#floodToolsDiv").width() - 50;
+                }
+
+                var instanceX = docWidth*0.5-$("#floodToolsDiv").width()*0.5;
+                var instanceY = docHeight*0.5-$("#floodToolsDiv").height()*0.5;
+
+                if (loadedInitialLibrary == false) {
+                    instance.setPosition(instanceX, instanceY);
+                }
+
+                if (instance.isPinned() == true) {
+                    instance.unpin();
+                }
+
+                loadedInitialLibrary = true;
+
+                $("#floodToolsDiv").css("visibility", "visible");
+                //$(".second-site").show();
+                //$(".third-site").css("visibility", "visible");
+
+                var floodStageBands = [];
+
+                
+                $.when(nwisCall,nwsCall)
+                    .done(function(nwisData,nwsData) {
+
+                        //NWIS data handling
+                        var siteData = $.parseJSON(nwisData[0]);
+
+                        var rawFloodStageData = [].slice.call(nwsData[0].childNodes[0].children[1].children);
+                        var values = siteData.data[0].time_series_data
+
+                        var finalNWISDataArray = [];
+                        var finalNWSDataArray = [];
+
+                        $.each(values, function(key, value) {
+
+                            if (value[0] !== undefined) {
+                                var time = value[0];
+                                var value = value[1];
+
+                                finalNWISDataArray.push([time,value]);
+                            }
+
+                        });
+
+
+                        console.log("Raw Data");
+                        console.log(rawFloodStageData);
+                        
+
+                        // Clean up raw data - remove empty values
+                        var cleanFloodStageData = [];
+                        $.each(rawFloodStageData, function(key, value) {
+                            if(value.localName == 'action' || value.localName == 'flood' || value.localName == 'moderate' || value.localName == 'major'){
+                                cleanFloodStageData.push({'levelValue': value.textContent, 'label': value.localName});
+                            }
+                        });
+                        console.log("Cleaned Up Data");
+                        console.log(cleanFloodStageData);
+                        
+                        floodStageBands = [];
+
+                        var bandColor = "#ffffff";
+                        var labelText = "";
+                        var toValue = 0;
+                        var fromValue = 0;
+
+                        if(cleanFloodStageData[0]){
+                            $.each(cleanFloodStageData, function(key, value) {
+
+                                // Push flood stage to chart 
+                                var addFloodStage = function(){
+                                    floodStageBands.push({
+                                        'color': bandColor, 
+                                        'from': fromValue, 
+                                        'to': toValue,
+                                        'label':{
+                                            'text': labelText
+                                        }
+                                    });
+                                }
+    
+                                if(value.label == 'action'){
+                                    labelText = "Action";
+                                    bandColor = "#FDFB51";
+                                }
+                                if(value.label == 'flood'){
+                                    labelText = "Minor Flooding";
+                                    bandColor = "#FAA629";
+                                }
+                                if(value.label == 'moderate'){
+                                    labelText = "Moderate Flooding";
+                                    bandColor = "#FC0D1B";
+                                }
+                                if(value.label == 'major'){
+                                    labelText = "Major Flooding";
+                                    bandColor = "#C326FB";
+                                }
+    
+                                // Only if data for that level exists
+                                if(value.levelValue){
+                                    fromValue = parseFloat(value.levelValue);
+                                    if(cleanFloodStageData[key + 1]){
+                                        toValue = parseFloat(cleanFloodStageData[key + 1].levelValue);
+                                    }else{
+                                        toValue = parseFloat(value.levelValue + 10);
+                                    }
+                                    addFloodStage();
+                                }
+                                
+    
+                            });
+                            console.log("Bands to add to Chart");
+                            console.log(floodStageBands);
+
+                            console.log("SLIDER MIN");
+                            console.log($(".first-site .slider-min:first").text())
+                            console.log("SLIDER MAX");
+                            console.log($(".first-site .slider-max:first").text())
+                            var sliderMin = parseFloat($(".first-site .slider-min:first").text());
+                            var sliderMax = parseFloat($(".first-site .slider-max:first").text());
+                            var sliderTotalDiff = sliderMax - sliderMin;
+
+                            console.log("SLIDER max TOTAL ")
+                            console.log(sliderMax)
+                            // Set slider colors 
+                            // var sliderTotalDiff = 15;
+                            // var sliderTotalDiff = (results[results.length-1].attributes["STAGE"]) - (results[0].attributes["STAGE"])
+                            
+                            
+                            $(".slider-flood-levels").show();
+                            if(floodStageBands[0]){
+                                console.log("LEVELS ")
+                                console.log((floodStageBands[0].to - sliderMin) / sliderTotalDiff * 100 + '%' );
+                                console.log((floodStageBands[1].to - sliderMin) / sliderTotalDiff * 100 + '%' );
+                                console.log((floodStageBands[2].to - sliderMin) / sliderTotalDiff * 100 + '%' );
+
+                                $(".first-site .sliderActionLevel").css( "height", (floodStageBands[0].to - sliderMin) / sliderTotalDiff * 100 + '%' );
+                                $(".first-site .sliderMinorLevel").css( "height", (floodStageBands[1].to - sliderMin) / sliderTotalDiff * 100 + '%' );
+                                $(".first-site .sliderModerateLevel").css( "height", (floodStageBands[2].to - sliderMin) / sliderTotalDiff * 100 + '%' );
+                                $(".first-site .sliderMajorLevel").css( "height", '100%' );
+                            }else{
+                                $(".slider-flood-levels").hide();
+                            }
+                            if (floodStageBands[3]) { $("#sliderMajorLevel").css( "height", floodStageBands[3].from / sliderTotalDiff * 100 + '%' ); }
+    
+                        }
+                        
+
+                        //NWS data handling
+                        if (nwsData[0].children[0].children[0].textContent != "no nws data") {
+                            var nwsIndex = getNwsForecastIndex(nwsData[0].children[0].children);
+                            var nwsValues = nwsData[0].children[0].children[nwsIndex].children;
+                            if (nwsValues.length > 0) {
+                                var nwsDatum = (nwsValues[0].children[1].attributes.name.value == "Stage") ? 1 : 2;
+                                $.each(nwsValues, function(key, value) {
+
+                                    if (value.children[0].textContent !== "") {
+                                        var time = dateFix(value.children[0].textContent,"nws");
+                                        var value = Number(value.children[nwsDatum].textContent);
+
+                                        finalNWSDataArray.push([time,value]);
+                                    }
+
+                                });
+                            }
+                        }
+
+                        //var siteName = siteData.documentElement.children[1].children[0].children[0].textContent;
+
+                        //$("#hydroChart").empty();
+                        var hydroChart = new Highcharts.Chart('hydroChart', {
+                            chart: {
+                                type: 'line',
+                                height: highChartHeight,
+                                width: highChartWidth
+                            },
+                            title: {
+                                text: ""
+                            },
+                            series: [{
+                                data: finalNWISDataArray,
+                                name: "NWIS Observed",
+                                color: "black",
+                                marker: {
+                                    enabled: false,
+                                }
+                            },{
+                                data: finalNWSDataArray,
+                                name: "NWS Predicted",
+                                color: 'black',
+                                marker: {
+                                    enabled: true,
+                                    symbol: 'circle',
+                                    fillColor: 'white',
+                                    lineColor: 'black',
+                                    lineWidth: 1.25
+                                }
+                            }],
+                            xAxis: {
+                                type: "datetime",
+                                tickInterval: 24*3600*1000
+                            },
+                            yAxis: {
+                                resize: {
+                                    enabled: true
+                                },
+                                // max: function(){
+                                    
+                                // },
+                                //   max: 100,
+                                labels: {
+                                    format: "{value} ft"
+                                },
+                                title: {
+                                    text: "Gage height"
+                                },
+                                plotBands: floodStageBands
+                            },
+                            tooltip: {
+                                formatter: function() {
+                                    var date = new Date(this.x);
+                                    var dayOfWeek = getDay(date);
+                                    var month = getMonth(date);
+                                    var dayOfMonth = date.getDate()
+                                    var hours = date.getHours().toString();
+                                    var minutes = date.getMinutes().toString();
+                                    if (hours.length == 1) {
+                                        hours = "0"+hours;
+                                    }
+                                    if (minutes.length == 1) {
+                                        minutes = "0"+minutes;
+                                    }
+                                    return dayOfWeek + ', ' + month + ' ' + dayOfMonth + ', ' + hours + ':' + minutes + '<br/>' +
+                                        this.series.name + ': <b>' + this.y + ' ft</b>';
+                                }
+                            }
+                        }, function(hydroChart){
+
+                            // If data for bands exists...
+                            if(floodStageBands[0]){
+                                console.log("Chart Loaded");
+                                var chartYMax = 10;
+                                if (hydroChart.yAxis[0].max < floodStageBands[0].from){
+                                    chartYMax = floodStageBands[0].from + 1;
+                                }else if (floodStageBands[0].from < hydroChart.yAxis[0].max < floodStageBands[0].to){
+                                    chartYMax = floodStageBands[1].from + 1;
+                                }else if (floodStageBands[1].from < hydroChart.yAxis[0].max < floodStageBands[1].to){
+                                    chartYMax = floodStageBands[2].from + 1;
+                                }else if (floodStageBands[2].from < hydroChart.yAxis[0].max < floodStageBands[2].to){
+                                    chartYMax = floodStageBands[3].from + 1;
+                                }else if (floodStageBands[3].from < hydroChart.yAxis[0].max < floodStageBands[3].to){
+                                    chartYMax = floodStageBands[3].to + 1;
+                                }
+                                console.log(chartYMax);
+                                hydroChart.yAxis[0].setExtremes(null, chartYMax);
+                            }
+                        });
+
+                    })
+                    .fail(function() {
+                        //alert('there was an issue');
+                    });
+
+
+                var hazusQuery = new esriQuery();
+                hazusQuery.returnGeometry = false;
+                hazusQuery.outFields = ["*"];
+                hazusQuery.orderByFields = ["STAGE ASC"];
+                hazusQuery.where = "USGSID = '" + attr["SITE_NO"] + "'";
+                
+                // Using fim HAZUS url found in layers.js. edit there, if needed.
+                var hazusQueryTask = new QueryTask(fimHazusUrl);
+                hazusQueryTask.execute(hazusQuery, hazusResult);
+
+                function hazusResult(featureSet) {
+
+                    if (featureSet.features.length > 0) {
+
+                        // Site ID and Stage Label
+                        $("#hazusTableSiteLabel").html(featureSet.features[0].attributes["USGSID"]);
+
+                        $("#hazusTabElement").show();
+                        $("#hazusTable tr td").remove();
+                        for (var i=0; i < featureSet.features.length; i++) {
+                            var html = "<tr id='hazus" + featureSet.features[i].attributes["STAGE"] + "'><td>" + featureSet.features[i].attributes["STAGE"] + "</td><td>" + featureSet.features[i].attributes["BuildingDamaged"] + 
+                            "</td><td>$" + featureSet.features[i].attributes["BuildingLosses"].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "</td><td>" + featureSet.features[i].attributes["EssentialFacilityImpacted"] + "</td></tr>";
+                            $("#hazusTable").append(html);
+                        }
+                    } else {
+                        $("#hazusTabElement").hide();
+                    }
+                }
+
+                var extentQuery = new esriQuery();
+                extentQuery.returnGeometry = false;
+                extentQuery.outFields = ["*"];
+                switch (attr["MULTI_SITE"]) {
+                    case 0:
+                        var floodExtentsUrl = map.getLayer("fimExtents").url + "/0";
+                        extentQuery.orderByFields = ["STAGE ASC"];
+                        extentQuery.where = "USGSID = '" + attr["SITE_NO"] + "'";
+                        break;
+                    case 1:
+                        var floodExtentsUrl = map.getLayer("fimExtentsMulti").url + "/0";
+                        extentQuery.orderByFields = ["STAGE_1 ASC"];
+                        extentQuery.where = "USGSID_1 = '" + attr["SITE_NO"] + "' OR USGSID_2 = '" + attr["SITE_NO"] + "'";
+                        break;
+                    case 2: 
+                        var floodExtentsUrl = map.getLayer("fimExtentsMulti").url + "/0";
+                        extentQuery.orderByFields = ["STAGE_1 ASC"];
+                        extentQuery.where = "USGSID_1 = '" + attr["SITE_NO"] + "' OR USGSID_2 = '" + attr["SITE_NO"] + "'";
+                        break;
+                    case 3:
+                        var floodExtentsUrl = map.getLayer("fimExtentsThreeSites").url + "/0";
+                        extentQuery.orderByFields = ["STAGE_1 ASC"];
+                        extentQuery.where = "USGSID_1 = '" + attr["SITE_NO"] + "' OR USGSID_2 = '" + attr["SITE_NO"] + "' OR USGSID_3 = '" + attr["SITE_NO"] + "'";
+                        break;
+                }
+
+                var extentQueryTask = new QueryTask(floodExtentsUrl);
+                extentQueryTask.execute(extentQuery, extentResult);
+
+
+                //code for getting extent of library and setting up for zoom button to go to full extent of library
+                extentQuery.returnGeometry = true;
+                extentQuery.num = 1;
+
+                switch (attr["MULTI_SITE"]) {
+                    case 0:
+                        extentQuery.orderByFields = ["STAGE DESC"];
+                        break;
+                    case 1:
+                        extentQuery.orderByFields = ["STAGE_1 DESC"];
+                        break;
+                    case 2: 
+                        extentQuery.orderByFields = ["STAGE_1 DESC"];
+                        break;
+                    case 3:
+                        extentQuery.orderByFields = ["STAGE_1 DESC"];
+                        break;
+                }
+
+                var extentQueryTask = new QueryTask(floodExtentsUrl);
+                extentQueryTask.execute(extentQuery, extentOnlyResult);
+
+                function extentOnlyResult(featureSet) {
+                    libExtent = featureSet.features[0].geometry.getExtent();
+                    $("#zoomToLibExtent").show();
+                    $("#zoomToLibExtent").on('click', function(event) {
+                        map.setExtent(libExtent, true);
+                        //$("#zoomToLibExtent").off();
+                        //event.preventDefault();
+                    });
+                }
+                //end of code for getting extent of library
+
+
+                function extentResult(featureSet) {
+
+                    if (featureSet.features.length > 0) {
+
+                        results = featureSet.features;
+                        extentResults = results;
+
+                        sliderSetup(results);
+
+                        $("#floodToolsPanelHeader").html(attr["STATE"] + ": " + attr["COMMUNITY"] + "   <span id='shareLink' style='white-space: nowrap; margin-left: 0px; padding-left: 0px'><span class='glyphicon glyphicon glyphicon-share'></span> Share</span>");
+                        $("#shareLink").click(function() {
+                            showShareModal();
+                        });
+
+                        //$("#siteNumber").text(attr["SITE_NO"]);
+                        $(".first-site .floodSlider").attr({"min": 0, "max": gageValues.length-1});
+                        if (siteAttr["MULTI_SITE"] == 1) {
+                            $(".second-site .floodSlider").attr({"min": 0, "max": gageValues2.length-1});
+                        }
+                        $(".floodSlider").value = 0;
+                        var layerDefinitions = [];
+                        
+                        if (attr["MULTI_SITE"] == 0) {
+                            $(".first-site #selectedValue").text(results[0].attributes["STAGE"]);
+                            $("#floodMinSelectedGage").text(results[0].attributes["STAGE"]);
+                            $(".first-site .slider-min").text(results[0].attributes["STAGE"]);
+                            $(".first-site .slider-max").text(results[results.length-1].attributes["STAGE"]);
+                        } else if (attr["MULTI_SITE"] > 0) {
+                            $(".first-site #selectedValue").text(gageValues[0].gageValue);
+                            $(".second-site #selectedValue").text(gageValues2[0].gageValue);
+                            $("#floodMinSelectedGage").text(gageValues[0].gageValue);
+                            $(".first-site .slider-min").text(gageValues[0].gageValue);
+                            $(".first-site .slider-max").text(gageValues[gageValues.length-1].gageValue);
+                            $(".second-site .slider-min").text(gageValues2[0].gageValue);
+                            $(".second-site .slider-max").text(gageValues2[gageValues2.length-1].gageValue);
+                        }
+                        if (attr["MULTI_SITE"] > 1) {
+                            $(".third-site #selectedValue").text(gageValues3[0].gageValue);
+                            $(".third-site .slider-min").text(gageValues3[0].gageValue);
+                            $(".third-site .slider-max").text(gageValues3[gageValues3.length-1].gageValue);
+                        }
+                        
+                        //REVISIT: set up for three sites
+                        map.getLayer("fimExtents").setVisibility(false);
+                        map.getLayer("fimBreach").setVisibility(false);
+                        map.getLayer("fimExtentsMulti").setVisibility(false);
+                        map.getLayer("fimBreachMulti").setVisibility(false);
+                        //map.getLayer("fimExtentsThreeSites").setVisibility(false);
+                        //map.getLayer("fimBreachThreeSites").setVisibility(false);
+
+                        switch (attr["MULTI_SITE"]) {
+                            
+                            case 0:
+                                layerDefinitions[0] = "USGSID = '" + attr["SITE_NO"] + "' AND STAGE = " + results[0].attributes["STAGE"];
+                                map.getLayer("fimExtents").setLayerDefinitions(layerDefinitions);
+                                map.getLayer("fimBreach").setLayerDefinitions(layerDefinitions);
+                                map.getLayer("fimExtents").setVisibility(true);
+                                map.getLayer("fimBreach").setVisibility(true);
+                                break;
+                            case (1):
+                                layerDefinitions[0] = "USGSID_1 = '" + siteNo + "' AND STAGE_1 = " + gageValues[0].gageValue + "AND USGSID_2 = '" + siteNo_2 + "' AND STAGE_2 = " + gageValues2[0].gageValue;
+                                map.getLayer("fimExtentsMulti").setLayerDefinitions(layerDefinitions);
+                                map.getLayer("fimBreachMulti").setLayerDefinitions(layerDefinitions);
+                                map.getLayer("fimExtentsMulti").setVisibility(true);
+                                map.getLayer("fimBreachMulti").setVisibility(true);
+                                break;
+                            case (2): 
+                                //placeholder
+                                break;
+                            case (3):
+                                layerDefinitions[0] = "USGSID_1 = '" + siteNo + "' AND STAGE_1 = " + gageValues[0].gageValue + "AND USGSID_2 = '" + siteNo_2 + "' AND STAGE_2 = " + gageValues2[0].gageValue;
+                                map.getLayer("fimExtentsThreeSites").setLayerDefinitions(layerDefinitions);
+                                map.getLayer("fimBreachThreeSites").setLayerDefinitions(layerDefinitions);
+                                //map.getLayer("fimExtentsThreeSites").setVisibility(true);
+                                //map.getLayer("fimBreachThreeSites").setVisibility(true);
+                                break;
+
+                        }
+                        
+                        //REVISIT: need to add logic for handling of grid infos for multi sites
+                        gridLayerIndexArrColl = [];
+
+                        if (siteAttr["MULTI_SITE"] == 0) {
+                            for (var i=0; i < gridInfos.length; i++) {
+                                if (gridInfos[i].shortname == siteAttr.SHORT_NAME && Number(gridInfos[i].gridid) == results[$(".first-site #floodSlider")[0].value].attributes["GRIDID"]) {
+                                    gridLayerIndexArrColl.push(gridInfos[i].index);
+                                    gridLayerIndex = gridInfos[i].index;
+                                } else if (gridInfos[i].shortname == siteAttr.SHORT_NAME && gridInfos[i].gridid == results[$(".first-site #floodSlider")[0].value].attributes["GRIDID"]+'b') {
+                                    gridLayerIndexArrColl.push(gridInfos[i].index);
+                                    gridLayerIndex = gridInfos[i].index;
+                                }
+                            }
+                        } else if (siteAttr["MULTI_SITE"] == 1) {
+                            var gridLayerID;
+                            $.each(gagePairs, function(index, value)
+                            {
+                                if (value.STAGE_1 == gageValues[0].gageValue && value.STAGE_2 == gageValues2[0].gageValue) {
+                                    gridLayerID = value.GRIDID;
+                                }
+                            });
+                            for (var i=0; i < gridInfos.length; i++) {
+                                if (gridInfos[i].shortname == siteAttr.SHORT_NAME && Number(gridInfos[i].gridid) == gridLayerID) {
+                                    gridLayerIndexArrColl.push(gridInfos[i].index);
+                                    gridLayerIndex = gridInfos[i].index;
+                                } else if (gridInfos[i].shortname == siteAttr.SHORT_NAME && gridInfos[i].gridid == gridLayerID+'b') {
+                                    gridLayerIndexArrColl.push(gridInfos[i].index);
+                                    gridLayerIndex = gridInfos[i].index;
+                                }
+                            }
+                        }
+                        
+
+                        //set grids layer definitions/choose the right layer here and in next input change function
+                        console.log('grid stuff');
+                        var gridLayer = "fimGrid" + siteAttr.GRID_SERV;
+                        var gridVisLayer = [];
+                        gridVisLayer.push(gridLayerIndexArrColl);
+                        map.getLayer(gridLayer).setVisibleLayers(gridVisLayer);
+                        //map.getLayer(gridLayer).setVisibility(true);
+
+                        $(".floodSlider").on("change", function() {
+                            gridLayerIndexArrColl = [];
+                            gridLayerIndex = [];
+                            if (results != null) {
+                                if (siteAttr["MULTI_SITE"] == 0) {
+                                    $(".first-site #selectedValue").text(results[this.value].attributes["STAGE"]);
+                                    $("#floodMinSelectedGage").text(results[this.value].attributes["STAGE"]);
+                                    
+                                    //Adjustments to hazus tab for slider change
+                                    $("#hazusTableSelectedStageLabel").text(results[this.value].attributes["STAGE"] + " ft");
+                                    $("#hazusTable tr").removeClass('active');
+                                    $("#hazus" + results[this.value].attributes["STAGE"]).addClass('active');
+
+                                    if (this.className.indexOf('desktop') != -1) {
+                                        $(".mobile")[0].value = this.value;
+                                    } else {
+                                        $(".desktop")[0].value = this.value;
+                                    }
+                                    var layerDefinitions = [];
+                                    layerDefinitions[0] = "USGSID = '" + attr["SITE_NO"] + "' AND STAGE = " + results[this.value].attributes["STAGE"];
+                                    map.getLayer("fimExtents").setLayerDefinitions(layerDefinitions);
+                                    map.getLayer("fimBreach").setLayerDefinitions(layerDefinitions);
+
+                                    for (var i=0; i < gridInfos.length; i++) {
+                                        if (gridInfos[i].shortname == siteAttr.SHORT_NAME && Number(gridInfos[i].gridid) == results[$(".first-site #floodSlider")[0].value].attributes["GRIDID"]) {
+                                            gridLayerIndexArrColl.push(gridInfos[i].index);
+                                            gridLayerIndex = gridInfos[i].index;
+                                        } else if (gridInfos[i].shortname == siteAttr.SHORT_NAME && gridInfos[i].gridid == results[$(".first-site #floodSlider")[0].value].attributes["GRIDID"]+'b') {
+                                            gridLayerIndexArrColl.push(gridInfos[i].index);
+                                            gridLayerIndex = gridInfos[i].index;
+                                        }
+                                    }
+
+                                    //set grids layer definitions/choose the right layer here and in next input change function
+                                    var gridLayer = "fimGrid" + siteAttr.GRID_SERV;
+                                    var gridVisLayer = [];
+                                    gridVisLayer.push(gridLayerIndexArrColl);
+                                    map.getLayer(gridLayer).setVisibleLayers(gridVisLayer);
+                                    //map.getLayer(gridLayer).setVisibility(true);
+
+                                } else if (siteAttr["MULTI_SITE"] == 1) {
+                                    if ($(this).hasClass('first-slider')) {
+                                        $(".first-site #selectedValue").text(gageValues[this.value].gageValue);
+                                        $(".first-site #floodMinSelectedGage").text(gageValues[this.value].gageValue);
+                                    } else if ($(this).hasClass('second-slider')) {
+                                        $(".second-site #selectedValue").text(gageValues2[this.value].gageValue);
+                                        $(".second-site #floodMinSelectedGage").text(gageValues2[this.value].gageValue);
+                                    }
+
+                                    // Code to determine next possible combination if current selections are not available as map in library
+                                    var tempPairValue = [];
+                                    
+                                    if ($(this).hasClass('first-slider')) {
+                                        $.each(gagePairs, function(index, value)
+                                        {
+                                            if (value.STAGE_1 == gageValues[$(".first-site #floodSlider")[0].value].gageValue) {
+                                                tempPairValue.push({pairStage: parseFloat(value.STAGE_2)});
+                                            }
+                                        });
+                                        
+                                        tempPairValue.sort((a,b) => (Number(a.pairStage) > Number(b.pairStage)) ? 1 : ((Number(b.pairStage) > Number(a.pairStage)) ? -1 : 0));
+            
+                                        var currentSlider2Value = parseFloat(gageValues2[$(".second-site #floodSlider")[0].value].gageValue);
+                                        if (currentSlider2Value < parseFloat(tempPairValue[0].pairStage)) {
+                                            for (var i = 0; i < gageValues2.length; i++) {
+                                                if (gageValues2[i].gageValue == parseFloat(tempPairValue[0].pairStage)) {
+                                                    $(".second-site #floodSlider")[0].value = i;
+                                                    //slideWarningShow();
+                                                    break;
+                                                }
+                                            }
+                                        } else if (currentSlider2Value > parseFloat(tempPairValue[tempPairValue.length-1].pairStage)) {
+                                            for (i=0;i<gageValues2.length;i++) {
+                                                if (gageValues2[i].gageValue == parseFloat(tempPairValue[tempPairValue.length-1].pairStage)) {
+                                                    $(".second-site #floodSlider")[0].value = i;
+                                                    //slideWarningShow();
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                        
+                                    } else if ($(this).hasClass('second-slider')) {
+                                        $.each(gagePairs, function(index, value)
+                                        {
+                                            if (value.STAGE_2 == gageValues2[$(".second-site #floodSlider")[0].value].gageValue) {
+                                                tempPairValue.push({pairStage: parseFloat(value.STAGE_1)});
+                                            }
+                                        });
+                                        
+                                        tempPairValue.sort((a,b) => (Number(a.pairStage) > Number(b.pairStage)) ? 1 : ((Number(b.pairStage) > Number(a.pairStage)) ? -1 : 0));
+            
+                                        var currentSlider1Value = parseFloat(gageValues[$(".first-site #floodSlider")[0].value].gageValue);
+                                        if (currentSlider1Value < parseFloat(tempPairValue[0].pairStage)) {
+                                            for (i=0;i<gageValues.length;i++) {
+                                                if (gageValues[i].gageValue == parseFloat(tempPairValue[0].pairStage)) {
+                                                    $(".first-site #floodSlider")[0].value = i;
+                                                    //slideWarningShow();
+                                                    break;
+                                                }
+                                            }
+                                        } else if (currentSlider1Value > parseFloat(tempPairValue[tempPairValue.length-1].pairStage)) {
+                                            for (i=0;i<gageValues.length;i++) {
+                                                if (gageValues[i].gageValue == parseFloat(tempPairValue[tempPairValue.length-1].pairStage)) {
+                                                    $(".first-site #floodSlider")[0].value = i;
+                                                    //slideWarningShow();
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                        
+                                    }
+
+                                    var gridLayerID;
+                                    $.each(gagePairs, function(index, value)
+                                    {
+                                        if (value.STAGE_1 == gageValues[$(".first-site #floodSlider")[0].value].gageValue && value.STAGE_2 == gageValues2[$(".second-site #floodSlider")[0].value].gageValue) {
+                                            gridLayerID = value.GRIDID;
+                                        }
+                                    });
+                                    for (var i=0; i < gridInfos.length; i++) {
+                                        if (gridInfos[i].shortname == siteAttr.SHORT_NAME && Number(gridInfos[i].gridid) == gridLayerID) {
+                                            gridLayerIndexArrColl.push(gridInfos[i].index);
+                                            gridLayerIndex = gridInfos[i].index;
+                                        } else if (gridInfos[i].shortname == siteAttr.SHORT_NAME && gridInfos[i].gridid == gridLayerID+'b') {
+                                            gridLayerIndexArrColl.push(gridInfos[i].index);
+                                            gridLayerIndex = gridInfos[i].index;
+                                        }
+                                    }
+
+                                    var gridLayer = "fimGrid" + siteAttr.GRID_SERV;
+                                    var gridVisLayer = [];
+                                    gridVisLayer.push(gridLayerIndexArrColl);
+                                    map.getLayer(gridLayer).setVisibleLayers(gridVisLayer);
+                                    
+                                    var layerDefinitions = [];
+                                    layerDefinitions[0] = "USGSID_1 = '" + siteNo + "' AND STAGE_1 = " + gageValues[$(".first-site #floodSlider")[0].value].gageValue + "AND USGSID_2 = '" + siteNo_2 + "' AND STAGE_2 = " + gageValues2[$(".second-site #floodSlider")[0].value].gageValue;
+                                    map.getLayer("fimExtentsMulti").setLayerDefinitions(layerDefinitions);
+                                    map.getLayer("fimBreachMulti").setLayerDefinitions(layerDefinitions);
+                                    
+                                }
+                            }
+                        });
+
+                        /*$(".desktop").on("input change", function() 
+                            if (results != null) {
+                                $("#selectedValue").text(results[$(".first-site #floodSlider")[0].value].attributes["STAGE"]);
+                                $("#floodMinSelectedGage").text(results[$(".first-site #floodSlider")[0].value].attributes["STAGE"]);
+                                var layerDefinitions = [];
+                                layerDefinitions[0] = "USGSID = '" + attr["SITE_NO"] + "' AND STAGE = " + results[$(".first-site #floodSlider")[0].value].attributes["STAGE"];
+                                map.getLayer("fimExtents").setLayerDefinitions(layerDefinitions);
+                                map.getLayer("fimBreach").setLayerDefinitions(layerDefinitions);
+
+                                for (var i=0; i < gridInfos.length; i++) {
+                                    if (gridInfos[i].shortname == siteAttr.SHORT_NAME && Number(gridInfos[i].gridid) == results[$(".first-site #floodSlider")[0].value].attributes["GRIDID"]) {
+                                        gridLayerIndexArrColl.push(gridInfos[i].index);
+                                        gridLayerIndex = gridInfos[i].index;
+                                    } else if (gridInfos[i].shortname == siteAttr.SHORT_NAME && gridInfos[i].gridid == results[$(".first-site #floodSlider")[0].value].attributes["GRIDID"]+'b') {
+                                        gridLayerIndexArrColl.push(gridInfos[i].index);
+                                        gridLayerIndex = gridInfos[i].index;
+                                    }
+                                }
+
+                                //set grids layer definitions/choose the right layer here and in next input change function
+                                var gridLayer = "fimGrid" + siteAttr.GRID_SERV;
+                                var gridVisLayer = [];
+                                gridVisLayer.push(gridLayerIndex);
+                                map.getLayer(gridLayer).setVisibleLayers(gridVisLayer);
+                                //map.getLayer(gridLayer).setVisibility(true);
+                                
+                            }
+                        });*/
+
+                        var instanceX = docWidth*0.5-$("#floodToolsDiv").width()*0.5;
+                        var instanceY = docHeight*0.5-$("#floodToolsDiv").height()*0.5;
+
+                        snapToFlood();
+
+                    }
+
+                }
+
+            }
+
+            map.getLayer("fimSites").on('click', siteClick);
+
+        } else if (layer == "fimGrid1" || layer == "fimGrid2" || layer == "fimGrid3" || layer == "fimGrid4") {
+            //var layer = evt.layer.id;
+            var grids;
+            switch (layer) {
+                case "fimGrid1":
+                    grid1Infos = map.getLayer(layer).layerInfos;
+                    break;
+                case "fimGrid2":
+                    grid2Infos = map.getLayer(layer).layerInfos;
+                    break;
+                case "fimGrid3":
+                    grid3Infos = map.getLayer(layer).layerInfos;
+                    break;
+                case "fimGrid4":
+                    grid4Infos = map.getLayer(layer).layerInfos;
+                    break;
+
+            }
+        } else if (layer == "noflood") {
+            var ahpsQueryCount = new esriQuery();
+            ahpsQueryCount.where = "Status = 'normal' OR Status = 'no_flooding' OR Status = 'minor' OR Status = 'moderate' OR Status = 'major' OR Status = 'old' OR Status = 'action'";
+            ahpsQueryCount.outFields = ["status"];
+            ahpsQueryCount.returnGeometry = false;
+            var ahpsQueryTask = new QueryTask(map.getLayer("ahpsSites").url + '/1');
+            ahpsQueryTask.execute(ahpsQueryCount, ahpsCountResult, queryFault);
+        }
+
+        function sliderSetup(results) {
+            if (siteAttr["MULTI_SITE"] == 0) {
+
+                $.each(results, function(index, value)
+                {
+                    var i;
+                    var flag = false;
+                    
+                    for (i=0;i<gageValues.length;i++) {
+                        if (gageValues[i]["gageValue"] == value.attributes.STAGE.toFixed(2)) {
+                            flag = true;
+                        }
+                    }
+                    if (flag == false) {
+                        gageValues.push({gageValue:value.attributes.STAGE.toFixed(2)});
+                    }
+                });
+
+            } else if (siteAttr["MULTI_SITE"] == 1) {
+                $.each(results, function(index, value)
+                {	
+                    //var graphicID = siteNo + floodGraphic.attributes.STAGE_1.toFixed(2) + floodGraphic.attributes.STAGE_2.toFixed(2) + floodGraphic.attributes.GRIDID;
+                    gagePairs.push({STAGE_1: value.attributes.STAGE_1.toFixed(2), STAGE_2: value.attributes.STAGE_2.toFixed(2), GRIDID: value.attributes.GRIDID});
+                    
+                    var i;
+                    var flag = false;
+                    
+                    for (i=0;i<gageValues.length;i++) {
+                        if (gageValues[i]["gageValue"] == value.attributes.STAGE_1.toFixed(2)) {
+                            flag = true;
+                        }
+                    }
+                    if (flag == false) {
+                        gageValues.push({gageValue:value.attributes.STAGE_1.toFixed(2)});
+                    }
+                    
+                    flag = false;
+                    
+                    for (i=0;i<altitudeValues.length;i++) {
+                        if (altitudeValues[i]["altitudeValue"] == value.attributes.ELEV_1.toFixed(2)) {
+                            flag = true;
+                        }
+                    }
+                    if (flag == false) {
+                        altitudeValues.push({altitudeValue:value.attributes.ELEV_1.toFixed(2)});
+                    }
+                    
+                    flag = false;
+                    
+                    for (i=0;i<gageValues2.length;i++) {
+                        if (gageValues2[i]["gageValue"] == value.attributes.STAGE_2.toFixed(2)) {
+                            flag = true;
+                        }
+                    }
+                    if (flag == false) {
+                        gageValues2.push({gageValue:value.attributes.STAGE_2.toFixed(2)});
+                    }
+                    flag = false;
+                    
+                    for (i=0;i<altitudeValues2.length;i++) {
+                        if (altitudeValues2[i]["altitudeValue"] == value.attributes.ELEV_2.toFixed(2)) {
+                            flag = true;
+                        }
+                    }
+                    if (flag == false) {
+                        altitudeValues2.push({altitudeValue:value.attributes.ELEV_2.toFixed(2)});
+                    }
+                    
+                });
+
+                gageValues.sort((a,b) => (Number(a.gageValue) > Number(b.gageValue)) ? 1 : ((Number(b.gageValue) > Number(a.gageValue)) ? -1 : 0));
+                gageValues2.sort((a,b) => (Number(a.gageValue) > Number(b.gageValue)) ? 1 : ((Number(b.gageValue) > Number(a.gageValue)) ? -1 : 0));
+                
+                altitudeValues.sort((a,b) => (Number(a.altitudeValue) > Number(b.altitudeValue)) ? 1 : ((Number(b.altitudeValue) > Number(a.altitudeValue)) ? -1 : 0));
+                altitudeValues2.sort((a,b) => (Number(a.altitudeValue) > Number(b.altitudeValue)) ? 1 : ((Number(b.altitudeValue) > Number(a.altitudeValue)) ? -1 : 0));
+                
+                console.log('stopping point');
+
+            }
+            
+        }
+
+        function ahpsCountResult(featureSet) {
+            console.log(featureSet.features.length);
+            var i;
+            for (i=0; i < featureSet.features.length-1; i++) {
+                if (featureSet.features[i].attributes.status == 'major') {
+                    if (majorCount == undefined) {
+                        majorCount = 0;
+                    }
+                    majorCount += 1;
+                } else if (featureSet.features[i].attributes.status == 'moderate') {
+                    if (moderateCount == undefined) {
+                        moderateCount = 0;
+                    }
+                    moderateCount += 1;
+                } else if (featureSet.features[i].attributes.status == 'minor') {
+                    if (minorCount == undefined) {
+                        minorCount = 0;
+                    }
+                    minorCount += 1;
+                } else if (featureSet.features[i].attributes.status == 'action') {
+                    if (actionCount == undefined) {
+                        actionCount = 0;
+                    }
+                    actionCount += 1;
+                } else if (featureSet.features[i].attributes.status == 'no_flooding') {
+                    if (nofloodCount == undefined) {
+                        nofloodCount = 0;
+                    }
+                    nofloodCount += 1;
+                }
+            }
+
+            //var text = 'test';
+            var majorText = "Major flooding (" + majorCount + ")";
+            var moderateText = "Moderate flooding (" + moderateCount + ")";
+            var minorText = "Minor flooding (" + minorCount + ")";
+            var actionText = "Action flooding (" + actionCount + ")";
+            var nofloodText = "No flooding (" + nofloodCount + ")";
+
+            $("#majorFloodingLabel")[0].textContent = majorText;
+            $("#moderateFloodingLabel")[0].textContent = moderateText;
+            $("#minorFloodingLabel")[0].textContent = minorText;
+            $("#nearFloodLabel")[0].textContent = actionText;
+            $("#noFloodingLabel")[0].textContent = nofloodText;
+        }//
+
+        function queryFault(evt) {
+            console.log("error: " + evt);
+        }
+
+    });
+
+    function snapToFlood() {
+        if ($(".first-site #floodMaxGage").text().length > 0 && extentResults != null) {
+            var myArray = extentResults;
+            // this should be current stage
+            var myNum = Number($(".first-site #floodMaxGage").text());
+
+            var closestNum;
+            var closestArrayItem;
+            var tempNum;
+
+            for(var i=0; i<myArray.length; i++){
+
+                tempNum = Math.abs(myArray[i].attributes.STAGE - myNum);
+
+                if(tempNum < closestNum || i == 0){
+                    closestNum = tempNum;
+                    closestArrayItem = i;
+                }
+
+            }
+            $(".floodSlider").value = closestArrayItem;
+            $(".first-site #floodSlider").trigger("change");
+
+            $("#floodToolsDiv .panel-heading").removeClass('loading-hide');
+            $("#floodToolsDiv .panel-body").removeClass('loading-hide');
+            $("#floodToolsDiv").removeClass('loading-background');
+        }
+    }
+
+    function getGridInfo() {
+        var gridServ = null;
+        switch (siteAttr.GRID_SERV) {
+            case 1:
+                gridServ = grid1Infos;
+                break;
+            case 2:
+                gridServ = grid2Infos;
+                break;
+            case 3:
+                gridServ = grid3Infos;
+                break;
+            case 4:
+                gridServ = grid4Infos;
+                break;
+            case null:
+                gridServ = null;
+                break;
+        }
+
+        if (gridServ != null) {
+            var id;
+            var shortName;
+            var gridID;
+            for (var i = 0; i < gridServ.length; i++) {
+                var tempGridInfo = gridServ[i].name.split('_');
+                shortName = tempGridInfo[0];
+                gridID = tempGridInfo[1];
+                id = gridServ[i].id;
+                if (shortName == siteAttr.SHORT_NAME) {
+                    /*var tempName:String = fimi_grids.layerInfos[i].name;
+                     var tempGage:String = tempGridInfo[1] + '.' + tempGridInfo[2];
+                     var tempGageNumber:Number = parseFloat(tempGage);
+                     gridInfos.addItem({index: id, name: tempName, gage: tempGageNumber.toFixed(2)});*/
+                     gridInfos.push({index: id, shortname: shortName, gridid: gridID});
+                }
+            }
+        }
+
+    }
+
+    map.on("click", function(evt) {
+        //$("[id*='fimExtents'] .esriLegendLayerLabel").hide();
+        var identifyParameters = new IdentifyParameters();
+        if (siteAttr != null && siteAttr.HAS_GRIDS == 1 && ((map.getLayer("fimExtents").visible == true || map.getLayer("fimGrid" + siteAttr.GRID_SERV).visible == true) 
+                                                        || (map.getLayer("fimExtentsMulti").visible == true || map.getLayer("fimGrid" + siteAttr.GRID_SERV).visible == true)) && evt.target.localName != "image") {
+            //come back to this to deal with grid clicks
+
+            //getGridLayerIndex();
+            var grid_serv = siteAttr.GRID_SERV;
+            identifyParameters.layerIds = [];
+            /*gridLayerIndexArrColl = [];
+
+            for (var i=0; i < gridInfos.length; i++) {
+                if (gridInfos[i].shortname == siteAttr.SHORT_NAME && Number(gridInfos[i].gridid) == results[$(".first-site #floodSlider")[0].value].attributes["GRIDID"]) {
+                    gridLayerIndexArrColl.push(gridInfos[i].index);
+                    gridLayerIndex = gridInfos[i].index;
+                } else if (gridInfos[i].shortname == siteAttr.SHORT_NAME && gridInfos[i].gridid == results[$(".first-site #floodSlider")[0].value].attributes["GRIDID"]+'b') {
+                    identifyParameters.layerIds.push([gridInfos[i].index]);
+                    gridLayerIndexArrColl.push(gridInfos[i].index);
+                    gridLayerIndex = gridInfos[i].index;
+                }
+            }*/
+
+            identifyParameters.layerIds = gridLayerIndexArrColl;
+            identifyParameters.layerOption = "visible";
+            identifyParameters.width = map.width;
+            identifyParameters.height = map.height;
+            identifyParameters.geometry = evt.mapPoint;
+            identifyParameters.tolerance = 1;
+            identifyParameters.mapExtent = map.extent;
+            identifyParameters.spatialReference = map.spatialReference;
+
+            var identifyTask = new IdentifyTask("https://gis.wim.usgs.gov/ArcGIS/rest/services/FIMMapper/grids_" + grid_serv + "/MapServer");
+            identifyTask.showBusyCursor = true;
+
+            var deferredResult = identifyTask.execute(identifyParameters);
+
+            deferredResult.addCallback(function(response) {
+
+                //map.infoWindow.hide();
+                for (var i=0; i < response.length; i++) {
+                    if (response[i].feature.attributes["Pixel Value"] != "NoData") {
+                        var depthRange = siteAttr.DEPTH_RANG;
+                        if (depthRange == null) {
+                            depthRange = 1;
+                        }
+    
+                        var factor = (Number(depthRange)/2) % 0.5;
+                        if (factor == 0) { //second half of OR only to handle libraries without depth range even though it is a required field
+                            factor = 0.5;
+                        }
+    
+                        var gridAttr = response[i].feature.attributes["Pixel Value"];
+                        var rndGridValue = roundToNearest(factor,gridAttr);
+    
+                        var lowValue = rndGridValue-Number(depthRange)/2;
+                        var highValue = rndGridValue+Number(depthRange)/2;
+    
+                        //code to adjust value so range falls on .0s and .5s
+                        var roundingRemainder = (rndGridValue+Number(depthRange)/2) % 0.5;
+                        if (roundingRemainder != 0) {
+                            var diff = rndGridValue - gridAttr;
+                            if (diff > 0) {
+                                lowValue = Number((rndGridValue - Number(depthRange)/2 - factor).toFixed(1));
+                                highValue = Number((rndGridValue + Number(depthRange)/2 - factor).toFixed(1));
+                            } else {
+                                lowValue = Number((rndGridValue - Number(depthRange)/2 + factor).toFixed(1));
+                                highValue = Number((rndGridValue + Number(depthRange)/2 + factor).toFixed(1));
+                            }
+                        }
+    
+                        //check for negative values of lowValue
+                        if (lowValue < 0) {
+                            lowValue = 0;
+                        }
+    
+                        //using depth range value in site file
+                        var range = lowValue.toString() + ' - ' + highValue.toString();
+                        
+                        var template;
+                        if (siteAttr.REP_LINK != "NONE") {
+                            template = new esri.InfoTemplate("Water depth <a target='_blank' href='" + siteAttr.REP_LINK + "'><i style='color: white' class='fa fa-question-circle'></a>",
+                            "<b>Range:</b> " + range + " ft");
+                        } else {
+                            template = new esri.InfoTemplate("Water depth",
+                            "<b>Range:</b> " + range + " ft");
+                        }
+                        
+    
+                        var feature = response[i].feature;
+                        feature.setInfoTemplate(template);
+    
+                        map.infoWindow.setFeatures([feature]);
+                        map.infoWindow.resize(175,125);
+                        map.infoWindow.show(evt.mapPoint);
+                    }
+                }
+
+            });
+        }
+    });
+
+    function roundToNearest(roundTo, value) {
+        return Math.round(value/roundTo)*roundTo;
+    }
+
+    function getNwsForecastIndex(obj) {
+        var index;
+        for (var i=0; i < obj.length; i++) {
+            if (obj[i].nodeName == "forecast") {
+                index = i;
+            }
+            if (i == obj.length-1 && obj[i].nodeName != "forecast") {
+                index = null;
+            }
+        }
+        return index;
+    }
+
+    function getTodayDate() {
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth()+1; //January is 0!
+        var yyyy = today.getFullYear();
+
+        if(dd<10) {
+            dd='0'+dd
+        }
+
+        if(mm<10) {
+            mm='0'+mm
+        }
+
+        today = yyyy+'-'+mm+'-'+dd;
+
+        return today;
+    }
+
+    function dateInRange(valDate,startDate) {
+        var inRange = false;
+
+        var valDateSub = valDate.substring(0,10);
+
+        var valDateSubSplit = valDateSub.split('-');
+        var startDateSplit = startDate.split('-');
+
+        var val = new Date(valDateSubSplit[0], valDateSubSplit[1]-1, valDateSubSplit[2]); //Year, Month, Date
+        var start = new Date(startDateSplit[0], startDateSplit[1]-1, startDateSplit[2]);
+
+        if(val >= start)
+        {
+            inRange = true;
+        }
+
+        return inRange;
+    }
+
+    function dateFormat(valDate) {
+        var outFormat = "";
+
+        var dateSplit = valDate.split("T");
+
+        var utcFormat = dateSplit[0] + " " + dateSplit[1].split(".")[0] + " UTC";
+        var utcDate = new Date(utcFormat).toString();
+
+        outFormat = dateSplit[0] + " " + utcDate.split(" ")[4];
+
+        return outFormat;
+    }
+
+    function dateFix(date,series) {
+        var outDate;
+
+        var dateSplit = date.split("T");
+        var YMD = dateSplit[0].split("-");
+        if (series == "nwis") {
+            var HMS = dateSplit[1].split(".")[0].split(":");
+        } else if (series == "nws") {
+            var HMS = dateSplit[1].split("-")[0].split(":");
+        }
+
+
+        var year = Number(YMD[0]);
+        var month = Number(YMD[1])-1;
+        var day = Number(YMD[2]);
+        var hour = Number(HMS[0]);
+        var minute = Number(HMS[1]);
+        var second = Number(HMS[2]);
+
+        outDate = Date.UTC(year,month,day,hour,minute,second);
+
+        return outDate;
+    }
+
+    function getDay(date) {
+        var day;
+        switch (date.getDay()) {
+            case 0:
+                day = "Sunday";
+                break;
+            case 1:
+                day = "Monday";
+                break;
+            case 2:
+                day = "Tuesday";
+                break;
+            case 3:
+                day = "Wednesday";
+                break;
+            case 4:
+                day = "Thursday";
+                break;
+            case 5:
+                day = "Friday";
+                break;
+            case 6:
+                day = "Saturday";
+        }
+        return day;
+    }
+
+    function getMonth(date) {
+        var month;
+        switch (date.getMonth()) {
+            case 0:
+                month = "January";
+                break;
+            case 1:
+                month = "February";
+                break;
+            case 2:
+                month = "March";
+                break;
+            case 3:
+                month = "April";
+                break;
+            case 4:
+                month = "May";
+                break;
+            case 5:
+                month = "June";
+                break;
+            case 6:
+                month = "July";
+                break;
+            case 7:
+                month = "August";
+                break;
+            case 8:
+                month = "September";
+                break;
+            case 9:
+                month = "October";
+                break;
+            case 10:
+                month = "November";
+                break;
+            case 11:
+                month = "December";
+                break;
+        }
+        return month;
+    }
+
+
+
+    // create search_api widget in element "geosearch"
+    search_api.create( "geosearch", {
+        on_result: function(o) {
+            // what to do when a location is found
+            // o.result is geojson point feature of location with properties
+
+            // zoom to location
+            require(["esri/geometry/Extent"], function(Extent) {
+                var noExtents = ["GNIS_MAJOR", "GNIS_MINOR", "ZIPCODE", "AREACODE"];
+                var noExtentCheck = noExtents.indexOf(o.result.properties["Source"])
+                if (noExtentCheck == -1) {
+                    map.setExtent(
+                        new esri.geometry.Extent({
+                            xmin: o.result.properties.LonMin,
+                            ymin: o.result.properties.LatMin,
+                            xmax: o.result.properties.LonMax,
+                            ymax: o.result.properties.LatMax,
+                            spatialReference: {"wkid":4326}
+                        }),
+                        true
+                    );
+                } else {
+                    //map.setCenter();
+                    require( ["esri/geometry/Point"], function(Point) {
+                        map.centerAndZoom(
+                            new Point( o.result.properties.Lon, o.result.properties.Lat ),
+                            12
+                        );
+                    });
+                }
+
+            });
+
+        },
+        "include_usgs_sw": true,
+        "include_usgs_gw": true,
+        "include_usgs_sp": true,
+        "include_usgs_at": true,
+        "include_usgs_ot": true,
+        "include_huc2": true,
+        "include_huc4": true,
+        "include_huc6": true,
+        "include_huc8": true,
+        "include_huc10": true,
+        "include_huc12": true
+
+    });
+
+    function printMap() {
+
+        var sitesLayer = map.getLayer("fimSites");
+
+        sitesLayer.setVisibility(false);
+
+        var printParams = new PrintParameters();
+        printParams.map = map;
+
+        var template = new PrintTemplate();
+        /*template.exportOptions = {
+            width: 500,
+            height: 400,
+            dpi: 300
+        };*/
+        template.format = "PDF";
+        template.layout = "FIMpage2design";
+        template.preserveScale = false;
+        /*var sitesLegendLayer = new LegendLayer();
+        sitesLegendLayer.layerId = "fimSites";*/
+        //legendLayer.subLayerIds = [*];
+
+        var userTitle = $("#printTitle").val();
+        //if user does not provide title, use default. otherwise apply user title
+        if (userTitle == "") {
+            template.layoutOptions = {
+                "titleText": "FIM",
+                "authorText" : "Flood Inundation Mapping",
+                "copyrightText": "This page was produced by the FIM and the WIM",
+                "customTextElements": [
+                    { "mapTitle": "Flood-Inundation Map for the Wabash River at Terre Haute, Indiana at the U.S. Geological Survey Streamgage Number " + siteAttr.SITE_NO },
+                    { "mapSeries": siteAttr.REPORT }
+                ]
+                ///"legendLayers": [sitesLegendLayer]
+            };
+        } else {
+            template.layoutOptions = {
+                "titleText": userTitle,
+                "authorText" : "Flood Inundation Mapping",
+                "copyrightText": "This page was produced by the FIM and the WIM",
+                "customTextElements": [
+                    { "mapTitle": "Flood-Inundation Map for the " + siteAttr.COMMUNITY + " at the U.S. Geological Survey Streamgage Number " + siteAttr.SITE_NO },
+                    { "mapSeries": siteAttr.REPORT }
+                ]
+                //"legendLayers": [sitesLegendLayer]
+            };
+        }
+
+        //"legendLayers": [legendLayer]
+        var docTitle = template.layoutOptions.titleText;
+        printParams.template = template;
+        var printMap = new PrintTask("https://gis.wim.usgs.gov/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task");
+        printMap.execute(printParams, printDone, printError);
+
+        sitesLayer.setVisibility(true);
+
+        function printDone(event) {
+            //alert(event.url);
+            //window.open(event.url, "_blank");
+            printCount++;
+            //var printJob = $('<a href="'+ event.url +'" target="_blank">Printout ' + printCount + ' </a>');
+            var printJob = $('<p><label>' + printCount + ': </label>&nbsp;&nbsp;<a href="'+ event.url +'" target="_blank">' + docTitle +' </a></p>');
+            //$("#print-form").append(printJob);
+            $("#printJobsDiv").find("p.toRemove").remove();
+            $("#printModalBody").append(printJob);
+            $("#printTitle").val("");
+            $("#printExecuteButton").button('reset');
+        }
+
+        function printError(event) {
+            alert("Sorry, an unclear print error occurred. Please try refreshing the application to fix the problem");
+        }
+    }
+
+    /*var geocoder = new Geocoder({
+        value: '',
+        maxLocations: 25,
+        autoComplete: true,
+        arcgisGeocoder: true,
+        autoNavigate: false,
+        map: map
+    }, 'geosearch');
+    geocoder.startup();
+    geocoder.on('select', geocodeSelect);
+    geocoder.on('findResults', geocodeResults);
+    geocoder.on('clear', clearFindGraphics);
+    on(geocoder.inputNode, 'keydown', function (e) {
+        if (e.keyCode == 13) {
+            setSearchExtent();
+        }
+    });
+
+    // Symbols
+    var sym = createPictureSymbol('../images/purple-pin.png', 0, 12, 13, 24);
+
+    /*map.on('load', function (){
+        map.infoWindow.set('highlight', false);
+        map.infoWindow.set('titleInBody', false);
+    });*/
+
+    // Geosearch functions
+    //on(dom.byId('btnGeosearch'),'click', geosearch);
+
+    // Optionally confine search to map extent
+    /*function setSearchExtent (){
+        if (dom.byId('chkExtent').checked === 1) {
+            geocoder.activeGeocoder.searchExtent = map.extent;
+        } else {
+            geocoder.activeGeocoder.searchExtent = null;
+        }
+    }*/
+    /*function geosearch() {
+        //setSearchExtent();
+        var def = geocoder.find();
+        def.then(function (res){
+            geocodeResults(res);
+        });
+        // Close modal
+        $('#geosearchModal').modal('hide');
+    }
+    function geocodeSelect(item) {
+        clearFindGraphics();
+        var g = (item.graphic ? item.graphic : item.result.feature);
+        g.setSymbol(sym);
+        //addPlaceGraphic(item.result,g.symbol);
+        // Close modal
+        //$('#geosearchModal').modal('hide');
+    }
+    function geocodeResults(places) {
+        places = places.results;
+        if (places.length > 0) {
+            clearFindGraphics();
+            var symbol = sym;
+            // Create and add graphics with pop-ups
+            for (var i = 0; i < places.length; i++) {
+                //addPlaceGraphic(places[i], symbol);
+            }
+            //zoomToPlaces(places);
+            var centerPoint = new Point(places[0].feature.geometry);
+            map.centerAndZoom(centerPoint, 17);
+            //map.setLevel(15);
+
+        } else {
+            //alert('Sorry, address or place not found.');  // TODO
+        }
+    }
+    function stripTitle(title) {
+        var i = title.indexOf(',');
+        if (i > 0) {
+            title = title.substring(0,i);
+        }
+        return title;
+    }
+    function addPlaceGraphic(item,symbol)  {
+        var place = {};
+        var attributes,infoTemplate,pt,graphic;
+        pt = item.feature.geometry;
+        place.address = item.name;
+        place.score = item.feature.attributes.Score;
+        // Graphic components
+        attributes = { address:stripTitle(place.address), score:place.score, lat:pt.getLatitude().toFixed(2), lon:pt.getLongitude().toFixed(2) };
+        infoTemplate = new PopupTemplate({title:'{address}', description: 'Latitude: {lat}<br/>Longitude: {lon}'});
+        graphic = new Graphic(pt,symbol,attributes,infoTemplate);
+        // Add to map
+        map.graphics.add(graphic);
+    }
+
+    function zoomToPlaces(places) {
+        var multiPoint = new Multipoint(map.spatialReference);
+        for (var i = 0; i < places.length; i++) {
+            multiPoint.addPoint(places[i].feature.geometry);
+        }
+        map.setExtent(multiPoint.getExtent().expand(2.0));
+    }
+
+    function clearFindGraphics() {
+        map.infoWindow.hide();
+        map.graphics.clear();
+    }
+
+    function createPictureSymbol(url, xOffset, yOffset, xWidth, yHeight) {
+        return new PictureMarkerSymbol(
+            {
+                'angle': 0,
+                'xoffset': xOffset, 'yoffset': yOffset, 'type': 'esriPMS',
+                'url': url,
+                'contentType': 'image/png',
+                'width':xWidth, 'height': yHeight
+            });
+    }*/
+
+    // Show modal dialog; handle legend sizing (both on doc ready)
+    $(document).ready(function(){
+        function showModal() {
+            $('#geosearchModal').modal('show');
+        }
+        // Geosearch nav menu is selected
+        $('#geosearchNav').click(function(){
+            showModal();
+        });
+
+        function showAboutModal () {
+            $('#aboutModal').modal('show');
+        }
+        $('#aboutNav').click(function(){
+            showAboutModal();
+            $('#aboutTab').trigger('click');
+        });
+        function showUserGuideModal () {
+            $('#userGuideModal').modal('show');
+        }
+        $('#userGuideNav').click(function(){
+            showUserGuideModal();
+        });
+
+        $("#html").niceScroll();
+        $("#sidebar").niceScroll();
+        $("#sidebar").scroll(function () {
+            $("#sidebar").getNiceScroll().resize();
+        });
+
+        $("#legendDiv").niceScroll();
+
+        maxLegendHeight =  ($('#mapDiv').height()) * 0.90;
+        $('#legendElement').css('max-height', maxLegendHeight);
+
+        $('#legendCollapse').on('shown.bs.collapse', function () {
+            maxLegendHeight =  ($('#mapDiv').height()) * 0.90;
+            $('#legendElement').css('max-height', maxLegendHeight);
+            maxLegendDivHeight = ($('#legendElement').height()) - parseInt($('#legendHeading').css("height").replace('px',''));
+            $('#legendDiv').css('max-height', maxLegendDivHeight);
+        });
+
+        $('#legendCollapse').on('hide.bs.collapse', function () {
+            $('#legendElement').css('height', 'initial');
+        });
+
+    });
+
+    require([
+        'esri/dijit/Legend',
+        'esri/tasks/locator',
+        'esri/tasks/query',
+        'esri/tasks/QueryTask',
+        'esri/graphicsUtils',
+        'esri/geometry/Point',
+        'esri/geometry/Extent',
+        'esri/layers/ArcGISDynamicMapServiceLayer',
+        'esri/layers/FeatureLayer',
+        'esri/SpatialReference',
+        'esri/layers/WMSLayer',
+        'esri/layers/WMSLayerInfo',
+        'dijit/form/CheckBox',
+        'dijit/form/RadioButton',
+        'dojo/query',
+        'dojo/dom',
+        'dojo/dom-class',
+        'dojo/dom-construct',
+        'dojo/dom-style',
+        'dojo/on'
+    ], function(
+        Legend,
+        Locator,
+        Query,
+        QueryTask,
+        graphicsUtils,
+        Point,
+        Extent,
+        ArcGISDynamicMapServiceLayer,
+        FeatureLayer,
+        SpatialReference,
+        WMSLayer,
+        WMSLayerInfo,
+        CheckBox,
+        RadioButton,
+        query,
+        dom,
+        domClass,
+        domConstruct,
+        domStyle,
+        on
+    ) {
+
+        var legendLayers = [];
+        var layersObject = [];
+        var layerArray = [];
+        var staticLegendImage;
+        var identifyTask, identifyParams;
+        var navToolbar;
+        var locator;
+
+        //create global layers lookup
+        var mapLayers = [];
+
+        $.each(allLayers, function (index,group) {
+            console.log('processing: ', group.groupHeading)
+
+
+            //sub-loop over layers within this groupType
+            $.each(group.layers, function (layerName,layerDetails) {
+
+                //check for exclusiveGroup for this layer
+                var exclusiveGroupName = '';
+                if (layerDetails.wimOptions.exclusiveGroupName) {
+                    exclusiveGroupName = layerDetails.wimOptions.exclusiveGroupName;
+                }
+
+                if (layerDetails.wimOptions.layerType === 'agisFeature') {
+                    var layer = new FeatureLayer(layerDetails.url, layerDetails.options);
+                    var legendLayerName;
+                    //check if include in legend is true
+                    if (layerDetails.wimOptions && layerDetails.wimOptions.includeLegend == true) {
+                        if (layerDetails.wimOptions.legendTitle) {
+                            legendLayerName = layerDetails.wimOptions.legendTitle;
+                        } else {
+                            legendLayerName = layerName;
+                        }
+                        if (layerDetails.wimOptions.legendPlacement) {
+                            legendLayers.splice(layerDetails.wimOptions.legendPlacement, 0, {layer: layer, title: legendLayerName});
+                        } else {
+                            legendLayers.push({layer: layer, title: legendLayerName});
+                        }
+                    }
+                    /*if (layerDetails.wimOptions.renderer !== undefined) {
+                        layer.setRenderer(layerDetails.wimOptions.renderer);
+                    }*/
+                    addLayer(group.groupHeading, group.showGroupHeading, layer, layerName, exclusiveGroupName, layerDetails.options, layerDetails.wimOptions);
+                    //addMapServerLegend(layerName, layerDetails);
+                }
+
+                else if (layerDetails.wimOptions.layerType === 'agisWMS') {
+                    var layer = new WMSLayer(layerDetails.url, {resourceInfo: layerDetails.options.resourceInfo, visibleLayers: layerDetails.options.visibleLayers }, layerDetails.options);
+                    //check if include in legend is true
+                    if (layerDetails.wimOptions && layerDetails.wimOptions.includeLegend == true){
+                        legendLayers.push({layer:layer, title: layerName});
+                    }
+                    //map.addLayer(layer);
+                    addLayer(group.groupHeading, group.showGroupHeading, layer, layerName, exclusiveGroupName, layerDetails.options, layerDetails.wimOptions);
+                    //addMapServerLegend(layerName, layerDetails);
+                }
+
+                else if (layerDetails.wimOptions.layerType === 'agisDynamic') {
+                    var layer = new ArcGISDynamicMapServiceLayer(layerDetails.url, layerDetails.options);
+                    //check if include in legend is true
+                    if (layerDetails.wimOptions && layerDetails.wimOptions.layerDefinitions) {
+                        var layerDefs = layerDetails.wimOptions.layerDefinitions;
+                        /*$.each(layerDetails.wimOptions.layerDefinitions, function (index, def) {
+                            layerDefs[index] = def;
+                        });*/
+                        layer.setLayerDefinitions(layerDefs);
+                    }
+                    if (layerDetails.visibleLayers) {
+                        layer.setVisibleLayers(layerDetails.visibleLayers);
+                    }
+                    var legendLayerName;
+                    //check if include in legend is true
+                    if (layerDetails.wimOptions && layerDetails.wimOptions.includeLegend == true) {
+                        if (layerDetails.wimOptions.legendTitle) {
+                            legendLayerName = layerDetails.wimOptions.legendTitle;
+                        } else {
+                            legendLayerName = layerName;
+                        }
+                        if (layerDetails.wimOptions.legendPlacement != null && layerDetails.wimOptions.legendPlacement >= 0) {
+                            legendLayers.splice(layerDetails.wimOptions.legendPlacement, 0, {layer: layer, title: legendLayerName});
+                        } else {
+                            legendLayers.push({layer: layer, title: legendLayerName});
+                        }
+                    }
+                    //map.addLayer(layer);
+                    addLayer(group.groupHeading, group.showGroupHeading, layer, layerName, exclusiveGroupName, layerDetails.options, layerDetails.wimOptions);
+                    //addMapServerLegend(layerName, layerDetails);
+                }
+            });
+        });
+
+        function addLayer(groupHeading, showGroupHeading, layer, layerName, exclusiveGroupName, options, wimOptions) {
+
+            //layer.addTo(map);
+            if (wimOptions.layerIndex !== undefined) {
+                map.addLayer(layer, wimOptions.layerIndex);
+            } else {
+                map.addLayer(layer);
+            }
+
+            if (wimOptions.legendLabel == false) {
+                var style = document.createElement('style');
+                style.type = 'text/css';
+                style.innerHTML = '[id*=' + layer.id + '] .esriLegendLayerLabel { display: none; }';
+                document.getElementsByTagName('head')[0].appendChild(style);
+            }
+
+            //add layer to layer list
+            mapLayers.push([exclusiveGroupName,camelize(layerName),layer]);
+
+            //check if its an exclusiveGroup item
+            if (exclusiveGroupName) {
+
+                if (!$('#' + camelize(exclusiveGroupName)).length) {
+                    var exGroupRoot = $('<div id="' + camelize(exclusiveGroupName +" Root") + '" class="btn-group-vertical lyrTog" style="cursor: pointer;" data-toggle="buttons"> <button type="button" class="btn btn-default active" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="glyphspan fa fa-check-square-o"></i>&nbsp;&nbsp;' + exclusiveGroupName + '</button> </div>');
+
+                    exGroupRoot.click(function(e) {
+                        exGroupRoot.find('i.glyphspan').toggleClass('fa-check-square-o fa-square-o');
+
+                        $.each(mapLayers, function (index, currentLayer) {
+
+                            var tempLayer = map.getLayer(currentLayer[2].id);
+
+                            if (currentLayer[0] == exclusiveGroupName) {
+                                if ($("#" + currentLayer[1]).find('i.glyphspan').hasClass('fa-dot-circle-o') && exGroupRoot.find('i.glyphspan').hasClass('fa-check-square-o')) {
+                                    console.log('adding layer: ',currentLayer[1]);
+                                    map.addLayer(currentLayer[2]);
+                                    var tempLayer = map.getLayer(currentLayer[2].id);
+                                    tempLayer.setVisibility(true);
+                                } else if (exGroupRoot.find('i.glyphspan').hasClass('fa-square-o')) {
+                                    console.log('removing layer: ',currentLayer[1]);
+                                    map.removeLayer(currentLayer[2]);
+                                }
+                            }
+
+                        });
+                    });
+
+                    var exGroupDiv = $('<div id="' + camelize(exclusiveGroupName) + '" class="btn-group-vertical" data-toggle="buttons"></div>');
+                    $('#toggle').append(exGroupDiv);
+                }
+
+                //create radio button
+                //var button = $('<input type="radio" name="' + camelize(exclusiveGroupName) + '" value="' + camelize(layerName) + '"checked>' + layerName + '</input></br>');
+                if (layer.visible) {
+                    var button = $('<div id="' + camelize(layerName) + '" class="btn-group-vertical lyrTog" style="cursor: pointer;" data-toggle="buttons"> <label class="btn btn-default"  style="font-weight: bold;text-align: left"> <input type="radio" name="' + camelize(exclusiveGroupName) + '" autocomplete="off"><i class="glyphspan fa fa-dot-circle-o ' + camelize(exclusiveGroupName) + '"></i>&nbsp;&nbsp;' + layerName + '</label> </div>');
+                } else {
+                    var button = $('<div id="' + camelize(layerName) + '" class="btn-group-vertical lyrTog" style="cursor: pointer;" data-toggle="buttons"> <label class="btn btn-default"  style="font-weight: bold;text-align: left"> <input type="radio" name="' + camelize(exclusiveGroupName) + '" autocomplete="off"><i class="glyphspan fa fa-circle-o ' + camelize(exclusiveGroupName) + '"></i>&nbsp;&nbsp;' + layerName + '</label> </div>');
+                }
+
+                $('#' + camelize(exclusiveGroupName)).append(button);
+
+                //click listener for radio button
+                button.click(function(e) {
+
+                    if ($(this).find('i.glyphspan').hasClass('fa-circle-o')) {
+                        $(this).find('i.glyphspan').toggleClass('fa-dot-circle-o fa-circle-o');
+
+                        var newLayer = $(this)[0].id;
+
+                        $.each(mapLayers, function (index, currentLayer) {
+
+                            if (currentLayer[0] == exclusiveGroupName) {
+                                if (currentLayer[1] == newLayer && $("#" + camelize(exclusiveGroupName + " Root")).find('i.glyphspan').hasClass('fa-check-square-o')) {
+                                    console.log('adding layer: ',currentLayer[1]);
+                                    map.addLayer(currentLayer[2]);
+                                    var tempLayer = map.getLayer(currentLayer[2].id);
+                                    tempLayer.setVisibility(true);
+                                    //$('#' + camelize(currentLayer[1])).toggle();
+                                }
+                                else if (currentLayer[1] == newLayer && $("#" + camelize(exclusiveGroupName + " Root")).find('i.glyphspan').hasClass('fa-square-o')) {
+                                    console.log('groud heading not checked');
+                                }
+                                else {
+                                    console.log('removing layer: ',currentLayer[1]);
+                                    map.removeLayer(currentLayer[2]);
+                                    if ($("#" + currentLayer[1]).find('i.glyphspan').hasClass('fa-dot-circle-o')) {
+                                        $("#" + currentLayer[1]).find('i.glyphspan').toggleClass('fa-dot-circle-o fa-circle-o');
+                                    }
+                                    //$('#' + camelize(this[1])).toggle();
+                                }
+                            }
+                        });
+                    }
+                });
+            }
+
+            //not an exclusive group item
+            else if (wimOptions.includeInLayerList) {
+
+                //create layer toggle
+                //var button = $('<div align="left" style="cursor: pointer;padding:5px;"><span class="glyphspan glyphicon glyphicon-check"></span>&nbsp;&nbsp;' + layerName + '</div>');
+                if (layer.visible && wimOptions.hasOpacitySlider !== undefined && wimOptions.hasOpacitySlider == true && wimOptions.hasZoomto !== undefined && wimOptions.hasZoomto == true) {
+                    //opacity icon and zoomto icon; button selected
+                    var button = $('<div class="btn-group-vertical lyrTogDiv" style="cursor: pointer;" data-toggle="buttons"> <button id="' + layer.id + '"type="button" class="btn btn-default active" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="glyphspan fa fa-check-square-o"></i>&nbsp;&nbsp;' + layerName + '<span id="opacity' + camelize(layerName) + '" class="glyphspan glyphicon glyphicon-adjust pull-right opacity"></span><span class="glyphicon glyphicon-search pull-right zoomto"></span></button></div>');
+                } else if (!layer.visible && wimOptions.hasOpacitySlider !== undefined && wimOptions.hasOpacitySlider == true && wimOptions.hasZoomto !== undefined && wimOptions.hasZoomto == true){
+                    //opacity icon and zoomto icon; button not selected
+                    var button = $('<div class="btn-group-vertical lyrTogDiv" style="cursor: pointer;" data-toggle="buttons"> <button id="' + layer.id + '"type="button" class="btn btn-default" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="glyphspan fa fa-square-o"></i>&nbsp;&nbsp;' + layerName + '<span id="opacity' + camelize(layerName) + '" class="glyphspan glyphicon glyphicon-adjust pull-right opacity"></span><span class="glyphicon glyphicon-search pull-right zoomto"></span></button></div>');
+                } else if (layer.visible && wimOptions.hasOpacitySlider !== undefined && wimOptions.hasOpacitySlider == true) {
+                    //opacity icon only; button selected
+                    var button = $('<div class="btn-group-vertical lyrTogDiv" style="cursor: pointer;" data-toggle="buttons"> <button id="' + layer.id + '"type="button" class="btn btn-default active" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="glyphspan fa fa-check-square-o"></i>&nbsp;&nbsp;' + layerName + '<span id="opacity' + camelize(layerName) + '" class="glyphspan glyphicon glyphicon-adjust pull-right"></button></div>');
+                } else if (!layer.visible && wimOptions.hasOpacitySlider !== undefined && wimOptions.hasOpacitySlider == true) {
+                    //opacity icon only; button not selected
+                    var button = $('<div class="btn-group-vertical lyrTogDiv" style="cursor: pointer;" data-toggle="buttons"> <button id="' + layer.id + '"type="button" class="btn btn-default" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="glyphspan fa fa-square-o"></i>&nbsp;&nbsp;' + layerName + '<span id="opacity' + camelize(layerName) + '" class="glyphspan glyphicon glyphicon-adjust pull-right"></button></div>');
+                } else if (layer.visible && wimOptions.hasOpacitySlider == false && wimOptions.hasZoomto !== undefined && wimOptions.hasZoomto == true){
+                    //zoomto icon only; button selected
+                    var button = $('<div class="btn-group-vertical lyrTogDiv" style="cursor: pointer;" data-toggle="buttons"> <button id="' + layer.id + '"type="button" class="btn btn-default active" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="glyphspan fa fa-check-square-o"></i>&nbsp;&nbsp;' + layerName + '<span class="glyphicon glyphicon-search pull-right zoomto"></span></button></span></div>');
+                } else if (!layer.visible && wimOptions.hasOpacitySlider == false && wimOptions.hasZoomto !== undefined && wimOptions.hasZoomto == true) {
+                    //zoomto icon only; button not selected
+                    var button = $('<div class="btn-group-vertical lyrTogDiv" style="cursor: pointer;" data-toggle="buttons"> <button id="' + layer.id + '"type="button" class="btn btn-default" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="glyphspan fa fa-square-o"></i>&nbsp;&nbsp;' + layerName + '<span class="glyphicon glyphicon-search pull-right zoomto"></span></button></span></div>');
+                } else if(layer.visible) {
+                    //no icons; button selected
+                    var button = $('<div class="btn-group-vertical lyrTogDiv" style="cursor: pointer;" data-toggle="buttons"> <button id="' + layer.id + '"type="button" class="btn btn-default active" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="glyphspan fa fa-check-square-o"></i>&nbsp;&nbsp;' + layerName + '</button></span></div>');
+                } else {
+                    //no icons; button not selected
+                    var button = $('<div class="btn-group-vertical lyrTogDiv" style="cursor: pointer;" data-toggle="buttons"> <button id="' + layer.id + '"type="button" class="btn btn-default" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="glyphspan fa fa-square-o"></i>&nbsp;&nbsp;<label id="' + camelize(layerName) + 'Label" class="ahpsLabel">' + layerName + '</label></button> </div>');
+                }
+
+                //click listener for regular
+                button.click(function(e) {
+
+                    //toggle checkmark
+                    $(this).find('i.glyphspan').toggleClass('fa-check-square-o fa-square-o');
+                    $(this).find('button').button('toggle');
+
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    $('#' + camelize(layerName)).toggle();
+
+                    //layer toggle
+                    if (layer.visible) {
+                        layer.setVisibility(false);
+                    } else {
+                        layer.setVisibility(true);
+                    }
+
+                    if (wimOptions.otherLayersToggled) {
+                        $.each(wimOptions.otherLayersToggled, function (key, value) {
+                            var lyr = map.getLayer(value);
+                            if (lyr.visible != layer.visible) {
+                                $("#"+lyr.id).find('i.glyphspan').toggleClass('fa-check-square-o fa-square-o');
+                                $("#"+lyr.id).find('button').button('toggle');
+                                lyr.setVisibility(layer.visible);
+                            }
+                        });
+                    }
+
+                    // Google Analytics
+                    var dimensionValue = layerName + "";
+                    ga('send','event','layer','click', 'layer toggle', {'dimension2': dimensionValue});
+                    // End Google Analytics
+
+                });
+            }
+
+            //group heading logic
+            if (showGroupHeading) {
+
+                //camelize it for divID
+                var groupDivID = camelize(groupHeading);
+
+                //check to see if this group already exists
+                if (!$('#' + groupDivID).length) {
+                    //if it doesn't add the header
+                    var groupDiv = $('<div id="' + groupDivID + '"><div class="alert alert-info" role="alert"><strong>' + groupHeading + '</strong></div></div>');
+                    $('#toggle').append(groupDiv);
+                }
+
+                //if it does already exist, append to it
+
+                if (exclusiveGroupName) {
+                    //if (!exGroupRoot.length)$("#slider"+camelize(layerName))
+                    $('#' + groupDivID).append(exGroupRoot);
+                    $('#' + groupDivID).append(exGroupDiv);
+                } else {
+                    $('#' + groupDivID).append(button);
+                    //begin opacity slider logic
+                    if ($("#opacity"+camelize(layerName)).length > 0) {
+                        $("#opacity"+camelize(layerName)).hover(function () {
+                            $(".opacitySlider").remove();
+                            var currOpacity = map.getLayer(options.id).opacity;
+                            var slider = $('<div class="opacitySlider"><label id="opacityValue">Opacity: ' + currOpacity + '</label><label class="opacityClose pull-right">X</label><input id="slider" type="range"></div>');
+                            $("body").append(slider);[0]
+
+                            $("#slider")[0].value = currOpacity*100;
+                            $(".opacitySlider").css('left', event.clientX-180);
+                            $(".opacitySlider").css('top', event.clientY-50);
+
+                            $(".opacitySlider").mouseleave(function() {
+                                $(".opacitySlider").remove();
+                            });
+
+                            $(".opacityClose").click(function() {
+                                $(".opacitySlider").remove();
+                            });
+                            $('#slider').change(function(event) {
+                                //get the value of the slider with this call
+                                var o = ($('#slider')[0].value)/100;
+                                console.log("o: " + o);
+                                $("#opacityValue").html("Opacity: " + o)
+                                map.getLayer(options.id).setOpacity(o);
+                                //here I am just specifying the element to change with a "made up" attribute (but don't worry, this is in the HTML specs and supported by all browsers).
+                                //var e = '#' + $(this).attr('data-wjs-element');
+                                //$(e).css('opacity', o)
+                            });
+                        });
+                    }
+                    //end opacity slider logic
+
+                    //begin zoomto logic (in progress)
+                    $(".zoomto").hover(function (e) {
+
+                        $(".zoomDialog").remove();
+                        var layerToChange = this.parentNode.id;
+                        var zoomDialog = $('<div class="zoomDialog"><label class="zoomClose pull-right">X</label><br><div class="list-group"><a href="#" id="zoomscale" class="list-group-item lgi-zoom zoomscale">Zoom to scale</a> <a id="zoomcenter" href="#" class="list-group-item lgi-zoom zoomcenter">Zoom to center</a><a id="zoomextent" href="#" class="list-group-item lgi-zoom zoomextent">Zoom to extent</a></div></div>');
+
+                        $("body").append(zoomDialog);
+
+                        $(".zoomDialog").css('left', event.clientX-80);
+                        $(".zoomDialog").css('top', event.clientY-5);
+
+                        $(".zoomDialog").mouseleave(function() {
+                            $(".zoomDialog").remove();
+                        });
+
+                        $(".zoomClose").click(function() {
+                            $(".zoomDialog").remove();
+                        });
+
+                        $('#zoomscale').click(function (e) {
+                            //logic to zoom to layer scale
+                            var layerMinScale = map.getLayer(layerToChange).minScale;
+                            map.setScale(layerMinScale);
+                        });
+
+                        $("#zoomcenter").click(function (e){
+                            //logic to zoom to layer center
+                            //var layerCenter = map.getLayer(layerToChange).fullExtent.getCenter();
+                            //map.centerAt(layerCenter);
+                            var dataCenter = new Point(defaultMapCenter, new SpatialReference({wkid:4326}));
+                            map.centerAt(dataCenter);
+
+                        });
+
+                        $("#zoomextent").click(function (e){
+                            //logic to zoom to layer extent
+                            var layerExtent = map.getLayer(layerToChange).fullExtent;
+                            map.setExtent(layerExtent);
+                        });
+                    });
+                    //end zoomto logic
+
+                }
+            }
+
+            else {
+                //otherwise append
+                $('#toggle').append(button);
+            }
+        }
+
+
+        //get visible and non visible layer lists
+        function addMapServerLegend(layerName, layerDetails) {
+
+
+            if (layerDetails.wimOptions.layerType === 'agisFeature') {
+
+                //for feature layer since default icon is used, put that in legend
+                var legendItem = $('<div align="left" id="' + camelize(layerName) + '"><img alt="Legend Swatch" src="https://raw.githubusercontent.com/Leaflet/Leaflet/master/dist/images/marker-icon.png" /><strong>&nbsp;&nbsp;' + layerName + '</strong></br></div>');
+                $('#legendDiv').append(legendItem);
+
+            }
+
+            else if (layerDetails.wimOptions.layerType === 'agisWMS') {
+
+                //for WMS layers, for now just add layer title
+                var legendItem = $('<div align="left" id="' + camelize(layerName) + '"><img alt="Legend Swatch" src="https://placehold.it/25x41" /><strong>&nbsp;&nbsp;' + layerName + '</strong></br></div>');
+                $('#legendDiv').append(legendItem);
+
+            }
+
+            else if (layerDetails.wimOptions.layerType === 'agisDynamic') {
+
+                //create new legend div
+                var legendItemDiv = $('<div align="left" id="' + camelize(layerName) + '"><strong>&nbsp;&nbsp;' + layerName + '</strong></br></div>');
+                $('#legendDiv').append(legendItemDiv);
+
+
+
+                //get legend REST endpoint for swatch
+                $.getJSON(layerDetails.url + '/legend?f=json', function (legendResponse) {
+
+                    console.log(layerName,'legendResponse',legendResponse);
+
+                    //make list of layers for legend
+                    if (layerDetails.options.layers) {
+                        // console.log(layerName, 'has visisble layers property')
+                        //if there is a layers option included, use that
+                        var visibleLayers = layerDetails.options.layers;
+                    }
+                    else {
+                        //console.log(layerName, 'no visible layers property',  legendResponse)
+
+                        //create visibleLayers array with everything
+                        var visibleLayers = [];
+                        $.grep(legendResponse.layers, function(i,v) {
+                            visibleLayers.push(v);
+                        });
+                    }
+
+                    //loop over all map service layers
+                    $.each(legendResponse.layers, function (i, legendLayer) {
+
+                        //var legendHeader = $('<strong>&nbsp;&nbsp;' + legendLayer.layerName + '</strong>');
+                        //$('#' + camelize(layerName)).append(legendHeader);
+
+                        //sub-loop over visible layers property
+                        $.each(visibleLayers, function (i, visibleLayer) {
+
+                            //console.log(layerName, 'visibleLayer',  visibleLayer);
+
+                            if (visibleLayer == legendLayer.layerId) {
+
+                                console.log(layerName, visibleLayer,legendLayer.layerId, legendLayer)
+
+                                //console.log($('#' + camelize(layerName)).find('<strong>&nbsp;&nbsp;' + legendLayer.layerName + '</strong></br>'))
+
+                                var legendHeader = $('<strong>&nbsp;&nbsp;' + legendLayer.layerName + '</strong></br>');
+                                $('#' + camelize(layerName)).append(legendHeader);
+
+                                //get legend object
+                                var feature = legendLayer.legend;
+                                /*
+                                 //build legend html for categorized feautres
+                                 if (feature.length > 1) {
+                                 */
+
+                                //placeholder icon
+                                //<img alt="Legend Swatch" src="http://placehold.it/25x41" />
+
+                                $.each(feature, function () {
+
+                                    //make sure there is a legend swatch
+                                    if (this.imageData) {
+                                        var legendFeature = $('<img alt="Legend Swatch" src="data:image/png;base64,' + this.imageData + '" /><small>' + this.label.replace('<', '').replace('>', '') + '</small></br>');
+
+                                        $('#' + camelize(layerName)).append(legendFeature);
+                                    }
+                                });
+                                /*
+                                 }
+                                 //single features
+                                 else {
+                                 var legendFeature = $('<img alt="Legend Swatch" src="data:image/png;base64,' + feature[0].imageData + '" /><small>&nbsp;&nbsp;' + legendLayer.layerName + '</small></br>');
+
+                                 //$('#legendDiv').append(legendItem);
+                                 $('#' + camelize(layerName)).append(legendFeature);
+
+                                 }
+                                 */
+                            }
+                        }); //each visible layer
+                    }); //each legend item
+                }); //get legend json
+            }
+        }
+        /* parse layers.js */
+
+        var legend = new Legend({
+            map: map,
+            layerInfos: legendLayers
+        }, "legendDiv");
+        legend.startup();
+
+    });//end of require statement containing legend building code
+
+
+});
+
+$(document).ready(function () {
+    //7 lines below are handler for the legend buttons. to be removed if we stick with the in-map legend toggle
+    //$('#legendButtonNavBar, #legendButtonSidebar').on('click', function () {
+    //    $('#legend').toggle();
+    //    //return false;
+    //});
+    //$('#legendClose').on('click', function () {
+    //    $('#legend').hide();
+    //});
+
+
+});
+$('body').text( $('body').text().replace("●", ''));
