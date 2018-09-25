@@ -2149,7 +2149,9 @@ a {
 }
 #hazusTableLabels {
   padding: 15px 0;
+  display: -webkit-flex;
   display: flex;
+  -webkit-justify-content: space-between;
   justify-content: space-between;
 }
 #hazusTableLabels .hazus-label {
@@ -2212,4 +2214,12 @@ a {
   font-size: 12px !important;
   color: #050920;
   font-weight: 600 !important;
+}
+
+.second-site {
+  display: none;
+}
+
+.third-site {
+  display: none;
 }
