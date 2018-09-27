@@ -42,6 +42,7 @@ if (window.DOMParser) {
 var allLayers;
 
 var floodExtentsMultiTableUrl = "https://gis.wim.usgs.gov/arcgis/rest/services/FIMMapper/floodExtentsMulti/MapServer/1";
+var floodExtentsMultiThreeSitesTableUrl = "https://gis.wim.usgs.gov/arcgis/rest/services/FIMMapper/floodExtentsThreeSites/MapServer/1";
 var fimHazusUrl = "https://gis.wim.usgs.gov/arcgis/rest/services/FIMMapper/sites/MapServer/2";
 
 require([
@@ -77,7 +78,7 @@ require([
                         "opacity": 1.00,
                         "mode": FeatureLayer.MODE_SNAPSHOT,
                         "outFields": ["*"],
-                        "definitionExpression": "Public = 1 OR Public = 0 AND (MULTI_SITE = 0 OR MULTI_SITE = 1)",
+                        "definitionExpression": "(Public = 1 OR Public = 0) AND (MULTI_SITE = 0 OR MULTI_SITE = 1 OR MULTI_SITE = 3)",
                         //"infoTemplate": fimInfoTemplate,
                         "visible": true
                     },
@@ -1146,15 +1147,26 @@ require([
                     $(".second-site").hide();
                     $(".third-site").hide();
                     sitePopup(evt);
-                } else if (siteAttr["MULTI_SITE"] == 1) {
-                    $(".second-site").show();
-                    $(".third-site").hide();
+                } else if (siteAttr["MULTI_SITE"] > 0) {
+                    if (siteAttr["MULTI_SITE"] == 1) {
+                        $(".second-site").show();
+                        $(".third-site").hide();
+                    } else if (siteAttr["MULTI_SITE"] == 3) {
+                        $(".second-site").show();
+                        $(".third-site").show();
+                    }
+                    
                     var multiSitesQuery = new esriQuery(); 
                     multiSitesQuery.returnGeometry = false;
                     multiSitesQuery.where = "site_no =" + siteAttr["SITE_NO"];
                     multiSitesQuery.outFields = ["combo_id"];
+                    var multiSitesQueryTask;
+                    if (siteAttr["MULTI_SITE"] == 1) {
+                        multiSitesQueryTask = new QueryTask(floodExtentsMultiTableUrl);	
+                    } else if (siteAttr["MULTI_SITE"] == 3) {
+                        multiSitesQueryTask = new QueryTask(floodExtentsMultiThreeSitesTableUrl);	
+                    }
                     
-                    var multiSitesQueryTask = new QueryTask(floodExtentsMultiTableUrl);	
                     multiSitesQueryTask.execute(multiSitesQuery, multiSitesResult);
 
                     function multiSitesResult(featureSet) {
@@ -1163,7 +1175,12 @@ require([
                         multiQuery.where = "combo_id = " + featureSet.features[0].attributes.combo_id;
                         multiQuery.outFields = ["site_no,combo_id,ordinal"];
                         
-                        var multiQueryTask = new QueryTask(floodExtentsMultiTableUrl);
+                        var multiQueryTask;
+                        if (siteAttr["MULTI_SITE"] == 1) {
+                            multiQueryTask = new QueryTask(floodExtentsMultiTableUrl);	
+                        } else if (siteAttr["MULTI_SITE"] == 3) {
+                            multiQueryTask = new QueryTask(floodExtentsMultiThreeSitesTableUrl);	
+                        }
                         multiQueryTask.execute(multiQuery, multiInitResult);
                         
                         function multiInitResult(featureSet) {
@@ -1201,6 +1218,13 @@ require([
                             } else {
                                 siteNo_2 = sites.features[0].attributes.site_no;
                             }
+                        } else if (sites.features[i].attributes.ordinal == 3) {
+                            siteNo_3 = sites.features[i].attributes.site_no;
+                            if (siteNo_3.toString().length == 7) { 
+                                siteNo_3 = '0' + siteNo_3;
+                            } else {
+                                siteNo_3 = sites.features[0].attributes.site_no;
+                            }
                         }
                     }
                 } else {
@@ -1234,7 +1258,7 @@ require([
                 $(".third-site #floodMaxDischarge").text("");
                 $(".floodSlider").each(function(index) {
                     this.value = 0;
-                })
+                });
                 $(".floodSlider").trigger("change");
 
                 $("#zoomToLibExtent").hide();
@@ -1576,12 +1600,12 @@ require([
 
                                 });
 
-                                var siteName = siteData.value.timeSeries[0].sourceInfo.siteName;
+                                /*(var siteName = siteData.value.timeSeries[0].sourceInfo.siteName;
 
                                 var template = new esri.InfoTemplate("<span class=''>" + siteName + "</span>",
                                     "<div id='rtInfo'>" + rtHtml + "</div>" +
                                     "<br/><span>Most recent measurement(s) <span style='font-size: smaller; color: darkblue'><i>(local time)</i></span> - see <a target='_blank' href='https://waterdata.usgs.gov/nwis/uv?site_no=" + siteNo + "'>NWIS Site</a> for more details</span>" +
-                                    "<div id='nwisCharts'>" + nwisHtml + "</div>");
+                                    "<div id='nwisCharts'>" + nwisHtml + "</div>");*/
 
                             },
                             error: function (error) {
@@ -1999,8 +2023,11 @@ require([
 
                         //$("#siteNumber").text(attr["SITE_NO"]);
                         $(".first-site .floodSlider").attr({"min": 0, "max": gageValues.length-1});
-                        if (siteAttr["MULTI_SITE"] == 1) {
+                        if (siteAttr["MULTI_SITE"] >= 1) {
                             $(".second-site .floodSlider").attr({"min": 0, "max": gageValues2.length-1});
+                            if (siteAttr["MULTI_SITE"] >= 2) {
+                                $(".third-site .floodSlider").attr({"min": 0, "max": gageValues3.length-1});
+                            }
                         }
                         $(".floodSlider").value = 0;
                         var layerDefinitions = [];
@@ -2053,55 +2080,75 @@ require([
                                 //placeholder
                                 break;
                             case (3):
-                                layerDefinitions[0] = "USGSID_1 = '" + siteNo + "' AND STAGE_1 = " + gageValues[0].gageValue + "AND USGSID_2 = '" + siteNo_2 + "' AND STAGE_2 = " + gageValues2[0].gageValue;
+                                layerDefinitions[0] = "USGSID_1 = '" + siteNo + "' AND STAGE_1 = " + gageValues[0].gageValue + "AND USGSID_2 = '" + siteNo_2 + "' AND STAGE_2 = " + gageValues2[0].gageValue + "AND USGSID_3 = '" + siteNo_3 + "' AND STAGE_3 = " + gageValues3[0].gageValue;
                                 map.getLayer("fimExtentsThreeSites").setLayerDefinitions(layerDefinitions);
-                                map.getLayer("fimBreachThreeSites").setLayerDefinitions(layerDefinitions);
-                                //map.getLayer("fimExtentsThreeSites").setVisibility(true);
+                                //REVISIT: when breach is available for three site libraries
+                                //map.getLayer("fimBreachThreeSites").setLayerDefinitions(layerDefinitions);
+                                map.getLayer("fimExtentsThreeSites").setVisibility(true);
                                 //map.getLayer("fimBreachThreeSites").setVisibility(true);
                                 break;
 
                         }
                         
                         //REVISIT: need to add logic for handling of grid infos for multi sites
-                        gridLayerIndexArrColl = [];
+                        if (siteAttr["HAS_GRIDS"] == 1) {
+                            gridLayerIndexArrColl = [];
 
-                        if (siteAttr["MULTI_SITE"] == 0) {
-                            for (var i=0; i < gridInfos.length; i++) {
-                                if (gridInfos[i].shortname == siteAttr.SHORT_NAME && Number(gridInfos[i].gridid) == results[$(".first-site #floodSlider")[0].value].attributes["GRIDID"]) {
-                                    gridLayerIndexArrColl.push(gridInfos[i].index);
-                                    gridLayerIndex = gridInfos[i].index;
-                                } else if (gridInfos[i].shortname == siteAttr.SHORT_NAME && gridInfos[i].gridid == results[$(".first-site #floodSlider")[0].value].attributes["GRIDID"]+'b') {
-                                    gridLayerIndexArrColl.push(gridInfos[i].index);
-                                    gridLayerIndex = gridInfos[i].index;
+                            if (siteAttr["MULTI_SITE"] == 0) {
+                                for (var i=0; i < gridInfos.length; i++) {
+                                    if (gridInfos[i].shortname == siteAttr.SHORT_NAME && Number(gridInfos[i].gridid) == results[$(".first-site #floodSlider")[0].value].attributes["GRIDID"]) {
+                                        gridLayerIndexArrColl.push(gridInfos[i].index);
+                                        gridLayerIndex = gridInfos[i].index;
+                                    } else if (gridInfos[i].shortname == siteAttr.SHORT_NAME && gridInfos[i].gridid == results[$(".first-site #floodSlider")[0].value].attributes["GRIDID"]+'b') {
+                                        gridLayerIndexArrColl.push(gridInfos[i].index);
+                                        gridLayerIndex = gridInfos[i].index;
+                                    }
+                                }
+                            } else if (siteAttr["MULTI_SITE"] == 1) {
+                                var gridLayerID;
+                                $.each(gagePairs, function(index, value)
+                                {
+                                    if (value.STAGE_1 == gageValues[0].gageValue && value.STAGE_2 == gageValues2[0].gageValue) {
+                                        gridLayerID = value.GRIDID;
+                                    }
+                                });
+                                for (var i=0; i < gridInfos.length; i++) {
+                                    if (gridInfos[i].shortname == siteAttr.SHORT_NAME && Number(gridInfos[i].gridid) == gridLayerID) {
+                                        gridLayerIndexArrColl.push(gridInfos[i].index);
+                                        gridLayerIndex = gridInfos[i].index;
+                                    } else if (gridInfos[i].shortname == siteAttr.SHORT_NAME && gridInfos[i].gridid == gridLayerID+'b') {
+                                        gridLayerIndexArrColl.push(gridInfos[i].index);
+                                        gridLayerIndex = gridInfos[i].index;
+                                    }
+                                }
+                            } else if (siteAttr["MULTI_SITE"] == 3) {
+                                var gridLayerID;
+                                $.each(gagePairs, function(index, value)
+                                {
+                                    if (value.STAGE_1 == gageValues[0].gageValue && value.STAGE_2 == gageValues2[0].gageValue && value.STAGE_3 == gageValues3[0].gageValue) {
+                                        gridLayerID = value.GRIDID;
+                                    }
+                                });
+                                for (var i=0; i < gridInfos.length; i++) {
+                                    if (gridInfos[i].shortname == siteAttr.SHORT_NAME && Number(gridInfos[i].gridid) == gridLayerID) {
+                                        gridLayerIndexArrColl.push(gridInfos[i].index);
+                                        gridLayerIndex = gridInfos[i].index;
+                                    } else if (gridInfos[i].shortname == siteAttr.SHORT_NAME && gridInfos[i].gridid == gridLayerID+'b') {
+                                        gridLayerIndexArrColl.push(gridInfos[i].index);
+                                        gridLayerIndex = gridInfos[i].index;
+                                    }
                                 }
                             }
-                        } else if (siteAttr["MULTI_SITE"] == 1) {
-                            var gridLayerID;
-                            $.each(gagePairs, function(index, value)
-                            {
-                                if (value.STAGE_1 == gageValues[0].gageValue && value.STAGE_2 == gageValues2[0].gageValue) {
-                                    gridLayerID = value.GRIDID;
-                                }
-                            });
-                            for (var i=0; i < gridInfos.length; i++) {
-                                if (gridInfos[i].shortname == siteAttr.SHORT_NAME && Number(gridInfos[i].gridid) == gridLayerID) {
-                                    gridLayerIndexArrColl.push(gridInfos[i].index);
-                                    gridLayerIndex = gridInfos[i].index;
-                                } else if (gridInfos[i].shortname == siteAttr.SHORT_NAME && gridInfos[i].gridid == gridLayerID+'b') {
-                                    gridLayerIndexArrColl.push(gridInfos[i].index);
-                                    gridLayerIndex = gridInfos[i].index;
-                                }
-                            }
+                            
+
+                            //set grids layer definitions/choose the right layer here and in next input change function
+                            console.log('grid stuff');
+                            var gridLayer = "fimGrid" + siteAttr.GRID_SERV;
+                            var gridVisLayer = [];
+                            gridVisLayer.push(gridLayerIndexArrColl);
+                            map.getLayer(gridLayer).setVisibleLayers(gridVisLayer);
+                            //map.getLayer(gridLayer).setVisibility(true);
                         }
-                        
-
-                        //set grids layer definitions/choose the right layer here and in next input change function
-                        console.log('grid stuff');
-                        var gridLayer = "fimGrid" + siteAttr.GRID_SERV;
-                        var gridVisLayer = [];
-                        gridVisLayer.push(gridLayerIndexArrColl);
-                        map.getLayer(gridLayer).setVisibleLayers(gridVisLayer);
-                        //map.getLayer(gridLayer).setVisibility(true);
 
                         $(".floodSlider").on("change", function() {
                             gridLayerIndexArrColl = [];
@@ -2126,22 +2173,24 @@ require([
                                     map.getLayer("fimExtents").setLayerDefinitions(layerDefinitions);
                                     map.getLayer("fimBreach").setLayerDefinitions(layerDefinitions);
 
-                                    for (var i=0; i < gridInfos.length; i++) {
-                                        if (gridInfos[i].shortname == siteAttr.SHORT_NAME && Number(gridInfos[i].gridid) == results[$(".first-site #floodSlider")[0].value].attributes["GRIDID"]) {
-                                            gridLayerIndexArrColl.push(gridInfos[i].index);
-                                            gridLayerIndex = gridInfos[i].index;
-                                        } else if (gridInfos[i].shortname == siteAttr.SHORT_NAME && gridInfos[i].gridid == results[$(".first-site #floodSlider")[0].value].attributes["GRIDID"]+'b') {
-                                            gridLayerIndexArrColl.push(gridInfos[i].index);
-                                            gridLayerIndex = gridInfos[i].index;
+                                    if (siteAttr["HAS_GRIDS"] == 1) {
+                                        for (var i=0; i < gridInfos.length; i++) {
+                                            if (gridInfos[i].shortname == siteAttr.SHORT_NAME && Number(gridInfos[i].gridid) == results[$(".first-site #floodSlider")[0].value].attributes["GRIDID"]) {
+                                                gridLayerIndexArrColl.push(gridInfos[i].index);
+                                                gridLayerIndex = gridInfos[i].index;
+                                            } else if (gridInfos[i].shortname == siteAttr.SHORT_NAME && gridInfos[i].gridid == results[$(".first-site #floodSlider")[0].value].attributes["GRIDID"]+'b') {
+                                                gridLayerIndexArrColl.push(gridInfos[i].index);
+                                                gridLayerIndex = gridInfos[i].index;
+                                            }
                                         }
-                                    }
 
-                                    //set grids layer definitions/choose the right layer here and in next input change function
-                                    var gridLayer = "fimGrid" + siteAttr.GRID_SERV;
-                                    var gridVisLayer = [];
-                                    gridVisLayer.push(gridLayerIndexArrColl);
-                                    map.getLayer(gridLayer).setVisibleLayers(gridVisLayer);
-                                    //map.getLayer(gridLayer).setVisibility(true);
+                                        //set grids layer definitions/choose the right layer here and in next input change function
+                                        var gridLayer = "fimGrid" + siteAttr.GRID_SERV;
+                                        var gridVisLayer = [];
+                                        gridVisLayer.push(gridLayerIndexArrColl);
+                                        map.getLayer(gridLayer).setVisibleLayers(gridVisLayer);
+                                        //map.getLayer(gridLayer).setVisibility(true);
+                                    }
 
                                 } else if (siteAttr["MULTI_SITE"] == 1) {
                                     if ($(this).hasClass('first-slider')) {
@@ -2215,32 +2264,255 @@ require([
                                         
                                     }
 
-                                    var gridLayerID;
-                                    $.each(gagePairs, function(index, value)
-                                    {
-                                        if (value.STAGE_1 == gageValues[$(".first-site #floodSlider")[0].value].gageValue && value.STAGE_2 == gageValues2[$(".second-site #floodSlider")[0].value].gageValue) {
-                                            gridLayerID = value.GRIDID;
+                                    if (siteAttr["HAS_GRIDS"] == 1) {
+                                        var gridLayerID;
+                                        $.each(gagePairs, function(index, value)
+                                        {
+                                            if (value.STAGE_1 == gageValues[$(".first-site #floodSlider")[0].value].gageValue && value.STAGE_2 == gageValues2[$(".second-site #floodSlider")[0].value].gageValue) {
+                                                gridLayerID = value.GRIDID;
+                                            }
+                                        });
+                                        for (var i=0; i < gridInfos.length; i++) {
+                                            if (gridInfos[i].shortname == siteAttr.SHORT_NAME && Number(gridInfos[i].gridid) == gridLayerID) {
+                                                gridLayerIndexArrColl.push(gridInfos[i].index);
+                                                gridLayerIndex = gridInfos[i].index;
+                                            } else if (gridInfos[i].shortname == siteAttr.SHORT_NAME && gridInfos[i].gridid == gridLayerID+'b') {
+                                                gridLayerIndexArrColl.push(gridInfos[i].index);
+                                                gridLayerIndex = gridInfos[i].index;
+                                            }
                                         }
-                                    });
-                                    for (var i=0; i < gridInfos.length; i++) {
-                                        if (gridInfos[i].shortname == siteAttr.SHORT_NAME && Number(gridInfos[i].gridid) == gridLayerID) {
-                                            gridLayerIndexArrColl.push(gridInfos[i].index);
-                                            gridLayerIndex = gridInfos[i].index;
-                                        } else if (gridInfos[i].shortname == siteAttr.SHORT_NAME && gridInfos[i].gridid == gridLayerID+'b') {
-                                            gridLayerIndexArrColl.push(gridInfos[i].index);
-                                            gridLayerIndex = gridInfos[i].index;
-                                        }
+
+                                        var gridLayer = "fimGrid" + siteAttr.GRID_SERV;
+                                        var gridVisLayer = [];
+                                        gridVisLayer.push(gridLayerIndexArrColl);
+                                        map.getLayer(gridLayer).setVisibleLayers(gridVisLayer);
+                                        
+                                        var layerDefinitions = [];
+                                        layerDefinitions[0] = "USGSID_1 = '" + siteNo + "' AND STAGE_1 = " + gageValues[$(".first-site #floodSlider")[0].value].gageValue + "AND USGSID_2 = '" + siteNo_2 + "' AND STAGE_2 = " + gageValues2[$(".second-site #floodSlider")[0].value].gageValue;
+                                        map.getLayer("fimExtentsMulti").setLayerDefinitions(layerDefinitions);
+                                        map.getLayer("fimBreachMulti").setLayerDefinitions(layerDefinitions);
+                                    }
+                                    
+                                } else if (siteAttr["MULTI_SITE"] == 3) {
+                                    if ($(this).hasClass('first-slider')) {
+                                        $(".first-site #selectedValue").text(gageValues[this.value].gageValue);
+                                        $(".first-site #floodMinSelectedGage").text(gageValues[this.value].gageValue);
+                                    } else if ($(this).hasClass('second-slider')) {
+                                        $(".second-site #selectedValue").text(gageValues2[this.value].gageValue);
+                                        $(".second-site #floodMinSelectedGage").text(gageValues2[this.value].gageValue);
+                                    } else if ($(this).hasClass('third-slider')) {
+                                        $(".third-site #selectedValue").text(gageValues3[this.value].gageValue);
+                                        $(".third-site #floodMinSelectedGage").text(gageValues3[this.value].gageValue);
                                     }
 
-                                    var gridLayer = "fimGrid" + siteAttr.GRID_SERV;
-                                    var gridVisLayer = [];
-                                    gridVisLayer.push(gridLayerIndexArrColl);
-                                    map.getLayer(gridLayer).setVisibleLayers(gridVisLayer);
+                                    // Code to determine next possible combination if current selections are not available as map in library
+                                    var tempPairValue = [];
                                     
+                                    if ($(this).hasClass('first-slider')) {
+                                        $.each(gagePairs, function(index, value)
+                                        {
+                                            if (value.STAGE_1 == gageValues[$(".first-site #floodSlider")[0].value].gageValue) {
+                                                tempPairValue.push({pairStage2: parseFloat(value.STAGE_2), pairStage3: parseFloat(value.STAGE_3)});
+                                            }
+                                        });
+                                        
+                                        tempPairValue.sort((a,b) => (Number(a.pairStage2) > Number(b.pairStage2)) ? 1 : ((Number(b.pairStage2) > Number(a.pairStage2)) ? -1 : 0));
+            
+                                        var currentSlider2Value = parseFloat(gageValues2[$(".second-site #floodSlider")[0].value].gageValue);
+                                        if (currentSlider2Value < parseFloat(tempPairValue[0].pairStage2)) {
+                                            for (var i = 0; i < gageValues2.length; i++) {
+                                                if (gageValues2[i].gageValue == parseFloat(tempPairValue[0].pairStage2)) {
+                                                    $(".second-site #floodSlider")[0].value = i;
+                                                    //slideWarningShow();
+                                                    break;
+                                                }
+                                            }
+                                        } else if (currentSlider2Value > parseFloat(tempPairValue[tempPairValue.length-1].pairStage2)) {
+                                            for (i=0;i<gageValues2.length;i++) {
+                                                if (gageValues2[i].gageValue == parseFloat(tempPairValue[tempPairValue.length-1].pairStage2)) {
+                                                    $(".second-site #floodSlider")[0].value = i;
+                                                    //slideWarningShow();
+                                                    break;
+                                                }
+                                            }
+                                        }
+
+                                        var newTempPair = [];
+                                        $.each(tempPairValue, function(index, value)
+                                        {
+                                            if (value.pairStage2 == gageValues2[$(".second-site #floodSlider")[0].value].gageValue) {
+                                                newTempPair.push({value});
+                                            }
+                                        });
+                                        
+                                        newTempPair.sort((a,b) => (Number(a.value.pairStage3) > Number(b.value.pairStage3)) ? 1 : ((Number(b.value.pairStage3) > Number(a.value.pairStage3)) ? -1 : 0));
+            
+                                        var currentSlider3Value = parseFloat(gageValues3[$(".third-site #floodSlider")[0].value].gageValue);
+                                        if (currentSlider3Value < parseFloat(newTempPair[0].value.pairStage3)) {
+                                            for (var i = 0; i < gageValues3.length; i++) {
+                                                if (gageValues3[i].gageValue == parseFloat(newTempPair[0].value.pairStage3)) {
+                                                    $(".third-site #floodSlider")[0].value = i;
+                                                    //slideWarningShow();
+                                                    break;
+                                                }
+                                            }
+                                        } else if (currentSlider3Value > parseFloat(newTempPair[newTempPair.length-1].value.pairStage3)) {
+                                            for (i=0;i<gageValues3.length;i++) {
+                                                if (gageValues3[i].gageValue == parseFloat(newTempPair[newTempPair.length-1].value.pairStage3)) {
+                                                    $(".third-site #floodSlider")[0].value = i;
+                                                    //slideWarningShow();
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                        
+                                    } else if ($(this).hasClass('second-slider')) {
+                                        $.each(gagePairs, function(index, value)
+                                        {
+                                            if (value.STAGE_2 == gageValues2[$(".second-site #floodSlider")[0].value].gageValue) {
+                                                tempPairValue.push({pairStage1: parseFloat(value.STAGE_1), pairStage3: parseFloat(value.STAGE_3)});
+                                            }
+                                        });
+                                        
+                                        tempPairValue.sort((a,b) => (Number(a.pairStage1) > Number(b.pairStage1)) ? 1 : ((Number(b.pairStage1) > Number(a.pairStage1)) ? -1 : 0));
+            
+                                        var currentSlider1Value = parseFloat(gageValues[$(".first-site #floodSlider")[0].value].gageValue);
+                                        if (currentSlider1Value < parseFloat(tempPairValue[0].pairStage1)) {
+                                            for (i=0;i<gageValues.length;i++) {
+                                                if (gageValues[i].gageValue == parseFloat(tempPairValue[0].pairStage1)) {
+                                                    $(".first-site #floodSlider")[0].value = i;
+                                                    //slideWarningShow();
+                                                    break;
+                                                }
+                                            }
+                                        } else if (currentSlider1Value > parseFloat(tempPairValue[tempPairValue.length-1].pairStage1)) {
+                                            for (i=0;i<gageValues.length;i++) {
+                                                if (gageValues[i].gageValue == parseFloat(tempPairValue[tempPairValue.length-1].pairStage1)) {
+                                                    $(".first-site #floodSlider")[0].value = i;
+                                                    //slideWarningShow();
+                                                    break;
+                                                }
+                                            }
+                                        }
+
+                                        var newTempPair = [];
+                                        $.each(tempPairValue, function(index, value)
+                                        {
+                                            if (value.pairStage1 == gageValues[$(".first-site #floodSlider")[0].value].gageValue) {
+                                                newTempPair.push({value});
+                                            }
+                                        });
+                                        
+                                        newTempPair.sort((a,b) => (Number(a.value.pairStage3) > Number(b.value.pairStage3)) ? 1 : ((Number(b.value.pairStage3) > Number(a.value.pairStage3)) ? -1 : 0));
+            
+                                        var currentSlider3Value = parseFloat(gageValues3[$(".third-site #floodSlider")[0].value].gageValue);
+                                        if (currentSlider3Value < parseFloat(newTempPair[0].value.pairStage3)) {
+                                            for (var i = 0; i < gageValues3.length; i++) {
+                                                if (gageValues3[i].gageValue == parseFloat(newTempPair[0].value.pairStage3)) {
+                                                    $(".third-site #floodSlider")[0].value = i;
+                                                    //slideWarningShow();
+                                                    break;
+                                                }
+                                            }
+                                        } else if (currentSlider3Value > parseFloat(newTempPair[newTempPair.length-1].value.pairStage3)) {
+                                            for (i=0;i<gageValues3.length;i++) {
+                                                if (gageValues3[i].gageValue == parseFloat(newTempPair[newTempPair.length-1].value.pairStage3)) {
+                                                    $(".third-site #floodSlider")[0].value = i;
+                                                    //slideWarningShow();
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                         
+                                    } else if ($(this).hasClass('third-slider')) {
+                                        $.each(gagePairs, function(index, value)
+                                        {
+                                            if (value.STAGE_3 == gageValues3[$(".third-site #floodSlider")[0].value].gageValue) {
+                                                tempPairValue.push({pairStage1: parseFloat(value.STAGE_1), pairStage2: parseFloat(value.STAGE_2)});
+                                            }
+                                        });
+
+                                        tempPairValue.sort((a,b) => (Number(a.pairStage2) > Number(b.pairStage2)) ? 1 : ((Number(b.pairStage2) > Number(a.pairStage2)) ? -1 : 0));
+            
+                                        var currentSlider2Value = parseFloat(gageValues2[$(".second-site #floodSlider")[0].value].gageValue);
+                                        if (currentSlider2Value < parseFloat(tempPairValue[0].pairStage2)) {
+                                            for (var i = 0; i < gageValues2.length; i++) {
+                                                if (gageValues2[i].gageValue == parseFloat(tempPairValue[0].pairStage2)) {
+                                                    $(".second-site #floodSlider")[0].value = i;
+                                                    //slideWarningShow();
+                                                    break;
+                                                }
+                                            }
+                                        } else if (currentSlider2Value > parseFloat(tempPairValue[tempPairValue.length-1].pairStage2)) {
+                                            for (i=0;i<gageValues2.length;i++) {
+                                                if (gageValues2[i].gageValue == parseFloat(tempPairValue[tempPairValue.length-1].pairStage2)) {
+                                                    $(".second-site #floodSlider")[0].value = i;
+                                                    //slideWarningShow();
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                        
+                                        var newTempPair = [];
+                                        $.each(tempPairValue, function(index, value)
+                                        {
+                                            if (value.pairStage2 == gageValues2[$(".second-site #floodSlider")[0].value].gageValue) {
+                                                newTempPair.push({value});
+                                            }
+                                        });
+                                        
+                                        newTempPair.sort((a,b) => (Number(a.value.pairStage1) > Number(b.value.pairStage1)) ? 1 : ((Number(b.value.pairStage1) > Number(a.value.pairStage1)) ? -1 : 0));
+            
+                                        var currentSlider1Value = parseFloat(gageValues[$(".first-site #floodSlider")[0].value].gageValue);
+                                        if (currentSlider1Value < parseFloat(newTempPair[0].value.pairStage1)) {
+                                            for (i=0;i<gageValues.length;i++) {
+                                                if (gageValues[i].gageValue == parseFloat(newTempPair[0].value.pairStage1)) {
+                                                    $(".first-site #floodSlider")[0].value = i;
+                                                    //slideWarningShow();
+                                                    break;
+                                                }
+                                            }
+                                        } else if (currentSlider1Value > parseFloat(newTempPair[newTempPair.length-1].value.pairStage1)) {
+                                            for (i=0;i<gageValues.length;i++) {
+                                                if (gageValues[i].gageValue == parseFloat(newTempPair[newTempPair.length-1].value.pairStage1)) {
+                                                    $(".first-site #floodSlider")[0].value = i;
+                                                    //slideWarningShow();
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                        
+                                    }
+
+                                    if (siteAttr["HAS_GRIDS"] == 1) {
+                                        var gridLayerID;
+                                        $.each(gagePairs, function(index, value)
+                                        {
+                                            if (value.STAGE_1 == gageValues[$(".first-site #floodSlider")[0].value].gageValue && value.STAGE_2 == gageValues2[$(".second-site #floodSlider")[0].value].gageValue && value.STAGE_3 == gageValues3[$(".third-site #floodSlider")[0].value].gageValue) {
+                                                gridLayerID = value.GRIDID;
+                                            }
+                                        });
+                                        for (var i=0; i < gridInfos.length; i++) {
+                                            if (gridInfos[i].shortname == siteAttr.SHORT_NAME && Number(gridInfos[i].gridid) == gridLayerID) {
+                                                gridLayerIndexArrColl.push(gridInfos[i].index);
+                                                gridLayerIndex = gridInfos[i].index;
+                                            } else if (gridInfos[i].shortname == siteAttr.SHORT_NAME && gridInfos[i].gridid == gridLayerID+'b') {
+                                                gridLayerIndexArrColl.push(gridInfos[i].index);
+                                                gridLayerIndex = gridInfos[i].index;
+                                            }
+                                        }
+
+                                        var gridLayer = "fimGrid" + siteAttr.GRID_SERV;
+                                        var gridVisLayer = [];
+                                        gridVisLayer.push(gridLayerIndexArrColl);
+                                        map.getLayer(gridLayer).setVisibleLayers(gridVisLayer);
+                                    }
+
                                     var layerDefinitions = [];
-                                    layerDefinitions[0] = "USGSID_1 = '" + siteNo + "' AND STAGE_1 = " + gageValues[$(".first-site #floodSlider")[0].value].gageValue + "AND USGSID_2 = '" + siteNo_2 + "' AND STAGE_2 = " + gageValues2[$(".second-site #floodSlider")[0].value].gageValue;
-                                    map.getLayer("fimExtentsMulti").setLayerDefinitions(layerDefinitions);
-                                    map.getLayer("fimBreachMulti").setLayerDefinitions(layerDefinitions);
+                                    layerDefinitions[0] = "USGSID_1 = '" + siteNo + "' AND STAGE_1 = " + gageValues[$(".first-site #floodSlider")[0].value].gageValue + " AND USGSID_2 = '" + siteNo_2 + "' AND STAGE_2 = " + gageValues2[$(".second-site #floodSlider")[0].value].gageValue + " AND USGSID_3 = '" + siteNo_3 + "' AND STAGE_3 = " + gageValues3[$(".third-site #floodSlider")[0].value].gageValue;;
+                                    map.getLayer("fimExtentsThreeSites").setLayerDefinitions(layerDefinitions);
+                                    //REVISIT: when using breach service for three sites
+                                    //map.getLayer("fimBreachThreeSites").setLayerDefinitions(layerDefinitions);
                                     
                                 }
                             }
@@ -2392,6 +2664,89 @@ require([
                 altitudeValues2.sort((a,b) => (Number(a.altitudeValue) > Number(b.altitudeValue)) ? 1 : ((Number(b.altitudeValue) > Number(a.altitudeValue)) ? -1 : 0));
                 
                 console.log('stopping point');
+
+            } else if (siteAttr["MULTI_SITE"] == 3) {
+                $.each(results, function(index, value)
+                {	
+                    //var graphicID = siteNo + floodGraphic.attributes.STAGE_1.toFixed(2) + floodGraphic.attributes.STAGE_2.toFixed(2) + floodGraphic.attributes.GRIDID;
+                    gagePairs.push({STAGE_1: value.attributes.STAGE_1.toFixed(2), STAGE_2: value.attributes.STAGE_2.toFixed(2), STAGE_3: value.attributes.STAGE_3.toFixed(2), GRIDID: value.attributes.GRIDID});
+                    
+                    var i;
+                    var flag = false;
+                    
+                    for (i=0;i<gageValues.length;i++) {
+                        if (gageValues[i]["gageValue"] == value.attributes.STAGE_1.toFixed(2)) {
+                            flag = true;
+                        }
+                    }
+                    if (flag == false) {
+                        gageValues.push({gageValue:value.attributes.STAGE_1.toFixed(2)});
+                    }
+                    
+                    flag = false;
+                    
+                    for (i=0;i<altitudeValues.length;i++) {
+                        if (altitudeValues[i]["altitudeValue"] == value.attributes.ELEV_1.toFixed(2)) {
+                            flag = true;
+                        }
+                    }
+                    if (flag == false) {
+                        altitudeValues.push({altitudeValue:value.attributes.ELEV_1.toFixed(2)});
+                    }
+                    
+                    flag = false;
+                    
+                    for (i=0;i<gageValues2.length;i++) {
+                        if (gageValues2[i]["gageValue"] == value.attributes.STAGE_2.toFixed(2)) {
+                            flag = true;
+                        }
+                    }
+                    if (flag == false) {
+                        gageValues2.push({gageValue:value.attributes.STAGE_2.toFixed(2)});
+                    }
+
+                    flag = false;
+                    
+                    for (i=0;i<altitudeValues2.length;i++) {
+                        if (altitudeValues2[i]["altitudeValue"] == value.attributes.ELEV_2.toFixed(2)) {
+                            flag = true;
+                        }
+                    }
+                    if (flag == false) {
+                        altitudeValues2.push({altitudeValue:value.attributes.ELEV_2.toFixed(2)});
+                    }
+
+                    flag = false;
+                    
+                    for (i=0;i<gageValues3.length;i++) {
+                        if (gageValues3[i]["gageValue"] == value.attributes.STAGE_3.toFixed(2)) {
+                            flag = true;
+                        }
+                    }
+                    if (flag == false) {
+                        gageValues3.push({gageValue:value.attributes.STAGE_3.toFixed(2)});
+                    }
+                    
+                    flag = false;
+                    
+                    for (i=0;i<altitudeValues3.length;i++) {
+                        if (altitudeValues3[i]["altitudeValue"] == value.attributes.ELEV_3.toFixed(2)) {
+                            flag = true;
+                        }
+                    }
+                    if (flag == false) {
+                        altitudeValues3.push({altitudeValue:value.attributes.ELEV_3.toFixed(2)});
+                    }
+                    
+                });
+
+                gageValues.sort((a,b) => (Number(a.gageValue) > Number(b.gageValue)) ? 1 : ((Number(b.gageValue) > Number(a.gageValue)) ? -1 : 0));
+                gageValues2.sort((a,b) => (Number(a.gageValue) > Number(b.gageValue)) ? 1 : ((Number(b.gageValue) > Number(a.gageValue)) ? -1 : 0));
+                gageValues3.sort((a,b) => (Number(a.gageValue) > Number(b.gageValue)) ? 1 : ((Number(b.gageValue) > Number(a.gageValue)) ? -1 : 0));
+                
+                altitudeValues.sort((a,b) => (Number(a.altitudeValue) > Number(b.altitudeValue)) ? 1 : ((Number(b.altitudeValue) > Number(a.altitudeValue)) ? -1 : 0));
+                altitudeValues2.sort((a,b) => (Number(a.altitudeValue) > Number(b.altitudeValue)) ? 1 : ((Number(b.altitudeValue) > Number(a.altitudeValue)) ? -1 : 0));
+                altitudeValues2.sort((a,b) => (Number(a.altitudeValue) > Number(b.altitudeValue)) ? 1 : ((Number(b.altitudeValue) > Number(a.altitudeValue)) ? -1 : 0));
 
             }
             
