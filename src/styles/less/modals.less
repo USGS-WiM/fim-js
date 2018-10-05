@@ -1,0 +1,163 @@
+@black: #10152C;
+@blue: #1D6DFA;
+@text: fade(lighten(@black, 10%), 70%);
+
+
+// Regular modal
+.modal{
+
+    .modal-dialog{
+
+        .modal-content{
+            border: none !important;
+            outline: none !important;
+            box-shadow: 0px 6px 35px -10px rgba(20, 20, 40, 0.6) !important;
+            border-radius: 4px !important;
+
+
+            .modal-header{
+                padding: 10px 15px;
+                border-bottom: none;
+
+                .modal-title{
+                    font-size: 16px;
+                    font-weight: 700;
+                    color: @black;
+                    font-family: 'Open Sans', sans-serif;
+                    color: @text;
+                    letter-spacing: -0.2px;
+                }
+
+                .close{
+                    padding: 0;
+                    height: 100%;
+                    text-shadow: none;
+                    margin: 0 auto;
+                    opacity: 0.5;
+                    transition: 0.2s;
+
+                    &:hover{
+                        cursor: pointer;
+                        transition: 0.2s;
+                        opacity: 1;
+                    }
+                }
+            }
+
+            .modal-body{
+
+                .nav-tabs{
+                    box-sizing: border-box;
+                    padding: 0 15px 0 13px !important;
+                    border-bottom: 2px solid fade(@black, 6%) !important;
+
+                    li,
+                    li.active{
+
+                        a{
+                            padding: 10px 2px 9px 2px !important;
+                            font-size: 12px;
+                            margin-right: 15px;
+                            letter-spacing: -0.15px !important;
+                            transition: 0.2s;
+                            font-weight: 600 !important;
+                            border-top-right-radius: 5px !important;
+                            border-top-left-radius: 5px !important;
+                            border-bottom: 2px solid transparent !important;
+
+                            &:hover{
+                                background-color: transparent !important;
+                                color: @black !important;
+                                transition: 0.2s;
+                                border-bottom: 2px solid @black !important;
+                            }
+                        }
+                    }
+
+                    li.active a{
+                        background-color: transparent !important;
+                        color: @blue !important;
+                        transition: 0.2s;
+                        border-bottom: 2px solid @blue !important;
+                        margin-right: 15px !important;
+
+                        &:hover{
+                            color: @blue !important;
+                            border-bottom: 2px solid @blue !important;
+                        }
+
+                    }
+                }
+
+                .tab-content{
+                    padding: 25px 15px 10px 15px !important;
+
+                    .tab-pane{
+
+                        h3{
+                            font-size: 18px;
+                            color: fade(@black, 90%);
+                            font-weight: 600;
+                        }
+
+                        p{
+                            font-size: 12px;
+                            line-height: 28px;
+                            display: block;
+                            max-width: 600px;
+                            font-weight: 500;
+                            color: @text;
+                        }
+
+                    }
+                }
+            }
+
+            .modal-footer{
+                margin: 0 auto;
+                padding: 15px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+
+                .wim-modal-branding{
+                    text-align: center;
+                    display: block;
+                    font-size: 12px;
+                    font-weight: 600;
+                    font-family: 'Open Sans', sans-serif;
+                    color: @text;
+
+                    img{
+                        height: 20px;
+                        margin-left: 3px;
+                        width: auto;
+                        display: inline-block;
+                    }
+                }
+
+                .modal-footer-buttons{
+                    display: flex;
+                    justify-content: space-between;
+                    box-sizing: border-box;
+                    padding-top: 11px;
+
+                    .btn{
+                        margin-top: 0;
+                        text-transform: capitalize;
+                        letter-spacing: 0.6px;
+                        font-family: 'Open Sans', sans-serif;
+                        font-weight: 600;
+                    }
+                }
+            }
+        }
+
+    }
+
+}
+
+
+// Specific Modal Tweaks
+// Specific Modal Tweaks
+// Specific Modal Tweaks

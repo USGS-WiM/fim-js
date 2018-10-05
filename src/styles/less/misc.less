@@ -1,45 +1,17 @@
-html, body {
-    height: 100%;
-    overflow:hidden;
+@black: #10152C;
+@blue: #1D6DFA;
+
+
+#floodToolsPanelHeader{
+    font-size: 14px;
+    letter-spacing: -0.25px;
+    font-weight: 600;
+    color: @black;
 }
 
-
-body {
-    margin: 0;
-    padding: 0;
-    padding-top: 50px;
-    background-image: url("../images/wimlogoCompact.png");
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-position: center;
-    background-color:#474747;
-}
-
-#aboutNav {
-    /*background-color: #474747;*/
-
-    background: 0 0;
-    border: none;
-    line-height: 16px;
-    /*padding-top: 0;*/
-    /*padding-bottom: 0;*/
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    text-align: center;
-    box-sizing: border-box;
-    position: relative;
-    top: 2px;
-    transition: .2s;
-    color: rgba(255,255,255,.35);
-}
 
 #aboutModal, #userGuideModal, #shareModal {
     z-index: 100000000;
-}
-
-#zoomToLibExtent {
-    display: none;
-    margin-top: -30px;
 }
 
 .dijitTooltipContainer {
@@ -49,10 +21,6 @@ body {
     border-radius: 5px;
     font-size: small;
     padding: 2px;
-}
-
-.current {
-    color: red;
 }
 
 #slider {
@@ -68,82 +36,13 @@ body {
   font-weight: bolder;
 }
 
-#floodSlider, #sliderText {
-    display: inline;
-}
-
-#sliderText {
-    padding-top: 50px;
-}
-
-.noShow {
-    visibility: hidden;
-}
-
-/*div[id*='fimExtents'] .esriLegendLayerLabel {
-    visibility: hidden;
-}
-
-div[id*='fimBreach'] .esriLegendLayerLabel {
-    visibility: hidden;
-}*/
-
-#aboutNav{
-    letter-spacing: 2px;
-    position: relative; top: 2px;
-    transition: 0.2s;
-    color: rgba(255,255,255,0.35);
-}
-#aboutNav:hover{
-    cursor: pointer;
-    color: rgba(255,255,255,1);
-    transition: 0.2s;
-}
-#aboutNav:focus{
-    outline: none;
-}
-
 .keepit100 {
     height: 100%;
-}
-
-@media (max-width: 767px) {
-    #geosearchButtonText {
-        display: none;
-    }
-
-    #legendButtonNavBar {
-        display: none;
-    }
-
-    /*.basemapThumb {*/
-    /*display: none;*/
-    /*}*/
 }
 
 .overflow-y-hidden {
     overflow-y: hidden;
 }
-
-@media (min-width: 768px) {
-    #legendButtonSidebar {
-        display: none;
-    }
-}
-
-.basemapThumb {
-    border:1px solid #ffffff;
-    border-radius: 5px;
-}
-
-/*basemapBtn elements manually set to width of widest - temp solution until dynamic solution is implemented */
-.basemapBtn {
-    width: 86px;
-    margin-bottom: 2px;
-    padding:2px;
-}
-
-
 .esriSimpleSliderTL {
     top: 5px;
     left: 5px;
@@ -231,10 +130,7 @@ div[id*='fimBreach'] .esriLegendLayerLabel {
     margin-bottom: 0px;
 }
 
-#legendDiv {
-    overflow-y: auto;
-    /*max-height: inherit;*/
-}
+
 
 #legendCollapse {
     /*max-height: inherit;*/
@@ -418,6 +314,10 @@ a.lgi-zoom:hover {
     font-weight: 400;
     letter-spacing: -1px !important;
     padding-left: 0 !important;
+
+    span{
+        padding-left: 0 !important;
+    }
 }
 .navbar-brand b{
   font-weight: 400;
@@ -531,7 +431,6 @@ a.lgi-zoom:hover {
 
 .navbar-dark {
     border-width:0;
-    background-color:#474747;
     color:#ffffff;
     font-family:arial,sans-serif;
     top:0;
@@ -583,12 +482,48 @@ a.lgi-zoom:hover {
     margin-bottom: 2px;
 }
 
-#sidebar {
-    top: 50px;
-    padding-bottom: 50px;
-}
+
 input[type="checkbox"], input[type="radio"] {
     float: left;
+}
+#layersPanel{
+    box-sizing: border-box;
+    padding: 10px 0 15px 0;
+}
+#sidebar .panel-collapse .btn-group-vertical button{
+    color: fade(@black, 70%);
+    border: none !important;
+    letter-spacing: -0.4px !important;
+
+    i{
+        margin-right: 5px;
+    }
+
+    &:hover{
+        color: @black !important;
+    }
+
+
+    label{
+        letter-spacing: -0.4px !important;
+    }
+}
+#sidebar .panel-collapse .btn-group-vertical label{
+    font-size: 8.5pt !important;
+    padding: 0 !important;
+    letter-spacing: 0.5px;
+    margin: 0;
+    font-weight: 500 !important;
+    color: fade(@black, 70%);
+}
+.esriLegendLayer td{
+    font-weight: 400;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 12px;
+}
+.esriLegendLayer tbody tr td img{
+    margin-right: 5px;
+    float: right;
 }
 
 .zoomDialog {
@@ -607,52 +542,6 @@ input[type="checkbox"], input[type="radio"] {
 .zoomClose {
     color: white;
 }
-
-/*styles to be removed when wim styles are created*/
-input[type=range]{
-    -webkit-appearance: none;
-}
-
-.vertical-slider{
-    -webkit-appearance: none;
-    -webkit-transform: rotate(270deg);
-    transform: rotate(270deg);
-    box-sizing: border-box;
-    padding: 100px;
-    margin: 130px auto;
-}
-
-input[type=range]::-webkit-slider-runnable-track {
-    width: 300px;
-    height: 3px;
-    background: rgba(0,0,0,0.5) !important;
-    border: none;
-    border-radius: 3px;
-}
-input[type=range],
-input[type=range]:focus {
-  outline: none !important;
-}
-
-input[type=range]::-moz-slider-thumb,
-input[type=range]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    border: none;
-    height: 16px;
-    width: 16px;
-    border-radius: 50%;
-    background: #4574CC;
-    margin-top: -5px;
-}
-
-input[type=range]:focus {
-    outline: none;
-}
-
-input[type=range]:focus::-webkit-slider-runnable-track {
-  background: rgba(0,0,0,0.5) !important;
-}
-
 
 
 
@@ -690,10 +579,6 @@ input[type=range]:focus::-webkit-slider-runnable-track {
 }
 
 
-/*Misc styles*/
-#moreInfo{
-  padding-top: 30px;
-}
 #servicesAndDataTabPane{
   box-sizing: border-box;
   padding: 25px;
@@ -843,74 +728,6 @@ input[type=range]:focus::-webkit-slider-runnable-track {
 .ftl-desktop{
   display: block;
 }
-#floodSlider {
-    padding: 25px;
-    float: left;
-    /*width: 200px;*/
-    color: rgba(255, 255, 255, 0.8);
-    height: 0;
-    background-color: transparent !important;
-    margin-top: 90px;
-    margin-bottom: 90px;
-}
-input[type=range]::-moz-range-track {
-  background: rgba(0,0,0,0.5) !important;
-}
-.slider-values{
-    display: -webkit-flex;
-    display: flex;
-    -webkit-justify-content: space-between;
-    justify-content: space-between;
-    height: 170px;
-    width: 50px;
-    margin-top: 28px;
-    -webkit-flex-direction: column;
-    flex-direction: column;
-    position: absolute;
-    margin-left: 20px;
-}
-.slider-max,
-.slider-min{
-    display: block;
-    font-weight: bolder;
-    text-align: right;
-    color: rgba(0,0,0,0.5);
-}
-/* Flood levels side of slider */
-.slider-flood-levels{
-    display: block;
-    width: 10px;
-    height: 140px;
-    margin-top: 15px;
-    /* height: 150px;
-    margin-top: 10px; */
-    
-    right: -55px;
-    position: absolute;
-    display: -webkit-flex;
-    display: flex;
-    -webkit-flex-direction: column;
-    flex-direction: column;
-    overflow:hidden;
-    // display: none;
-}
-.slider-flood-levels .sliderActionLevel,
-.slider-flood-levels .sliderMinorLevel,
-.slider-flood-levels .sliderModerateLevel,
-.slider-flood-levels .sliderMajorLevel{
-    display: block;
-    width: 100%;
-    height: 10px;
-    position:absolute;
-    bottom: 0;
-}
-.slider-flood-levels .sliderActionLevel{background-color:#FDFB51; z-index:40;}
-.slider-flood-levels .sliderMinorLevel{background-color:#FAA629; z-index:30;}
-.slider-flood-levels .sliderModerateLevel{background-color:#FC0D1B; z-index:20;}
-.slider-flood-levels .sliderMajorLevel{background-color:#C326FB; z-index:10;}
-
-
-
 .flood-tools-left img{
     display: block;
     margin: 0 auto;
@@ -924,25 +741,6 @@ input[type=range]::-moz-range-track {
     flex-grow: 3;
     box-sizing: border-box;
     padding: 25px 0 0 15px;
-}
-.flood-tools-item{
-    display: block;
-    box-sizing: border-box;
-    padding: 5px 0;
-}
-.flood-tools-header{
-    display: block;
-    font-size: 16px;
-    font-weight: bolder;
-    box-sizing: border-box;
-    padding: 10px 0 5px 0;
-}
-.flood-tools-label{
-    display: inline;
-}
-.flood-tools-value{
-    display: inline;
-    font-size: 16px;
 }
 .flood-tools-value a{
     font-weight: bolder;
@@ -959,7 +757,6 @@ input[type=range]::-moz-range-track {
         flex-direction: column;
     }
     .vertical-slider{
-        -webkit-appearance: none;
         -webkit-transform: rotate(270deg);
         transform: rotate(0);
         box-sizing: border-box;
@@ -976,12 +773,6 @@ input[type=range]::-moz-range-track {
     }
     #floodToolsPanel{
       width: 100%;
-    }
-    #floodSlider {
-        float: none;
-        margin-top: 0px;
-        margin-bottom: 0px;
-        margin: 0;
     }
     .slider-values{
         display: -webkit-flex;
@@ -1049,7 +840,7 @@ input[type=range]::-moz-range-track {
     font-size: 18px;
 }
 #floodToolsDiv{
-    box-shadow: 0px 0px 15px 0px rgba(0,10,50,0.35);
+    box-shadow: 0px 6px 27px -7px rgba(0, 10, 80, 0.55)
 }
 
 /*Services and Data Pane*/
@@ -1092,18 +883,18 @@ input[type=range]::-moz-range-track {
   transition: 0.2s;
 }
 #shareLink{
-  font-size: 12px;
+  font-size: 11px;
   margin: 0 10px;
   transition: 0.2;
   position: relative;
   top: -1px;
-  letter-spacing: 0.5px;
-  color: #4574CC;
+  letter-spacing: 0.1px;
+  color: @blue;
   text-decoration: underline;
 }
 #shareLink:hover{
   cursor: pointer !important;
-  color: #4574CC !important;
+  color: lighten(@blue, 10%) !important;
   transition: 0.2;
 }
 
@@ -1375,10 +1166,6 @@ a{
 }
 
 /* Border radius and shadow for modal */
-.modal-content{
-    border-radius: 5px;
-    box-shadow: 0 19px 38px rgba(0, 0, 0, 0.30), 0 15px 12px rgba(0, 0, 0, 0.22);
-}
 /*Mitch Feb 6*/
 .flood-tools-checkboxes{
   display: block;
@@ -1442,10 +1229,6 @@ a{
 
 
 
-/*Mitch FEB18*/
-#zoomToLibExtent{
-  margin-bottom: 25px;
-}
 
 .btn.close{
   background-color: rgba(68,115,255,1) !important;
@@ -1522,9 +1305,6 @@ a{
     #floodToolsTabs{
       width: 100%;
     }
-    #zoomToLibExtent{
-      margin-bottom: 60px;
-    }
     .lobipanel > .panel-heading .dropdown{
       position: absolute;
     }
@@ -1542,10 +1322,6 @@ a{
   border-left: 2px solid transparent;
 }
 
-.modal-content{
-  border-radius: 4px;
-  box-shadow: 0 5px 30px 0 rgba(0,0,60,0.25), 0 1px 3px 0 rgba(0,0,80,0.12);
-}
 
 #legendElement{
   box-shadow: 0 5px 30px 0 rgba(0,0,60,0.25), 0 1px 3px 0 rgba(0,0,80,0.12);
@@ -1567,3 +1343,75 @@ a{
   margin-top:5px !important;
 }
 
+
+
+// Slider Styles
+input[type=range].styled {
+    -webkit-appearance: none;
+    width: 100%;
+  }
+  input[type=range].styled:focus {
+    outline: none;
+  }
+  input[type=range].styled::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 3px;
+    cursor: pointer;
+    background: #10152C;
+    border-radius: 0px;
+    border: none;
+  }
+  input[type=range].styled::-webkit-slider-thumb {
+    height: 26px;
+    width: 10px;
+    border-radius: 3px;
+    background:fade(#10152C, 78%);
+    cursor: pointer;
+    -webkit-appearance: none;
+    margin-top: -20px;
+  }
+  input[type=range].styled:focus::-webkit-slider-runnable-track {
+    background: #10152C;
+  }
+  input[type=range].styled::-moz-range-track {
+    width: 100%;
+    height: 2px;
+    cursor: pointer;
+    background: #070D27;
+    border-radius: 0px;
+  }
+  input[type=range].styled::-moz-range-thumb {
+    height: 26px;
+    width: 10px;
+    border-radius: 3px;
+    background:fade(#10152C, 78%);
+    cursor: pointer;
+  }
+  input[type=range].styled::-ms-track {
+    width: 100%;
+    height: 2px;
+    cursor: pointer;
+    background: transparent;
+    border-color: transparent;
+    color: transparent;
+  }
+  input[type=range].styled::-ms-fill-lower {
+    background: #070D27;
+  }
+  input[type=range].styled::-ms-fill-upper {
+    background: #070D27;
+  }
+  input[type=range].styled::-ms-thumb {
+    height: 26px;
+    width: 10px;
+    border-radius: 3px;
+    background:fade(#10152C, 78%);
+    cursor: pointer;
+  }
+  input[type=range].styled:focus::-ms-fill-lower {
+    background: #070D27;
+  }
+  input[type=range].styled:focus::-ms-fill-upper {
+    background: #070D27;
+  }
+  

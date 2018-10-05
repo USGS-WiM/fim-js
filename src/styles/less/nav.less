@@ -1,0 +1,109 @@
+@black: #10152C;
+@blue: #1D6DFA;
+
+
+
+#aboutNav {
+    /*background-color: #474747;*/
+
+    background: 0 0;
+    border: none;
+    line-height: 16px;
+    /*padding-top: 0;*/
+    /*padding-bottom: 0;*/
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-align: center;
+    box-sizing: border-box;
+    position: relative;
+    top: 2px;
+    transition: .2s;
+    color: rgba(255,255,255,.35);
+}
+#aboutNav{
+    letter-spacing: 2px;
+    position: relative; top: 2px;
+    transition: 0.2s;
+    color: rgba(255,255,255,0.35);
+}
+#aboutNav:hover{
+    cursor: pointer;
+    color: rgba(255,255,255,1);
+    transition: 0.2s;
+}
+#aboutNav:focus{
+    outline: none;
+}
+
+
+
+
+
+@media (max-width: 767px) {
+    #geosearchButtonText {
+        display: none;
+    }
+    #legendButtonNavBar {
+        display: none;
+    }
+}
+
+
+
+
+// Sidebar
+// Sidebar
+// Sidebar
+// Sidebar
+
+.basemapThumb {
+    border:1px solid #ffffff;
+    border-radius: 5px;
+}
+
+/*basemapBtn elements manually set to width of widest - temp solution until dynamic solution is implemented */
+.basemapBtn {
+    width: 86px;
+    padding:2px;
+    text-transform: capitalize !important;
+    letter-spacing: -0.12px !important; 
+    padding: 0 !important;
+    border: none !important;
+    margin-bottom: 4px !important;
+}
+
+#sidebar .wim-sidebar-panel .panel-heading h4 a{
+    background-color: #F5F6FB;
+    text-transform: capitalize;
+    font-weight: 600;
+    letter-spacing: -0.15px;
+    display: flex;
+    justify-content: space-between;
+
+    &:after{
+        content: '\f077';
+        font-family: 'FontAwesome';
+    }
+
+    &.collapsed{
+
+        &:after{
+            content: '\f078';
+        }
+    }
+}
+
+#sidebar{
+    background-color: #F5F6FB;
+}
+#sidebar .identification{
+    font-size: 10px !important;
+    text-transform: capitalize !important;
+    padding-bottom: 5px;
+}
+#sidebar .sidebar_footer{
+    line-height: 12px !important;
+    color: @blue !important;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 600;
+}

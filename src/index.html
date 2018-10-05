@@ -74,11 +74,9 @@
 <div id="navbar" class="navbar navbar-static navbar-default navbar-fixed-top navbar-dark">
     <div class="container-fluid">
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle toggle-left hidden-md hidden-lg" data-toggle="sidebar" data-target=".sidebar-left">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
+            <div class="mobile-sidebar-toggle hidden-md hidden-lg" data-toggle="sidebar" data-target=".sidebar-left">
+                <i class="fa fa-navicon"></i>
+            </div>
             <a class="navbar-brand" href="https://www.usgs.gov">
                 <img alt="USGS logo" src="images/USGS_ID_white.png">
                 <span>Flood <b>Inundation</b> Mapper</span>
@@ -115,7 +113,7 @@
 
 
 <div class="modal fade overflow-y-hidden" id="geosearchModal" style="display: none;" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-md">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -197,6 +195,12 @@
     </div><!-- /.modal-dialog -->
 </div>
 
+
+<!-- 
+    Minimized Flood Tools
+    Minimized Flood Tools
+    Minimized Flood Tools
+ -->
 <div class="wim-alert-fixed" id="flood-tools-alert">
 
     <div id="innerAlert">
@@ -236,8 +240,14 @@ $(".close-alert").click(function(){
     }
 </style>
 
+
+<!--
+    Intro and about
+    Modal
+    Shows on page load
+ -->
 <div id="aboutModal" class="modal fade"  tabindex="-1" role="dialog">
-    <div class="modal-dialog  modal-lg">
+    <div class="modal-dialog  modal-md">
         <div class="modal-content">
             <div class="modal-header">
                 <button class="close" type="button" data-dismiss="modal" aria-hidden="true" style="color: #313131;">&times;</button>
@@ -249,7 +259,7 @@ $(".close-alert").click(function(){
                     <li role="presentation" class="active"><a id="disclaimerTab" href="#disclaimerTabPane" data-toggle="tab" onclick="ga('send','event','About Modal','click','Disclaimer');"><i class="fa fa-exclamation-circle"></i>&nbsp;Disclaimer</a></li>
                 </ul>
                 <div class="tab-content">
-                    <div role="tabpanel" class="tab-pane" id="aboutTabPane"></br>
+                    <div role="tabpanel" class="tab-pane" id="aboutTabPane">
                         <h3>Uncertainties and Limitations for Use of Flood-Inundation Maps</h3>
                         <p>Although the flood-inundation
                         maps represent the boundaries of inundated areas with a distinct line, some uncertainty is associated with these
@@ -282,27 +292,25 @@ $(".close-alert").click(function(){
                         <p>Version 1.1.0</p>
 
                     </div>
-                    <div role="tabpanel" class="tab-pane active" id="disclaimerTabPane"></br>
+                    <div role="tabpanel" class="tab-pane active" id="disclaimerTabPane">
                         <h3>Disclaimer for Flood-Inundation Maps</h3>
                         <p>Inundated areas shown should not be used for navigation,
                         regulatory, permitting, or other legal purposes.  Although USGS intends to make this server available 24 hours a day,
                         7 days a week, timely delivery of data and products from this server through the Internet is not guaranteed.
                         The USGS provides these maps “as-is” for a quick reference, emergency planning tool but assumes no legal liability
-                        or responsibility resulting from the use of this information.</p><br/>
+                        or responsibility resulting from the use of this information.</p>
                     </div>
 
                 </div>
             </div>
 
             <div class="modal-footer">
-                <p style="color:black; margin-left:35px;text-align:left">
-                    For more information about the FIM Web Interface please contact <a href="https://wim.usgs.gov/" target="_blank"><img src="images/wim_abbr_black.png" id="wim_logo"></a>
-
-                    <div style="text-align:center">
-                      <button class=" btn btn-default close" type="button" data-dismiss="modal" aria-hidden="true" class="btn btn-default" style="float:none;">Close</button>
-                    </div>
-
-                </p>
+                <div class="wim-modal-branding">
+                    For more information about the FIM Web Interface please contact <a href="https://wim.usgs.gov/" target="_blank"><img src="images/wim_abbr_black.png"></a>
+                </div>
+                <div class="modal-footer-buttons">
+                        <button class=" btn btn-default close" type="button" data-dismiss="modal" aria-hidden="true" class="btn btn-default" style="float:none;">Close</button>
+                </div>
             </div>
         </div><!-- /.modal-content -->
     </div> <!-- /.modal-dialog -->
@@ -313,7 +321,7 @@ $(".close-alert").click(function(){
 
 <!-- User Guide Modal -->
 <div id="userGuideModal" class="modal fade"  tabindex="-1" role="dialog" >
-    <div class="modal-dialog  modal-lg">
+    <div class="modal-dialog  modal-md">
         <div class="modal-content">
             <div class="modal-header">
                 <button class="close" type="button" data-dismiss="modal" aria-hidden="true" style="color:gray;">&times;</button>
@@ -442,7 +450,7 @@ $(".close-alert").click(function(){
 <div class="container-fluid keepit100">
     <div class="row keepit100">
         <!--<div id="sidebar" class="col-xs-7 col-sm-3 col-md-3 sidebar sidebar-left sidebar-animate sidebar-md-show no-col-padding">-->
-        <div id="sidebar" class="col-xs-11 col-sm-10 col-md-3 col-lg-2 sidebar sidebar-left sidebar-animate sidebar-md-show no-col-padding">
+        <div id="sidebar" class="col-xs-10 col-sm-4 col-md-3 col-lg-2 sidebar sidebar-left sidebar-animate sidebar-md-show no-col-padding">
             <!-- # include line below to get accordion effect with panels - opening one closes the others. remember closing div tag at bottom -->
             <!--<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">-->
             <!-- include btn-toolbar below to put legend and geosearch buttons next to eachother -->
@@ -494,28 +502,6 @@ $(".close-alert").click(function(){
                 </div>
             </div>
 
-            <!-- flood tools -->
-            <!--<div id="floodToolsDiv" class="panel panel-default wim-sidebar-panel">
-                <div class="panel-heading" id="floodToolsPanelHeader">
-                    <h4 class="panel-title">
-                        <a class="collapsed" data-toggle="collapse" href="#floodToolsPanel" aria-expanded="true" aria-controls="floodToolsPanel">
-                            Flood Tools
-                        </a>
-                    </h4>
-                </div>
-                <div id="floodToolsPanel" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="floodToolsPanelHeader">
-                    <label id="floodStartLabel">Click a FIM site to see flood polygons and information for the site</label>
-                    <form id="slider">
-                        <input id="floodSlider" type="range" name="stage" value="0" min="0" max="10" class="vertical-slider">
-                        <div id="sliderText">
-                            Selected gage height: <br/><label id="selectedValue"></label> ft<br/>
-                            Site number: <br/><label id="siteNumber"></label>
-                            <label>Select a gage height to view the flooded area</label>
-                        </div>
-                    </form>
-                </div>
-            </div>-->
-
             <!-- # closing div tag for accordion style panels -->
             <!--</div>-->
             <div class="identification pull-right">powered by  <a href="https://wim.usgs.gov/" target="_blank"><img src="images/wim_abbr_black.png" id="wim_logo"></a></div>
@@ -539,6 +525,16 @@ $(".close-alert").click(function(){
 
             <div id="mapDiv">
 
+
+                <!-- 
+                    ==================================================================
+                    ==================================================================
+                    Legend 
+                    Legend 
+                    Legend 
+                    ==================================================================
+                    ==================================================================
+                 -->
                 <div id="legendElement" class="panel panel-default legendClass">
                     <div id="legendHeading" class=" legendHeading" role="tab">
                         <h4 class="panel-title">
@@ -556,10 +552,14 @@ $(".close-alert").click(function(){
 
 
                 <!-- 
-                    Single Site
+                    ==================================================================
+                    ==================================================================
                     Flood Tools Div
+                    Flood Tools Div
+                    Flood Tools Div
+                    ==================================================================
+                    ==================================================================
                  -->
-
                 <div id="floodToolsDiv" class="panel panel-default floodToolsClass ">
                     <!-- Modal Title -->
                     <div class="panel-heading">
@@ -567,301 +567,306 @@ $(".close-alert").click(function(){
                             <h4 id="floodToolsPanelHeader"></h4>
                         </div>
                     </div>
-                    <!-- Modal body -->
-                    <!-- Set class depending on how many sites - add twosite if multisite  -->
-                    <div class="panel-body twosite">
+                    <!-- 
+                            Modal body
+                            Modal body
+                            Modal body
+                         -->
 
-                        <div class="flood-tools-left ftl-desktop first-site">
+                    <div class="panel-body" id="ftModal">
+                        <!-- Sliders on left side -->
+                        <div id="ftSliders">
 
-                            <div class="slider-values">
-                                <div class="slider-max">52</div>
-                                <div class="slider-min">12</div>
-                                <div class="slider-flood-levels">
+                            <!-- 
+                                    Flood Level Sliders
+                                    Flood Level Sliders
+                                    Flood Level Sliders
+                                -->
+                            <!-- First slider -->
+                            <div class="slider-group fts1">
+                                <!-- Flood Level Colors -->
+                                <div class="slider-levels">
                                     <div class="sliderActionLevel"></div>
                                     <div class="sliderMinorLevel"></div>
                                     <div class="sliderModerateLevel"></div>
                                     <div class="sliderMajorLevel"></div>
                                 </div>
+                                <!-- Actual Slider -->
+                                <div class="slider-wrapper">
+                                    <label class="slider-max">52</label>
+                                    <input id="floodSlider" type="range" name="stage" value="0" min="0" max="10" class="styled ftSlider-vertical floodSlider"/>
+                                    <label class="slider-min">12</label>
+                                </div>
                             </div>
-                            <input id="floodSlider" type="range" name="stage" value="0" min="0" max="10" class="vertical-slider floodSlider first-slider desktop"/>
-                            <div class="flood-tools-checkboxes">
-                              <div id="satBasemap">
-                                  <input id="satCheckBox" type="checkbox" checked>View Satellite Imagery</input>
-                              </div>
-                              <div id="gridsCheck">
-                                <input id="gridsCheckBox" type="checkbox">View grids</input>
-                              </div>
-                              <div id="aouCheck">
-                                  <input id="aouCheckBox" type="checkbox" checked>Include Area of Uncertainty</input>
-                              </div>
-                            </div>
-                            <div class="flood-tools-logos">
-                              <img id="usgsDefaultLogo" src="images/usgsLogoSm.jpg"/>
-                              <img id="recordsLogo" src=""/>
-                            </div>
-                        </div>
-
-                        <!-- Multisite - 2nd slider -->
-                        <div class="flood-tools-left ftl-desktop second-site">
-                            <div class="slider-values">
-                                <div class="slider-max">52</div>
-                                <div class="slider-min">12</div>
-                                <div class="slider-flood-levels">
+                            <!-- Second slider -->
+                            <div class="slider-group fts2">
+                                <!-- Flood Level Colors -->
+                                <div class="slider-levels">
                                     <div class="sliderActionLevel"></div>
                                     <div class="sliderMinorLevel"></div>
                                     <div class="sliderModerateLevel"></div>
                                     <div class="sliderMajorLevel"></div>
                                 </div>
+                                <!-- Actual Slider -->
+                                <div class="slider-wrapper">
+                                    <label class="slider-max">52</label>
+                                    <input id="floodSlider" type="range" name="stage" value="0" min="0" max="10" class="styled ftSlider-vertical floodSlider"/>
+                                    <label class="slider-min">12</label>
+                                </div>
                             </div>
-                            <input id="floodSlider" type="range" name="stage" value="0" min="0" max="10" class="vertical-slider floodSlider second-slider desktop"/>
-                        </div>
-
-                        <!-- Multisite - 3rd slider -->
-                        <div class="flood-tools-left ftl-desktop third-site">
-                            <div class="slider-values">
-                                <div class="slider-max">52</div>
-                                <div class="slider-min">12</div>
-                                <div class="slider-flood-levels">
+                            <!-- Third slider -->
+                            <div class="slider-group fts3">
+                                <!-- Flood Level Colors -->
+                                <div class="slider-levels">
                                     <div class="sliderActionLevel"></div>
                                     <div class="sliderMinorLevel"></div>
                                     <div class="sliderModerateLevel"></div>
                                     <div class="sliderMajorLevel"></div>
                                 </div>
+                                <!-- Actual Slider -->
+                                <div class="slider-wrapper">
+                                    <label class="slider-max">52</label>
+                                    <input id="floodSlider" type="range" name="stage" value="0" min="0" max="10" class="styled ftSlider-vertical floodSlider"/>
+                                    <label class="slider-min">12</label>
+                                </div>
                             </div>
-                            <input id="floodSlider" type="range" name="stage" value="0" min="0" max="10" class="vertical-slider floodSlider third-slider desktop"/>
+
+
+                            <!-- Site options -->
+                            <!-- Site options -->
+                            <!-- Site options -->
+                            <div id="ftOptions">
+                                <div id="satBasemap" class="ft-option">
+                                    <input id="satCheckBox" type="checkbox" checked />
+                                    <label for="satCheckBox" id="satBasemap">View Satellite Imagery</label>
+                                </div>
+                                <div id="gridsCheck" class="ft-option">
+                                    <input id="gridsCheckBox" type="checkbox" />
+                                    <label for="gridsCheckBox">View grids</label>
+                                </div>
+                                <div id="aouCheck" class="ft-option">
+                                    <input id="aouCheckBox" type="checkbox" checked />
+                                    <label for="aouCheckBox" id="aouCheck">Include Area of Uncertainty</label>
+                                </div>
+
+                                <img id="usgsDefaultLogo" src="images/usgs-logo-sm.png"/>
+                                <img id="recordsLogo" src=""/>
+
+                                <div id="levelKey">
+                                    <div class="action">Action</div>
+                                    <div class="minor">Minor</div>
+                                    <div class="moderate">Moderate</div>
+                                    <div class="major">Major</div>
+                                </div>
+                            </div>
+
+                           
+
                         </div>
 
-
-                        <!-- Flood tools main with tabs -->
-                        <div id="floodToolsPanel" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="floodToolsPanelHeader">
-                            <ul class="nav nav-tabs" id="floodToolsTabs">
-                                <li role="presentation" class="active"><a id="floodToolsTab" href="#floodToolsTabPane" data-toggle="tab" onclick="ga('send','event','Flood Tools Panel','click','Flood Tools');"><i class="fa fa-umbrella"></i>&nbsp;Flood Tools</a></li>
-                                <li role="presentation"><a id="hydroTab" href="#hydroTabPane" data-toggle="tab" onclick="ga('send','event','Flood Tools Panel','click','Hydrograph');"><i class="fa fa-line-chart"></i>&nbsp;Hydrograph</a></li>
-                                <!--<li role="presentation"><a id="webCamTab" href="#webCamTabPane" data-toggle="tab"><i class="fa fa-video-camera"></i>&nbsp;Web Cam</a></li>-->
-                                <li role="presentation" id="hazusTabElement"><a id="hazusTab" href="#hazusTabPane" data-toggle="tab" onclick="ga('send','event','Flood Tools Panel','click','HAZUS');"><i class="fa fa-building"></i>&nbsp;HAZUS</a></li>
-                                <li role="presentation"><a id="servicesAndDataTab" href="#servicesAndDataTabPane" data-toggle="tab" onclick="ga('send','event','Flood Tools Panel','click','Services and Data');"><i class="fa fa-server"></i>&nbsp;Services and Data</a></li>
-                                <li role="presentation"><a id="moreInfoTab" href="#moreInfoTabPane" data-toggle="tab" onclick="ga('send','event','Flood Tools Panel','click','More Info');"><i class="fa fa-question-circle"></i>&nbsp;More Info</a></li>
-                            </ul>
-                            <div class="tab-content">
+                        <!-- Other items on right side -->
+                        <div id="ftData">
 
 
+                            <!-- 
+                                    Flood Tools Body
+                                    Flood Tools Body
+                                    Flood Tools Body
+                                -->
+                            <!-- Accordion Header -->
+                            <div class="ft-accordion-header top" onclick="ga('send','event','Flood Tools Panel','click','Flood Tools');">
+                                <span>Flood Tools</span>
+                                <i class="fa fa-umbrella header-icon"></i>
+                                <i class="fa fa-chevron-up chevron"></i> 
+                            </div>
+                            <div id="ftTools" class="ftmodal-content">
 
-
-                                <div role="tabpanel" class="tab-pane active" id="floodToolsTabPane">
-                                    <form id="slider" class="flood-tools">
-                                        <div class="flood-tools-left ftl-mobile">
-                                            <div class="slider-values">
-                                                <div class="slider-max">52</div>
-                                                <div class="slider-min">12</div>
-                                                <div class="slider-flood-levels mobile">
-                                                    <div class="sliderActionLevel"></div>
-                                                    <div class="sliderMinorLevel"></div>
-                                                    <div class="sliderModerateLevel"></div>
-                                                    <div class="sliderMajorLevel"></div>
-                                                </div>
-                                            </div>
-                                            <input id="floodSlider" type="range" name="stage" value="0" min="0" max="10" class="vertical-slider floodSlider mobile"/>
-                                            <div class="flood-tools-checkboxes">
-                                              <div id="satBasemap">
-                                                  <input id="satCheckBox" type="checkbox" checked>View Satellite Imagery</input>
-                                              </div>
-                                              <div id="gridsCheck">
-                                                <input id="gridsCheckBox2" type="checkbox">View grids</input>
-                                              </div>
-                                              <div id="aouCheck">
-                                                  <input id="aouCheckBox" type="checkbox" checked>Include Area of Uncertainty</input>
-                                              </div>
-                                            </div>
-                                            <div class="flood-tools-logos">
-                                              <img id="usgsDefaultLogo" src="images/usgsLogoSm.jpg"/>
-                                              <img id="recordsLogo" src=""/>
-                                            </div>
-                                        </div>
-
-
-                                        <div class="flood-tools-right first-site">
-                                            <div class="flood-tools-item">
-                                                <span class="flood-tools-label">Selected gage height:</span>
-                                                <span class="flood-tools-value"><label for="floodSlider" id="selectedValue"></label> feet</span>
-                                            </div>
-                                            <div class="flood-tools-item">
-                                                <span class="flood-tools-header"><b>Current Conditions</b></span>
-                                                <span class="flood-tools-label">Gage height:</span>
-                                                <span class="flood-tools-value"><label id="floodMaxGage" class="current"></label> feet</span>
-                                                <br/>
-                                                <span class="flood-tools-label">Discharge:</span>
-                                                <span class="flood-tools-value"><label id="floodMaxDischarge" class="current"></label> feet</span>
-                                            </div>
-                                            <div class="flood-tools-item">
-                                                <span class="flood-tools-label">USGS Site No:</span>
-                                                <span class="flood-tools-value"><a id="usgsSiteNoMax" target="_blank" href=""></a></span>
-                                                <br/>
-                                                <span class="flood-tools-label">NWS Site ID:</span>
-                                                <span class="flood-tools-value"><a id="nwsSiteIDMax" target="_blank" href=""></a></span>
-                                            </div>
-                                            <label id="gridLabel">Click on map for estimated water depth</label>
-                                            <button id="zoomToLibExtent" title="click to zoom to the extent of the flood library" class="btn btn-default" type="button">Zoom</button>
-                                        </div>
-
-                                        <!-- Multisite second-site -->
-                                        <!-- Multisite second-site -->
-                                        <!-- Multisite second-site -->
-                                        <div class="flood-tools-right second-site">
-                                            <div class="flood-tools-item">
-                                                <span class="flood-tools-label">Selected gage height:</span>
-                                                <span class="flood-tools-value"><label for="floodSlider" id="selectedValue"></label> feet</span>
-                                            </div>
-                                            <div class="flood-tools-item">
-                                                <span class="flood-tools-header"><b>Current Conditions</b></span>
-                                                <span class="flood-tools-label">Gage height:</span>
-                                                <span class="flood-tools-value"><label id="floodMaxGage" class="current"></label> feet</span>
-                                                <br/>
-                                                <span class="flood-tools-label">Discharge:</span>
-                                                <span class="flood-tools-value"><label id="floodMaxDischarge" class="current"></label> feet</span>
-                                            </div>
-                                            <div class="flood-tools-item">
-                                                <span class="flood-tools-label">USGS Site No:</span>
-                                                <span class="flood-tools-value"><a id="usgsSiteNoMax" target="_blank" href=""></a></span>
-                                                <br/>
-                                                <span class="flood-tools-label">NWS Site ID:</span>
-                                                <span class="flood-tools-value"><a id="nwsSiteIDMax" target="_blank" href=""></a></span>
-                                            </div>
-                                        </div>
-
-                                        <!-- Multisite third-site -->
-                                        <!-- Multisite third-site -->
-                                        <!-- Multisite third-site -->
-                                        <div class="flood-tools-right third-site">
-                                            <div class="flood-tools-item">
-                                                <span class="flood-tools-label">Selected gage height:</span>
-                                                <span class="flood-tools-value"><label for="floodSlider" id="selectedValue"></label> feet</span>
-                                            </div>
-                                            <div class="flood-tools-item">
-                                                <span class="flood-tools-header"><b>Current Conditions</b></span>
-                                                <span class="flood-tools-label">Gage height:</span>
-                                                <span class="flood-tools-value"><label id="floodMaxGage" class="current"></label> feet</span>
-                                                <br/>
-                                                <span class="flood-tools-label">Discharge:</span>
-                                                <span class="flood-tools-value"><label id="floodMaxDischarge" class="current"></label> feet</span>
-                                            </div>
-                                            <div class="flood-tools-item">
-                                                <span class="flood-tools-label">USGS Site No:</span>
-                                                <span class="flood-tools-value"><a id="usgsSiteNoMax" target="_blank" href=""></a></span>
-                                                <br/>
-                                                <span class="flood-tools-label">NWS Site ID:</span>
-                                                <span class="flood-tools-value"><a id="nwsSiteIDMax" target="_blank" href=""></a></span>
-                                            </div>
-                                        </div>
-                                    </form>
+                                <div class="small-label">Selected gage height</div>
+                                <div id="sgh" class="fts1">
+                                    <label for="floodSlider" id="selectedValue"></label> 
                                 </div>
-                                <div role="tabpanel" class="tab-pane" id="hydroTabPane">
+                                <div id="sgh" class="fts2">
+                                    <label for="floodSlider" id="selectedValue"></label> 
+                                </div>
+                                <div id="sgh" class="fts3">
+                                    <label for="floodSlider" id="selectedValue"></label> 
+                                </div>
+
+                                <!-- Current Conditions Table -->
+                                <div class="small-label">Current Conditions</div>
+                                <div id="toolsTable">
+                                    <!-- Gage Heights -->
+                                    <div class="box bold">Gage Height</div>
+                                    <div class="box fts1"><label id="floodMaxGage" class="label-ft"></label></div>
+                                    <div class="box fts2">14ft</div>
+                                    <div class="box fts3">22ft</div>
+                                    <div class="tools-table-space"></div>
+                                    <!-- Discharge -->
+                                    <div class="box bold">Discharge</div>
+                                    <div class="box fts1"><label id="floodMaxDischarge" class="label-ft"></label></div>
+                                    <div class="box fts2">14ft</div>
+                                    <div class="box fts3">22ft</div>
+                                    <div class="tools-table-space"></div>
+                                    <!-- Site No -->
+                                    <div class="box bold">USGS Site No</div>
+                                    <div class="box fts1"><a id="usgsSiteNoMax" target="_blank" href=""></a></div>
+                                    <div class="box fts2">52352355</div>
+                                    <div class="box fts3">63453415</div>
+                                    <div class="tools-table-space"></div>
+                                    <!-- Site ID -->
+                                    <div class="box bold">NWS Site ID</div>
+                                    <div class="box fts1"><a id="nwsSiteIDMax" target="_blank" href=""></a></div>
+                                    <div class="box fts2">52352355</div>
+                                    <div class="box fts3">63453415</div>
+                                </div>
+
+                                <!-- Zoom and Webcam -->
+                                <div id="toolsButtons">
+                                    <b>Click on map for estimated water depth</b>
+                                    <button id="zoomToLibExtent" title="click to zoom to the extent of the flood library" class="ft-button" type="button">Zoom</button>
+                                    <a href="#" target="_blank" class="ft-button">Live Webcam</a>
+                                </div>
+                            </div>
+
+
+                            <!-- 
+                                    Hydrographs
+                                    Hydrographs
+                                    Hydrographs
+                                -->
+                            <!-- Accordion Header -->
+                            <div class="ft-accordion-header" onclick="ga('send','event','Flood Tools Panel','click','Hydrograph');">
+                                <span>Hydrograph</span>
+                                <i class="fa fa-line-chart header-icon"></i>
+                                <i class="fa fa-chevron-down chevron"></i> 
+                            </div>
+                            <div id="ftHydro" class="ftmodal-content">
+                                <div class="fts1 chart-wrapper">
                                     <div id="hydroChart"></div>
                                 </div>
-                                <!--<div role="tabpanel" class="tab-pane" id="webCamTabPane">
-                                    <iframe id="webCamIFrame"></iframe>
-                                </div>-->
-                                <div role="tabpanel" class="tab-pane" id="hazusTabPane">
-
-                                    <div id="hazusTableLabels">
-                                        <div class="hazus-label">
-                                            <b>Site Number:</b>
-                                            <span id="hazusTableSiteLabel"></span>
-                                        </div>
-                                        <div class="hazus-label">
-                                            <b>Selected Stage:</b>
-                                            <span id="hazusTableSelectedStageLabel"></span>
-                                        </div>
-                                    </div>
-
-                                    <table id="hazusTable" style="width:100%">
-                                        <tr>
-                                            <th>Stage (ft)</th> 
-                                            <th>Number of Buildings Damaged</th>
-                                            <th>Building Losses</th>
-                                            <th>Number of Essential Facilities Impacted</th>
-                                        </tr>
-                                    </table>
-                                </div>
-                                <div role="tabpanel" class="tab-pane" id="servicesAndDataTabPane">
-
-                                    <div class="data-flex">
-                                        <div>
-                                            <h4>Sign up for WaterAlert for this site</h4>
-                                            <p>
-                                                Water information texted directly to you...<br/>
-                                                simply subscribe to <a id="waterAlertLink" target="_blank" href="">WaterAlert!</a>
-                                            </p>
-                                        </div>
-                                        <div>
-                                            <img src="images/IWRSSlogo.png"/>
-                                        </div>
-                                    </div>
-
-                                    <h4>Project contacts for more information</h4>
-                                    <p>Maps created by
-                                        <div id="mapsCreatedBy">
-
-                                        </div>
-                                    </p>
-                                    <p>Maps reviewed by
-                                        <div id="mapsReviewedBy">
-
-                                        </div>
-                                    </p>
-
-
-
-                                    <div class="data-flex">
-                                      <div>
-                                          <h4>References</h4>
-                                          <p><span id="downloadReport"></span></p>
-                                          <h4>Data downloads and metadata</h4>
-                                          <p><a id="downloadData" target="_blank" href="">Download data</a></p>
-                                          <img id="reportCover" src="" style="display:block; max-width: 300px; width: auto; height: auto;"/>
-                                      </div>
-
-                                      <div style="display: flex; justify-content: flex-end; flex-direction: column;">
-                                          <div class="modal-logos">
-                                            <div id="logos"></div>
-                                            <img src="images/noaaLogo.png"/>
-                                            <img style="width: 100px" src="images/usgs-logo_black.png"/>
-                                            <br/><br/>
-                                            <a id="disclaimerLink" target="_blank" href="javascript:void(0)">Disclaimer</a>
-                                            <br/>
-                                            <a target="_blank" href="https://www.nws.noaa.gov/survey/nws-survey.php?code=inundate">NWS feedback form</a>
-                                          </div>
-                                      </div>
-                                    </div>
-
-
-
-                                </div>
-                                <div role="tabpanel" class="tab-pane" id="moreInfoTabPane">
-                                    <div id="moreInfo">Loading ...</div>
-                                </div>
                             </div>
+
+
+                            <!-- 
+                                    Hazus
+                                    Hazus
+                                    Hazus
+                                -->
+                            <!-- Accordion Header -->
+                            <div class="ft-accordion-header hazus-content" onclick="ga('send','event','Flood Tools Panel','click','HAZUS');">
+                                <span>Hazus</span>
+                                <i class="fa fa-building header-icon"></i>
+                                <i class="fa fa-chevron-down chevron"></i> 
+                            </div>
+                            <div id="ftHazus" class="ftmodal-content hazus-content">
+                                <!-- 
+                                          Hazus Table
+                                     -->
+                                <div id="hazusTableLabels">
+                                    <div class="hazus-label">
+                                        <div class="small-label">Site Number</div>
+                                        <span id="hazusTableSiteLabel"></span>
+                                    </div>
+                                    <div class="hazus-label">
+                                        <div class="small-label">Selected Stage</div>
+                                        <span id="hazusTableSelectedStageLabel"></span>
+                                    </div>
+                                </div>
+                                <table id="hazusTable">
+                                    <tr id="hazusTableHeader">
+                                        <th>Stage (ft)</th> 
+                                        <th>Number of Buildings Damaged</th>
+                                        <th>Building Losses</th>
+                                        <th>Number of Essential Facilities Impacted</th>
+                                    </tr>
+                                </table>
+
+                                <div id="hazusRangeInfo">
+                                    HAZUS summary data at this site is only available for selected gage heights between <span id="hazusMinLvl"></span> and <span id="hazusMaxLvl"></span> feet.
+                                </div>
+
+                                <button id="viewFullHazus" title="Click to expand the Hazus table" class="btn btn-default" type="button">View Full Table</button>
+                                <button id="hideFullHazus" title="Click to hide the full Hazus table" class="btn btn-default" type="button">Hide Full Table</button>
+                            </div>
+
+
+                            <!-- 
+                                    Services and Data
+                                    Services and Data
+                                    Services and Data
+                                -->
+                            <!-- Accordion Header -->
+                            <div class="ft-accordion-header" onclick="ga('send','event','Flood Tools Panel','click','Services and Data');">
+                                <span>Services and Data</span>
+                                <i class="fa fa-server header-icon"></i>
+                                <i class="fa fa-chevron-down chevron"></i> 
+                            </div>
+                            <div id="ftServices" class="ftmodal-content">
+                                        
+                                <div class="ft-header">Sign up for WaterAlert for this site</div>
+                                <img src="images/IWRSSlogo.png" id="iwrssLogo"/>
+                                <p>
+                                    Get water information texted directly to you...
+                                </p>
+                                <a id="waterAlertLink" target="_blank" class="ft-button" href="">Subscribe to WaterAlert!</a>
+
+                                <div class="ft-space"></div>
+
+                                <div class="ft-header">Project contacts for more information</div>
+                                <div class="small-label">Maps Created By</div>
+                                <div id="mapsCreatedBy" class="ft-linkgroup"></div>
+                                <div class="small-label">Maps reviewed by</div>
+                                <div id="mapsReviewedBy" class="ft-linkgroup"></div>
+
+
+                                <div class="ft-header">References</div>
+                                <span id="downloadReport"></span>
+
+                                <div class="ft-header">Data downloads and metadata</div>
+                                <a id="downloadData" class="ft-button" target="_blank" href="">Download data</a>
+                                <img id="reportCover" src=""/>
+                                
+                                <div id="ftLogos">
+                                    <span id="logos"></span>
+                                    <img src="images/noaaLogo.png"/>
+                                    <img style="width: 100px" src="images/usgs-logo_black.png"/>
+                                </div>
+
+                                <div class="ft-space"></div>
+
+                                <div class="small-label">Other</div>
+                                <div class="ft-linkgroup">
+                                    <a id="disclaimerLink" target="_blank" href="javascript:void(0)">Disclaimer</a>
+                                    <a target="_blank" href="https://www.nws.noaa.gov/survey/nws-survey.php?code=inundate">NWS feedback form</a>
+                                </div>
+                            
+                            </div>
+
+                            <!-- 
+                                    More Info
+                                    More Info
+                                    More Info
+                                -->
+                            <!-- Accordion Header -->
+                            <div class="ft-accordion-header last" onclick="ga('send','event','Flood Tools Panel','click','More Info');">
+                                <span>More Info</span>
+                                <i class="fa fa-question-circle header-icon"></i>
+                                <i class="fa fa-chevron-down chevron"></i> 
+                            </div>
+                            <div id="ftMoreInfo" class="ftmodal-content">
+                                <div id="moreInfo"></div>
+                            </div>
+
+
                         </div>
                     </div>
                 </div>
 
-                <!--<div id="floodPanel" class="panel panel-default floodToolsClass">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            Flood Tools
-                        </h4>
-                    </div>
-                    <div id="floodToolsPanelDrag" class="panel-body">
-                        <!--<label id="floodStartLabelDrag">Click a FIM site to see flood polygons and information for the site</label>
-                        <form id="sliderDrag">
-                            <input id="floodSliderDrag" type="range" name="stage" value="0" min="0" max="10" class="vertical-slider">
-                            <div id="sliderTextDrag">
-                                Selected gage height: <br/><label id="selectedValueDrag"></label> ft<br/>
-                                Site number: <br/><label id="siteNumberDrag"></label>
-                                <label>Select a gage height to view the flooded area</label>
-                            </div>
-                        </form>
-                    </div>
-                </div>-->
+                <!-- 
+                    End Flood Tools
+                    End Flood Tools
+                    End Flood Tools
+                 -->
 
             </div>
 
