@@ -130,7 +130,6 @@
                         </label>
                     </div>-->
                     <div class="geosearch-form-buttons">
-                      <button id="btnDismiss" type="submit" class="btn btn-default btn-fixed" data-dismiss="modal">Dismiss</button>
                       <button id="btnGeosearch" type="button" class="btn btn-success btn-fixed" data-dismiss="modal" onclick="ga('send','event','navbar','click','Find Location Search Performed');"> Go </button>
                     </div>
 
@@ -141,10 +140,11 @@
                       <code>Zip Codes</code>
                       <code>Area Codes</code>
                       <code>States</code>
-                      <code>Lat/Long (ie. '43.9,-72.1')</code>
                       <code>Street Address</code>
-                      <br/><br/>
-                      Search provided by <a href="https://txpub.usgs.gov/dss/search_api/2.0/" target="_blank">USGS Search JavaScript API</a>
+                      <code>Lat/Long (ie. '43.9,-72.1')</code>
+                      <small>
+                        Search provided by <a href="https://txpub.usgs.gov/dss/search_api/2.0/" target="_blank">USGS Search JavaScript API</a>
+                      </small>
                     </div>
                 </form>
             </div>
@@ -201,29 +201,95 @@
     Minimized Flood Tools
     Minimized Flood Tools
  -->
-<div class="wim-alert-fixed" id="flood-tools-alert">
+<div id="flood-tools-alert">
+    <div class="header" id="floodToolsMax">
+        <span>Flood Tools</span>
+        <div class="max-image">
+            <img src="images/maximize.png">
+        </div>
+    </div>
+    <div class="body">
 
-    <div id="innerAlert">
-        <a id="floodToolsOpen">
-            &nbsp;&nbsp;Flood Tools
-            <div class="flood-tools-open-controls">
-                <img src="images/maximize.png" class="flood-tools-maximize"/>
+        <!-- Site One -->
+        <div class="min-ft fts1">
+            <div class="item">
+                <label>Selected gage height:</label>
+                <div class="value label-ft" id="selectedValue"></div>
             </div>
-        </a>
-        <p>
-            Selected gage height: <label id="floodMinSelectedGage" class="current"></label> feet<br/>
-        </p>
-        <p>
-            <b>Current conditions</b><br/>
-            Gage height: <label id="floodMinGage" class="current"></label> feet<br/>
-            Discharge: <label id="floodMinDischarge" class="current"></label> cfs<br/>
-        </p>
-        <p>
-            USGS Site No: <a id="usgsSiteNoMin" target="_blank" href=""></a><br/>
-            NWS Site ID: <a id="nwsSiteIDMin" target="_blank" href=""></a>
-        </p>
+            <div class="item">
+                <label>USGS Site No:</label>
+                <a id="usgsSiteNo" class="value" target="_blank" href=""></a>
+            </div>
+            <div class="item">
+                <label>NWS Site ID:</label>
+                <a id="nwsSiteID" class="value" target="_blank" href=""></a>
+            </div>
+            <div class="section-header">Current Conditions</div>
+            <div class="item">
+                <label>Gage height:</label>
+                <div class="value label-ft" id="floodGage"></div>
+            </div>
+            <div class="item">
+                <label>Discharge:</label>
+                <div class="value label-cfs" id="floodDischarge"></div>
+            </div>
+        </div>
+
+        <!-- Site Two -->
+        <div class="min-ft fts2">
+            <div class="item">
+                <label>Selected gage height:</label>
+                <div class="value label-ft" id="selectedValue"></div>
+            </div>
+            <div class="item">
+                <label>USGS Site No:</label>
+                <a id="usgsSiteNo" class="value" target="_blank" href=""></a>
+            </div>
+            <div class="item">
+                <label>NWS Site ID:</label>
+                <a id="nwsSiteID" class="value" target="_blank" href=""></a>
+            </div>
+            <div class="section-header">Current Conditions</div>
+            <div class="item">
+                <label>Gage height:</label>
+                <div class="value label-ft" id="floodGage"></div>
+            </div>
+            <div class="item">
+                <label>Discharge:</label>
+                <div class="value label-cfs" id="floodDischarge"></div>
+            </div>
+        </div>
+
+        <!-- Site Three -->
+        <div class="min-ft fts3">
+            <div class="item">
+                <label>Selected gage height:</label>
+                <div class="value label-ft" id="selectedValue"></div>
+            </div>
+            <div class="item">
+                <label>USGS Site No:</label>
+                <a id="usgsSiteNo" class="value" target="_blank" href=""></a>
+            </div>
+            <div class="item">
+                <label>NWS Site ID:</label>
+                <a id="nwsSiteID" class="value" target="_blank" href=""></a>
+            </div>
+            <div class="section-header">Current Conditions</div>
+            <div class="item">
+                <label>Gage height:</label>
+                <div class="value label-ft" id="floodGage"></div>
+            </div>
+            <div class="item">
+                <label>Discharge:</label>
+                <div class="value label-cfs" id="floodDischarge"></div>
+            </div>
+        </div>
+
+
     </div>
 </div>
+
+
 <script> //To close alert
 $(".close-alert").click(function(){
     $(this).parent().slideUp(250);
@@ -338,34 +404,34 @@ $(".close-alert").click(function(){
                     <div role="tabpanel" class="tab-pane" id="searchTabPane">
                         <span class="user-guide-header">Search, zoom, and print capabilities</span>
                         <div class="user-guide-item">
-                            <div class="user-guide-item-image"><img src="images/userguide/search.png"/></div>
+                            <img src="images/userguide/search.png"/>
                             <p><b>Searching</b>The search option allows the user to search for a location such as a city, state, zip code, or general place name.</p>
                         </div>
                         <div class="user-guide-item">
-                            <div class="user-guide-item-image"><img src="images/userguide/zoom.png"/></div>
+                            <img src="images/userguide/zoom.png"/>
                             <p><b>Navigating the map</b>The scroll wheel on the mouse can be used to zoom, and in the upper left area of the tool are "+" and "&#45;" icons to zoom in and out, respectively.</p>
                         </div>
                         <div class="user-guide-item">
-                            <div class="user-guide-item-image"><img src="images/userguide/home.png"/></div>
+                            <img src="images/userguide/home.png"/>
                             <p><b>Home Location</b>The crosshair button will zoom the map to your location, and the home button will center the US on the map.</p>
                         </div>
                         <div class="user-guide-item">
-                            <div class="user-guide-item-image"><img src="images/userguide/points.png"/></div>
+                            <img src="images/userguide/points.png"/>
                             <p><b>Opening a site</b>Clicking on an arrow or circle at a site will bring up a window with details about the site, graphs of the original data and model predictions (for some constituents), and a table of the other trend results at the same site.</p>
                         </div>
                         <div class="user-guide-item">
-                            <div class="user-guide-item-image"><img src="images/userguide/window.png"/></div>
+                            <img src="images/userguide/window.png"/>
                             <p><b>Moving site window</b>Reposition the site info pop-up window with the mouse see the rest of the underlying map if necessary.</p>
                         </div>
                     </div>
                     <div role="tabpanel" class="tab-pane" id="iconTabPane">
                         <span class="user-guide-header">Explanation</span>
                         <div class="user-guide-item">
-                            <div class="user-guide-item-image"><img src="images/userguide/explanation-min.png"/></div>
+                            <img src="images/userguide/explanation-min.png"/>
                             <p><b>Explanation display</b>The Explanation box can be collapsed to display more of the mapped area.</p>
                         </div>
                         <div class="user-guide-item">
-                            <div class="user-guide-item-image"><img src="images/userguide/explanation.png"/></div>
+                            <img src="images/userguide/explanation.png"/>
                             <p><b>Using the Explanation</b>The expanded Explanation box explains the arrows and circles that appear for each site, displaying the results from the statistical analysis of trends.</p>
                         </div>
                     </div>
@@ -376,58 +442,58 @@ $(".close-alert").click(function(){
                             <p><b>Find Location/Search</b>This button allows the user to search for a location such as a city, state, zip code, or general place name.</p>
                         </div>
                         <div class="user-guide-item">
-                            <div class="user-guide-item-image"><img src="images/userguide/zoom.png"/></div>
+                            <img src="images/userguide/zoom.png"/>
                             <p><b>Zooming</b>The scroll wheel on the mouse can be used to control zooming. In the upper left area of the map interface are "+" and "-" icons; these can also be used to zoom in and out, respectively.</p>
                         </div>
                         <div class="user-guide-item">
-                            <div class="user-guide-item-image"><img src="images/userguide/home.png"/></div>
+                            <img src="images/userguide/home.png"/>
                             <p><b>Home Button</b>The "Default extent" (Home icon) button will center the US on the map interface. The "Find my location" (Crosshair icon) button will zoom the map interface to your current location.</p>
                         </div>
                         <div class="user-guide-item">
-                            <div class="user-guide-item-image"><img src="images/userguide/mobile-menu.png"/></div>
+                            <img src="images/userguide/mobile-menu.png"/>
                             <p><b>Mobile Sidebar</b>On mobile devices, additional basemap and map layer selection option can be accessed by clicking on the 3-line icon which is shown in the most upper left corner of the map interface.</p>
                         </div>
                         <div class="user-guide-item">
-                            <div class="user-guide-item-image"><img src="images/userguide/basemaps.png"/></div>
+                            <img src="images/userguide/basemaps.png"/>
                             <p><b>Basemaps</b>The "Basemaps" sidebar allows a user to choose and show various geographic information or landscape imagery as a background layer beneath the flood map layers.</p>
                         </div>
                         <div class="user-guide-item">
-                            <div class="user-guide-item-image"><img src="images/userguide/layers.png"/></div>
+                            <img src="images/userguide/layers.png"/>
                             <p><b>Map Layers</b>The "Map Layers" sidebar allows a user to choose and show additional map layers that are available from National Weather Service.</p>
                         </div>
                     </div>
                     <div role="tabpanel" class="tab-pane" id="floodToolsPane">
                         <span class="user-guide-header">Site Selection & Flood Tools</span>
                         <div class="user-guide-item">
-                            <div class="user-guide-item-image"><img src="images/userguide/points.png"/></div>
+                            <img src="images/userguide/points.png"/>
                             <p><b>Selecting a Site</b>A user can select a site by clicking on any of the triangle symbols on the map interface. When a site is selected, a separate window will pop-up; this window will have several tabs with additional information about the site.</p>
                         </div>
                         <div class="user-guide-item">
-                            <div class="user-guide-item-image"><img src="images/userguide/window.png"/></div>
+                            <img src="images/userguide/window.png"/>
                             <p><b>Adjusting Popup Position</b>The pop-up window can be repositioned with mouse cursor and/or can be minimized to see the rest of the flood map layers if necessary.</p>
                         </div>
                         <div class="user-guide-item">
-                            <div class="user-guide-item-image"><img src="images/userguide/share.png"/></div>
+                            <img src="images/userguide/share.png"/>
                             <p><b>Sharing Site URL</b>At the end of the site name on the initial popup window, there is a link called "Share". When clicked, another popup window displays a site link URL which can be shared and used to browse directly to that particular site. This URL can be copied either by manually selecting the text or by clicking on the "Copy Link" button.</p>
                         </div>
                         <div class="user-guide-item">
-                            <div class="user-guide-item-image"><img src="images/userguide/floodtools.png"/></div>
+                            <img src="images/userguide/floodtools.png"/>
                             <p><b>Flood Tools</b>In most cases, the first tab that a user will see, is called "Flood Tools". Moving the slider to a different stream gage height/stage shows how the surrounding community would be affected at different water levels.</p>
                         </div>
                         <div class="user-guide-item">
-                            <div class="user-guide-item-image"><img src="images/userguide/moreinfo.png"/></div>
+                            <img src="images/userguide/moreinfo.png"/>
                             <p><b>More Info Tab</b>In some cases, a user may see a tab called "More Info" first instead of "Flood Tools" tab. When a particular site has a special message/information that a user should be aware of, the "More Info" tab displays that message/information before a user can move on to using the other tools</p>
                         </div>
                         <div class="user-guide-item">
-                            <div class="user-guide-item-image"><img src="images/userguide/depth.png"/></div>
+                            <img src="images/userguide/depth.png"/>
                             <p><b>Water Depth</b>Click in the inundated area to display estimated water depths.</p>
                         </div>
                         <div class="user-guide-item">
-                            <div class="user-guide-item-image"><img src="images/userguide/window.png"/></div>
+                            <img src="images/userguide/window.png"/>
                             <p><b>Hydrograph</b>Change to the "Hydrograph" tab to view the observed and predicted (if available) gage height/stage data.</p>
                         </div>
                         <div class="user-guide-item">
-                            <div class="user-guide-item-image"><img src="images/userguide/services.png"/></div>
+                            <img src="images/userguide/services.png"/>
                             <p><b>Services & Data</b>The "Service and Data" tab includes access to study documentation and GIS data layers. Users can also sign up to receive text or email from the USGS when waters are rising in rivers and streams through WaterAlert. Users can use the flood inundation maps to determine what WaterAlert threshold to sign up for based on how flood levels will impact their area.</p>
                         </div>
                     </div>
@@ -435,8 +501,7 @@ $(".close-alert").click(function(){
             </div>
 
             <form id="disclaimerButtons" id="disclaimer-form" class="modal-footer" style="text-align:center;">
-                <!-- <button id="enterMapper" type="button" class="btn btn-primary" data-dismiss="modal">Close</button> -->
-                <button class=" btn btn-default close" type="button" data-dismiss="modal" aria-hidden="true"style="float:none;">Close</button>
+                <button class=" btn btn-default close" type="button" data-dismiss="modal" aria-hidden="true">Close</button>
             </form>
 
         </div><!-- /.modal-content -->
@@ -697,27 +762,27 @@ $(".close-alert").click(function(){
                                 <div id="toolsTable">
                                     <!-- Gage Heights -->
                                     <div class="box bold">Gage Height</div>
-                                    <div class="box fts1"><label id="floodMaxGage" class="label-ft"></label></div>
-                                    <div class="box fts2">14ft</div>
-                                    <div class="box fts3">22ft</div>
+                                    <div class="box fts1"><label id="floodGage" class="label-ft"></label></div>
+                                    <div class="box fts2"><label id="floodGage" class="label-ft"></label></div>
+                                    <div class="box fts3"><label id="floodGage" class="label-ft"></label></div>
                                     <div class="tools-table-space"></div>
                                     <!-- Discharge -->
                                     <div class="box bold">Discharge</div>
-                                    <div class="box fts1"><label id="floodMaxDischarge" class="label-ft"></label></div>
-                                    <div class="box fts2">14ft</div>
-                                    <div class="box fts3">22ft</div>
+                                    <div class="box fts1"><label id="floodDischarge" class="label-ft"></label></div>
+                                    <div class="box fts2"><label id="floodDischarge" class="label-ft"></label></div>
+                                    <div class="box fts3"><label id="floodDischarge" class="label-ft"></label></div>
                                     <div class="tools-table-space"></div>
                                     <!-- Site No -->
                                     <div class="box bold">USGS Site No</div>
-                                    <div class="box fts1"><a id="usgsSiteNoMax" target="_blank" href=""></a></div>
-                                    <div class="box fts2">52352355</div>
-                                    <div class="box fts3">63453415</div>
+                                    <div class="box fts1"><a id="usgsSiteNo" target="_blank" href=""></a></div>
+                                    <div class="box fts2"><a id="usgsSiteNo" target="_blank" href=""></a></div>
+                                    <div class="box fts3"><a id="usgsSiteNo" target="_blank" href=""></a></div>
                                     <div class="tools-table-space"></div>
                                     <!-- Site ID -->
                                     <div class="box bold">NWS Site ID</div>
-                                    <div class="box fts1"><a id="nwsSiteIDMax" target="_blank" href=""></a></div>
-                                    <div class="box fts2">52352355</div>
-                                    <div class="box fts3">63453415</div>
+                                    <div class="box fts1"><a id="nwsSiteID" target="_blank" href=""></a></div>
+                                    <div class="box fts2"><a id="nwsSiteID" target="_blank" href=""></a></div>
+                                    <div class="box fts3"><a id="nwsSiteID" target="_blank" href=""></a></div>
                                 </div>
 
                                 <!-- Zoom and Webcam -->

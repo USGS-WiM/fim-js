@@ -145,14 +145,26 @@
                     .btn{
                         margin-top: 0;
                         text-transform: capitalize;
-                        letter-spacing: 0.6px;
+                        letter-spacing: 0.4px;
                         font-family: 'Open Sans', sans-serif;
-                        font-weight: 600;
+                        font-size: 12px;
                     }
                 }
             }
         }
 
+    }
+
+
+    // Modal Footer
+    #disclaimerButtons{
+        button{
+            margin: 0 auto;
+            text-transform: capitalize;
+            background-color: @blue;
+            letter-spacing: 0.4px;
+            font-size: 12px;
+        }
     }
 
 }
@@ -161,3 +173,74 @@
 // Specific Modal Tweaks
 // Specific Modal Tweaks
 // Specific Modal Tweaks
+
+#geosearchModal{
+
+    .modal-body{
+        padding: 0 15px 15px 15px;
+
+        .form-group{
+            margin-bottom: 0;
+        }
+
+        #geosearch{
+            .search-api-button{
+                position: relative;
+                padding-top: 6px;
+                padding-bottom: 4px;
+                background-color: #F5F6FB;
+            }
+        }
+
+        #geosearch-form{
+            .geosearch-form-buttons{
+                padding-left: 150px;
+
+                #btnGeosearch{
+                    background-color: #36D795;
+                    font-weight: 500;
+                    width: 150px;
+                    margin-top: 4px;
+                    transition: 0.12s;
+                    color: white;
+
+                    &:hover{
+                        cursor: pointer;
+                        background-color: darken(#36D795, 5%);
+                        transition: 0.12s;
+                    }
+                }
+            }
+
+            .search-help{
+
+                b{
+                    margin: 0 auto;
+                    font-size: 12px;
+                    font-weight: 600;
+                    color: fade(@black, 80%);
+                    margin-bottom: 10px;
+                }
+
+                code{
+                    font-size: 10px;
+                }
+
+                small{
+                    display: block;
+                    margin-top: 10px;
+                    color: fade(@black, 50%);
+
+                    a{
+                        color: @blue;
+
+                        &:hover{
+                            cursor: pointer;
+                            text-decoration: underline;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

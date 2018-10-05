@@ -48,6 +48,14 @@
     }
 }
 
+#geosearchNav{
+
+    &:hover{
+        background-color: darken(@blue, 8%) !important;
+        cursor: pointer;
+    }
+}
+
 
 
 
@@ -69,6 +77,8 @@
     letter-spacing: -0.12px !important; 
     padding: 0 !important;
     border: none !important;
+    font-weight: 600;
+    color: fade(@black, 50%) !important;
     margin-bottom: 4px !important;
 }
 
@@ -94,7 +104,7 @@
 }
 
 #sidebar{
-    background-color: #F5F6FB;
+    background-color: #fff;
 }
 #sidebar .identification{
     font-size: 10px !important;
@@ -104,6 +114,10 @@
 #sidebar .sidebar_footer{
     line-height: 12px !important;
     color: @blue !important;
-    font-family: 'Open Sans', sans-serif;
-    font-weight: 600;
+    font-family: 'Open Sans', sans-serif !important;
+    font-weight: 500;
+
+    a{
+        color: @blue !important;
+    }
 }

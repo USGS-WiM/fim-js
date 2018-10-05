@@ -690,24 +690,7 @@ input[type="checkbox"], input[type="radio"] {
   transition: 0.2s;
   opacity: 1;
 }
-#flood-tools-alert .ion-close-round{
-    transition: 0.2s;
-    opacity: 0.5;
-}
-#flood-tools-alert .ion-close-round:hover{
-    transition: 0.2s;
-    opacity: 1;
-}
-#flood-tools-alert{
-    position: fixed;
-    top: 100%;
-    margin-top: -185px;
-    height: 175px;
-    right: 5px;
-    color: #000;
-    background-color: #f9f9f9;
-    border-color: rgba(0,0,0,0.75);
-}
+
 /*end styles to be removed when wim styles are created*/
 
 
@@ -973,33 +956,27 @@ input[type="checkbox"], input[type="radio"] {
 /*User Guide Modal*/
 .user-guide-header{
     display: block;
-    text-align: center;
-    font-size: 16pt;
+    font-size: 20px;
+    text-align: left;
     box-sizing: border-box;
-    padding: 10px 0 25px 0;
+    padding: 5px 0 10px 0;
+    font-weight: 700;
+    margin-bottom: 15px;
+    color: fade(@black, 80%);
 }
 
 .user-guide-item{
     display: block;
     box-sizing: border-box;
-    padding: 35px 15px 35px 0;
-    border-bottom: 1px solid rgba(0,0,0,0.1);
-}
-.user-guide-item:nth-child(even){
-    background-color: rgba(0,0,0,0.04);
-}
-
-.user-guide-item .user-guide-item-image{
-    display: inline-block;
-    width: 100%;
-    height: 150px;
+    padding: 0 0 0 0;
 }
 .user-guide-item img{
     display: block;
     height: 100%;
-    margin: 0 auto;
     width: auto;
-    max-height: 100%;
+    max-height: 80px;
+    float: right;
+    margin-left: 15px;
     max-width: 100%;
     border: 4px solid rgba(0,0,0,0.15);
 }
@@ -1011,17 +988,17 @@ input[type="checkbox"], input[type="radio"] {
     -webkit-justify-content: center;
     justify-content: center;
     -webkit-flex-grow: 2;
+    color: fade(@black, 50%);
     flex-grow: 2;
-    padding-left: 15px !important;
-    padding-right: 20px !important;
     box-sizing: border-box;
     font-size: 12pt;
+    padding: 0 !important;
 }
 .user-guide-item p b{
-    color: rgba(0,0,0,0.6);
+    color: fade(@black, 80%);
     display: block;
+    font-size: 14px;
     font-weight: bolder;
-    padding-bottom: 10px;
 }
 
 

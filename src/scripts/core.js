@@ -471,7 +471,8 @@ require([
     $("#floodMin").click(function(){
         $("#floodToolsDiv").css("visibility", "hidden");
         //map.getLayer("fimExtents").setVisibility(false);
-        $("#flood-tools-alert").slideDown(250);
+        $("#flood-tools-alert").slideDown(150).css('display', 'flex');
+
         $('#hydroChart').hide();
     });
 
@@ -490,10 +491,10 @@ require([
         map.infoWindow.hide();
     });
 
-    $("#floodToolsOpen").click(function(){
+    $("#floodToolsOpen, #floodToolsMax").click(function(){
         $('#hydroChart').delay(500).show();
         $("#floodToolsDiv").css("visibility", "visible");
-        $("#flood-tools-alert").slideUp(250);
+        $("#flood-tools-alert").slideUp(150);
     });
 
     $("#waterAlertLink").click(function() {
@@ -712,14 +713,18 @@ require([
                 if (siteAttr["MULTI_SITE"] == 0) {
                     $(".fts2").hide();
                     $(".fts3").hide();
+                    $("#ftSliders").attr('class', 'onesite');
                     sitePopup(evt);
                 } else if (siteAttr["MULTI_SITE"] > 0) {
                     if (siteAttr["MULTI_SITE"] == 1) {
                         $(".fts2").show();
                         $(".fts3").hide();
+                        $("#ftSliders").attr('class', 'twosite');
+
                     } else if (siteAttr["MULTI_SITE"] == 3) {
                         $(".fts2").show();
                         $(".fts3").show();
+                        $("#ftSliders").attr('class', 'threesite');
                     }
                     
                     var multiSitesQuery = new esriQuery(); 
@@ -797,7 +802,7 @@ require([
                     siteNo = siteAttr["SITE_NO"];
                 }
 
-                $("#flood-tools-alert").slideUp(250);
+                $("#flood-tools-alert").slideUp(150);
                 $("#floodToolsDiv .panel-heading").addClass('loading-hide');
                 $("#floodToolsDiv .panel-body").addClass('loading-hide');
                 $("#floodToolsDiv").addClass('loading-background');
@@ -816,12 +821,12 @@ require([
                 map.getLayer("fimBreach").setVisibility(false);
                 map.getLayer("fimBreachMulti").setVisibility(false);
                 
-                $(".fts1 #floodMaxGage").text("");
-                $(".fts2 #floodMaxGage").text("");
-                $(".fts3 #floodMaxGage").text("");
-                $(".fts1 #floodMaxDischarge").text("");
-                $(".fts2 #floodMaxDischarge").text("");
-                $(".fts3 #floodMaxDischarge").text("");
+                $(".fts1 #floodGage").text("");
+                $(".fts2 #floodGage").text("");
+                $(".fts3 #floodGage").text("");
+                $(".fts1 #floodDischarge").text("");
+                $(".fts2 #floodDischarge").text("");
+                $(".fts3 #floodDischarge").text("");
                 $(".floodSlider").each(function(index) {
                     this.value = 0;
                 });
@@ -1009,15 +1014,15 @@ require([
                 $("[id*='Tab']").parents("li").removeClass("active");
                 $(".nav-tabs #floodToolsTab").tab("show");
 
-                $("#usgsSiteNoMin").text(siteNo);
-                $("#usgsSiteNoMin").attr("href", "https://waterdata.usgs.gov/nwis/uv?site_no="+siteNo);
-                $("#nwsSiteIDMin").text(feature.attributes.AHPS_ID);
-                $("#nwsSiteIDMin").attr("href", "https://water.weather.gov/ahps2/hydrograph.php?gage="+feature.attributes.AHPS_ID);
+                $("#usgsSiteNo").text(siteNo);
+                $("#usgsSiteNo").attr("href", "https://waterdata.usgs.gov/nwis/uv?site_no="+siteNo);
+                $("#nwsSiteID").text(feature.attributes.AHPS_ID);
+                $("#nwsSiteID").attr("href", "https://water.weather.gov/ahps2/hydrograph.php?gage="+feature.attributes.AHPS_ID);
 
-                $(".fts1 #usgsSiteNoMax").text(siteNo);
-                $(".fts1 #usgsSiteNoMax").attr("href", "https://waterdata.usgs.gov/nwis/uv?site_no="+siteNo);
-                $(".fts1 #nwsSiteIDMax").text(feature.attributes.AHPS_ID);
-                $(".fts1 #nwsSiteIDMax").attr("href", "https://water.weather.gov/ahps2/hydrograph.php?gage="+feature.attributes.AHPS_ID);
+                $(".fts1 #usgsSiteNo").text(siteNo);
+                $(".fts1 #usgsSiteNo").attr("href", "https://waterdata.usgs.gov/nwis/uv?site_no="+siteNo);
+                $(".fts1 #nwsSiteID").text(feature.attributes.AHPS_ID);
+                $(".fts1 #nwsSiteID").attr("href", "https://water.weather.gov/ahps2/hydrograph.php?gage="+feature.attributes.AHPS_ID);
 
                 if (attr.HAS_GRIDS == 1) {
                     $("#gridLabel").show();
@@ -1128,15 +1133,14 @@ require([
                                         var formattedDate = dateFormat(valDate);
 
                                         if (variable == "Discharge") {
-                                            $(".fts1 #floodMaxDischarge").text(varValue);
-                                            $("#floodMinDischarge").text(varValue);
-                                            if ($(".fts1 #floodMaxDischarge").text().length == 0 || $(".fts1 #floodMaxDischarge").text() == "-999999") {
-                                                $(".fts1 #floodMaxDischarge").text("n/a");
+                                            $(".fts1 #floodDischarge").text(varValue);
+                                            if ($(".fts1 #floodDischarge").text().length == 0 || $(".fts1 #floodDischarge").text() == "-999999") {
+                                                $(".fts1 #floodDischarge").text("n/a");
                                             }
                                         } else if (variable == "Gage height") {
-                                            $(".fts1 #floodMaxGage").text(varValue);
-                                            if ($(".fts1 #floodMaxGage").text().length == 0 || $(".fts1 #floodMaxGage").text() == "-999999") {
-                                                $(".fts1 #floodMaxGage").text("n/a");
+                                            $(".fts1 #floodGage").text(varValue);
+                                            if ($(".fts1 #floodGage").text().length == 0 || $(".fts1 #floodGage").text() == "-999999") {
+                                                $(".fts1 #floodGage").text("n/a");
                                             }
                                         }
 
@@ -1608,13 +1612,11 @@ require([
                         
                         if (attr["MULTI_SITE"] == 0) {
                             $(".fts1 #selectedValue").text(results[0].attributes["STAGE"]);
-                            $("#floodMinSelectedGage").text(results[0].attributes["STAGE"]);
                             $(".fts1 .slider-min").text(results[0].attributes["STAGE"]);
                             $(".fts1 .slider-max").text(results[results.length-1].attributes["STAGE"]);
                         } else if (attr["MULTI_SITE"] > 0) {
                             $(".fts1 #selectedValue").text(gageValues[0].gageValue);
                             $(".fts2 #selectedValue").text(gageValues2[0].gageValue);
-                            $("#floodMinSelectedGage").text(gageValues[0].gageValue);
                             $(".fts1 .slider-min").text(gageValues[0].gageValue);
                             $(".fts1 .slider-max").text(gageValues[gageValues.length-1].gageValue);
                             $(".fts2 .slider-min").text(gageValues2[0].gageValue);
@@ -1730,8 +1732,6 @@ require([
                             if (results != null) {
                                 if (siteAttr["MULTI_SITE"] == 0) {
                                     $(".fts1 #selectedValue").text(results[this.value].attributes["STAGE"]);
-                                    $("#floodMinSelectedGage").text(results[this.value].attributes["STAGE"]);
-                                    
                                     //Adjustments to hazus tab for slider change
                                     $("#hazusTableSelectedStageLabel").text(results[this.value].attributes["STAGE"] + " ft");
                                     $("#hazusTable tr").removeClass('active');
@@ -1772,10 +1772,8 @@ require([
                                 } else if (siteAttr["MULTI_SITE"] == 1) {
                                     if ($(this).hasClass('first-slider')) {
                                         $(".fts1 #selectedValue").text(gageValues[this.value].gageValue);
-                                        $(".fts1 #floodMinSelectedGage").text(gageValues[this.value].gageValue);
                                     } else if ($(this).hasClass('second-slider')) {
                                         $(".fts2 #selectedValue").text(gageValues2[this.value].gageValue);
-                                        $(".fts2 #floodMinSelectedGage").text(gageValues2[this.value].gageValue);
                                     }
 
                                     // Code to determine next possible combination if current selections are not available as map in library
@@ -1873,13 +1871,10 @@ require([
                                 } else if (siteAttr["MULTI_SITE"] == 3) {
                                     if ($(this).hasClass('first-slider')) {
                                         $(".fts1 #selectedValue").text(gageValues[this.value].gageValue);
-                                        $(".fts1 #floodMinSelectedGage").text(gageValues[this.value].gageValue);
                                     } else if ($(this).hasClass('second-slider')) {
                                         $(".fts2 #selectedValue").text(gageValues2[this.value].gageValue);
-                                        $(".fts2 #floodMinSelectedGage").text(gageValues2[this.value].gageValue);
                                     } else if ($(this).hasClass('third-slider')) {
                                         $(".fts2 #selectedValue").text(gageValues3[this.value].gageValue);
-                                        $(".fts3 #floodMinSelectedGage").text(gageValues3[this.value].gageValue);
                                     }
 
                                     // Code to determine next possible combination if current selections are not available as map in library
@@ -2098,7 +2093,6 @@ require([
                         /*$(".desktop").on("input change", function() 
                             if (results != null) {
                                 $("#selectedValue").text(results[$(".fts1 #floodSlider")[0].value].attributes["STAGE"]);
-                                $("#floodMinSelectedGage").text(results[$(".fts1 #floodSlider")[0].value].attributes["STAGE"]);
                                 var layerDefinitions = [];
                                 layerDefinitions[0] = "USGSID = '" + attr["SITE_NO"] + "' AND STAGE = " + results[$(".fts1 #floodSlider")[0].value].attributes["STAGE"];
                                 map.getLayer("fimExtents").setLayerDefinitions(layerDefinitions);
@@ -2382,10 +2376,10 @@ require([
     });
 
     function snapToFlood() {
-        if ($(".fts1 #floodMaxGage").text().length > 0 && extentResults != null) {
+        if ($(".fts1 #floodGage").text().length > 0 && extentResults != null) {
             var myArray = extentResults;
             // this should be current stage
-            var myNum = Number($(".fts1 #floodMaxGage").text());
+            var myNum = Number($(".fts1 #floodGage").text());
 
             var closestNum;
             var closestArrayItem;

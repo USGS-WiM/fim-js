@@ -1226,12 +1226,12 @@ require([
                 map.getLayer("fimBreach").setVisibility(false);
                 map.getLayer("fimBreachMulti").setVisibility(false);
                 
-                $(".first-site #floodMaxGage").text("");
-                $(".second-site #floodMaxGage").text("");
-                $(".third-site #floodMaxGage").text("");
-                $(".first-site #floodMaxDischarge").text("");
-                $(".second-site #floodMaxDischarge").text("");
-                $(".third-site #floodMaxDischarge").text("");
+                $(".first-site #floodGage").text("");
+                $(".second-site #floodGage").text("");
+                $(".third-site #floodGage").text("");
+                $(".first-site #floodDischarge").text("");
+                $(".second-site #floodDischarge").text("");
+                $(".third-site #floodDischarge").text("");
                 $(".floodSlider").each(function(index) {
                     this.value = 0;
                 })
@@ -1419,15 +1419,15 @@ require([
                 $("[id*='Tab']").parents("li").removeClass("active");
                 $(".nav-tabs #floodToolsTab").tab("show");
 
-                $("#usgsSiteNoMin").text(siteNo);
-                $("#usgsSiteNoMin").attr("href", "https://waterdata.usgs.gov/nwis/uv?site_no="+siteNo);
-                $("#nwsSiteIDMin").text(feature.attributes.AHPS_ID);
-                $("#nwsSiteIDMin").attr("href", "https://water.weather.gov/ahps2/hydrograph.php?gage="+feature.attributes.AHPS_ID);
+                $("#usgsSiteNo").text(siteNo);
+                $("#usgsSiteNo").attr("href", "https://waterdata.usgs.gov/nwis/uv?site_no="+siteNo);
+                $("#nwsSiteID").text(feature.attributes.AHPS_ID);
+                $("#nwsSiteID").attr("href", "https://water.weather.gov/ahps2/hydrograph.php?gage="+feature.attributes.AHPS_ID);
 
-                $(".first-site #usgsSiteNoMax").text(siteNo);
-                $(".first-site #usgsSiteNoMax").attr("href", "https://waterdata.usgs.gov/nwis/uv?site_no="+siteNo);
-                $(".first-site #nwsSiteIDMax").text(feature.attributes.AHPS_ID);
-                $(".first-site #nwsSiteIDMax").attr("href", "https://water.weather.gov/ahps2/hydrograph.php?gage="+feature.attributes.AHPS_ID);
+                $(".first-site #usgsSiteNo").text(siteNo);
+                $(".first-site #usgsSiteNo").attr("href", "https://waterdata.usgs.gov/nwis/uv?site_no="+siteNo);
+                $(".first-site #nwsSiteID").text(feature.attributes.AHPS_ID);
+                $(".first-site #nwsSiteID").attr("href", "https://water.weather.gov/ahps2/hydrograph.php?gage="+feature.attributes.AHPS_ID);
 
                 if (attr.HAS_GRIDS == 1) {
                     $("#gridLabel").show();
@@ -1538,16 +1538,16 @@ require([
                                         var formattedDate = dateFormat(valDate);
 
                                         if (variable == "Discharge") {
-                                            $(".first-site #floodMaxDischarge").text(varValue);
+                                            $(".first-site #floodDischarge").text(varValue);
                                             $("#floodMinDischarge").text(varValue);
-                                            if ($(".first-site #floodMaxDischarge").text().length == 0 || $(".first-site #floodMaxDischarge").text() == "-999999") {
-                                                $(".first-site #floodMaxDischarge").text("n/a");
+                                            if ($(".first-site #floodDischarge").text().length == 0 || $(".first-site #floodDischarge").text() == "-999999") {
+                                                $(".first-site #floodDischarge").text("n/a");
                                             }
                                         } else if (variable == "Gage height") {
-                                            $(".first-site #floodMaxGage").text(varValue);
+                                            $(".first-site #floodGage").text(varValue);
                                             $("#floodMinGage").text(varValue);
-                                            if ($(".first-site #floodMaxGage").text().length == 0 || $(".first-site #floodMaxGage").text() == "-999999") {
-                                                $(".first-site #floodMaxGage").text("n/a");
+                                            if ($(".first-site #floodGage").text().length == 0 || $(".first-site #floodGage").text() == "-999999") {
+                                                $(".first-site #floodGage").text("n/a");
                                             }
                                         }
 
@@ -2450,10 +2450,10 @@ require([
     });
 
     function snapToFlood() {
-        if ($(".first-site #floodMaxGage").text().length > 0 && extentResults != null) {
+        if ($(".first-site #floodGage").text().length > 0 && extentResults != null) {
             var myArray = extentResults;
             // this should be current stage
-            var myNum = Number($(".first-site #floodMaxGage").text());
+            var myNum = Number($(".first-site #floodGage").text());
 
             var closestNum;
             var closestArrayItem;
