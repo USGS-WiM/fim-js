@@ -471,7 +471,7 @@ require([
     $("#floodMin").click(function(){
         $("#floodToolsDiv").css("visibility", "hidden");
         //map.getLayer("fimExtents").setVisibility(false);
-        $("#flood-tools-alert").slideDown(150).css('display', 'flex');
+        $("#minFT").addClass('visible');
 
         $('#hydroChart').hide();
     });
@@ -494,7 +494,7 @@ require([
     $("#floodToolsOpen, #floodToolsMax").click(function(){
         $('#hydroChart').delay(500).show();
         $("#floodToolsDiv").css("visibility", "visible");
-        $("#flood-tools-alert").slideUp(150);
+        $("#minFT").removeClass('visible');
     });
 
     $("#waterAlertLink").click(function() {
@@ -802,7 +802,7 @@ require([
                     siteNo = siteAttr["SITE_NO"];
                 }
 
-                $("#flood-tools-alert").slideUp(150);
+                $("#minFT").slideUp(150);
                 $("#floodToolsDiv .panel-heading").addClass('loading-hide');
                 $("#floodToolsDiv .panel-body").addClass('loading-hide');
                 $("#floodToolsDiv").addClass('loading-background');

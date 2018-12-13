@@ -29,6 +29,7 @@
         background-color: fade(white, 55%);
         padding: 30px 0 0 15px;
         position: relative;
+        // min-width: 180px;
 
         &.onesite{
             .slider-group{
@@ -678,15 +679,15 @@
 // Minimized flood tools
 // Minimized flood tools
 // Minimized flood tools
-#flood-tools-alert .ion-close-round{
+#minFT .ion-close-round{
     transition: 0.2s;
     opacity: 0.5;
 }
-#flood-tools-alert .ion-close-round:hover{
+#minFT .ion-close-round:hover{
     transition: 0.2s;
     opacity: 1;
 }
-#flood-tools-alert{
+#minFT{
     position: fixed;
     bottom: 0;
     right: 0;
@@ -694,11 +695,17 @@
     width: 220px;
     z-index: 100;
     background-color: white;
-    display: flex;
     flex-direction: column;
     border-top-left-radius: 5px;
     box-shadow: 0px 6px 35px -10px rgba(20, 20, 40, 0.6) !important;
-    display: none;
+    display: flex !important;
+    bottom: -175px;
+    transition: all 0.2s ease;
+
+    &.visible{
+        bottom: 0;
+        transition: all 0.2s ease;
+    }
 
     .header{
         display: flex;
