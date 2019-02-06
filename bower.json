@@ -12,5 +12,8 @@
     "bootstrap-sidebar": "^0.2.0",
     "bootstrap-map-js": "latest",
     "highcharts": "~5.0.7"
+  },
+  "resolutions": {
+    "bootstrap": "^3.3.6"
   }
 }
