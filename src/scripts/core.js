@@ -539,12 +539,16 @@ require([
     // Flood Tools Accordions
     // Flood Tools Accordions
     // Flood Tools Accordions
-    $(".ft-accordion-header").click(function(){
-        $(this).find('.chevron').toggleClass("fa-chevron-down").toggleClass("fa-chevron-up");
-        $(this).next().slideToggle(150);
+    $(".ft-tab").click(function(){
+        $(".ft-tab").removeClass("active");
+        $(this).addClass("active");
+        console.log($(this).attr('data-toggle'))
+        var toggleID = $(this).attr("data-toggle").toString();
+        $(".ftmodal-content").not("#" + toggleID).hide();
+        $("#" + toggleID).show();
     });
 
-
+    
     //map.getLayer("fimGrid2").on("load", gridsLayerComp);
 
     map.on('layer-add', function (evt) {
@@ -1083,7 +1087,7 @@ require([
                             $("#moreInfoTab").show();
                             $(".nav-tabs a[href='#moreInfoTabPane']").tab('show');
                         } else {
-                            $("#moreInfo").text("Loading...");
+                            $("#moreInfo").text("No additional info for this site.");
                             $("#moreInfoTab").hide();
                         }
 
@@ -1486,18 +1490,9 @@ require([
                                 var sliderMax = parseFloat($(".fts1 .slider-max:first").text());
                                 var sliderTotalDiff = sliderMax - sliderMin;
 
-                                // Set slider colors 
-                                // var sliderTotalDiff = 15;
-                                // var sliderTotalDiff = (results[results.length-1].attributes["STAGE"]) - (results[0].attributes["STAGE"])
-                                
                                 
                                 $(".slider-flood-levels").show();
                                 if(tempFloodStageBands[0]){
-                                    console.log("LEVELS ")
-                                    /*console.log((floodStageBands[0].to - sliderMin) / sliderTotalDiff * 100 + '%' );
-                                    console.log((floodStageBands[1].to - sliderMin) / sliderTotalDiff * 100 + '%' );
-                                    console.log((floodStageBands[2].to - sliderMin) / sliderTotalDiff * 100 + '%' );*/
-    
                                     $(".fts1 .sliderActionLevel").css( "width", (tempFloodStageBands[0].to - sliderMin) / sliderTotalDiff * 100 + '%' );
                                     $(".fts1 .sliderMinorLevel").css( "width", (tempFloodStageBands[1].to - sliderMin) / sliderTotalDiff * 100 + '%' );
                                     $(".fts1 .sliderModerateLevel").css( "width", (tempFloodStageBands[2].to - sliderMin) / sliderTotalDiff * 100 + '%' );
@@ -1512,7 +1507,6 @@ require([
                             return tempFloodStageBands;
                         }
 
-                        console.log(nwsData[0])
                         var floodStageBands = buildFloodStageBands(nwsData[0]);
                         var floodStageBands2 = buildFloodStageBands(nwsData2[0]);
                         var floodStageBands3 = buildFloodStageBands(nwsData3[0]);

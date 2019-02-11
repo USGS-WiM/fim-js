@@ -2175,10 +2175,51 @@ input[type=range].styled:focus::-ms-fill-upper {
   overflow: auto;
   border-left: 1px solid rgba(16, 21, 44, 0.15);
 }
+#ftModal #ftData #ftDataTabs {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  background-color: white;
+  box-sizing: border-box;
+}
+#ftModal #ftData #ftDataTabs .ft-tab {
+  display: flex;
+  justify-content: center;
+  height: 34px;
+  box-sizing: border-box;
+  padding: 0 12px;
+  letter-spacing: -0.2px;
+  font-weight: 600;
+}
+#ftModal #ftData #ftDataTabs .ft-tab:hover {
+  color: black;
+  cursor: pointer;
+}
+#ftModal #ftData #ftDataTabs .ft-tab:hover span {
+  text-decoration: underline;
+}
+#ftModal #ftData #ftDataTabs .ft-tab.active {
+  background-color: #ededed;
+  color: black;
+}
+#ftModal #ftData #ftDataTabs .ft-tab span,
+#ftModal #ftData #ftDataTabs .ft-tab i {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+}
+#ftModal #ftData #ftDataTabs .ft-tab span {
+  font-size: 12px;
+}
+#ftModal #ftData #ftDataTabs .ft-tab i {
+  font-size: 14px;
+  margin-left: 4px;
+}
 #ftModal #ftData .small-label {
   display: block;
   font-size: 11px;
-  color: rgba(16, 21, 44, 0.5);
+  color: rgba(16, 21, 44, 0.7);
   font-weight: 600;
   padding-bottom: 3px;
   border-bottom: 1px solid rgba(16, 21, 44, 0.15);
@@ -2191,7 +2232,7 @@ input[type=range].styled:focus::-ms-fill-upper {
   font-size: 15px;
   font-weight: 700;
   padding: 22px 0 12px 0;
-  color: rgba(16, 21, 44, 0.8);
+  color: #10152C;
 }
 #ftModal #ftData .ft-button {
   display: inline-block;
@@ -2272,7 +2313,7 @@ input[type=range].styled:focus::-ms-fill-upper {
 }
 #ftModal #ftData #ftTools #toolsTable .box.bold {
   font-size: 11px;
-  color: rgba(16, 21, 44, 0.5);
+  color: rgba(16, 21, 44, 0.8);
   font-weight: 600;
   text-align: left;
 }
@@ -2462,8 +2503,8 @@ input[type=range].styled:focus::-ms-fill-upper {
   line-height: 28px;
   display: block;
   max-width: 600px;
-  font-weight: 500;
-  color: rgba(30, 39, 81, 0.7);
+  font-weight: 600;
+  color: #10152C;
 }
 #ftModal .ft-accordion-header {
   display: block;

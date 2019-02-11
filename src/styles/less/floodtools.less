@@ -229,11 +229,61 @@
         overflow: auto;
         border-left: 1px solid fade(@black, 15%);
 
+        #ftDataTabs{
+            display: flex;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+            background-color: white;
+            box-sizing: border-box;
+
+            .ft-tab{
+                display: flex;
+                justify-content: center;
+                height: 34px;
+                box-sizing: border-box;
+                padding: 0 12px;
+                letter-spacing: -0.2px;
+                font-weight: 600;
+
+                &:hover{
+                    color: black;
+                    cursor: pointer;
+
+                    span{
+                        text-decoration: underline;
+                    }
+                }
+
+                &.active{
+                    background-color: #ededed;
+                    color: black;
+
+                    span{
+                    }
+                }
+
+                span,i{
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    height: 100%;
+                }
+
+                span{
+                    font-size: 12px;
+                }
+                i{
+                    font-size: 14px;
+                    margin-left: 4px;
+                }
+            }
+        }
+
         // Universal elements throughout all tabs
         .small-label{
             display: block;
             font-size: 11px;
-            color: fade(@black, 50%);
+            color: fade(@black, 70%);
             font-weight: 600;
             padding-bottom: 3px;
             border-bottom: 1px solid fade(@black, 15%);
@@ -249,7 +299,7 @@
             font-size: 15px;
             font-weight: 700;
             padding: 22px 0 12px 0;
-            color: fade(@black, 80%);
+            color: @black;
         }
 
         // Buttons used within Flood Tools
@@ -348,7 +398,7 @@
 
                     &.bold{
                         font-size: 11px;
-                        color: fade(@black, 50%);
+                        color: fade(@black, 80%);
                         font-weight: 600;
                         text-align: left;
                     }
@@ -606,8 +656,8 @@
                 line-height: 28px;
                 display: block;
                 max-width: 600px;
-                font-weight: 500;
-                color: @text;
+                font-weight: 600;
+                color: @black;
             }
         }
     }
