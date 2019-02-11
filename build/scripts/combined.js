@@ -1984,7 +1984,7 @@ require([
                         // Site ID and Stage Label
                         $("#hazusTableSiteLabel").html(featureSet.features[0].attributes["USGSID"]);
 
-                        $(".hazus-content").show();
+                        $(".hazus-tab").show();
                         $("#hazusTable tr td").remove();
                         for (var i=0; i < featureSet.features.length; i++) {
                             var html = "<tr id='hazus" + featureSet.features[i].attributes["STAGE"] + "'><td>" + featureSet.features[i].attributes["STAGE"] + "</td><td>" + featureSet.features[i].attributes["BuildingDamaged"] + 

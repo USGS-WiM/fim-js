@@ -213,16 +213,16 @@
         <!-- Site One -->
         <div class="min-ft fts1">
             <div class="item">
-                <label>Selected gage height:</label>
-                <div class="value label-ft" id="selectedValue"></div>
-            </div>
-            <div class="item">
                 <label>USGS Site No:</label>
                 <a id="usgsSiteNo" class="value" target="_blank" href=""></a>
             </div>
             <div class="item">
                 <label>NWS Site ID:</label>
                 <a id="nwsSiteID" class="value" target="_blank" href=""></a>
+            </div>
+            <div class="item">
+                <label>Selected gage height:</label>
+                <div class="value label-ft" id="selectedValue"></div>
             </div>
             <div class="section-header">Current Conditions</div>
             <div class="item">
@@ -238,16 +238,16 @@
         <!-- Site Two -->
         <div class="min-ft fts2">
             <div class="item">
-                <label>Selected gage height:</label>
-                <div class="value label-ft" id="selectedValue"></div>
-            </div>
-            <div class="item">
                 <label>USGS Site No:</label>
                 <a id="usgsSiteNo" class="value" target="_blank" href=""></a>
             </div>
             <div class="item">
                 <label>NWS Site ID:</label>
                 <a id="nwsSiteID" class="value" target="_blank" href=""></a>
+            </div>
+            <div class="item">
+                <label>Selected gage height:</label>
+                <div class="value label-ft" id="selectedValue"></div>
             </div>
             <div class="section-header">Current Conditions</div>
             <div class="item">
@@ -263,16 +263,16 @@
         <!-- Site Three -->
         <div class="min-ft fts3">
             <div class="item">
-                <label>Selected gage height:</label>
-                <div class="value label-ft" id="selectedValue"></div>
-            </div>
-            <div class="item">
                 <label>USGS Site No:</label>
                 <a id="usgsSiteNo" class="value" target="_blank" href=""></a>
             </div>
             <div class="item">
                 <label>NWS Site ID:</label>
                 <a id="nwsSiteID" class="value" target="_blank" href=""></a>
+            </div>
+            <div class="item">
+                <label>Selected gage height:</label>
+                <div class="value label-ft" id="selectedValue"></div>
             </div>
             <div class="section-header">Current Conditions</div>
             <div class="item">
@@ -738,19 +738,27 @@ $(".close-alert").click(function(){
                                     <span>Flood Tools</span>
                                     <i class="fa fa-umbrella"></i> 
                                 </div>
-                                <div class="ft-tab" data-toggle="ftHydro" onclick="ga('send','event','Flood Tools Panel','click','Hydrograph');">
+                                <div class="ft-tab" data-toggle="ftHydro" onclick="ga('send','event','Hydrograph Panel','click','Hydrograph');">
                                     <span>Hydrograph</span>
                                     <i class="fa fa-line-chart"></i>
                                 </div>
-                                <div class="ft-tab hazus-content" data-toggle="ftHazus" onclick="ga('send','event','Flood Tools Panel','click','HAZUS');">
+                                <div class="ft-tab ft-hazus-tab" data-toggle="ftHazus" onclick="ga('send','event','Hazus Panel','click','HAZUS');">
                                     <span>Hazus</span>
                                     <i class="fa fa-building"></i>
                                 </div>
-                                <div class="ft-tab" data-toggle="ftServices" onclick="ga('send','event','Flood Tools Panel','click','Services and Data');">
+                                <div class="ft-tab" data-toggle="ftServices" onclick="ga('send','event','Services&Data Panel','click','Services and Data');">
                                     <span>Services and Data</span>
                                     <i class="fa fa-server"></i>
                                 </div>
-                                <div class="ft-tab" data-toggle="ftMoreInfo" onclick="ga('send','event','Flood Tools Panel','click','More Info');">
+                                <div class="ft-tab ft-webcam-tab" data-toggle="ftWebcam" onclick="ga('send','event','Webcam Panel','click','More Info');">
+                                    <span>Webcam</span>
+                                    <i class="fa fa-camera"></i>
+                                </div>
+                                <a class="ft-tab ft-webcam-link-tab" href="" target="_blank" onclick="ga('send','event','Webcam Panel','click','More Info');">
+                                    <span>Webcam</span>
+                                    <i class="fa fa-camera"></i>
+                                </a>
+                                <div class="ft-tab ft-more-info-tab" data-toggle="ftMoreInfo" onclick="ga('send','event','More Info Panel','click','More Info');">
                                     <span>More Info</span>
                                     <i class="fa fa-question-circle"></i>
                                 </div>
@@ -778,12 +786,6 @@ $(".close-alert").click(function(){
                                 <!-- Current Conditions Table -->
                                 <div class="small-label">Current Conditions</div>
                                 <div id="toolsTable">
-                                    <!-- Gage Heights -->
-                                    <div class="box bold">Gage Height</div>
-                                    <div class="box fts1"><label id="floodGage" class="label-ft"></label></div>
-                                    <div class="box fts2"><label id="floodGage" class="label-ft"></label></div>
-                                    <div class="box fts3"><label id="floodGage" class="label-ft"></label></div>
-                                    <div class="tools-table-space"></div>
                                     <!-- Discharge -->
                                     <div class="box bold">Discharge</div>
                                     <div class="box fts1"><label id="floodDischarge" class="label-ft"></label></div>
@@ -801,13 +803,18 @@ $(".close-alert").click(function(){
                                     <div class="box fts1"><a id="nwsSiteID" target="_blank" href=""></a></div>
                                     <div class="box fts2"><a id="nwsSiteID" target="_blank" href=""></a></div>
                                     <div class="box fts3"><a id="nwsSiteID" target="_blank" href=""></a></div>
+                                    <!-- Gage Heights -->
+                                    <div class="box bold">Gage Height</div>
+                                    <div class="box fts1"><label id="floodGage" class="label-ft"></label></div>
+                                    <div class="box fts2"><label id="floodGage" class="label-ft"></label></div>
+                                    <div class="box fts3"><label id="floodGage" class="label-ft"></label></div>
+                                    <div class="tools-table-space"></div>
                                 </div>
 
-                                <!-- Zoom and Webcam -->
+                                <!-- Zoom -->
                                 <div id="toolsButtons">
                                     <b>Click on map for estimated water depth</b>
                                     <button id="zoomToLibExtent" title="click to zoom to the extent of the flood library" class="ft-button" type="button">Zoom</button>
-                                    <a href="#" target="_blank" class="ft-button">Live Webcam</a>
                                 </div>
                             </div>
 
@@ -908,6 +915,15 @@ $(".close-alert").click(function(){
                                     <a target="_blank" href="https://www.nws.noaa.gov/survey/nws-survey.php?code=inundate">NWS feedback form</a>
                                 </div>
                             
+                            </div>
+
+                            <!-- 
+                                    Web Cam
+                                    Web Cam
+                                    Web Cam
+                                -->
+                            <div id="ftWebcam" class="ftmodal-content">
+                                <img src="" id="webcamImage"/>
                             </div>
 
                             <!-- 

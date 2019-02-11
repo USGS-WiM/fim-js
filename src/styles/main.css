@@ -2174,6 +2174,7 @@ input[type=range].styled:focus::-ms-fill-upper {
   height: auto;
   overflow: auto;
   border-left: 1px solid rgba(16, 21, 44, 0.15);
+  max-width: 570px;
 }
 #ftModal #ftData #ftDataTabs {
   display: flex;
@@ -2190,6 +2191,7 @@ input[type=range].styled:focus::-ms-fill-upper {
   padding: 0 12px;
   letter-spacing: -0.2px;
   font-weight: 600;
+  color: black;
 }
 #ftModal #ftData #ftDataTabs .ft-tab:hover {
   color: black;
@@ -2505,6 +2507,11 @@ input[type=range].styled:focus::-ms-fill-upper {
   max-width: 600px;
   font-weight: 600;
   color: #10152C;
+}
+#ftModal #ftData #ftWebcam img {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
 }
 #ftModal .ft-accordion-header {
   display: block;

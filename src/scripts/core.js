@@ -839,6 +839,14 @@ require([
                 $("#floodToolsDiv .panel-heading").addClass('loading-hide');
                 $("#floodToolsDiv .panel-body").addClass('loading-hide');
                 $("#floodToolsDiv").addClass('loading-background');
+
+                // Default to Flood Tools Tab
+                $(".ftmodal-content").hide();
+                $("#ftTools").show();
+                $(".ft-tab").removeClass("active");
+                $("#ftDataTabs .ft-tab:first-child").addClass("active");
+        
+
                 
                 results = null;
                 getGridInfo();
@@ -1067,12 +1075,23 @@ require([
                 }
 
                 //Web cam check and set up
-                /*if (feature.attributes.HAS_WEBCAM == "1") {
-                 $("#webCamTab").show();
-                 $("#webCamIFrame").attr("src", "https://services.wim.usgs.gov/webCam/webCamNew/Default.aspx?webCamInfo=" + feature.attributes.WEBCAM_INFO);
-                 } else if (feature.attributes.HAS_WEBCAM == "0") {
-                 $("#webCamTab").hide();
-                 }*/
+                //Web cam check and set up
+                //Web cam check and set up
+                if(feature.attributes.HAS_WEBCAM == "1"){ //Embed
+                    $(".ft-webcam-tab").hide();
+                    $(".ft-webcam-link-tab").show();
+                    $(".ft-webcam-link-tab").attr("href", "https://services.wim.usgs.gov/webCam/webCamNew/Default.aspx?webCamInfo=" + feature.attributes.WEBCAM_INFO)
+                    console.log("Open Webcam in new tab")
+                }else if(feature.attributes.HAS_WEBCAM == "2"){ //Image
+                    $(".ft-webcam-tab").show();
+                    $(".ft-webcam-link-tab").hide();
+                    $("#webcamImage").attr('src', feature.attributes.WEBCAM_INFO);
+                    console.log("Webcam image embedded.")
+                }else{
+                    $(".ft-webcam-tab").hide();
+                    $(".ft-webcam-link-tab").hide();
+                    console.log("No webcam")
+                }
 
                 //More Info check and setup
                 $.ajax({
@@ -1084,11 +1103,11 @@ require([
 
                         if (data.features && data.features.length > 0) {
                             $("#moreInfo").text(data.features[0].attributes.ADD_INFO);
-                            $("#moreInfoTab").show();
+                            $(".ft-more-info-tab").show();
                             $(".nav-tabs a[href='#moreInfoTabPane']").tab('show');
                         } else {
-                            $("#moreInfo").text("No additional info for this site.");
-                            $("#moreInfoTab").hide();
+                            $("#moreInfo").text("Loading...");
+                            $(".ft-more-info-tab").hide();
                         }
 
                     },
@@ -1821,7 +1840,7 @@ require([
                         // Site ID and Stage Label
                         $("#hazusTableSiteLabel").html(featureSet.features[0].attributes["USGSID"]);
 
-                        $(".hazus-content").show();
+                        $(".ft-hazus-tab").show();
                         $("#hazusTable tr td").remove();
                         for (var i=0; i < featureSet.features.length; i++) {
                             var html = "<tr id='hazus" + featureSet.features[i].attributes["STAGE"] + "'><td>" + featureSet.features[i].attributes["STAGE"] + "</td><td>" + featureSet.features[i].attributes["BuildingDamaged"] + 
@@ -1839,7 +1858,7 @@ require([
                         $("#hazusMaxLvl").html(featureSet.features[hazusMax].attributes["STAGE"]);
 
                     } else {
-                        $(".hazus-content").hide();
+                        $(".ft-hazus-tab").hide();
                     }
                 }
 
