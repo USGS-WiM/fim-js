@@ -2583,11 +2583,7 @@ input[type=range].styled:focus::-ms-fill-upper {
 }
 #minFT .body .min-ft {
   display: block;
-  margin: 6px 0;
-  box-sizing: border-box;
-  padding: 7px;
-  background: #f1f1f1;
-  border-radius: 4px;
+  margin: 15px 0 0 0;
 }
 #minFT .body .min-ft .item {
   display: flex;
@@ -2643,6 +2639,13 @@ input[type=range].styled:focus::-ms-fill-upper {
   color: rgba(16, 21, 44, 0.5);
   border-bottom: 1px solid rgba(16, 21, 44, 0.15);
   margin-top: 5px;
+}
+#minFT.multisite .body .min-ft {
+  margin: 6px 0;
+  box-sizing: border-box;
+  padding: 7px;
+  background: #f1f1f1;
+  border-radius: 4px;
 }
 .modal .modal-dialog .modal-content {
   border: none !important;
