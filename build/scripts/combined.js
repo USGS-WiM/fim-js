@@ -1190,6 +1190,7 @@ require([
                     sitePopup(evt);
                 } else if (siteAttr["MULTI_SITE"] > 0) {
                     if (siteAttr["MULTI_SITE"] == 1) {
+<<<<<<< HEAD
                         $(".fts2").show();
                         $(".fts3").hide();
                         $("#ftSliders").attr('class', 'twosite');
@@ -1198,6 +1199,13 @@ require([
                         $(".fts2").show();
                         $(".fts3").show();
                         $("#ftSliders").attr('class', 'threesite');
+=======
+                        $(".second-site").show();
+                        $(".third-site").hide();
+                    } else if (siteAttr["MULTI_SITE"] == 3) {
+                        $(".second-site").show();
+                        $(".third-site").show();
+>>>>>>> 2a30a00641bf6d8816d7b73dc3bba14661897c17
                     }
                     
                     var multiSitesQuery = new esriQuery(); 
@@ -1646,7 +1654,11 @@ require([
 
                                 var template = new esri.InfoTemplate("<span class=''>" + siteName + "</span>",
                                     "<div id='rtInfo'>" + rtHtml + "</div>" +
+<<<<<<< HEAD
                                     "<span>Most recent measurement(s) <span style='font-size: smaller; color: darkblue'><i>(local time)</i></span> - see <a target='_blank' href='https://waterdata.usgs.gov/nwis/uv?site_no=" + siteNo + "'>NWIS Site</a> for more details</span>" +
+=======
+                                    "<br/><span>Most recent measurement(s) <span style='font-size: smaller; color: darkblue'><i>(local time)</i></span> - see <a target='_blank' href='https://waterdata.usgs.gov/nwis/uv?site_no=" + siteNo + "'>NWIS Site</a> for more details</span>" +
+>>>>>>> 2a30a00641bf6d8816d7b73dc3bba14661897c17
                                     "<div id='nwisCharts'>" + nwisHtml + "</div>");*/
 
                             },
@@ -2073,11 +2085,19 @@ require([
                         });
 
                         //$("#siteNumber").text(attr["SITE_NO"]);
+<<<<<<< HEAD
                         $(".fts1 .floodSlider").attr({"min": 0, "max": gageValues.length-1});
                         if (siteAttr["MULTI_SITE"] >= 1) {
                             $(".fts2 .floodSlider").attr({"min": 0, "max": gageValues2.length-1});
                             if (siteAttr["MULTI_SITE"] >= 2) {
                                 $(".fts3 .floodSlider").attr({"min": 0, "max": gageValues3.length-1});
+=======
+                        $(".first-site .floodSlider").attr({"min": 0, "max": gageValues.length-1});
+                        if (siteAttr["MULTI_SITE"] >= 1) {
+                            $(".second-site .floodSlider").attr({"min": 0, "max": gageValues2.length-1});
+                            if (siteAttr["MULTI_SITE"] >= 2) {
+                                $(".third-site .floodSlider").attr({"min": 0, "max": gageValues3.length-1});
+>>>>>>> 2a30a00641bf6d8816d7b73dc3bba14661897c17
                             }
                         }
                         $(".floodSlider").value = 0;
@@ -2145,10 +2165,17 @@ require([
 
                             if (siteAttr["MULTI_SITE"] == 0) {
                                 for (var i=0; i < gridInfos.length; i++) {
+<<<<<<< HEAD
                                     if (gridInfos[i].shortname == siteAttr.SHORT_NAME && Number(gridInfos[i].gridid) == results[$(".fts1 #floodSlider")[0].value].attributes["GRIDID"]) {
                                         gridLayerIndexArrColl.push(gridInfos[i].index);
                                         gridLayerIndex = gridInfos[i].index;
                                     } else if (gridInfos[i].shortname == siteAttr.SHORT_NAME && gridInfos[i].gridid == results[$(".fts1 #floodSlider")[0].value].attributes["GRIDID"]+'b') {
+=======
+                                    if (gridInfos[i].shortname == siteAttr.SHORT_NAME && Number(gridInfos[i].gridid) == results[$(".first-site #floodSlider")[0].value].attributes["GRIDID"]) {
+                                        gridLayerIndexArrColl.push(gridInfos[i].index);
+                                        gridLayerIndex = gridInfos[i].index;
+                                    } else if (gridInfos[i].shortname == siteAttr.SHORT_NAME && gridInfos[i].gridid == results[$(".first-site #floodSlider")[0].value].attributes["GRIDID"]+'b') {
+>>>>>>> 2a30a00641bf6d8816d7b73dc3bba14661897c17
                                         gridLayerIndexArrColl.push(gridInfos[i].index);
                                         gridLayerIndex = gridInfos[i].index;
                                     }
@@ -2225,10 +2252,17 @@ require([
 
                                     if (siteAttr["HAS_GRIDS"] == 1) {
                                         for (var i=0; i < gridInfos.length; i++) {
+<<<<<<< HEAD
                                             if (gridInfos[i].shortname == siteAttr.SHORT_NAME && Number(gridInfos[i].gridid) == results[$(".fts1 #floodSlider")[0].value].attributes["GRIDID"]) {
                                                 gridLayerIndexArrColl.push(gridInfos[i].index);
                                                 gridLayerIndex = gridInfos[i].index;
                                             } else if (gridInfos[i].shortname == siteAttr.SHORT_NAME && gridInfos[i].gridid == results[$(".fts1 #floodSlider")[0].value].attributes["GRIDID"]+'b') {
+=======
+                                            if (gridInfos[i].shortname == siteAttr.SHORT_NAME && Number(gridInfos[i].gridid) == results[$(".first-site #floodSlider")[0].value].attributes["GRIDID"]) {
+                                                gridLayerIndexArrColl.push(gridInfos[i].index);
+                                                gridLayerIndex = gridInfos[i].index;
+                                            } else if (gridInfos[i].shortname == siteAttr.SHORT_NAME && gridInfos[i].gridid == results[$(".first-site #floodSlider")[0].value].attributes["GRIDID"]+'b') {
+>>>>>>> 2a30a00641bf6d8816d7b73dc3bba14661897c17
                                                 gridLayerIndexArrColl.push(gridInfos[i].index);
                                                 gridLayerIndex = gridInfos[i].index;
                                             }
@@ -2316,7 +2350,11 @@ require([
                                         var gridLayerID;
                                         $.each(gagePairs, function(index, value)
                                         {
+<<<<<<< HEAD
                                             if (value.STAGE_1 == gageValues[$(".fts1 #floodSlider")[0].value].gageValue && value.STAGE_2 == gageValues2[$(".fts2 #floodSlider")[0].value].gageValue) {
+=======
+                                            if (value.STAGE_1 == gageValues[$(".first-site #floodSlider")[0].value].gageValue && value.STAGE_2 == gageValues2[$(".second-site #floodSlider")[0].value].gageValue) {
+>>>>>>> 2a30a00641bf6d8816d7b73dc3bba14661897c17
                                                 gridLayerID = value.GRIDID;
                                             }
                                         });
@@ -2336,18 +2374,33 @@ require([
                                         map.getLayer(gridLayer).setVisibleLayers(gridVisLayer);
                                         
                                         var layerDefinitions = [];
+<<<<<<< HEAD
                                         layerDefinitions[0] = "USGSID_1 = '" + siteNo + "' AND STAGE_1 = " + gageValues[$(".fts1 #floodSlider")[0].value].gageValue + "AND USGSID_2 = '" + siteNo_2 + "' AND STAGE_2 = " + gageValues2[$(".fts2 #floodSlider")[0].value].gageValue;
+=======
+                                        layerDefinitions[0] = "USGSID_1 = '" + siteNo + "' AND STAGE_1 = " + gageValues[$(".first-site #floodSlider")[0].value].gageValue + "AND USGSID_2 = '" + siteNo_2 + "' AND STAGE_2 = " + gageValues2[$(".second-site #floodSlider")[0].value].gageValue;
+>>>>>>> 2a30a00641bf6d8816d7b73dc3bba14661897c17
                                         map.getLayer("fimExtentsMulti").setLayerDefinitions(layerDefinitions);
                                         map.getLayer("fimBreachMulti").setLayerDefinitions(layerDefinitions);
                                     }
                                     
                                 } else if (siteAttr["MULTI_SITE"] == 3) {
                                     if ($(this).hasClass('first-slider')) {
+<<<<<<< HEAD
                                         $(".fts1 #selectedValue").text(gageValues[this.value].gageValue);
                                     } else if ($(this).hasClass('second-slider')) {
                                         $(".fts2 #selectedValue").text(gageValues2[this.value].gageValue);
                                     } else if ($(this).hasClass('third-slider')) {
                                         $(".fts2 #selectedValue").text(gageValues3[this.value].gageValue);
+=======
+                                        $(".first-site #selectedValue").text(gageValues[this.value].gageValue);
+                                        $(".first-site #floodMinSelectedGage").text(gageValues[this.value].gageValue);
+                                    } else if ($(this).hasClass('second-slider')) {
+                                        $(".second-site #selectedValue").text(gageValues2[this.value].gageValue);
+                                        $(".second-site #floodMinSelectedGage").text(gageValues2[this.value].gageValue);
+                                    } else if ($(this).hasClass('third-slider')) {
+                                        $(".third-site #selectedValue").text(gageValues3[this.value].gageValue);
+                                        $(".third-site #floodMinSelectedGage").text(gageValues3[this.value].gageValue);
+>>>>>>> 2a30a00641bf6d8816d7b73dc3bba14661897c17
                                     }
 
                                     // Code to determine next possible combination if current selections are not available as map in library
@@ -2356,18 +2409,30 @@ require([
                                     if ($(this).hasClass('first-slider')) {
                                         $.each(gagePairs, function(index, value)
                                         {
+<<<<<<< HEAD
                                             if (value.STAGE_1 == gageValues[$(".fts1 #floodSlider")[0].value].gageValue) {
+=======
+                                            if (value.STAGE_1 == gageValues[$(".first-site #floodSlider")[0].value].gageValue) {
+>>>>>>> 2a30a00641bf6d8816d7b73dc3bba14661897c17
                                                 tempPairValue.push({pairStage2: parseFloat(value.STAGE_2), pairStage3: parseFloat(value.STAGE_3)});
                                             }
                                         });
                                         
                                         tempPairValue.sort((a,b) => (Number(a.pairStage2) > Number(b.pairStage2)) ? 1 : ((Number(b.pairStage2) > Number(a.pairStage2)) ? -1 : 0));
             
+<<<<<<< HEAD
                                         var currentSlider2Value = parseFloat(gageValues2[$(".fts2 #floodSlider")[0].value].gageValue);
                                         if (currentSlider2Value < parseFloat(tempPairValue[0].pairStage2)) {
                                             for (var i = 0; i < gageValues2.length; i++) {
                                                 if (gageValues2[i].gageValue == parseFloat(tempPairValue[0].pairStage2)) {
                                                     $(".fts2 #floodSlider")[0].value = i;
+=======
+                                        var currentSlider2Value = parseFloat(gageValues2[$(".second-site #floodSlider")[0].value].gageValue);
+                                        if (currentSlider2Value < parseFloat(tempPairValue[0].pairStage2)) {
+                                            for (var i = 0; i < gageValues2.length; i++) {
+                                                if (gageValues2[i].gageValue == parseFloat(tempPairValue[0].pairStage2)) {
+                                                    $(".second-site #floodSlider")[0].value = i;
+>>>>>>> 2a30a00641bf6d8816d7b73dc3bba14661897c17
                                                     //slideWarningShow();
                                                     break;
                                                 }
@@ -2375,7 +2440,11 @@ require([
                                         } else if (currentSlider2Value > parseFloat(tempPairValue[tempPairValue.length-1].pairStage2)) {
                                             for (i=0;i<gageValues2.length;i++) {
                                                 if (gageValues2[i].gageValue == parseFloat(tempPairValue[tempPairValue.length-1].pairStage2)) {
+<<<<<<< HEAD
                                                     $(".fts2 #floodSlider")[0].value = i;
+=======
+                                                    $(".second-site #floodSlider")[0].value = i;
+>>>>>>> 2a30a00641bf6d8816d7b73dc3bba14661897c17
                                                     //slideWarningShow();
                                                     break;
                                                 }
@@ -2385,18 +2454,30 @@ require([
                                         var newTempPair = [];
                                         $.each(tempPairValue, function(index, value)
                                         {
+<<<<<<< HEAD
                                             if (value.pairStage2 == gageValues2[$(".fts2 #floodSlider")[0].value].gageValue) {
+=======
+                                            if (value.pairStage2 == gageValues2[$(".second-site #floodSlider")[0].value].gageValue) {
+>>>>>>> 2a30a00641bf6d8816d7b73dc3bba14661897c17
                                                 newTempPair.push({value});
                                             }
                                         });
                                         
                                         newTempPair.sort((a,b) => (Number(a.value.pairStage3) > Number(b.value.pairStage3)) ? 1 : ((Number(b.value.pairStage3) > Number(a.value.pairStage3)) ? -1 : 0));
             
+<<<<<<< HEAD
                                         var currentSlider3Value = parseFloat(gageValues3[$(".fts3 #floodSlider")[0].value].gageValue);
                                         if (currentSlider3Value < parseFloat(newTempPair[0].value.pairStage3)) {
                                             for (var i = 0; i < gageValues3.length; i++) {
                                                 if (gageValues3[i].gageValue == parseFloat(newTempPair[0].value.pairStage3)) {
                                                     $(".fts3 #floodSlider")[0].value = i;
+=======
+                                        var currentSlider3Value = parseFloat(gageValues3[$(".third-site #floodSlider")[0].value].gageValue);
+                                        if (currentSlider3Value < parseFloat(newTempPair[0].value.pairStage3)) {
+                                            for (var i = 0; i < gageValues3.length; i++) {
+                                                if (gageValues3[i].gageValue == parseFloat(newTempPair[0].value.pairStage3)) {
+                                                    $(".third-site #floodSlider")[0].value = i;
+>>>>>>> 2a30a00641bf6d8816d7b73dc3bba14661897c17
                                                     //slideWarningShow();
                                                     break;
                                                 }
@@ -2404,7 +2485,11 @@ require([
                                         } else if (currentSlider3Value > parseFloat(newTempPair[newTempPair.length-1].value.pairStage3)) {
                                             for (i=0;i<gageValues3.length;i++) {
                                                 if (gageValues3[i].gageValue == parseFloat(newTempPair[newTempPair.length-1].value.pairStage3)) {
+<<<<<<< HEAD
                                                     $(".fts3 #floodSlider")[0].value = i;
+=======
+                                                    $(".third-site #floodSlider")[0].value = i;
+>>>>>>> 2a30a00641bf6d8816d7b73dc3bba14661897c17
                                                     //slideWarningShow();
                                                     break;
                                                 }
@@ -2414,18 +2499,30 @@ require([
                                     } else if ($(this).hasClass('second-slider')) {
                                         $.each(gagePairs, function(index, value)
                                         {
+<<<<<<< HEAD
                                             if (value.STAGE_2 == gageValues2[$(".fts2 #floodSlider")[0].value].gageValue) {
+=======
+                                            if (value.STAGE_2 == gageValues2[$(".second-site #floodSlider")[0].value].gageValue) {
+>>>>>>> 2a30a00641bf6d8816d7b73dc3bba14661897c17
                                                 tempPairValue.push({pairStage1: parseFloat(value.STAGE_1), pairStage3: parseFloat(value.STAGE_3)});
                                             }
                                         });
                                         
                                         tempPairValue.sort((a,b) => (Number(a.pairStage1) > Number(b.pairStage1)) ? 1 : ((Number(b.pairStage1) > Number(a.pairStage1)) ? -1 : 0));
             
+<<<<<<< HEAD
                                         var currentSlider1Value = parseFloat(gageValues[$(".fts1 #floodSlider")[0].value].gageValue);
                                         if (currentSlider1Value < parseFloat(tempPairValue[0].pairStage1)) {
                                             for (i=0;i<gageValues.length;i++) {
                                                 if (gageValues[i].gageValue == parseFloat(tempPairValue[0].pairStage1)) {
                                                     $(".fts1 #floodSlider")[0].value = i;
+=======
+                                        var currentSlider1Value = parseFloat(gageValues[$(".first-site #floodSlider")[0].value].gageValue);
+                                        if (currentSlider1Value < parseFloat(tempPairValue[0].pairStage1)) {
+                                            for (i=0;i<gageValues.length;i++) {
+                                                if (gageValues[i].gageValue == parseFloat(tempPairValue[0].pairStage1)) {
+                                                    $(".first-site #floodSlider")[0].value = i;
+>>>>>>> 2a30a00641bf6d8816d7b73dc3bba14661897c17
                                                     //slideWarningShow();
                                                     break;
                                                 }
@@ -2433,7 +2530,11 @@ require([
                                         } else if (currentSlider1Value > parseFloat(tempPairValue[tempPairValue.length-1].pairStage1)) {
                                             for (i=0;i<gageValues.length;i++) {
                                                 if (gageValues[i].gageValue == parseFloat(tempPairValue[tempPairValue.length-1].pairStage1)) {
+<<<<<<< HEAD
                                                     $(".fts1 #floodSlider")[0].value = i;
+=======
+                                                    $(".first-site #floodSlider")[0].value = i;
+>>>>>>> 2a30a00641bf6d8816d7b73dc3bba14661897c17
                                                     //slideWarningShow();
                                                     break;
                                                 }
@@ -2443,18 +2544,30 @@ require([
                                         var newTempPair = [];
                                         $.each(tempPairValue, function(index, value)
                                         {
+<<<<<<< HEAD
                                             if (value.pairStage1 == gageValues[$(".fts1 #floodSlider")[0].value].gageValue) {
+=======
+                                            if (value.pairStage1 == gageValues[$(".first-site #floodSlider")[0].value].gageValue) {
+>>>>>>> 2a30a00641bf6d8816d7b73dc3bba14661897c17
                                                 newTempPair.push({value});
                                             }
                                         });
                                         
                                         newTempPair.sort((a,b) => (Number(a.value.pairStage3) > Number(b.value.pairStage3)) ? 1 : ((Number(b.value.pairStage3) > Number(a.value.pairStage3)) ? -1 : 0));
             
+<<<<<<< HEAD
                                         var currentSlider3Value = parseFloat(gageValues3[$(".fts3 #floodSlider")[0].value].gageValue);
                                         if (currentSlider3Value < parseFloat(newTempPair[0].value.pairStage3)) {
                                             for (var i = 0; i < gageValues3.length; i++) {
                                                 if (gageValues3[i].gageValue == parseFloat(newTempPair[0].value.pairStage3)) {
                                                     $(".fts3 #floodSlider")[0].value = i;
+=======
+                                        var currentSlider3Value = parseFloat(gageValues3[$(".third-site #floodSlider")[0].value].gageValue);
+                                        if (currentSlider3Value < parseFloat(newTempPair[0].value.pairStage3)) {
+                                            for (var i = 0; i < gageValues3.length; i++) {
+                                                if (gageValues3[i].gageValue == parseFloat(newTempPair[0].value.pairStage3)) {
+                                                    $(".third-site #floodSlider")[0].value = i;
+>>>>>>> 2a30a00641bf6d8816d7b73dc3bba14661897c17
                                                     //slideWarningShow();
                                                     break;
                                                 }
@@ -2462,7 +2575,11 @@ require([
                                         } else if (currentSlider3Value > parseFloat(newTempPair[newTempPair.length-1].value.pairStage3)) {
                                             for (i=0;i<gageValues3.length;i++) {
                                                 if (gageValues3[i].gageValue == parseFloat(newTempPair[newTempPair.length-1].value.pairStage3)) {
+<<<<<<< HEAD
                                                     $(".fts3 #floodSlider")[0].value = i;
+=======
+                                                    $(".third-site #floodSlider")[0].value = i;
+>>>>>>> 2a30a00641bf6d8816d7b73dc3bba14661897c17
                                                     //slideWarningShow();
                                                     break;
                                                 }
@@ -2472,18 +2589,30 @@ require([
                                     } else if ($(this).hasClass('third-slider')) {
                                         $.each(gagePairs, function(index, value)
                                         {
+<<<<<<< HEAD
                                             if (value.STAGE_3 == gageValues3[$(".fts3 #floodSlider")[0].value].gageValue) {
+=======
+                                            if (value.STAGE_3 == gageValues3[$(".third-site #floodSlider")[0].value].gageValue) {
+>>>>>>> 2a30a00641bf6d8816d7b73dc3bba14661897c17
                                                 tempPairValue.push({pairStage1: parseFloat(value.STAGE_1), pairStage2: parseFloat(value.STAGE_2)});
                                             }
                                         });
 
                                         tempPairValue.sort((a,b) => (Number(a.pairStage2) > Number(b.pairStage2)) ? 1 : ((Number(b.pairStage2) > Number(a.pairStage2)) ? -1 : 0));
             
+<<<<<<< HEAD
                                         var currentSlider2Value = parseFloat(gageValues2[$(".fts2 #floodSlider")[0].value].gageValue);
                                         if (currentSlider2Value < parseFloat(tempPairValue[0].pairStage2)) {
                                             for (var i = 0; i < gageValues2.length; i++) {
                                                 if (gageValues2[i].gageValue == parseFloat(tempPairValue[0].pairStage2)) {
                                                     $(".fts2 #floodSlider")[0].value = i;
+=======
+                                        var currentSlider2Value = parseFloat(gageValues2[$(".second-site #floodSlider")[0].value].gageValue);
+                                        if (currentSlider2Value < parseFloat(tempPairValue[0].pairStage2)) {
+                                            for (var i = 0; i < gageValues2.length; i++) {
+                                                if (gageValues2[i].gageValue == parseFloat(tempPairValue[0].pairStage2)) {
+                                                    $(".second-site #floodSlider")[0].value = i;
+>>>>>>> 2a30a00641bf6d8816d7b73dc3bba14661897c17
                                                     //slideWarningShow();
                                                     break;
                                                 }
@@ -2491,7 +2620,11 @@ require([
                                         } else if (currentSlider2Value > parseFloat(tempPairValue[tempPairValue.length-1].pairStage2)) {
                                             for (i=0;i<gageValues2.length;i++) {
                                                 if (gageValues2[i].gageValue == parseFloat(tempPairValue[tempPairValue.length-1].pairStage2)) {
+<<<<<<< HEAD
                                                     $(".fts2 #floodSlider")[0].value = i;
+=======
+                                                    $(".second-site #floodSlider")[0].value = i;
+>>>>>>> 2a30a00641bf6d8816d7b73dc3bba14661897c17
                                                     //slideWarningShow();
                                                     break;
                                                 }
@@ -2501,18 +2634,30 @@ require([
                                         var newTempPair = [];
                                         $.each(tempPairValue, function(index, value)
                                         {
+<<<<<<< HEAD
                                             if (value.pairStage2 == gageValues2[$(".fts2 #floodSlider")[0].value].gageValue) {
+=======
+                                            if (value.pairStage2 == gageValues2[$(".second-site #floodSlider")[0].value].gageValue) {
+>>>>>>> 2a30a00641bf6d8816d7b73dc3bba14661897c17
                                                 newTempPair.push({value});
                                             }
                                         });
                                         
                                         newTempPair.sort((a,b) => (Number(a.value.pairStage1) > Number(b.value.pairStage1)) ? 1 : ((Number(b.value.pairStage1) > Number(a.value.pairStage1)) ? -1 : 0));
             
+<<<<<<< HEAD
                                         var currentSlider1Value = parseFloat(gageValues[$(".fts1 #floodSlider")[0].value].gageValue);
                                         if (currentSlider1Value < parseFloat(newTempPair[0].value.pairStage1)) {
                                             for (i=0;i<gageValues.length;i++) {
                                                 if (gageValues[i].gageValue == parseFloat(newTempPair[0].value.pairStage1)) {
                                                     $(".fts1 #floodSlider")[0].value = i;
+=======
+                                        var currentSlider1Value = parseFloat(gageValues[$(".first-site #floodSlider")[0].value].gageValue);
+                                        if (currentSlider1Value < parseFloat(newTempPair[0].value.pairStage1)) {
+                                            for (i=0;i<gageValues.length;i++) {
+                                                if (gageValues[i].gageValue == parseFloat(newTempPair[0].value.pairStage1)) {
+                                                    $(".first-site #floodSlider")[0].value = i;
+>>>>>>> 2a30a00641bf6d8816d7b73dc3bba14661897c17
                                                     //slideWarningShow();
                                                     break;
                                                 }
@@ -2520,7 +2665,11 @@ require([
                                         } else if (currentSlider1Value > parseFloat(newTempPair[newTempPair.length-1].value.pairStage1)) {
                                             for (i=0;i<gageValues.length;i++) {
                                                 if (gageValues[i].gageValue == parseFloat(newTempPair[newTempPair.length-1].value.pairStage1)) {
+<<<<<<< HEAD
                                                     $(".fts1 #floodSlider")[0].value = i;
+=======
+                                                    $(".first-site #floodSlider")[0].value = i;
+>>>>>>> 2a30a00641bf6d8816d7b73dc3bba14661897c17
                                                     //slideWarningShow();
                                                     break;
                                                 }
@@ -2533,7 +2682,11 @@ require([
                                         var gridLayerID;
                                         $.each(gagePairs, function(index, value)
                                         {
+<<<<<<< HEAD
                                             if (value.STAGE_1 == gageValues[$(".fts1 #floodSlider")[0].value].gageValue && value.STAGE_2 == gageValues2[$(".fts2 #floodSlider")[0].value].gageValue && value.STAGE_3 == gageValues3[$(".fts3 #floodSlider")[0].value].gageValue) {
+=======
+                                            if (value.STAGE_1 == gageValues[$(".first-site #floodSlider")[0].value].gageValue && value.STAGE_2 == gageValues2[$(".second-site #floodSlider")[0].value].gageValue && value.STAGE_3 == gageValues3[$(".third-site #floodSlider")[0].value].gageValue) {
+>>>>>>> 2a30a00641bf6d8816d7b73dc3bba14661897c17
                                                 gridLayerID = value.GRIDID;
                                             }
                                         });
@@ -2554,7 +2707,11 @@ require([
                                     }
 
                                     var layerDefinitions = [];
+<<<<<<< HEAD
                                     layerDefinitions[0] = "USGSID_1 = '" + siteNo + "' AND STAGE_1 = " + gageValues[$(".fts1 #floodSlider")[0].value].gageValue + " AND USGSID_2 = '" + siteNo_2 + "' AND STAGE_2 = " + gageValues2[$(".fts2 #floodSlider")[0].value].gageValue + " AND USGSID_3 = '" + siteNo_3 + "' AND STAGE_3 = " + gageValues3[$(".fts3 #floodSlider")[0].value].gageValue;;
+=======
+                                    layerDefinitions[0] = "USGSID_1 = '" + siteNo + "' AND STAGE_1 = " + gageValues[$(".first-site #floodSlider")[0].value].gageValue + " AND USGSID_2 = '" + siteNo_2 + "' AND STAGE_2 = " + gageValues2[$(".second-site #floodSlider")[0].value].gageValue + " AND USGSID_3 = '" + siteNo_3 + "' AND STAGE_3 = " + gageValues3[$(".third-site #floodSlider")[0].value].gageValue;;
+>>>>>>> 2a30a00641bf6d8816d7b73dc3bba14661897c17
                                     map.getLayer("fimExtentsThreeSites").setLayerDefinitions(layerDefinitions);
                                     //REVISIT: when using breach service for three sites
                                     //map.getLayer("fimBreachThreeSites").setLayerDefinitions(layerDefinitions);
