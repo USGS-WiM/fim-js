@@ -1471,7 +1471,7 @@ input[type="radio"] {
 #floodClose:before {
   content: '\f00d';
   font-family: FontAwesome;
-  font-size: 18px;
+  font-size: 20px;
 }
 #floodMin {
   position: relative;
@@ -1480,7 +1480,7 @@ input[type="radio"] {
 #floodMin:before {
   content: '\f066';
   font-family: FontAwesome;
-  font-size: 18px;
+  font-size: 20px;
 }
 #floodToolsDiv {
   box-shadow: 0px 6px 27px -7px rgba(0, 10, 80, 0.55);
@@ -2502,10 +2502,10 @@ input[type=range].styled:focus::-ms-fill-upper {
 }
 #ftModal #ftData #ftMoreInfo #moreInfo {
   font-size: 13px;
-  line-height: 28px;
+  line-height: 22px;
   display: block;
   max-width: 600px;
-  font-weight: 600;
+  font-weight: 500;
   color: #10152C;
 }
 #ftModal #ftData #ftWebcam img {

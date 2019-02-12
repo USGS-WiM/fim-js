@@ -478,7 +478,7 @@ require([
         //map.getLayer("fimExtents").setVisibility(false);
         $("#minFT").addClass('visible');
 
-        $('#hydroChart').hide();
+        $('#hydroChart, #hydroChart2, #hydroChart3').hide();
     });
 
     $("#floodClose").click(function(){
@@ -542,7 +542,6 @@ require([
     $(".ft-tab").click(function(){
         $(".ft-tab").removeClass("active");
         $(this).addClass("active");
-        console.log($(this).attr('data-toggle'))
         var toggleID = $(this).attr("data-toggle").toString();
         $(".ftmodal-content").not("#" + toggleID).hide();
         $("#" + toggleID).show();
@@ -1442,93 +1441,193 @@ require([
                             return finalDataArray;
                         }
 
-                        function buildFloodStageBands(nwsDataToClean) {
 
-                            var tempFloodStageBands = [];
-                            var tempCleanFloodStageData = [];
+                        // ========================================================================
+                        // ========================================================================
+                        // ========================================================================
+                        // Flood Stages
+                        // Flood Stages
+                        // Flood Stages
+                        // Flood Stages
+                        // ========================================================================
+                        // ========================================================================
+                        // ========================================================================
 
-                            var rawFloodStageData;
-                            if (nwsDataToClean && nwsDataToClean.childNodes && nwsDataToClean.childNodes[0] && nwsDataToClean.childNodes[0].children[1] && nwsDataToClean.childNodes[0].children[1].children) {
-                                rawFloodStageData = [].slice.call(nwsDataToClean.childNodes[0].children[1].children);
-                            }      
-
-                            // Clean up raw data - remove empty values
-                            $.each(rawFloodStageData, function(key, value) {
-                                if(value.localName == 'action' || value.localName == 'flood' || value.localName == 'moderate' || value.localName == 'major'){
-                                    tempCleanFloodStageData.push({'levelValue': value.textContent, 'label': value.localName});
+                        var floodStageBands = [
+                            {
+                                color: "#FDFB51",
+                                from: "0",
+                                to: "10",
+                                'label':{
+                                    'text': "Action"
                                 }
-                            });
-
-                            if(tempCleanFloodStageData[0]){
-                                var tempFloodStageBands = [];
-                                $.each(tempCleanFloodStageData, function(key, value) {
-
-                                    // Push flood stage to chart 
-                                    var addFloodStage = function(){
-                                        tempFloodStageBands.push({
-                                            'color': bandColor, 
-                                            'from': fromValue, 
-                                            'to': toValue,
-                                            'label':{
-                                                'text': labelText
-                                            }
-                                        });
-                                    }
-        
-                                    if(value.label == 'action'){
-                                        labelText = "Action";
-                                        bandColor = "#FDFB51";
-                                    }
-                                    if(value.label == 'flood'){
-                                        labelText = "Minor Flooding";
-                                        bandColor = "#FAA629";
-                                    }
-                                    if(value.label == 'moderate'){
-                                        labelText = "Moderate Flooding";
-                                        bandColor = "#FC0D1B";
-                                    }
-                                    if(value.label == 'major'){
-                                        labelText = "Major Flooding";
-                                        bandColor = "#C326FB";
-                                    }
-        
-                                    // Only if data for that level exists
-                                    if(value.levelValue){
-                                        fromValue = parseFloat(value.levelValue);
-                                        if(tempCleanFloodStageData[key + 1]){
-                                            toValue = parseFloat(tempCleanFloodStageData[key + 1].levelValue);
-                                        }else{
-                                            toValue = parseFloat(value.levelValue + 10);
-                                        }
-                                        addFloodStage();
-                                    }
-                                    
-        
-                                });
-                                var sliderMin = parseFloat($(".fts1 .slider-min:first").text());
-                                var sliderMax = parseFloat($(".fts1 .slider-max:first").text());
-                                var sliderTotalDiff = sliderMax - sliderMin;
-
-                                
-                                $(".slider-flood-levels").show();
-                                if(tempFloodStageBands[0]){
-                                    $(".fts1 .sliderActionLevel").css( "width", (tempFloodStageBands[0].to - sliderMin) / sliderTotalDiff * 100 + '%' );
-                                    $(".fts1 .sliderMinorLevel").css( "width", (tempFloodStageBands[1].to - sliderMin) / sliderTotalDiff * 100 + '%' );
-                                    $(".fts1 .sliderModerateLevel").css( "width", (tempFloodStageBands[2].to - sliderMin) / sliderTotalDiff * 100 + '%' );
-                                    $(".fts1 .sliderMajorLevel").css( "width", '100%' );
-                                }else{
-                                    $(".slider-flood-levels").hide();
+                                // to: nwsData[0].childNodes[0].children[1].children[1].textContent
+                            },
+                            {
+                                color: "#FAA629",
+                                from: "10",
+                                to: "15",
+                                'label':{
+                                    'text': "Minor Flooding"
                                 }
-                                if (tempFloodStageBands[3]) { $("#sliderMajorLevel").css( "width", tempFloodStageBands[3].from / sliderTotalDiff * 100 + '%' ); }
-        
+                            },
+                            {
+                                color: "#FC0D1B",
+                                from: "15",
+                                to: "23",
+                                'label':{
+                                    'text': "Moderate Flooding"
+                                }
+                            },
+                            {
+                                color: "#C326FB",
+                                from: "23",
+                                to: "33",
+                                'label':{
+                                    'text': "Major Flooding"
+                                }
                             }
+                        ];
+                        var floodStageBands2 = [
+                            {
+                                color: "#FDFB51",
+                                from: "0",
+                                to: "20",
+                                'label':{
+                                    'text': "Action"
+                                }
+                                // to: nwsData[0].childNodes[0].children[1].children[1].textContent
+                            },
+                            {
+                                color: "#FAA629",
+                                from: "20",
+                                to: "40",
+                                'label':{
+                                    'text': "Minor Flooding"
+                                }
+                            },
+                            {
+                                color: "#FC0D1B",
+                                from: "40",
+                                to: "60",
+                                'label':{
+                                    'text': "Moderate Flooding"
+                                }
+                            },
+                            {
+                                color: "#C326FB",
+                                from: "60",
+                                to: "80",
+                                'label':{
+                                    'text': "Major Flooding"
+                                }
+                            }
+                        ];
+                        var floodStageBands3 = [
+                            {
+                                color: "#FDFB51",
+                                from: "0",
+                                to: "20",
+                                'label':{
+                                    'text': "Action"
+                                }
+                                // to: nwsData[0].childNodes[0].children[1].children[1].textContent
+                            },
+                            {
+                                color: "#FAA629",
+                                from: "20",
+                                to: "40",
+                                'label':{
+                                    'text': "Minor Flooding"
+                                }
+                            },
+                            {
+                                color: "#FC0D1B",
+                                from: "40",
+                                to: "60",
+                                'label':{
+                                    'text': "Moderate Flooding"
+                                }
+                            },
+                            {
+                                color: "#C326FB",
+                                from: "60",
+                                to: "80",
+                                'label':{
+                                    'text': "Major Flooding"
+                                }
+                            }
+                        ];
 
-                            return tempFloodStageBands;
+
+                        // Set slider values
+                        // Set slider values
+                        // Set slider values
+                        $(".fts1 .floodSlider").attr({"min": 0, "max": gageValues.length-1});
+                        if (siteAttr["MULTI_SITE"] >= 1) {
+                            $(".fts2 .floodSlider").attr({"min": 0, "max": gageValues2.length-1});
+                            if (siteAttr["MULTI_SITE"] >= 2) {
+                                $(".fts3 .floodSlider").attr({"min": 0, "max": gageValues3.length-1});
+                            }
                         }
 
-                        var floodStageBands = buildFloodStageBands(nwsData[0]);
-                        var floodStageBands2 = buildFloodStageBands(nwsData2[0]);
-                        var floodStageBands3 = buildFloodStageBands(nwsData3[0]);
+                        $(".floodSlider").value = 0;
+                        
+                        // Sliders & Flood Levels
+                        // Sliders & Flood Levels
+                        // Sliders & Flood Levels
+                        // Sliders & Flood Levels
+                        
+                        // Fill slider min/max/current
+                        $(".fts1 .slider-min").text(gageValues[0].gageValue);
+                        $(".fts1 .slider-max").text(gageValues[gageValues.length-1].gageValue);
+
+                        // Flood levels near slider - Site 1
+                        var flMax1 = gageValues[gageValues.length-1].gageValue;
+                        var flMin1 = gageValues[0].gageValue;
+                        var flDiff1 = flMax1 - flMin1;
+                        $(".fts1 .sliderActionLevel").css( "width", (floodStageBands[0].to - flMin1) / flDiff1 * 100 + '%' );
+                        $(".fts1 .sliderMinorLevel").css( "width", (floodStageBands[1].to - flMin1) / flDiff1 * 100 + '%' );
+                        $(".fts1 .sliderModerateLevel").css( "width", (floodStageBands[2].to - flMin1) / flDiff1 * 100 + '%' );
+                        $(".fts1 .sliderMajorLevel").css( "width", '100%' );
+
+                        
+                        // Single Site
+                        if (attr["MULTI_SITE"] == 0) {
+                            console.log("Single Site");
+                        } else if (attr["MULTI_SITE"] > 0) {
+                            console.log("Double Site");
+
+                            // Fill slider min/max/current - 2nd site
+                            $(".fts2 .slider-min").text(gageValues2[0].gageValue);
+                            $(".fts2 .slider-max").text(gageValues2[gageValues2.length-1].gageValue);
+
+                            // Slider flood levels - 2nd site
+                            var flMax2 = gageValues2[gageValues2.length-1].gageValue;
+                            var flMin2 = gageValues2[0].gageValue;
+                            var flDiff2 = flMax2 - flMin2;
+                            $(".fts2 .sliderActionLevel").css( "width", (floodStageBands2[0].to - flMin2) / flDiff2 * 100 + '%' );
+                            $(".fts2 .sliderMinorLevel").css( "width", (floodStageBands2[1].to - flMin2) / flDiff2 * 100 + '%' );
+                            $(".fts2 .sliderModerateLevel").css( "width", (floodStageBands2[2].to - flMin2) / flDiff2 * 100 + '%' );
+                            $(".fts2 .sliderMajorLevel").css( "width", '100%' );
+                        }
+                        if (attr["MULTI_SITE"] > 1) {
+                            console.log("Triple Site");
+
+                            // Fill slider min/max/current
+                            $(".fts3 .slider-min").text(gageValues3[0].gageValue);
+                            $(".fts3 .slider-max").text(gageValues3[gageValues3.length-1].gageValue);
+
+                            // Slider flood levels - 3rd site
+                            var flMax3 = gageValues3[gageValues3.length-1].gageValue;
+                            var flMin3 = gageValues3[0].gageValue;
+                            var flDiff3 = flMax3 - flMin3;
+                            $(".fts3 .sliderActionLevel").css( "width", (floodStageBands3[0].to - flMin3) / flDiff3 * 100 + '%' );
+                            $(".fts3 .sliderMinorLevel").css( "width", (floodStageBands3[1].to - flMin3) / flDiff3 * 100 + '%' );
+                            $(".fts3 .sliderModerateLevel").css( "width", (floodStageBands3[2].to - flMin3) / flDiff3 * 100 + '%' );
+                            $(".fts3 .sliderMajorLevel").css( "width", '100%' );
+                        }
+
 
                         var bandColor = "#ffffff";
                         var labelText = "";
@@ -1549,7 +1648,7 @@ require([
                                 width: highChartWidth
                             },
                             title: {
-                                text: siteNo
+                                text: "Site " + siteNo
                             },
                             series: [{
                                 data: finalNWISDataArray,
@@ -1579,10 +1678,6 @@ require([
                                 resize: {
                                     enabled: true
                                 },
-                                // max: function(){
-                                    
-                                // },
-                                //   max: 100,
                                 labels: {
                                     format: "{value} ft"
                                 },
@@ -1640,7 +1735,7 @@ require([
                                     width: highChartWidth
                                 },
                                 title: {
-                                    text: siteNo_2
+                                    text: "Site " + siteNo_2
                                 },
                                 series: [{
                                     data: finalNWISDataArray2,
@@ -1731,7 +1826,7 @@ require([
                                     width: highChartWidth
                                 },
                                 title: {
-                                    text: siteNo_3
+                                    text: "Site " + siteNo_3
                                 },
                                 series: [{
                                     data: finalNWISDataArray3,
@@ -1940,34 +2035,8 @@ require([
                             showShareModal();
                         });
 
-                        //$("#siteNumber").text(attr["SITE_NO"]);
-                        $(".fts1 .floodSlider").attr({"min": 0, "max": gageValues.length-1});
-                        if (siteAttr["MULTI_SITE"] >= 1) {
-                            $(".fts2 .floodSlider").attr({"min": 0, "max": gageValues2.length-1});
-                            if (siteAttr["MULTI_SITE"] >= 2) {
-                                $(".fts3 .floodSlider").attr({"min": 0, "max": gageValues3.length-1});
-                            }
-                        }
-                        $(".floodSlider").value = 0;
                         var layerDefinitions = [];
                         
-                        if (attr["MULTI_SITE"] == 0) {
-                            $(".fts1 #selectedValue").text(results[0].attributes["STAGE"]);
-                            $(".fts1 .slider-min").text(results[0].attributes["STAGE"]);
-                            $(".fts1 .slider-max").text(results[results.length-1].attributes["STAGE"]);
-                        } else if (attr["MULTI_SITE"] > 0) {
-                            $(".fts1 #selectedValue").text(gageValues[0].gageValue);
-                            $(".fts2 #selectedValue").text(gageValues2[0].gageValue);
-                            $(".fts1 .slider-min").text(gageValues[0].gageValue);
-                            $(".fts1 .slider-max").text(gageValues[gageValues.length-1].gageValue);
-                            $(".fts2 .slider-min").text(gageValues2[0].gageValue);
-                            $(".fts2 .slider-max").text(gageValues2[gageValues2.length-1].gageValue);
-                        }
-                        if (attr["MULTI_SITE"] > 1) {
-                            $(".fts3 #selectedValue").text(gageValues3[0].gageValue);
-                            $(".fts3 .slider-min").text(gageValues3[0].gageValue);
-                            $(".fts3 .slider-max").text(gageValues3[gageValues3.length-1].gageValue);
-                        }
                         
                         //REVISIT: set up for three sites
                         map.getLayer("fimExtents").setVisibility(false);
@@ -2072,7 +2141,7 @@ require([
                             gridLayerIndex = [];
                             if (results != null) {
                                 if (siteAttr["MULTI_SITE"] == 0) {
-                                    $(".fts1 #selectedValue").text(results[this.value].attributes["STAGE"]);
+                                    $(".fts1 .slider-min.update").text(results[this.value].attributes["STAGE"]);
                                     //Adjustments to hazus tab for slider change
                                     $("#hazusTableSelectedStageLabel").text(results[this.value].attributes["STAGE"] + " ft");
                                     $("#hazusTable tr").removeClass('active');
@@ -2112,9 +2181,9 @@ require([
 
                                 } else if (siteAttr["MULTI_SITE"] == 1) {
                                     if ($(this).hasClass('first-slider')) {
-                                        $(".fts1 #selectedValue").text(gageValues[this.value].gageValue);
+                                        $(".fts1 .slider-min.update").text(gageValues[this.value].gageValue);
                                     } else if ($(this).hasClass('second-slider')) {
-                                        $(".fts2 #selectedValue").text(gageValues2[this.value].gageValue);
+                                        $(".fts2 .slider-min.update").text(gageValues2[this.value].gageValue);
                                     }
 
                                     // Code to determine next possible combination if current selections are not available as map in library
@@ -2211,11 +2280,11 @@ require([
                                     
                                 } else if (siteAttr["MULTI_SITE"] == 3) {
                                     if ($(this).hasClass('first-slider')) {
-                                        $(".fts1 #selectedValue").text(gageValues[this.value].gageValue);
+                                        $(".fts1 .slider-min.update").text(gageValues[this.value].gageValue);
                                     } else if ($(this).hasClass('second-slider')) {
-                                        $(".fts2 #selectedValue").text(gageValues2[this.value].gageValue);
+                                        $(".fts2 .slider-min.update").text(gageValues2[this.value].gageValue);
                                     } else if ($(this).hasClass('third-slider')) {
-                                        $(".fts2 #selectedValue").text(gageValues3[this.value].gageValue);
+                                        $(".fts3 .slider-min.update").text(gageValues3[this.value].gageValue);
                                     }
 
                                     // Code to determine next possible combination if current selections are not available as map in library

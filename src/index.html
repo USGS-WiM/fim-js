@@ -222,7 +222,7 @@
             </div>
             <div class="item">
                 <label>Selected gage height:</label>
-                <div class="value label-ft" id="selectedValue"></div>
+                <div class="value label-ft slider-min update"></div>
             </div>
             <div class="section-header">Current Conditions</div>
             <div class="item">
@@ -247,7 +247,7 @@
             </div>
             <div class="item">
                 <label>Selected gage height:</label>
-                <div class="value label-ft" id="selectedValue"></div>
+                <div class="value label-ft slider-min update"></div>
             </div>
             <div class="section-header">Current Conditions</div>
             <div class="item">
@@ -272,7 +272,7 @@
             </div>
             <div class="item">
                 <label>Selected gage height:</label>
-                <div class="value label-ft" id="selectedValue"></div>
+                <div class="value label-ft slider-min update"></div>
             </div>
             <div class="section-header">Current Conditions</div>
             <div class="item">
@@ -658,9 +658,9 @@ $(".close-alert").click(function(){
                                 </div>
                                 <!-- Actual Slider -->
                                 <div class="slider-wrapper">
-                                    <label class="slider-max">52</label>
-                                    <input id="floodSlider" type="range" name="stage" value="0" min="0" max="10" class="styled ftSlider-vertical floodSlider"/>
-                                    <label class="slider-min">12</label>
+                                    <label class="slider-max">N/A</label>
+                                    <input id="floodSlider" type="range" name="stage" value="0" min="0" max="10" class="styled ftSlider-vertical floodSlider first-slider"/>
+                                    <label class="slider-min">N/A</label>
                                 </div>
                             </div>
                             <!-- Second slider -->
@@ -674,9 +674,9 @@ $(".close-alert").click(function(){
                                 </div>
                                 <!-- Actual Slider -->
                                 <div class="slider-wrapper">
-                                    <label class="slider-max">52</label>
-                                    <input id="floodSlider" type="range" name="stage" value="0" min="0" max="10" class="styled ftSlider-vertical floodSlider"/>
-                                    <label class="slider-min">12</label>
+                                    <label class="slider-max">N/A</label>
+                                    <input id="floodSlider" type="range" name="stage" value="0" min="0" max="10" class="styled ftSlider-vertical floodSlider second-slider"/>
+                                    <label class="slider-min">N/A</label>
                                 </div>
                             </div>
                             <!-- Third slider -->
@@ -690,9 +690,9 @@ $(".close-alert").click(function(){
                                 </div>
                                 <!-- Actual Slider -->
                                 <div class="slider-wrapper">
-                                    <label class="slider-max">52</label>
-                                    <input id="floodSlider" type="range" name="stage" value="0" min="0" max="10" class="styled ftSlider-vertical floodSlider"/>
-                                    <label class="slider-min">12</label>
+                                    <label class="slider-max">N/A</label>
+                                    <input id="floodSlider" type="range" name="stage" value="0" min="0" max="10" class="styled ftSlider-vertical floodSlider third-slider"/>
+                                    <label class="slider-min">N/A</label>
                                 </div>
                             </div>
 
@@ -774,13 +774,13 @@ $(".close-alert").click(function(){
 
                                 <div class="small-label">Selected gage height</div>
                                 <div id="sgh" class="fts1">
-                                    <label for="floodSlider" id="selectedValue"></label> 
+                                    <label for="floodSlider" class="slider-min update"></label> 
                                 </div>
                                 <div id="sgh" class="fts2">
-                                    <label for="floodSlider" id="selectedValue"></label> 
+                                    <label for="floodSlider" class="slider-min update"></label> 
                                 </div>
                                 <div id="sgh" class="fts3">
-                                    <label for="floodSlider" id="selectedValue"></label> 
+                                    <label for="floodSlider" class="slider-min update"></label> 
                                 </div>
 
                                 <!-- Current Conditions Table -->
@@ -828,6 +828,12 @@ $(".close-alert").click(function(){
                             <div id="ftHydro" class="ftmodal-content">
                                 <div class="fts1 chart-wrapper">
                                     <div id="hydroChart"></div>
+                                </div>
+                                <div class="fts1 chart-wrapper">
+                                    <div id="hydroChart2"></div>
+                                </div>
+                                <div class="fts1 chart-wrapper">
+                                    <div id="hydroChart3"></div>
                                 </div>
                             </div>
 
