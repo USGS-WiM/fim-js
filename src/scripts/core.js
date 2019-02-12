@@ -493,6 +493,8 @@ require([
         //REVISIT: when dealing with three sites breach
         //map.getLayer("fimBreachThreeSites").setVisibility(false);
         $('#hydroChart').highcharts().destroy();
+        $('#hydroChart2').highcharts().destroy();
+        $('#hydroChart3').highcharts().destroy();
         map.infoWindow.hide();
     });
 
@@ -1457,107 +1459,38 @@ require([
                             {
                                 color: "#FDFB51",
                                 from: "0",
-                                to: "10",
+                                to: nwsData[0].getElementsByTagName("action")[0].childNodes[0].nodeValue,
                                 'label':{
                                     'text': "Action"
                                 }
-                                // to: nwsData[0].childNodes[0].children[1].children[1].textContent
                             },
                             {
                                 color: "#FAA629",
-                                from: "10",
-                                to: "15",
+                                from: nwsData[0].getElementsByTagName("action")[0].childNodes[0].nodeValue,
+                                to: nwsData[0].getElementsByTagName("flood")[0].childNodes[0].nodeValue,
                                 'label':{
                                     'text': "Minor Flooding"
                                 }
                             },
                             {
                                 color: "#FC0D1B",
-                                from: "15",
-                                to: "23",
+                                from: nwsData[0].getElementsByTagName("flood")[0].childNodes[0].nodeValue,
+                                to: nwsData[0].getElementsByTagName("moderate")[0].childNodes[0].nodeValue,
                                 'label':{
                                     'text': "Moderate Flooding"
                                 }
                             },
                             {
                                 color: "#C326FB",
-                                from: "23",
-                                to: "33",
+                                from: nwsData[0].getElementsByTagName("moderate")[0].childNodes[0].nodeValue,
+                                to: nwsData[0].getElementsByTagName("major")[0].childNodes[0].nodeValue,
                                 'label':{
                                     'text': "Major Flooding"
                                 }
                             }
                         ];
-                        var floodStageBands2 = [
-                            {
-                                color: "#FDFB51",
-                                from: "0",
-                                to: "20",
-                                'label':{
-                                    'text': "Action"
-                                }
-                                // to: nwsData[0].childNodes[0].children[1].children[1].textContent
-                            },
-                            {
-                                color: "#FAA629",
-                                from: "20",
-                                to: "40",
-                                'label':{
-                                    'text': "Minor Flooding"
-                                }
-                            },
-                            {
-                                color: "#FC0D1B",
-                                from: "40",
-                                to: "60",
-                                'label':{
-                                    'text': "Moderate Flooding"
-                                }
-                            },
-                            {
-                                color: "#C326FB",
-                                from: "60",
-                                to: "80",
-                                'label':{
-                                    'text': "Major Flooding"
-                                }
-                            }
-                        ];
-                        var floodStageBands3 = [
-                            {
-                                color: "#FDFB51",
-                                from: "0",
-                                to: "20",
-                                'label':{
-                                    'text': "Action"
-                                }
-                                // to: nwsData[0].childNodes[0].children[1].children[1].textContent
-                            },
-                            {
-                                color: "#FAA629",
-                                from: "20",
-                                to: "40",
-                                'label':{
-                                    'text': "Minor Flooding"
-                                }
-                            },
-                            {
-                                color: "#FC0D1B",
-                                from: "40",
-                                to: "60",
-                                'label':{
-                                    'text': "Moderate Flooding"
-                                }
-                            },
-                            {
-                                color: "#C326FB",
-                                from: "60",
-                                to: "80",
-                                'label':{
-                                    'text': "Major Flooding"
-                                }
-                            }
-                        ];
+                        
+                        
 
 
                         // Set slider values
@@ -1590,6 +1523,9 @@ require([
                         $(".fts1 .sliderMinorLevel").css( "width", (floodStageBands[1].to - flMin1) / flDiff1 * 100 + '%' );
                         $(".fts1 .sliderModerateLevel").css( "width", (floodStageBands[2].to - flMin1) / flDiff1 * 100 + '%' );
                         $(".fts1 .sliderMajorLevel").css( "width", '100%' );
+                        
+                        console.log("Flood stage bands")
+                        console.log(floodStageBands)
 
                         
                         // Single Site
@@ -1597,6 +1533,50 @@ require([
                             console.log("Single Site");
                         } else if (attr["MULTI_SITE"] > 0) {
                             console.log("Double Site");
+
+                            console.log("NWS DATA")
+                            console.log(nwsData);
+                            console.log("NWS DATA2")
+                            console.log(nwsData2)
+                            console.log("NWS DATA3")
+                            console.log(nwsData3)
+
+
+                            var floodStageBands2 = [
+                                {
+                                    color: "#FDFB51",
+                                    from: "0",
+                                    to: nwsData2[0].getElementsByTagName("action")[0].childNodes[0].nodeValue,
+                                    'label':{
+                                        'text': "Action"
+                                    }
+                                    // to: nwsData[0].childNodes[0].children[1].children[1].textContent
+                                },
+                                {
+                                    color: "#FAA629",
+                                    from: nwsData2[0].getElementsByTagName("action")[0].childNodes[0].nodeValue,
+                                    to: nwsData2[0].getElementsByTagName("flood")[0].childNodes[0].nodeValue,
+                                    'label':{
+                                        'text': "Minor Flooding"
+                                    }
+                                },
+                                {
+                                    color: "#FC0D1B",
+                                    from: nwsData2[0].getElementsByTagName("flood")[0].childNodes[0].nodeValue,
+                                    to: nwsData2[0].getElementsByTagName("moderate")[0].childNodes[0].nodeValue,
+                                    'label':{
+                                        'text': "Moderate Flooding"
+                                    }
+                                },
+                                {
+                                    color: "#C326FB",
+                                    from: nwsData2[0].getElementsByTagName("moderate")[0].childNodes[0].nodeValue,
+                                    to: nwsData2[0].getElementsByTagName("major")[0].childNodes[0].nodeValue,
+                                    'label':{
+                                        'text': "Major Flooding"
+                                    }
+                                }
+                            ];
 
                             // Fill slider min/max/current - 2nd site
                             $(".fts2 .slider-min").text(gageValues2[0].gageValue);
@@ -1610,9 +1590,48 @@ require([
                             $(".fts2 .sliderMinorLevel").css( "width", (floodStageBands2[1].to - flMin2) / flDiff2 * 100 + '%' );
                             $(".fts2 .sliderModerateLevel").css( "width", (floodStageBands2[2].to - flMin2) / flDiff2 * 100 + '%' );
                             $(".fts2 .sliderMajorLevel").css( "width", '100%' );
+
+                            console.log("Flood Stage Bands 2")
+                            console.log(floodStageBands2)
                         }
                         if (attr["MULTI_SITE"] > 1) {
                             console.log("Triple Site");
+
+                            var floodStageBands3 = [
+                                {
+                                    color: "#FDFB51",
+                                    from: "0",
+                                    to: nwsData3[0].getElementsByTagName("action")[0].childNodes[0].nodeValue,
+                                    'label':{
+                                        'text': "Action"
+                                    }
+                                    // to: nwsData[0].childNodes[0].children[1].children[1].textContent
+                                },
+                                {
+                                    color: "#FAA629",
+                                    from: nwsData3[0].getElementsByTagName("action")[0].childNodes[0].nodeValue,
+                                    to: nwsData3[0].getElementsByTagName("flood")[0].childNodes[0].nodeValue,
+                                    'label':{
+                                        'text': "Minor Flooding"
+                                    }
+                                },
+                                {
+                                    color: "#FC0D1B",
+                                    from: nwsData3[0].getElementsByTagName("flood")[0].childNodes[0].nodeValue,
+                                    to: nwsData3[0].getElementsByTagName("moderate")[0].childNodes[0].nodeValue,
+                                    'label':{
+                                        'text': "Moderate Flooding"
+                                    }
+                                },
+                                {
+                                    color: "#C326FB",
+                                    from: nwsData3[0].getElementsByTagName("moderate")[0].childNodes[0].nodeValue,
+                                    to: nwsData3[0].getElementsByTagName("major")[0].childNodes[0].nodeValue,
+                                    'label':{
+                                        'text': "Major Flooding"
+                                    }
+                                }
+                            ];
 
                             // Fill slider min/max/current
                             $(".fts3 .slider-min").text(gageValues3[0].gageValue);
@@ -1626,6 +1645,9 @@ require([
                             $(".fts3 .sliderMinorLevel").css( "width", (floodStageBands3[1].to - flMin3) / flDiff3 * 100 + '%' );
                             $(".fts3 .sliderModerateLevel").css( "width", (floodStageBands3[2].to - flMin3) / flDiff3 * 100 + '%' );
                             $(".fts3 .sliderMajorLevel").css( "width", '100%' );
+
+                            console.log("Flood Stage Bands 3")
+                            console.log(floodStageBands3)
                         }
 
 
@@ -1705,25 +1727,9 @@ require([
                                 }
                             }
                         }, function(hydroChart){
-
-                            // If data for bands exists...
-                            if(floodStageBands[0]){
-                                console.log("Chart Loaded");
-                                var chartYMax = 10;
-                                if (hydroChart.yAxis[0].max < floodStageBands[0].from){
-                                    chartYMax = floodStageBands[0].from + 1;
-                                }else if (floodStageBands[0].from < hydroChart.yAxis[0].max < floodStageBands[0].to){
-                                    chartYMax = floodStageBands[1].from + 1;
-                                }else if (floodStageBands[1] && (floodStageBands[1].from < hydroChart.yAxis[0].max < floodStageBands[1].to)){
-                                    chartYMax = floodStageBands[2].from + 1;
-                                }else if (floodStageBands[1] && (floodStageBands[2].from < hydroChart.yAxis[0].max < floodStageBands[2].to)){
-                                    chartYMax = floodStageBands[3].from + 1;
-                                }else if (floodStageBands[1] && (floodStageBands[3].from < hydroChart.yAxis[0].max < floodStageBands[3].to)){
-                                    chartYMax = floodStageBands[3].to + 1;
-                                }
-                                console.log(chartYMax);
-                                hydroChart.yAxis[0].setExtremes(null, chartYMax);
-                            }
+                            console.log("Chart Loaded");
+                            var chartYMax = parseInt(floodStageBands[3].to);
+                            hydroChart.yAxis[0].setExtremes(null, chartYMax);
                         });
 
                         if (siteData2 != undefined || finalNWSDataArray2.length > 0) {
@@ -1764,10 +1770,6 @@ require([
                                     resize: {
                                         enabled: true
                                     },
-                                    // max: function(){
-                                        
-                                    // },
-                                    //   max: 100,
                                     labels: {
                                         format: "{value} ft"
                                     },
@@ -1795,25 +1797,8 @@ require([
                                     }
                                 }
                             }, function(hydroChart2){
-
-                                // If data for bands exists...
-                                if(floodStageBands2[0]){
-                                    console.log("Chart Loaded");
-                                    var chartYMax = 10;
-                                    if (hydroChart2.yAxis[0].max < floodStageBands2[0].from){
-                                        chartYMax = floodStageBands2[0].from + 1;
-                                    }else if (floodStageBands2[0].from < hydroChart2.yAxis[0].max < floodStageBands2[0].to){
-                                        chartYMax = floodStageBands2[1].from + 1;
-                                    }else if (floodStageBands2[1] && (floodStageBands2[1].from < hydroChart2.yAxis[0].max < floodStageBands2[1].to)){
-                                        chartYMax = floodStageBands2[2].from + 1;
-                                    }else if (floodStageBands2[2] && (floodStageBands2[2].from < hydroChart2.yAxis[0].max < floodStageBands2[2].to)){
-                                        chartYMax = floodStageBands2[3].from + 1;
-                                    }else if (floodStageBands2[3] && (floodStageBands2[3].from < hydroChart2.yAxis[0].max < floodStageBands2[3].to)){
-                                        chartYMax = floodStageBands2[3].to + 1;
-                                    }
-                                    console.log(chartYMax);
-                                    hydroChart2.yAxis[0].setExtremes(null, chartYMax);
-                                }
+                                var chartYMax = parseInt(floodStageBands2[3].to);
+                                hydroChart2.yAxis[0].setExtremes(null, chartYMax);
                             });
                         }
 
@@ -1855,10 +1840,6 @@ require([
                                     resize: {
                                         enabled: true
                                     },
-                                    // max: function(){
-                                        
-                                    // },
-                                    //   max: 100,
                                     labels: {
                                         format: "{value} ft"
                                     },
@@ -1886,25 +1867,8 @@ require([
                                     }
                                 }
                             }, function(hydroChart3){
-
-                                // If data for bands exists...
-                                if(floodStageBands3[0]){
-                                    console.log("Chart Loaded");
-                                    var chartYMax = 10;
-                                    if (hydroChart3.yAxis[0].max < floodStageBands3[0].from){
-                                        chartYMax = floodStageBands3[0].from + 1;
-                                    }else if (floodStageBands3[0].from < hydroChart3.yAxis[0].max < floodStageBands3[0].to){
-                                        chartYMax = floodStageBands3[1].from + 1;
-                                    }else if (floodStageBands3[1] && (floodStageBands3[1].from < hydroChart3.yAxis[0].max < floodStageBands3[1].to)){
-                                        chartYMax = floodStageBands3[2].from + 1;
-                                    }else if (floodStageBands3[1] && (floodStageBands3[2].from < hydroChart3.yAxis[0].max < floodStageBands3[2].to)){
-                                        chartYMax = floodStageBands3[3].from + 1;
-                                    }else if (floodStageBands3[1] && (floodStageBands3[3].from < hydroChart3.yAxis[0].max < floodStageBands3[3].to)){
-                                        chartYMax = floodStageBands3[3].to + 1;
-                                    }
-                                    console.log(chartYMax);
-                                    hydroChart3.yAxis[0].setExtremes(null, chartYMax);
-                                }
+                                var chartYMax = parseInt(floodStageBands3[3].to);
+                                hydroChart3.yAxis[0].setExtremes(null, chartYMax);
                             });
                         }
                         
