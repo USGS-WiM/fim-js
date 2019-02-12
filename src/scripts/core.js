@@ -22,7 +22,7 @@ var results;
 
 var fimiMoreInfoUrl = "https://fim.wim.usgs.gov/arcgis/rest/services/FIMMapper/fim_add_info/MapServer/1";
 var ahpsForecastUrl = "https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Observations/ahps_riv_gauges/MapServer/0";
-var nwisUrl = "https://waterservices.usgs.gov/nwis/iv/?format=nwjson&period=P7D&parameterCd=00065&sites=";
+var nwisUrl = "https://waterservices.usgs.gov/nwis/iv/?format=nwjson&period=P7D&parameterCd=00060,00065&sites=";
 var proxyUrl = "https://services.wim.usgs.gov/proxies/httpProxy/Default.aspx?";
 
 var gridInfos = [];
@@ -1007,6 +1007,14 @@ require([
                 $(".first-site #usgsSiteNoMax").attr("href", "https://waterdata.usgs.gov/nwis/uv?site_no="+siteNo);
                 $(".first-site #nwsSiteIDMax").text(feature.attributes.AHPS_ID);
                 $(".first-site #nwsSiteIDMax").attr("href", "https://water.weather.gov/ahps2/hydrograph.php?gage="+feature.attributes.AHPS_ID);
+                $(".second-site #usgsSiteNoMax").text(siteNo_2);
+                $(".second-site #usgsSiteNoMax").attr("href", "https://waterdata.usgs.gov/nwis/uv?site_no="+siteNo_2);
+                $(".second-site #nwsSiteIDMax").text(ahpsID_2);
+                $(".second-site #nwsSiteIDMax").attr("href", "https://water.weather.gov/ahps2/hydrograph.php?gage="+ahpsID_2);
+                $(".third-site #usgsSiteNoMax").text(siteNo_3);
+                $(".third-site #usgsSiteNoMax").attr("href", "https://waterdata.usgs.gov/nwis/uv?site_no="+siteNo_3);
+                $(".third-site #nwsSiteIDMax").text(ahpsID_3);
+                $(".third-site #nwsSiteIDMax").attr("href", "https://water.weather.gov/ahps2/hydrograph.php?gage="+ahpsID_3);
 
                 if (attr.HAS_GRIDS == 1) {
                     $("#gridLabel").show();
@@ -1039,134 +1047,6 @@ require([
                             $("#moreInfoTab").hide();
                         }
 
-                    },
-                    error: function (error) {
-                        console.log("Error processing the JSON. The error is:" + error);
-                    }
-                });
-
-                $.ajax({
-                    dataType: 'text',
-                    type: 'GET',
-                    url: proxyUrl + "site_no="+siteNo+"&site_info=true",
-                    headers: {'Accept': '*/*'},
-                    success: function (data) {
-                        var rtHtml = "";
-                        var nwisHtml = "";
-
-                        //var ivUrl = "http://waterservices.usgs.gov/nwis/site/?format=gm&sites="+attr['Name']+"&siteOutput=expanded&outputDataTypeCd=iv&hasDataTypeCd=iv&parameterCd=00065,00060,00010,00095,63680,99133";
-                        var ivUrl = "https://waterservices.usgs.gov/nwis/iv/?format=json&sites="+attr['SITE_NO']+"&parameterCd=00060,00065";
-
-                        $.ajax({
-                            dataType: 'json',
-                            type: 'GET',
-                            url: ivUrl,
-                            headers: {'Accept': '*/*'},
-                            success: function (data) {
-                                var siteData = data;
-                                var variable = "";
-                                var variableCode = "";
-                                //if siteData.
-                                //rtHtml = ""
-                                $.each(siteData.value.timeSeries, function(key, value) {
-                                    /*console.log("key: " + key + ", value: " + value);
-                                     console.log(
-                                     "var code: " + value.variable.variableCode[0].value +
-                                     ", units: " + value.variable.unit.unitAbbreviation +
-                                     ", value: " + value.values[0].value[0].value);*/
-
-                                    variableCode = value.variable.variableCode[0].value;
-                                    var units = value.variable.unit.unitAbbreviation;
-                                    var varValue = "";
-                                    if (value.values[0].value.length > 0) {
-                                        var varValue = value.values[0].value[0].value;
-                                        switch (variableCode) {
-                                            case "00060":
-                                                variable = "Discharge";
-                                                break;
-                                            case "00065":
-                                                variable = "Gage height";
-                                                break;
-                                            case "00010":
-                                                variable = "Temperature, water";
-                                                break;
-                                            case "00300":
-                                                variable = "Dissolved oxygen";
-                                                break;
-                                            case "00400":
-                                                variable = "pH";
-                                                break;
-                                            case "00095":
-                                                variable = "Specific cond at 25C";
-                                                break;
-                                            case "32283":
-                                                variable = "Chlorophyll, in situ";
-                                                break;
-                                            case "63680":
-                                                variable = "Turbidity, Form Neph";
-                                                break;
-                                            case "99133":
-                                                variable = "NO3+NO2,water,insitu";
-                                                break;
-                                        }
-
-                                        var startDate = getTodayDate();
-                                        var todayDate = getTodayDate();
-                                        var valDate = value.values[0].value[0].dateTime;
-
-                                        var formattedDate = dateFormat(valDate);
-
-                                        if (variable == "Discharge") {
-                                            $(".first-site #floodMaxDischarge").text(varValue);
-                                            $("#floodMinDischarge").text(varValue);
-                                            if ($(".first-site #floodMaxDischarge").text().length == 0 || $(".first-site #floodMaxDischarge").text() == "-999999") {
-                                                $(".first-site #floodMaxDischarge").text("n/a");
-                                            }
-                                        } else if (variable == "Gage height") {
-                                            $(".first-site #floodMaxGage").text(varValue);
-                                            $("#floodMinGage").text(varValue);
-                                            if ($(".first-site #floodMaxGage").text().length == 0 || $(".first-site #floodMaxGage").text() == "-999999") {
-                                                $(".first-site #floodMaxGage").text("n/a");
-                                            }
-                                        }
-
-                                        var rtLabel = "";
-                                        if (varValue == "-999999") {
-                                            rtLabel = "<label class='paramLabel'>" + variable + ": <span style='font-weight: normal'>N/A</span></label><br/>";
-                                        } else {
-                                            rtLabel = "<label class='paramLabel'>" + variable + ": <span style='font-weight: normal'>" + varValue + " " + units + " <span style='font-size: smaller; color: darkblue'><i>(" + formattedDate + "</i>)</span></span></label><br/>";
-                                        }
-
-                                        rtHtml = rtHtml + rtLabel;
-
-                                        var siteNoTemp = feature.attributes.Name;
-
-                                        if (dateInRange(valDate,startDate) == true) {
-                                            var nwisGraphUrl = "https://waterdata.usgs.gov/nwisweb/graph?agency_cd=USGS&site_no="+siteNoTemp+"&parm_cd="+variableCode+"&begin_date=" + startDate + "&end_date="+todayDate//+"&dd_nu="+param_dd[variableCode];
-
-                                            var nwisChart = "<br/><br/><label>"+ variable + "</label><br/><img src='" + nwisGraphUrl + "'/>";
-
-                                            nwisHtml = nwisHtml + nwisChart;
-                                        }
-
-                                    }
-
-                                    snapToFlood();
-
-                                });
-
-                                /*(var siteName = siteData.value.timeSeries[0].sourceInfo.siteName;
-
-                                var template = new esri.InfoTemplate("<span class=''>" + siteName + "</span>",
-                                    "<div id='rtInfo'>" + rtHtml + "</div>" +
-                                    "<br/><span>Most recent measurement(s) <span style='font-size: smaller; color: darkblue'><i>(local time)</i></span> - see <a target='_blank' href='https://waterdata.usgs.gov/nwis/uv?site_no=" + siteNo + "'>NWIS Site</a> for more details</span>" +
-                                    "<div id='nwisCharts'>" + nwisHtml + "</div>");*/
-
-                            },
-                            error: function (error) {
-                                console.log("Error processing the JSON. The error is:" + error);
-                            }
-                        });
                     },
                     error: function (error) {
                         console.log("Error processing the JSON. The error is:" + error);
@@ -1310,9 +1190,20 @@ require([
                         var siteData2;
                         var siteData3;
 
-                        var values = siteData.data[0].time_series_data
+                        var gageIndex;
+                        var dischargeIndex;
+                        $.each(siteData.data, function (key, value) {
+                            console.log(key);
+                            if (siteData.data[key].parameter_cd == "00065") {
+                                gageIndex = key;
+                            } else if (siteData.data[key].parameter_cd == "00060"){
+                                dischargeIndex = key;
+                            }
+                        });
 
-                        var finalNWISDataArray = finalNWISDataArrayBuild(siteData.data[0].time_series_data);
+                        var values = siteData.data[gageIndex].time_series_data;
+
+                        var finalNWISDataArray = finalNWISDataArrayBuild(values);
                         var finalNWSDataArray = finalNWSDataArrayBuild(nwsData[0]);;
                         var finalNWISDataArray2 = [];
                         var finalNWSDataArray2 = [];
@@ -1321,11 +1212,11 @@ require([
 
                         if (nwisData2[0].search('{"site') != -1) { 
                             siteData2 = $.parseJSON(nwisData2[0]);
-                            finalNWISDataArray2 = finalNWISDataArrayBuild(siteData2.data[0].time_series_data);
+                            finalNWISDataArray2 = finalNWISDataArrayBuild(siteData2.data[gageIndex].time_series_data);
                         }
                         if (nwisData3[0].search('{"site') != -1) { 
                             siteData3 = $.parseJSON(nwisData3[0]);
-                            finalNWISDataArray3 = finalNWISDataArrayBuild(siteData3.data[0].time_series_data);
+                            finalNWISDataArray3 = finalNWISDataArrayBuild(siteData3.data[gageIndex].time_series_data);
                         }
 
                         function finalNWISDataArrayBuild(values) {
@@ -1341,6 +1232,42 @@ require([
 
                             });
                             return finalDataArray
+                        }
+
+                        //Grab current gage height and discharge values is available
+                        if (finalNWISDataArray.length > 0) { 
+                            $('.first-site #floodMaxGage').text(finalNWISDataArray[finalNWISDataArray.length-1][1] + ' ft');
+                            $('.first-site #floodMaxGage').text();
+                            if (siteData.data[dischargeIndex].time_series_data[siteData.data[dischargeIndex].time_series_data.length-1][1] != null) {
+                                $('.first-site #floodMaxDischarge').text(siteData.data[dischargeIndex].time_series_data[siteData.data[dischargeIndex].time_series_data.length-1][1] + ' fps');
+                            } else {
+                                $('.first-site #floodMaxDischarge').text('n/a (' + siteData.data[dischargeIndex].time_series_data[siteData.data[dischargeIndex].time_series_data.length-1][2] + ')');
+                            }
+                        } else {
+                            $('.first-site #floodMaxGage').text('n/a');
+                            $('.first-site #floodMaxDischarge').text('n/a');
+                        }
+                        if (finalNWISDataArray2.length > 0) { 
+                            $('.second-site #floodMaxGage').text(finalNWISDataArray2[finalNWISDataArray2.length-1][1] + ' ft');
+                            if (siteData2.data[dischargeIndex].time_series_data[siteData2.data[dischargeIndex].time_series_data.length-1][1] != null) {
+                                $('.second-site #floodMaxDischarge').text(siteData2.data[dischargeIndex].time_series_data[siteData2.data[dischargeIndex].time_series_data.length-1][1] + ' fps');
+                            } else {
+                                $('.second-site #floodMaxDischarge').text('n/a (' + siteData2.data[dischargeIndex].time_series_data[siteData2.data[dischargeIndex].time_series_data.length-1][2] + ')');
+                            }
+                        } else {
+                            $('.second-site #floodMaxGage').text('n/a');
+                            $('.second-site #floodMaxDischarge').text('n/a');
+                        }
+                        if (finalNWISDataArray3.length > 0) { 
+                            $('.third-site #floodMaxGage').text(finalNWISDataArray3[finalNWISDataArray3.length-1][1] + ' ft');
+                            if (siteData3.data[dischargeIndex].time_series_data[siteData3.data[dischargeIndex].time_series_data.length-1][1] != null) {
+                                $('.third-site #floodMaxDischarge').text(siteData3.data[dischargeIndex].time_series_data[siteData3.data[dischargeIndex].time_series_data.length-1][1] + ' fps');
+                            } else {
+                                $('.third-site #floodMaxDischarge').text('n/a (' + siteData3.data[dischargeIndex].time_series_data[siteData3.data[dischargeIndex].time_series_data.length-1][2] + ')');
+                            }
+                        } else {
+                            $('.third-site #floodMaxGage').text('n/a');
+                            $('.third-site #floodMaxDischarge').text('n/a');
                         }
 
                         if (nwsData2[0].children && nwsData2[0].children[0].children[0].textContent != "no nws data") { 
