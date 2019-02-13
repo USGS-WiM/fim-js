@@ -22,7 +22,7 @@ var results;
 
 var fimiMoreInfoUrl = "https://fim.wim.usgs.gov/arcgis/rest/services/FIMMapper/fim_add_info/MapServer/1";
 var ahpsForecastUrl = "https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Observations/ahps_riv_gauges/MapServer/0";
-var nwisUrl = "https://waterservices.usgs.gov/nwis/iv/?format=nwjson&period=P7D&parameterCd=00065&sites=";
+var nwisUrl = "https://waterservices.usgs.gov/nwis/iv/?format=nwjson&period=P7D&parameterCd=00060,00065&sites=";
 var proxyUrl = "https://services.wim.usgs.gov/proxies/httpProxy/Default.aspx?";
 
 var gridInfos = [];
@@ -1059,15 +1059,21 @@ require([
                 $("[id*='Tab']").parents("li").removeClass("active");
                 $(".nav-tabs #floodToolsTab").tab("show");
 
-                $("#usgsSiteNo").text(siteNo);
-                $("#usgsSiteNo").attr("href", "https://waterdata.usgs.gov/nwis/uv?site_no="+siteNo);
-                $("#nwsSiteID").text(feature.attributes.AHPS_ID);
-                $("#nwsSiteID").attr("href", "https://water.weather.gov/ahps2/hydrograph.php?gage="+feature.attributes.AHPS_ID);
 
                 $(".fts1 #usgsSiteNo").text(siteNo);
                 $(".fts1 #usgsSiteNo").attr("href", "https://waterdata.usgs.gov/nwis/uv?site_no="+siteNo);
                 $(".fts1 #nwsSiteID").text(feature.attributes.AHPS_ID);
                 $(".fts1 #nwsSiteID").attr("href", "https://water.weather.gov/ahps2/hydrograph.php?gage="+feature.attributes.AHPS_ID);
+                
+                $(".fts2 #usgsSiteNo").text(siteNo_2);
+                $(".fts2 #usgsSiteNo").attr("href", "https://waterdata.usgs.gov/nwis/uv?site_no="+siteNo_2);
+                $(".fts2 #nwsSiteID").text(ahpsID_2);
+                $(".fts2 #nwsSiteID").attr("href", "https://water.weather.gov/ahps2/hydrograph.php?gage="+ahpsID_2);
+                
+                $(".fts3 #usgsSiteNo").text(siteNo_3);
+                $(".fts3 #usgsSiteNo").attr("href", "https://waterdata.usgs.gov/nwis/uv?site_no="+siteNo_3);
+                $(".fts3 #nwsSiteID").text(ahpsID_3);
+                $(".fts3 #nwsSiteID").attr("href", "https://water.weather.gov/ahps2/hydrograph.php?gage="+ahpsID_3);
 
                 if (attr.HAS_GRIDS == 1) {
                     $("#gridLabel").show();
@@ -1380,10 +1386,27 @@ require([
                         var siteData2;
                         var siteData3;
 
-                        var values = siteData.data[0].time_series_data
+                        var gageIndex;
+                        var dischargeIndex;
+                        $.each(siteData.data, function (key, value) {
+                            console.log(key);
+                            if (siteData.data[key].parameter_cd == "00065") {
+                                gageIndex = key;
+                            } else if (siteData.data[key].parameter_cd == "00060"){
+                                dischargeIndex = key;
+                            }
+                        });
 
-                        var finalNWISDataArray = finalNWISDataArrayBuild(siteData.data[0].time_series_data);
+                        var values = siteData.data[gageIndex].time_series_data;
+
+
+
+                        // var finalNWISDataArray = finalNWISDataArrayBuild(siteData.data[0].time_series_data);
+                        // var finalNWSDataArray = finalNWSDataArrayBuild(nwsData[0]);
+                        var finalNWISDataArray = finalNWISDataArrayBuild(values);
                         var finalNWSDataArray = finalNWSDataArrayBuild(nwsData[0]);
+
+                        
                         var finalNWISDataArray2 = [];
                         var finalNWSDataArray2 = [];
                         var finalNWISDataArray3 = [];
@@ -1391,11 +1414,11 @@ require([
 
                         if (nwisData2[0].search('{"site') != -1) { 
                             siteData2 = $.parseJSON(nwisData2[0]);
-                            finalNWISDataArray2 = finalNWISDataArrayBuild(siteData2.data[0].time_series_data);
+                            finalNWISDataArray2 = finalNWISDataArrayBuild(siteData2.data[gageIndex].time_series_data);
                         }
                         if (nwisData3[0].search('{"site') != -1) { 
                             siteData3 = $.parseJSON(nwisData3[0]);
-                            finalNWISDataArray3 = finalNWISDataArrayBuild(siteData3.data[0].time_series_data);
+                            finalNWISDataArray3 = finalNWISDataArrayBuild(siteData3.data[gageIndex].time_series_data);
                         }
 
                         function finalNWISDataArrayBuild(values) {
@@ -1411,6 +1434,42 @@ require([
 
                             });
                             return finalDataArray
+                        }
+
+                        //Grab current gage height and discharge values is available
+                        if (finalNWISDataArray.length > 0) { 
+                            $('.first-site #floodMaxGage').text(finalNWISDataArray[finalNWISDataArray.length-1][1] + ' ft');
+                            $('.first-site #floodMaxGage').text();
+                            if (siteData.data[dischargeIndex].time_series_data[siteData.data[dischargeIndex].time_series_data.length-1][1] != null) {
+                                $('.first-site #floodMaxDischarge').text(siteData.data[dischargeIndex].time_series_data[siteData.data[dischargeIndex].time_series_data.length-1][1] + ' fps');
+                            } else {
+                                $('.first-site #floodMaxDischarge').text('n/a (' + siteData.data[dischargeIndex].time_series_data[siteData.data[dischargeIndex].time_series_data.length-1][2] + ')');
+                            }
+                        } else {
+                            $('.first-site #floodMaxGage').text('n/a');
+                            $('.first-site #floodMaxDischarge').text('n/a');
+                        }
+                        if (finalNWISDataArray2.length > 0) { 
+                            $('.second-site #floodMaxGage').text(finalNWISDataArray2[finalNWISDataArray2.length-1][1] + ' ft');
+                            if (siteData2.data[dischargeIndex].time_series_data[siteData2.data[dischargeIndex].time_series_data.length-1][1] != null) {
+                                $('.second-site #floodMaxDischarge').text(siteData2.data[dischargeIndex].time_series_data[siteData2.data[dischargeIndex].time_series_data.length-1][1] + ' fps');
+                            } else {
+                                $('.second-site #floodMaxDischarge').text('n/a (' + siteData2.data[dischargeIndex].time_series_data[siteData2.data[dischargeIndex].time_series_data.length-1][2] + ')');
+                            }
+                        } else {
+                            $('.second-site #floodMaxGage').text('n/a');
+                            $('.second-site #floodMaxDischarge').text('n/a');
+                        }
+                        if (finalNWISDataArray3.length > 0) { 
+                            $('.third-site #floodMaxGage').text(finalNWISDataArray3[finalNWISDataArray3.length-1][1] + ' ft');
+                            if (siteData3.data[dischargeIndex].time_series_data[siteData3.data[dischargeIndex].time_series_data.length-1][1] != null) {
+                                $('.third-site #floodMaxDischarge').text(siteData3.data[dischargeIndex].time_series_data[siteData3.data[dischargeIndex].time_series_data.length-1][1] + ' fps');
+                            } else {
+                                $('.third-site #floodMaxDischarge').text('n/a (' + siteData3.data[dischargeIndex].time_series_data[siteData3.data[dischargeIndex].time_series_data.length-1][2] + ')');
+                            }
+                        } else {
+                            $('.third-site #floodMaxGage').text('n/a');
+                            $('.third-site #floodMaxDischarge').text('n/a');
                         }
 
                         if (nwsData2[0].children && nwsData2[0].children[0].children[0].textContent != "no nws data") { 
