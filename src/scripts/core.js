@@ -1033,7 +1033,7 @@ require([
 
                 //var siteNo = siteAttr.SITE_NO;
                 var ahpsID = siteAttr.AHPS_ID;
-                if (siteAttr.MULTI_SITE == 1) {
+                if (siteAttr.MULTI_SITE == 1 && ahpsID_2 == undefined) {
                     ahpsID_2 = siteAttr.AHPS_ID_2
                 }
                 var state = siteAttr.STATE;
@@ -1571,22 +1571,23 @@ require([
                         // Sliders & Flood Levels
                         
                         // Fill slider min/max/current
-                        $(".fts1 .slider-min").text(gageValues[0].gageValue);
-                        $(".fts1 .slider-max").text(gageValues[gageValues.length-1].gageValue);
+                        if (gageValues.length > 0) {
+                            $(".fts1 .slider-min").text(gageValues[0].gageValue);
+                            $(".fts1 .slider-max").text(gageValues[gageValues.length-1].gageValue);
 
-                        // Flood levels near slider - Site 1
-                        var flMax1 = gageValues[gageValues.length-1].gageValue;
-                        var flMin1 = gageValues[0].gageValue;
-                        var flDiff1 = flMax1 - flMin1;
-                        $(".fts1 .sliderActionLevel").css( "width", (floodStageBands[0].to - flMin1) / flDiff1 * 100 + '%' );
-                        $(".fts1 .sliderMinorLevel").css( "width", (floodStageBands[1].to - flMin1) / flDiff1 * 100 + '%' );
-                        $(".fts1 .sliderModerateLevel").css( "width", (floodStageBands[2].to - flMin1) / flDiff1 * 100 + '%' );
-                        $(".fts1 .sliderMajorLevel").css( "width", '100%' );
-                        
-                        console.log("Flood stage bands")
-                        console.log(floodStageBands)
+                            // Flood levels near slider - Site 1
+                            var flMax1 = gageValues[gageValues.length-1].gageValue;
+                            var flMin1 = gageValues[0].gageValue;
+                            var flDiff1 = flMax1 - flMin1;
+                            $(".fts1 .sliderActionLevel").css( "width", (floodStageBands[0].to - flMin1) / flDiff1 * 100 + '%' );
+                            $(".fts1 .sliderMinorLevel").css( "width", (floodStageBands[1].to - flMin1) / flDiff1 * 100 + '%' );
+                            $(".fts1 .sliderModerateLevel").css( "width", (floodStageBands[2].to - flMin1) / flDiff1 * 100 + '%' );
+                            $(".fts1 .sliderMajorLevel").css( "width", '100%' );
+                            
+                            console.log("Flood stage bands")
+                            console.log(floodStageBands)
+                        }
 
-                        
                         // Single Site
                         if (attr["MULTI_SITE"] == 0) {
                             console.log("Single Site");

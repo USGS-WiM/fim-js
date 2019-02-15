@@ -181,9 +181,9 @@ require([
                         "legendPlacement": 0,
                         "layerDefinitions": {1: "prod_type LIKE '%Flood%'"}
                     }
-                },
-                /*"USGS FIM Sites (NWS forecast category)": {
-                    "url" : "https://gis.wim.usgs.gov/ArcGIS/rest/services/FIMMapper/fimi_sites_for_legend/MapServer",
+                },/*
+                "USGS FIM Sites (NWS forecast category)": {
+                    "url" : "https://gis.wim.usgs.gov/ArcGIS/rest/services/FIMMapper/fimi_sites_for_legend_js/MapServer",
                     "options": {
                         "id": "fimSitesLegend",
                         "opacity": 1.0,
