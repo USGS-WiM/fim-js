@@ -492,9 +492,15 @@ require([
         map.getLayer("fimExtentsThreeSites").setVisibility(false);
         //REVISIT: when dealing with three sites breach
         //map.getLayer("fimBreachThreeSites").setVisibility(false);
-        $('#hydroChart').highcharts().destroy();
-        $('#hydroChart2').highcharts().destroy();
-        $('#hydroChart3').highcharts().destroy();
+        if ($('#hydroChart').highcharts() != null) {
+            $('#hydroChart').highcharts().destroy();
+        }
+        if ($('#hydroChart2').highcharts() != null) {
+            $('#hydroChart2').highcharts().destroy();
+        }
+        if ($('#hydroChart3').highcharts() != null) {
+            $('#hydroChart3').highcharts().destroy();
+        }
         map.infoWindow.hide();
     });
 
@@ -1438,38 +1444,38 @@ require([
 
                         //Grab current gage height and discharge values is available
                         if (finalNWISDataArray.length > 0) { 
-                            $('.first-site #floodMaxGage').text(finalNWISDataArray[finalNWISDataArray.length-1][1] + ' ft');
-                            $('.first-site #floodMaxGage').text();
+                            $('.fts1 #floodGage').text(finalNWISDataArray[finalNWISDataArray.length-1][1]);
+                            $('.fts1 #floodGage').text();
                             if (siteData.data[dischargeIndex].time_series_data[siteData.data[dischargeIndex].time_series_data.length-1][1] != null) {
-                                $('.first-site #floodMaxDischarge').text(siteData.data[dischargeIndex].time_series_data[siteData.data[dischargeIndex].time_series_data.length-1][1] + ' fps');
+                                $('.fts1 #floodDischarge').text(siteData.data[dischargeIndex].time_series_data[siteData.data[dischargeIndex].time_series_data.length-1][1]);
                             } else {
-                                $('.first-site #floodMaxDischarge').text('n/a (' + siteData.data[dischargeIndex].time_series_data[siteData.data[dischargeIndex].time_series_data.length-1][2] + ')');
+                                $('.fts1 #floodDischarge').text('n/a (' + siteData.data[dischargeIndex].time_series_data[siteData.data[dischargeIndex].time_series_data.length-1][2] + ')');
                             }
                         } else {
-                            $('.first-site #floodMaxGage').text('n/a');
-                            $('.first-site #floodMaxDischarge').text('n/a');
+                            $('.fts1 #floodGage').text('n/a');
+                            $('.fts1 #floodDischarge').text('n/a');
                         }
                         if (finalNWISDataArray2.length > 0) { 
-                            $('.second-site #floodMaxGage').text(finalNWISDataArray2[finalNWISDataArray2.length-1][1] + ' ft');
+                            $('.fts2 #floodGage').text(finalNWISDataArray2[finalNWISDataArray2.length-1][1]);
                             if (siteData2.data[dischargeIndex].time_series_data[siteData2.data[dischargeIndex].time_series_data.length-1][1] != null) {
-                                $('.second-site #floodMaxDischarge').text(siteData2.data[dischargeIndex].time_series_data[siteData2.data[dischargeIndex].time_series_data.length-1][1] + ' fps');
+                                $('.fts2 #floodDischarge').text(siteData2.data[dischargeIndex].time_series_data[siteData2.data[dischargeIndex].time_series_data.length-1][1]);
                             } else {
-                                $('.second-site #floodMaxDischarge').text('n/a (' + siteData2.data[dischargeIndex].time_series_data[siteData2.data[dischargeIndex].time_series_data.length-1][2] + ')');
+                                $('.fts2 #floodDischarge').text('n/a (' + siteData2.data[dischargeIndex].time_series_data[siteData2.data[dischargeIndex].time_series_data.length-1][2] + ')');
                             }
                         } else {
-                            $('.second-site #floodMaxGage').text('n/a');
-                            $('.second-site #floodMaxDischarge').text('n/a');
+                            $('.fts2 #floodGage').text('n/a');
+                            $('.fts2 #floodDischarge').text('n/a');
                         }
                         if (finalNWISDataArray3.length > 0) { 
-                            $('.third-site #floodMaxGage').text(finalNWISDataArray3[finalNWISDataArray3.length-1][1] + ' ft');
+                            $('.fts3 #floodGage').text(finalNWISDataArray3[finalNWISDataArray3.length-1][1] + ' ft');
                             if (siteData3.data[dischargeIndex].time_series_data[siteData3.data[dischargeIndex].time_series_data.length-1][1] != null) {
-                                $('.third-site #floodMaxDischarge').text(siteData3.data[dischargeIndex].time_series_data[siteData3.data[dischargeIndex].time_series_data.length-1][1] + ' fps');
+                                $('.fts3 #floodDischarge').text(siteData3.data[dischargeIndex].time_series_data[siteData3.data[dischargeIndex].time_series_data.length-1][1] + ' fps');
                             } else {
-                                $('.third-site #floodMaxDischarge').text('n/a (' + siteData3.data[dischargeIndex].time_series_data[siteData3.data[dischargeIndex].time_series_data.length-1][2] + ')');
+                                $('.fts3 #floodDischarge').text('n/a (' + siteData3.data[dischargeIndex].time_series_data[siteData3.data[dischargeIndex].time_series_data.length-1][2] + ')');
                             }
                         } else {
-                            $('.third-site #floodMaxGage').text('n/a');
-                            $('.third-site #floodMaxDischarge').text('n/a');
+                            $('.fts3 #floodGage').text('n/a');
+                            $('.fts3 #floodDischarge').text('n/a');
                         }
 
                         if (nwsData2[0].children && nwsData2[0].children[0].children[0].textContent != "no nws data") { 
@@ -1638,18 +1644,20 @@ require([
                                 }
                             ];
 
-                            // Fill slider min/max/current - 2nd site
-                            $(".fts2 .slider-min").text(gageValues2[0].gageValue);
-                            $(".fts2 .slider-max").text(gageValues2[gageValues2.length-1].gageValue);
+                            if (gageValues2.length > 0) {
+                                // Fill slider min/max/current - 2nd site
+                                $(".fts2 .slider-min").text(gageValues2[0].gageValue);
+                                $(".fts2 .slider-max").text(gageValues2[gageValues2.length-1].gageValue);
 
-                            // Slider flood levels - 2nd site
-                            var flMax2 = gageValues2[gageValues2.length-1].gageValue;
-                            var flMin2 = gageValues2[0].gageValue;
-                            var flDiff2 = flMax2 - flMin2;
-                            $(".fts2 .sliderActionLevel").css( "width", (floodStageBands2[0].to - flMin2) / flDiff2 * 100 + '%' );
-                            $(".fts2 .sliderMinorLevel").css( "width", (floodStageBands2[1].to - flMin2) / flDiff2 * 100 + '%' );
-                            $(".fts2 .sliderModerateLevel").css( "width", (floodStageBands2[2].to - flMin2) / flDiff2 * 100 + '%' );
-                            $(".fts2 .sliderMajorLevel").css( "width", '100%' );
+                                // Slider flood levels - 2nd site
+                                var flMax2 = gageValues2[gageValues2.length-1].gageValue;
+                                var flMin2 = gageValues2[0].gageValue;
+                                var flDiff2 = flMax2 - flMin2;
+                                $(".fts2 .sliderActionLevel").css( "width", (floodStageBands2[0].to - flMin2) / flDiff2 * 100 + '%' );
+                                $(".fts2 .sliderMinorLevel").css( "width", (floodStageBands2[1].to - flMin2) / flDiff2 * 100 + '%' );
+                                $(".fts2 .sliderModerateLevel").css( "width", (floodStageBands2[2].to - flMin2) / flDiff2 * 100 + '%' );
+                                $(".fts2 .sliderMajorLevel").css( "width", '100%' );
+                            }
 
                             console.log("Flood Stage Bands 2")
                             console.log(floodStageBands2)
