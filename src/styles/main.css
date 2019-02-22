@@ -1230,7 +1230,6 @@ input[type="radio"] {
   right: 15px;
   top: 65px;
   border-radius: 4px;
-  max-height: calc(-200%) !important;
 }
 #legendElement .panel-title a {
   font-weight: 600;
@@ -1438,18 +1437,92 @@ input[type="radio"] {
   }
 }
 /*Legend Tweaks*/
+/*Legend Tweaks*/
+/*Legend Tweaks*/
+/*Legend Tweaks*/
+#ahpsLegend {
+  display: block;
+  box-sizing: border-box;
+  padding: 15px;
+}
+#ahpsLegend #ahpsTitle {
+  font-size: 14px;
+  font-weight: 500;
+  color: black;
+}
+#ahpsLegend .ahps-item {
+  display: flex;
+}
+#ahpsLegend .ahps-item .ahps-icon {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 20px;
+}
+#ahpsLegend .ahps-item .ahps-icon svg {
+  position: relative;
+  top: -4px;
+}
+#ahpsLegend .ahps-item .ahps-text {
+  flex-grow: 3;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: -0.1px;
+  height: 20px;
+  color: rgba(16, 21, 44, 0.8);
+}
 .esriLegendLayer td {
   line-height: 15px;
   box-sizing: border-box;
   padding: 2px 0;
 }
-.esriLegendServiceLabel {
-  font-size: 14px;
+#legendDiv_fimSuppLyrs .esriLegendServiceLabel {
+  font-size: 12px;
   line-height: 15px;
   display: block;
-  padding-bottom: 8px;
+  padding: 8px 0;
   text-align: center;
   font-weight: 600;
+}
+#legendDiv_fimSuppLyrs_0,
+#legendDiv_fimSuppLyrs_1,
+#legendDiv_fimExtents,
+#legendDiv_fimBreach {
+  font-size: 10px;
+  display: flex !important;
+  font-weight: 500 !important;
+  font-size: 11px;
+  flex-direction: row-reverse;
+  letter-spacing: -0.1px;
+  color: rgba(16, 21, 44, 0.8);
+}
+#legendDiv_fimSuppLyrs_0 table:first-child,
+#legendDiv_fimSuppLyrs_1 table:first-child,
+#legendDiv_fimExtents table:first-child,
+#legendDiv_fimBreach table:first-child {
+  flex-grow: 3;
+  box-sizing: border-box;
+  margin: 3px 0 0 0;
+}
+#legendDiv_fimSuppLyrs_0 table:last-child,
+#legendDiv_fimSuppLyrs_1 table:last-child,
+#legendDiv_fimExtents table:last-child,
+#legendDiv_fimBreach table:last-child {
+  width: 15%;
+}
+#legendDiv_fimSuppLyrs_0 table:last-child img,
+#legendDiv_fimSuppLyrs_1 table:last-child img,
+#legendDiv_fimExtents table:last-child img,
+#legendDiv_fimBreach table:last-child img {
+  margin: 0;
+  float: none;
+}
+.esriLegendService {
+  margin: 0 !important;
+  padding: 0 !important;
 }
 /*Flood tools modal tweaks*/
 #floodClose,
@@ -1632,7 +1705,6 @@ input[type="radio"] {
   justify-content: center;
   -webkit-flex-grow: 2;
   color: rgba(16, 21, 44, 0.5);
-  -webkit-flex-grow: 2;
   flex-grow: 2;
   box-sizing: border-box;
   font-size: 12pt;
@@ -1668,21 +1740,17 @@ a {
   display: flex;
   -webkit-flex-direction: column;
   flex-direction: column;
-  -webkit-justify-content: flex-end;
-  justify-content: flex-end;
+  -webkit-justify-content: center;
+  justify-content: center;
   text-align: center;
-  height: 200px;
-  width: 200px;
-  border-radius: 50%;
+  height: 100%;
+  width: 100%;
   position: fixed;
-  left: 50%;
-  top: 50%;
-  margin-top: -100px;
-  margin-left: -100px;
-  background-color: rgba(0, 0, 30, 0.8);
+  left: 0%;
+  top: 0%;
+  background-color: rgba(0, 0, 10, 0.8);
   color: white;
   font-weight: lighter;
-  box-sizing: border-box;
   font-size: 18px;
   padding: 15px 15px 35px 15px;
   z-index: 50000000000;
@@ -1690,7 +1758,11 @@ a {
   background-position: center center;
   background-size: 100px 100px;
   background-repeat: no-repeat;
-  display: none !important;
+  box-sizing: border-box;
+  padding: 130px 0 0 0;
+  font-weight: 600;
+  letter-spacing: 0.25px;
+  display: none;
 }
 /*.loading-blur{
   -webkit-filter: blur(3px);
@@ -1996,7 +2068,6 @@ input[type=range].styled:focus::-ms-fill-upper {
 }
 #ftModal {
   width: auto;
-  display: -webkit-flex;
   display: flex;
   min-width: 300px;
   height: 400px;
@@ -2006,11 +2077,8 @@ input[type=range].styled:focus::-ms-fill-upper {
 }
 #ftModal #ftSliders {
   width: 180px;
-  display: -webkit-flex;
   display: flex;
-  -webkit-justify-content: space-around;
   justify-content: space-around;
-  -webkit-flex-wrap: wrap;
   flex-wrap: wrap;
   box-sizing: border-box;
   background-color: rgba(255, 255, 255, 0.55);
@@ -2024,16 +2092,11 @@ input[type=range].styled:focus::-ms-fill-upper {
   margin-left: 30px;
 }
 #ftModal #ftSliders .slider-group {
-  -webkit-transform: rotate(90deg);
   transform: rotate(90deg);
-  -webkit-transform-origin: 0 0;
   transform-origin: 0 0;
   height: 44px;
-  display: -webkit-flex;
   display: flex;
-  -webkit-flex-direction: column;
   flex-direction: column;
-  -webkit-justify-content: flex-end;
   justify-content: flex-end;
   position: absolute;
   width: 150px;
@@ -2048,12 +2111,10 @@ input[type=range].styled:focus::-ms-fill-upper {
   left: 180px;
 }
 #ftModal #ftSliders .slider-group .slider-wrapper {
-  display: -webkit-flex;
   display: flex;
 }
 #ftModal #ftSliders .slider-group .slider-wrapper label {
   text-align: center;
-  -webkit-transform: rotate(-90deg);
   transform: rotate(-90deg);
   height: 0;
   width: 0;
@@ -2067,7 +2128,6 @@ input[type=range].styled:focus::-ms-fill-upper {
   left: -14px;
 }
 #ftModal #ftSliders .slider-group .slider-wrapper input {
-  -webkit-flex-grow: 3;
   flex-grow: 3;
   width: 100%;
   z-index: 60;
@@ -2115,9 +2175,7 @@ input[type=range].styled:focus::-ms-fill-upper {
   box-sizing: border-box;
 }
 #ftModal #ftSliders #ftOptions .ft-option {
-  display: -webkit-flex;
   display: flex;
-  -webkit-justify-content: flex-start;
   justify-content: flex-start;
   width: 100%;
 }
@@ -2127,11 +2185,8 @@ input[type=range].styled:focus::-ms-fill-upper {
   padding-left: 5px;
   box-sizing: border-box;
   line-height: 11.5px;
-  display: -webkit-flex;
   display: flex;
-  -webkit-flex-direction: column;
   flex-direction: column;
-  -webkit-justify-content: center;
   justify-content: center;
   padding-top: 5px;
 }
@@ -2142,21 +2197,16 @@ input[type=range].styled:focus::-ms-fill-upper {
   margin-top: 15px;
 }
 #ftModal #ftSliders #ftOptions #levelKey {
-  display: -webkit-flex;
   display: flex;
   box-sizing: border-box;
   margin-top: 20px;
-  -webkit-flex-wrap: wrap;
   flex-wrap: wrap;
 }
 #ftModal #ftSliders #ftOptions #levelKey div {
-  display: -webkit-flex;
   display: flex;
   position: relative;
   width: 50%;
-  -webkit-flex-direction: column;
   flex-direction: column;
-  -webkit-justify-content: center;
   justify-content: center;
   height: 12px;
   margin: 2px 0;
@@ -2188,8 +2238,6 @@ input[type=range].styled:focus::-ms-fill-upper {
   background-color: #C326FB;
 }
 #ftModal #ftData {
-  display: block;
-  -webkit-flex-grow: 3;
   flex-grow: 3;
   box-sizing: border-box;
   padding: 0;
@@ -2199,28 +2247,30 @@ input[type=range].styled:focus::-ms-fill-upper {
   overflow: auto;
   border-left: 1px solid rgba(16, 21, 44, 0.15);
   max-width: 570px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
 }
 #ftModal #ftData #ftDataTabs {
-  display: -webkit-flex;
   display: flex;
-  -webkit-justify-content: flex-start;
   justify-content: flex-start;
-  -webkit-flex-wrap: wrap;
   flex-wrap: wrap;
   background-color: white;
   box-sizing: border-box;
+  min-height: fit-content;
+  height: auto;
 }
 #ftModal #ftData #ftDataTabs .ft-tab {
-  display: -webkit-flex;
   display: flex;
-  -webkit-justify-content: center;
   justify-content: center;
   height: 34px;
   box-sizing: border-box;
-  padding: 0 12px;
-  letter-spacing: -0.2px;
+  padding: 0 8px;
+  letter-spacing: -0.25px;
   font-weight: 600;
   color: black;
+  background-color: white;
 }
 #ftModal #ftData #ftDataTabs .ft-tab:hover {
   color: black;
@@ -2235,16 +2285,13 @@ input[type=range].styled:focus::-ms-fill-upper {
 }
 #ftModal #ftData #ftDataTabs .ft-tab span,
 #ftModal #ftData #ftDataTabs .ft-tab i {
-  display: -webkit-flex;
   display: flex;
-  -webkit-flex-direction: column;
   flex-direction: column;
-  -webkit-justify-content: center;
   justify-content: center;
   height: 100%;
 }
 #ftModal #ftData #ftDataTabs .ft-tab span {
-  font-size: 12px;
+  font-size: 11px;
 }
 #ftModal #ftData #ftDataTabs .ft-tab i {
   font-size: 14px;
@@ -2298,6 +2345,8 @@ input[type=range].styled:focus::-ms-fill-upper {
   padding-top: 15px;
   border-top: 1px solid rgba(16, 21, 44, 0.15);
   padding: 15px 15px 20px 15px;
+  flex-grow: 3;
+  overflow: auto;
 }
 #ftModal #ftData #ftTools {
   display: block;
@@ -2324,9 +2373,7 @@ input[type=range].styled:focus::-ms-fill-upper {
 }
 #ftModal #ftData #ftTools #toolsTable {
   width: 100%;
-  display: -webkit-flex;
   display: flex;
-  -webkit-flex-wrap: wrap;
   flex-wrap: wrap;
   max-width: 460px;
   box-sizing: border-box;
@@ -2338,11 +2385,8 @@ input[type=range].styled:focus::-ms-fill-upper {
 }
 #ftModal #ftData #ftTools #toolsTable .box {
   width: 25%;
-  display: -webkit-flex;
   display: flex;
-  -webkit-flex-direction: column;
   flex-direction: column;
-  -webkit-justify-content: center;
   justify-content: center;
   font-weight: 700;
   box-sizing: border-box;
@@ -2367,8 +2411,16 @@ input[type=range].styled:focus::-ms-fill-upper {
 }
 #ftModal #ftData #ftTools #toolsTable .box .label-ft:after {
   content: 'feet';
-  font-size: 10px;
+  letter-spacing: -0.2px;
+  font-size: 11px;
   padding-left: 2px;
+  font-weight: 500;
+}
+#ftModal #ftData #ftTools #toolsTable .box .label-fps:after {
+  content: 'fps';
+  font-size: 11px;
+  padding-left: 2px;
+  letter-spacing: -0.2px;
   font-weight: 500;
 }
 #ftModal #ftData #ftTools #toolsButtons {
@@ -2398,9 +2450,7 @@ input[type=range].styled:focus::-ms-fill-upper {
 }
 #ftModal #ftData #ftHazus #hazusTableLabels {
   padding: 15px 0;
-  display: -webkit-flex;
   display: flex;
-  -webkit-justify-content: space-between;
   justify-content: space-between;
 }
 #ftModal #ftData #ftHazus #hazusTableLabels .hazus-label {
@@ -2562,9 +2612,7 @@ input[type=range].styled:focus::-ms-fill-upper {
   border-top: 1px solid rgba(16, 21, 44, 0.15);
   border-collapse: collapse;
   font-weight: 500;
-  display: -webkit-flex;
   display: flex;
-  -webkit-justify-content: space-between;
   justify-content: space-between;
   border-radius: 2px;
   width: 100%;
@@ -2585,7 +2633,6 @@ input[type=range].styled:focus::-ms-fill-upper {
 #ftModal .ft-accordion-header .header-icon {
   font-size: 16px;
   display: inline-block;
-  -webkit-flex-grow: 3;
   flex-grow: 3;
   padding-left: 5px;
 }
@@ -2621,11 +2668,9 @@ input[type=range].styled:focus::-ms-fill-upper {
   width: 220px;
   z-index: 100;
   background-color: white;
-  -webkit-flex-direction: column;
   flex-direction: column;
   border-top-left-radius: 5px;
   box-shadow: 0px 6px 35px -10px rgba(20, 20, 40, 0.6) !important;
-  display: -webkit-flex !important;
   display: flex !important;
   bottom: -200px;
   transition: all 0.2s ease;
@@ -2635,9 +2680,7 @@ input[type=range].styled:focus::-ms-fill-upper {
   transition: all 0.2s ease;
 }
 #minFT .header {
-  display: -webkit-flex;
   display: flex;
-  -webkit-justify-content: space-between;
   justify-content: space-between;
   border-top-left-radius: 5px;
   background-color: #10152C;
@@ -2667,15 +2710,12 @@ input[type=range].styled:focus::-ms-fill-upper {
 }
 #minFT .body {
   width: 100%;
-  -webkit-flex-grow: 3;
   flex-grow: 3;
   overflow: auto;
   height: 100%;
   box-sizing: border-box;
   padding: 0 10px;
-  display: -webkit-flex;
   display: flex;
-  -webkit-flex-direction: column;
   flex-direction: column;
 }
 #minFT .body .min-ft {
@@ -2683,7 +2723,6 @@ input[type=range].styled:focus::-ms-fill-upper {
   margin: 15px 0 0 0;
 }
 #minFT .body .min-ft .item {
-  display: -webkit-flex;
   display: flex;
   width: 100%;
   font-size: 12px;
@@ -2692,15 +2731,11 @@ input[type=range].styled:focus::-ms-fill-upper {
 }
 #minFT .body .min-ft .item label,
 #minFT .body .min-ft .item .value {
-  display: -webkit-flex;
   display: flex;
-  -webkit-flex-direction: column;
   flex-direction: column;
-  -webkit-justify-content: center;
   justify-content: center;
   height: 100%;
   margin: 0;
-  -webkit-flex-grow: 3;
   flex-grow: 3;
 }
 #minFT .body .min-ft .item .value {
@@ -2834,11 +2869,8 @@ input[type=range].styled:focus::-ms-fill-upper {
 .modal .modal-dialog .modal-content .modal-footer {
   margin: 0 auto;
   padding: 15px;
-  display: -webkit-flex;
   display: flex;
-  -webkit-flex-direction: column;
   flex-direction: column;
-  -webkit-justify-content: center;
   justify-content: center;
 }
 .modal .modal-dialog .modal-content .modal-footer .wim-modal-branding {
@@ -2856,9 +2888,7 @@ input[type=range].styled:focus::-ms-fill-upper {
   display: inline-block;
 }
 .modal .modal-dialog .modal-content .modal-footer .modal-footer-buttons {
-  display: -webkit-flex;
   display: flex;
-  -webkit-justify-content: space-between;
   justify-content: space-between;
   box-sizing: border-box;
   padding-top: 11px;
@@ -2991,9 +3021,7 @@ input[type=range].styled:focus::-ms-fill-upper {
   text-transform: capitalize;
   font-weight: 600;
   letter-spacing: -0.15px;
-  display: -webkit-flex;
   display: flex;
-  -webkit-justify-content: space-between;
   justify-content: space-between;
 }
 #sidebar .wim-sidebar-panel .panel-heading h4 a:after {
@@ -3031,11 +3059,8 @@ input[type=range].styled:focus::-ms-fill-upper {
   box-shadow: 0px 6px 35px -10px rgba(20, 20, 40, 0.6) !important;
 }
 .mobile-sidebar-toggle {
-  display: -webkit-inline-flex;
   display: inline-flex;
-  -webkit-flex-direction: column;
   flex-direction: column;
-  -webkit-justify-content: center;
   justify-content: center;
   transition: 0.12s;
   height: 50px;
@@ -3050,6 +3075,11 @@ input[type=range].styled:focus::-ms-fill-upper {
     margin-left: 15px;
   }
 }
+@media (max-width: 540px) {
+  .mobile-sidebar-toggle {
+    margin-right: 15px;
+  }
+}
 .mobile-sidebar-toggle:hover,
 .mobile-sidebar-toggle:focus {
   opacity: 0.5;
@@ -3060,13 +3090,14 @@ input[type=range].styled:focus::-ms-fill-upper {
   position: relative;
   max-height: 250px;
   background-color: rgba(255, 255, 255, 0.75) !important;
-  overflow: auto;
+  overflow: auto !important;
   padding: 0 10px 10px 10px;
 }
 #legendElement #legendDiv #legendDiv_msg {
   font-size: 12px;
   text-align: center;
-  width: 140px;
+  margin: 0 auto;
+  width: 160px;
   font-weight: 600;
   color: rgba(16, 21, 44, 0.7);
   padding: 10px;
@@ -3088,9 +3119,14 @@ input[type=range].styled:focus::-ms-fill-upper {
 }
 .esriLegendServiceLabel {
   padding: 0;
+  font-weight: 500 !important;
 }
 #sidebar {
   top: 50px;
   padding-bottom: 50px;
-  max-width: 280px;
+}
+@media (max-width: 767px) {
+  #sidebar {
+    max-width: 280px;
+  }
 }

@@ -219,7 +219,6 @@
     // Data and other items
     // Data and other items
     #ftData{
-        display: block;
         flex-grow: 3;
         box-sizing: border-box;
         padding: 0;
@@ -229,6 +228,10 @@
         overflow: auto;
         border-left: 1px solid fade(@black, 15%);
         max-width: 570px;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        overflow: hidden;
 
         #ftDataTabs{
             display: flex;
@@ -236,16 +239,19 @@
             flex-wrap: wrap;
             background-color: white;
             box-sizing: border-box;
+            min-height: fit-content;
+            height: auto;
 
             .ft-tab{
                 display: flex;
                 justify-content: center;
                 height: 34px;
                 box-sizing: border-box;
-                padding: 0 12px;
-                letter-spacing: -0.2px;
+                padding: 0 8px;
+                letter-spacing: -0.25px;
                 font-weight: 600;
                 color: black;
+                background-color: white;
 
                 &:hover{
                     color: black;
@@ -272,7 +278,7 @@
                 }
 
                 span{
-                    font-size: 12px;
+                    font-size: 11px;
                 }
                 i{
                     font-size: 14px;
@@ -341,6 +347,8 @@
             padding-top: 15px;
             border-top: 1px solid fade(@black, 15%);
             padding: 15px 15px 20px 15px;
+            flex-grow: 3;
+            overflow: auto;
         }
 
         // Tools Tab
@@ -420,8 +428,19 @@
 
                         &:after{
                             content: 'feet';
-                            font-size: 10px;
+                            letter-spacing: -0.2px;
+                            font-size: 11px;
                             padding-left: 2px;
+                            font-weight: 500;
+                        }
+                    }
+                    .label-fps{
+
+                        &:after{
+                            content: 'fps';
+                            font-size: 11px;
+                            padding-left: 2px;
+                            letter-spacing: -0.2px;
                             font-weight: 500;
                         }
                     }

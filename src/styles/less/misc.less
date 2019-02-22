@@ -551,7 +551,6 @@ input[type="checkbox"], input[type="radio"] {
   right: 15px;
   top: 65px;
   border-radius: 4px;
-  max-height: calc(100% - 300px) !important;
 }
 #legendElement .panel-title a{
     font-weight: 600;
@@ -776,20 +775,96 @@ input[type="checkbox"], input[type="radio"] {
 
 
 /*Legend Tweaks*/
+/*Legend Tweaks*/
+/*Legend Tweaks*/
+/*Legend Tweaks*/
+
+// AHPS Legend 
+#ahpsLegend{
+    display: block;
+    box-sizing: border-box;
+    padding: 15px;
+
+    #ahpsTitle{
+        font-size: 14px;
+        font-weight: 500;
+        color: black;
+    }
+
+    .ahps-item{
+        display: flex;
+
+        .ahps-icon{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 20px;
+
+            svg{
+                position: relative;
+                top: -4px;
+                // margin-top: -5px;
+            }
+        }
+        .ahps-text{
+            flex-grow: 3;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: -0.1px;
+            height: 20px;
+            color: rgba(16, 21, 44, 0.8);
+        }
+    }
+}
 .esriLegendLayer td{
     line-height: 15px;
     box-sizing: border-box;
     padding: 2px 0;
 }
-.esriLegendServiceLabel{
-    font-size: 14px;
+
+#legendDiv_fimSuppLyrs .esriLegendServiceLabel{
+    font-size: 12px;
     line-height: 15px;
     display: block;
-    padding-bottom: 8px;
+    padding: 8px 0;
     text-align: center;
     font-weight: 600;
 }
 
+#legendDiv_fimSuppLyrs_0,
+#legendDiv_fimSuppLyrs_1,
+#legendDiv_fimExtents,
+#legendDiv_fimBreach{
+    font-size: 10px;
+    display: flex !important;
+    font-weight: 500 !important;
+    font-size: 11px;
+    flex-direction: row-reverse;
+    letter-spacing: -0.1px;
+    color: rgba(16, 21, 44, 0.8);
+
+    table:first-child{
+        flex-grow: 3;
+        box-sizing: border-box;
+        margin: 3px 0 0 0;
+    }
+    table:last-child{
+        width: 15%;
+
+        img{
+            margin: 0;
+            float: none;
+        }
+    }
+}
+
+.esriLegendService{
+    margin: 0 !important;
+    padding: 0 !important;
+}
 /*Flood tools modal tweaks*/
 #floodClose,
 #floodMin{
@@ -1033,18 +1108,15 @@ a{
   display: flex;
   -webkit-flex-direction: column;
   flex-direction: column;
-  -webkit-justify-content: flex-end;
-  justify-content: flex-end;
+  -webkit-justify-content: center;
+  justify-content: center;
   text-align: center;
-  height: 200px;
-  width: 200px;
-  border-radius: 50%;
+  height: 100%;
+  width: 100%;
   position: fixed;
-  left: 50%;
-  top: 50%;
-  margin-top: -100px;
-  margin-left: -100px;
-  background-color: rgba(0,0,30,0.8);
+  left: 0%;
+  top: 0%;
+  background-color: rgba(0,0,10,0.8);
   color: white;
   font-weight: lighter;
   box-sizing: border-box;
@@ -1055,7 +1127,11 @@ a{
   background-position: center center;
   background-size: 100px 100px;
   background-repeat: no-repeat;
-  display: none !important;
+  box-sizing: border-box;
+  padding: 130px 0 0 0;
+  font-weight: 600;
+  letter-spacing: 0.25px;
+//   display: none;
 }
 
 /*.loading-blur{

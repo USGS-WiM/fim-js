@@ -1765,6 +1765,9 @@ require([
                                 tickInterval: 24*3600*1000
                             },
                             yAxis: {
+                                min: 0,
+                                max: floodStageBands[3].to,
+                                endOnTick: false,
                                 resize: {
                                     enabled: true
                                 },
@@ -1835,6 +1838,10 @@ require([
                                     tickInterval: 24*3600*1000
                                 },
                                 yAxis: {
+                                    min: 0,
+                                    max: floodStageBands2[3].to,
+                                    endOnTick: false,
+    
                                     resize: {
                                         enabled: true
                                     },
@@ -1905,6 +1912,10 @@ require([
                                     tickInterval: 24*3600*1000
                                 },
                                 yAxis: {
+                                    min: 0,
+                                    max: floodStageBands3[3].to,
+                                    endOnTick: false,
+    
                                     resize: {
                                         enabled: true
                                     },
@@ -1968,11 +1979,12 @@ require([
                         $("#hazusTableSiteLabel").html(featureSet.features[0].attributes["USGSID"]);
 
                         $(".ft-hazus-tab").show();
-                        $("#hazusTable tr td").remove();
+                        $("#hazusTable tbody").empty();
+                        // $("#hazusTable tr td").remove();
                         for (var i=0; i < featureSet.features.length; i++) {
                             var html = "<tr id='hazus" + featureSet.features[i].attributes["STAGE"] + "'><td>" + featureSet.features[i].attributes["STAGE"] + "</td><td>" + featureSet.features[i].attributes["BuildingDamaged"] + 
                             "</td><td>$" + featureSet.features[i].attributes["BuildingLosses"].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "</td><td>" + featureSet.features[i].attributes["EssentialFacilityImpacted"] + "</td></tr>";
-                            $("#hazusTable").append(html);
+                            $("#hazusTable tbody").append(html);
                         }
 
                         // Fill in min and max hazus table info

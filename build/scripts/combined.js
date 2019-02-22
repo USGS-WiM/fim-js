@@ -371,7 +371,9 @@ require([
                         "outFields": ["*"],
                         'includeInLayerList': true,
                         'layerIndex': 0,
-                        'includeLegend' : false
+                        'includeLegend': true,
+                        'legendTitle': 'AHPS Forecast Sites',
+                        'legendPlacement': 1
                     }
                 },
                 'Minor flooding': {

@@ -78,6 +78,9 @@ body {
         margin-right: 0;
         margin-left: 15px;
     }
+    @media (max-width: 540px) {
+        margin-right: 15px;
+    }
 
     &:hover,
     &:focus{
@@ -95,14 +98,15 @@ body {
     position: relative;
     max-height: 250px;
     background-color: rgba(255,255,255,0.75) !important;
-    overflow: auto;
+    overflow: auto !important;
     padding: 0 10px 10px 10px;
 
     // No legend message
     #legendDiv_msg{
         font-size: 12px;
         text-align: center;
-        width: 140px;
+        margin: 0 auto;
+        width: 160px;
         font-weight: 600;
         color: fade(@black, 70%);
         padding: 10px;
@@ -136,6 +140,7 @@ body {
 }
 .esriLegendServiceLabel{
     padding: 0;
+    font-weight: 500 !important;
 }
 
 
@@ -145,5 +150,7 @@ body {
 #sidebar {
     top: 50px;
     padding-bottom: 50px;
-    max-width: 280px;
+    @media (max-width: 767px) {
+        max-width: 280px;
+    }
 }
