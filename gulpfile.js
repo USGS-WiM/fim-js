@@ -132,13 +132,15 @@ gulp.task('watch', ['less', 'connect', 'serve'], function () {
     gulp.watch([
         'src/*.html',
         'src/styles/**/*.css',
-        'src/less/**/*.less',
+        'src/**/*.less',
         'src/scripts/**/*.js',
         'src/images/**/*'
     ], function (event) {
         return gulp.src(event.path)
             .pipe($.connect.reload());
     });
+
+    gulp.watch("./src/**/*.less", ['sync-styles']);
 
     // Watch .css files
     gulp.watch('src/styles/**/*.css', ['styles']);
@@ -152,7 +154,6 @@ gulp.task('watch', ['less', 'connect', 'serve'], function () {
     // Watch bower files
     gulp.watch('bower.json', ['wiredep']);
 });
-
 
 
 // Browsersync
