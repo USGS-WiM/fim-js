@@ -652,6 +652,7 @@ require([
                         //map.setLevel(mapLevel);
 
                         initialSiteLoad.remove();
+                        $("#usgs-loader").hide();
 
                         if (site_no_param != "") {
 
@@ -3712,7 +3713,7 @@ require([
                     var button = $('<div class="btn-group-vertical lyrTogDiv" style="cursor: pointer;" data-toggle="buttons"> <button id="' + layer.id + '"type="button" class="btn btn-default active" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="glyphspan fa fa-check-square-o"></i>' + layerName + '</button></span></div>');
                 } else {
                     //no icons; button not selected
-                    var button = $('<div class="btn-group-vertical lyrTogDiv" style="cursor: pointer;" data-toggle="buttons"> <button id="' + layer.id + '"type="button" class="btn btn-default" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="glyphspan fa fa-square-o"></i><label id="' + camelize(layerName) + 'Label" class="ahpsLabel">' + layerName + '</label></button> </div>');
+                    var button = $('<div class="btn-group-vertical lyrTogDiv" style="cursor: pointer;" data-toggle="buttons"> <button id="' + layer.id + '"type="button" class="btn btn-default ahpsCheck" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="glyphspan fa fa-square-o"></i><label id="' + camelize(layerName) + 'Label" class="ahpsLabel">' + layerName + '</label></button> </div>');
                 }
 
                 //click listener for regular
@@ -3742,8 +3743,25 @@ require([
                                 $("#"+lyr.id).find('button').button('toggle');
                                 lyr.setVisibility(layer.visible);
                             }
+                            if (layer.visible) {
+                                $('#ahpsLegend').show();
+                            } else {
+                                $('#ahpsLegend').hide();
+                            }
+                            
                         });
                     }
+                    
+                    var isLayer = false;
+                    $.each($('.ahpsCheck'), function (key,value) {
+                        if (map.getLayer(this.id).visible) {
+                            $('#ahpsLegend').show();
+                            isLayer = true;
+                        } 
+                        if (isLayer == false) {
+                            $('#ahpsLegend').hide();
+                        }
+                    });
 
                     // Google Analytics
                     var dimensionValue = layerName + "";
