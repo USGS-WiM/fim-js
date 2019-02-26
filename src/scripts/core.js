@@ -3231,12 +3231,44 @@ require([
         };*/
         template.format = "PDF";
         template.layout = "FIMpage2design";
+        
+        if (map.getScale() < 18000) {
+            template.layout = "FIMpage2design";
+        } else if (map.getScale() >= 18000 && map.getScale() < 36000) {
+            template.layout = "FIMpage2design_18k";
+        } else if (map.getScale() >= 36000 && map.getScale() < 72000) {
+            template.layout = "FIMpage2design_36k";
+        } else if (map.getScale() >= 72000 && map.getScale() < 288000) {
+            template.layout = "FIMpage2design_72k";
+        } else if (map.getScale() >= 288000) {
+            template.layout = "FIMpage2design_288k";
+        }
+
         template.preserveScale = false;
         /*var sitesLegendLayer = new LegendLayer();
         sitesLegendLayer.layerId = "fimSites";*/
         //legendLayer.subLayerIds = [*];
 
         var userTitle = $("#printTitle").val();
+        var siteCommunity = "";
+        var siteStatePrint = "";
+        var currentStage = "";
+        var currentReport = "";
+        var authors = "";
+        var rep_date = "";
+        var title = "";
+        var rep_series = "";
+        var series_num = "";
+        var add_info = "";
+        var currentElev = "";
+        var study_date = "";
+        var siteDefExp = "";
+        var siteToGage = "";
+        if (siteAttr.MULTI_SITE == '0') {
+            siteDefExp = "SITE_NO = '" + siteNo + "'";
+            siteToGage = "Map corresponding to a Gage Height of " + currentStage + " feet and an Elevation of " + currentElev + " feet (NAVD 88)";
+        } 
+        
         //if user does not provide title, use default. otherwise apply user title
         if (userTitle == "") {
             template.layoutOptions = {
@@ -3245,7 +3277,8 @@ require([
                 "copyrightText": "This page was produced by the FIM and the WIM",
                 "customTextElements": [
                     { "mapTitle": "Flood-Inundation Map for the Wabash River at Terre Haute, Indiana at the U.S. Geological Survey Streamgage Number " + siteAttr.SITE_NO },
-                    { "mapSeries": siteAttr.REPORT }
+                    { "mapSeries": siteAttr.REPORT },
+                    { "Map_Info" : "community, state | " + siteNo }
                 ]
                 ///"legendLayers": [sitesLegendLayer]
             };
@@ -3254,10 +3287,16 @@ require([
                 "titleText": userTitle,
                 "authorText" : "Flood Inundation Mapping",
                 "copyrightText": "This page was produced by the FIM and the WIM",
-                "customTextElements": [
+                /*"Map_Info" : siteCommunity + ", " + siteStatePrint + "|" + siteNo + "|" + currentStage + "|" + currentReport + "|"
+                    + authors + ", " + rep_date + ", " + title + ": " + rep_series + " " + series_num + ", " + add_info + "|" + currentElev + "|" 
+                    + study_date + "|" + siteDefExp + "|" + siteToGage*/
+                /*"customTextElements": [
                     { "mapTitle": "Flood-Inundation Map for the " + siteAttr.COMMUNITY + " at the U.S. Geological Survey Streamgage Number " + siteAttr.SITE_NO },
-                    { "mapSeries": siteAttr.REPORT }
-                ]
+                    { "mapSeries": siteAttr.REPORT } ,
+                    { "Map_Info" : siteCommunity + ", " + siteStatePrint + "|" + siteNo + "|" + currentStage + "|" + currentReport + "|"
+                    + authors + ", " + rep_date + ", " + title + ": " + rep_series + " " + series_num + ", " + add_info + "|" + currentElev + "|" 
+                    + study_date + "|" + siteDefExp + "|" + siteToGage}         
+                ]*/ 
                 //"legendLayers": [sitesLegendLayer]
             };
         }
@@ -3265,7 +3304,8 @@ require([
         //"legendLayers": [legendLayer]
         var docTitle = template.layoutOptions.titleText;
         printParams.template = template;
-        var printMap = new PrintTask("https://gis.wim.usgs.gov/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task");
+        //var printMap = new PrintTask("https://gis.wim.usgs.gov/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task");
+        var printMap = new PrintTask("http://fim.wim.usgs.gov/arcgis/rest/services/FIMMapper/printTool/GPServer/printTool");
         printMap.execute(printParams, printDone, printError);
 
         sitesLayer.setVisibility(true);
@@ -3284,126 +3324,10 @@ require([
         }
 
         function printError(event) {
+            $("#printExecuteButton").button('reset');
             alert("Sorry, an unclear print error occurred. Please try refreshing the application to fix the problem");
         }
     }
-
-    /*var geocoder = new Geocoder({
-        value: '',
-        maxLocations: 25,
-        autoComplete: true,
-        arcgisGeocoder: true,
-        autoNavigate: false,
-        map: map
-    }, 'geosearch');
-    geocoder.startup();
-    geocoder.on('select', geocodeSelect);
-    geocoder.on('findResults', geocodeResults);
-    geocoder.on('clear', clearFindGraphics);
-    on(geocoder.inputNode, 'keydown', function (e) {
-        if (e.keyCode == 13) {
-            setSearchExtent();
-        }
-    });
-
-    // Symbols
-    var sym = createPictureSymbol('../images/purple-pin.png', 0, 12, 13, 24);
-
-    /*map.on('load', function (){
-        map.infoWindow.set('highlight', false);
-        map.infoWindow.set('titleInBody', false);
-    });*/
-
-    // Geosearch functions
-    //on(dom.byId('btnGeosearch'),'click', geosearch);
-
-    // Optionally confine search to map extent
-    /*function setSearchExtent (){
-        if (dom.byId('chkExtent').checked === 1) {
-            geocoder.activeGeocoder.searchExtent = map.extent;
-        } else {
-            geocoder.activeGeocoder.searchExtent = null;
-        }
-    }*/
-    /*function geosearch() {
-        //setSearchExtent();
-        var def = geocoder.find();
-        def.then(function (res){
-            geocodeResults(res);
-        });
-        // Close modal
-        $('#geosearchModal').modal('hide');
-    }
-    function geocodeSelect(item) {
-        clearFindGraphics();
-        var g = (item.graphic ? item.graphic : item.result.feature);
-        g.setSymbol(sym);
-        //addPlaceGraphic(item.result,g.symbol);
-        // Close modal
-        //$('#geosearchModal').modal('hide');
-    }
-    function geocodeResults(places) {
-        places = places.results;
-        if (places.length > 0) {
-            clearFindGraphics();
-            var symbol = sym;
-            // Create and add graphics with pop-ups
-            for (var i = 0; i < places.length; i++) {
-                //addPlaceGraphic(places[i], symbol);
-            }
-            //zoomToPlaces(places);
-            var centerPoint = new Point(places[0].feature.geometry);
-            map.centerAndZoom(centerPoint, 17);
-            //map.setLevel(15);
-
-        } else {
-            //alert('Sorry, address or place not found.');  // TODO
-        }
-    }
-    function stripTitle(title) {
-        var i = title.indexOf(',');
-        if (i > 0) {
-            title = title.substring(0,i);
-        }
-        return title;
-    }
-    function addPlaceGraphic(item,symbol)  {
-        var place = {};
-        var attributes,infoTemplate,pt,graphic;
-        pt = item.feature.geometry;
-        place.address = item.name;
-        place.score = item.feature.attributes.Score;
-        // Graphic components
-        attributes = { address:stripTitle(place.address), score:place.score, lat:pt.getLatitude().toFixed(2), lon:pt.getLongitude().toFixed(2) };
-        infoTemplate = new PopupTemplate({title:'{address}', description: 'Latitude: {lat}Longitude: {lon}'});
-        graphic = new Graphic(pt,symbol,attributes,infoTemplate);
-        // Add to map
-        map.graphics.add(graphic);
-    }
-
-    function zoomToPlaces(places) {
-        var multiPoint = new Multipoint(map.spatialReference);
-        for (var i = 0; i < places.length; i++) {
-            multiPoint.addPoint(places[i].feature.geometry);
-        }
-        map.setExtent(multiPoint.getExtent().expand(2.0));
-    }
-
-    function clearFindGraphics() {
-        map.infoWindow.hide();
-        map.graphics.clear();
-    }
-
-    function createPictureSymbol(url, xOffset, yOffset, xWidth, yHeight) {
-        return new PictureMarkerSymbol(
-            {
-                'angle': 0,
-                'xoffset': xOffset, 'yoffset': yOffset, 'type': 'esriPMS',
-                'url': url,
-                'contentType': 'image/png',
-                'width':xWidth, 'height': yHeight
-            });
-    }*/
 
     // Show modal dialog; handle legend sizing (both on doc ready)
     $(document).ready(function(){
