@@ -6,6 +6,7 @@
  * Created by bdraper on 4/3/2015.
  *///
 
+
 var map;
 var dialog;
 var allLayers;
@@ -65,6 +66,9 @@ var minorCount = 0;
 var actionCount = 0;
 var nofloodCount = 0;
 var currentBasemap;
+
+// Current URL
+var fimURL = document.location.href.substring(0, document.location.href.indexOf('?'));
 
 
 require([
@@ -313,7 +317,7 @@ require([
         //below line for local testing only. replace with above line for production
         //var cleanURL = "https://fim.wim.usgs.gov/fim-js-dev/";
         var shareURL = cleanURL + shareQueryString;
-        $("#siteURL").html('<span class="label label-default"><span class="glyphicon glyphicon-link"></span> site link</span><code>' + shareURL + '</code>');
+        $("#siteURL").html('<code>' + shareURL + '</code>');
 
         // Hidden Input for copy button
         var $temp = $("<input id='shareURLInput'>");
@@ -323,9 +327,16 @@ require([
 
     $("#copyShareURL").click(function(){
       // Copy hidden input text
-      $('#shareURLInput').select();
-      document.execCommand("copy");
-      $('#shareURLInput').remove();
+        $('#shareURLInput').select();
+        document.execCommand("copy");
+        $('#shareURLInput').remove();
+
+        $("#copyShareURL").addClass("success");
+        $("#copyShareURL").html("Link Copied to Clipboard");
+        setTimeout(function(){
+            $("#copyShareURL").removeClass("success");
+            $("#copyShareURL").html("Copy Link");
+        }, 5000);
     });
 
     dialog = new TooltipDialog({
@@ -481,7 +492,7 @@ require([
         $('#hydroChart, #hydroChart2, #hydroChart3').hide();
     });
 
-    $("#floodClose").click(function(){
+    var closeFloodTools = function(){
         $("#floodToolsDiv").css("visibility", "hidden");
         map.getLayer("fimExtents").setVisibility(false);
         map.getLayer("fimGrid"+siteAttr.GRID_SERV).setVisibility(false);
@@ -502,6 +513,13 @@ require([
             $('#hydroChart3').highcharts().destroy();
         }
         map.infoWindow.hide();
+
+        window.history.replaceState(null, null, fimURL);
+
+    }
+
+    $("#floodClose").click(function(){
+        closeFloodTools();
     });
 
     $("#floodToolsOpen, #floodToolsMax").click(function(){
@@ -554,6 +572,8 @@ require([
         $(".ftmodal-content").not("#" + toggleID).hide();
         $("#" + toggleID).show();
     });
+
+
 
     
     //map.getLayer("fimGrid2").on("load", gridsLayerComp);
@@ -1956,9 +1976,17 @@ require([
                         $("#floodToolsDiv .panel-body").removeClass('loading-hide');
                         $("#floodToolsDiv").removeClass('loading-background');
 
+                        // Add site parameters to address bar
+                        // var newURLParams = document.location.href+"?site_no="+siteNo;
+                        // document.location = newURLParams;
+                        console.log("URL CHANGED")
+                        window.history.replaceState(null, null, fimURL+"?site_no="+siteNo);
+
+
                     })
                     .fail(function() {
                         //alert('there was an issue');
+                        floodToolsError();
                     });
 
 
@@ -2075,7 +2103,7 @@ require([
 
                         sliderSetup(results);
 
-                        $("#floodToolsPanelHeader").html(attr["STATE"] + ": " + attr["COMMUNITY"] + "   <span id='shareLink' style='white-space: nowrap; margin-left: 0px; padding-left: 0px'><span class='glyphicon glyphicon glyphicon-share'></span> Share</span>");
+                        $("#floodToolsPanelHeader").html(attr["STATE"] + ": " + attr["COMMUNITY"] + "   <span id='shareLink' style='white-space: nowrap; margin-left: 0px; padding-left: 0px'><i class='fa fa-share'></i> Share</span>");
                         $("#shareLink").click(function() {
                             showShareModal();
                         });
@@ -3194,6 +3222,7 @@ require([
                             new Point( o.result.properties.Lon, o.result.properties.Lat ),
                             12
                         );
+                        $('#geosearchModal').modal('hide');
                     });
                 }
 
@@ -3331,12 +3360,12 @@ require([
 
     // Show modal dialog; handle legend sizing (both on doc ready)
     $(document).ready(function(){
-        function showModal() {
+        function showSearchModal() {
             $('#geosearchModal').modal('show');
         }
         // Geosearch nav menu is selected
         $('#geosearchNav').click(function(){
-            showModal();
+            showSearchModal();
         });
 
         function showAboutModal () {
@@ -3940,3 +3969,19 @@ $('body').text( $('body').text().replace("●", ''));
 
 
 
+// Flood Tools Error
+// Flood Tools Error
+// Flood Tools Error
+var floodToolsError = function(){
+    
+    $("#ftError").addClass("visible");
+    
+    setTimeout(function(){
+        $("#ftError").removeClass("visible");
+    }, 5000);
+
+
+    $("#floodToolsDiv").css("visibility", "hidden");
+
+
+}

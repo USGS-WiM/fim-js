@@ -94,22 +94,26 @@ body {
 // Legend
 // Legend
 // Legend
+#legendWrapper{
+    display: block;
+    overflow: auto;
+    max-height: 280px;
+}
 #legendElement #legendDiv {
     position: relative;
-    max-height: 250px;
-    background-color: rgba(255,255,255,0.75) !important;
-    overflow: auto !important;
-    padding: 0 10px 10px 10px;
+    padding: 0 8px;
+    max-height: none !important;
 
     // No legend message
     #legendDiv_msg{
-        font-size: 12px;
-        text-align: center;
-        margin: 0 auto;
-        width: 160px;
-        font-weight: 600;
-        color: fade(@black, 70%);
-        padding: 10px;
+        // font-size: 12px;
+        // text-align: center;
+        // margin: 0 auto;
+        // width: 160px;
+        // font-weight: 600;
+        // color: fade(@black, 70%);
+        // padding: 10px;
+        display: none;
     }
 }
 
