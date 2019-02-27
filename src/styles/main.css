@@ -1539,32 +1539,38 @@ input[type="radio"] {
 #floodClose,
 #floodMin {
   font-size: 0;
-  opacity: 0.65;
+  color: #10152C;
+  color: rgba(16, 21, 44, 0.75);
   transition: 0.2s;
 }
 #floodClose:hover,
 #floodMin:hover {
   cursor: pointer;
-  opacity: 1;
+  color: #10152C;
   transition: 0.2s;
 }
 #floodClose {
   position: relative;
   top: 3px;
+  margin-right: 4px;
+}
+#floodClose:hover {
+  color: #FB4841;
 }
 #floodClose:before {
   content: '\f00d';
-  font-family: FontAwesome;
+  font-family: 'Font Awesome 5 Free';
   font-size: 20px;
 }
 #floodMin {
   position: relative;
-  top: 4px;
+  top: 2px;
 }
 #floodMin:before {
-  content: '\f066';
-  font-family: FontAwesome;
-  font-size: 20px;
+  content: '\f2d2';
+  font-family: 'Font Awesome 5 Free';
+  font-size: 16px;
+  font-weight: lighter;
 }
 #floodToolsDiv {
   box-shadow: 0px 6px 27px -7px rgba(0, 10, 80, 0.55);
@@ -1607,7 +1613,7 @@ input[type="radio"] {
   transition: 0.2;
   position: relative;
   top: -1px;
-  letter-spacing: 0.1px;
+  letter-spacing: -0.1px;
   color: #1D6DFA;
 }
 #shareLink i {
@@ -1616,7 +1622,7 @@ input[type="radio"] {
 }
 #shareLink:hover {
   cursor: pointer !important;
-  color: #4f8dfb !important;
+  color: #0441ad !important;
   transition: 0.2;
 }
 /*LATLNG*/
@@ -3120,11 +3126,11 @@ input[type=range].styled:focus::-ms-fill-upper {
   justify-content: space-between;
 }
 #sidebar .wim-sidebar-panel .panel-heading h4 a:after {
-  content: '\f077';
-  font-family: 'FontAwesome';
+  content: '\f068';
+  font-family: 'Font Awesome 5 Free';
 }
 #sidebar .wim-sidebar-panel .panel-heading h4 a.collapsed:after {
-  content: '\f078';
+  content: '\f067';
 }
 #sidebar {
   background-color: #fff;
