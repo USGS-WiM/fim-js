@@ -77,37 +77,6 @@ body {
 .hover-content {
   display: none;
 }
-.identification {
-  text-transform: uppercase;
-  letter-spacing: 0px;
-  font-size: 9pt;
-  font-weight: 600;
-  display: block;
-  width: 100%;
-  opacity: 1;
-  margin: 0;
-  padding: 30px 0 10px 0px;
-  text-align: center;
-  color: #6E7490;
-}
-.identification #wim_logo {
-  height: 18px;
-  margin-left: 2px;
-  margin-top: -3px;
-}
-.sidebar_footer {
-  display: block;
-  box-sizing: border-box;
-  padding: 10px;
-}
-.sidebar_footer {
-  line-height: 13px;
-}
-.sidebar_footer a {
-  display: inline-block;
-  padding: 0px 4px;
-  font-size: 10px;
-}
 .latLngScale {
   position: absolute;
   padding: 4px;
@@ -1132,15 +1101,6 @@ a.lgi-zoom:hover {
 .no-col-padding {
   padding: 0;
 }
-.panel-heading a:after {
-  font-family: 'Glyphicons Halflings';
-  content: "\e114";
-  float: right;
-  color: gray;
-}
-.panel-heading a.collapsed:after {
-  content: "\e080";
-}
 .row-map {
   background: #eee;
 }
@@ -1694,13 +1654,13 @@ input[type="radio"] {
 /*User Guide Modal*/
 .user-guide-header {
   display: block;
-  font-size: 20px;
+  font-size: 18px;
   text-align: left;
   box-sizing: border-box;
   padding: 5px 0 10px 0;
   font-weight: 700;
   margin-bottom: 15px;
-  color: rgba(16, 21, 44, 0.8);
+  color: rgba(16, 21, 44, 0.9);
 }
 .user-guide-item {
   display: block;
@@ -1715,7 +1675,7 @@ input[type="radio"] {
   float: right;
   margin-left: 15px;
   max-width: 100%;
-  border: 4px solid rgba(0, 0, 0, 0.15);
+  border: 2px solid rgba(16, 21, 44, 0.2);
 }
 .user-guide-item p {
   display: -webkit-flex;
@@ -1732,7 +1692,7 @@ input[type="radio"] {
   padding: 0 !important;
 }
 .user-guide-item p b {
-  color: rgba(16, 21, 44, 0.8);
+  color: rgba(16, 21, 44, 0.9);
   display: block;
   font-size: 14px;
   font-weight: bolder;
@@ -3138,37 +3098,84 @@ input[type=range].styled:focus::-ms-fill-upper {
   color: rgba(16, 21, 44, 0.5) !important;
   margin-bottom: 4px !important;
 }
+#sidebar .wim-sidebar-panel {
+  box-shadow: none !important;
+  border-bottom: 1px solid rgba(16, 21, 44, 0.8);
+  border-radius: 0;
+}
+#sidebar .wim-sidebar-panel .panel-heading {
+  border: none;
+}
 #sidebar .wim-sidebar-panel .panel-heading h4 a {
-  background-color: #F5F6FB;
+  background-color: white;
   text-transform: capitalize;
   font-weight: 600;
-  letter-spacing: -0.15px;
+  letter-spacing: -0.25px;
   display: flex;
   justify-content: space-between;
 }
 #sidebar .wim-sidebar-panel .panel-heading h4 a:after {
   content: '\f068';
   font-family: 'Font Awesome 5 Free';
+  color: #10152C;
 }
 #sidebar .wim-sidebar-panel .panel-heading h4 a.collapsed:after {
   content: '\f067';
+}
+#sidebar .wim-sidebar-panel .panel-heading h4 a span {
+  color: #10152C;
+  font-weight: 700;
+  font-family: 'Open Sans', sans-serif;
+}
+#sidebar .wim-sidebar-panel .panel-heading h4 a:hover {
+  background-color: white;
+}
+#sidebar .wim-sidebar-panel .panel-heading h4 a:hover span {
+  text-decoration: underline;
 }
 #sidebar {
   background-color: #fff;
 }
 #sidebar .identification {
-  font-size: 10px !important;
-  text-transform: capitalize !important;
-  padding-bottom: 5px;
+  letter-spacing: 0px;
+  font-size: 9pt;
+  font-weight: 600;
+  display: block;
+  letter-spacing: -0.3px;
+  width: 100%;
+  font-family: 'Open Sans', sans-serif;
+  margin: 0;
+  padding: 20px 0 10px 0px;
+  text-align: center;
+  color: rgba(16, 21, 44, 0.9);
+  opacity: 1;
+}
+#sidebar .identification #wim_logo {
+  height: 18px;
+  margin-left: 2px;
+  margin-top: -3px;
 }
 #sidebar .sidebar_footer {
-  line-height: 12px !important;
-  color: #1D6DFA !important;
   font-family: 'Open Sans', sans-serif !important;
   font-weight: 500;
+  box-sizing: border-box;
+  padding: 5px 10px;
+  line-height: 13px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 #sidebar .sidebar_footer a {
-  color: #1D6DFA !important;
+  color: rgba(16, 21, 44, 0.6);
+  font-size: 10px;
+  padding: 0px 4px;
+  line-height: 13px;
+  font-weight: 500;
+}
+#sidebar .sidebar_footer a:hover {
+  cursor: pointer;
+  text-decoration: underline;
+  color: #10152C;
 }
 #navbar button {
   background-color: #1D6DFA;
@@ -3287,6 +3294,9 @@ input[type=range].styled:focus::-ms-fill-upper {
   padding: 0px;
   height: 28px;
   flex-grow: 3;
+  color: rgba(16, 21, 44, 0.9);
+  letter-spacing: -0.2px;
+  padding-bottom: 1px;
 }
 .sidebar-layers-item button .opacity {
   display: flex;
