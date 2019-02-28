@@ -3303,18 +3303,17 @@ require([
                 "titleText": "FIM",
                 "authorText" : "Flood Inundation Mapping",
                 "copyrightText": "This page was produced by the FIM and the WIM",
-                "customTextElements": [
+                /*"customTextElements": [
                     { "mapTitle": "Flood-Inundation Map for the Wabash River at Terre Haute, Indiana at the U.S. Geological Survey Streamgage Number " + siteAttr.SITE_NO },
-                    { "mapSeries": siteAttr.REPORT },
-                    { "Map_Info" : "community, state | " + siteNo }
-                ]
-                ///"legendLayers": [sitesLegendLayer]
+                    { "mapSeries": siteAttr.REPORT }
+                ]*/
+                "legendLayers": null//[sitesLegendLayer]
             };
         } else {
             template.layoutOptions = {
                 "titleText": userTitle,
                 "authorText" : "Flood Inundation Mapping",
-                "copyrightText": "This page was produced by the FIM and the WIM",
+                "copyrightText": "This page was produced by the FIM and the WIM"
                 /*"Map_Info" : siteCommunity + ", " + siteStatePrint + "|" + siteNo + "|" + currentStage + "|" + currentReport + "|"
                     + authors + ", " + rep_date + ", " + title + ": " + rep_series + " " + series_num + ", " + add_info + "|" + currentElev + "|" 
                     + study_date + "|" + siteDefExp + "|" + siteToGage*/
@@ -3329,11 +3328,15 @@ require([
             };
         }
 
+        var extraParams = new Object();
+        extraParams.Map_Info = 'a|b|c|d|e|f|g|h|i';
+        printParams.extraParameters = extraParams;
+
         //"legendLayers": [legendLayer]
         var docTitle = template.layoutOptions.titleText;
         printParams.template = template;
         //var printMap = new PrintTask("https://gis.wim.usgs.gov/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task");
-        var printMap = new PrintTask("http://fim.wim.usgs.gov/arcgis/rest/services/FIMMapper/printTool/GPServer/printTool");
+        var printMap = new PrintTask("https://fim.wim.usgs.gov/arcgis/rest/services/FIMMapper/printTool/GPServer/printTool");
         printMap.execute(printParams, printDone, printError);
 
         sitesLayer.setVisibility(true);
