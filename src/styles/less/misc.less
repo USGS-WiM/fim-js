@@ -119,12 +119,6 @@
     display:inline-block;
 }
 
-.lyrTogDiv {
-    width: 100%;
-    padding: 1px;
-    font-weight: bold;
-}
-
 .alert {
     margin-top: 0px;
     margin-bottom: 0px;
@@ -883,8 +877,7 @@ input[type="checkbox"], input[type="radio"] {
 #floodClose,
 #floodMin{
     font-size: 0;
-    color: @black;
-    color: fade(@black, 75%);
+    color: fade(@black, 95%);
     transition: 0.2s;
 }
 #floodClose:hover,
@@ -895,7 +888,7 @@ input[type="checkbox"], input[type="radio"] {
 }
 #floodClose{
     position: relative;
-    top: 3px;
+    top: 6px;
     margin-right: 4px;
 }
 #floodClose:hover{
@@ -905,17 +898,20 @@ input[type="checkbox"], input[type="radio"] {
 #floodClose:before{
     content: '\f00d';
     font-family: 'Font Awesome 5 Free';
-    font-size: 20px;
+    font-size: 18px;
 }
 
 #floodMin{
     position: relative;
-    top: 2px;
+    top: 5px;
+}
+#floodMin:hover{
+    color: @blue;
 }
 #floodMin:before{
     content: '\f2d2';
     font-family: 'Font Awesome 5 Free';
-    font-size: 16px;
+    font-size: 14px;
     font-weight: lighter;
 }
 #floodToolsDiv{
@@ -956,10 +952,15 @@ input[type="checkbox"], input[type="radio"] {
   transition: 0.2s;
   color: white !important;
   font-weight: 500 !important;
+
+  span{
+      margin-left: 4px;
+  }
 }
 #aboutNav:hover{
-  opacity: 0.65;
-  transition: 0.2s;
+    span{
+        text-decoration: underline;
+    }
 }
 #shareLink{
   font-size: 11px;
@@ -977,6 +978,7 @@ input[type="checkbox"], input[type="radio"] {
   cursor: pointer !important;
   color: darken(@blue, 20%) !important;
   transition: 0.2;
+  text-decoration: underline;
 }
 
 /*LATLNG*/
@@ -1035,13 +1037,18 @@ input[type="checkbox"], input[type="radio"] {
   font-weight: 500 !important;
   transition: 0.2s !important;
   font-size: 11px !important;
+
+  span{
+      margin-left: 4px;
+  }
 }
 #userGuideNav:focus{
   outline: none !important;
 }
 #userGuideNav:hover{
-  opacity: 0.65 !important;
-  transition: 0.2s !important;
+    span{
+        text-decoration: underline;
+    }
 }
 #navbar{
     background-color: #10152C !important;
@@ -1178,17 +1185,23 @@ a{
   background-color: rgba(0,0,20,0.92) !important;
 }
 .loading-background:before{
-  content: 'Loading...';
-  color: white;
-  box-sizing: border-box;
-  padding: 35px;
-  position: relative;
-  font-size: 18px;
-  top: 35px;
-  right: 0px;
-  width: 100%;
-  text-align: center;
-  width: 100%;
+    content: 'Loading...';
+    color: white;
+    box-sizing: border-box;
+    padding: 35px;
+    position: absolute;
+    font-size: 14px;
+    top: 0;
+    right: 0px;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    /* background: red; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-sizing: border-box;
+    padding-top: 150px;
 }
 
 
@@ -1554,6 +1567,9 @@ input[type=range].styled {
 //   Flood tools error toast
 //   Flood tools error toast
 //   Flood tools error toast
+// UNUSED
+// UNUSED
+// UNUSED
 #ftError{
     display: flex;
     box-sizing: border-box;
@@ -1595,4 +1611,18 @@ input[type=range].styled {
         transition: 0.3s;
         opacity: 1;
     }
+}
+
+// Error message on flood tools window.
+// Error message on flood tools window.
+// Error message on flood tools window.
+#floodToolsErrorMessage{
+    display: block;
+    text-align: center;
+    background-color: @red;
+    box-sizing: border-box;
+    padding: 6px;
+    font-weight: 500;
+    font-size: 11px;
+    color: white;
 }

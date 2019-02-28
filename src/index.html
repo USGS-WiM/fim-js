@@ -77,15 +77,17 @@
             <div class="mobile-sidebar-toggle hidden-md hidden-lg" data-toggle="sidebar" data-target=".sidebar-left">
                 <i class="fa fa-navicon"></i>
             </div>
-            <a class="navbar-brand" href="https://www.usgs.gov">
-                <img alt="USGS logo" src="images/USGS_ID_white.png">
+            <div class="navbar-brand">
+                <a href="https://www.usgs.gov" target="_blank">
+                    <img alt="USGS logo" src="images/USGS_ID_white.png">
+                </a>
                 <span>Flood <b>Inundation</b> Mapper</span>
-            </a>
+            </div>
         </div>
 
         <button id="geosearchNav" type="button" class="btn btn-primary navbar-btn pull-right" onclick="ga('send','event','navbar','click','Find Location Modal Opened');">
             <i class="fa fa-search"></i>
-            <span id="geosearchButtonText"> Find Location</span>
+            <span id="geosearchButtonText">Find Location</span>
         </button>
 
         <!--<button id="printNavButton" type="button" class="btn btn-primary navbar-btn pull-right">
@@ -94,10 +96,10 @@
         </button>-->
 
         <button id="aboutNav" class="btn btn-default navbar-btn pull-right" onclick="ga('send','event','navbar','click','About Modal');">
-            <i class="fa fa-question-circle"></i><span class="hidden-xs">&nbsp;&nbsp;About</span>
+            <i class="fa fa-question-circle"></i><span class="hidden-xs">About</span>
         </button>
         <button id="userGuideNav" class="btn btn-default navbar-btn pull-right" onclick="ga('send','event','navbar','click','User Guide');">
-            <i class="fa fa-book"></i><span class="hidden-xs">&nbsp;&nbsp;User Guide</span>
+            <i class="fa fa-book"></i><span class="hidden-xs">User Guide</span>
         </button>
 
         <!-- legend buttton for navbar. to be removed if we like the in-map legend toggle -->
@@ -562,7 +564,7 @@ $(".close-alert").click(function(){
                     </h4>
                 </div>
                 <div id="layersPanel" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="layersPanelHeader">
-                    <div id="toggle" style="padding: 2px 2px;"></div>
+                    <div id="toggle"></div>
                 </div>
             </div>
 
@@ -727,6 +729,12 @@ $(".close-alert").click(function(){
                     ==================================================================
                  -->
                 <div id="floodToolsDiv" class="panel panel-default floodToolsClass ">
+
+                    <div id="floodToolsErrorMessage">
+                        There was an error retrieving the data at this time. Please try again later.
+                    </div>
+
+
                     <!-- Modal Title -->
                     <div class="panel-heading">
                         <div class="panel-title" id="floodToolsTitle">
@@ -1088,12 +1096,12 @@ $(".close-alert").click(function(){
   Loading...
 </div>
 
-<div id="ftError">
+<!-- <div id="ftError">
     <i class="fa fa-times"></i>
     <p>
         There was an error retrieving the data at this time. Please try again later.
     </p>
-</div>
+</div> -->
 
 </body>
 </html>

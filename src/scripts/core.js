@@ -67,9 +67,6 @@ var actionCount = 0;
 var nofloodCount = 0;
 var currentBasemap;
 
-// Current URL
-var fimURL = document.location.href.substring(0, document.location.href.indexOf('?'));
-
 
 require([
     'esri/arcgis/utils',
@@ -514,7 +511,6 @@ require([
         }
         map.infoWindow.hide();
 
-        window.history.replaceState(null, null, fimURL);
 
     }
 
@@ -740,6 +736,10 @@ require([
             });
 
             var siteClick = function(evt) {
+
+                // Hide error message
+                $("#floodToolsErrorMessage").hide();
+                
                 
                 var feature;
                 if (evt.graphic != undefined) {
@@ -1408,6 +1408,7 @@ require([
                 $.when(nwisCall,nwsCall,nwisCall2,nwsCall2,nwisCall3,nwsCall3)//)
                     .done(function(nwisData,nwsData,nwisData2 = null,nwsData2 = null,nwisData3 = null,nwsData3 = null) {//}) {
 
+
                         //NWIS data handling
                         var siteData = $.parseJSON(nwisData[0]);
                         var siteData2;
@@ -1979,8 +1980,6 @@ require([
                         // Add site parameters to address bar
                         // var newURLParams = document.location.href+"?site_no="+siteNo;
                         // document.location = newURLParams;
-                        console.log("URL CHANGED")
-                        window.history.replaceState(null, null, fimURL+"?site_no="+siteNo);
 
 
                     })
@@ -3645,35 +3644,35 @@ require([
                 //var button = $('<div align="left" style="cursor: pointer;padding:5px;"><span class="glyphspan glyphicon glyphicon-check"></span>' + layerName + '</div>');
                 if (layer.visible && wimOptions.hasOpacitySlider !== undefined && wimOptions.hasOpacitySlider == true && wimOptions.hasZoomto !== undefined && wimOptions.hasZoomto == true) {
                     //opacity icon and zoomto icon; button selected
-                    var button = $('<div class="btn-group-vertical lyrTogDiv" style="cursor: pointer;" data-toggle="buttons"> <button id="' + layer.id + '"type="button" class="btn btn-default active" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="glyphspan fa fa-check-square-o"></i>' + layerName + '<span id="opacity' + camelize(layerName) + '" class="glyphspan glyphicon glyphicon-adjust pull-right opacity"></span><span class="glyphicon glyphicon-search pull-right zoomto"></span></button></div>');
+                    var button = $('<div class="sidebar-layers-item" data-toggle="buttons"><button id="' + layer.id + '"type="button" aria-pressed="true"><i class="far fa-check-square"></i><b>' + layerName + '</b><span id="opacity' + camelize(layerName) + '" class="fas fa-adjust opacity"></span><span class="fas fa-search zoomto"></span></button></div>');
                 } else if (!layer.visible && wimOptions.hasOpacitySlider !== undefined && wimOptions.hasOpacitySlider == true && wimOptions.hasZoomto !== undefined && wimOptions.hasZoomto == true){
                     //opacity icon and zoomto icon; button not selected
-                    var button = $('<div class="btn-group-vertical lyrTogDiv" style="cursor: pointer;" data-toggle="buttons"> <button id="' + layer.id + '"type="button" class="btn btn-default" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="glyphspan fa fa-square-o"></i>' + layerName + '<span id="opacity' + camelize(layerName) + '" class="glyphspan glyphicon glyphicon-adjust pull-right opacity"></span><span class="glyphicon glyphicon-search pull-right zoomto"></span></button></div>');
+                    var button = $('<div class="sidebar-layers-item" data-toggle="buttons"><button id="' + layer.id + '"type="button" aria-pressed="true"><i class="far fa-square"></i><b>' + layerName + '</b><span id="opacity' + camelize(layerName) + '" class="fas fa-adjust opacity"></span><span class="fas fa-search zoomto"></span></button></div>');
                 } else if (layer.visible && wimOptions.hasOpacitySlider !== undefined && wimOptions.hasOpacitySlider == true) {
                     //opacity icon only; button selected
-                    var button = $('<div class="btn-group-vertical lyrTogDiv" style="cursor: pointer;" data-toggle="buttons"> <button id="' + layer.id + '"type="button" class="btn btn-default active" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="glyphspan fa fa-check-square-o"></i>' + layerName + '<span id="opacity' + camelize(layerName) + '" class="glyphspan glyphicon glyphicon-adjust pull-right"></button></div>');
+                    var button = $('<div class="sidebar-layers-item" data-toggle="buttons"><button id="' + layer.id + '"type="button" aria-pressed="true"><i class="far fa-check-square"></i><b>' + layerName + '</b><span id="opacity' + camelize(layerName) + '" class="fas fa-adjust opacity"></button></div>');
                 } else if (!layer.visible && wimOptions.hasOpacitySlider !== undefined && wimOptions.hasOpacitySlider == true) {
                     //opacity icon only; button not selected
-                    var button = $('<div class="btn-group-vertical lyrTogDiv" style="cursor: pointer;" data-toggle="buttons"> <button id="' + layer.id + '"type="button" class="btn btn-default" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="glyphspan fa fa-square-o"></i>' + layerName + '<span id="opacity' + camelize(layerName) + '" class="glyphspan glyphicon glyphicon-adjust pull-right"></button></div>');
+                    var button = $('<div class="sidebar-layers-item" data-toggle="buttons"><button id="' + layer.id + '"type="button" aria-pressed="true"><i class="far fa-square"></i><b>' + layerName + '</b><span id="opacity' + camelize(layerName) + '" class="fas fa-adjust opacity"></button></div>');
                 } else if (layer.visible && wimOptions.hasOpacitySlider == false && wimOptions.hasZoomto !== undefined && wimOptions.hasZoomto == true){
                     //zoomto icon only; button selected
-                    var button = $('<div class="btn-group-vertical lyrTogDiv" style="cursor: pointer;" data-toggle="buttons"> <button id="' + layer.id + '"type="button" class="btn btn-default active" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="glyphspan fa fa-check-square-o"></i>' + layerName + '<span class="glyphicon glyphicon-search pull-right zoomto"></span></button></span></div>');
+                    var button = $('<div class="sidebar-layers-item" data-toggle="buttons"><button id="' + layer.id + '"type="button" aria-pressed="true"><i class="far fa-check-square"></i><b>' + layerName + '</b><span class="fas fa-search zoomto"></span></button></span></div>');
                 } else if (!layer.visible && wimOptions.hasOpacitySlider == false && wimOptions.hasZoomto !== undefined && wimOptions.hasZoomto == true) {
                     //zoomto icon only; button not selected
-                    var button = $('<div class="btn-group-vertical lyrTogDiv" style="cursor: pointer;" data-toggle="buttons"> <button id="' + layer.id + '"type="button" class="btn btn-default" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="glyphspan fa fa-square-o"></i>' + layerName + '<span class="glyphicon glyphicon-search pull-right zoomto"></span></button></span></div>');
+                    var button = $('<div class="sidebar-layers-item" data-toggle="buttons"><button id="' + layer.id + '"type="button" aria-pressed="true"><i class="far fa-square"></i><b>' + layerName + '</b><span class="fas fa-search zoomto"></span></button></span></div>');
                 } else if(layer.visible) {
                     //no icons; button selected
-                    var button = $('<div class="btn-group-vertical lyrTogDiv" style="cursor: pointer;" data-toggle="buttons"> <button id="' + layer.id + '"type="button" class="btn btn-default active" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="glyphspan fa fa-check-square-o"></i>' + layerName + '</button></span></div>');
+                    var button = $('<div class="sidebar-layers-item" data-toggle="buttons"><button id="' + layer.id + '"type="button" aria-pressed="true"><i class="far fa-check-square"></i><b>' + layerName + '</b></button></span></div>');
                 } else {
                     //no icons; button not selected
-                    var button = $('<div class="btn-group-vertical lyrTogDiv" style="cursor: pointer;" data-toggle="buttons"> <button id="' + layer.id + '"type="button" class="btn btn-default ahpsCheck" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="glyphspan fa fa-square-o"></i><label id="' + camelize(layerName) + 'Label" class="ahpsLabel">' + layerName + '</label></button> </div>');
+                    var button = $('<div class="sidebar-layers-item" data-toggle="buttons"><button id="' + layer.id + '"type="button" class="ahpsCheck" aria-pressed="true"><i class="far fa-square"></i><b id="' + camelize(layerName) + 'Label" class="ahpsLabel">' + layerName + '</b></button></div>');
                 }
 
                 //click listener for regular
                 button.click(function(e) {
 
                     //toggle checkmark
-                    $(this).find('i.glyphspan').toggleClass('fa-check-square-o fa-square-o');
+                    $(this).find('i.far').toggleClass('fa-square fa-check-square');
                     $(this).find('button').button('toggle');
 
                     e.preventDefault();
@@ -3692,7 +3691,7 @@ require([
                         $.each(wimOptions.otherLayersToggled, function (key, value) {
                             var lyr = map.getLayer(value);
                             if (lyr.visible != layer.visible) {
-                                $("#"+lyr.id).find('i.glyphspan').toggleClass('fa-check-square-o fa-square-o');
+                                $("#"+lyr.id).find('i.far').toggleClass('fa-check-square fa-square');
                                 $("#"+lyr.id).find('button').button('toggle');
                                 lyr.setVisibility(layer.visible);
                             }
@@ -3974,14 +3973,19 @@ $('body').text( $('body').text().replace("●", ''));
 // Flood Tools Error
 var floodToolsError = function(){
     
-    $("#ftError").addClass("visible");
-    
-    setTimeout(function(){
-        $("#ftError").removeClass("visible");
-    }, 5000);
+    $("#floodToolsErrorMessage").show();
+    // $("#ftError").addClass("visible");
+    // setTimeout(function(){
+    //     $("#ftError").removeClass("visible");
+    // }, 5000);
 
 
-    $("#floodToolsDiv").css("visibility", "hidden");
+    $("#floodToolsDiv .panel-heading").removeClass('loading-hide');
+    $("#floodToolsDiv .panel-body").removeClass('loading-hide');
+    $("#floodToolsDiv").removeClass('loading-background');
+
+
+    // $("#floodToolsDiv").css("visibility", "hidden");
 
 
 }

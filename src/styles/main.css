@@ -125,11 +125,6 @@ body {
 .latLngScale:hover .hover-content {
   display: inline-block;
 }
-.lyrTogDiv {
-  width: 100%;
-  padding: 1px;
-  font-weight: bold;
-}
 .alert {
   margin-top: 0px;
   margin-bottom: 0px;
@@ -1539,8 +1534,7 @@ input[type="radio"] {
 #floodClose,
 #floodMin {
   font-size: 0;
-  color: #10152C;
-  color: rgba(16, 21, 44, 0.75);
+  color: rgba(16, 21, 44, 0.95);
   transition: 0.2s;
 }
 #floodClose:hover,
@@ -1551,7 +1545,7 @@ input[type="radio"] {
 }
 #floodClose {
   position: relative;
-  top: 3px;
+  top: 6px;
   margin-right: 4px;
 }
 #floodClose:hover {
@@ -1560,16 +1554,19 @@ input[type="radio"] {
 #floodClose:before {
   content: '\f00d';
   font-family: 'Font Awesome 5 Free';
-  font-size: 20px;
+  font-size: 18px;
 }
 #floodMin {
   position: relative;
-  top: 2px;
+  top: 5px;
+}
+#floodMin:hover {
+  color: #1D6DFA;
 }
 #floodMin:before {
   content: '\f2d2';
   font-family: 'Font Awesome 5 Free';
-  font-size: 16px;
+  font-size: 14px;
   font-weight: lighter;
 }
 #floodToolsDiv {
@@ -1604,9 +1601,11 @@ input[type="radio"] {
   color: white !important;
   font-weight: 500 !important;
 }
-#aboutNav:hover {
-  opacity: 0.65;
-  transition: 0.2s;
+#aboutNav span {
+  margin-left: 4px;
+}
+#aboutNav:hover span {
+  text-decoration: underline;
 }
 #shareLink {
   font-size: 11px;
@@ -1624,6 +1623,7 @@ input[type="radio"] {
   cursor: pointer !important;
   color: #0441ad !important;
   transition: 0.2;
+  text-decoration: underline;
 }
 /*LATLNG*/
 #latLngScale {
@@ -1676,12 +1676,14 @@ input[type="radio"] {
   transition: 0.2s !important;
   font-size: 11px !important;
 }
+#userGuideNav span {
+  margin-left: 4px;
+}
 #userGuideNav:focus {
   outline: none !important;
 }
-#userGuideNav:hover {
-  opacity: 0.65 !important;
-  transition: 0.2s !important;
+#userGuideNav:hover span {
+  text-decoration: underline;
 }
 #navbar {
   background-color: #10152C !important;
@@ -1801,14 +1803,20 @@ a {
 .loading-background:before {
   content: 'Loading...';
   color: white;
-  box-sizing: border-box;
   padding: 35px;
-  position: relative;
-  font-size: 18px;
-  top: 35px;
+  position: absolute;
+  font-size: 14px;
+  top: 0;
   right: 0px;
   text-align: center;
   width: 100%;
+  height: 100%;
+  /* background: red; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-sizing: border-box;
+  padding-top: 150px;
 }
 @media (max-width: 550px) {
   .modal-body .nav-tabs li {
@@ -2165,6 +2173,16 @@ input[type=range].styled:focus::-ms-fill-upper {
   transition: 0.3s;
   opacity: 1;
 }
+#floodToolsErrorMessage {
+  display: block;
+  text-align: center;
+  background-color: #FB4841;
+  box-sizing: border-box;
+  padding: 6px;
+  font-weight: 500;
+  font-size: 11px;
+  color: white;
+}
 #floodToolsDiv .panel-heading {
   background-color: white;
 }
@@ -2366,8 +2384,8 @@ input[type=range].styled:focus::-ms-fill-upper {
   justify-content: center;
   height: 34px;
   box-sizing: border-box;
-  padding: 0 8px;
-  letter-spacing: -0.25px;
+  padding: 0 6px;
+  letter-spacing: -0.35px;
   font-weight: 600;
   color: black;
   background-color: white;
@@ -2395,7 +2413,7 @@ input[type=range].styled:focus::-ms-fill-upper {
 }
 #ftModal #ftData #ftDataTabs .ft-tab i {
   font-size: 14px;
-  margin-left: 4px;
+  margin-left: 3px;
 }
 #ftModal #ftData .small-label {
   display: block;
@@ -3101,6 +3119,9 @@ input[type=range].styled:focus::-ms-fill-upper {
   background-color: #0558e9 !important;
   cursor: pointer;
 }
+#geosearchNav:hover span {
+  text-decoration: underline;
+}
 .basemapThumb {
   border: 1px solid #ffffff;
   border-radius: 3px;
@@ -3227,4 +3248,87 @@ input[type=range].styled:focus::-ms-fill-upper {
   #sidebar {
     max-width: 280px;
   }
+}
+.sidebar-layers-item {
+  display: block;
+  width: 100%;
+}
+.sidebar-layers-item button {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  border: none;
+  background: none;
+  box-sizing: border-box;
+  padding: 0px 10px;
+  transition: 0.15s;
+}
+.sidebar-layers-item button .fa-square,
+.sidebar-layers-item button .fa-check-square {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 28px;
+  font-size: 16px;
+  width: 32px;
+  min-width: 32px;
+  max-width: 32px;
+  transition: 0.15s;
+}
+.sidebar-layers-item button b {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 11px;
+  text-align: left;
+  box-sizing: border-box;
+  padding: 0px;
+  height: 28px;
+  flex-grow: 3;
+}
+.sidebar-layers-item button .opacity {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 28px;
+  font-size: 12px;
+  width: 26px;
+  min-width: 26px;
+  max-width: 26px;
+  color: rgba(16, 21, 44, 0.5);
+  padding: 0;
+  transition: 0.15s;
+}
+.sidebar-layers-item button .opacity:hover {
+  cursor: pointer;
+  color: #1D6DFA;
+  transition: 0.15s;
+}
+.sidebar-layers-item button .zoomto {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 28px;
+  font-size: 12px;
+  width: 26px;
+  min-width: 26px;
+  max-width: 26px;
+  color: rgba(16, 21, 44, 0.5);
+  padding: 0;
+  transition: 0.15s;
+}
+.sidebar-layers-item button .zoomto:hover {
+  cursor: pointer;
+  color: #1D6DFA;
+  transition: 0.15s;
+}
+.sidebar-layers-item button:hover {
+  cursor: pointer;
+  opacity: 1;
+  transition: 0.15s;
+}
+.sidebar-layers-item button:hover b {
+  text-decoration: underline;
 }
