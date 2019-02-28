@@ -53,6 +53,10 @@
     &:hover{
         background-color: darken(@blue, 8%) !important;
         cursor: pointer;
+
+        span{
+            text-decoration: underline;
+        }
     }
 }
 
@@ -66,7 +70,7 @@
 
 .basemapThumb {
     border:1px solid #ffffff;
-    border-radius: 5px;
+    border-radius: 3px;
 }
 
 /*basemapBtn elements manually set to width of widest - temp solution until dynamic solution is implemented */
@@ -91,14 +95,14 @@
     justify-content: space-between;
 
     &:after{
-        content: '\f077';
-        font-family: 'FontAwesome';
+        content: '\f068';
+        font-family: 'Font Awesome 5 Free';
     }
 
     &.collapsed{
 
         &:after{
-            content: '\f078';
+            content: '\f067';
         }
     }
 }

@@ -2081,7 +2081,7 @@ require([
 
                         sliderSetup(results);
 
-                        $("#floodToolsPanelHeader").html(attr["STATE"] + ": " + attr["COMMUNITY"] + "   <span id='shareLink' style='white-space: nowrap; margin-left: 0px; padding-left: 0px'><span class='glyphicon glyphicon glyphicon-share'></span> Share</span>");
+                        $("#floodToolsPanelHeader").html(attr["STATE"] + ": " + attr["COMMUNITY"] + "   <span id='shareLink' style='white-space: nowrap; margin-left: 0px; padding-left: 0px'><i class='fa fa-share-alt'></i> Share</span>");
                         $("#shareLink").click(function() {
                             showShareModal();
                         });

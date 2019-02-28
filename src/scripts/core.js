@@ -6,6 +6,7 @@
  * Created by bdraper on 4/3/2015.
  *///
 
+
 var map;
 var dialog;
 var allLayers;
@@ -313,7 +314,7 @@ require([
         //below line for local testing only. replace with above line for production
         //var cleanURL = "https://fim.wim.usgs.gov/fim-js-dev/";
         var shareURL = cleanURL + shareQueryString;
-        $("#siteURL").html('<span class="label label-default"><span class="glyphicon glyphicon-link"></span> site link</span><code>' + shareURL + '</code>');
+        $("#siteURL").html('<code>' + shareURL + '</code>');
 
         // Hidden Input for copy button
         var $temp = $("<input id='shareURLInput'>");
@@ -323,9 +324,16 @@ require([
 
     $("#copyShareURL").click(function(){
       // Copy hidden input text
-      $('#shareURLInput').select();
-      document.execCommand("copy");
-      $('#shareURLInput').remove();
+        $('#shareURLInput').select();
+        document.execCommand("copy");
+        $('#shareURLInput').remove();
+
+        $("#copyShareURL").addClass("success");
+        $("#copyShareURL").html("Link Copied to Clipboard");
+        setTimeout(function(){
+            $("#copyShareURL").removeClass("success");
+            $("#copyShareURL").html("Copy Link");
+        }, 5000);
     });
 
     dialog = new TooltipDialog({
@@ -481,7 +489,7 @@ require([
         $('#hydroChart, #hydroChart2, #hydroChart3').hide();
     });
 
-    $("#floodClose").click(function(){
+    var closeFloodTools = function(){
         $("#floodToolsDiv").css("visibility", "hidden");
         map.getLayer("fimExtents").setVisibility(false);
         map.getLayer("fimGrid"+siteAttr.GRID_SERV).setVisibility(false);
@@ -502,6 +510,12 @@ require([
             $('#hydroChart3').highcharts().destroy();
         }
         map.infoWindow.hide();
+
+
+    }
+
+    $("#floodClose").click(function(){
+        closeFloodTools();
     });
 
     $("#floodToolsOpen, #floodToolsMax").click(function(){
@@ -554,6 +568,8 @@ require([
         $(".ftmodal-content").not("#" + toggleID).hide();
         $("#" + toggleID).show();
     });
+
+
 
     
     //map.getLayer("fimGrid2").on("load", gridsLayerComp);
@@ -720,6 +736,10 @@ require([
             });
 
             var siteClick = function(evt) {
+
+                // Hide error message
+                $("#floodToolsErrorMessage").hide();
+                
                 
                 var feature;
                 if (evt.graphic != undefined) {
@@ -1388,6 +1408,7 @@ require([
                 $.when(nwisCall,nwsCall,nwisCall2,nwsCall2,nwisCall3,nwsCall3)//)
                     .done(function(nwisData,nwsData,nwisData2 = null,nwsData2 = null,nwisData3 = null,nwsData3 = null) {//}) {
 
+
                         //NWIS data handling
                         var siteData = $.parseJSON(nwisData[0]);
                         var siteData2;
@@ -1956,9 +1977,15 @@ require([
                         $("#floodToolsDiv .panel-body").removeClass('loading-hide');
                         $("#floodToolsDiv").removeClass('loading-background');
 
+                        // Add site parameters to address bar
+                        // var newURLParams = document.location.href+"?site_no="+siteNo;
+                        // document.location = newURLParams;
+
+
                     })
                     .fail(function() {
                         //alert('there was an issue');
+                        floodToolsError();
                     });
 
 
@@ -2075,7 +2102,7 @@ require([
 
                         sliderSetup(results);
 
-                        $("#floodToolsPanelHeader").html(attr["STATE"] + ": " + attr["COMMUNITY"] + "   <span id='shareLink' style='white-space: nowrap; margin-left: 0px; padding-left: 0px'><span class='glyphicon glyphicon glyphicon-share'></span> Share</span>");
+                        $("#floodToolsPanelHeader").html(attr["STATE"] + ": " + attr["COMMUNITY"] + "   <span id='shareLink' style='white-space: nowrap; margin-left: 0px; padding-left: 0px'><i class='fa fa-share'></i> Share</span>");
                         $("#shareLink").click(function() {
                             showShareModal();
                         });
@@ -3194,6 +3221,7 @@ require([
                             new Point( o.result.properties.Lon, o.result.properties.Lat ),
                             12
                         );
+                        $('#geosearchModal').modal('hide');
                     });
                 }
 
@@ -3331,12 +3359,12 @@ require([
 
     // Show modal dialog; handle legend sizing (both on doc ready)
     $(document).ready(function(){
-        function showModal() {
+        function showSearchModal() {
             $('#geosearchModal').modal('show');
         }
         // Geosearch nav menu is selected
         $('#geosearchNav').click(function(){
-            showModal();
+            showSearchModal();
         });
 
         function showAboutModal () {
@@ -3616,35 +3644,35 @@ require([
                 //var button = $('<div align="left" style="cursor: pointer;padding:5px;"><span class="glyphspan glyphicon glyphicon-check"></span>' + layerName + '</div>');
                 if (layer.visible && wimOptions.hasOpacitySlider !== undefined && wimOptions.hasOpacitySlider == true && wimOptions.hasZoomto !== undefined && wimOptions.hasZoomto == true) {
                     //opacity icon and zoomto icon; button selected
-                    var button = $('<div class="btn-group-vertical lyrTogDiv" style="cursor: pointer;" data-toggle="buttons"> <button id="' + layer.id + '"type="button" class="btn btn-default active" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="glyphspan fa fa-check-square-o"></i>' + layerName + '<span id="opacity' + camelize(layerName) + '" class="glyphspan glyphicon glyphicon-adjust pull-right opacity"></span><span class="glyphicon glyphicon-search pull-right zoomto"></span></button></div>');
+                    var button = $('<div class="sidebar-layers-item" data-toggle="buttons"><button id="' + layer.id + '"type="button" aria-pressed="true"><i class="far fa-check-square"></i><b>' + layerName + '</b><span id="opacity' + camelize(layerName) + '" class="fas fa-adjust opacity"></span><span class="fas fa-search zoomto"></span></button></div>');
                 } else if (!layer.visible && wimOptions.hasOpacitySlider !== undefined && wimOptions.hasOpacitySlider == true && wimOptions.hasZoomto !== undefined && wimOptions.hasZoomto == true){
                     //opacity icon and zoomto icon; button not selected
-                    var button = $('<div class="btn-group-vertical lyrTogDiv" style="cursor: pointer;" data-toggle="buttons"> <button id="' + layer.id + '"type="button" class="btn btn-default" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="glyphspan fa fa-square-o"></i>' + layerName + '<span id="opacity' + camelize(layerName) + '" class="glyphspan glyphicon glyphicon-adjust pull-right opacity"></span><span class="glyphicon glyphicon-search pull-right zoomto"></span></button></div>');
+                    var button = $('<div class="sidebar-layers-item" data-toggle="buttons"><button id="' + layer.id + '"type="button" aria-pressed="true"><i class="far fa-square"></i><b>' + layerName + '</b><span id="opacity' + camelize(layerName) + '" class="fas fa-adjust opacity"></span><span class="fas fa-search zoomto"></span></button></div>');
                 } else if (layer.visible && wimOptions.hasOpacitySlider !== undefined && wimOptions.hasOpacitySlider == true) {
                     //opacity icon only; button selected
-                    var button = $('<div class="btn-group-vertical lyrTogDiv" style="cursor: pointer;" data-toggle="buttons"> <button id="' + layer.id + '"type="button" class="btn btn-default active" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="glyphspan fa fa-check-square-o"></i>' + layerName + '<span id="opacity' + camelize(layerName) + '" class="glyphspan glyphicon glyphicon-adjust pull-right"></button></div>');
+                    var button = $('<div class="sidebar-layers-item" data-toggle="buttons"><button id="' + layer.id + '"type="button" aria-pressed="true"><i class="far fa-check-square"></i><b>' + layerName + '</b><span id="opacity' + camelize(layerName) + '" class="fas fa-adjust opacity"></button></div>');
                 } else if (!layer.visible && wimOptions.hasOpacitySlider !== undefined && wimOptions.hasOpacitySlider == true) {
                     //opacity icon only; button not selected
-                    var button = $('<div class="btn-group-vertical lyrTogDiv" style="cursor: pointer;" data-toggle="buttons"> <button id="' + layer.id + '"type="button" class="btn btn-default" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="glyphspan fa fa-square-o"></i>' + layerName + '<span id="opacity' + camelize(layerName) + '" class="glyphspan glyphicon glyphicon-adjust pull-right"></button></div>');
+                    var button = $('<div class="sidebar-layers-item" data-toggle="buttons"><button id="' + layer.id + '"type="button" aria-pressed="true"><i class="far fa-square"></i><b>' + layerName + '</b><span id="opacity' + camelize(layerName) + '" class="fas fa-adjust opacity"></button></div>');
                 } else if (layer.visible && wimOptions.hasOpacitySlider == false && wimOptions.hasZoomto !== undefined && wimOptions.hasZoomto == true){
                     //zoomto icon only; button selected
-                    var button = $('<div class="btn-group-vertical lyrTogDiv" style="cursor: pointer;" data-toggle="buttons"> <button id="' + layer.id + '"type="button" class="btn btn-default active" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="glyphspan fa fa-check-square-o"></i>' + layerName + '<span class="glyphicon glyphicon-search pull-right zoomto"></span></button></span></div>');
+                    var button = $('<div class="sidebar-layers-item" data-toggle="buttons"><button id="' + layer.id + '"type="button" aria-pressed="true"><i class="far fa-check-square"></i><b>' + layerName + '</b><span class="fas fa-search zoomto"></span></button></span></div>');
                 } else if (!layer.visible && wimOptions.hasOpacitySlider == false && wimOptions.hasZoomto !== undefined && wimOptions.hasZoomto == true) {
                     //zoomto icon only; button not selected
-                    var button = $('<div class="btn-group-vertical lyrTogDiv" style="cursor: pointer;" data-toggle="buttons"> <button id="' + layer.id + '"type="button" class="btn btn-default" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="glyphspan fa fa-square-o"></i>' + layerName + '<span class="glyphicon glyphicon-search pull-right zoomto"></span></button></span></div>');
+                    var button = $('<div class="sidebar-layers-item" data-toggle="buttons"><button id="' + layer.id + '"type="button" aria-pressed="true"><i class="far fa-square"></i><b>' + layerName + '</b><span class="fas fa-search zoomto"></span></button></span></div>');
                 } else if(layer.visible) {
                     //no icons; button selected
-                    var button = $('<div class="btn-group-vertical lyrTogDiv" style="cursor: pointer;" data-toggle="buttons"> <button id="' + layer.id + '"type="button" class="btn btn-default active" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="glyphspan fa fa-check-square-o"></i>' + layerName + '</button></span></div>');
+                    var button = $('<div class="sidebar-layers-item" data-toggle="buttons"><button id="' + layer.id + '"type="button" aria-pressed="true"><i class="far fa-check-square"></i><b>' + layerName + '</b></button></span></div>');
                 } else {
                     //no icons; button not selected
-                    var button = $('<div class="btn-group-vertical lyrTogDiv" style="cursor: pointer;" data-toggle="buttons"> <button id="' + layer.id + '"type="button" class="btn btn-default ahpsCheck" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="glyphspan fa fa-square-o"></i><label id="' + camelize(layerName) + 'Label" class="ahpsLabel">' + layerName + '</label></button> </div>');
+                    var button = $('<div class="sidebar-layers-item" data-toggle="buttons"><button id="' + layer.id + '"type="button" class="ahpsCheck" aria-pressed="true"><i class="far fa-square"></i><b id="' + camelize(layerName) + 'Label" class="ahpsLabel">' + layerName + '</b></button></div>');
                 }
 
                 //click listener for regular
                 button.click(function(e) {
 
                     //toggle checkmark
-                    $(this).find('i.glyphspan').toggleClass('fa-check-square-o fa-square-o');
+                    $(this).find('i.far').toggleClass('fa-square fa-check-square');
                     $(this).find('button').button('toggle');
 
                     e.preventDefault();
@@ -3663,7 +3691,7 @@ require([
                         $.each(wimOptions.otherLayersToggled, function (key, value) {
                             var lyr = map.getLayer(value);
                             if (lyr.visible != layer.visible) {
-                                $("#"+lyr.id).find('i.glyphspan').toggleClass('fa-check-square-o fa-square-o');
+                                $("#"+lyr.id).find('i.far').toggleClass('fa-check-square fa-square');
                                 $("#"+lyr.id).find('button').button('toggle');
                                 lyr.setVisibility(layer.visible);
                             }
@@ -3940,3 +3968,24 @@ $('body').text( $('body').text().replace("●", ''));
 
 
 
+// Flood Tools Error
+// Flood Tools Error
+// Flood Tools Error
+var floodToolsError = function(){
+    
+    $("#floodToolsErrorMessage").show();
+    // $("#ftError").addClass("visible");
+    // setTimeout(function(){
+    //     $("#ftError").removeClass("visible");
+    // }, 5000);
+
+
+    $("#floodToolsDiv .panel-heading").removeClass('loading-hide');
+    $("#floodToolsDiv .panel-body").removeClass('loading-hide');
+    $("#floodToolsDiv").removeClass('loading-background');
+
+
+    // $("#floodToolsDiv").css("visibility", "hidden");
+
+
+}

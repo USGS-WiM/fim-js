@@ -1,6 +1,6 @@
 @black: #10152C;
 @blue: #1D6DFA;
-
+@transition: 0.15s;
 
 html, body {
     height: 100%;
@@ -94,22 +94,26 @@ body {
 // Legend
 // Legend
 // Legend
+#legendWrapper{
+    display: block;
+    overflow: auto;
+    max-height: 280px;
+}
 #legendElement #legendDiv {
     position: relative;
-    max-height: 250px;
-    background-color: rgba(255,255,255,0.75) !important;
-    overflow: auto !important;
-    padding: 0 10px 10px 10px;
+    padding: 0 8px;
+    max-height: none !important;
 
     // No legend message
     #legendDiv_msg{
-        font-size: 12px;
-        text-align: center;
-        margin: 0 auto;
-        width: 160px;
-        font-weight: 600;
-        color: fade(@black, 70%);
-        padding: 10px;
+        // font-size: 12px;
+        // text-align: center;
+        // margin: 0 auto;
+        // width: 160px;
+        // font-weight: 600;
+        // color: fade(@black, 70%);
+        // padding: 10px;
+        display: none;
     }
 }
 
@@ -152,5 +156,103 @@ body {
     padding-bottom: 50px;
     @media (max-width: 767px) {
         max-width: 280px;
+    }
+}
+
+// Sidebar layer toggles
+// Sidebar layer toggles
+// Sidebar layer toggles
+.sidebar-layers-item{
+    display: block;
+    width: 100%;
+
+    button{
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        border: none;
+        background: none;
+        box-sizing: border-box;
+        padding: 0px 10px;
+        transition: @transition;
+
+
+        .fa-square,
+        .fa-check-square{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 28px;
+            font-size: 16px;
+            width: 32px;
+            min-width: 32px;
+            max-width: 32px;
+            transition: @transition;
+        }
+
+        b{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 600;
+            line-height: 11px;
+            text-align: left;
+            box-sizing: border-box;
+            padding: 0px;
+            height: 28px;
+            flex-grow: 3;
+        }
+
+        .opacity{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 28px;
+            font-size: 12px;
+            width: 26px;
+            min-width: 26px;
+            max-width: 26px;
+            color: fade(@black, 50%);
+            padding: 0;
+            transition: @transition;
+
+            &:hover{
+                cursor: pointer;
+                color: @blue;
+                transition: @transition;
+            }
+        }
+        .zoomto{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 28px;
+            font-size: 12px;
+            width: 26px;
+            min-width: 26px;
+            max-width: 26px;
+            color: fade(@black, 50%);
+            padding: 0;
+            transition: @transition;
+
+            &:hover{
+                cursor: pointer;
+                color: @blue;
+                transition: @transition;
+            }
+        }
+
+        
+
+        &:hover{
+            cursor: pointer;
+            opacity: 1;
+            transition: @transition;
+
+            b{
+                text-decoration: underline;
+            }
+        }
     }
 }

@@ -18,7 +18,7 @@
     border: solid black 1px;
     background: white;
     color: black;
-    border-radius: 5px;
+    border-radius: 3px;
     font-size: small;
     padding: 2px;
 }
@@ -111,18 +111,12 @@
     color: black;
     background-color: rgb(255,255,255);
     background-color: rgba(255,255,255,0.8);
-    box-shadow: 0 1px 5px rgba(0,0,0,0.65);
+    box-shadow: 0 5px 25px -5px rgba(30,16,84,.3);
     border-radius: 4px;
 }
 
 .latLngScale:hover .hover-content {
     display:inline-block;
-}
-
-.lyrTogDiv {
-    width: 100%;
-    padding: 1px;
-    font-weight: bold;
 }
 
 .alert {
@@ -300,7 +294,7 @@ a.lgi-zoom:hover {
     border: solid 1px white;
     background-color: black;
     z-index: 1000;
-    border-radius: 5px;
+    border-radius: 3px;
 }
 
 .modal-dialog {
@@ -536,7 +530,7 @@ input[type="checkbox"], input[type="radio"] {
     border: solid 1px white;
     background-color: black;
     z-index: 1000;
-    border-radius: 5px;
+    border-radius: 3px;
 }
 
 .zoomClose {
@@ -572,6 +566,7 @@ input[type="checkbox"], input[type="radio"] {
 }
 #mapDiv_zoom_slider{
     border-radius:4px;
+    background-color: white !important;
 }
 #legendElement #legendHeading{
     border-radius: 4px;
@@ -779,34 +774,41 @@ input[type="checkbox"], input[type="radio"] {
 /*Legend Tweaks*/
 /*Legend Tweaks*/
 
-// AHPS Legend 
-#ahpsLegend{
+// Custom Legend 
+.custom-legend{
     display: block;
     box-sizing: border-box;
-    padding: 15px;
+    padding: 10px 8px;
 
-    #ahpsTitle{
+    .legend-title{
         font-size: 14px;
         font-weight: 500;
         color: black;
     }
 
-    .ahps-item{
+    .legend-item{
         display: flex;
 
-        .ahps-icon{
+        .legend-icon{
             display: flex;
             flex-direction: column;
             justify-content: center;
-            height: 20px;
+            max-height: 22px;
+            width: 30px;
 
             svg{
                 position: relative;
                 top: -4px;
-                // margin-top: -5px;
+            }
+
+            img{
+                display: block;
+                height: 14px;
+                width: 14px;
+                margin: 4px auto;
             }
         }
-        .ahps-text{
+        .legend-text{
             flex-grow: 3;
             display: flex;
             flex-direction: column;
@@ -814,11 +816,17 @@ input[type="checkbox"], input[type="radio"] {
             font-size: 11px;
             font-weight: 500;
             letter-spacing: -0.1px;
-            height: 20px;
+            line-height: 10px;
             color: rgba(16, 21, 44, 0.8);
         }
     }
 }
+// Hide AHPS legend initially
+#ahpsLegend{
+    display: none;
+}
+
+
 .esriLegendLayer td{
     line-height: 15px;
     box-sizing: border-box;
@@ -869,33 +877,42 @@ input[type="checkbox"], input[type="radio"] {
 #floodClose,
 #floodMin{
     font-size: 0;
-    opacity: 0.65;
+    color: fade(@black, 95%);
     transition: 0.2s;
 }
 #floodClose:hover,
 #floodMin:hover{
     cursor: pointer;
-    opacity: 1;
+    color: @black;
     transition: 0.2s;
 }
 #floodClose{
     position: relative;
-    top: 3px;
+    top: 6px;
+    margin-right: 4px;
 }
+#floodClose:hover{
+    color: @red;
+}
+
 #floodClose:before{
     content: '\f00d';
-    font-family: FontAwesome;
-    font-size: 20px;
+    font-family: 'Font Awesome 5 Free';
+    font-size: 18px;
 }
 
 #floodMin{
     position: relative;
-    top: 4px;
+    top: 5px;
+}
+#floodMin:hover{
+    color: @blue;
 }
 #floodMin:before{
-    content: '\f066';
-    font-family: FontAwesome;
-    font-size: 20px;
+    content: '\f2d2';
+    font-family: 'Font Awesome 5 Free';
+    font-size: 14px;
+    font-weight: lighter;
 }
 #floodToolsDiv{
     box-shadow: 0px 6px 27px -7px rgba(0, 10, 80, 0.55)
@@ -935,25 +952,33 @@ input[type="checkbox"], input[type="radio"] {
   transition: 0.2s;
   color: white !important;
   font-weight: 500 !important;
+
+  span{
+      margin-left: 4px;
+  }
 }
 #aboutNav:hover{
-  opacity: 0.65;
-  transition: 0.2s;
+    span{
+        text-decoration: underline;
+    }
 }
 #shareLink{
   font-size: 11px;
-  margin: 0 10px;
   transition: 0.2;
   position: relative;
   top: -1px;
-  letter-spacing: 0.1px;
+  letter-spacing: -0.1px;
   color: @blue;
-  text-decoration: underline;
+  i{
+      position: relative;
+      left: 2px;
+  }
 }
 #shareLink:hover{
   cursor: pointer !important;
-  color: lighten(@blue, 10%) !important;
+  color: darken(@blue, 20%) !important;
   transition: 0.2;
+  text-decoration: underline;
 }
 
 /*LATLNG*/
@@ -1012,13 +1037,18 @@ input[type="checkbox"], input[type="radio"] {
   font-weight: 500 !important;
   transition: 0.2s !important;
   font-size: 11px !important;
+
+  span{
+      margin-left: 4px;
+  }
 }
 #userGuideNav:focus{
   outline: none !important;
 }
 #userGuideNav:hover{
-  opacity: 0.65 !important;
-  transition: 0.2s !important;
+    span{
+        text-decoration: underline;
+    }
 }
 #navbar{
     background-color: #10152C !important;
@@ -1102,7 +1132,9 @@ a{
 
 
 
-
+// Full page loader
+// Full page loader
+// Full page loader
 #usgs-loader{
   display: -webkit-flex;
   display: flex;
@@ -1153,17 +1185,23 @@ a{
   background-color: rgba(0,0,20,0.92) !important;
 }
 .loading-background:before{
-  content: 'Loading...';
-  color: white;
-  box-sizing: border-box;
-  padding: 35px;
-  position: relative;
-  font-size: 18px;
-  top: 35px;
-  right: 0px;
-  width: 100%;
-  text-align: center;
-  width: 100%;
+    content: 'Loading...';
+    color: white;
+    box-sizing: border-box;
+    padding: 35px;
+    position: absolute;
+    font-size: 14px;
+    top: 0;
+    right: 0px;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    /* background: red; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-sizing: border-box;
+    padding-top: 150px;
 }
 
 
@@ -1377,7 +1415,7 @@ a{
 
 
 #legendElement{
-  box-shadow: 0 5px 30px 0 rgba(0,0,60,0.25), 0 1px 3px 0 rgba(0,0,80,0.12);
+box-shadow: 0 5px 25px -5px rgba(30,16,84,.3);
   border-radius:3px !important;
 }
 #legendElement *{
@@ -1386,10 +1424,15 @@ a{
 #legendElement, #legendHeading{
   text-transform: none !important;
   font-weight: 900 !important;
+  color: @black !important;
 }
 
 #legendElement #legendHeading h4 a{
   padding-bottom: 11px;
+
+  span{
+      margin-right: 3px;
+  }
 }
 
 #major{
@@ -1468,3 +1511,118 @@ input[type=range].styled {
     background: #070D27;
   }
   
+
+//   ShareModal
+//   ShareModal
+//   ShareModal
+#shareModalBody{
+    margin: 0 auto;
+    text-align: center;
+
+    p{
+        font-size: 12px;
+        font-weight: 600;
+        color: @black;
+    }
+
+    code{
+        font-size: 14px;
+        font-weight: 600;
+        box-sizing: border-box;
+        padding: 8px;
+        white-space: pre-wrap;
+        line-height: 24px;
+    }
+
+    button{
+        display: block;
+        text-align: center;
+        width: 100%;
+        font-size: 10px;
+        background-color: transparent;
+        border: none;
+        font-weight: 600;
+        padding: 10px 0;
+        transition: 0.15s;
+        letter-spacing: -0.2px;
+        opacity: 0.5;
+
+        &:hover{
+            opacity: 1;
+        }
+
+        &:active{
+            box-shadow: none;
+        }
+
+        &.success{
+            color: @blue !important;
+            // font-size: 12px;
+            transition: 0.15s;
+            opacity: 1;
+        }
+    }
+
+}
+//   Flood tools error toast
+//   Flood tools error toast
+//   Flood tools error toast
+// UNUSED
+// UNUSED
+// UNUSED
+#ftError{
+    display: flex;
+    box-sizing: border-box;
+    padding: 12px;
+    background-color: #E43947;
+    width: 280px;
+    position: fixed;
+    bottom: -150px;
+    left: 50%;
+    margin-left: -140px;
+    border-radius: 6px;
+    box-shadow: 0 5px 25px -5px rgba(30,16,84,.3);
+    color: white;
+    z-index: 100000;
+    transition: 0.3s;
+    opacity: 0;
+
+    i{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        font-size: 30px;
+        margin-right: 12px;
+    }
+
+    p{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        flex-grow: 3;
+        font-size: 12px;
+        line-height: 16px;
+        margin: 0;
+        padding: 0;
+    }
+
+    &.visible{
+        bottom: 15px;
+        transition: 0.3s;
+        opacity: 1;
+    }
+}
+
+// Error message on flood tools window.
+// Error message on flood tools window.
+// Error message on flood tools window.
+#floodToolsErrorMessage{
+    display: block;
+    text-align: center;
+    background-color: @red;
+    box-sizing: border-box;
+    padding: 6px;
+    font-weight: 500;
+    font-size: 11px;
+    color: white;
+}

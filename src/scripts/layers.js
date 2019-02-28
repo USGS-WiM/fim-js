@@ -331,7 +331,7 @@ require([
                         "outFields": ["*"],
                         'includeInLayerList': true,
                         'layerIndex': 0,
-                        'includeLegend' : true
+                        'includeLegend' : false
                     }
                 },
                 'Minor flooding': {
