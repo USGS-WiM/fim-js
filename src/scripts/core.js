@@ -440,7 +440,11 @@ require([
     });
 
     map.on('basemap-change', function(evt) {
-        map.reorderLayer(map.getLayer("fimSitesLegend"), 0);
+        if (evt.current.basemapName != "hybrid") {
+            $('#satCheckBox').prop('checked', false);
+        } else {
+            $('#satCheckBox').prop('checked', true);
+        }
     });
 
 
