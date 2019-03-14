@@ -905,19 +905,27 @@ require([
 
                 //code to query related records for site and get logos and created/reviewed by cooperators
                 //first set anything that can be set with site attributes
-                $("#downloadData").attr("href", siteAttr.DATA_LINK);
+                if(siteAttr.DATA_LINK.toLowerCase() == "none"){
+                    $("#downloadData").hide();
+                    $("#noDownloadData").show();
+                }else{
+                    $("#noDownloadData").hide();
+                    $("#downloadData").show();
+                    $("#downloadData").attr("href", siteAttr.DATA_LINK);
+                }
 
                 //code for showing or hiding report thumbnail
                 if (siteAttr.REP_THUMB != "NONE") {
-                    $("#reportCover").attr("src", siteAttr.REP_THUMB);
+                    $("#reportCover").attr("href", siteAttr.REP_LINK);
+                    $("#reportCover img").attr("src", siteAttr.REP_THUMB);
                     $("#reportCover").show();
                 } else {
                     $("#reportCover").hide();
                 }
 
-                $("#reportCover").off("click").click(function() {
-                    window.open(siteAttr.REP_LINK);
-                });
+                // $("#reportCover").off("click").click(function() {
+                //     window.open(siteAttr.REP_LINK);
+                // });
 
                 //code to add report link or text saying no report available
                 if (siteAttr.REP_LINK != "NONE") {

@@ -39,6 +39,9 @@
     </script>
     <!-- End Google Analytics -->
 
+    <!-- Font Awesome Pro CDN -->
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-6jHF7Z3XI3fF4XZixAuSu0gGKrXwoX/w3uFPxC56OtjChio7wtTGJWRW53Nhx6Ev" crossorigin="anonymous">
+
 </head>
 <body>
 
@@ -46,29 +49,31 @@
     <div class="container-fluid">
         <div class="navbar-header">
             <div class="mobile-sidebar-toggle hidden-md hidden-lg" data-toggle="sidebar" data-target=".sidebar-left">
-                <i class="fa fa-navicon"></i>
+                <i class="fas fa-bars"></i>
             </div>
-            <a class="navbar-brand" href="https://www.usgs.gov">
-                <img alt="USGS logo" src="images/USGS_ID_white.png">
+            <div class="navbar-brand">
+                <a href="https://www.usgs.gov" target="_blank">
+                    <img alt="USGS logo" src="images/USGS_ID_white.png">
+                </a>
                 <span>Flood <b>Inundation</b> Mapper</span>
-            </a>
+            </div>
         </div>
 
         <button id="geosearchNav" type="button" class="btn btn-primary navbar-btn pull-right" onclick="ga('send','event','navbar','click','Find Location Modal Opened');">
-            <span class="glyphicon glyphicon-search"></span>
-            <span id="geosearchButtonText"> Find Location</span>
+            <i class="fa fa-search"></i>
+            <span id="geosearchButtonText">Find Location</span>
         </button>
 
         <!--<button id="printNavButton" type="button" class="btn btn-primary navbar-btn pull-right">
-            <span class="glyphicon glyphicon-print"></span>
+            <i class="fa fa-print"></i>
             <span id="printButtonText"> Print</span>
         </button>-->
 
         <button id="aboutNav" class="btn btn-default navbar-btn pull-right" onclick="ga('send','event','navbar','click','About Modal');">
-            <i class="fa fa-question-circle"></i><span class="hidden-xs">&nbsp;&nbsp;About</span>
+            <i class="fa fa-question-circle"></i><span class="hidden-xs">About</span>
         </button>
         <button id="userGuideNav" class="btn btn-default navbar-btn pull-right" onclick="ga('send','event','navbar','click','User Guide');">
-            <i class="fa fa-book"></i><span class="hidden-xs">&nbsp;&nbsp;User Guide</span>
+            <i class="fa fa-book"></i><span class="hidden-xs">User Guide</span>
         </button>
 
         <!-- legend buttton for navbar. to be removed if we like the in-map legend toggle -->
@@ -128,7 +133,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title"><span class="glyphicon glyphicon-print"></span> Print Map</h4>
+                <h4 class="modal-title"><i class="fa fa-print"></i> Print Map</h4>
             </div>
             <div id="printModalBody" class="modal-body">
 
@@ -153,12 +158,11 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title"><span class="glyphicon glyphicon-link"></span> Site share link</h4>
+                <h4 class="modal-title"><i class="fa fa-link"></i> Site share link</h4>
             </div>
             <div id="shareModalBody" class="modal-body">
                 <p>Use this url to share a direct link to this site </p>
                 <span id="siteURL"></span>
-                <br/><br/>
                 <button class="btn btn-default" type="button" id="copyShareURL">Copy Link</button>
 
             </div>
@@ -184,16 +188,16 @@
         <!-- Site One -->
         <div class="min-ft fts1">
             <div class="item">
-                <label>Selected gage height:</label>
-                <div class="value label-ft" id="selectedValue"></div>
-            </div>
-            <div class="item">
                 <label>USGS Site No:</label>
                 <a id="usgsSiteNo" class="value" target="_blank" href=""></a>
             </div>
             <div class="item">
                 <label>NWS Site ID:</label>
                 <a id="nwsSiteID" class="value" target="_blank" href=""></a>
+            </div>
+            <div class="item">
+                <label>Selected gage height:</label>
+                <div class="value label-ft slider-min update"></div>
             </div>
             <div class="section-header">Current Conditions</div>
             <div class="item">
@@ -209,16 +213,16 @@
         <!-- Site Two -->
         <div class="min-ft fts2">
             <div class="item">
-                <label>Selected gage height:</label>
-                <div class="value label-ft" id="selectedValue"></div>
-            </div>
-            <div class="item">
                 <label>USGS Site No:</label>
                 <a id="usgsSiteNo" class="value" target="_blank" href=""></a>
             </div>
             <div class="item">
                 <label>NWS Site ID:</label>
                 <a id="nwsSiteID" class="value" target="_blank" href=""></a>
+            </div>
+            <div class="item">
+                <label>Selected gage height:</label>
+                <div class="value label-ft slider-min update"></div>
             </div>
             <div class="section-header">Current Conditions</div>
             <div class="item">
@@ -234,16 +238,16 @@
         <!-- Site Three -->
         <div class="min-ft fts3">
             <div class="item">
-                <label>Selected gage height:</label>
-                <div class="value label-ft" id="selectedValue"></div>
-            </div>
-            <div class="item">
                 <label>USGS Site No:</label>
                 <a id="usgsSiteNo" class="value" target="_blank" href=""></a>
             </div>
             <div class="item">
                 <label>NWS Site ID:</label>
                 <a id="nwsSiteID" class="value" target="_blank" href=""></a>
+            </div>
+            <div class="item">
+                <label>Selected gage height:</label>
+                <div class="value label-ft slider-min update"></div>
             </div>
             <div class="section-header">Current Conditions</div>
             <div class="item">
@@ -346,7 +350,7 @@ $(".close-alert").click(function(){
                     For more information about the FIM Web Interface please contact <a href="https://wim.usgs.gov/" target="_blank"><img src="images/wim_abbr_black.png"></a>
                 </div>
                 <div class="modal-footer-buttons">
-                        <button class=" btn btn-default close" type="button" data-dismiss="modal" aria-hidden="true" class="btn btn-default" style="float:none;">Close</button>
+                        <button class=" btn btn-default close" type="button" data-dismiss="modal" aria-hidden="true" class="btn btn-default" style="float:none;"><i class="fa fa-times"></i> Close</button>
                 </div>
             </div>
         </div><!-- /.modal-content -->
@@ -503,8 +507,8 @@ $(".close-alert").click(function(){
             <div class="panel panel-default wim-sidebar-panel">
                 <div class="panel-heading" id="basemapsHeader">
                     <h4 class="panel-title">
-                        <a data-toggle="collapse"  href="#basemapsPanel" aria-expanded="false" aria-controls="basemapsPanel">
-                            Basemaps
+                        <a class="collapsed" data-toggle="collapse"  href="#basemapsPanel" aria-expanded="false" aria-controls="basemapsPanel">
+                            <span>Basemaps</span>
                         </a>
                     </h4>
                 </div>
@@ -528,19 +532,19 @@ $(".close-alert").click(function(){
             <div class="panel panel-default wim-sidebar-panel">
                 <div class="panel-heading" id="layersPanelHeader">
                     <h4 class="panel-title">
-                        <a class="collapsed" data-toggle="collapse" href="#layersPanel" aria-expanded="true" aria-controls="layersPanel">
-                            Map Layers
+                        <a data-toggle="collapse" href="#layersPanel" aria-expanded="true" aria-controls="layersPanel">
+                            <span>Map Layers</span>
                         </a>
                     </h4>
                 </div>
                 <div id="layersPanel" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="layersPanelHeader">
-                    <div id="toggle" style="padding: 2px 2px;"></div>
+                    <div id="toggle"></div>
                 </div>
             </div>
 
             <!-- # closing div tag for accordion style panels -->
             <!--</div>-->
-            <div class="identification pull-right">powered by  <a href="https://wim.usgs.gov/" target="_blank"><img src="images/wim_abbr_black.png" id="wim_logo"></a></div>
+            <div class="identification">Powered by <a href="https://wim.usgs.gov/" target="_blank"><img src="images/wim_abbr_black.png" id="wim_logo"></a></div>
             <div class="sidebar_footer">
               <a href="https://usgs.gov/" target="_blank">USGS Home</a>
               <a href="https://answers.usgs.gov/" target="_blank">Contact USGS</a>
@@ -575,13 +579,115 @@ $(".close-alert").click(function(){
                     <div id="legendHeading" class=" legendHeading" role="tab">
                         <h4 class="panel-title">
                             <a data-toggle="collapse" style="text-decoration: none"  href="#legendCollapse" aria-expanded="true" aria-controls="collapseOne">
-                                <span class="glyphicon glyphicon-list"></span>
+                                <i class="fa fa-shapes" style="margin-right: 2px;"></i>
                                 Explanation
                             </a>
                         </h4>
                     </div>
                     <div id="legendCollapse" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
-                        <div id="legendDiv" class="panel-body"></div>
+                        
+                        <div id="legendWrapper">
+
+                            <!-- FIM Sites Legend -->
+                            <div class="custom-legend" id="fimSitesLegend">
+                                <!-- AHPS Forecast Site -->
+                                <div class="legend-title">USGS FIM Sites <small style="font-size: 10px;">(NWS forecast category)</small></div>
+                                <!-- No Forecast -->
+                                <div class="legend-item">
+                                    <div class="legend-icon"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAARlJREFUOI3F1LtKA1EUheFfMrhAC6sgg52FhZZWRq218kJqK2G0shFTicYmSCSk01Kwt/AdxFcQn2B8AJsFFhaZQJCJcwVXt/eB78Bh7xNQc4L/ApuSLmx36gJvbEfAI/BeCQzDcC2O4whoALfAfiUwjuNBggHsSdqy/VoKlLRre2eyZ7sPtMqADWCQ0t8A2sBzUfDE9mragaSe7RfgOy+4AHSn3WR7BYiA+1ygpEvbzWlgkivgCfjKApdtn2VgAIvJsF9ngX1gNgeI7XPgAfhMBSVt227nwZLMM3rr0zRwxvawADbOMTAEPn6DR8B6CTBgtJKHk+Ac0CuBjXMgqWX7LQCQ1LG9VAHE9h2wGSRFlz8GuUhq/7F/AHkGWcQG+xm6AAAAAElFTkSuQmCC" border="0" style="opacity:1"></div>
+                                    <div class="legend-text">No forecast information available</div>
+                                </div>
+                                <!-- Major -->
+                                <div class="legend-item">
+                                    <div class="legend-icon"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAd9JREFUOI2t00tIVFEcx/HvwWsXAiMkhAwiKAgtNw26GIcmehAkFSGOqwhf1WIiTAjsoZEWMpNGBYmMwmhURhGIjxRByO5crIgWIRG0mZVBdCMI8ZT2bzUXhWGYGee7POfw4Wx+BjnOSPdhDKmqRI3nBIwhtUDERnZ6Ud/XBdqIKdC1zJ8Cg/w24MJ6f9i8zN8d/XTQSNs5C7nnQ33NCpxFigRaP/KaR3TiwZ9fzuHbQCArMA/pWOT3pl6uARDhJmV4a6xCqfA56l1GoL1V9soCDbOM8IW3AMzzhjleccCpDgP+jEBZoOcn3/JCNK4576YFDwf3W8hxH2o0LTCGVAFHRomi0WvuHOLM8IKTZlPXvJaJPaiVlOA0YmASjuvP9NGa9PchzuLVx0phWz0QSQluhPP/9ErJMx4kxRKNMUgdV268Rx6XoxaTgjFkM9D+CZsRelOC/VzlENXF29l9CehMCipTri/ppS0D3EqJJXrJQy5y97KN9CUm6YIWsks0wTkm+cBUWuBz7nOU0wUleNxJuqCC0C9+bLhDc1pYoid0086QO0kDwDbFL5pTUzzFIZ4ROMMwJ2hwJ2kIomxND0CAIAGCGYGrqrEKpcKw4QywL1tldcohbFSiokA0FyDAf7Wuo+ntbQ/FAAAAAElFTkSuQmCC" border="0" style="opacity:1"></div>
+                                    <div class="legend-text">Major Flooding</div>
+                                </div>
+                                <!-- Moderate -->
+                                <div class="legend-item">
+                                    <div class="legend-icon"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAYxJREFUOI2t07trVEEYhvHfwRNPFZFFhGgjKIhipZDCwoBoY7AIIVqJYLwVsYiCEC9RjEpwSUIUFEkTBdHCRsRbKYKg/4CNjdUK4qlEHCWMxe7KISTuJfvAV8w3w8NbzJvqMGmzDyP9CS86Iowcxlxkc8K3FQkjGSZ/093FOM6sNOHoHzZNYJxTkdmEz20JI+sx9hbX0UfXPm7iULvCiR+suVQ7X8NuhmKp1Jvk+ceWhLGnZ4dKZfgZPtR27/AKg3lergZuJWGlMv2VVccXrc9hL3siBxOeNyWM9GP/PMKiuy94ihNZNhlDeJmw8F9hJJVl5U8hGFsm/EkcCGH7Ro5hrlHC0wshbLuzjKzOA1zgauRRws8lhZG1uPIe9xoIL2KQDVs5q/qrlhBm2eVfIay70UBW5y5mOB+5X6/kP2FkixBGXuNNk8LbOEL3rkIliwlvfWf1aJOyOlN4WKhkCjHL+oQw8Fj1W7TCEwwXKplGEiFMw0ht2mQolkq9KY5iZ/ueAnleThPmVacj/AVo+nOWKkeLGgAAAABJRU5ErkJggg==" border="0" style="opacity:1"></div>
+                                    <div class="legend-text">Moderate Flooding</div>
+                                </div>
+                                <!-- Minor -->
+                                <div class="legend-item">
+                                    <div class="legend-icon"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAdlJREFUOI2t009I02Ecx/H3Qz/7nYySCMpLYCBGu1RIeHAQejDpEHPOSwRq1sEgCwK1TPwT0sgoQSk7TCPab3PgkFKRghCEdajTqIMXD6EQ/UAQ8Vlu3w5jDmOMbe4Dz+H5w4vP4fkaFDlGrg8lQKNq5kNRQLHwIExKiArl4veBQAlhsstILE5pCfQBdw7WcJeuvwlOD1rQ18ItCfJCuVktCBSLE0D3lygMhcHpoKTOwROguTAQBrd2OPLwbXI/4IeaStxilVUrj/01L1Csk+dgvS0cgcha8mx5Fea/geuS7QWceTZcH93Y5FD7+P7T+1Nw2UGtWFxVHuZyAiVAI0K97zPo/+7WbJhZgZv15oi81h9VB/GsoCxhYJveH7803f7M3TvewJWL+mz5MVqByewNbW7HRVeNzWfGUpn6BD1N9Iufd6qF7YygzHIUzeOVnzCxlB3sDYKrhlOV5dwDhjKDMfPRTkwfHw5mx1IZX4DnrTyQEK9SI7kHSpAzJHTnwndYjOYGvlyE605KL1SkRzLdMMHTP1sc7vLlhqXyLAzTd9MjaQBIwHQi+tr75eS3yCf+CLRF0yNpCChEjwJ0NiRXgXGLVVZtYHEDOF8wsy+211AefICvOCD8A4Tfpz6B9EeyAAAAAElFTkSuQmCC" border="0" style="opacity:1"></div>
+                                    <div class="legend-text">Minor Flooding</div>
+                                </div>
+                                <!-- Action -->
+                                <div class="legend-item">
+                                    <div class="legend-icon"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAb1JREFUOI2t089L03Ecx/Hnm77rezJCIigvQYEUnRI8eGggdlE6xLBOEjS1DuuwhGBqK9wMaaikoISXKYQevEiUehRBsH/ASxdPCuFOEn6U8erwZa3BWtvcCz6Hzw8evA6ft0eD41X7UKLHjK8NASWeAAsSN834eS5QwgcmTk9pCoVIAi/P2zB+dsaNVAqSSZ5LfDTjR12gxFUgsbUF6TSEw4S6ungPPK4XTB0fc2l0NNiPjUFHB71Sc7tZ7ntNoHTtLhxE19Zgdzc4296G9XWIRHIZIFxjw4Opw0Mu9PeXng4NQWcn9yUemvGlKlCiB3iQzYJzpXf7+7C6CgMD/oTkvpmRrwhKeOBn9vYciUT57oOD0N3t7rS08AxY+F/DF/m8uz07Wx4rZHERhod5J/HZjF9lQYnLwNudHZifrwyOjEAkwvXWVl4B6X+A/puTE3dlfLwyVsjcHExP81riU2Ek/4ASt8DFNjZgc7M6cGYG+vpoamsrjuTfDT8cHXExHq8OK2RyEpaWiiPpBe38MLhHy8vBt6glKysQjRZH0pMwcFMAsViw6kyv1NzuAU+Be3UzJcllPDOyQLYxIPwGWcefHPt1iAMAAAAASUVORK5CYII=" border="0" style="opacity:1"></div>
+                                    <div class="legend-text">Action Stage</div>
+                                </div>
+                                <!-- No Flooding -->
+                                <div class="legend-item">
+                                    <div class="legend-icon"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAdhJREFUOI2t009I02Ecx/H3Q4/+TlZYKDYIYUE0umQwokODqEsSMsZv7RJC2p+DHSwIrDRRC2lkVFCElxVEQ4uI6N8xgmCSR5nBEH4grYwGhsie4rdvhzFnMcY294Hn8Hyfhxffy0dT5+hKP4aFzinF67qAtnBCYDIoeF8ofmwI7BWsZRjP/aZJNzAEnN8QuAz9uT+0fx6FjiHORoQ7cUWqJrBLaAEGlj6AMwaeAA2eI9wAwjWBljBqVtg8czV/nx2B1oPYEWn2x1VmpiqwS9r2CumexZdgEvmZ+Qhf38LOUCYKBKoCG0lPZL+xabb333niIrQc5pAtHJ9WvKoIDAudAkeTMcD89+jAwjPwnbbGEfMGhVseFLRgRX8lDamB0tvPnYH2Y8YX8nDqOUyWBW04l3PNnvl7pbFCvjyCfZcZtoUn04rVkmC3sHUVri19AudBeTB1BbwhdmzZzQVgrCS4ItZgLmu2z10vjxUyfx/8t7kUFB4WKrkGRoRdLqZv8R1k3lcGOnfBe5KmbfuLlVwDXbiZ/Uljor8yrJDkLTjwuFhJDRAUKwAmuPAUcKoD03H43lOspEZQGjMB4OvLnxpjR6TZr8PQLdBRM7MuLpmonlLEgFg9QIC/NJukRAcFYF0AAAAASUVORK5CYII=" border="0" style="opacity:1"></div>
+                                    <div class="legend-text">No Flooding</div>
+                                </div>
+                            </div>
+
+                            <!-- Generated Legend  -->
+                            <div id="legendDiv" class="panel-body"></div>
+
+
+                            <!-- AHPS Legend -->
+                            <div class="custom-legend" id="ahpsLegend">
+                                <!-- AHPS Forecast Site -->
+                                <div class="legend-title">AHPS Forecast Sites</div>
+                                <!-- Major -->
+                                <div class="legend-item">
+                                    <div class="legend-icon"><svg overflow="hidden" width="30" height="30"><defs></defs><circle fill="rgb(204, 51, 255)" fill-opacity="0.6" stroke="rgb(0, 0, 0)" stroke-opacity="0.6" stroke-width="1.3333333333333333" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" cx="0" cy="0" r="4" fill-rule="evenodd" stroke-dasharray="none" dojoGfxStrokeStyle="solid" transform="matrix(1.00000000,0.00000000,0.00000000,1.00000000,15.00000000,15.00000000)"></circle></svg></div>
+                                    <div class="legend-text">Major Flooding</div>
+                                </div>
+                                <!-- Moderate -->
+                                <div class="legend-item">
+                                    <div class="legend-icon"><svg overflow="hidden" width="30" height="30"><defs></defs><circle fill="rgb(255, 0, 0)" fill-opacity="0.6" stroke="rgb(0, 0, 0)" stroke-opacity="0.6" stroke-width="1.3333333333333333" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" cx="0" cy="0" r="4" fill-rule="evenodd" stroke-dasharray="none" dojoGfxStrokeStyle="solid" transform="matrix(1.00000000,0.00000000,0.00000000,1.00000000,15.00000000,15.00000000)"></circle></svg>                                </div>
+                                    <div class="legend-text">Moderate Flooding</div>
+                                </div>
+                                <!-- Minor -->
+                                <div class="legend-item">
+                                    <div class="legend-icon"><svg overflow="hidden" width="30" height="30"><defs></defs><circle fill="rgb(255, 0, 0)" fill-opacity="0.6" stroke="rgb(0, 0, 0)" stroke-opacity="0.6" stroke-width="1.3333333333333333" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" cx="0" cy="0" r="4" fill-rule="evenodd" stroke-dasharray="none" dojoGfxStrokeStyle="solid" transform="matrix(1.00000000,0.00000000,0.00000000,1.00000000,15.00000000,15.00000000)"></circle></svg>                                </div>
+                                    <div class="legend-text">Minor Flooding</div>
+                                </div>
+                                <!-- Near -->
+                                <div class="legend-item">
+                                    <div class="legend-icon"><svg overflow="hidden" width="30" height="30"><defs></defs><circle fill="rgb(255, 255, 0)" fill-opacity="0.6" stroke="rgb(0, 0, 0)" stroke-opacity="0.6" stroke-width="1.3333333333333333" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" cx="0" cy="0" r="4" fill-rule="evenodd" stroke-dasharray="none" dojoGfxStrokeStyle="solid" transform="matrix(1.00000000,0.00000000,0.00000000,1.00000000,15.00000000,15.00000000)"></circle></svg></div>
+                                    <div class="legend-text">Near Flooding</div>
+                                </div>
+                                <!-- No -->
+                                <div class="legend-item">
+                                    <div class="legend-icon"><svg overflow="hidden" width="30" height="30"><defs></defs><circle fill="rgb(0, 255, 0)" fill-opacity="0.6" stroke="rgb(0, 0, 0)" stroke-opacity="0.6" stroke-width="1.3333333333333333" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" cx="0" cy="0" r="4" fill-rule="evenodd" stroke-dasharray="none" dojoGfxStrokeStyle="solid" transform="matrix(1.00000000,0.00000000,0.00000000,1.00000000,15.00000000,15.00000000)"></circle></svg></div>
+                                    <div class="legend-text">No Flooding</div>
+                                </div>
+                                <!-- Not Defined -->
+                                <div class="legend-item">
+                                    <div class="legend-icon"><svg overflow="hidden" width="30" height="30"><defs></defs><circle fill="rgb(114, 175, 233)" fill-opacity="0.6" stroke="rgb(0, 0, 0)" stroke-opacity="0.6" stroke-width="1.3333333333333333" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" cx="0" cy="0" r="4" fill-rule="evenodd" stroke-dasharray="none" dojoGfxStrokeStyle="solid" transform="matrix(1.00000000,0.00000000,0.00000000,1.00000000,15.00000000,15.00000000)"></circle></svg></div>
+                                    <div class="legend-text">Flood Category Not Defined</div>
+                                </div>
+                                <!-- At or Below -->
+                                <div class="legend-item">
+                                    <div class="legend-icon"><svg overflow="hidden" width="30" height="30"><defs></defs><circle fill="rgb(144, 99, 32)" fill-opacity="0.6" stroke="rgb(0, 0, 0)" stroke-opacity="0.6" stroke-width="1.3333333333333333" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" cx="0" cy="0" r="4" fill-rule="evenodd" stroke-dasharray="none" dojoGfxStrokeStyle="solid" transform="matrix(1.00000000,0.00000000,0.00000000,1.00000000,15.00000000,15.00000000)"></circle></svg></div>
+                                    <div class="legend-text">At or Below Low Water Threshold</div>
+                                </div>
+                                <!-- Not Current -->
+                                <div class="legend-item">
+                                    <div class="legend-icon"><svg overflow="hidden" width="30" height="30"><defs></defs><circle fill="rgb(144, 99, 32)" fill-opacity="0.6" stroke="rgb(0, 0, 0)" stroke-opacity="0.6" stroke-width="1.3333333333333333" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" cx="0" cy="0" r="4" fill-rule="evenodd" stroke-dasharray="none" dojoGfxStrokeStyle="solid" transform="matrix(1.00000000,0.00000000,0.00000000,1.00000000,15.00000000,15.00000000)"></circle></svg></div>
+                                    <div class="legend-text">Forecasts Are Not Current</div>
+                                </div>
+                                <!-- Time Frame -->
+                                <div class="legend-item">
+                                    <div class="legend-icon"><svg overflow="hidden" width="30" height="30"><defs></defs><circle fill="rgb(140, 140, 140)" fill-opacity="0.6" stroke="rgb(0, 0, 0)" stroke-opacity="0.6" stroke-width="1.3333333333333333" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" cx="0" cy="0" r="4" fill-rule="evenodd" stroke-dasharray="none" dojoGfxStrokeStyle="solid" transform="matrix(1.00000000,0.00000000,0.00000000,1.00000000,15.00000000,15.00000000)"></circle></svg></div>
+                                    <div class="legend-text">No Forecast Within Selected Time Frame</div>
+                                </div>
+                                <!-- Our of Service -->
+                                <div class="legend-item">
+                                    <div class="legend-icon"><svg overflow="hidden" width="30" height="30"><defs></defs><circle fill="rgb(102, 102, 102)" fill-opacity="0.6" stroke="rgb(0, 0, 0)" stroke-opacity="0.6" stroke-width="1.3333333333333333" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" cx="0" cy="0" r="4" fill-rule="evenodd" stroke-dasharray="none" dojoGfxStrokeStyle="solid" transform="matrix(1.00000000,0.00000000,0.00000000,1.00000000,15.00000000,15.00000000)"></circle></svg></div>
+                                    <div class="legend-text">Out of Service</div>
+                                </div>
+
+                            </div>
+
+                        </div> <!-- End Legend Wrapper -->
+
+
                     </div>
                 </div>
 
@@ -597,6 +703,12 @@ $(".close-alert").click(function(){
                     ==================================================================
                  -->
                 <div id="floodToolsDiv" class="panel panel-default floodToolsClass ">
+
+                    <div id="floodToolsErrorMessage">
+                        There was an error retrieving the data at this time. Please try again later.
+                    </div>
+
+
                     <!-- Modal Title -->
                     <div class="panel-heading">
                         <div class="panel-title" id="floodToolsTitle">
@@ -629,9 +741,9 @@ $(".close-alert").click(function(){
                                 </div>
                                 <!-- Actual Slider -->
                                 <div class="slider-wrapper">
-                                    <label class="slider-max">52</label>
-                                    <input id="floodSlider" type="range" name="stage" value="0" min="0" max="10" class="styled ftSlider-vertical floodSlider"/>
-                                    <label class="slider-min">12</label>
+                                    <label class="slider-max">N/A</label>
+                                    <input id="floodSlider" type="range" name="stage" value="0" min="0" max="10" class="styled ftSlider-vertical floodSlider first-slider"/>
+                                    <label class="slider-min">N/A</label>
                                 </div>
                             </div>
                             <!-- Second slider -->
@@ -645,9 +757,9 @@ $(".close-alert").click(function(){
                                 </div>
                                 <!-- Actual Slider -->
                                 <div class="slider-wrapper">
-                                    <label class="slider-max">52</label>
-                                    <input id="floodSlider" type="range" name="stage" value="0" min="0" max="10" class="styled ftSlider-vertical floodSlider"/>
-                                    <label class="slider-min">12</label>
+                                    <label class="slider-max">N/A</label>
+                                    <input id="floodSlider" type="range" name="stage" value="0" min="0" max="10" class="styled ftSlider-vertical floodSlider second-slider"/>
+                                    <label class="slider-min">N/A</label>
                                 </div>
                             </div>
                             <!-- Third slider -->
@@ -661,9 +773,9 @@ $(".close-alert").click(function(){
                                 </div>
                                 <!-- Actual Slider -->
                                 <div class="slider-wrapper">
-                                    <label class="slider-max">52</label>
-                                    <input id="floodSlider" type="range" name="stage" value="0" min="0" max="10" class="styled ftSlider-vertical floodSlider"/>
-                                    <label class="slider-min">12</label>
+                                    <label class="slider-max">N/A</label>
+                                    <input id="floodSlider" type="range" name="stage" value="0" min="0" max="10" class="styled ftSlider-vertical floodSlider third-slider"/>
+                                    <label class="slider-min">N/A</label>
                                 </div>
                             </div>
 
@@ -703,45 +815,65 @@ $(".close-alert").click(function(){
                         <!-- Other items on right side -->
                         <div id="ftData">
 
+                            <!-- Tabs / navigation for flood tools -->
+                            <div id="ftDataTabs">
+                                <div class="ft-tab active" data-toggle="ftTools" onclick="ga('send','event','Flood Tools Panel','click','Flood Tools');">
+                                    <span>Flood Tools</span>
+                                    <i class="fa fa-water"></i> 
+                                </div>
+                                <div class="ft-tab" data-toggle="ftHydro" onclick="ga('send','event','Hydrograph Panel','click','Hydrograph');">
+                                    <span>Hydrograph</span>
+                                    <i class="fa fa-chart-bar"></i>
+                                </div>
+                                <div class="ft-tab ft-hazus-tab" data-toggle="ftHazus" onclick="ga('send','event','Hazus Panel','click','HAZUS');">
+                                    <span>Hazus</span>
+                                    <i class="fa fa-building"></i>
+                                </div>
+                                <div class="ft-tab" data-toggle="ftServices" onclick="ga('send','event','Services&Data Panel','click','Services and Data');">
+                                    <span>Services and Data</span>
+                                    <i class="fa fa-server"></i>
+                                </div>
+                                <div class="ft-tab ft-webcam-tab" data-toggle="ftWebcam" onclick="ga('send','event','Webcam Panel','click','More Info');">
+                                    <span>Webcam</span>
+                                    <i class="fa fa-video"></i>
+                                </div>
+                                <a class="ft-tab ft-webcam-link-tab" href="" target="_blank" onclick="ga('send','event','Webcam Panel','click','More Info');">
+                                    <span>Webcam</span>
+                                    <i class="fa fa-video"></i>
+                                </a>
+                                <div class="ft-tab ft-more-info-tab" data-toggle="ftMoreInfo" onclick="ga('send','event','More Info Panel','click','More Info');">
+                                    <span>More Info</span>
+                                    <i class="fa fa-question-circle"></i>
+                                </div>
+                            </div>
+
 
                             <!-- 
                                     Flood Tools Body
                                     Flood Tools Body
                                     Flood Tools Body
                                 -->
-                            <!-- Accordion Header -->
-                            <div class="ft-accordion-header top" onclick="ga('send','event','Flood Tools Panel','click','Flood Tools');">
-                                <span>Flood Tools</span>
-                                <i class="fa fa-umbrella header-icon"></i>
-                                <i class="fa fa-chevron-up chevron"></i> 
-                            </div>
                             <div id="ftTools" class="ftmodal-content">
 
                                 <div class="small-label">Selected gage height</div>
                                 <div id="sgh" class="fts1">
-                                    <label for="floodSlider" id="selectedValue"></label> 
+                                    <label for="floodSlider" class="slider-min update"></label> 
                                 </div>
                                 <div id="sgh" class="fts2">
-                                    <label for="floodSlider" id="selectedValue"></label> 
+                                    <label for="floodSlider" class="slider-min update"></label> 
                                 </div>
                                 <div id="sgh" class="fts3">
-                                    <label for="floodSlider" id="selectedValue"></label> 
+                                    <label for="floodSlider" class="slider-min update"></label> 
                                 </div>
 
                                 <!-- Current Conditions Table -->
                                 <div class="small-label">Current Conditions</div>
                                 <div id="toolsTable">
-                                    <!-- Gage Heights -->
-                                    <div class="box bold">Gage Height</div>
-                                    <div class="box fts1"><label id="floodGage" class="label-ft"></label></div>
-                                    <div class="box fts2"><label id="floodGage" class="label-ft"></label></div>
-                                    <div class="box fts3"><label id="floodGage" class="label-ft"></label></div>
-                                    <div class="tools-table-space"></div>
                                     <!-- Discharge -->
                                     <div class="box bold">Discharge</div>
-                                    <div class="box fts1"><label id="floodDischarge" class="label-ft"></label></div>
-                                    <div class="box fts2"><label id="floodDischarge" class="label-ft"></label></div>
-                                    <div class="box fts3"><label id="floodDischarge" class="label-ft"></label></div>
+                                    <div class="box fts1"><label id="floodDischarge" class="label-fps"></label></div>
+                                    <div class="box fts2"><label id="floodDischarge" class="label-fps"></label></div>
+                                    <div class="box fts3"><label id="floodDischarge" class="label-fps"></label></div>
                                     <div class="tools-table-space"></div>
                                     <!-- Site No -->
                                     <div class="box bold">USGS Site No</div>
@@ -754,13 +886,18 @@ $(".close-alert").click(function(){
                                     <div class="box fts1"><a id="nwsSiteID" target="_blank" href=""></a></div>
                                     <div class="box fts2"><a id="nwsSiteID" target="_blank" href=""></a></div>
                                     <div class="box fts3"><a id="nwsSiteID" target="_blank" href=""></a></div>
+                                    <div class="tools-table-space"></div>
+                                    <!-- Gage Heights -->
+                                    <div class="box bold">Gage Height</div>
+                                    <div class="box fts1"><label id="floodGage" class="label-ft"></label></div>
+                                    <div class="box fts2"><label id="floodGage" class="label-ft"></label></div>
+                                    <div class="box fts3"><label id="floodGage" class="label-ft"></label></div>
                                 </div>
 
-                                <!-- Zoom and Webcam -->
+                                <!-- Zoom -->
                                 <div id="toolsButtons">
                                     <b>Click on map for estimated water depth</b>
-                                    <button id="zoomToLibExtent" title="click to zoom to the extent of the flood library" class="ft-button" type="button">Zoom</button>
-                                    <a href="#" target="_blank" class="ft-button">Live Webcam</a>
+                                    <button id="zoomToLibExtent" title="click to zoom to the extent of the flood library" class="ft-button" type="button">Zoom <i class="fa fa-search-plus"></i></button>
                                 </div>
                             </div>
 
@@ -771,15 +908,16 @@ $(".close-alert").click(function(){
                                     Hydrographs
                                 -->
                             <!-- Accordion Header -->
-                            <div class="ft-accordion-header" onclick="ga('send','event','Flood Tools Panel','click','Hydrograph');">
-                                <span>Hydrograph</span>
-                                <i class="fa fa-line-chart header-icon"></i>
-                                <i class="fa fa-chevron-down chevron"></i> 
-                            </div>
                             <div id="ftHydro" class="ftmodal-content">
                                 <div class="fts1 chart-wrapper">
                                     <div id="hydroChart"></div>
                                 </div>
+                                <div class="fts2 chart-wrapper">
+                                    <div id="hydroChart2"></div>
+                                </div>
+                                <div class="fts3 chart-wrapper">
+                                    <div id="hydroChart3"></div>
+                                </div>
                             </div>
 
 
@@ -789,11 +927,6 @@ $(".close-alert").click(function(){
                                     Hazus
                                 -->
                             <!-- Accordion Header -->
-                            <div class="ft-accordion-header hazus-content" onclick="ga('send','event','Flood Tools Panel','click','HAZUS');">
-                                <span>Hazus</span>
-                                <i class="fa fa-building header-icon"></i>
-                                <i class="fa fa-chevron-down chevron"></i> 
-                            </div>
                             <div id="ftHazus" class="ftmodal-content">
                                 <!-- 
                                           Hazus Table
@@ -809,12 +942,17 @@ $(".close-alert").click(function(){
                                     </div>
                                 </div>
                                 <table id="hazusTable">
-                                    <tr id="hazusTableHeader">
-                                        <th>Stage (ft)</th> 
-                                        <th>Number of Buildings Damaged</th>
-                                        <th>Building Losses</th>
-                                        <th>Number of Essential Facilities Impacted</th>
-                                    </tr>
+                                    <thead>
+                                        <tr id="hazusTableHeader">
+                                            <th>Stage (ft)</th> 
+                                            <th>Number of Buildings Damaged</th>
+                                            <th>Building Losses</th>
+                                            <th>Number of Essential Facilities Impacted</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    </tbody>
                                 </table>
 
                                 <div id="hazusRangeInfo">
@@ -832,11 +970,6 @@ $(".close-alert").click(function(){
                                     Services and Data
                                 -->
                             <!-- Accordion Header -->
-                            <div class="ft-accordion-header" onclick="ga('send','event','Flood Tools Panel','click','Services and Data');">
-                                <span>Services and Data</span>
-                                <i class="fa fa-server header-icon"></i>
-                                <i class="fa fa-chevron-down chevron"></i> 
-                            </div>
                             <div id="ftServices" class="ftmodal-content">
                                         
                                 <div class="ft-header">Sign up for WaterAlert for this site</div>
@@ -879,16 +1012,19 @@ $(".close-alert").click(function(){
                             </div>
 
                             <!-- 
+                                    Web Cam
+                                    Web Cam
+                                    Web Cam
+                                -->
+                            <div id="ftWebcam" class="ftmodal-content">
+                                <img src="" id="webcamImage"/>
+                            </div>
+
+                            <!-- 
                                     More Info
                                     More Info
                                     More Info
                                 -->
-                            <!-- Accordion Header -->
-                            <div class="ft-accordion-header last" onclick="ga('send','event','Flood Tools Panel','click','More Info');">
-                                <span>More Info</span>
-                                <i class="fa fa-question-circle header-icon"></i>
-                                <i class="fa fa-chevron-down chevron"></i> 
-                            </div>
                             <div id="ftMoreInfo" class="ftmodal-content">
                                 <div id="moreInfo"></div>
                             </div>
@@ -933,6 +1069,13 @@ $(".close-alert").click(function(){
 <div id="usgs-loader">
   Loading...
 </div>
+
+<!-- <div id="ftError">
+    <i class="fa fa-times"></i>
+    <p>
+        There was an error retrieving the data at this time. Please try again later.
+    </p>
+</div> -->
 
 </body>
 </html>

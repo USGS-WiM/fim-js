@@ -8,7 +8,6 @@
     <!-- build:css styles/vendor.css -->
     <!-- bower:css -->
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
-    <link rel="stylesheet" href="bower_components/fontawesome/css/all.min.css">
     <link rel="stylesheet" href="bower_components/lobipanel/css/lobipanel.css"/>
     <link rel="stylesheet" href="bower_components/bootstrap-map-js/dist/css/bootstrapmap.min.css" />
     <link rel="stylesheet" href="bower_components/bootstrap-sidebar/dist/css/sidebar.css" />
@@ -67,6 +66,9 @@
 
     </script>
     <!-- End Google Analytics -->
+
+    <!-- Font Awesome Pro CDN -->
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-6jHF7Z3XI3fF4XZixAuSu0gGKrXwoX/w3uFPxC56OtjChio7wtTGJWRW53Nhx6Ev" crossorigin="anonymous">
 
 </head>
 <body>
@@ -1019,7 +1021,8 @@ $(".close-alert").click(function(){
 
                                 <div class="ft-header">Data downloads and metadata</div>
                                 <a id="downloadData" class="ft-button" target="_blank" href="">Download data</a>
-                                <img id="reportCover" src=""/>
+                                <span id="noDownloadData">Data not currently available to download for this site.</span>
+                                <a id="reportCover"><img src=""/></a>
                                 
                                 <div id="ftLogos">
                                     <span id="logos"></span>
