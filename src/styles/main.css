@@ -245,9 +245,6 @@ a.lgi-zoom:hover {
   z-index: 1000;
   border-radius: 3px;
 }
-.modal-dialog {
-  padding-top: 60px;
-}
 .navbar-brand {
   padding: 7px 0 7px 4px;
   color: #fff !important;
@@ -459,15 +456,67 @@ input[type="radio"] {
 #locateButton,
 #homeButton {
   margin-top: 30px;
-  background-color: #10152C;
   border-radius: 4px;
+  box-shadow: none;
+  background-color: transparent !important;
+}
+#locateButton .locateContainer,
+#homeButton .locateContainer,
+#locateButton .home,
+#homeButton .home {
+  filter: invert(100%);
+  opacity: 0.6;
+  top: -30px;
+  position: relative;
+  opacity: 0;
+}
+#locateButton:before,
+#homeButton:before {
+  display: block;
+  width: 30px;
+  height: 30px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-radius: 3px;
+  box-sizing: border-box;
+  font-family: 'Font Awesome 5 Pro';
+  font-size: 18px;
+  color: #10152C;
+  transition: 0.15s;
+  font-weight: 500;
+  position: relative;
+}
+#locateButton:hover,
+#homeButton:hover {
+  cursor: pointer;
+}
+#locateButton:hover:before,
+#homeButton:hover:before {
+  color: #1D6DFA;
+  transition: 0.15s;
+}
+#homeButton:before {
+  content: '\f015';
+}
+#locateButton:before {
+  content: '\f601';
 }
 #mapDiv_zoom_slider {
-  border-radius: 4px;
+  border-radius: 3px;
   background-color: white !important;
 }
 #legendElement #legendHeading {
   border-radius: 4px;
+}
+.esriSimpleSliderDecrementButton span,
+.esriSimpleSliderIncrementButton span {
+  color: #10152C !important;
+}
+.esriSimpleSliderDecrementButton:hover span,
+.esriSimpleSliderIncrementButton:hover span {
+  color: #1D6DFA !important;
 }
 #servicesAndDataTabPane {
   box-sizing: border-box;
@@ -844,14 +893,17 @@ input[type="radio"] {
   transition: 0.2;
   text-decoration: underline;
 }
+.legendHeading:hover {
+  text-decoration: underline !important;
+}
 /*LATLNG*/
 #latLngScale {
   bottom: 55px !important;
-  border-radius: 4px;
+  border-radius: 3px;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.07), 0 3px 6px rgba(0, 0, 0, 0.08);
   background-color: #FFF !important;
   letter-spacing: 0px !important;
-  font-weight: 600;
+  font-weight: 500;
   font-size: 11px;
 }
 /*Rotation Lock*/
@@ -1402,6 +1454,36 @@ input[type=range].styled:focus::-ms-fill-upper {
   font-size: 11px;
   color: white;
 }
+.esriPopup .titlePane {
+  background-color: #10152C;
+  display: flex;
+  justify-content: space-between;
+  height: auto;
+  box-sizing: border-box;
+  padding: 6px;
+}
+.esriPopup .titlePane .title {
+  flex-grow: 4;
+}
+.esriPopup .titlePane .titleButton.close {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+}
+.esriPopup .titlePane .titleButton {
+  position: relative;
+  right: auto;
+  left: auto;
+  top: 2px;
+  bottom: auto;
+  margin: 0 3px;
+}
+.esriPopup .contentPane {
+  line-height: 18px;
+  font-size: 12px;
+  padding: 4px 6px;
+}
 #floodToolsDiv .panel-heading {
   background-color: white;
 }
@@ -1511,6 +1593,7 @@ input[type=range].styled:focus::-ms-fill-upper {
   width: 100%;
   padding-top: 180px;
   box-sizing: border-box;
+  text-align: center;
 }
 #ftModal #ftSliders #ftOptions .ft-option {
   display: flex;
@@ -1531,8 +1614,8 @@ input[type=range].styled:focus::-ms-fill-upper {
 #ftModal #ftSliders #ftOptions #usgsDefaultLogo,
 #ftModal #ftSliders #ftOptions #recordsLogo {
   height: 30px;
-  widht: auto;
-  margin-top: 15px;
+  width: auto;
+  margin: 10px auto 0 auto;
 }
 #ftModal #ftSliders #ftOptions #levelKey {
   display: flex;
@@ -2121,15 +2204,23 @@ input[type=range].styled:focus::-ms-fill-upper {
   background: #f1f1f1;
   border-radius: 4px;
 }
+.modal .modal-dialog {
+  padding-top: 10vh !important;
+  margin: 0 auto;
+}
 .modal .modal-dialog .modal-content {
   border: none !important;
   outline: none !important;
   box-shadow: 0px 6px 35px -10px rgba(20, 20, 40, 0.6) !important;
   border-radius: 4px !important;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
 }
 .modal .modal-dialog .modal-content .modal-header {
   padding: 10px 15px;
   border-bottom: none;
+  min-height: fit-content;
 }
 .modal .modal-dialog .modal-content .modal-header .modal-title {
   font-size: 16px;
@@ -2151,10 +2242,15 @@ input[type=range].styled:focus::-ms-fill-upper {
   transition: 0.2s;
   opacity: 1;
 }
+.modal .modal-dialog .modal-content .modal-body {
+  display: flex;
+  flex-direction: column;
+}
 .modal .modal-dialog .modal-content .modal-body .nav-tabs {
   box-sizing: border-box;
   padding: 0 15px 0 13px !important;
   border-bottom: 2px solid rgba(16, 21, 44, 0.06) !important;
+  width: 100%;
 }
 .modal .modal-dialog .modal-content .modal-body .nav-tabs li a,
 .modal .modal-dialog .modal-content .modal-body .nav-tabs li.active a {
@@ -2188,6 +2284,8 @@ input[type=range].styled:focus::-ms-fill-upper {
 }
 .modal .modal-dialog .modal-content .modal-body .tab-content {
   padding: 25px 15px 10px 15px !important;
+  flex-grow: 3;
+  overflow: auto;
 }
 .modal .modal-dialog .modal-content .modal-body .tab-content .tab-pane h3 {
   font-size: 18px;
@@ -2208,6 +2306,7 @@ input[type=range].styled:focus::-ms-fill-upper {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  min-height: fit-content;
 }
 .modal .modal-dialog .modal-content .modal-footer .wim-modal-branding {
   text-align: center;
@@ -2341,21 +2440,41 @@ input[type=range].styled:focus::-ms-fill-upper {
 #geosearchNav:hover span {
   text-decoration: underline;
 }
-.basemapThumb {
-  border: 1px solid #ffffff;
-  border-radius: 3px;
-}
 /*basemapBtn elements manually set to width of widest - temp solution until dynamic solution is implemented */
-.basemapBtn {
-  width: 86px;
-  padding: 2px;
-  text-transform: capitalize !important;
-  letter-spacing: -0.12px !important;
-  padding: 0 !important;
-  border: none !important;
-  font-weight: 600;
-  color: rgba(16, 21, 44, 0.5) !important;
-  margin-bottom: 4px !important;
+.basemap-btn {
+  width: 100%;
+  border: none;
+  background-color: transparent;
+  outline: none;
+  display: flex;
+  margin: 0 0 3px 0;
+  font-size: 11px;
+  font-weight: 400 !important;
+  letter-spacing: -0.2px;
+  color: #10152C;
+}
+.basemap-btn b {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 24px;
+  font-weight: 500;
+}
+.basemap-btn .basemapThumb {
+  height: 24px;
+  width: auto;
+  margin-right: 5px;
+}
+.basemap-btn:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+.basemap-btn:focus b,
+.basemap-btn:active b {
+  font-weight: bolder;
+}
+.basemap-btn.active {
+  background-color: red;
 }
 #sidebar .wim-sidebar-panel {
   box-shadow: none !important;
@@ -2394,6 +2513,7 @@ input[type=range].styled:focus::-ms-fill-upper {
 }
 #sidebar {
   background-color: #fff;
+  z-index: 11000;
 }
 #sidebar .identification {
   letter-spacing: 0px;

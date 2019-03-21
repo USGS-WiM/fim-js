@@ -3395,6 +3395,7 @@ require([
             $("#sidebar").getNiceScroll().resize();
         });
 
+
         $("#legendDiv").niceScroll();
 
         maxLegendHeight =  ($('#mapDiv').height()) * 0.90;

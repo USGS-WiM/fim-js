@@ -268,7 +268,6 @@ a.lgi-zoom:hover {
 }
 
 .modal-dialog {
-    padding-top: 60px;
 }
 
 .navbar-brand {
@@ -511,15 +510,72 @@ input[type="checkbox"], input[type="radio"] {
 #locateButton,
 #homeButton{
   margin-top: 30px;
-  background-color: #10152C;
   border-radius: 4px;
+  box-shadow: none;
+  background-color: transparent !important;
+
+    .locateContainer,
+    .home{
+        filter: invert(100%);
+        opacity: 0.6;
+        top: -30px;
+        position: relative;
+        opacity: 0;
+    }
+
+    //   Actual Icons for home & Location
+    &:before{
+        display: block;
+        width: 30px;
+        height: 30px;
+        background-color: white;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        border-radius: 3px;
+        box-sizing: border-box;
+        font-family: 'Font Awesome 5 Pro';
+        font-size: 18px;
+        color: @black;
+        transition: @transition;
+        font-weight: 500;
+        position: relative;
+    }
+
+    &:hover{
+        cursor: pointer;
+
+        &:before{
+            color: @blue;
+            transition: @transition;
+        }
+    }
+}
+#homeButton&:before{
+    content: '\f015';
+}
+#locateButton&:before{
+    content: '\f601';
 }
 #mapDiv_zoom_slider{
-    border-radius:4px;
+    border-radius:3px;
     background-color: white !important;
 }
 #legendElement #legendHeading{
     border-radius: 4px;
+}
+
+.esriSimpleSliderDecrementButton,
+.esriSimpleSliderIncrementButton{
+    span{
+        color: @black !important;
+    }
+}
+.esriSimpleSliderDecrementButton:hover,
+.esriSimpleSliderIncrementButton:hover{
+    span{
+        color: @blue !important;
+    }
 }
 
 
@@ -931,14 +987,18 @@ input[type="checkbox"], input[type="radio"] {
   text-decoration: underline;
 }
 
+.legendHeading:hover{
+    text-decoration: underline !important;
+}
+
 /*LATLNG*/
 #latLngScale{
   bottom: 55px !important;
-  border-radius: 4px;
+  border-radius: 3px;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.07), 0 3px 6px rgba(0, 0, 0, 0.08);
   background-color: #FFF !important;
   letter-spacing: 0px !important;
-  font-weight: 600;
+  font-weight: 500;
   font-size: 11px;
 }
 
@@ -1575,4 +1635,42 @@ input[type=range].styled {
     font-weight: 500;
     font-size: 11px;
     color: white;
+}
+
+
+// Default Esri Popup
+// Default Esri Popup
+// Default Esri Popup
+.esriPopup .titlePane{
+    background-color: @black;
+    display: flex;
+    justify-content: space-between;
+    height: auto;
+    box-sizing: border-box;
+    padding: 6px;
+
+    .title{
+        flex-grow: 4;
+    }
+
+    .titleButton.close{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        position: relative;
+    }
+    .titleButton{
+        position: relative;        
+        right: auto;
+        left: auto;
+        top: 2px;
+        bottom: auto;
+        margin: 0 3px;
+    }
+}
+
+.esriPopup .contentPane{
+    line-height: 18px;
+    font-size: 12px;
+    padding: 4px 6px;
 }
