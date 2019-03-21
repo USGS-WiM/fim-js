@@ -489,6 +489,7 @@ input[type="radio"] {
   transition: 0.15s;
   font-weight: 500;
   position: relative;
+  box-shadow: 0px 6px 27px -7px rgba(0, 10, 80, 0.55);
 }
 #locateButton:hover,
 #homeButton:hover {

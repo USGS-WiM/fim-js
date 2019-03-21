@@ -15,6 +15,7 @@ function addCommas(nStr) {
 }
 
 function camelize(str) {
+    str = str.replace(/[()]/g, '');
     return str.replace(/(?:^\w|[A-Z]|\b\w)/g, function(letter, index) {
         return index == 0 ? letter.toLowerCase() : letter.toUpperCase();
     }).replace(/\s+/g, '');
@@ -911,7 +912,11 @@ require([
     });
 
     map.on('basemap-change', function(evt) {
-        map.reorderLayer(map.getLayer("fimSitesLegend"), 0);
+        if (evt.current.basemapName != "hybrid") {
+            $('#satCheckBox').prop('checked', false);
+        } else {
+            $('#satCheckBox').prop('checked', true);
+        }
     });
 
 
@@ -1376,29 +1381,27 @@ require([
 
                 //code to query related records for site and get logos and created/reviewed by cooperators
                 //first set anything that can be set with site attributes
-                if(siteAttr.DATA_LINK == "none"){
+                if(siteAttr.DATA_LINK.toLowerCase() == "none"){
                     $("#downloadData").hide();
                     $("#noDownloadData").show();
-                    $("#noDownloadData").html(siteAttr.DATA_LINK);
                 }else{
                     $("#noDownloadData").hide();
-                    $("#noDownloadData").html(siteAttr.DATA_LINK);
-
                     $("#downloadData").show();
                     $("#downloadData").attr("href", siteAttr.DATA_LINK);
                 }
 
                 //code for showing or hiding report thumbnail
                 if (siteAttr.REP_THUMB != "NONE") {
-                    $("#reportCover").attr("src", siteAttr.REP_THUMB);
+                    $("#reportCover").attr("href", siteAttr.REP_LINK);
+                    $("#reportCover img").attr("src", siteAttr.REP_THUMB);
                     $("#reportCover").show();
                 } else {
                     $("#reportCover").hide();
                 }
 
-                $("#reportCover").off("click").click(function() {
-                    window.open(siteAttr.REP_LINK);
-                });
+                // $("#reportCover").off("click").click(function() {
+                //     window.open(siteAttr.REP_LINK);
+                // });
 
                 //code to add report link or text saying no report available
                 if (siteAttr.REP_LINK != "NONE") {
@@ -1702,7 +1705,7 @@ require([
 
                                         var formattedDate = dateFormat(valDate);
 
-                                        if (variable == "Discharge") {
+                                        /*if (variable == "Discharge") {
                                             $(".fts1 #floodDischarge").text(varValue);
                                             if ($(".fts1 #floodDischarge").text().length == 0 || $(".fts1 #floodDischarge").text() == "-999999") {
                                                 $(".fts1 #floodDischarge").text("n/a");
@@ -1712,7 +1715,7 @@ require([
                                             if ($(".fts1 #floodGage").text().length == 0 || $(".fts1 #floodGage").text() == "-999999") {
                                                 $(".fts1 #floodGage").text("n/a");
                                             }
-                                        }
+                                        }*/
 
                                         var rtLabel = "";
                                         if (varValue == "-999999") {
@@ -1945,40 +1948,39 @@ require([
                             return finalDataArray
                         }
 
-                        //Grab current gage height and discharge values is available
+                        //Grab current gage height and discharge values if available
                         if (finalNWISDataArray.length > 0) { 
                             $('.fts1 #floodGage').text(finalNWISDataArray[finalNWISDataArray.length-1][1]);
-                            $('.fts1 #floodGage').text();
-                            if (siteData.data[dischargeIndex].time_series_data[siteData.data[dischargeIndex].time_series_data.length-1][1] != null) {
-                                $('.fts1 #floodDischarge').text(siteData.data[dischargeIndex].time_series_data[siteData.data[dischargeIndex].time_series_data.length-1][1]);
-                            } else {
-                                $('.fts1 #floodDischarge').text('n/a (' + siteData.data[dischargeIndex].time_series_data[siteData.data[dischargeIndex].time_series_data.length-1][2] + ')');
-                            }
                         } else {
                             $('.fts1 #floodGage').text('n/a');
-                            $('.fts1 #floodDischarge').text('n/a');
+                            //$('.fts1 #floodDischarge').text('n/a');
+                        }
+                        if (siteData.data[dischargeIndex].time_series_data[siteData.data[dischargeIndex].time_series_data.length-1][1] != null) {
+                            $('.fts1 #floodDischarge').text(siteData.data[dischargeIndex].time_series_data[siteData.data[dischargeIndex].time_series_data.length-1][1]);
+                        } else {
+                            $('.fts1 #floodDischarge').text('n/a (' + siteData.data[dischargeIndex].time_series_data[siteData.data[dischargeIndex].time_series_data.length-1][2] + ')');
                         }
                         if (finalNWISDataArray2.length > 0) { 
                             $('.fts2 #floodGage').text(finalNWISDataArray2[finalNWISDataArray2.length-1][1]);
-                            if (siteData2.data[dischargeIndex].time_series_data[siteData2.data[dischargeIndex].time_series_data.length-1][1] != null) {
-                                $('.fts2 #floodDischarge').text(siteData2.data[dischargeIndex].time_series_data[siteData2.data[dischargeIndex].time_series_data.length-1][1]);
-                            } else {
-                                $('.fts2 #floodDischarge').text('n/a (' + siteData2.data[dischargeIndex].time_series_data[siteData2.data[dischargeIndex].time_series_data.length-1][2] + ')');
-                            }
                         } else {
                             $('.fts2 #floodGage').text('n/a');
-                            $('.fts2 #floodDischarge').text('n/a');
+                            //$('.fts2 #floodDischarge').text('n/a');
+                        }
+                        if (siteData2 && siteData2.data[dischargeIndex].time_series_data[siteData2.data[dischargeIndex].time_series_data.length-1][1] != null) {
+                            $('.fts2 #floodDischarge').text(siteData2.data[dischargeIndex].time_series_data[siteData2.data[dischargeIndex].time_series_data.length-1][1]);
+                        } else if (siteData2) {
+                            $('.fts2 #floodDischarge').text('n/a (' + siteData2.data[dischargeIndex].time_series_data[siteData2.data[dischargeIndex].time_series_data.length-1][2] + ')');
                         }
                         if (finalNWISDataArray3.length > 0) { 
                             $('.fts3 #floodGage').text(finalNWISDataArray3[finalNWISDataArray3.length-1][1] + ' ft');
-                            if (siteData3.data[dischargeIndex].time_series_data[siteData3.data[dischargeIndex].time_series_data.length-1][1] != null) {
-                                $('.fts3 #floodDischarge').text(siteData3.data[dischargeIndex].time_series_data[siteData3.data[dischargeIndex].time_series_data.length-1][1] + ' fps');
-                            } else {
-                                $('.fts3 #floodDischarge').text('n/a (' + siteData3.data[dischargeIndex].time_series_data[siteData3.data[dischargeIndex].time_series_data.length-1][2] + ')');
-                            }
                         } else {
                             $('.fts3 #floodGage').text('n/a');
-                            $('.fts3 #floodDischarge').text('n/a');
+                            //$('.fts3 #floodDischarge').text('n/a');
+                        }
+                        if (siteData3 && siteData3.data[dischargeIndex].time_series_data[siteData3.data[dischargeIndex].time_series_data.length-1][1] != null) {
+                            $('.fts3 #floodDischarge').text(siteData3.data[dischargeIndex].time_series_data[siteData3.data[dischargeIndex].time_series_data.length-1][1] + ' fps');
+                        } else if (siteData3) {
+                            $('.fts3 #floodDischarge').text('n/a (' + siteData3.data[dischargeIndex].time_series_data[siteData3.data[dischargeIndex].time_series_data.length-1][2] + ')');
                         }
 
                         if (nwsData2[0].children && nwsData2[0].children[0].children[0].textContent != "no nws data") { 
@@ -2232,87 +2234,112 @@ require([
                         $('#hydroChart').hide();
                         $('#hydroChart2').hide();
                         $('#hydroChart3').hide();
+                        $('.no-hydro').show();
                         
-                        $("#hydroChart").show();
-                        var hydroChart = new Highcharts.Chart('hydroChart', {
-                            chart: {
-                                type: 'line',
-                                height: highChartHeight,
-                                width: highChartWidth
-                            },
-                            title: {
-                                text: "Site " + siteNo
-                            },
-                            series: [{
-                                data: finalNWISDataArray,
-                                name: "NWIS Observed",
-                                color: "black",
-                                marker: {
-                                    enabled: false,
-                                }
-                            },{
-                                data: finalNWSDataArray,
-                                name: "NWS Predicted",
-                                color: 'black',
-                                marker: {
-                                    enabled: true,
-                                    symbol: 'circle',
-                                    fillColor: 'white',
-                                    lineColor: 'black',
-                                    lineWidth: 1.25
-                                }
-                            }],
-
-                            xAxis: {
-                                type: "datetime",
-                                tickInterval: 24*3600*1000
-                            },
-                            yAxis: {
-                                min: 0,
-                                max: floodStageBands[3].to,
-                                endOnTick: false,
-                                resize: {
-                                    enabled: true
-                                },
-                                labels: {
-                                    format: "{value} ft"
+                        if (finalNWISDataArray.length > 0 || finalNWSDataArray.length > 0) {
+                            $("#hydroChart").show();
+                            var hydroChart = new Highcharts.Chart('hydroChart', {
+                                chart: {
+                                    type: 'line',
+                                    height: highChartHeight,
+                                    width: highChartWidth,
+                                    events:{
+                                        load: function() {
+                                            this.credits.element.onclick = function() {
+                                                window.open(
+                                                'http://www.highcharts.com',
+                                                '_blank'
+                                                );
+                                            }
+                                        }
+                                    }
                                 },
                                 title: {
-                                    text: "Gage height"
+                                    text: "Site " + siteNo
                                 },
-                                plotBands: floodStageBands
-                            },
-                            tooltip: {
-                                formatter: function() {
-                                    var date = new Date(this.x);
-                                    var dayOfWeek = getDay(date);
-                                    var month = getMonth(date);
-                                    var dayOfMonth = date.getDate()
-                                    var hours = date.getHours().toString();
-                                    var minutes = date.getMinutes().toString();
-                                    if (hours.length == 1) {
-                                        hours = "0"+hours;
+                                series: [{
+                                    data: finalNWISDataArray,
+                                    name: "NWIS Observed",
+                                    color: "black",
+                                    marker: {
+                                        enabled: false,
                                     }
-                                    if (minutes.length == 1) {
-                                        minutes = "0"+minutes;
+                                },{
+                                    data: finalNWSDataArray,
+                                    name: "NWS Predicted",
+                                    color: 'black',
+                                    marker: {
+                                        enabled: true,
+                                        symbol: 'circle',
+                                        fillColor: 'white',
+                                        lineColor: 'black',
+                                        lineWidth: 1.25
                                     }
-                                    return dayOfWeek + ', ' + month + ' ' + dayOfMonth + ', ' + hours + ':' + minutes + '' +
-                                        this.series.name + ': <b>' + this.y + ' ft</b>';
+                                }],
+
+                                xAxis: {
+                                    type: "datetime",
+                                    tickInterval: 24*3600*1000
+                                },
+                                yAxis: {
+                                    min: 0,
+                                    max: floodStageBands[3].to,
+                                    endOnTick: false,
+                                    resize: {
+                                        enabled: true
+                                    },
+                                    labels: {
+                                        format: "{value} ft"
+                                    },
+                                    title: {
+                                        text: "Gage height"
+                                    },
+                                    plotBands: floodStageBands
+                                },
+                                tooltip: {
+                                    formatter: function() {
+                                        var date = new Date(this.x);
+                                        var dayOfWeek = getDay(date);
+                                        var month = getMonth(date);
+                                        var dayOfMonth = date.getDate()
+                                        var hours = date.getHours().toString();
+                                        var minutes = date.getMinutes().toString();
+                                        if (hours.length == 1) {
+                                            hours = "0"+hours;
+                                        }
+                                        if (minutes.length == 1) {
+                                            minutes = "0"+minutes;
+                                        }
+                                        return dayOfWeek + ', ' + month + ' ' + dayOfMonth + ', ' + hours + ':' + minutes + '' +
+                                            this.series.name + ': <b>' + this.y + ' ft</b>';
+                                    }
                                 }
-                            }
-                        }, function(hydroChart){
-                            console.log("Chart Loaded");
-                            var chartYMax = parseInt(floodStageBands[3].to);
-                            hydroChart.yAxis[0].setExtremes(null, chartYMax);
-                        });
+                            }, function(hydroChart){
+                                console.log("Chart Loaded");
+                                var chartYMax = parseInt(floodStageBands[3].to);
+                                hydroChart.yAxis[0].setExtremes(null, chartYMax);
+                            });
+                            $('.no-hydro').hide();
+                        }
 
                         if (siteData2 != undefined || finalNWSDataArray2.length > 0) {
+
                             $("#hydroChart2").show();
                             var hydroChart2 = new Highcharts.Chart('hydroChart2', {
                                 chart: {
                                     type: 'line',
                                     height: highChartHeight,
-                                    width: highChartWidth
+                                    width: highChartWidth,
+                                    events:{
+                                        load: function() {
+                                            this.credits.element.onclick = function() {
+                                                window.open(
+                                                  'http://www.highcharts.com',
+                                                  '_blank'
+                                                );
+                                             }
+                                        }
+                                    }
                                 },
                                 title: {
                                     text: "Site " + siteNo_2
@@ -2378,6 +2405,7 @@ require([
                                 var chartYMax = parseInt(floodStageBands2[3].to);
                                 hydroChart2.yAxis[0].setExtremes(null, chartYMax);
                             });
+                            $('.no-hydro').hide();
                         }
 
                         if (siteData3 != undefined || finalNWSDataArray3.length > 0) {
@@ -2386,7 +2414,17 @@ require([
                                 chart: {
                                     type: 'line',
                                     height: highChartHeight,
-                                    width: highChartWidth
+                                    width: highChartWidth,
+                                    events:{
+                                        load: function() {
+                                            this.credits.element.onclick = function() {
+                                                window.open(
+                                                  'http://www.highcharts.com',
+                                                  '_blank'
+                                                );
+                                             }
+                                        }
+                                    }
                                 },
                                 title: {
                                     text: "Site " + siteNo_3
@@ -2452,6 +2490,7 @@ require([
                                 var chartYMax = parseInt(floodStageBands3[3].to);
                                 hydroChart3.yAxis[0].setExtremes(null, chartYMax);
                             });
+                            $('.no-hydro').hide();
                         }
                         
                         $("#floodToolsDiv .panel-heading").removeClass('loading-hide');
@@ -3784,18 +3823,17 @@ require([
                 "titleText": "FIM",
                 "authorText" : "Flood Inundation Mapping",
                 "copyrightText": "This page was produced by the FIM and the WIM",
-                "customTextElements": [
+                /*"customTextElements": [
                     { "mapTitle": "Flood-Inundation Map for the Wabash River at Terre Haute, Indiana at the U.S. Geological Survey Streamgage Number " + siteAttr.SITE_NO },
-                    { "mapSeries": siteAttr.REPORT },
-                    { "Map_Info" : "community, state | " + siteNo }
-                ]
-                ///"legendLayers": [sitesLegendLayer]
+                    { "mapSeries": siteAttr.REPORT }
+                ]*/
+                "legendLayers": null//[sitesLegendLayer]
             };
         } else {
             template.layoutOptions = {
                 "titleText": userTitle,
                 "authorText" : "Flood Inundation Mapping",
-                "copyrightText": "This page was produced by the FIM and the WIM",
+                "copyrightText": "This page was produced by the FIM and the WIM"
                 /*"Map_Info" : siteCommunity + ", " + siteStatePrint + "|" + siteNo + "|" + currentStage + "|" + currentReport + "|"
                     + authors + ", " + rep_date + ", " + title + ": " + rep_series + " " + series_num + ", " + add_info + "|" + currentElev + "|" 
                     + study_date + "|" + siteDefExp + "|" + siteToGage*/
@@ -3810,11 +3848,15 @@ require([
             };
         }
 
+        var extraParams = new Object();
+        extraParams.Map_Info = 'a|b|c|d|e|f|g|h|i';
+        printParams.extraParameters = extraParams;
+
         //"legendLayers": [legendLayer]
         var docTitle = template.layoutOptions.titleText;
         printParams.template = template;
         //var printMap = new PrintTask("https://gis.wim.usgs.gov/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task");
-        var printMap = new PrintTask("http://fim.wim.usgs.gov/arcgis/rest/services/FIMMapper/printTool/GPServer/printTool");
+        var printMap = new PrintTask("https://fim.wim.usgs.gov/arcgis/rest/services/FIMMapper/printTool/GPServer/printTool");
         printMap.execute(printParams, printDone, printError);
 
         sitesLayer.setVisibility(true);
@@ -3867,6 +3909,7 @@ require([
         $("#sidebar").scroll(function () {
             $("#sidebar").getNiceScroll().resize();
         });
+
 
         $("#legendDiv").niceScroll();
 
@@ -4223,14 +4266,74 @@ require([
                     //if (!exGroupRoot.length)$("#slider"+camelize(layerName))
                     $('#' + groupDivID).append(exGroupRoot);
                     $('#' + groupDivID).append(exGroupDiv);
-                } else {
-                    $('#' + groupDivID).append(button);
-                    //begin opacity slider logic
-                    if ($("#opacity"+camelize(layerName)).length > 0) {
-                        $("#opacity"+camelize(layerName)).hover(function () {
+                    if (wimOptions.moreinfo !== undefined && wimOptions.moreinfo) {
+                        var id = "#info" + camelize(exclusiveGroupName);
+                        var moreinfo = $(id);
+                        moreinfo.click(function(e) {
+                            window.open(wimOptions.moreinfo, "_blank");
+                            e.preventDefault();
+                            e.stopPropagation();
+                        });
+                    }
+                    if ($("#opacity"+camelize(exclusiveGroupName)).length > 0) {
+                        var id = "#opacity" + camelize(exclusiveGroupName);
+                        var opacity = $(id);
+                        opacity.click(function (e) {
+                            e.preventDefault();
+                            e.stopPropagation();
                             $(".opacitySlider").remove();
                             var currOpacity = map.getLayer(options.id).opacity;
-                            var slider = $('<div class="opacitySlider"><label id="opacityValue">Opacity: ' + currOpacity + '</label><label class="opacityClose pull-right">X</label><input id="slider" type="range"></div>');
+                            var slider = $('<div class="opacitySlider"><label id="opacityValue">Opacity: ' + currOpacity + '</label><label class="opacityClose"><i class="far fa-times"></i></label><input id="slider" type="range"></div>');
+                            $("body").append(slider);
+                            $("#slider")[0].value = currOpacity * 100;
+                            $(".opacitySlider").css('left', event.clientX - 180);
+                            $(".opacitySlider").css('top', event.clientY - 50);
+
+                            $(".opacitySlider").mouseleave(function () {
+                                $(".opacitySlider").remove();
+                            });
+
+                            $(".opacityClose").click(function () {
+                                $(".opacitySlider").remove();
+                            });
+                            $('#slider').change(function (event) {
+                                //get the value of the slider with this call
+                                var o = ($('#slider')[0].value) / 100;
+                                console.log("o: " + o);
+                                $("#opacityValue").html("Opacity: " + o)
+                                map.getLayer(options.id).setOpacity(o);
+
+                                if (wimOptions.otherLayersToggled) {
+                                    $.each(wimOptions.otherLayersToggled, function (key, value) {
+                                        var lyr = map.getLayer(value);
+                                        lyr.setOpacity(o);
+                                    });
+                                }
+                                //here I am just specifying the element to change with a "made up" attribute (but don't worry, this is in the HTML specs and supported by all browsers).
+                                //var e = '#' + $(this).attr('data-wjs-element');
+                                //$(e).css('opacity', o)
+                            });
+
+                        });
+                    }
+                } else {
+                    $('#' + groupDivID).append(button);
+                    if (wimOptions.moreinfo !== undefined && wimOptions.moreinfo) {
+                        var id = "#info" + camelize(layerName);
+                        var moreinfo = $(id);
+                        moreinfo.click(function(e) {
+                            window.open(wimOptions.moreinfo, "_blank");
+                            e.preventDefault();
+                            e.stopPropagation();
+                        });
+                    }
+                    if ($("#opacity"+camelize(layerName)).length > 0) {
+                        $("#opacity"+camelize(layerName)).click(function (e) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            $(".opacitySlider").remove();
+                            var currOpacity = map.getLayer(options.id).opacity;
+                            var slider = $('<div class="opacitySlider"><label id="opacityValue">Opacity: ' + currOpacity + '</label><label class="opacityClose"><i class="far fa-times"></i></label><input id="slider" type="range"></div>');
                             $("body").append(slider);[0]
 
                             $("#slider")[0].value = currOpacity*100;
@@ -4250,6 +4353,13 @@ require([
                                 console.log("o: " + o);
                                 $("#opacityValue").html("Opacity: " + o)
                                 map.getLayer(options.id).setOpacity(o);
+
+                                if (wimOptions.otherLayersToggled) {
+                                    $.each(wimOptions.otherLayersToggled, function (key, value) {
+                                        var lyr = map.getLayer(value);
+                                        lyr.setOpacity(o);
+                                    });
+                                }
                                 //here I am just specifying the element to change with a "made up" attribute (but don't worry, this is in the HTML specs and supported by all browsers).
                                 //var e = '#' + $(this).attr('data-wjs-element');
                                 //$(e).css('opacity', o)
@@ -4307,6 +4417,47 @@ require([
             else {
                 //otherwise append
                 $('#toggle').append(button);
+                if (wimOptions.hasOpacitySlider !== undefined && wimOptions.hasOpacitySlider == true) {
+                    if($("#opacity"+camelize(layerName)).length > 0) {
+                        $("#opacity"+camelize(layerName)).click(function (e) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            $(".opacitySlider").remove();
+                            var currOpacity = map.getLayer(options.id).opacity;
+                            var slider = $('<div class="opacitySlider"><label id="opacityValue">Opacity: ' + currOpacity + '</label><label class="opacityClose"><i class="far fa-times"></i></label><input id="slider" type="range"></div>');
+                            $("body").append(slider);[0]
+
+                            $("#slider")[0].value = currOpacity*100;
+                            $(".opacitySlider").css('left', event.clientX-180);
+                            $(".opacitySlider").css('top', event.clientY-50);
+
+                            $(".opacitySlider").mouseleave(function() {
+                                $(".opacitySlider").remove();
+                            });
+
+                            $(".opacityClose").click(function() {
+                                $(".opacitySlider").remove();
+                            });
+                            $('#slider').change(function(event) {
+                                //get the value of the slider with this call
+                                var o = ($('#slider')[0].value)/100;
+                                console.log("o: " + o);
+                                $("#opacityValue").html("Opacity: " + o)
+                                map.getLayer(options.id).setOpacity(o);
+
+                                if (wimOptions.otherLayersToggled) {
+                                    $.each(wimOptions.otherLayersToggled, function (key, value) {
+                                        var lyr = map.getLayer(value);
+                                        lyr.setOpacity(o);
+                                    });
+                                }
+                                //here I am just specifying the element to change with a "made up" attribute (but don't worry, this is in the HTML specs and supported by all browsers).
+                                //var e = '#' + $(this).attr('data-wjs-element');
+                                //$(e).css('opacity', o)
+                            });
+                        });
+                    }
+                }
             }
         }
 

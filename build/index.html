@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="styles/base.css">
     <link rel="stylesheet" href="styles/main.css">
 
-    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="shortcut icon" type="image/png" href="images/favicon.png" />
 
     <script src="scripts/vendor.js"></script>
 
@@ -324,7 +324,7 @@ $(".close-alert").click(function(){
                         proceeds downstream, and (3) predict the flow and stage (water-surface elevation) for the stream at a given
                         location (AHPS forecast point) throughout the forecast period (every 6 hours and 3 to 5 days out in many locations).
                         For more information on AHPS forecasts, please see:
-                        <a href="https://water.weather.gov/ahps/pcpn_and_river_forecasting.pdf">https://water.weather.gov/ahps/pcpn_and_river_forecasting.pdf</a></p>
+                        <a target="_blank" href="https://water.weather.gov/ahps/pcpn_and_river_forecasting.pdf">https://water.weather.gov/ahps/pcpn_and_river_forecasting.pdf</a></p>
 
                         <p>Flood inundation map services can be found <a target="_blank" href="https://gis.wim.usgs.gov/arcgis/rest/services/FIMMapper">here</a>.</p>
 
@@ -514,15 +514,15 @@ $(".close-alert").click(function(){
                 </div>
                 <div id="basemapsPanel" class="panel-collapse collapse" role="tabpanel" aria-labelledby="basemapsHeader">
                     <div class="panel-body collapse in">
-                        <button id="btnStreets" class="btn btn-default basemapBtn equalize"><img class="basemapThumb" alt="" src="images/streets.jpg"><br class="basemapThumb">Streets</button>
-                        <button id="btnSatellite" class="btn btn-default basemapBtn equalize" ><img class="basemapThumb" alt="" src="images/satellite.jpg"><br class="basemapThumb">Satellite</button>
-                        <button id="btnHybrid" class="btn btn-default basemapBtn equalize"><img class="basemapThumb" alt="" src="images/imagery_labels.jpg"><br class="basemapThumb">Hybrid</button>
-                        <button id="btnTopo" class="btn btn-default basemapBtn equalize"><img class="basemapThumb" alt="" src="images/topo.jpg"><br class="basemapThumb">Topo</button>
-                        <button id="btnTerrain" class="btn btn-default basemapBtn equalize"><img class="basemapThumb" alt="" src="images/terrain.jpg"><br class="basemapThumb">Terrain</button>
-                        <button id="btnGray" class="btn btn-default basemapBtn equalize" ><img class="basemapThumb" alt="" src="images/gray.jpg"><br class="basemapThumb">Gray</button>
-                        <button id="btnOSM" class="btn btn-default basemapBtn equalize"><img class="basemapThumb" alt="" src="images/osm.jpg"><br class="basemapThumb">OSM</button>
-                        <button id="btnNatGeo" class="btn btn-default basemapBtn equalize"><img class="basemapThumb" alt="" src="images/natgeo.jpg"><br class="basemapThumb">NatGeo</button>
-                        <button id="btnNatlMap" class="btn btn-default basemapBtn equalize"><img class="basemapThumb" alt="" src="images/national_map.jpg"><br class="basemapThumb">Nat'l Map</button>
+                        <button id="btnStreets" class="basemap-btn"><img class="basemapThumb" alt="" src="images/streets.jpg"><b>Streets</b></button>
+                        <button id="btnSatellite" class="basemap-btn" ><img class="basemapThumb" alt="" src="images/satellite.jpg"><b>Satellite</b></button>
+                        <button id="btnHybrid" class="basemap-btn"><img class="basemapThumb" alt="" src="images/imagery_labels.jpg"><b>Hybrid</b></button>
+                        <button id="btnTopo" class="basemap-btn"><img class="basemapThumb" alt="" src="images/topo.jpg"><b>Topo</b></button>
+                        <button id="btnTerrain" class="basemap-btn"><img class="basemapThumb" alt="" src="images/terrain.jpg"><b>Terrain</b></button>
+                        <button id="btnGray" class="basemap-btn" ><img class="basemapThumb" alt="" src="images/gray.jpg"><b>Gray</b></button>
+                        <button id="btnOSM" class="basemap-btn"><img class="basemapThumb" alt="" src="images/osm.jpg"><b>OSM</b></button>
+                        <button id="btnNatGeo" class="basemap-btn"><img class="basemapThumb" alt="" src="images/natgeo.jpg"><b>NatGeo</b></button>
+                        <button id="btnNatlMap" class="basemap-btn"><img class="basemapThumb" alt="" src="images/national_map.jpg"><b>Nat'l Map</b></button>
                     </div>
 
                 </div>
@@ -830,7 +830,7 @@ $(".close-alert").click(function(){
                                     <i class="fa fa-building"></i>
                                 </div>
                                 <div class="ft-tab" data-toggle="ftServices" onclick="ga('send','event','Services&Data Panel','click','Services and Data');">
-                                    <span>Services and Data</span>
+                                    <span>Services & Data</span>
                                     <i class="fa fa-server"></i>
                                 </div>
                                 <div class="ft-tab ft-webcam-tab" data-toggle="ftWebcam" onclick="ga('send','event','Webcam Panel','click','More Info');">
@@ -909,6 +909,7 @@ $(".close-alert").click(function(){
                                 -->
                             <!-- Accordion Header -->
                             <div id="ftHydro" class="ftmodal-content">
+                                <div class="no-hydro">No current or predicted gage height data available for this library</div>
                                 <div class="fts1 chart-wrapper">
                                     <div id="hydroChart"></div>
                                 </div>
@@ -993,7 +994,8 @@ $(".close-alert").click(function(){
 
                                 <div class="ft-header">Data downloads and metadata</div>
                                 <a id="downloadData" class="ft-button" target="_blank" href="">Download data</a>
-                                <img id="reportCover" src=""/>
+                                <span id="noDownloadData">Data not currently available to download for this site.</span>
+                                <a id="reportCover"><img src=""/></a>
                                 
                                 <div id="ftLogos">
                                     <span id="logos"></span>
