@@ -181,7 +181,8 @@ require([
         extent: new Extent({xmin:-13876072.366774123,ymin:3500204.399233875,xmax:-7413780.247433899,ymax:6324093.972200677,spatialReference:{wkid:102100}}),
         fitExtent: true,
         logo: false,
-        lods: lods
+        lods: lods,
+        dragging: true
     });
 
     //button for returning to initial extent
