@@ -9,6 +9,7 @@
     .modal-dialog{
         padding-top: 10vh !important;
         margin: 0 auto;
+        max-width: 92vw;
 
         .modal-content{
             border: none !important;
@@ -58,6 +59,10 @@
                     padding: 0 15px 0 13px !important;
                     border-bottom: 2px solid fade(@black, 6%) !important;
                     width: 100%;
+                    display: flex;
+                    min-height: fit-content;
+                    flex-wrap: wrap;
+                    justify-content: center;
 
                     li,
                     li.active{

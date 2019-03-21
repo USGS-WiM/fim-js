@@ -3811,7 +3811,7 @@ require([
                             e.stopPropagation();
                             $(".opacitySlider").remove();
                             var currOpacity = map.getLayer(options.id).opacity;
-                            var slider = $('<div class="opacitySlider"><label id="opacityValue">Opacity: ' + currOpacity + '</label><label class="opacityClose pull-right">X</label><input id="slider" type="range"></div>');
+                            var slider = $('<div class="opacitySlider"><label id="opacityValue">Opacity: ' + currOpacity + '</label><label class="opacityClose"><i class="far fa-times"></i></label><input id="slider" type="range"></div>');
                             $("body").append(slider);
                             $("#slider")[0].value = currOpacity * 100;
                             $(".opacitySlider").css('left', event.clientX - 180);
@@ -3861,7 +3861,7 @@ require([
                             e.stopPropagation();
                             $(".opacitySlider").remove();
                             var currOpacity = map.getLayer(options.id).opacity;
-                            var slider = $('<div class="opacitySlider"><label id="opacityValue">Opacity: ' + currOpacity + '</label><label class="opacityClose pull-right">X</label><input id="slider" type="range"></div>');
+                            var slider = $('<div class="opacitySlider"><label id="opacityValue">Opacity: ' + currOpacity + '</label><label class="opacityClose"><i class="far fa-times"></i></label><input id="slider" type="range"></div>');
                             $("body").append(slider);[0]
 
                             $("#slider")[0].value = currOpacity*100;
@@ -3952,7 +3952,7 @@ require([
                             e.stopPropagation();
                             $(".opacitySlider").remove();
                             var currOpacity = map.getLayer(options.id).opacity;
-                            var slider = $('<div class="opacitySlider"><label id="opacityValue">Opacity: ' + currOpacity + '</label><label class="opacityClose pull-right">X</label><input id="slider" type="range"></div>');
+                            var slider = $('<div class="opacitySlider"><label id="opacityValue">Opacity: ' + currOpacity + '</label><label class="opacityClose"><i class="far fa-times"></i></label><input id="slider" type="range"></div>');
                             $("body").append(slider);[0]
 
                             $("#slider")[0].value = currOpacity*100;
