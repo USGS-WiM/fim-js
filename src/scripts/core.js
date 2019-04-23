@@ -1150,8 +1150,7 @@ require([
 
                         if (data.features && data.features.length > 0) {
                             $("#moreInfo").text(data.features[0].attributes.ADD_INFO);
-                            $(".ft-more-info-tab").show();
-                            $(".nav-tabs a[href='#moreInfoTabPane']").tab('show');
+                            $(".ft-more-info-tab").click();
                         } else {
                             $("#moreInfo").text("Loading...");
                             $(".ft-more-info-tab").hide();
