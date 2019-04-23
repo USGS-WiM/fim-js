@@ -3293,6 +3293,95 @@ require([
 
     function printMap() {
 
+        var page1InfoUrl = 'https://gis.wim.usgs.gov/arcgis/rest/services/FIMMapper/FIMpage1design/MapServer/1/query?where=USGSID+LIKE+%27%25' + siteNo + '%25%27&outFields=*&returnGeometry=true&f=json';
+        
+        $.ajax({
+            dataType: 'json',
+            type: 'GET',
+            url: page1InfoUrl,
+            headers: {'Accept': '*/*'},
+            success: function (data) {
+                console.log(data);
+
+                var printAttr = data.features[0].attributes;
+
+                var printParams = new PrintParameters();
+                printParams.map = map;
+
+                var template = new PrintTemplate();
+                template.format = "PDF";
+                template.layout = "FIMpage1design";
+
+                template.preserveScale = false;
+
+                if (userTitle == "") {
+                    template.layoutOptions = {
+                        "titleText": "FIM",
+                        "authorText" : "Flood Inundation Mapping",
+                        "copyrightText": "This page was produced by the FIM and the WIM",
+                        "customTextElements": [
+                            { "mapTitle": printAttr.TITLE + " at the U.S. Geological Survey Streamgage Number " + siteAttr.SITE_NO },
+                            { "mapSeries": printAttr.REP_SER_NUM },
+                            { "studyArea": printAttr.STUDY_AREA },
+                            { "purpose": printAttr.PURPOSE_SCOPE },
+                            { "mapSources": "Detailed source data for this map series can be found in \"" + printAttr.TITLE + "(" + printAttr.PUB_DATE + ")\" at: " + printAttr.URL },
+                            { "suggestedCitation": "" },
+                            { "hydroData": printAttr.HYDRO_STEADY },
+                            { "hydraulicModel": printAttr.MODEL_CALIB },
+                            { "surfaceProfile": printAttr.WATER_PROFILE },
+                            { "floodMaps": printAttr.PROD_ACC }
+                        ],
+                        "legendLayers": null//[sitesLegendLayer]
+                    };
+                } else {
+                    template.layoutOptions = {
+                        "titleText": userTitle,
+                        "authorText" : "Flood Inundation Mapping",
+                        "copyrightText": "This page was produced by the FIM and the WIM",
+                        "customTextElements": [
+                            { "mapTitle": printAttr.TITLE + " at the U.S. Geological Survey Streamgage Number " + siteAttr.SITE_NO },
+                            { "mapSeries": printAttr.REP_SER_NUM },
+                            { "studyArea": printAttr.STUDY_AREA },
+                            { "purpose": printAttr.PURPOSE_SCOPE },
+                            { "mapSources": "Detailed source data for this map series can be found in \"" + printAttr.TITLE + "(" + printAttr.PUB_DATE + ")\" at: " + printAttr.URL },
+                            { "suggestedCitation": "" },
+                            { "hydroData": printAttr.HYDRO_STEADY },
+                            { "hydraulicModel": printAttr.MODEL_CALIB },
+                            { "surfaceProfile": printAttr.WATER_PROFILE },
+                            { "floodMaps": printAttr.PROD_ACC }
+                        ],
+                        "legendLayers": [sitesLegendLayer]
+                    };
+                }
+
+                var docTitle = template.layoutOptions.titleText;
+                printParams.template = template;
+                var printMap = new PrintTask("https://fim.wim.usgs.gov/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task");
+                //var printMap = new PrintTask("https://fim.wim.usgs.gov/arcgis/rest/services/FIMMapper/printTool/GPServer/printTool");
+                printMap.execute(printParams, printDone, printError);
+
+                sitesLayer.setVisibility(true);
+
+                function printDone(event) {
+                    //alert(event.url);
+                    //window.open(event.url, "_blank");
+                    printCount++;
+                    //var printJob = $('<a href="'+ event.url +'" target="_blank">Printout ' + printCount + ' </a>');
+                    var printJob = $('<p><label>' + printCount + ': </label><a href="'+ event.url +'" target="_blank">' + docTitle +' page 1</a></p>');
+                    //$("#print-form").append(printJob);
+                    $("#printJobsDiv").find("p.toRemove").remove();
+                    $("#printModalBody").append(printJob);
+                    $("#printTitle").val("");
+                    $("#printExecuteButton").button('reset');
+                }
+
+                function printError(event) {
+                    $("#printExecuteButton").button('reset');
+                    alert("Sorry, an unclear print error occurred. Please try refreshing the application to fix the problem");
+                }
+            }
+        });
+
         var sitesLayer = map.getLayer("fimSites");
 
         sitesLayer.setVisibility(false);
@@ -3349,30 +3438,30 @@ require([
         //if user does not provide title, use default. otherwise apply user title
         if (userTitle == "") {
             template.layoutOptions = {
-                "titleText": "FIM",
+                "titleText": "FIM page 2",
                 "authorText" : "Flood Inundation Mapping",
                 "copyrightText": "This page was produced by the FIM and the WIM",
-                /*"customTextElements": [
+                "customTextElements": [
                     { "mapTitle": "Flood-Inundation Map for the Wabash River at Terre Haute, Indiana at the U.S. Geological Survey Streamgage Number " + siteAttr.SITE_NO },
                     { "mapSeries": siteAttr.REPORT }
-                ]*/
+                ],
                 "legendLayers": null//[sitesLegendLayer]
             };
         } else {
             template.layoutOptions = {
                 "titleText": userTitle,
                 "authorText" : "Flood Inundation Mapping",
-                "copyrightText": "This page was produced by the FIM and the WIM"
+                "copyrightText": "This page was produced by the FIM and the WIM",
                 /*"Map_Info" : siteCommunity + ", " + siteStatePrint + "|" + siteNo + "|" + currentStage + "|" + currentReport + "|"
                     + authors + ", " + rep_date + ", " + title + ": " + rep_series + " " + series_num + ", " + add_info + "|" + currentElev + "|" 
                     + study_date + "|" + siteDefExp + "|" + siteToGage*/
-                /*"customTextElements": [
+                "customTextElements": [
                     { "mapTitle": "Flood-Inundation Map for the " + siteAttr.COMMUNITY + " at the U.S. Geological Survey Streamgage Number " + siteAttr.SITE_NO },
-                    { "mapSeries": siteAttr.REPORT } ,
+                    { "mapSeries": siteAttr.REPORT }/* ,
                     { "Map_Info" : siteCommunity + ", " + siteStatePrint + "|" + siteNo + "|" + currentStage + "|" + currentReport + "|"
                     + authors + ", " + rep_date + ", " + title + ": " + rep_series + " " + series_num + ", " + add_info + "|" + currentElev + "|" 
-                    + study_date + "|" + siteDefExp + "|" + siteToGage}         
-                ]*/ 
+                    + study_date + "|" + siteDefExp + "|" + siteToGage}     */    
+                ]
                 //"legendLayers": [sitesLegendLayer]
             };
         }
@@ -3384,8 +3473,8 @@ require([
         //"legendLayers": [legendLayer]
         var docTitle = template.layoutOptions.titleText;
         printParams.template = template;
-        //var printMap = new PrintTask("https://gis.wim.usgs.gov/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task");
-        var printMap = new PrintTask("https://fim.wim.usgs.gov/arcgis/rest/services/FIMMapper/printTool/GPServer/printTool");
+        var printMap = new PrintTask("https://fim.wim.usgs.gov/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task");
+        //var printMap = new PrintTask("https://fim.wim.usgs.gov/arcgis/rest/services/FIMMapper/printTool/GPServer/printTool");
         printMap.execute(printParams, printDone, printError);
 
         sitesLayer.setVisibility(true);
