@@ -10,13 +10,18 @@ html, body {
 
 body {
     margin: 0;
-    padding: 0;
-    padding-top: 50px;
+    padding: 0 0 0 0;
     background-image: url("../images/wimlogoCompact.png");
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-position: center;
     background-color:#474747;
+
+    padding-top: 95px;
+
+    @media (max-width: 767px) {
+        padding-top: 75px;
+    }
 }
 
 *{
@@ -68,18 +73,15 @@ body {
     flex-direction: column;
     justify-content: center;
     transition: 0.12s;
-    height: 50px;
+    height: 35px;
     float: left;
-    font-size: 22px;
+    font-size: 18px;
     font-weight: 400;
-    margin-right: 15px;
+    margin-right: 25px;
 
     @media (max-width: 767px) {
         margin-right: 0;
         margin-left: 15px;
-    }
-    @media (max-width: 540px) {
-        margin-right: 15px;
     }
 
     &:hover,
@@ -152,10 +154,12 @@ body {
 // Sidebar
 // Sidebar
 #sidebar {
-    top: 50px;
+    top: 95px;
     padding-bottom: 50px;
+
     @media (max-width: 767px) {
         max-width: 280px;
+        top: 75px;
     }
 }
 
@@ -259,3 +263,8 @@ body {
         }
     }
 }
+
+// App Wrapper
+// App Wrapper
+// App Wrapper
+// App Wrapper

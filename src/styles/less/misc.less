@@ -53,14 +53,14 @@
 #homeButton {
     position: absolute;
     top: 75px;
-    left: 5px;
+    left: 20px;
     z-index: 50;
 }
 
 #locateButton {
     position: absolute;
     top: 115px;
-    left: 5px;
+    left: 20px;
     z-index: 50;
 }
 
@@ -239,6 +239,7 @@ a.lgi-zoom:hover {
 
 .map {
     overflow: auto;
+    overflow-x: hidden;
 }
 
 #mapDiv {
@@ -280,9 +281,11 @@ a.lgi-zoom:hover {
     font-weight: 400;
     letter-spacing: -1px !important;
     padding-left: 0 !important;
+    height: 35px !important;
 
     span{
         padding-left: 0 !important;
+        line-height: 35px !important;
     }
 }
 .navbar-brand b{
@@ -295,12 +298,12 @@ a.lgi-zoom:hover {
   width: auto;
   margin-left: 15px;
 }
-@media (max-width: 540px) {
+@media (max-width: 767px) {
     .navbar-brand span{
       margin-top: 10px;
       display: inline-block;
-      line-height: 11px !important;
-      padding-left:0 !important;
+      line-height: 15px !important;
+      padding-left: 15px !important;
     }
     .navbar-brand {
       font-size: 11px;
@@ -308,7 +311,6 @@ a.lgi-zoom:hover {
       letter-spacing: -0.25px;
     }
     .navbar-brand b{
-      display: block;
     }
     .navbar-brand img{
       margin-right: 5px;
@@ -390,8 +392,31 @@ a.lgi-zoom:hover {
     top:0;
     position:fixed;
     width:inherit;
+    top: 60px;
+    padding-right: 15px !important;
+
+    @media (max-width: 767px) {
+        top: 40px;
+    }
+
+    .navbar-btn{
+
+      span{
+        @media (max-width: 457px) {
+          display: none;
+        }
+      }
+    }
 }
 
+
+.esriScalebar{
+  bottom: 115px !important;
+  left: 15px !important;
+  @media (max-width: 767px) {
+    bottom: 15px !important;
+  }
+}
 .no-col-padding {
     padding: 0;
 }
@@ -490,12 +515,16 @@ input[type="checkbox"], input[type="radio"] {
 }
 
 
+.container-fluid{
+  padding: 0 !important;
+}
+
 
 /*Map control styles*/
 #legendElement{
   position: fixed;
   right: 15px;
-  top: 65px;
+  top: 110px;
   border-radius: 4px;
 }
 #legendElement .panel-title a{
@@ -505,6 +534,10 @@ input[type="checkbox"], input[type="radio"] {
     #legendElement{
         max-width: 240px;
     }
+}
+
+.navbar-btn{
+  height: 35px !important;
 }
 
 #mapDiv_zoom_slider{
@@ -564,6 +597,7 @@ input[type="checkbox"], input[type="radio"] {
 #mapDiv_zoom_slider{
     border-radius:3px;
     background-color: white !important;
+    left: 30px !important;
 }
 #legendElement #legendHeading{
     border-radius: 4px;
@@ -1225,7 +1259,11 @@ a{
 
 /* Float Search API above modal */
 .modal{
-    z-index: 11100 !important;
+    z-index: 9999 !important;
+}
+
+.modal-backdrop{
+  z-index: 9998;
 }
 .search-api-menu{
     z-index: 11500 !important;
@@ -1234,6 +1272,16 @@ a{
     max-height: 60vh !important;
     overflow:auto;
     
+}
+
+#geosearchNav{
+  background-color: @blue;
+  border: none;
+  font-size: 12px;
+
+  i{
+    margin-right: 5px;
+  }
 }
 
 .search-api-menu *::-webkit-scrollbar{width:0!important;}
@@ -1565,6 +1613,11 @@ input[type=range].styled {
         }
     }
 
+
+}
+
+.navbar-brand{
+  margin-left: 0 !important;
 }
 //   Flood tools error toast
 //   Flood tools error toast

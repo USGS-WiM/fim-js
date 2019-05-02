@@ -73,6 +73,20 @@
 </head>
 <body>
 
+<!-- 
+USGS Bar
+-->
+<div class="usgs-bar">
+    <a href="https://usgs.gov" target="_blank">
+        <img src="images/USGS_ID_white.png" alt="United States Geological Survey (USGS) Logo" title="USGS Home Page" />
+    </a>
+    <button id="geosearchNav" type="button" class="btn btn-primary navbar-btn pull-right"
+        onclick="ga('send','event','navbar','click','Find Location Modal Opened');">
+        <i class="fa fa-search"></i>
+        <span id="geosearchButtonText">Find Location</span>
+    </button>
+</div>
+
 <div id="navbar" class="navbar navbar-static navbar-default navbar-fixed-top navbar-dark">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -80,17 +94,9 @@
                 <i class="fas fa-bars"></i>
             </div>
             <div class="navbar-brand">
-                <a href="https://www.usgs.gov" target="_blank">
-                    <img alt="USGS logo" src="images/USGS_ID_white.png">
-                </a>
                 <span>Flood <b>Inundation</b> Mapper</span>
             </div>
         </div>
-
-        <button id="geosearchNav" type="button" class="btn btn-primary navbar-btn pull-right" onclick="ga('send','event','navbar','click','Find Location Modal Opened');">
-            <i class="fa fa-search"></i>
-            <span id="geosearchButtonText">Find Location</span>
-        </button>
 
         <!-- <button id="printNavButton" type="button" class="btn btn-primary navbar-btn pull-right">
             <i class="fa fa-print"></i>
@@ -98,10 +104,10 @@
         </button> -->
 
         <button id="aboutNav" class="btn btn-default navbar-btn pull-right" onclick="ga('send','event','navbar','click','About Modal');">
-            <i class="fa fa-question-circle"></i><span class="hidden-xs">About</span>
+            <i class="fa fa-question-circle"></i><span>About</span>
         </button>
         <button id="userGuideNav" class="btn btn-default navbar-btn pull-right" onclick="ga('send','event','navbar','click','User Guide');">
-            <i class="fa fa-book"></i><span class="hidden-xs">User Guide</span>
+            <i class="fa fa-book"></i><span>User Guide</span>
         </button>
 
         <!-- legend buttton for navbar. to be removed if we like the in-map legend toggle -->
@@ -1106,6 +1112,35 @@ $(".close-alert").click(function(){
         There was an error retrieving the data at this time. Please try again later.
     </p>
 </div> -->
+
+
+<!-- 
+    USGS Footer
+ -->
+<footer class="usgs-footer">
+    <div class="tmp-container">
+        <div class="footer-doi">
+            <a href="https://www.doi.gov/privacy">DOI Privacy Policy</a>|
+            <a href="https://www.usgs.gov/laws/policies_notices.html">Legal</a>|
+            <a href="https://www2.usgs.gov/laws/accessibility.html">Accessibility</a>|
+            <a href="https://www.usgs.gov/sitemap.html">Site Map</a>|
+            <a href="https://answers.usgs.gov/">Contact USGS</a>
+        </div>
+
+        <hr>
+
+        <div class="footer-doi">
+            <a href="https://www.doi.gov/">U.S. Department of the Interior</a>|
+            <a href="https://www.doioig.gov/">DOI Inspector General</a>|
+            <a href="https://www.whitehouse.gov/">White House</a>|
+            <a href="https://www.whitehouse.gov/omb/e-gov/">E-gov</a>|
+            <a href="https://www.whitehouse.gov/open">Open Government</a>|
+            <a href="https://www.doi.gov/pmb/eeo/no-fear-act">No Fear Act</a>|
+            <a href="https://www2.usgs.gov/foia">FOIA</a>
+        </div>
+    </div>
+    <!-- /.footer-wrap -->
+</footer>
 
 </body>
 </html>
