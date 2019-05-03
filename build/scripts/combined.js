@@ -3772,7 +3772,7 @@ require([
         var site_no_for_print = siteAttr["SITE_NO"];
 
         var no_page_one = true;
-        
+
         $.ajax({
             dataType: 'json',
             type: 'GET',
@@ -3836,8 +3836,11 @@ require([
                     printParams.template = template;
                     var printMap = new PrintTask("https://fim.wim.usgs.gov/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task");
                     //var printMap = new PrintTask("https://fim.wim.usgs.gov/arcgis/rest/services/FIMMapper/printTool/GPServer/printTool");
+                    map.getLayer("layer0").setVisibility(false);
+        
                     printMap.execute(printParams, printDone, printError);
 
+                    map.getLayer("layer0").setVisibility(true);
                     sitesLayer.setVisibility(true);
 
                     function printDone(event) {
@@ -3963,8 +3966,11 @@ require([
         printParams.template = template;
         var printMap = new PrintTask("https://fim.wim.usgs.gov/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task");
         //var printMap = new PrintTask("https://fim.wim.usgs.gov/arcgis/rest/services/FIMMapper/printTool/GPServer/printTool");
+        
+        map.getLayer("layer0").setVisibility(false);
         printMap.execute(printParams, printDone, printError);
 
+        map.getLayer("layer0").setVisibility(true);
         sitesLayer.setVisibility(true);
 
         function printDone(event) {
