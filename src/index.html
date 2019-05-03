@@ -98,10 +98,15 @@ USGS Bar
             </div>
         </div>
 
-        <!-- <button id="printNavButton" type="button" class="btn btn-primary navbar-btn pull-right">
+        <!-- <button id="geosearchNav" type="button" class="btn btn-primary navbar-btn pull-right" onclick="ga('send','event','navbar','click','Find Location Modal Opened');">
+            <i class="fa fa-search"></i>
+            <span id="geosearchButtonText">Find Location</span>
+        </button> -->
+
+        <button id="printNavButton" type="button" class="btn btn-primary navbar-btn pull-right">
             <i class="fa fa-print"></i>
             <span id="printButtonText"> Print</span>
-        </button> -->
+        </button>
 
         <button id="aboutNav" class="btn btn-default navbar-btn pull-right" onclick="ga('send','event','navbar','click','About Modal');">
             <i class="fa fa-question-circle"></i><span>About</span>
@@ -174,11 +179,16 @@ USGS Bar
                 <form id="print-title-form" class="form-group">
                     <label for="printTitle">Title </label>
                     <input class="form-control" id="printTitle" placeholder="Enter a title for your printout">
-                    <!--</form>
 
-                    <form id="print-form" class="form-inline">-->
-                    <button id="printExecuteButton" type="submit" class="btn btn-success btn-fixed" data-loading-text="Printing..." > Print </button>
-                    <button id="printDismissButton" type="button" class="btn btn-default btn-fixed" data-dismiss="modal"> Dismiss</button>
+                    <button class="btn btn-blue" id="printExecuteButton" type="submit" data-loading-text="Printing...">
+                        <i class="fa fa-print"></i> 
+                        Print
+                    </button>
+                    <button class="btn btn-secondary" type="button" id="printDismissButton" data-dismiss="modal">
+                        <i class="fa fa-times"></i> 
+                        Dismiss
+                    </button>
+
                 </form>
 
                 <div id="printJobsDiv" style="margin-top: 5px;"><label>Print Jobs </label><p class="toRemove"> No print jobs yet</p></div>

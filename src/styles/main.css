@@ -102,6 +102,9 @@ body {
   margin-top: 0px;
   margin-bottom: 0px;
 }
+#printTitle {
+  margin-bottom: 15px;
+}
 #legendCollapse {
   /*max-height: inherit;*/
 }
@@ -1249,6 +1252,40 @@ a {
 }
 .btn.close:hover {
   background-color: rgba(68, 115, 255, 0.75) !important;
+  transition: 0.2s;
+  cursor: pointer;
+}
+.btn.btn-blue {
+  background-color: #4473ff !important;
+  color: white;
+  opacity: 1 !important;
+  font-size: 12px;
+  text-shadow: none !important;
+  font-weight: 400;
+  transition: 0.2s;
+  display: inline-block;
+  float: none;
+  margin: 0 10px 0 0;
+}
+.btn.btn-blue:hover {
+  background-color: rgba(68, 115, 255, 0.75) !important;
+  transition: 0.2s;
+  cursor: pointer;
+}
+.btn.btn-secondary {
+  background-color: #dcdce6 !important;
+  color: #10152C;
+  opacity: 1 !important;
+  font-size: 12px;
+  text-shadow: none !important;
+  font-weight: 400;
+  transition: 0.2s;
+  display: inline-block;
+  float: none;
+  margin: 0 10px 0 0;
+}
+.btn.btn-secondary:hover {
+  background-color: #ffffff !important;
   transition: 0.2s;
   cursor: pointer;
 }
