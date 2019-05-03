@@ -3772,6 +3772,8 @@ require([
         var site_no_for_print = siteAttr["SITE_NO"];
 
         var no_page_one = true;
+
+        map.getLayer("layer0").setVisibility(false);
         
         $.ajax({
             dataType: 'json',
