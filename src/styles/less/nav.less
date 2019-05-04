@@ -40,15 +40,16 @@
 
 
 @media (max-width: 767px) {
-    #geosearchButtonText {
-        display: none;
-    }
     #legendButtonNavBar {
         display: none;
     }
 }
 
 #geosearchNav{
+    @media (max-width: 767px) {
+        margin: 0; 
+        height: 30px !important;
+    }
 
     &:hover{
         background-color: darken(@blue, 8%) !important;
@@ -162,10 +163,13 @@
         }
     }
 }
-
+.navbar{
+    min-height: 35px !important;
+    padding-left: 15px;
+}
 #sidebar{
     background-color: #fff;
-    z-index: 11000;
+    z-index: 8888;
 }
 #sidebar .identification {
     letter-spacing: 0px;
@@ -197,6 +201,7 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    display: none;
 
     a{
         color: fade(@black, 60%);
@@ -210,5 +215,83 @@
             text-decoration: underline;
             color: @black;
         }
+    }
+}
+
+
+////////////////////////
+//      USGS BAR      //
+////////////////////////
+.usgs-bar{
+    background-color: #02274B;
+    box-shadow: 0 5px 25px -5px rgba(30, 16, 84, .2);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1010;
+    box-sizing: border-box;
+    padding: 5px 15px;
+    display: flex;
+    justify-content: space-between;
+
+    img{
+        height: 30px;
+        width: auto;
+
+        @media (min-width: 767px) {
+            height: 50px;
+        }
+    }
+}
+
+
+////////////////////////
+//   USGS FOOTER      //
+////////////////////////
+.usgs-footer{
+    background: #10152C ;
+    box-sizing: border-box;
+    padding: 5px 0;
+    width: 100%;
+    color: fade(white, 50%);
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    z-index: 8889;
+    font-size: 9px;
+
+    @media (max-width: 767px) {
+        display: none !important;
+    }
+
+    .tmp-container {
+        margin-right: auto;
+        margin-left: auto;
+        padding-left: 15px;
+        padding-right: 15px;
+
+        .footer-doi{
+
+            a{
+                padding: 2px 5px;
+                color: fade(white, 80%);
+                transition: 0.15s;
+
+                &:hover{
+                    color: white;
+                    transition: 0.15s;
+                }
+            }
+
+        }
+        hr{
+            margin: 5px auto !important;
+            opacity: 0.2;
+        }
+    }
+
+    .footer-social-links{
+        display: none;
     }
 }
