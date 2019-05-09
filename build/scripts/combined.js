@@ -643,7 +643,9 @@ require([
         {"level" : 14, "resolution" : 9.554628535634155, "scale" : 36111.909643},
         {"level" : 15, "resolution" : 4.77731426794937, "scale" : 18055.954822},
         {"level" : 16, "resolution" : 2.388657133974685, "scale" : 9027.977411},
-        {"level" : 17, "resolution" : 1.1943285668550503, "scale" : 4513.988705}
+        {"level" : 17, "resolution" : 1.1943285668550503, "scale" : 4513.988705},
+        {"level" : 18, "resolution" : 0.5971642835598172,"scale" : 2256.994353},
+        {"level" : 19, "resolution" : 0.29858214164761665,"scale" : 1128.497176}
     ];
 
     map = Map('mapDiv', {
