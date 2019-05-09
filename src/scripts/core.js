@@ -1488,10 +1488,12 @@ require([
                             $('.fts1 #floodGage').text('n/a');
                             //$('.fts1 #floodDischarge').text('n/a');
                         }
-                        if (siteData.data[dischargeIndex].time_series_data[siteData.data[dischargeIndex].time_series_data.length-1][1] != null) {
+                        if (siteData.data[dischargeIndex].time_series_data.length > 0 && siteData.data[dischargeIndex].time_series_data[siteData.data[dischargeIndex].time_series_data.length-1][1] != null) {
                             $('.fts1 #floodDischarge').text(siteData.data[dischargeIndex].time_series_data[siteData.data[dischargeIndex].time_series_data.length-1][1]);
-                        } else {
+                        } else if (siteData.data[dischargeIndex].time_series_data.length > 0 ) {
                             $('.fts1 #floodDischarge').text('n/a (' + siteData.data[dischargeIndex].time_series_data[siteData.data[dischargeIndex].time_series_data.length-1][2] + ')');
+                        } else {
+                            $('.fts1 #floodDischarge').text('n/a');
                         }
                         if (finalNWISDataArray2.length > 0) { 
                             $('.fts2 #floodGage').text(finalNWISDataArray2[finalNWISDataArray2.length-1][1]);
