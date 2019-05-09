@@ -1305,14 +1305,18 @@ require([
                             if (siteNo.toString().length == 7) { 
                                 siteNo = '0' + siteNo;
                             } else {
-                                siteNo = sites.features[0].attributes.site_no;
+                                siteNo = sites.features[i].attributes.site_no;
+                            }
+                            var siteObj = fimSiteAHPSLookup.filter(obj => { return obj.site_no === siteNo });
+                            if (siteObj && siteObj[0] && siteObj[0].ahps_id) {
+                                ahpsID = siteObj[0].ahps_id;
                             }
                         } else if (sites.features[i].attributes.ordinal == 2) {
                             siteNo_2 = sites.features[i].attributes.site_no;
                             if (siteNo_2.toString().length == 7) { 
                                 siteNo_2 = '0' + siteNo_2;
                             } else {
-                                siteNo_2 = sites.features[0].attributes.site_no;
+                                siteNo_2 = sites.features[i].attributes.site_no;
                             }
                             var siteObj = fimSiteAHPSLookup.filter(obj => { return obj.site_no === siteNo_2 });
                             if (siteObj && siteObj[0] && siteObj[0].ahps_id) {
@@ -1323,7 +1327,7 @@ require([
                             if (siteNo_3.toString().length == 7) { 
                                 siteNo_3 = '0' + siteNo_3;
                             } else {
-                                siteNo_3 = sites.features[0].attributes.site_no;
+                                siteNo_3 = sites.features[i].attributes.site_no;
                             }
                             var siteObj = fimSiteAHPSLookup.filter(obj => { return obj.site_no === siteNo_3 });
                             if (siteObj && siteObj[0] && siteObj[0].ahps_id) {
@@ -1544,8 +1548,9 @@ require([
                 });
 
                 //var siteNo = siteAttr.SITE_NO;
-                var ahpsID = siteAttr.AHPS_ID;
-                if (siteAttr.MULTI_SITE == 1 && ahpsID_2 == undefined) {
+                if (siteAttr.MULTI_SITE == 0) {
+                    ahpsID = siteAttr.AHPS_ID;
+                } else if (siteAttr.MULTI_SITE == 1 && ahpsID_2 == undefined) {
                     ahpsID_2 = siteAttr.AHPS_ID_2
                 }
                 var state = siteAttr.STATE;
@@ -1574,7 +1579,7 @@ require([
 
                 $(".fts1 #usgsSiteNo").text(siteNo);
                 $(".fts1 #usgsSiteNo").attr("href", "https://waterdata.usgs.gov/nwis/uv?site_no="+siteNo);
-                $(".fts1 #nwsSiteID").text(feature.attributes.AHPS_ID);
+                $(".fts1 #nwsSiteID").text(ahpsID);
                 $(".fts1 #nwsSiteID").attr("href", "https://water.weather.gov/ahps2/hydrograph.php?gage="+feature.attributes.AHPS_ID);
                 
                 $(".fts2 #usgsSiteNo").text(siteNo_2);
