@@ -1434,23 +1434,50 @@ require([
                         var siteData3;
 
                         var gageIndex;
+                        var pcodeAbbr;
                         var dischargeIndex;
                         $.each(siteData.data, function (key, value) {
                             console.log(key);
                             if (siteData.data[key].parameter_cd == "00065") {
                                 gageIndex = key;
+                                pcodeAbbr = "gh";
                             } else if (siteData.data[key].parameter_cd == "00060") {
                                 dischargeIndex = key;
                             } else if (siteData.data[key].parameter_cd == "62614") {
                                 gageIndex = key;
+                                pcodeAbbr = "ngvd29";
                             } else if (siteData.data[key].parameter_cd == "62615") {
                                 gageIndex = key;
+                                pcodeAbbr = "navd88";
                             }
                         });
 
+                        var hydroChartYAxisLabel;
+
+                        // Adjust labels for value changed by slider here
+                        switch (pcodeAbbr) {
+                            case "gh":
+                                $("#sgl").text("Selected gage height");
+                                $("#currentValue").text("Gage Height");
+                                hydroChartYAxisLabel = "Gage height";
+                                break;
+                            case "ngvd29":
+                                $("#sgl").text("Selected elevation (NGVD29)");
+                                $("#currentValue").text("Elevation (NGVD29)");
+                                hydroChartYAxisLabel = "Elevation (NGVD29)";
+                                break;
+                            case "navd88":
+                                $("#sgl").text("Selected  elevation (NAVD88)");
+                                $("#currentValue").text("Elevation (NAVD88)");
+                                hydroChartYAxisLabel = "Elevation (NAVD88)";
+                                break;
+                            default:
+                                $("#sgl").text("Selected gage height");
+                                $("#currentValue").text("Gage Height");
+                                hydroChartYAxisLabel = "Gage height";
+                        }
+
                         var values = siteData.data[gageIndex].time_series_data;
-
-
 
                         // var finalNWISDataArray = finalNWISDataArrayBuild(siteData.data[0].time_series_data);
                         // var finalNWSDataArray = finalNWSDataArrayBuild(nwsData[0]);
@@ -1875,7 +1902,7 @@ require([
                                         format: "{value} ft"
                                     },
                                     title: {
-                                        text: "Gage height"
+                                        text: hydroChartYAxisLabel
                                     },
                                     plotBands: floodStageBands
                                 },
