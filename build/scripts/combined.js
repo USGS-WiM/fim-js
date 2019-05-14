@@ -495,7 +495,7 @@ var results;
 
 var fimiMoreInfoUrl = "https://fim.wim.usgs.gov/arcgis/rest/services/FIMMapper/fim_add_info/MapServer/1";
 var ahpsForecastUrl = "https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Observations/ahps_riv_gauges/MapServer/0";
-var nwisUrl = "https://waterservices.usgs.gov/nwis/iv/?format=nwjson&period=P7D&parameterCd=00060,00065&sites=";
+var nwisUrl = "https://waterservices.usgs.gov/nwis/iv/?format=nwjson&period=P7D&parameterCd=00060,00065,62614,62615&sites=";
 var proxyUrl = "https://services.wim.usgs.gov/proxies/httpProxy/Default.aspx?";
 
 var gridInfos = [];
@@ -1911,8 +1911,12 @@ require([
                             console.log(key);
                             if (siteData.data[key].parameter_cd == "00065") {
                                 gageIndex = key;
-                            } else if (siteData.data[key].parameter_cd == "00060"){
+                            } else if (siteData.data[key].parameter_cd == "00060") {
                                 dischargeIndex = key;
+                            } else if (siteData.data[key].parameter_cd == "62614") {
+                                gageIndex = key;
+                            } else if (siteData.data[key].parameter_cd == "62615") {
+                                gageIndex = key;
                             }
                         });
 
