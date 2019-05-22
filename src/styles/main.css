@@ -33,7 +33,7 @@ body {
 #aboutModal,
 #userGuideModal,
 #shareModal {
-  z-index: 100000000;
+  z-index: 10003 !important;
 }
 .dijitTooltipContainer {
   border: solid black 1px;
@@ -1598,6 +1598,67 @@ input[type=range].styled:focus::-ms-fill-upper {
   font-size: 12px;
   padding: 4px 6px;
 }
+.new-fim-message {
+  display: block;
+  box-sizing: border-box;
+  padding: 10px;
+  border-radius: 4px;
+  margin: 0 auto 20px auto;
+  background-color: rgba(29, 109, 250, 0.25);
+  color: #10152C;
+  font-size: 12px;
+  line-height: 22px;
+  letter-spacing: -0.2px;
+}
+.new-fim-message b {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+.zoom-disclaimer {
+  background-color: #f23939;
+  width: 240px;
+  font-size: 11px;
+  box-sizing: border-box;
+  letter-spacing: -0.2px;
+  padding: 10px;
+  border-top-right-radius: 4px;
+  border-top-left-radius: 4px;
+  position: absolute;
+  left: 50%;
+  margin-left: -120px;
+  bottom: 0;
+  text-align: center;
+  z-index: 500;
+  color: white;
+  display: none;
+}
+.zoom-disclaimer b {
+  display: block;
+  text-transform: capitalize;
+}
+.zoom-disclaimer span {
+  display: block;
+  text-align: left;
+  max-height: 0px;
+  transition: 0.2s;
+  overflow: hidden;
+}
+.zoom-disclaimer span a {
+  color: white;
+  text-decoration: underline;
+}
+.zoom-disclaimer span a:hover {
+  color: white;
+}
+.zoom-disclaimer:hover {
+  cursor: pointer;
+}
+.zoom-disclaimer:hover span {
+  max-height: 320px;
+  transition: 0.2s;
+  overflow: hidden;
+}
 #floodToolsDiv {
   box-shadow: 0px 6px 27px -7px rgba(0, 10, 80, 0.55);
 }
@@ -1616,9 +1677,14 @@ input[type=range].styled:focus::-ms-fill-upper {
   display: flex;
   min-width: 300px;
   height: 400px;
-  min-width: 500px !important;
+  min-width: none !important;
   box-sizing: border-box;
   padding: 0 0 15px 0;
+}
+@media (max-width: 550px) {
+  #ftModal {
+    min-width: none;
+  }
 }
 #ftModal #ftSliders {
   width: 180px;
@@ -2453,6 +2519,9 @@ input[type=range].styled:focus::-ms-fill-upper {
     min-height: fit-content;
   }
 }
+.modal {
+  background-color: rgba(16, 21, 44, 0.25);
+}
 .modal .modal-dialog {
   padding-top: 10vh !important;
   margin: 0 auto;
@@ -2501,6 +2570,7 @@ input[type=range].styled:focus::-ms-fill-upper {
   display: flex;
   -webkit-flex-direction: column;
   flex-direction: column;
+  overflow: auto;
 }
 .modal .modal-dialog .modal-content .modal-body .nav-tabs {
   box-sizing: border-box;
