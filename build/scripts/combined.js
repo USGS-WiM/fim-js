@@ -2451,7 +2451,7 @@ require([
                                 },
                                 yAxis: {
                                     min: 0,
-                                    max: (floodStageBands2) ? floodStageBand2[3].to : null,
+                                    max: (floodStageBands2) ? floodStageBands2[3].to : null,
                                     endOnTick: false,
     
                                     resize: {
@@ -2536,7 +2536,7 @@ require([
                                 },
                                 yAxis: {
                                     min: 0,
-                                    max: (floodStageBands3) ? floodStageBand3[3].to : null,
+                                    max: (floodStageBands3) ? floodStageBands3[3].to : null,
                                     endOnTick: false,
     
                                     resize: {
