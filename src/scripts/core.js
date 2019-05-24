@@ -29,6 +29,7 @@ var gridInfos = [];
 var grid1Infos;
 var grid2Infos;
 var grid3Infos;
+var grid4Infos;
 var gridLayerIndex;
 var gridLayerIndexArrColl = [];
 
@@ -1151,7 +1152,7 @@ require([
 
             map.getLayer("fimSites").on('click', siteClick);
 
-        } else if (layer == "fimGrid1" || layer == "fimGrid2" || layer == "fimGrid3") {
+        } else if (layer == "fimGrid1" || layer == "fimGrid2" || layer == "fimGrid3" || layer == "fimGrid4") {
             //var layer = evt.layer.id;
             var grids;
             switch (layer) {
@@ -1164,7 +1165,9 @@ require([
                 case "fimGrid3":
                     grid3Infos = map.getLayer(layer).layerInfos;
                     break;
-
+                case "fimGrid4":
+                    grid4Infos = map.getLayer(layer).layerInfos;
+                    break;
             }
         }
 
@@ -1210,6 +1213,9 @@ require([
                 break;
             case 3:
                 gridServ = grid3Infos;
+                break;
+            case 4:
+                gridServ = grid4Infos;
                 break;
             case null:
                 gridServ = null;
