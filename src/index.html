@@ -73,7 +73,7 @@
 </head>
 <body>
 
-<!-- 
+<!--
 USGS Bar
 -->
 <div class="usgs-bar">
@@ -181,11 +181,11 @@ USGS Bar
                     <input class="form-control" id="printTitle" placeholder="Enter a title for your printout">
 
                     <button class="btn btn-blue" id="printExecuteButton" type="submit" data-loading-text="Printing...">
-                        <i class="fa fa-print"></i> 
+                        <i class="fa fa-print"></i>
                         Print
                     </button>
                     <button class="btn btn-secondary" type="button" id="printDismissButton" data-dismiss="modal">
-                        <i class="fa fa-times"></i> 
+                        <i class="fa fa-times"></i>
                         Dismiss
                     </button>
 
@@ -215,7 +215,7 @@ USGS Bar
 </div>
 
 
-<!-- 
+<!--
     Minimized Flood Tools
     Minimized Flood Tools
     Minimized Flood Tools
@@ -341,7 +341,7 @@ $(".close-alert").click(function(){
             <div id="aboutModalBody" class="modal-body">
                 <ul class="nav nav-tabs" id="aboutModalTabs">
                     <li role="presentation"><a id="aboutTab" href="#aboutTabPane" data-toggle="tab"><i class="fa fa-question-circle"></i>&nbsp;About the application</a></li>
-                    <li role="presentation" class="active"><a id="disclaimerTab" href="#disclaimerTabPane" data-toggle="tab" onclick="ga('send','event','About Modal','click','Disclaimer');"><i class="fa fa-exclamation-circle"></i>&nbsp;Disclaimer</a></li>
+                    <li role="presentation" class="active"><a id="disclaimerTab" href="#disclaimerTabPane" data-toggle="tab" onclick="ga('send','event','About Modal','click','Disclaimer');"><i class="fa fa-exclamation-circle"></i>&nbsp;Welcome & Disclaimer</a></li>
                 </ul>
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane" id="aboutTabPane">
@@ -378,6 +378,13 @@ $(".close-alert").click(function(){
 
                     </div>
                     <div role="tabpanel" class="tab-pane active" id="disclaimerTabPane">
+                        <div class="new-fim-message">
+                            <b>Welcome to the mobile-friendly USGS FIM Mapper.</b>
+                            <span>
+                                    Welcome to the mobile-friendly USGS FIM Mapper. This application allows users to explore a subset of USGS inundation maps (single-gage libraries), and offers many of the features available in the desktop-only application.
+                                    The full-featured FIM Mapper is located at <a title="Full-Featured FIM Mapper" alt="Full Featured FIM Mapper" href="https://wimcloud.usgs.gov/apps/FIM/FloodInundationMapper.html" target="_blank">wimcloud.usgs.gov/apps/FIM/FloodInundationMapper.html</a>.
+                            </span>
+                        </div>
                         <h3>Disclaimer for Flood-Inundation Maps</h3>
                         <p>Inundated areas shown should not be used for navigation,
                         regulatory, permitting, or other legal purposes.  Although USGS intends to make this server available 24 hours a day,
@@ -609,13 +616,20 @@ $(".close-alert").click(function(){
 
             <div id="mapDiv">
 
+                <!-- Zoom Disclaimer -->
+                <div class="zoom-disclaimer">
+                  <b>High Zoom Level Flood extent disclaimer</b>
+                  <span>
+                    You're viewing the basemap at a zoom level higher than the source material may accurately represent. Learn more about <a href="https://www.usgs.gov/mission-areas/water-resources/science/flood-inundation-mapping-science?qt-science_center_objects=0#qt-science_center_objects" target="_blank">Flood Inundation Mapping Science</a>.
+                  </span>
+                </div>
 
-                <!-- 
+                <!--
                     ==================================================================
                     ==================================================================
-                    Legend 
-                    Legend 
-                    Legend 
+                    Legend
+                    Legend
+                    Legend
                     ==================================================================
                     ==================================================================
                  -->
@@ -629,7 +643,7 @@ $(".close-alert").click(function(){
                         </h4>
                     </div>
                     <div id="legendCollapse" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
-                        
+
                         <div id="legendWrapper">
 
                             <!-- FIM Sites Legend -->
@@ -737,7 +751,7 @@ $(".close-alert").click(function(){
 
 
 
-                <!-- 
+                <!--
                     ==================================================================
                     ==================================================================
                     Flood Tools Div
@@ -759,7 +773,7 @@ $(".close-alert").click(function(){
                             <h4 id="floodToolsPanelHeader"></h4>
                         </div>
                     </div>
-                    <!-- 
+                    <!--
                             Modal body
                             Modal body
                             Modal body
@@ -769,7 +783,7 @@ $(".close-alert").click(function(){
                         <!-- Sliders on left side -->
                         <div id="ftSliders">
 
-                            <!-- 
+                            <!--
                                     Flood Level Sliders
                                     Flood Level Sliders
                                     Flood Level Sliders
@@ -852,7 +866,7 @@ $(".close-alert").click(function(){
                                 </div>
                             </div>
 
-                           
+
 
                         </div>
 
@@ -863,7 +877,7 @@ $(".close-alert").click(function(){
                             <div id="ftDataTabs">
                                 <div class="ft-tab active" data-toggle="ftTools" onclick="ga('send','event','Flood Tools Panel','click','Flood Tools');">
                                     <span>Flood Tools</span>
-                                    <i class="fa fa-water"></i> 
+                                    <i class="fa fa-water"></i>
                                 </div>
                                 <div class="ft-tab" data-toggle="ftHydro" onclick="ga('send','event','Hydrograph Panel','click','Hydrograph');">
                                     <span>Hydrograph</span>
@@ -892,7 +906,7 @@ $(".close-alert").click(function(){
                             </div>
 
 
-                            <!-- 
+                            <!--
                                     Flood Tools Body
                                     Flood Tools Body
                                     Flood Tools Body
@@ -901,13 +915,13 @@ $(".close-alert").click(function(){
 
                                 <div id="sgl" class="small-label">Selected gage height</div>
                                 <div id="sgh" class="fts1">
-                                    <label for="floodSlider" class="slider-min update"></label> 
+                                    <label for="floodSlider" class="slider-min update"></label>
                                 </div>
                                 <div id="sgh" class="fts2">
-                                    <label for="floodSlider" class="slider-min update"></label> 
+                                    <label for="floodSlider" class="slider-min update"></label>
                                 </div>
                                 <div id="sgh" class="fts3">
-                                    <label for="floodSlider" class="slider-min update"></label> 
+                                    <label for="floodSlider" class="slider-min update"></label>
                                 </div>
 
                                 <!-- Current Conditions Table -->
@@ -946,7 +960,7 @@ $(".close-alert").click(function(){
                             </div>
 
 
-                            <!-- 
+                            <!--
                                     Hydrographs
                                     Hydrographs
                                     Hydrographs
@@ -966,14 +980,14 @@ $(".close-alert").click(function(){
                             </div>
 
 
-                            <!-- 
+                            <!--
                                     Hazus
                                     Hazus
                                     Hazus
                                 -->
                             <!-- Accordion Header -->
                             <div id="ftHazus" class="ftmodal-content">
-                                <!-- 
+                                <!--
                                           Hazus Table
                                      -->
                                 <div id="hazusTableLabels">
@@ -989,7 +1003,7 @@ $(".close-alert").click(function(){
                                 <table id="hazusTable">
                                     <thead>
                                         <tr id="hazusTableHeader">
-                                            <th>Stage (ft)</th> 
+                                            <th>Stage (ft)</th>
                                             <th>Number of Buildings Damaged</th>
                                             <th>Building Losses</th>
                                             <th>Number of Essential Facilities Impacted</th>
@@ -1009,14 +1023,14 @@ $(".close-alert").click(function(){
                             </div>
 
 
-                            <!-- 
+                            <!--
                                     Services and Data
                                     Services and Data
                                     Services and Data
                                 -->
                             <!-- Accordion Header -->
                             <div id="ftServices" class="ftmodal-content">
-                                        
+
                                 <div class="ft-header">Sign up for WaterAlert for this site</div>
                                 <img src="images/IWRSSlogo.png" id="iwrssLogo"/>
                                 <p>
@@ -1040,7 +1054,7 @@ $(".close-alert").click(function(){
                                 <a id="downloadData" class="ft-button" target="_blank" href="">Download data</a>
                                 <span id="noDownloadData">Data not currently available to download for this site.</span>
                                 <a id="reportCover"><img src=""/></a>
-                                
+
                                 <div id="ftLogos">
                                     <span id="logos"></span>
                                     <img src="images/noaaLogo.png"/>
@@ -1054,10 +1068,10 @@ $(".close-alert").click(function(){
                                     <a id="disclaimerLink" target="_blank" href="javascript:void(0)">Disclaimer</a>
                                     <a target="_blank" href="https://www.nws.noaa.gov/survey/nws-survey.php?code=inundate">NWS feedback form</a>
                                 </div>
-                            
+
                             </div>
 
-                            <!-- 
+                            <!--
                                     Web Cam
                                     Web Cam
                                     Web Cam
@@ -1066,7 +1080,7 @@ $(".close-alert").click(function(){
                                 <img src="" id="webcamImage"/>
                             </div>
 
-                            <!-- 
+                            <!--
                                     More Info
                                     More Info
                                     More Info
@@ -1080,7 +1094,7 @@ $(".close-alert").click(function(){
                     </div>
                 </div>
 
-                <!-- 
+                <!--
                     End Flood Tools
                     End Flood Tools
                     End Flood Tools
@@ -1124,7 +1138,7 @@ $(".close-alert").click(function(){
 </div> -->
 
 
-<!-- 
+<!--
     USGS Footer
  -->
 <footer class="usgs-footer">
