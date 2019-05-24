@@ -194,6 +194,22 @@ require([
                         "includeLegend" : true
                         //"legendLabel": false
                     }
+                },
+                "grids4": {
+                    "url" : "https://gis.wim.usgs.gov/ArcGIS/rest/services/FIMMapper/grids_4/MapServer",
+                    "options": {
+                        "id": "fimGrid4",
+                        "opacity": 0.0,
+                        "visible": false
+                    },
+                    "wimOptions": {//
+                        "type": "layer",
+                        "layerType": "agisDynamic",
+                        "includeInLayerList": false,
+                        "hasOpacitySlider": false,
+                        "includeLegend" : true
+                        //"legendLabel": false
+                    }
                 }//http://gis.wim.usgs.gov/ArcGIS/rest/services/FIMTest/grids_1_test/MapServer*/
             }
         },
