@@ -39,6 +39,10 @@
     </script>
     <!-- End Google Analytics -->
 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+
+
+
 </head>
 <body>
 
@@ -217,7 +221,7 @@ $(".close-alert").click(function(){
             <div id="aboutModalBody" class="modal-body">
                 <ul class="nav nav-tabs" id="aboutModalTabs">
                     <li role="presentation"><a id="aboutTab" href="#aboutTabPane" data-toggle="tab"><i class="fa fa-question-circle"></i>&nbsp;About the application</a></li>
-                    <li role="presentation" class="active"><a id="disclaimerTab" href="#disclaimerTabPane" data-toggle="tab" onclick="ga('send','event','About Modal','click','Disclaimer');"><i class="fa fa-exclamation-circle"></i>&nbsp;Disclaimer</a></li>
+                    <li role="presentation" class="active"><a id="disclaimerTab" href="#disclaimerTabPane" data-toggle="tab" onclick="ga('send','event','About Modal','click','Disclaimer');"><i class="fa fa-exclamation-circle"></i>&nbsp;Welcome & Disclaimer</a></li>
                 </ul>
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane" id="aboutTabPane"></br>
@@ -254,6 +258,15 @@ $(".close-alert").click(function(){
 
                     </div>
                     <div role="tabpanel" class="tab-pane active" id="disclaimerTabPane"></br>
+
+                        <div class="new-fim-message">
+                            <b>Welcome to the mobile-friendly USGS FIM Mapper.</b>
+                            <span>
+                                Welcome to the mobile-friendly USGS FIM Mapper. This application allows users to explore a subset of USGS inundation maps (single-gage libraries), and offers many of the features available in the desktop-only application.
+                                The full-featured FIM Mapper is located here: <a href="https://wimcloud.usgs.gov/apps/FIM/FloodInundationMapper.html" alt="Full Featured FIM Mapper" title="Full Featured FIM Mapper" target="_blank">wimcloud.usgs.gov/apps/FIM/FloodInundationMapper.html</a>.
+                            </span>
+                        </div>
+
                         <h3>Disclaimer for Flood-Inundation Maps</h3>
                         <p>Inundated areas shown should not be used for navigation,
                         regulatory, permitting, or other legal purposes.  Although USGS intends to make this server available 24 hours a day,

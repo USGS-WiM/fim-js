@@ -1247,3 +1247,25 @@ a{
 #major,#moderate,#minor,#near,#noflood {
     padding-left: 30px !important;
 }
+
+.new-fim-message{
+    display: block;
+    box-sizing: border-box;
+    padding: 10px;
+    border-radius: 4px;
+    margin: 0 auto 20px auto;
+    background-color: #C5DBFE;
+    color: #10152C;
+    font-size: 14px;
+    line-height: 22px;
+    letter-spacing: -0.2px;
+  }
+  .new-fim-message a{
+      text-decoration: underline;
+      font-weight: bold;
+  }
+  .new-fim-message b{
+      display: block;
+      margin-bottom: 5px;
+      font-size: 16px;
+  }
