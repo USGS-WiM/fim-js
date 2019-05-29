@@ -149,6 +149,7 @@ require([
     ////allLayers = mapLayers;
 
     esriConfig.defaults.io.corsEnabledServers.push("fim.wim.usgs.gov");
+    esriConfig.defaults.io.corsEnabledServers.push("fimtest.wim.usgs.gov");
     esriConfig.defaults.io.corsEnabledServers.push("gis.wim.usgs.gov");
     esri.config.defaults.io.proxyUrl = proxyUrl;
 
@@ -234,6 +235,12 @@ require([
                     $(value)[0].trigger("click");
                 }
             });
+        }
+
+        if (map.getLevel() > 17) {
+            $(".zoom-disclaimer").show();
+        } else {
+            $(".zoom-disclaimer").hide();
         }
     })
 
