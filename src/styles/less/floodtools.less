@@ -435,25 +435,22 @@
                         text-decoration: underline;
                     }
 
-                    .label-ft{
-
-                        &:after{
-                            content: 'feet';
-                            letter-spacing: -0.2px;
-                            font-size: 11px;
-                            padding-left: 2px;
-                            font-weight: 500;
-                        }
+                    .label-ft:after,
+                    .label-fps:after,
+                    .label-cfs:after{
+                        letter-spacing: -0.2px;
+                        font-size: 11px;
+                        padding-left: 2px;
+                        font-weight: 500;
+                    }
+                    .label-ft:after{
+                        content: 'feet';
                     }
                     .label-fps{
-
-                        &:after{
-                            content: 'fps';
-                            font-size: 11px;
-                            padding-left: 2px;
-                            letter-spacing: -0.2px;
-                            font-weight: 500;
-                        }
+                        content: 'fps';
+                    }
+                    .label-cfs{
+                        content: 'cfs';
                     }
                 }
             }
