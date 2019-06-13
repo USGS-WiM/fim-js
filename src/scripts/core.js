@@ -21,11 +21,6 @@ var siteAttr;
 
 var results;
 
-var fimiMoreInfoUrl = "https://fim.wim.usgs.gov/arcgis/rest/services/FIMMapper/fim_add_info/MapServer/1";
-var ahpsForecastUrl = "https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Observations/ahps_riv_gauges/MapServer/0";
-var nwisUrl = "https://waterservices.usgs.gov/nwis/iv/?format=nwjson&period=P7D&parameterCd=00060,00065,62614,62615&sites=";
-var proxyUrl = "https://services.wim.usgs.gov/proxies/httpProxy/Default.aspx?";
-
 var gridInfos = [];
 var grid1Infos;
 var grid2Infos;
@@ -1164,6 +1159,7 @@ require([
 
                         if (data.features && data.features.length > 0) {
                             $("#moreInfo").text(data.features[0].attributes.ADD_INFO);
+                            $(".ft-more-info").show();
                             $(".ft-more-info-tab").click();
                         } else {
                             $("#moreInfo").text("Loading...");
@@ -3451,7 +3447,7 @@ require([
 
                     var docTitle = template.layoutOptions.titleText;
                     printParams.template = template;
-                    var printMap = new PrintTask("https://fim.wim.usgs.gov/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task");
+                    var printMap = new PrintTask("https://fimtest.wim.usgs.gov/arcgis/rest/services/FIMPrint/ExportWebMap/GPServer/Export%20Web%20Map");
                     //var printMap = new PrintTask("https://fim.wim.usgs.gov/arcgis/rest/services/FIMMapper/printTool/GPServer/printTool");
                     map.getLayer("layer0").setVisibility(false);
         
@@ -3581,7 +3577,7 @@ require([
         //"legendLayers": [legendLayer]
         var docTitle = template.layoutOptions.titleText;
         printParams.template = template;
-        var printMap = new PrintTask("https://fim.wim.usgs.gov/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task");
+        var printMap = new PrintTask("https://fimtest.wim.usgs.gov/arcgis/rest/services/FIMPrint/ExportWebMap/GPServer/Export%20Web%20Map");
         //var printMap = new PrintTask("https://fim.wim.usgs.gov/arcgis/rest/services/FIMMapper/printTool/GPServer/printTool");
         
         map.getLayer("layer0").setVisibility(false);
@@ -3624,8 +3620,8 @@ require([
                 dataType: 'json',
                 crossDomain: true,
                 type: 'GET',
-                referer: 'fim.wim.usgs.gov',
-                url: "https://fim.wim.usgs.gov/fim-pdf-merge?page1name=" + page1name + "&page2name=" + page2name,
+                referer: 'fimtest.wim.usgs.gov',
+                url: "https://fimtest.wim.usgs.gov/fim-pdf-merge?page1name=" + page1name + "&page2name=" + page2name,
                 headers: {'Accept': '*/*'},
                 success: function (data) {
                     var mergedTitle;
@@ -3636,7 +3632,7 @@ require([
                     }
                     printCount++;
                     //var printJob = $('<a href="'+ event.url +'" target="_blank">Printout ' + printCount + ' </a>');
-                    var printJob = $('<p><label>' + printCount + ':&nbsp;</label><a href="https://fim.wim.usgs.gov/pdf/'+ data.filename +'" target="_blank">' + mergedTitle +' </a></p>');
+                    var printJob = $('<p><label>' + printCount + ':&nbsp;</label><a href="https://fimtest.wim.usgs.gov/pdf/'+ data.filename +'" target="_blank">' + mergedTitle +' </a></p>');
                     //$("#print-form").append(printJob);
                     $("#printJobsDiv").find("p.toRemove").remove();
                     $("#printModalBody").append(printJob);
