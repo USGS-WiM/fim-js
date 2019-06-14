@@ -7,6 +7,11 @@ var floodExtentsMultiTableUrl = "https://fimtest.wim.usgs.gov/arcgis/rest/servic
 var floodExtentsMultiThreeSitesTableUrl = "https://fimtest.wim.usgs.gov/arcgis/rest/services/FIMMapper/floodExtentsThreeSites/MapServer/1";
 var fimHazusUrl = "https://fimtest.wim.usgs.gov/arcgis/rest/services/FIMMapper/sites/MapServer/2";
 
+var fimiMoreInfoUrl = "https://fim.wim.usgs.gov/arcgis/rest/services/FIMMapper/fim_add_info/MapServer/1";
+var ahpsForecastUrl = "https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Observations/ahps_riv_gauges/MapServer/0";
+var nwisUrl = "https://waterservices.usgs.gov/nwis/iv/?format=nwjson&period=P7D&parameterCd=00060,00065,62614,62615&sites=";
+var proxyUrl = "https://services.wim.usgs.gov/proxies/httpProxy/Default.aspx?";
+
 require([
     "esri/geometry/Extent",
     "esri/InfoTemplate",

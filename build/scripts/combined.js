@@ -42,9 +42,14 @@ if (window.DOMParser) {
  */
 var allLayers;
 
-var floodExtentsMultiTableUrl = "https://gis.wim.usgs.gov/arcgis/rest/services/FIMMapper/floodExtentsMulti/MapServer/1";
-var floodExtentsMultiThreeSitesTableUrl = "https://gis.wim.usgs.gov/arcgis/rest/services/FIMMapper/floodExtentsThreeSites/MapServer/1";
-var fimHazusUrl = "https://gis.wim.usgs.gov/arcgis/rest/services/FIMMapper/sites/MapServer/2";
+var floodExtentsMultiTableUrl = "https://fimtest.wim.usgs.gov/arcgis/rest/services/FIMMapper/floodExtentsMulti/MapServer/1";
+var floodExtentsMultiThreeSitesTableUrl = "https://fimtest.wim.usgs.gov/arcgis/rest/services/FIMMapper/floodExtentsThreeSites/MapServer/1";
+var fimHazusUrl = "https://fimtest.wim.usgs.gov/arcgis/rest/services/FIMMapper/sites/MapServer/2";
+
+var fimiMoreInfoUrl = "https://fim.wim.usgs.gov/arcgis/rest/services/FIMMapper/fim_add_info/MapServer/1";
+var ahpsForecastUrl = "https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Observations/ahps_riv_gauges/MapServer/0";
+var nwisUrl = "https://waterservices.usgs.gov/nwis/iv/?format=nwjson&period=P7D&parameterCd=00060,00065,62614,62615&sites=";
+var proxyUrl = "https://services.wim.usgs.gov/proxies/httpProxy/Default.aspx?";
 
 require([
     "esri/geometry/Extent",
@@ -73,7 +78,7 @@ require([
             "includeInLayerList": true,
             "layers": {
                 "FIM Sites": {
-                    "url" : "https://gis.wim.usgs.gov/arcgis/rest/services/FIMMapper/sites/MapServer/0",
+                    "url" : "https://fimtest.wim.usgs.gov/arcgis/rest/services/FIMMapper/sites/MapServer/0",
                     "options": {
                         "id": "fimSites",
                         "opacity": 1.00,
@@ -93,7 +98,7 @@ require([
                     }
                 },
                 "Flood-inundation area": {
-                    "url" : "https://gis.wim.usgs.gov/arcgis/rest/services/FIMMapper/floodExtents/MapServer",
+                    "url" : "https://fimtest.wim.usgs.gov/arcgis/rest/services/FIMMapper/floodExtents/MapServer",
                     "options": {
                         "id": "fimExtents",
                         "opacity": 0.75,
@@ -109,7 +114,7 @@ require([
                     }
                 },
                 "Flood-inundation area - two sites": {
-                    "url" : "https://gis.wim.usgs.gov/arcgis/rest/services/FIMMapper/floodExtentsMulti/MapServer",
+                    "url" : "https://fimtest.wim.usgs.gov/arcgis/rest/services/FIMMapper/floodExtentsMulti/MapServer",
                     "options": {
                         "id": "fimExtentsMulti",
                         "opacity": 0.75,
@@ -125,7 +130,7 @@ require([
                     }
                 },
                 "Flood-inundation area - three sites": {
-                    "url" : "https://gis.wim.usgs.gov/arcgis/rest/services/FIMMapper/floodExtentsThreeSites/MapServer",
+                    "url" : "https://fimtest.wim.usgs.gov/arcgis/rest/services/FIMMapper/floodExtentsThreeSites/MapServer",
                     "options": {
                         "id": "fimExtentsThreeSites",
                         "opacity": 0.75,
@@ -141,7 +146,7 @@ require([
                     }
                 },
                 "Area of uncertainty (where applicable)": {
-                    "url" : "https://gis.wim.usgs.gov/arcgis/rest/services/FIMMapper/breach/MapServer",
+                    "url" : "https://fimtest.wim.usgs.gov/arcgis/rest/services/FIMMapper/breach/MapServer",
                     "options": {
                         "id": "fimBreach",
                         "opacity": 0.35,
@@ -157,7 +162,7 @@ require([
                     }
                 },
                 "Area of uncertainty (where applicable, two sites)": {
-                    "url" : "https://gis.wim.usgs.gov/arcgis/rest/services/FIMMapper/breachMulti/MapServer",
+                    "url" : "https://fimtest.wim.usgs.gov/arcgis/rest/services/FIMMapper/breachMulti/MapServer",
                     "options": {
                         "id": "fimBreachMulti",
                         "opacity": 0.35,
@@ -173,7 +178,7 @@ require([
                     }
                 },
                 "Supplemental layers": {
-                    "url" : "https://gis.wim.usgs.gov/arcgis/rest/services/FIMMapper/suppLyrs/MapServer",
+                    "url" : "https://fimtest.wim.usgs.gov/arcgis/rest/services/FIMMapper/suppLyrs/MapServer",
                     "options": {
                         "id": "fimSuppLyrs",
                         "opacity": 1.0,
@@ -222,7 +227,7 @@ require([
                     }
                 },/*
                 "USGS FIM Sites (NWS forecast category)": {
-                    "url" : "https://gis.wim.usgs.gov/ArcGIS/rest/services/FIMMapper/fimi_sites_for_legend_js/MapServer",
+                    "url" : "https://fimtest.wim.usgs.gov/ArcGIS/rest/services/FIMMapper/fimi_sites_for_legend_js/MapServer",
                     "options": {
                         "id": "fimSitesLegend",
                         "opacity": 1.0,
@@ -239,7 +244,7 @@ require([
                     }
                 },*/
                 "grids1": {
-                    "url" : "https://gis.wim.usgs.gov/ArcGIS/rest/services/FIMMapper/grids_1/MapServer",
+                    "url" : "https://fimtest.wim.usgs.gov/ArcGIS/rest/services/FIMMapper/grids_1/MapServer",
                     "options": {
                         "id": "fimGrid1",
                         "opacity": 0.7,
@@ -255,7 +260,7 @@ require([
                     }
                 },
                 "grids2": {
-                    "url" : "https://gis.wim.usgs.gov/ArcGIS/rest/services/FIMMapper/grids_2/MapServer",
+                    "url" : "https://fimtest.wim.usgs.gov/ArcGIS/rest/services/FIMMapper/grids_2/MapServer",
                     "options": {
                         "id": "fimGrid2",
                         "opacity": 0.7,
@@ -271,7 +276,7 @@ require([
                     }
                 },
                 "grids3": {
-                    "url" : "https://gis.wim.usgs.gov/ArcGIS/rest/services/FIMMapper/grids_3/MapServer",
+                    "url" : "https://fimtest.wim.usgs.gov/ArcGIS/rest/services/FIMMapper/grids_3/MapServer",
                     "options": {
                         "id": "fimGrid3",
                         "opacity": 0.7,
@@ -282,12 +287,13 @@ require([
                         "layerType": "agisDynamic",
                         "includeInLayerList": false,
                         "hasOpacitySlider": false,
-                        "includeLegend" : true
+                        "includeLegend" : true,
+                        "legendLabel" : false
                         //"legendLabel": false
                     }
                 },
                 "grids4": {
-                    "url" : "https://gis.wim.usgs.gov/ArcGIS/rest/services/FIMMapper/grids_4/MapServer",
+                    "url" : "https://fimtest.wim.usgs.gov/ArcGIS/rest/services/FIMMapper/grids_4/MapServer",
                     "options": {
                         "id": "fimGrid4",
                         "opacity": 0.7,
@@ -301,7 +307,7 @@ require([
                         "includeLegend" : true
                         //"legendLabel": false
                     }
-                }//http://gis.wim.usgs.gov/ArcGIS/rest/services/FIMTest/grids_1_test/MapServer*/
+                }//http://fimtest.wim.usgs.gov/ArcGIS/rest/services/FIMTest/grids_1_test/MapServer*/
             }
         },
         {
@@ -493,11 +499,6 @@ var siteAttr;
 
 var results;
 
-var fimiMoreInfoUrl = "https://fim.wim.usgs.gov/arcgis/rest/services/FIMMapper/fim_add_info/MapServer/1";
-var ahpsForecastUrl = "https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Observations/ahps_riv_gauges/MapServer/0";
-var nwisUrl = "https://waterservices.usgs.gov/nwis/iv/?format=nwjson&period=P7D&parameterCd=00060,00065,62614,62615&sites=";
-var proxyUrl = "https://services.wim.usgs.gov/proxies/httpProxy/Default.aspx?";
-
 var gridInfos = [];
 var grid1Infos;
 var grid2Infos;
@@ -621,6 +622,7 @@ require([
     ////allLayers = mapLayers;
 
     esriConfig.defaults.io.corsEnabledServers.push("fim.wim.usgs.gov");
+    esriConfig.defaults.io.corsEnabledServers.push("fimtest.wim.usgs.gov");
     esriConfig.defaults.io.corsEnabledServers.push("gis.wim.usgs.gov");
     esri.config.defaults.io.proxyUrl = proxyUrl;
 
@@ -706,6 +708,12 @@ require([
                     $(value)[0].trigger("click");
                 }
             });
+        }
+
+        if (map.getLevel() > 17) {
+            $(".zoom-disclaimer").show();
+        } else {
+            $(".zoom-disclaimer").hide();
         }
     })
 
@@ -1629,6 +1637,7 @@ require([
 
                         if (data.features && data.features.length > 0) {
                             $("#moreInfo").text(data.features[0].attributes.ADD_INFO);
+                            $(".ft-more-info").show();
                             $(".ft-more-info-tab").click();
                         } else {
                             $("#moreInfo").text("Loading...");
@@ -2019,9 +2028,9 @@ require([
                             $('.fts1 #floodGage').text('n/a');
                             //$('.fts1 #floodDischarge').text('n/a');
                         }
-                        if (dischargeIndex && siteData.data[dischargeIndex].time_series_data.length > 0 && siteData.data[dischargeIndex].time_series_data[siteData.data[dischargeIndex].time_series_data.length-1][1] != null) {
+                        if (dischargeIndex != null && siteData.data[dischargeIndex].time_series_data.length > 0 && siteData.data[dischargeIndex].time_series_data[siteData.data[dischargeIndex].time_series_data.length-1][1] != null) {
                             $('.fts1 #floodDischarge').text(siteData.data[dischargeIndex].time_series_data[siteData.data[dischargeIndex].time_series_data.length-1][1]);
-                        } else if (dischargeIndex && siteData.data[dischargeIndex].time_series_data.length > 0 ) {
+                        } else if (dischargeIndex != null && siteData.data[dischargeIndex].time_series_data.length > 0 ) {
                             $('.fts1 #floodDischarge').text('n/a (' + siteData.data[dischargeIndex].time_series_data[siteData.data[dischargeIndex].time_series_data.length-1][2] + ')');
                         } else {
                             $('.fts1 #floodDischarge').text('n/a');
@@ -2032,9 +2041,9 @@ require([
                             $('.fts2 #floodGage').text('n/a');
                             //$('.fts2 #floodDischarge').text('n/a');
                         }
-                        if (dischargeIndex2 && siteData2 && siteData2.data[dischargeIndex2].time_series_data[siteData2.data[dischargeIndex2].time_series_data.length-1][1] != null) {
+                        if (dischargeIndex2 != null && siteData2 && siteData2.data[dischargeIndex2].time_series_data[siteData2.data[dischargeIndex2].time_series_data.length-1][1] != null) {
                             $('.fts2 #floodDischarge').text(siteData2.data[dischargeIndex2].time_series_data[siteData2.data[dischargeIndex2].time_series_data.length-1][1]);
-                        } else if (siteData2 && siteData2.data[dischargeIndex2].time_series_data[siteData2.data[dischargeIndex2].time_series_data.length-1].length > 2) {
+                        } else if (dischargeIndex2 != null && siteData2 && siteData2.data[dischargeIndex2].time_series_data[siteData2.data[dischargeIndex2].time_series_data.length-1].length > 2) {
                             $('.fts2 #floodDischarge').text('n/a (' + siteData2.data[dischargeIndex2].time_series_data[siteData2.data[dischargeIndex2].time_series_data.length-1][2] + ')');
                         } else {
                             $('.fts2 #floodDischarge').text('n/a');
@@ -2045,9 +2054,9 @@ require([
                             $('.fts3 #floodGage').text('n/a');
                             //$('.fts3 #floodDischarge').text('n/a');
                         }
-                        if (dischargeIndex3 && siteData3 && siteData3.data[dischargeIndex3].time_series_data[siteData3.data[dischargeIndex3].time_series_data.length-1][1] != null) {
-                            $('.fts3 #floodDischarge').text(siteData3.data[dischargeIndex3].time_series_data[siteData3.data[dischargeIndex3].time_series_data.length-1][1] + ' fps');
-                        } else if (siteData3 && siteData3.data[dischargeIndex3].time_series_data[siteData3.data[dischargeIndex3].time_series_data.length-1].length > 2) {
+                        if (dischargeIndex3 != null && siteData3 && siteData3.data[dischargeIndex3].time_series_data[siteData3.data[dischargeIndex3].time_series_data.length-1][1] != null) {
+                            $('.fts3 #floodDischarge').text(siteData3.data[dischargeIndex3].time_series_data[siteData3.data[dischargeIndex3].time_series_data.length-1][1]);
+                        } else if (dischargeIndex2 != null && siteData3 && siteData3.data[dischargeIndex3].time_series_data[siteData3.data[dischargeIndex3].time_series_data.length-1].length > 2) {
                             $('.fts3 #floodDischarge').text('n/a (' + siteData3.data[dischargeIndex3].time_series_data[siteData3.data[dischargeIndex3].time_series_data.length-1][2] + ')');
                         } else {
                             $('.fts3 #floodDischarge').text('n/a');
@@ -3916,7 +3925,7 @@ require([
 
                     var docTitle = template.layoutOptions.titleText;
                     printParams.template = template;
-                    var printMap = new PrintTask("https://fim.wim.usgs.gov/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task");
+                    var printMap = new PrintTask("https://fimtest.wim.usgs.gov/arcgis/rest/services/FIMPrint/ExportWebMap/GPServer/Export%20Web%20Map");
                     //var printMap = new PrintTask("https://fim.wim.usgs.gov/arcgis/rest/services/FIMMapper/printTool/GPServer/printTool");
                     map.getLayer("layer0").setVisibility(false);
         
@@ -4046,7 +4055,7 @@ require([
         //"legendLayers": [legendLayer]
         var docTitle = template.layoutOptions.titleText;
         printParams.template = template;
-        var printMap = new PrintTask("https://fim.wim.usgs.gov/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task");
+        var printMap = new PrintTask("https://fimtest.wim.usgs.gov/arcgis/rest/services/FIMPrint/ExportWebMap/GPServer/Export%20Web%20Map");
         //var printMap = new PrintTask("https://fim.wim.usgs.gov/arcgis/rest/services/FIMMapper/printTool/GPServer/printTool");
         
         map.getLayer("layer0").setVisibility(false);
@@ -4089,8 +4098,8 @@ require([
                 dataType: 'json',
                 crossDomain: true,
                 type: 'GET',
-                referer: 'fim.wim.usgs.gov',
-                url: "https://fim.wim.usgs.gov/fim-pdf-merge?page1name=" + page1name + "&page2name=" + page2name,
+                referer: 'fimtest.wim.usgs.gov',
+                url: "https://fimtest.wim.usgs.gov/fim-pdf-merge?page1name=" + page1name + "&page2name=" + page2name,
                 headers: {'Accept': '*/*'},
                 success: function (data) {
                     var mergedTitle;
@@ -4101,7 +4110,7 @@ require([
                     }
                     printCount++;
                     //var printJob = $('<a href="'+ event.url +'" target="_blank">Printout ' + printCount + ' </a>');
-                    var printJob = $('<p><label>' + printCount + ':&nbsp;</label><a href="https://fim.wim.usgs.gov/pdf/'+ data.filename +'" target="_blank">' + mergedTitle +' </a></p>');
+                    var printJob = $('<p><label>' + printCount + ':&nbsp;</label><a href="https://fimtest.wim.usgs.gov/pdf/'+ data.filename +'" target="_blank">' + mergedTitle +' </a></p>');
                     //$("#print-form").append(printJob);
                     $("#printJobsDiv").find("p.toRemove").remove();
                     $("#printModalBody").append(printJob);
