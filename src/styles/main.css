@@ -1624,7 +1624,7 @@ input[type=range].styled:focus::-ms-fill-upper {
   padding: 10px;
   border-top-left-radius: 4px;
   position: absolute;
-  bottom: 0;
+  bottom: 44px;
   right: 14px;
   text-align: center;
   z-index: 500;
@@ -1636,6 +1636,7 @@ input[type=range].styled:focus::-ms-fill-upper {
     padding: 10px 5px;
     font-size: 10.5px;
     width: 220px;
+    bottom: 0;
   }
 }
 .zoom-disclaimer a {
