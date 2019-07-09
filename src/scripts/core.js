@@ -3384,7 +3384,7 @@ require([
 
         var site_no_for_print = siteAttr["SITE_NO"];
 
-        var no_page_one = true;
+        var no_page_one;
 
         $.ajax({
             dataType: 'json',
@@ -3404,46 +3404,40 @@ require([
                     template.layout = "FIMpage1design";
 
                     template.preserveScale = false;
-
-                    if (userTitle == "") {
-                        template.layoutOptions = {
-                            "titleText": "FIM",
-                            "authorText" : "Flood Inundation Mapping",
-                            "copyrightText": "This page was produced by the FIM and the WIM",
-                            "customTextElements": [
-                                { "mapTitle": printAttr.TITLE + " at the U.S. Geological Survey Streamgage Number " + siteAttr.SITE_NO },
-                                { "mapSeries": printAttr.REP_SER_NUM },
-                                { "studyArea": printAttr.STUDY_AREA },
-                                { "purpose": printAttr.PURPOSE_SCOPE },
-                                { "mapSources": "Detailed source data for this map series can be found in \"" + printAttr.TITLE + "(" + printAttr.PUB_DATE + ")\" at: " + printAttr.URL },
-                                { "suggestedCitation": "" },
-                                { "hydroData": printAttr.HYDRO_STEADY },
-                                { "hydraulicModel": printAttr.MODEL_CALIB },
-                                { "surfaceProfile": printAttr.WATER_PROFILE },
-                                { "floodMaps": printAttr.PROD_ACC }
-                            ],
-                            "legendLayers": null//[sitesLegendLayer]
-                        };
+                    
+                    var series_num;
+                    if (siteAttr.SERIES_NUM.match("-") != null) {
+                        var seriesNumArray = siteAttr.SERIES_NUM.split("-");
+                        series_num = seriesNumArray[0] + "-" + seriesNumArray[1]
                     } else {
-                        template.layoutOptions = {
-                            "titleText": userTitle,
-                            "authorText" : "Flood Inundation Mapping",
-                            "copyrightText": "This page was produced by the FIM and the WIM",
-                            "customTextElements": [
-                                { "mapTitle": printAttr.TITLE + " at the U.S. Geological Survey Streamgage Number " + siteAttr.SITE_NO },
-                                { "mapSeries": printAttr.REP_SER_NUM },
-                                { "studyArea": printAttr.STUDY_AREA },
-                                { "purpose": printAttr.PURPOSE_SCOPE },
-                                { "mapSources": "Detailed source data for this map series can be found in \"" + printAttr.TITLE + "(" + printAttr.PUB_DATE + ")\" at: " + printAttr.URL },
-                                { "suggestedCitation": "" },
-                                { "hydroData": printAttr.HYDRO_STEADY },
-                                { "hydraulicModel": printAttr.MODEL_CALIB },
-                                { "surfaceProfile": printAttr.WATER_PROFILE },
-                                { "floodMaps": printAttr.PROD_ACC }
-                            ]
-                            //"legendLayers": [sitesLegendLayer]
-                        };
+                        series_num = siteAttr.SERIES_NUM;
                     }
+
+                    var titleText;
+                    if (userTitle == "") {
+                        titleText = "FIM";;
+                    } else {
+                        titleText = userTitle;
+                    }
+
+                    template.layoutOptions = {
+                        "titleText": titleText,
+                        "authorText" : "Flood Inundation Mapping",
+                        "copyrightText": "This page was produced by the FIM and the WIM",
+                        "customTextElements": [
+                            { "mapTitle": printAttr.TITLE + "\n at the U.S. Geological Survey Streamgage Number " + siteAttr.SITE_NO },
+                            { "mapSeries": printAttr.REP_SER_NUM },
+                            { "studyArea": printAttr.STUDY_AREA },
+                            { "purpose": printAttr.PURPOSE_SCOPE },
+                            { "mapSources": "Detailed source data for this map series can be found in \"" + printAttr.TITLE + "(" + printAttr.PUB_DATE + ")\" at: " + printAttr.URL },
+                            { "suggestedCitation": siteAttr.AUTHORS + ", " + siteAttr.REP_DATE + ", " + siteAttr.TITLE + ": " + siteAttr.REP_SERIES + " " + series_num + ", " + siteAttr.ADD_INFO},
+                            { "hydroData": printAttr.HYDRO_STEADY },
+                            { "hydraulicModel": printAttr.MODEL_CALIB },
+                            { "surfaceProfile": printAttr.WATER_PROFILE },
+                            { "floodMaps": printAttr.PROD_ACC }
+                        ],
+                        "legendLayers": null//[sitesLegendLayer]
+                    };
 
                     var docTitle = template.layoutOptions.titleText;
                     printParams.template = template;
