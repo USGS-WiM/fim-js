@@ -653,9 +653,10 @@ require([
     map = Map('mapDiv', {
         basemap: 'topo',
         //center: [-95.6, 38.6],
-        //center: defaultMapCenter,
-        extent: new Extent({xmin:-13876072.366774123,ymin:3500204.399233875,xmax:-7413780.247433899,ymax:6324093.972200677,spatialReference:{wkid:102100}}),
-        fitExtent: true,
+        center: defaultMapCenter,
+        //extent: new Extent({xmin:-13876072.366774123,ymin:3500204.399233875,xmax:-7413780.247433899,ymax:6324093.972200677,spatialReference:{wkid:102100}}),
+        //fitExtent: true,
+        zoom: 5,
         logo: false,
         lods: lods,
         dragging: true
@@ -3267,8 +3268,23 @@ require([
                     if (flag == false) {
                         gageValues.push({gageValue:value.attributes.STAGE.toFixed(2)});
                     }
+
+                    flag = false;
+                    
+                    for (i=0;i<altitudeValues.length;i++) {
+                        if (altitudeValues[i]["altitudeValue"] == value.attributes.ELEV.toFixed(2)) {
+                            flag = true;
+                        }
+                    }
+                    if (flag == false) {
+                        altitudeValues.push({altitudeValue:value.attributes.ELEV.toFixed(2)});
+                    }
                 });
 
+                gageValues.sort((a,b) => (Number(a.gageValue) > Number(b.gageValue)) ? 1 : ((Number(b.gageValue) > Number(a.gageValue)) ? -1 : 0));
+                
+                altitudeValues.sort((a,b) => (Number(a.altitudeValue) > Number(b.altitudeValue)) ? 1 : ((Number(b.altitudeValue) > Number(a.altitudeValue)) ? -1 : 0));
+                
             } else if (siteAttr["MULTI_SITE"] == 1) {
                 $.each(results, function(index, value)
                 {	
@@ -3857,22 +3873,25 @@ require([
 
         var page1InfoUrl = 'https://gis.wim.usgs.gov/arcgis/rest/services/FIMMapper/FIMpage1design/MapServer/1/query?where=USGSID+LIKE+%27%25' + siteNo + '%25%27&outFields=*&returnGeometry=true&f=json';
         
-        var page1name;
-        var page2name;
-
-        var site_no_for_print = siteAttr["SITE_NO"];
-
-        var no_page_one = true;
-
         $.ajax({
             dataType: 'json',
             type: 'GET',
             url: page1InfoUrl,
             headers: {'Accept': '*/*'},
             success: function (data) {
-                
+                var page1name;
+                var page2name;
+
+                var site_no_for_print = siteAttr["SITE_NO"];
+
+                var no_page_one;
+
+                var printAttr;
+
+                var sitesLayer = map.getLayer("fimSites");
+                        
                 if (data.features.length > 0) {
-                    var printAttr = data.features[0].attributes;
+                    printAttr = data.features[0].attributes;
 
                     var printParams = new PrintParameters();
                     printParams.map = map;
@@ -3882,46 +3901,40 @@ require([
                     template.layout = "FIMpage1design";
 
                     template.preserveScale = false;
-
-                    if (userTitle == "") {
-                        template.layoutOptions = {
-                            "titleText": "FIM",
-                            "authorText" : "Flood Inundation Mapping",
-                            "copyrightText": "This page was produced by the FIM and the WIM",
-                            "customTextElements": [
-                                { "mapTitle": printAttr.TITLE + " at the U.S. Geological Survey Streamgage Number " + siteAttr.SITE_NO },
-                                { "mapSeries": printAttr.REP_SER_NUM },
-                                { "studyArea": printAttr.STUDY_AREA },
-                                { "purpose": printAttr.PURPOSE_SCOPE },
-                                { "mapSources": "Detailed source data for this map series can be found in \"" + printAttr.TITLE + "(" + printAttr.PUB_DATE + ")\" at: " + printAttr.URL },
-                                { "suggestedCitation": "" },
-                                { "hydroData": printAttr.HYDRO_STEADY },
-                                { "hydraulicModel": printAttr.MODEL_CALIB },
-                                { "surfaceProfile": printAttr.WATER_PROFILE },
-                                { "floodMaps": printAttr.PROD_ACC }
-                            ],
-                            "legendLayers": null//[sitesLegendLayer]
-                        };
+                    
+                    var series_num;
+                    if (siteAttr.SERIES_NUM.match("-") != null) {
+                        var seriesNumArray = siteAttr.SERIES_NUM.split("-");
+                        series_num = seriesNumArray[0] + "-" + seriesNumArray[1]
                     } else {
-                        template.layoutOptions = {
-                            "titleText": userTitle,
-                            "authorText" : "Flood Inundation Mapping",
-                            "copyrightText": "This page was produced by the FIM and the WIM",
-                            "customTextElements": [
-                                { "mapTitle": printAttr.TITLE + " at the U.S. Geological Survey Streamgage Number " + siteAttr.SITE_NO },
-                                { "mapSeries": printAttr.REP_SER_NUM },
-                                { "studyArea": printAttr.STUDY_AREA },
-                                { "purpose": printAttr.PURPOSE_SCOPE },
-                                { "mapSources": "Detailed source data for this map series can be found in \"" + printAttr.TITLE + "(" + printAttr.PUB_DATE + ")\" at: " + printAttr.URL },
-                                { "suggestedCitation": "" },
-                                { "hydroData": printAttr.HYDRO_STEADY },
-                                { "hydraulicModel": printAttr.MODEL_CALIB },
-                                { "surfaceProfile": printAttr.WATER_PROFILE },
-                                { "floodMaps": printAttr.PROD_ACC }
-                            ]
-                            //"legendLayers": [sitesLegendLayer]
-                        };
+                        series_num = siteAttr.SERIES_NUM;
                     }
+
+                    var titleText;
+                    if (userTitle == "") {
+                        titleText = "FIM";;
+                    } else {
+                        titleText = userTitle;
+                    }
+
+                    template.layoutOptions = {
+                        "titleText": titleText,
+                        "authorText" : "Flood Inundation Mapping",
+                        "copyrightText": "This page was produced by the FIM and the WIM",
+                        "customTextElements": [
+                            { "mapTitle": printAttr.TITLE + "\n at the U.S. Geological Survey Streamgage Number " + siteAttr.SITE_NO },
+                            { "mapSeries": printAttr.REP_SER_NUM },
+                            { "studyArea": printAttr.STUDY_AREA },
+                            { "purpose": printAttr.PURPOSE_SCOPE },
+                            { "mapSources": "Detailed source data for this map series can be found in \"" + printAttr.TITLE + "(" + printAttr.PUB_DATE + ")\" at: " + printAttr.URL },
+                            { "suggestedCitation": siteAttr.AUTHORS + ", " + siteAttr.REP_DATE + ", " + siteAttr.TITLE + ": " + siteAttr.REP_SERIES + " " + series_num + ", " + siteAttr.ADD_INFO},
+                            { "hydroData": printAttr.HYDRO_STEADY },
+                            { "hydraulicModel": printAttr.MODEL_CALIB },
+                            { "surfaceProfile": printAttr.WATER_PROFILE },
+                            { "floodMaps": printAttr.PROD_ACC }
+                        ],
+                        "legendLayers": null//[sitesLegendLayer]
+                    };
 
                     var docTitle = template.layoutOptions.titleText;
                     printParams.template = template;
@@ -3961,169 +3974,152 @@ require([
                 } else {
                     no_page_one = true;
                 }
-            }
-        });
+                    
+                sitesLayer.setVisibility(false);
 
-        var sitesLayer = map.getLayer("fimSites");
+                var printParams = new PrintParameters();
+                printParams.map = map;
 
-        sitesLayer.setVisibility(false);
+                var template = new PrintTemplate();
+                /*template.exportOptions = {
+                    width: 500,
+                    height: 400,
+                    dpi: 300
+                };*/
+                template.format = "PDF";
+                template.layout = "FIMpage2design";
+                
+                if (map.getScale() < 18000) {
+                    template.layout = "FIMpage2design";
+                } else if (map.getScale() >= 18000 && map.getScale() < 36000) {
+                    template.layout = "FIMpage2design_18k";
+                } else if (map.getScale() >= 36000 && map.getScale() < 72000) {
+                    template.layout = "FIMpage2design_36k";
+                } else if (map.getScale() >= 72000 && map.getScale() < 288000) {
+                    template.layout = "FIMpage2design_72k";
+                } else if (map.getScale() >= 288000) {
+                    template.layout = "FIMpage2design_288k";
+                }
 
-        var printParams = new PrintParameters();
-        printParams.map = map;
+                template.preserveScale = false;
+                /*var sitesLegendLayer = new LegendLayer();
+                sitesLegendLayer.layerId = "fimSites";*/
+                //legendLayer.subLayerIds = [*];
 
-        var template = new PrintTemplate();
-        /*template.exportOptions = {
-            width: 500,
-            height: 400,
-            dpi: 300
-        };*/
-        template.format = "PDF";
-        template.layout = "FIMpage2design";
-        
-        if (map.getScale() < 18000) {
-            template.layout = "FIMpage2design";
-        } else if (map.getScale() >= 18000 && map.getScale() < 36000) {
-            template.layout = "FIMpage2design_18k";
-        } else if (map.getScale() >= 36000 && map.getScale() < 72000) {
-            template.layout = "FIMpage2design_36k";
-        } else if (map.getScale() >= 72000 && map.getScale() < 288000) {
-            template.layout = "FIMpage2design_72k";
-        } else if (map.getScale() >= 288000) {
-            template.layout = "FIMpage2design_288k";
-        }
+                var userTitle = $("#printTitle").val();
+                var siteCommunity = "";
+                var siteStatePrint = "";
+                var currentStage = "";
+                var currentReport = "";
+                var authors = "";
+                var rep_date = "";
+                var title = "";
+                var rep_series = "";
+                var series_num = "";
+                var add_info = "";
+                var currentElev = "";
+                var study_date = "";
+                var siteDefExp = "";
+                var siteToGage = "";
+                if (siteAttr.MULTI_SITE == '0') {
+                    siteDefExp = "SITE_NO = '" + siteNo + "'";
+                    siteToGage = "Map corresponding to a Gage Height of " + currentStage + " feet and an Elevation of " + currentElev + " feet (NAVD 88)";
+                } 
 
-        template.preserveScale = false;
-        /*var sitesLegendLayer = new LegendLayer();
-        sitesLegendLayer.layerId = "fimSites";*/
-        //legendLayer.subLayerIds = [*];
+                //"Flood-Inundation Map for the " + mapInfoArray[0] + " at the U.S. Geological Survey Streamgage Number " + mapInfoArray[1] 
+                //+ "\n<FNT size='4'>Map corresponding to a Gage Height of " + mapInfoArray[2] + " feet and an Elevation of " + mapInfoArray[5] + " feet (NAVD 88)</LIN></FNT>"
 
-        var userTitle = $("#printTitle").val();
-        var siteCommunity = "";
-        var siteStatePrint = "";
-        var currentStage = "";
-        var currentReport = "";
-        var authors = "";
-        var rep_date = "";
-        var title = "";
-        var rep_series = "";
-        var series_num = "";
-        var add_info = "";
-        var currentElev = "";
-        var study_date = "";
-        var siteDefExp = "";
-        var siteToGage = "";
-        if (siteAttr.MULTI_SITE == '0') {
-            siteDefExp = "SITE_NO = '" + siteNo + "'";
-            siteToGage = "Map corresponding to a Gage Height of " + currentStage + " feet and an Elevation of " + currentElev + " feet (NAVD 88)";
-        } 
-        
-        //if user does not provide title, use default. otherwise apply user title
-        if (userTitle == "") {
-            template.layoutOptions = {
-                "titleText": "FIM page 2 only",
-                "authorText" : "Flood Inundation Mapping",
-                "copyrightText": "This page was produced by the FIM and the WIM",
-                "customTextElements": [
-                    { "mapTitle": "Flood-Inundation Map for the Wabash River at Terre Haute, Indiana at the U.S. Geological Survey Streamgage Number " + siteAttr.SITE_NO },
-                    { "mapSeries": siteAttr.REPORT }
-                ],
-                "legendLayers": null//[sitesLegendLayer]
-            };
-        } else {
-            template.layoutOptions = {
-                "titleText": userTitle,
-                "authorText" : "Flood Inundation Mapping",
-                "copyrightText": "This page was produced by the FIM and the WIM",
-                /*"Map_Info" : siteCommunity + ", " + siteStatePrint + "|" + siteNo + "|" + currentStage + "|" + currentReport + "|"
-                    + authors + ", " + rep_date + ", " + title + ": " + rep_series + " " + series_num + ", " + add_info + "|" + currentElev + "|" 
-                    + study_date + "|" + siteDefExp + "|" + siteToGage*/
-                "customTextElements": [
-                    { "mapTitle": "Flood-Inundation Map for the " + siteAttr.COMMUNITY + " at the U.S. Geological Survey Streamgage Number " + siteAttr.SITE_NO },
-                    { "mapSeries": siteAttr.REPORT }/* ,
-                    { "Map_Info" : siteCommunity + ", " + siteStatePrint + "|" + siteNo + "|" + currentStage + "|" + currentReport + "|"
-                    + authors + ", " + rep_date + ", " + title + ": " + rep_series + " " + series_num + ", " + add_info + "|" + currentElev + "|" 
-                    + study_date + "|" + siteDefExp + "|" + siteToGage}     */    
-                ]
-                //"legendLayers": [sitesLegendLayer]
-            };
-        }
+                template.layoutOptions = {
+                    "titleText": titleText,
+                    "authorText" : "Flood Inundation Mapping",
+                    "copyrightText": "This page was produced by the FIM and the WIM",
+                    "customTextElements": [
+                        { "mapTitle": "Flood-Inundation Map for " + siteAttr.COMMUNITY + " at the U.S. Geological Survey Streamgage Number " + siteAttr.SITE_NO 
+                            + "\n<FNT size='8'>Map corresponding to a Gage Height of " + gageValues[$(".fts1 #floodSlider")[0].value].gageValue + " feet and an Elevation of " + altitudeValues[$(".fts1 #floodSlider")[0].value].altitudeValue + " feet (NAVD 88)</FNT>" },
+                        { "mapSeries": printAttr.REP_SER_NUM }
+                    ],
+                    "legendLayers": null//[sitesLegendLayer]
+                };
 
-        var extraParams = new Object();
-        extraParams.Map_Info = 'a|b|c|d|e|f|g|h|i';
-        printParams.extraParameters = extraParams;
+                var extraParams = new Object();
+                extraParams.Map_Info = 'a|b|c|d|e|f|g|h|i';
+                printParams.extraParameters = extraParams;
 
-        //"legendLayers": [legendLayer]
-        var docTitle = template.layoutOptions.titleText;
-        printParams.template = template;
-        var printMap = new PrintTask("https://fimtest.wim.usgs.gov/arcgis/rest/services/FIMPrint/ExportWebMap/GPServer/Export%20Web%20Map");
-        //var printMap = new PrintTask("https://fim.wim.usgs.gov/arcgis/rest/services/FIMMapper/printTool/GPServer/printTool");
-        
-        map.getLayer("layer0").setVisibility(false);
-        printMap.execute(printParams, printDone, printError);
+                //"legendLayers": [legendLayer]
+                var docTitle = template.layoutOptions.titleText;
+                printParams.template = template;
+                var printMap = new PrintTask("https://fimtest.wim.usgs.gov/arcgis/rest/services/FIMPrint/ExportWebMap/GPServer/Export%20Web%20Map");
+                //var printMap = new PrintTask("https://fim.wim.usgs.gov/arcgis/rest/services/FIMMapper/printTool/GPServer/printTool");
+                
+                map.getLayer("layer0").setVisibility(false);
+                printMap.execute(printParams, printDone, printError);
 
-        map.getLayer("layer0").setVisibility(true);
-        sitesLayer.setVisibility(true);
+                map.getLayer("layer0").setVisibility(true);
+                sitesLayer.setVisibility(true);
 
-        function printDone(event) {
-            //alert(event.url);
-            //window.open(event.url, "_blank");
-            /*printCount++;
-            //var printJob = $('<a href="'+ event.url +'" target="_blank">Printout ' + printCount + ' </a>');
-            var printJob = $('<p><label>' + printCount + ': </label><a href="'+ event.url +'" target="_blank">' + docTitle +' </a></p>');
-            //$("#print-form").append(printJob);
-            $("#printJobsDiv").find("p.toRemove").remove();
-            $("#printModalBody").append(printJob);
-            $("#printTitle").val("");
-            $("#printExecuteButton").button('reset');*/
-
-            page2name = event.url.split("GPServer/")[1];
-            console.log("page 2: " + page2name);
-
-            if (page1name != null) {
-                pdfMerge();
-            } else if (no_page_one == true) {
-                printCount++;
-                //var printJob = $('<a href="'+ event.url +'" target="_blank">Printout ' + printCount + ' </a>');
-                var printJob = $('<p><label>' + printCount + ': </label><a href="'+ event.url +'" target="_blank">' + docTitle +' </a></p>');
-                //$("#print-form").append(printJob);
-                $("#printJobsDiv").find("p.toRemove").remove();
-                $("#printModalBody").append(printJob);
-                $("#printTitle").val("");
-                $("#printExecuteButton").button('reset');
-            }
-        }
-
-        function pdfMerge() {
-            $.ajax({
-                dataType: 'json',
-                crossDomain: true,
-                type: 'GET',
-                referer: 'fimtest.wim.usgs.gov',
-                url: "https://fimtest.wim.usgs.gov/fim-pdf-merge?page1name=" + page1name + "&page2name=" + page2name,
-                headers: {'Accept': '*/*'},
-                success: function (data) {
-                    var mergedTitle;
-                    if (userTitle == "") {
-                        mergedTitle = "Map for site number " + site_no_for_print;
-                    } else {
-                        mergedTitle = userTitle;
-                    }
-                    printCount++;
+                function printDone(event) {
+                    //alert(event.url);
+                    //window.open(event.url, "_blank");
+                    /*printCount++;
                     //var printJob = $('<a href="'+ event.url +'" target="_blank">Printout ' + printCount + ' </a>');
-                    var printJob = $('<p><label>' + printCount + ':&nbsp;</label><a href="https://fimtest.wim.usgs.gov/pdf/'+ data.filename +'" target="_blank">' + mergedTitle +' </a></p>');
+                    var printJob = $('<p><label>' + printCount + ': </label><a href="'+ event.url +'" target="_blank">' + docTitle +' </a></p>');
                     //$("#print-form").append(printJob);
                     $("#printJobsDiv").find("p.toRemove").remove();
                     $("#printModalBody").append(printJob);
                     $("#printTitle").val("");
-                    $("#printExecuteButton").button('reset');
-                }
-            });
-        }
+                    $("#printExecuteButton").button('reset');*/
 
-        function printError(event) {
-            $("#printExecuteButton").button('reset');
-            alert("Sorry, an unclear print error occurred. Please try refreshing the application to fix the problem");
-        }
+                    page2name = event.url.split("GPServer/")[1];
+                    console.log("page 2: " + page2name);
+
+                    if (page1name != null) {
+                        pdfMerge();
+                    } else if (no_page_one == true) {
+                        printCount++;
+                        //var printJob = $('<a href="'+ event.url +'" target="_blank">Printout ' + printCount + ' </a>');
+                        var printJob = $('<p><label>' + printCount + ': </label><a href="'+ event.url +'" target="_blank">' + docTitle +' </a></p>');
+                        //$("#print-form").append(printJob);
+                        $("#printJobsDiv").find("p.toRemove").remove();
+                        $("#printModalBody").append(printJob);
+                        $("#printTitle").val("");
+                        $("#printExecuteButton").button('reset');
+                    }
+                }
+
+                function pdfMerge() {
+                    $.ajax({
+                        dataType: 'json',
+                        crossDomain: true,
+                        type: 'GET',
+                        referer: 'fimtest.wim.usgs.gov',
+                        url: "https://fimtest.wim.usgs.gov/fim-pdf-merge?page1name=" + page1name + "&page2name=" + page2name,
+                        headers: {'Accept': '*/*'},
+                        success: function (data) {
+                            var mergedTitle;
+                            if (userTitle == "") {
+                                mergedTitle = "Map for site number " + site_no_for_print;
+                            } else {
+                                mergedTitle = userTitle;
+                            }
+                            printCount++;
+                            //var printJob = $('<a href="'+ event.url +'" target="_blank">Printout ' + printCount + ' </a>');
+                            var printJob = $('<p><label>' + printCount + ':&nbsp;</label><a href="https://fimtest.wim.usgs.gov/pdf/'+ data.filename +'" target="_blank">' + mergedTitle +' </a></p>');
+                            //$("#print-form").append(printJob);
+                            $("#printJobsDiv").find("p.toRemove").remove();
+                            $("#printModalBody").append(printJob);
+                            $("#printTitle").val("");
+                            $("#printExecuteButton").button('reset');
+                        }
+                    });
+                }
+
+                function printError(event) {
+                    $("#printExecuteButton").button('reset');
+                    alert("Sorry, an unclear print error occurred. Please try refreshing the application to fix the problem");
+                }
+
+            }
+        });
     }
 
     // Show modal dialog; handle legend sizing (both on doc ready)
