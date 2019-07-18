@@ -3491,7 +3491,7 @@ require([
 
                     function printError(event) {
                         $("#printExecuteButton").button('reset');
-                        alert("Sorry, an unclear print error occurred. Please try refreshing the application to fix the problem");
+                        alert("Sorry, an unclear print error occurred. Try refreshing the application to fix the problem");
                     }
                 } else {
                     no_page_one = true;
