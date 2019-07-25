@@ -3463,12 +3463,12 @@ require([
                     //var printMap = new PrintTask("https://fim.wim.usgs.gov/arcgis/rest/services/FIMMapper/printTool/GPServer/printTool");
                     map.getLayer("layer0").setVisibility(false);
         
-                    printMap.execute(printParams, printDone, printError);
+                    printMap.execute(printParams, printPage1Done, printError);
 
                     map.getLayer("layer0").setVisibility(true);
                     sitesLayer.setVisibility(true);
 
-                    function printDone(event) {
+                    function printPage1Done(event) {
                         //alert(event.url);
                         //window.open(event.url, "_blank");
                         /*printCount++;
@@ -3573,12 +3573,12 @@ require([
                 //var printMap = new PrintTask("https://fim.wim.usgs.gov/arcgis/rest/services/FIMMapper/printTool/GPServer/printTool");
                 
                 map.getLayer("layer0").setVisibility(false);
-                printMap.execute(printParams, printDone, printError);
+                printMap.execute(printParams, printPage2Done, printError);
 
                 map.getLayer("layer0").setVisibility(true);
                 sitesLayer.setVisibility(true);
 
-                function printDone(event) {
+                function printPage2Done(event) {
                     //alert(event.url);
                     //window.open(event.url, "_blank");
                     /*printCount++;
