@@ -173,16 +173,17 @@ require([
     ];
 
     map = Map('mapDiv', {
-        basemap: 'topo',
+		basemap: 'topo',
+		touchZoom: true,
         //center: [-95.6, 38.6],
-        center: defaultMapCenter,
+		center: defaultMapCenter,
+		dragging: true,
         //extent: new Extent({xmin:-13876072.366774123,ymin:3500204.399233875,xmax:-7413780.247433899,ymax:6324093.972200677,spatialReference:{wkid:102100}}),
         //fitExtent: true,
         zoom: 5,
         logo: false,
-        lods: lods,
-		dragging: true,
-		touchZoom: true
+		lods: lods,
+		
     });
 
     //button for returning to initial extent
