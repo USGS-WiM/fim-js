@@ -659,7 +659,8 @@ require([
         zoom: 5,
         logo: false,
         lods: lods,
-        dragging: true
+		dragging: true,
+		touchZoom: true
     });
 
     //button for returning to initial extent
