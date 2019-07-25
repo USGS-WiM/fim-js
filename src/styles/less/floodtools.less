@@ -32,7 +32,8 @@
     // Flood level sliders
     // Flood level sliders
     #ftSliders{
-        width: 180px;
+		width: 180px;
+		min-width: 180px;
         display: flex;
         justify-content: space-around;
         flex-wrap: wrap;
@@ -40,7 +41,8 @@
         // background-color: fade(white, 55%);
         padding: 30px 0 0 15px;
         position: relative;
-        // min-width: 180px;
+		// min-width: 180px;
+		background-color: white;
 
         &.onesite{
             .slider-group{
@@ -107,8 +109,14 @@
                     width: 100%;
                     z-index: 60;
                     position: relative;
-                    direction: rtl;
-                }
+					direction: rtl;
+					box-shadow: none !important;
+					background:transparent;
+				}
+
+				input[type=range]::-moz-range-track {
+					background-color: transparent;
+				}
             }
 
             // Colored boxes to show
@@ -446,10 +454,10 @@
                     .label-ft:after{
                         content: 'feet';
                     }
-                    .label-fps{
+                    .label-fps:after{
                         content: 'fps';
                     }
-                    .label-cfs{
+                    .label-cfs:after{
                         content: 'cfs';
                     }
                 }

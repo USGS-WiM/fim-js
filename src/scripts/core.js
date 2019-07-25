@@ -1426,7 +1426,6 @@ require([
                 var floodStageBands3 = [];
 
                 var deferreds = [nwisCall,nwsCall];
-
                 
                 $.when(nwisCall,nwsCall,nwisCall2,nwsCall2,nwisCall3,nwsCall3)//)
                     .done(function(nwisData,nwsData,nwisData2 = null,nwsData2 = null,nwisData3 = null,nwsData3 = null) {//}) {
