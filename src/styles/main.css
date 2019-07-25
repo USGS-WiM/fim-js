@@ -94,7 +94,7 @@ body {
   border-radius: 4px;
   bottom: 55px !important;
   left: 30px !important;
-  border-radius: 3px;
+  border-radius: 5px;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.07), 0 3px 6px rgba(0, 0, 0, 0.08);
   background-color: #FFF !important;
   letter-spacing: 0px !important;
@@ -1668,6 +1668,9 @@ input[type=range].styled:focus::-ms-fill-upper {
 .esriControlsBR {
   display: none;
 }
+.close-alert:hover {
+  cursor: pointer;
+}
 #floodToolsDiv {
   box-shadow: 0px 6px 27px -7px rgba(0, 10, 80, 0.55);
 }
@@ -1697,6 +1700,7 @@ input[type=range].styled:focus::-ms-fill-upper {
 }
 #ftModal #ftSliders {
   width: 180px;
+  min-width: 180px;
   display: -webkit-flex;
   display: flex;
   -webkit-justify-content: space-around;
@@ -1706,6 +1710,7 @@ input[type=range].styled:focus::-ms-fill-upper {
   box-sizing: border-box;
   padding: 30px 0 0 15px;
   position: relative;
+  background-color: white;
 }
 #ftModal #ftSliders.onesite .slider-group {
   margin-left: 60px;
@@ -1763,6 +1768,11 @@ input[type=range].styled:focus::-ms-fill-upper {
   z-index: 60;
   position: relative;
   direction: rtl;
+  box-shadow: none !important;
+  background: transparent;
+}
+#ftModal #ftSliders .slider-group .slider-wrapper input[type=range]::-moz-range-track {
+  background-color: transparent;
 }
 #ftModal #ftSliders .slider-group .slider-levels {
   width: 100%;
@@ -2079,10 +2089,10 @@ input[type=range].styled:focus::-ms-fill-upper {
 #ftModal #ftData #ftTools #toolsTable .box .label-ft:after {
   content: 'feet';
 }
-#ftModal #ftData #ftTools #toolsTable .box .label-fps {
+#ftModal #ftData #ftTools #toolsTable .box .label-fps:after {
   content: 'fps';
 }
-#ftModal #ftData #ftTools #toolsTable .box .label-cfs {
+#ftModal #ftData #ftTools #toolsTable .box .label-cfs:after {
   content: 'cfs';
 }
 #ftModal #ftData #ftTools #toolsButtons {

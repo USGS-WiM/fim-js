@@ -178,9 +178,9 @@ USGS Bar
             </div>
             <div id="shareModalBody" class="modal-body">
                 <p>Use this url to share a direct link to this site </p>
-                <span id="siteURL"></span>
+				<span id="siteURL"></span>
+				<!-- Link triggers js copy function -->
                 <button class="btn btn-default" type="button" id="copyShareURL">Copy Link</button>
-
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
@@ -200,6 +200,7 @@ USGS Bar
         </div>
     </div>
     <div class="body">
+
 
         <!-- Site One -->
         <div class="min-ft fts1">
@@ -251,6 +252,7 @@ USGS Bar
             </div>
         </div>
 
+
         <!-- Site Three -->
         <div class="min-ft fts3">
             <div class="item">
@@ -291,11 +293,7 @@ $(".close-alert").click(function(){
     //map.graphics.clear();
 });
 </script>
-<style>
-    .close-alert:hover{
-        cursor: pointer;
-    }
-</style>
+
 
 
 <!--
@@ -932,14 +930,15 @@ $(".close-alert").click(function(){
 
 
                             <!--
-                                    Hydrographs
-                                    Hydrographs
-                                    Hydrographs
-                                -->
+								Hydrographs
+								Hydrographs
+								Hydrographs
+                            -->
                             <!-- Accordion Header -->
                             <div id="ftHydro" class="ftmodal-content">
                                 <div class="no-hydro">No current or predicted gage height data available for this library</div>
-                                <div class="fts1 chart-wrapper">
+								<!-- Sites -->
+								<div class="fts1 chart-wrapper">
                                     <div id="hydroChart"></div>
                                 </div>
                                 <div class="fts2 chart-wrapper">
@@ -959,8 +958,8 @@ $(".close-alert").click(function(){
                             <!-- Accordion Header -->
                             <div id="ftHazus" class="ftmodal-content">
                                 <!--
-                                          Hazus Table
-                                     -->
+									Hazus Table
+								-->
                                 <div id="hazusTableLabels">
                                     <div class="hazus-label">
                                         <div class="small-label">Site Number</div>
@@ -1043,19 +1042,19 @@ $(".close-alert").click(function(){
                             </div>
 
                             <!--
-                                    Web Cam
-                                    Web Cam
-                                    Web Cam
-                                -->
+								Web Cam
+								Web Cam
+								Web Cam
+							-->
                             <div id="ftWebcam" class="ftmodal-content">
                                 <img src="" id="webcamImage"/>
                             </div>
 
-                            <!--
-                                    More Info
-                                    More Info
-                                    More Info
-                                -->
+							<!--
+								More Info
+								More Info
+								More Info
+							-->
                             <div id="ftMoreInfo" class="ftmodal-content">
                                 <div id="moreInfo"></div>
                             </div>
