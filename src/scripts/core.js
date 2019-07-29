@@ -1049,7 +1049,7 @@ require([
                     headers: {'Accept': '*/*'},
                     success: function (data) {
 
-                        if (data.relatedRecordGroups[0].relatedRecords.length > 0) {
+                        if (data.relatedRecordGroups.length > 0 && data.relatedRecordGroups[0].relatedRecords.length > 0) {
                             var relatedRecords = data.relatedRecordGroups[0].relatedRecords;
                             var furnished = false;
                             $.each(relatedRecords, function (index, value) {
@@ -3008,8 +3008,32 @@ require([
     function snapToFlood() {
         if (extentResults != null) {
             var myArray = extentResults;
+            
+            var stagesToCheck = [];
+            var stage1;
+            var stage2;
+            var stage3;
+
+            switch(siteAttr.MULTI_SITE) {
+                case 0:
+                    stagesToCheck = ["STAGE"];
+                    stage1 = Number($(".fts1 #floodGage")[0].textContent);
+                    break;
+                case 1: 
+                    stagesToCheck = ["STAGE_1","STAGE_2"];
+                    stage1 = Number($(".fts1 #floodGage")[0].textContent);
+                    stage2 = Number($(".fts2 #floodGage")[0].textContent);
+                    break;
+                case (2 || 3):
+                    stagesToCheck = ["STAGE_1","STAGE_2","STAGE_3"];
+                    stage1 = Number($(".fts1 #floodGage")[0].textContent);
+                    stage2 = Number($(".fts2 #floodGage")[0].textContent);
+                    stage2 = Number($(".fts2 #floodGage")[0].textContent);
+                    break;
+            }
+            
             // this should be current stage
-            var myNum = Number($(".fts1 #floodGage").text());
+            var myNum = Number($(".fts1 #floodGage")[0].textContent);
 
             var closestNum;
             var closestArrayItem;
@@ -3019,18 +3043,14 @@ require([
 
                 tempNum = Math.abs(myArray[i].attributes.STAGE - myNum);
 
-                if(tempNum < closestNum || i == 0){
+                if(i == 0 || tempNum < closestNum){
                     closestNum = tempNum;
                     closestArrayItem = i;
                 }
 
             }
-            $(".floodSlider").value = closestArrayItem;
-            $(".fts1 #floodSlider").trigger("change");
-
-            //$("#floodToolsDiv .panel-heading").removeClass('loading-hide');
-            //$("#floodToolsDiv .panel-body").removeClass('loading-hide');
-            //$("#floodToolsDiv").removeClass('loading-background');
+            $(".first-slider").val(closestArrayItem);
+            $(".first-slider").trigger("change");
         }
     }
 
