@@ -3487,50 +3487,55 @@ require([
 
     function snapToFlood() {
         if (extentResults != null) {
-            var myArray = extentResults;
+            var myArray = gageValues;
             
             var stagesToCheck = [];
+            var stageValues = [];
+            var slidersToAdjust = [];
+            var gageValuesToCheck
             var stage1;
             var stage2;
             var stage3;
 
+            stage1 = Number($(".fts1 #floodGage")[0].textContent);
+            stage2 = Number($(".fts2 #floodGage")[0].textContent);
+            stage2 = Number($(".fts2 #floodGage")[0].textContent);
+            
+            stageValues = [stage1,stage2,stage3];
+            slidersToAdjust = [$(".first-slider"),$(".second-slider"),$(".third-slider")];
+            gageValuesToCheck = [gageValues,gageValues2,gageValues3];
+
             switch(siteAttr.MULTI_SITE) {
                 case 0:
-                    stagesToCheck = ["STAGE"];
-                    stage1 = Number($(".fts1 #floodGage")[0].textContent);
+                    stagesToCheck = ["gageValue"];
                     break;
                 case 1: 
-                    stagesToCheck = ["STAGE_1","STAGE_2"];
-                    stage1 = Number($(".fts1 #floodGage")[0].textContent);
-                    stage2 = Number($(".fts2 #floodGage")[0].textContent);
+                    stagesToCheck = ["gageValue","gageValue"];
                     break;
                 case (2 || 3):
-                    stagesToCheck = ["STAGE_1","STAGE_2","STAGE_3"];
-                    stage1 = Number($(".fts1 #floodGage")[0].textContent);
-                    stage2 = Number($(".fts2 #floodGage")[0].textContent);
-                    stage2 = Number($(".fts2 #floodGage")[0].textContent);
+                    stagesToCheck = ["gageValue","gageValue","gageValue"];
                     break;
             }
-            
-            // this should be current stage
-            var myNum = Number($(".fts1 #floodGage")[0].textContent);
 
-            var closestNum;
-            var closestArrayItem;
-            var tempNum;
+            for (var ind=0; ind < stagesToCheck.length; ind++) {
+                var closestNum;
+                var closestArrayItem;
+                var tempNum;
 
-            for(var i=0; i<myArray.length; i++){
+                for(var i=0; i < gageValuesToCheck[ind].length; i++){
 
-                tempNum = Math.abs(myArray[i].attributes.STAGE - myNum);
+                    tempNum = Math.abs(gageValuesToCheck[ind][i][stagesToCheck[ind]]- stageValues[ind]);
 
-                if(i == 0 || tempNum < closestNum){
-                    closestNum = tempNum;
-                    closestArrayItem = i;
+                    if(i == 0 || tempNum < closestNum){
+                        closestNum = tempNum;
+                        closestArrayItem = i;
+                    }
+
                 }
-
+                slidersToAdjust[ind].val(closestArrayItem);
+                slidersToAdjust[ind].trigger("change");
             }
-            $(".first-slider").val(closestArrayItem);
-            $(".first-slider").trigger("change");
+            
         }
     }
 
