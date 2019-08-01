@@ -2350,6 +2350,16 @@ require([
                                 title: {
                                     text: "Site " + siteNo
                                 },
+                                plotOptions: {
+                                    series: {
+                                        cursor: 'pointer',
+                                        events: {
+                                            click: function (event) {
+                                                snapToFlood(event.point.y,".first-slider");
+                                            }
+                                        }
+                                    }
+                                },
                                 series: [{
                                     data: finalNWISDataArray,
                                     name: "NWIS Observed",
@@ -2369,7 +2379,6 @@ require([
                                         lineWidth: 1.25
                                     }
                                 }],
-
                                 xAxis: {
                                     type: "datetime",
                                     tickInterval: 24*3600*1000
@@ -2436,6 +2445,16 @@ require([
                                 },
                                 title: {
                                     text: "Site " + siteNo_2
+                                },
+                                plotOptions: {
+                                    series: {
+                                        cursor: 'pointer',
+                                        events: {
+                                            click: function (event) {
+                                                snapToFlood(event.point.y,".second-slider");
+                                            }
+                                        }
+                                    }
                                 },
                                 series: [{
                                     data: finalNWISDataArray2,
@@ -2521,6 +2540,16 @@ require([
                                 },
                                 title: {
                                     text: "Site " + siteNo_3
+                                },
+                                plotOptions: {
+                                    series: {
+                                        cursor: 'pointer',
+                                        events: {
+                                            click: function (event) {
+                                                snapToFlood(event.point.y,".third-slider");
+                                            }
+                                        }
+                                    }
                                 },
                                 series: [{
                                     data: finalNWISDataArray3,
@@ -3485,11 +3514,10 @@ require([
 
     });
 
-    function snapToFlood() {
-        if (extentResults != null) {
-            var myArray = gageValues;
+    function snapToFlood(stage = null, slider = null) {
+        if (gageValues != null) {
             
-            var stagesToCheck = [];
+            var checkLength;
             var stageValues = [];
             var slidersToAdjust = [];
             var gageValuesToCheck
@@ -3497,34 +3525,47 @@ require([
             var stage2;
             var stage3;
 
-            stage1 = Number($(".fts1 #floodGage")[0].textContent);
-            stage2 = Number($(".fts2 #floodGage")[0].textContent);
-            stage2 = Number($(".fts2 #floodGage")[0].textContent);
-            
-            stageValues = [stage1,stage2,stage3];
-            slidersToAdjust = [$(".first-slider"),$(".second-slider"),$(".third-slider")];
-            gageValuesToCheck = [gageValues,gageValues2,gageValues3];
+            if (stage == null) {
+                stage1 = Number($(".fts1 #floodGage")[0].textContent);
+                stage2 = Number($(".fts2 #floodGage")[0].textContent);
+                stage3 = Number($(".fts3 #floodGage")[0].textContent);
+                
+                stageValues = [stage1,stage2,stage3];
+                slidersToAdjust = [$(".first-slider"),$(".second-slider"),$(".third-slider")];
+                gageValuesToCheck = [gageValues,gageValues2,gageValues3];
 
-            switch(siteAttr.MULTI_SITE) {
-                case 0:
-                    stagesToCheck = ["gageValue"];
-                    break;
-                case 1: 
-                    stagesToCheck = ["gageValue","gageValue"];
-                    break;
-                case (2 || 3):
-                    stagesToCheck = ["gageValue","gageValue","gageValue"];
-                    break;
+                switch(siteAttr.MULTI_SITE) {
+                    case 0:
+                        checkLength = 1;
+                        break;
+                    case 1: 
+                        checkLength = 2;
+                        break;
+                    case (2 || 3):
+                        checkLength = 3;
+                        break;
+                }
+            } else {
+                checkLength = 1;
+                stageValues = [stage];
+                slidersToAdjust = [$(slider)];
+                if (slider == ".first-slider") {
+                    gageValuesToCheck = [gageValues];
+                } else if (slider == ".second-slider") {
+                    gageValuesToCheck = [gageValues2];
+                } else if (slider == ".third-slider") {
+                    gageValuesToCheck = [gageValues3];
+                }
             }
 
-            for (var ind=0; ind < stagesToCheck.length; ind++) {
+            for (var ind=0; ind < checkLength; ind++) {
                 var closestNum;
                 var closestArrayItem;
                 var tempNum;
 
                 for(var i=0; i < gageValuesToCheck[ind].length; i++){
 
-                    tempNum = Math.abs(gageValuesToCheck[ind][i][stagesToCheck[ind]]- stageValues[ind]);
+                    tempNum = Math.abs(gageValuesToCheck[ind][i]["gageValue"]- stageValues[ind]);
 
                     if(i == 0 || tempNum < closestNum){
                         closestNum = tempNum;
