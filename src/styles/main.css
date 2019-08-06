@@ -1782,6 +1782,7 @@ input[type=range].styled:focus::-ms-fill-upper {
   overflow: hidden;
   margin-top: -2px;
 }
+#ftModal #ftSliders .slider-group .slider-levels .sliderWhiteSpace,
 #ftModal #ftSliders .slider-group .slider-levels .sliderActionLevel,
 #ftModal #ftSliders .slider-group .slider-levels .sliderMinorLevel,
 #ftModal #ftSliders .slider-group .slider-levels .sliderModerateLevel,
@@ -1791,6 +1792,10 @@ input[type=range].styled:focus::-ms-fill-upper {
   width: 10px;
   position: absolute;
   right: 0;
+}
+#ftModal #ftSliders .slider-group .slider-levels .sliderWhiteSpace {
+  background-color: #fff;
+  z-index: 50;
 }
 #ftModal #ftSliders .slider-group .slider-levels .sliderActionLevel {
   background-color: #FDFB51;
