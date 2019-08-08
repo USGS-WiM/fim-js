@@ -1635,24 +1635,29 @@ require([
 
 						function floodStageBandSetUp(dataForBands) {
 
-							var levels = new Object();
-							levels.action = (dataForBands[0].getElementsByTagName("action")[0].childNodes.length > 0) ? dataForBands[0].getElementsByTagName("action")[0].childNodes[0].nodeValue : null;
-							levels.flood = (dataForBands[0].getElementsByTagName("flood")[0].childNodes.length > 0) ? dataForBands[0].getElementsByTagName("flood")[0].childNodes[0].nodeValue : null;
-							levels.moderate = (dataForBands[0].getElementsByTagName("moderate")[0].childNodes.length > 0) ? dataForBands[0].getElementsByTagName("moderate")[0].childNodes[0].nodeValue : null;
-							levels.major = (dataForBands[0].getElementsByTagName("major")[0].childNodes.length > 0) ? dataForBands[0].getElementsByTagName("major")[0].childNodes[0].nodeValue : null;
-							
-							console.log('Flood stages here');
-							return levels;
+							// Show error if data isn't available
+							if(dataForBands[0].getElementsByTagName("action")[0] && dataForBands[0].getElementsByTagName("flood")[0] && dataForBands[0].getElementsByTagName("moderate")[0] && dataForBands[0].getElementsByTagName("major")[0]){
+								var levels = new Object();
+								levels.action = (dataForBands[0].getElementsByTagName("action")[0].childNodes.length > 0) ? dataForBands[0].getElementsByTagName("action")[0].childNodes[0].nodeValue : null;
+								levels.flood = (dataForBands[0].getElementsByTagName("flood")[0].childNodes.length > 0) ? dataForBands[0].getElementsByTagName("flood")[0].childNodes[0].nodeValue : null;
+								levels.moderate = (dataForBands[0].getElementsByTagName("moderate")[0].childNodes.length > 0) ? dataForBands[0].getElementsByTagName("moderate")[0].childNodes[0].nodeValue : null;
+								levels.major = (dataForBands[0].getElementsByTagName("major")[0].childNodes.length > 0) ? dataForBands[0].getElementsByTagName("major")[0].childNodes[0].nodeValue : null;
+								
+								console.log('Flood stages here');
+								return levels;
+	
+							}else{
+								floodToolsError();
+							}
 						}
 
 						console.log("GAGE VALUES")
 						console.log(gageValues);
 
 						var sliderStages = floodStageBandSetUp(nwsData);
-						console.log(sliderStages);
-
+						var sliderMax1 = 15;
 						if (gageValues.length > 0) {
-							var sliderMax1 = gageValues[gageValues.length-1].gageValue;
+							sliderMax1 = gageValues[gageValues.length-1].gageValue;
 						}
 
 
@@ -1749,10 +1754,9 @@ require([
 							console.log(nwsData3)
 							
 							var sliderStages2 = floodStageBandSetUp(nwsData2);
-							console.log(sliderStages2);
-
+							var sliderMax2 = 15;
 							if (gageValues2.length > 0) {
-								var sliderMax2 = gageValues2[gageValues2.length-1].gageValue;
+								sliderMax2 = gageValues2[gageValues2.length-1].gageValue;
 							}
 
 
@@ -1818,11 +1822,9 @@ require([
 							console.log("Triple Site");
 							
 							var sliderStages3 = floodStageBandSetUp(nwsData3);
-							console.log(sliderStages3);
-
-							
+							var sliderMax3 = 15;
 							if (gageValues3.length > 0) {
-								var sliderMax3 = gageValues3[gageValues3.length-1].gageValue;
+								sliderMax3 = gageValues3[gageValues3.length-1].gageValue;
 							}
 							
 
