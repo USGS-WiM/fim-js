@@ -1650,6 +1650,7 @@ require([
 
 						var sliderStages = floodStageBandSetUp(nwsData);
 						console.log(sliderStages);
+						var sliderMax1 = gageValues[gageValues.length-1].gageValue;
 
 
                         var floodStageBands = [
@@ -1680,7 +1681,7 @@ require([
                             {
                                 color: "#C326FB",
                                 from: sliderStages.major,
-                                to: gageValues[gageValues.length-1].gageValue,
+                                to: sliderMax1,
                                 'label':{
                                     'text': "Major Flooding"
                                 }
@@ -1743,6 +1744,8 @@ require([
 							
 							var sliderStages2 = floodStageBandSetUp(nwsData2);
 							console.log(sliderStages2);
+							var sliderMax2 = gageValues2[gageValues2.length-1].gageValue;
+
 
 
                             if (typeof nwsData2[0] !== "string") {
@@ -1774,7 +1777,7 @@ require([
                                     {
                                         color: "#C326FB",
                                         from: sliderStages2.major,
-                                        to: gageValues2[gageValues2.length-1].gageValue,
+                                        to: sliderMax2,
                                         'label':{
                                             'text': "Major Flooding"
                                         }
@@ -1807,6 +1810,7 @@ require([
 							
 							var sliderStages3 = floodStageBandSetUp(nwsData3);
 							console.log(sliderStages3);
+							var sliderMax3 = gageValues3[gageValues3.length-1].gageValue;
 
 
                             if (typeof nwsData2[0] !== "string") {
@@ -1838,7 +1842,7 @@ require([
                                     {
                                         color: "#C326FB",
 										from: sliderStages3.major,
-                                        to: gageValues3[gageValues3.length-1].gageValue,
+                                        to: sliderMax3,
                                         'label':{
                                             'text': "Major Flooding"
                                         }
