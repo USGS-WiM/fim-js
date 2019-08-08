@@ -240,7 +240,7 @@ USGS Bar
                 <label>NWS Site ID:</label>
                 <a id="nwsSiteID" class="value" target="_blank" href=""></a>
             </div>
-            <div class="item">
+            <div class="item nws-data-req">
                 <label>Selected gage height:</label>
                 <div class="value label-ft slider-min update"></div>
             </div>
@@ -265,7 +265,7 @@ USGS Bar
                 <label>NWS Site ID:</label>
                 <a id="nwsSiteID" class="value" target="_blank" href=""></a>
             </div>
-            <div class="item">
+            <div class="item nws-data-req">
                 <label>Selected gage height:</label>
                 <div class="value label-ft slider-min update"></div>
             </div>
@@ -291,7 +291,7 @@ USGS Bar
                 <label>NWS Site ID:</label>
                 <a id="nwsSiteID" class="value" target="_blank" href=""></a>
             </div>
-            <div class="item">
+            <div class="item nws-data-req">
                 <label>Selected gage height:</label>
                 <div class="value label-ft slider-min update"></div>
             </div>
@@ -759,9 +759,8 @@ $(".close-alert").click(function(){
                  -->
                 <div id="floodToolsDiv" class="panel panel-default floodToolsClass ">
 
-                    <div id="floodToolsErrorMessage">
-                        There was an error retrieving the data at this time. Please try again later.
-                    </div>
+					<!-- Error message on top of title bar -->
+                    <div id="floodToolsErrorMessage"></div>
 
 
                     <!-- Modal Title -->
@@ -788,58 +787,60 @@ $(".close-alert").click(function(){
                                     Flood Level Sliders
                                     Flood Level Sliders
                                     Flood Level Sliders
-                                -->
-                            <!-- First slider -->
-                            <div class="slider-group fts1">
-                                <!-- Flood Level Colors -->
-                                <div class="slider-levels">
-                                    <div class="sliderWhiteSpace"></div>
-                                    <div class="sliderActionLevel"></div>
-                                    <div class="sliderMinorLevel"></div>
-                                    <div class="sliderModerateLevel"></div>
-                                    <div class="sliderMajorLevel"></div>
-                                </div>
-                                <!-- Actual Slider -->
-                                <div class="slider-wrapper">
-                                    <label class="slider-max">N/A</label>
-                                    <input id="floodSlider" type="range" name="stage" value="0" min="0" max="10" class="styled ftSlider-vertical floodSlider first-slider"/>
-                                    <label class="slider-min">N/A</label>
-                                </div>
-                            </div>
-                            <!-- Second slider -->
-                            <div class="slider-group fts2">
-                                <!-- Flood Level Colors -->
-                                <div class="slider-levels">
-                                    <div class="sliderWhiteSpace"></div>
-                                    <div class="sliderActionLevel"></div>
-                                    <div class="sliderMinorLevel"></div>
-                                    <div class="sliderModerateLevel"></div>
-                                    <div class="sliderMajorLevel"></div>
-                                </div>
-                                <!-- Actual Slider -->
-                                <div class="slider-wrapper">
-                                    <label class="slider-max">N/A</label>
-                                    <input id="floodSlider" type="range" name="stage" value="0" min="0" max="10" class="styled ftSlider-vertical floodSlider second-slider"/>
-                                    <label class="slider-min">N/A</label>
-                                </div>
-                            </div>
-                            <!-- Third slider -->
-                            <div class="slider-group fts3">
-                                <!-- Flood Level Colors -->
-                                <div class="slider-levels">
-                                    <div class="sliderWhiteSpace"></div>
-                                    <div class="sliderActionLevel"></div>
-                                    <div class="sliderMinorLevel"></div>
-                                    <div class="sliderModerateLevel"></div>
-                                    <div class="sliderMajorLevel"></div>
-                                </div>
-                                <!-- Actual Slider -->
-                                <div class="slider-wrapper">
-                                    <label class="slider-max">N/A</label>
-                                    <input id="floodSlider" type="range" name="stage" value="0" min="0" max="10" class="styled ftSlider-vertical floodSlider third-slider"/>
-                                    <label class="slider-min">N/A</label>
-                                </div>
-                            </div>
+								-->
+							<span class="nws-data-req">
+								<!-- First slider -->
+								<div class="slider-group fts1">
+									<!-- Flood Level Colors -->
+									<div class="slider-levels">
+										<div class="sliderWhiteSpace"></div>
+										<div class="sliderActionLevel"></div>
+										<div class="sliderMinorLevel"></div>
+										<div class="sliderModerateLevel"></div>
+										<div class="sliderMajorLevel"></div>
+									</div>
+									<!-- Actual Slider -->
+									<div class="slider-wrapper">
+										<label class="slider-max">N/A</label>
+										<input id="floodSlider" type="range" name="stage" value="0" min="0" max="10" class="styled ftSlider-vertical floodSlider first-slider"/>
+										<label class="slider-min">N/A</label>
+									</div>
+								</div>
+								<!-- Second slider -->
+								<div class="slider-group fts2">
+									<!-- Flood Level Colors -->
+									<div class="slider-levels">
+										<div class="sliderWhiteSpace"></div>
+										<div class="sliderActionLevel"></div>
+										<div class="sliderMinorLevel"></div>
+										<div class="sliderModerateLevel"></div>
+										<div class="sliderMajorLevel"></div>
+									</div>
+									<!-- Actual Slider -->
+									<div class="slider-wrapper">
+										<label class="slider-max">N/A</label>
+										<input id="floodSlider" type="range" name="stage" value="0" min="0" max="10" class="styled ftSlider-vertical floodSlider second-slider"/>
+										<label class="slider-min">N/A</label>
+									</div>
+								</div>
+								<!-- Third slider -->
+								<div class="slider-group fts3">
+									<!-- Flood Level Colors -->
+									<div class="slider-levels">
+										<div class="sliderWhiteSpace"></div>
+										<div class="sliderActionLevel"></div>
+										<div class="sliderMinorLevel"></div>
+										<div class="sliderModerateLevel"></div>
+										<div class="sliderMajorLevel"></div>
+									</div>
+									<!-- Actual Slider -->
+									<div class="slider-wrapper">
+										<label class="slider-max">N/A</label>
+										<input id="floodSlider" type="range" name="stage" value="0" min="0" max="10" class="styled ftSlider-vertical floodSlider third-slider"/>
+										<label class="slider-min">N/A</label>
+									</div>
+								</div>
+							</span>
 
 
                             <!-- Site options -->
@@ -864,7 +865,7 @@ $(".close-alert").click(function(){
 								</div>
                                 
 								<!-- NWS Stages Legend -->
-                                <div id="floodToolsLegend">
+                                <div id="floodToolsLegend" class="nws-data-req">
 									<div class="ft-legend-header">NWS Stages</div>
 									
 									<div class="ft-legend-items">
@@ -898,11 +899,11 @@ $(".close-alert").click(function(){
 
                             <!-- Tabs / navigation for flood tools -->
                             <div id="ftDataTabs">
-                                <div class="ft-tab active" data-toggle="ftTools" onclick="ga('send','event','Flood Tools Panel','click','Flood Tools');">
+                                <div class="ft-tab ft-main-tab active" data-toggle="ftTools" onclick="ga('send','event','Flood Tools Panel','click','Flood Tools');">
                                     <span>Flood Tools</span>
                                     <i class="fa fa-water"></i>
                                 </div>
-                                <div class="ft-tab ft-hydro-tab" data-toggle="ftHydro" onclick="ga('send','event','Hydrograph Panel','click','Hydrograph');">
+                                <div class="ft-tab ft-hydro-tab nws-data-req" data-toggle="ftHydro" onclick="ga('send','event','Hydrograph Panel','click','Hydrograph');">
                                     <span>Hydrograph</span>
                                     <i class="fa fa-chart-bar"></i>
                                 </div>
@@ -936,16 +937,19 @@ $(".close-alert").click(function(){
                                 -->
                             <div id="ftTools" class="ftmodal-content">
 
-                                <div id="sgl" class="small-label">Selected gage height</div>
-                                <div id="sgh" class="fts1">
-                                    <label for="floodSlider" class="slider-min update"></label>
-                                </div>
-                                <div id="sgh" class="fts2">
-                                    <label for="floodSlider" class="slider-min update"></label>
-                                </div>
-                                <div id="sgh" class="fts3">
-                                    <label for="floodSlider" class="slider-min update"></label>
-                                </div>
+								<span class="nws-data-req">
+									<div id="sgl" class="small-label">Selected gage height</div>
+									<div id="sgh" class="fts1">
+										<label for="floodSlider" class="slider-min update"></label>
+									</div>
+									<div id="sgh" class="fts2">
+										<label for="floodSlider" class="slider-min update"></label>
+									</div>
+									<div id="sgh" class="fts3">
+										<label for="floodSlider" class="slider-min update"></label>
+									</div>
+								</span>
+                                
 
                                 <!-- Current Conditions Table -->
                                 <div class="small-label">Current Conditions</div>

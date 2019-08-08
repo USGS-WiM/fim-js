@@ -1162,10 +1162,18 @@ require([
 
                         if (data.features && data.features.length > 0) {
                             $("#moreInfo").text(data.features[0].attributes.ADD_INFO);
-                            $(".ft-more-info").show();
+                            $(".ft-more-info-tab").show();
                             $(".ft-more-info-tab").click();
                         } else {
-                            $(".ft-hydro-tab").click();
+							// Default to hydro tab if NWS data available
+							if($(".ft-hydro-tab").hasClass("nws-data-hidden")){
+								console.log("Open Hydro")
+								$(".ft-hydro-tab").click();
+							}else{ // Otherwise main tab
+								console.log("Open Main")
+								$(".ft-main-tab").click();
+							}
+
                             $("#moreInfo").text("Loading...");
                             $(".ft-more-info-tab").hide();
                         }
@@ -1636,9 +1644,26 @@ require([
 
 						function floodStageBandSetUp(dataForBands) {
 
-							// Show error if data isn't available
 							// Ex Site http://localhost:9000/?site_no=02126375
-							if(dataForBands[0].getElementsByTagName("action")[0] && dataForBands[0].getElementsByTagName("flood")[0] && dataForBands[0].getElementsByTagName("moderate")[0] && dataForBands[0].getElementsByTagName("major")[0]){
+							// If NWS Data does not exist
+							// if(dataForBands[0].getElementsByTagName("response")[0].textContent.toLowerCase() == "no nws data"){
+							if(dataForBands[0].getElementsByTagName("response")[0]){
+								console.log("NWS Data Not Available");
+								$(".nws-data-req").addClass("nws-data-hidden");
+								
+								floodToolsError("nws");
+
+								var levels = new Object();
+								levels.action = 0;
+								levels.flood = 0;
+								levels.moderate = 0;
+								levels.major = 0;
+								
+								console.log('Empty Flood Stages');
+								return levels;
+
+							}else{ // If NWS Data does exist
+								$(".nws-data-hidden").removeClass("nws-data-hidden");
 								var levels = new Object();
 								levels.action = (dataForBands[0].getElementsByTagName("action")[0].childNodes.length > 0) ? dataForBands[0].getElementsByTagName("action")[0].childNodes[0].nodeValue : null;
 								levels.flood = (dataForBands[0].getElementsByTagName("flood")[0].childNodes.length > 0) ? dataForBands[0].getElementsByTagName("flood")[0].childNodes[0].nodeValue : null;
@@ -1647,9 +1672,6 @@ require([
 								
 								console.log('Flood stages here');
 								return levels;
-	
-							}else{
-								floodToolsError();
 							}
 						}
 
@@ -4501,7 +4523,13 @@ $('body').text( $('body').text().replace("●", ''));
 // Flood Tools Error
 // Flood Tools Error
 // Flood Tools Error
-var floodToolsError = function(){
+var floodToolsError = function(type){
+
+	if(type="nws"){
+		$("#floodToolsErrorMessage").text("Some data not available at this site.")
+	}else{
+		$("#floodToolsErrorMessage").text("There was an error retrieving the data at this time. Please try again later.")
+	}
     
     $("#floodToolsErrorMessage").show();
     // $("#ftError").addClass("visible");

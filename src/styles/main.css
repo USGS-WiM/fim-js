@@ -6,7 +6,6 @@ body {
 body {
   margin: 0;
   padding: 0 0 0 0;
-  background-image: url("../images/wim_abbr_black.png");
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: center;
@@ -1692,6 +1691,9 @@ input[type=range].styled:focus::-ms-fill-upper {
 }
 .close-alert:hover {
   cursor: pointer;
+}
+.nws-data-hidden {
+  display: none !important;
 }
 #floodToolsDiv {
   box-shadow: 0px 6px 27px -7px rgba(0, 10, 80, 0.55);
