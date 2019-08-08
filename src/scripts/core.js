@@ -1820,6 +1820,7 @@ require([
 							var sliderStages3 = floodStageBandSetUp(nwsData3);
 							console.log(sliderStages3);
 
+							
 							if (gageValues3.length > 0) {
 								var sliderMax3 = gageValues3[gageValues3.length-1].gageValue;
 							}
