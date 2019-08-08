@@ -1425,7 +1425,10 @@ require([
 
                 var floodStageBands = [];
                 var floodStageBands2 = [];
-                var floodStageBands3 = [];
+				var floodStageBands3 = [];
+				
+
+
 
                 var deferreds = [nwisCall,nwsCall];
                 
@@ -1455,7 +1458,9 @@ require([
                                 gageIndex = key;
                                 pcodeAbbr = "navd88";
                             }
-                        });
+						});
+						
+						
 
                         var hydroChartYAxisLabel;
 
@@ -1628,35 +1633,55 @@ require([
                         // ========================================================================
                         // ========================================================================
 
+						function floodStageBandSetUp(dataForBands) {
+
+							var levels = new Object();
+							levels.action = (dataForBands[0].getElementsByTagName("action")[0].childNodes.length > 0) ? dataForBands[0].getElementsByTagName("action")[0].childNodes[0].nodeValue : null;
+							levels.flood = (dataForBands[0].getElementsByTagName("flood")[0].childNodes.length > 0) ? dataForBands[0].getElementsByTagName("flood")[0].childNodes[0].nodeValue : null;
+							levels.moderate = (dataForBands[0].getElementsByTagName("moderate")[0].childNodes.length > 0) ? dataForBands[0].getElementsByTagName("moderate")[0].childNodes[0].nodeValue : null;
+							levels.major = (dataForBands[0].getElementsByTagName("major")[0].childNodes.length > 0) ? dataForBands[0].getElementsByTagName("major")[0].childNodes[0].nodeValue : null;
+							
+							console.log('Flood stages here');
+							return levels;
+						}
+
+						console.log("GAGE VALUES")
+						console.log(gageValues);
+
+						var sliderStages = floodStageBandSetUp(nwsData);
+						console.log(sliderStages);
+						var sliderMax1 = gageValues[gageValues.length-1].gageValue;
+
+
                         var floodStageBands = [
                             {
                                 color: "#FDFB51",
-                                from: "0",
-                                to: nwsData[0].getElementsByTagName("action")[0].childNodes[0].nodeValue,
+                                from: sliderStages.action,
+                                to: sliderStages.flood,
                                 'label':{
                                     'text': "Action"
                                 }
                             },
                             {
                                 color: "#FAA629",
-                                from: nwsData[0].getElementsByTagName("action")[0].childNodes[0].nodeValue,
-                                to: nwsData[0].getElementsByTagName("flood")[0].childNodes[0].nodeValue,
+                                from: sliderStages.flood,
+                                to: sliderStages.moderate,
                                 'label':{
                                     'text': "Minor Flooding"
                                 }
                             },
                             {
                                 color: "#FC0D1B",
-                                from: nwsData[0].getElementsByTagName("flood")[0].childNodes[0].nodeValue,
-                                to: nwsData[0].getElementsByTagName("moderate")[0].childNodes[0].nodeValue,
+                                from: sliderStages.moderate,
+                                to: sliderStages.major,
                                 'label':{
                                     'text': "Moderate Flooding"
                                 }
                             },
                             {
                                 color: "#C326FB",
-                                from: nwsData[0].getElementsByTagName("moderate")[0].childNodes[0].nodeValue,
-                                to: nwsData[0].getElementsByTagName("major")[0].childNodes[0].nodeValue,
+                                from: sliderStages.major,
+                                to: sliderMax1,
                                 'label':{
                                     'text': "Major Flooding"
                                 }
@@ -1689,13 +1714,15 @@ require([
                             $(".fts1 .slider-min").text(gageValues[0].gageValue);
                             $(".fts1 .slider-max").text(gageValues[gageValues.length-1].gageValue);
 
-                            // Flood levels near slider - Site 1
+							// Flood levels near slider - Site 1
                             var flMax1 = gageValues[gageValues.length-1].gageValue;
                             var flMin1 = gageValues[0].gageValue;
-                            var flDiff1 = flMax1 - flMin1;
-                            $(".fts1 .sliderActionLevel").css( "width", (floodStageBands[0].to - flMin1) / flDiff1 * 100 + '%' );
-                            $(".fts1 .sliderMinorLevel").css( "width", (floodStageBands[1].to - flMin1) / flDiff1 * 100 + '%' );
-                            $(".fts1 .sliderModerateLevel").css( "width", (floodStageBands[2].to - flMin1) / flDiff1 * 100 + '%' );
+							var flDiff1 = flMax1 - flMin1;
+							
+                            $(".fts1 .sliderWhiteSpace").css( "width", (sliderStages.action - flMin1) / flDiff1 * 100 + '%' );
+                            $(".fts1 .sliderActionLevel").css( "width", (sliderStages.flood - flMin1) / flDiff1 * 100 + '%' );
+                            $(".fts1 .sliderMinorLevel").css( "width", (sliderStages.moderate - flMin1) / flDiff1 * 100 + '%' );
+                            $(".fts1 .sliderModerateLevel").css( "width", (sliderStages.major - flMin1) / flDiff1 * 100 + '%' );
                             $(".fts1 .sliderMajorLevel").css( "width", '100%' );
                             
                             console.log("Flood stage bands")
@@ -1713,39 +1740,44 @@ require([
                             console.log("NWS DATA2")
                             console.log(nwsData2)
                             console.log("NWS DATA3")
-                            console.log(nwsData3)
+							console.log(nwsData3)
+							
+							var sliderStages2 = floodStageBandSetUp(nwsData2);
+							console.log(sliderStages2);
+							var sliderMax2 = gageValues2[gageValues2.length-1].gageValue;
+
+
 
                             if (typeof nwsData2[0] !== "string") {
                                 var floodStageBands2 = [
                                     {
                                         color: "#FDFB51",
-                                        from: "0",
-                                        to: nwsData2[0].getElementsByTagName("action")[0].childNodes[0].nodeValue,
-                                        'label':{
+										from: sliderStages2.action,
+										to: sliderStages2.flood,
+										'label':{
                                             'text': "Action"
                                         }
-                                        // to: nwsData[0].childNodes[0].children[1].children[1].textContent
                                     },
                                     {
                                         color: "#FAA629",
-                                        from: nwsData2[0].getElementsByTagName("action")[0].childNodes[0].nodeValue,
-                                        to: nwsData2[0].getElementsByTagName("flood")[0].childNodes[0].nodeValue,
-                                        'label':{
+										from: sliderStages2.flood,
+										to: sliderStages2.moderate,
+										'label':{
                                             'text': "Minor Flooding"
                                         }
                                     },
                                     {
                                         color: "#FC0D1B",
-                                        from: nwsData2[0].getElementsByTagName("flood")[0].childNodes[0].nodeValue,
-                                        to: nwsData2[0].getElementsByTagName("moderate")[0].childNodes[0].nodeValue,
-                                        'label':{
+										from: sliderStages2.moderate,
+										to: sliderStages2.major,
+										'label':{
                                             'text': "Moderate Flooding"
                                         }
                                     },
                                     {
                                         color: "#C326FB",
-                                        from: nwsData2[0].getElementsByTagName("moderate")[0].childNodes[0].nodeValue,
-                                        to: nwsData2[0].getElementsByTagName("major")[0].childNodes[0].nodeValue,
+                                        from: sliderStages2.major,
+                                        to: sliderMax2,
                                         'label':{
                                             'text': "Major Flooding"
                                         }
@@ -1758,59 +1790,59 @@ require([
                                 // Fill slider min/max/current - 2nd site
                                 $(".fts2 .slider-min").text(gageValues2[0].gageValue);
                                 $(".fts2 .slider-max").text(gageValues2[gageValues2.length-1].gageValue);
-
-                                // Slider flood levels - 2nd site
-                                var flMax2 = gageValues2[gageValues2.length-1].gageValue;
-                                var flMin2 = gageValues2[0].gageValue;
-                                var flDiff2 = flMax2 - flMin2;
-                                
-                                if (floodStageBands2 != undefined) {
-                                    $(".fts2 .sliderActionLevel").css( "width", (floodStageBands2[0].to - flMin2) / flDiff2 * 100 + '%' );
-                                    $(".fts2 .sliderMinorLevel").css( "width", (floodStageBands2[1].to - flMin2) / flDiff2 * 100 + '%' );
-                                    $(".fts2 .sliderModerateLevel").css( "width", (floodStageBands2[2].to - flMin2) / flDiff2 * 100 + '%' );
-                                    $(".fts2 .sliderMajorLevel").css( "width", '100%' );
-                                    
-                                    console.log("Flood Stage Bands 2")
-                                    console.log(floodStageBands2)
-                                }
+	
+								// Flood levels near slider - Site 1
+								var flMax2 = gageValues2[gageValues2.length-1].gageValue;
+								var flMin2 = gageValues2[0].gageValue;
+								var flDiff2 = flMax2 - flMin2;
+								
+								$(".fts2 .sliderWhiteSpace").css( "width", (sliderStages2.action - flMin2) / flDiff2 * 100 + '%' );
+								$(".fts2 .sliderActionLevel").css( "width", (sliderStages2.flood - flMin2) / flDiff2 * 100 + '%' );
+								$(".fts2 .sliderMinorLevel").css( "width", (sliderStages2.moderate - flMin2) / flDiff2 * 100 + '%' );
+								$(".fts2 .sliderModerateLevel").css( "width", (sliderStages2.major - flMin2) / flDiff2 * 100 + '%' );
+								$(".fts2 .sliderMajorLevel").css( "width", '100%' );
                             }
 
                             
                         }
                         if (attr["MULTI_SITE"] > 1) {
-                            console.log("Triple Site");
+							console.log("Triple Site");
+							
+							var sliderStages3 = floodStageBandSetUp(nwsData3);
+							console.log(sliderStages3);
+							var sliderMax3 = gageValues3[gageValues3.length-1].gageValue;
+
 
                             if (typeof nwsData2[0] !== "string") {
                                 var floodStageBands3 = [
                                     {
                                         color: "#FDFB51",
-                                        from: "0",
-                                        to: nwsData3[0].getElementsByTagName("action")[0].childNodes[0].nodeValue,
+										from: sliderStages3.action,
+										to: sliderStages3.flood,
                                         'label':{
                                             'text': "Action"
                                         }
-                                        // to: nwsData[0].childNodes[0].children[1].children[1].textContent
                                     },
                                     {
                                         color: "#FAA629",
-                                        from: nwsData3[0].getElementsByTagName("action")[0].childNodes[0].nodeValue,
-                                        to: nwsData3[0].getElementsByTagName("flood")[0].childNodes[0].nodeValue,
+										from: sliderStages3.flood,
+										to: sliderStages3.moderate,
                                         'label':{
                                             'text': "Minor Flooding"
                                         }
                                     },
                                     {
                                         color: "#FC0D1B",
-                                        from: nwsData3[0].getElementsByTagName("flood")[0].childNodes[0].nodeValue,
-                                        to: nwsData3[0].getElementsByTagName("moderate")[0].childNodes[0].nodeValue,
+										from: sliderStages3.moderate,
+										to: sliderStages3.major,
                                         'label':{
                                             'text': "Moderate Flooding"
                                         }
                                     },
                                     {
                                         color: "#C326FB",
-                                        from: nwsData3[0].getElementsByTagName("moderate")[0].childNodes[0].nodeValue,
-                                        to: nwsData3[0].getElementsByTagName("major")[0].childNodes[0].nodeValue,
+										from: sliderStages3.major,
+                                        to: sliderMax3,
                                         'label':{
                                             'text': "Major Flooding"
                                         }
@@ -1820,22 +1852,18 @@ require([
 
                             // Fill slider min/max/current
                             $(".fts3 .slider-min").text(gageValues3[0].gageValue);
-                            $(".fts3 .slider-max").text(gageValues3[gageValues3.length-1].gageValue);
-
-                            // Slider flood levels - 3rd site
-                            var flMax3 = gageValues3[gageValues3.length-1].gageValue;
-                            var flMin3 = gageValues3[0].gageValue;
-                            var flDiff3 = flMax3 - flMin3;
-                            
-                            if (floodStageBands3 != undefined) {
-                                $(".fts3 .sliderActionLevel").css( "width", (floodStageBands3[0].to - flMin3) / flDiff3 * 100 + '%' );
-                                $(".fts3 .sliderMinorLevel").css( "width", (floodStageBands3[1].to - flMin3) / flDiff3 * 100 + '%' );
-                                $(".fts3 .sliderModerateLevel").css( "width", (floodStageBands3[2].to - flMin3) / flDiff3 * 100 + '%' );
-                                $(".fts3 .sliderMajorLevel").css( "width", '100%' );
-                            
-                                console.log("Flood Stage Bands 3")
-                                console.log(floodStageBands3)
-                            }
+							$(".fts3 .slider-max").text(gageValues3[gageValues3.length-1].gageValue);
+							
+							// Flood levels near slider - Site 1
+							var flMax3 = gageValues3[gageValues3.length-1].gageValue;
+							var flMin3 = gageValues3[0].gageValue;
+							var flDiff3 = flMax3 - flMin3;
+							
+							$(".fts3 .sliderWhiteSpace").css( "width", (sliderStages3.action - flMin3) / flDiff3 * 100 + '%' );
+							$(".fts3 .sliderActionLevel").css( "width", (sliderStages3.flood - flMin3) / flDiff3 * 100 + '%' );
+							$(".fts3 .sliderMinorLevel").css( "width", (sliderStages3.moderate - flMin3) / flDiff3 * 100 + '%' );
+							$(".fts3 .sliderModerateLevel").css( "width", (sliderStages3.major - flMin3) / flDiff3 * 100 + '%' );
+							$(".fts3 .sliderMajorLevel").css( "width", '100%' );
                         }
 
 
