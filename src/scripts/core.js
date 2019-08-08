@@ -1165,6 +1165,7 @@ require([
                             $(".ft-more-info").show();
                             $(".ft-more-info-tab").click();
                         } else {
+                            $(".ft-hydro-tab").click();
                             $("#moreInfo").text("Loading...");
                             $(".ft-more-info-tab").hide();
                         }
@@ -1636,6 +1637,7 @@ require([
 						function floodStageBandSetUp(dataForBands) {
 
 							// Show error if data isn't available
+							// Ex Site http://localhost:9000/?site_no=02126375
 							if(dataForBands[0].getElementsByTagName("action")[0] && dataForBands[0].getElementsByTagName("flood")[0] && dataForBands[0].getElementsByTagName("moderate")[0] && dataForBands[0].getElementsByTagName("major")[0]){
 								var levels = new Object();
 								levels.action = (dataForBands[0].getElementsByTagName("action")[0].childNodes.length > 0) ? dataForBands[0].getElementsByTagName("action")[0].childNodes[0].nodeValue : null;
@@ -1655,14 +1657,22 @@ require([
 						console.log(gageValues);
 
 						var sliderStages = floodStageBandSetUp(nwsData);
-						var sliderMax1 = 15;
+
+						var sliderMax1;
 						if (gageValues.length > 0) {
 							sliderMax1 = gageValues[gageValues.length-1].gageValue;
 						}
 
 
                         var floodStageBands = [
-                            {
+							{
+                                color: "#D8E1EE",
+                                from: 0,
+                                to: sliderStages.action,
+                                'label':{
+                                    'text': "Below Action"
+                                }
+							},{
                                 color: "#FDFB51",
                                 from: sliderStages.action,
                                 to: sliderStages.flood,
@@ -1754,7 +1764,7 @@ require([
 							console.log(nwsData3)
 							
 							var sliderStages2 = floodStageBandSetUp(nwsData2);
-							var sliderMax2 = 15;
+							var sliderMax2;
 							if (gageValues2.length > 0) {
 								sliderMax2 = gageValues2[gageValues2.length-1].gageValue;
 							}
@@ -1764,14 +1774,20 @@ require([
                             if (typeof nwsData2[0] !== "string") {
                                 var floodStageBands2 = [
                                     {
+                                        color: "#D8E1EE",
+										from: 0,
+										to: sliderStages2.action,
+										'label':{
+                                            'text': "Below Action"
+                                        }
+                                    },{
                                         color: "#FDFB51",
 										from: sliderStages2.action,
 										to: sliderStages2.flood,
 										'label':{
                                             'text': "Action"
                                         }
-                                    },
-                                    {
+                                    },{
                                         color: "#FAA629",
 										from: sliderStages2.flood,
 										to: sliderStages2.moderate,
@@ -1822,7 +1838,7 @@ require([
 							console.log("Triple Site");
 							
 							var sliderStages3 = floodStageBandSetUp(nwsData3);
-							var sliderMax3 = 15;
+							var sliderMax3;
 							if (gageValues3.length > 0) {
 								sliderMax3 = gageValues3[gageValues3.length-1].gageValue;
 							}
@@ -1832,6 +1848,13 @@ require([
                             if (typeof nwsData2[0] !== "string") {
                                 var floodStageBands3 = [
                                     {
+                                        color: "#D8E1EE",
+										from: 0,
+										to: sliderStages3.action,
+                                        'label':{
+                                            'text': "Below Action"
+                                        }
+                                    },{
                                         color: "#FDFB51",
 										from: sliderStages3.action,
 										to: sliderStages3.flood,
@@ -1951,7 +1974,7 @@ require([
                                 },
                                 yAxis: {
                                     min: 0,
-                                    max: floodStageBands[3].to,
+                                    max: floodStageBands[4].to,
                                     endOnTick: false,
                                     resize: {
                                         enabled: true
@@ -1984,7 +2007,7 @@ require([
                                 }
                             }, function(hydroChart){
                                 console.log("Chart Loaded");
-                                var chartYMax = parseInt(floodStageBands[3].to);
+                                var chartYMax = parseInt(floodStageBands[4].to);
                                 hydroChart.yAxis[0].setExtremes(null, chartYMax);
                             });
                             $('.no-hydro').hide();
@@ -2310,7 +2333,7 @@ require([
 
                         sliderSetup(results);
 
-                        $("#floodToolsPanelHeader").html(attr["STATE"] + ": " + attr["COMMUNITY"] + "   <span id='shareLink' style='white-space: nowrap; margin-left: 0px; padding-left: 0px'><i class='fa fa-share'></i> Share</span>");
+                        $("#floodToolsPanelHeader").html(attr["STATE"] + ": " + attr["COMMUNITY"]);
                         $("#shareLink").click(function() {
                             showShareModal();
                         });
@@ -3268,7 +3291,7 @@ require([
                         
                         var template;
                         if (siteAttr.REP_LINK != "NONE") {
-                            template = new esri.InfoTemplate("Water depth <a target='_blank' href='" + siteAttr.REP_LINK + "'><i style='color: white' class='fa fa-question-circle'></a>",
+                            template = new esri.InfoTemplate("Water depth <a alt='Water depth is the elevation difference between the modeled water surface and the measured land surface. A range is shown to reflect the accuracy of the modeling and measurements. Depth ranges in the channel area may reflect a higher level of inaccuracy due to challenges in estimating channel depths. Please the full report for more information (found in \'Services and Data\').' title='Water depth is the elevation difference between the modeled water surface and the measured land surface. A range is shown to reflect the accuracy of the modeling and measurements. Depth ranges in the channel area may reflect a higher level of inaccuracy due to challenges in estimating channel depths. Please the full report for more information (found in \'Services and Data\').'><i style='color: white; opacity: 0.8;' class='fa fa-question-circle'></a>",
                             "<b>Range:</b> " + range + " ft");
                         } else {
                             template = new esri.InfoTemplate("Water depth",
