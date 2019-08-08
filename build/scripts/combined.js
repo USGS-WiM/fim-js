@@ -2128,7 +2128,10 @@ require([
 
 						var sliderStages = floodStageBandSetUp(nwsData);
 						console.log(sliderStages);
-						var sliderMax1 = gageValues[gageValues.length-1].gageValue;
+
+						if (gageValues.length > 0) {
+							var sliderMax1 = gageValues[gageValues.length-1].gageValue;
+						}
 
 
                         var floodStageBands = [
@@ -2190,7 +2193,10 @@ require([
                         // Fill slider min/max/current
                         if (gageValues.length > 0) {
                             $(".fts1 .slider-min").text(gageValues[0].gageValue);
-                            $(".fts1 .slider-max").text(gageValues[gageValues.length-1].gageValue);
+							$(".fts1 .slider-max").text(gageValues[gageValues.length-1].gageValue);
+							
+							sliderMax1 = gageValues[gageValues.length-1].gageValue;
+
 
 							// Flood levels near slider - Site 1
                             var flMax1 = gageValues[gageValues.length-1].gageValue;
@@ -2222,7 +2228,10 @@ require([
 							
 							var sliderStages2 = floodStageBandSetUp(nwsData2);
 							console.log(sliderStages2);
-							var sliderMax2 = gageValues2[gageValues2.length-1].gageValue;
+
+							if (gageValues2.length > 0) {
+								var sliderMax2 = gageValues2[gageValues2.length-1].gageValue;
+							}
 
 
 
@@ -2288,7 +2297,11 @@ require([
 							
 							var sliderStages3 = floodStageBandSetUp(nwsData3);
 							console.log(sliderStages3);
-							var sliderMax3 = gageValues3[gageValues3.length-1].gageValue;
+
+							if (gageValues3.length > 0) {
+								var sliderMax3 = gageValues3[gageValues3.length-1].gageValue;
+							}
+							
 
 
                             if (typeof nwsData2[0] !== "string") {
