@@ -767,7 +767,11 @@ $(".close-alert").click(function(){
                     <!-- Modal Title -->
                     <div class="panel-heading">
                         <div class="panel-title" id="floodToolsTitle">
-                            <h4 id="floodToolsPanelHeader"></h4>
+							<h4 id="floodToolsPanelHeader"></h4>
+							<div class="ft-header-links">
+								<button id="zoomToLibExtent" title="click to zoom to the extent of the flood library" type="button">Zoom to Location <i class="far fa-search-plus"></i></button>
+								<button id="shareLink" title="Get a link to share this specific site." type="button">Share <i class="far fa-share-alt"></i></button>
+							</div>
                         </div>
                     </div>
                     <!--
@@ -842,28 +846,47 @@ $(".close-alert").click(function(){
                             <!-- Site options -->
                             <!-- Site options -->
                             <div id="ftOptions">
-                                <div id="satBasemap" class="ft-option">
-                                    <input id="satCheckBox" type="checkbox" checked />
-                                    <label for="satCheckBox" id="satBasemap">View Satellite Imagery</label>
-                                </div>
-                                <div id="gridsCheck" class="ft-option">
-                                    <input id="gridsCheckBox" type="checkbox" />
-                                    <label for="gridsCheckBox">View grids</label>
-                                </div>
-                                <div id="aouCheck" class="ft-option">
-                                    <input id="aouCheckBox" type="checkbox" checked />
-                                    <label for="aouCheckBox" id="aouCheck">Include Area of Uncertainty</label>
-                                </div>
 
-                                <img id="usgsDefaultLogo" src="images/usgs-logo-sm.png"/>
-                                <img id="recordsLogo" src=""/>
+								<!-- Checkboxes -->
+								<div class="ft-option-checkboxes">
+									<div id="satBasemap" class="ft-option">
+										<input id="satCheckBox" type="checkbox" checked />
+										<label for="satCheckBox" id="satBasemap">View Satellite Imagery</label>
+									</div>
+									<div id="gridsCheck" class="ft-option">
+										<input id="gridsCheckBox" type="checkbox" />
+										<label for="gridsCheckBox">View grids</label>
+									</div>
+									<div id="aouCheck" class="ft-option">
+										<input id="aouCheckBox" type="checkbox" checked />
+										<label for="aouCheckBox" id="aouCheck">Include Area of Uncertainty</label>
+									</div>
+								</div>
+                                
+								<!-- NWS Stages Legend -->
+                                <div id="floodToolsLegend">
+									<div class="ft-legend-header">NWS Stages</div>
+									
+									<div class="ft-legend-items">
+										<div class="left">
+											<div class="key major">Major</div>
+											<div class="key moderate">Moderate</div>
+											<div class="key minor">Minor</div>
+											<div class="key action">Action</div>
+										</div>
+										<div class="right">
+											<div class="key extended-rating">Extended Rating</div>
+											<div class="key below-action">Below Action</div>
+										</div>
+									</div>
+								</div>
 
-                                <div id="levelKey">
-                                    <div class="action">Action</div>
-                                    <div class="minor">Minor</div>
-                                    <div class="moderate">Moderate</div>
-                                    <div class="major">Major</div>
-                                </div>
+								<!-- Logos -->
+								<div class="ft-option ft-option-logos">
+									<img id="usgsDefaultLogo" src="images/usgs-logo-sm.png"/>
+									<img id="recordsLogo" src=""/>
+								</div>
+
                             </div>
 
 
@@ -879,7 +902,7 @@ $(".close-alert").click(function(){
                                     <span>Flood Tools</span>
                                     <i class="fa fa-water"></i>
                                 </div>
-                                <div class="ft-tab" data-toggle="ftHydro" onclick="ga('send','event','Hydrograph Panel','click','Hydrograph');">
+                                <div class="ft-tab ft-hydro-tab" data-toggle="ftHydro" onclick="ga('send','event','Hydrograph Panel','click','Hydrograph');">
                                     <span>Hydrograph</span>
                                     <i class="fa fa-chart-bar"></i>
                                 </div>
@@ -954,8 +977,9 @@ $(".close-alert").click(function(){
 
                                 <!-- Zoom -->
                                 <div id="toolsButtons">
-                                    <b>Click on map for estimated water depth</b>
-                                    <button id="zoomToLibExtent" title="click to zoom to the extent of the flood library" class="ft-button" type="button">Zoom <i class="fa fa-search-plus"></i></button>
+									<b>Click on map for estimated water depth</b>
+									<!-- Moved to Header -->
+                                    <!-- <button id="zoomToLibExtent" title="click to zoom to the extent of the flood library" class="ft-button" type="button">Zoom <i class="fa fa-search-plus"></i></button> -->
                                 </div>
                             </div>
 

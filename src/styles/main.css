@@ -6,7 +6,7 @@ body {
 body {
   margin: 0;
   padding: 0 0 0 0;
-  background-image: url("../images/wimlogoCompact.png");
+  background-image: url("../images/wim_abbr_black.png");
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: center;
@@ -937,24 +937,6 @@ input[type="radio"] {
 #aboutNav:hover span {
   text-decoration: underline;
 }
-#shareLink {
-  font-size: 11px;
-  transition: 0.2;
-  position: relative;
-  top: -1px;
-  letter-spacing: -0.1px;
-  color: #1D6DFA;
-}
-#shareLink i {
-  position: relative;
-  left: 2px;
-}
-#shareLink:hover {
-  cursor: pointer !important;
-  color: #0441ad !important;
-  transition: 0.2;
-  text-decoration: underline;
-}
 .legendHeading:hover {
   text-decoration: underline !important;
 }
@@ -1067,10 +1049,47 @@ input[type="radio"] {
   7-14 GH issues
 */
 /*Panel Title*/
+.panel-heading .dropdown {
+  padding-top: 4px;
+}
 #floodToolsTitle {
   -webkit-flex-grow: 3 !important;
   flex-grow: 3 !important;
   max-width: none !important;
+  -webkit-flex-direction: column !important;
+  flex-direction: column !important;
+  position: relative;
+  padding-bottom: 8px;
+}
+#floodToolsTitle .ft-header-links {
+  position: absolute;
+  bottom: 0;
+  height: 12px;
+  line-height: 0;
+}
+#floodToolsTitle .ft-header-links button {
+  font-size: 11px;
+  padding: 0;
+  margin: 0;
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+  text-decoration: underline;
+  height: 12px;
+  line-height: 12px;
+  text-align: left;
+  transition: 0.2s;
+  padding-left: 1px;
+  font-weight: 500;
+  opacity: 0.65;
+}
+#floodToolsTitle .ft-header-links button:hover {
+  color: #0554df;
+  transition: 0.2s;
+  opacity: 1;
+}
+#floodToolsTitle .ft-header-links #shareLink {
+  margin-left: 15px;
 }
 a {
   word-break: break-all !important;
@@ -1155,6 +1174,9 @@ a {
 /* Float Search API above modal */
 .modal {
   z-index: 9999 !important;
+}
+#printModal {
+  z-index: 99999 !important;
 }
 .modal-backdrop {
   z-index: 9998;
@@ -1691,7 +1713,7 @@ input[type=range].styled:focus::-ms-fill-upper {
   height: 400px;
   min-width: none !important;
   box-sizing: border-box;
-  padding: 0 0 15px 0;
+  padding: 0 0 7px 0;
 }
 @media (max-width: 550px) {
   #ftModal {
@@ -1708,7 +1730,7 @@ input[type=range].styled:focus::-ms-fill-upper {
   -webkit-flex-wrap: wrap;
   flex-wrap: wrap;
   box-sizing: border-box;
-  padding: 30px 0 0 15px;
+  padding: 20px 0 0 0;
   position: relative;
   background-color: white;
 }
@@ -1794,7 +1816,7 @@ input[type=range].styled:focus::-ms-fill-upper {
   right: 0;
 }
 #ftModal #ftSliders .slider-group .slider-levels .sliderWhiteSpace {
-  background-color: #fff;
+  background-color: #D8E1EE;
   z-index: 50;
 }
 #ftModal #ftSliders .slider-group .slider-levels .sliderActionLevel {
@@ -1816,9 +1838,15 @@ input[type=range].styled:focus::-ms-fill-upper {
 #ftModal #ftSliders #ftOptions {
   display: block;
   width: 100%;
-  padding-top: 180px;
+  padding-top: 165px;
   box-sizing: border-box;
   text-align: center;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+  flex-direction: column;
+  -webkit-justify-content: space-around;
+  justify-content: space-around;
 }
 #ftModal #ftSliders #ftOptions .ft-option {
   display: -webkit-flex;
@@ -1826,6 +1854,8 @@ input[type=range].styled:focus::-ms-fill-upper {
   -webkit-justify-content: flex-start;
   justify-content: flex-start;
   width: 100%;
+  box-sizing: border-box;
+  padding: 0 12px;
 }
 #ftModal #ftSliders #ftOptions .ft-option label {
   font-size: 10px;
@@ -1841,21 +1871,47 @@ input[type=range].styled:focus::-ms-fill-upper {
   justify-content: center;
   padding-top: 5px;
 }
-#ftModal #ftSliders #ftOptions #usgsDefaultLogo,
-#ftModal #ftSliders #ftOptions #recordsLogo {
-  height: 30px;
-  width: auto;
-  margin: 10px auto 0 auto;
-}
-#ftModal #ftSliders #ftOptions #levelKey {
+#ftModal #ftSliders #ftOptions #floodToolsLegend {
   display: -webkit-flex;
   display: flex;
-  box-sizing: border-box;
-  margin-top: 20px;
   -webkit-flex-wrap: wrap;
   flex-wrap: wrap;
+  box-sizing: border-box;
+  width: 95%;
+  width: calc(100% - 24px);
+  margin: 6px auto 0 auto;
+  border: 1px solid #C6CEDA;
+  padding: 4px 8px 6px 8px;
+  border-radius: 3px;
 }
-#ftModal #ftSliders #ftOptions #levelKey div {
+#ftModal #ftSliders #ftOptions #floodToolsLegend .ft-legend-header {
+  font-size: 11px;
+  text-align: center;
+  box-sizing: border-box;
+  padding: 2px 0 0 0;
+  font-weight: 600;
+  width: 100%;
+  margin: 0 auto;
+}
+#ftModal #ftSliders #ftOptions #floodToolsLegend .ft-legend-items {
+  display: -webkit-flex;
+  display: flex;
+  width: 100%;
+}
+#ftModal #ftSliders #ftOptions #floodToolsLegend .ft-legend-items .left,
+#ftModal #ftSliders #ftOptions #floodToolsLegend .ft-legend-items .right {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+  flex-direction: column;
+  -webkit-justify-content: space-around;
+  justify-content: space-around;
+  width: 50%;
+  min-width: 50%;
+  max-width: 50%;
+}
+#ftModal #ftSliders #ftOptions #floodToolsLegend .ft-legend-items .left .key,
+#ftModal #ftSliders #ftOptions #floodToolsLegend .ft-legend-items .right .key {
   display: -webkit-flex;
   display: flex;
   position: relative;
@@ -1867,12 +1923,16 @@ input[type=range].styled:focus::-ms-fill-upper {
   height: 12px;
   margin: 2px 0;
   font-weight: 600;
-  font-size: 10.5px;
+  font-size: 10px;
   color: rgba(16, 21, 44, 0.8);
   box-sizing: border-box;
   padding-left: 16px;
+  padding-right: 6px;
+  text-align: left;
+  line-height: 10px;
 }
-#ftModal #ftSliders #ftOptions #levelKey div:before {
+#ftModal #ftSliders #ftOptions #floodToolsLegend .ft-legend-items .left .key:before,
+#ftModal #ftSliders #ftOptions #floodToolsLegend .ft-legend-items .right .key:before {
   display: block;
   width: 12px;
   height: 12px;
@@ -1881,17 +1941,45 @@ input[type=range].styled:focus::-ms-fill-upper {
   position: absolute;
   left: 0;
 }
-#ftModal #ftSliders #ftOptions #levelKey .action:before {
+#ftModal #ftSliders #ftOptions #floodToolsLegend .ft-legend-items .left .action:before,
+#ftModal #ftSliders #ftOptions #floodToolsLegend .ft-legend-items .right .action:before {
   background-color: #FDFB51;
 }
-#ftModal #ftSliders #ftOptions #levelKey .minor:before {
+#ftModal #ftSliders #ftOptions #floodToolsLegend .ft-legend-items .left .minor:before,
+#ftModal #ftSliders #ftOptions #floodToolsLegend .ft-legend-items .right .minor:before {
   background-color: #FAA629;
 }
-#ftModal #ftSliders #ftOptions #levelKey .moderate:before {
+#ftModal #ftSliders #ftOptions #floodToolsLegend .ft-legend-items .left .moderate:before,
+#ftModal #ftSliders #ftOptions #floodToolsLegend .ft-legend-items .right .moderate:before {
   background-color: #FC0D1B;
 }
-#ftModal #ftSliders #ftOptions #levelKey .major:before {
+#ftModal #ftSliders #ftOptions #floodToolsLegend .ft-legend-items .left .major:before,
+#ftModal #ftSliders #ftOptions #floodToolsLegend .ft-legend-items .right .major:before {
   background-color: #C326FB;
+}
+#ftModal #ftSliders #ftOptions #floodToolsLegend .ft-legend-items .left .below-action,
+#ftModal #ftSliders #ftOptions #floodToolsLegend .ft-legend-items .right .below-action,
+#ftModal #ftSliders #ftOptions #floodToolsLegend .ft-legend-items .left .extended-rating,
+#ftModal #ftSliders #ftOptions #floodToolsLegend .ft-legend-items .right .extended-rating {
+  margin-top: 5px;
+}
+#ftModal #ftSliders #ftOptions #floodToolsLegend .ft-legend-items .left .below-action:before,
+#ftModal #ftSliders #ftOptions #floodToolsLegend .ft-legend-items .right .below-action:before {
+  background-color: #D8E1EE;
+}
+#ftModal #ftSliders #ftOptions #floodToolsLegend .ft-legend-items .left .extended-rating:before,
+#ftModal #ftSliders #ftOptions #floodToolsLegend .ft-legend-items .right .extended-rating:before {
+  background-color: #35445b;
+}
+#ftModal #ftSliders #ftOptions .ft-option-logos {
+  box-sizing: border-box;
+  padding: 12px 8px;
+}
+#ftModal #ftSliders #ftOptions .ft-option-logos #usgsDefaultLogo,
+#ftModal #ftSliders #ftOptions .ft-option-logos #recordsLogo {
+  height: 24px;
+  width: auto;
+  margin: 0 auto 0 auto;
 }
 #ftModal #ftData {
   -webkit-flex-grow: 3;
@@ -2508,7 +2596,7 @@ input[type=range].styled:focus::-ms-fill-upper {
     flex-grow: 3;
   }
   #floodToolsDiv .panel-body #ftSliders {
-    padding: 25px;
+    padding: 25px 0;
     text-align: center;
     width: 100%;
   }
@@ -2545,6 +2633,9 @@ input[type=range].styled:focus::-ms-fill-upper {
     min-height: -moz-fit-content;
     min-height: fit-content;
   }
+}
+.highcharts-credits {
+  display: none !important;
 }
 .modal {
   background-color: rgba(16, 21, 44, 0.25);

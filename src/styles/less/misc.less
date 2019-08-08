@@ -1015,24 +1015,7 @@ input[type="checkbox"], input[type="radio"] {
         text-decoration: underline;
     }
 }
-#shareLink{
-  font-size: 11px;
-  transition: 0.2;
-  position: relative;
-  top: -1px;
-  letter-spacing: -0.1px;
-  color: @blue;
-  i{
-      position: relative;
-      left: 2px;
-  }
-}
-#shareLink:hover{
-  cursor: pointer !important;
-  color: darken(@blue, 20%) !important;
-  transition: 0.2;
-  text-decoration: underline;
-}
+
 
 .legendHeading:hover{
     text-decoration: underline !important;
@@ -1160,9 +1143,49 @@ input[type="checkbox"], input[type="radio"] {
 */
 
 /*Panel Title*/
+.panel-heading .dropdown{
+	padding-top: 4px;
+}
 #floodToolsTitle{
     flex-grow: 3 !important;
-    max-width: none !important;
+	max-width: none !important;
+	flex-direction: column !important;
+	position: relative;
+	padding-bottom: 8px;
+
+	.ft-header-links{
+		position: absolute;
+		bottom: 0;
+		height: 12px;
+		line-height: 0;
+
+		button{
+			font-size: 11px;
+			padding: 0;
+			margin: 0;
+			background-color: transparent;
+			border: none;
+			box-shadow: none;
+			text-decoration: underline;
+			height: 12px;
+			line-height: 12px;
+			text-align: left;
+			transition: 0.2s;
+			padding-left: 1px;
+			font-weight: 500;
+			opacity: 0.65;
+	
+			&:hover{
+				color: darken(#1D6DFA, 10%);
+				transition: 0.2s;
+				opacity: 1;
+			}
+		}
+
+		#shareLink{
+			margin-left: 15px;
+		}
+	}
 }
 
 
@@ -1259,7 +1282,10 @@ a{
 
 /* Float Search API above modal */
 .modal{
-    z-index: 9999 !important;
+	z-index: 9999 !important;
+}
+#printModal{
+	z-index: 99999 !important;
 }
 
 .modal-backdrop{

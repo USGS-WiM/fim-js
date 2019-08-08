@@ -22,7 +22,7 @@
     height: 400px;
     min-width: none !important;
     box-sizing: border-box;
-    padding: 0 0 15px 0;
+    padding: 0 0 7px 0;
 
     @media (max-width: 550px) {
         min-width: none;
@@ -39,7 +39,7 @@
         flex-wrap: wrap;
         box-sizing: border-box;
         // background-color: fade(white, 55%);
-        padding: 30px 0 0 15px;
+        padding: 20px 0 0 0;
         position: relative;
 		// min-width: 180px;
 		background-color: white;
@@ -141,7 +141,7 @@
                     position:absolute;
                     right: 0;
                 }
-                .sliderWhiteSpace{background-color:#fff; z-index:50;}
+                .sliderWhiteSpace{background-color:#D8E1EE; z-index:50;}
                 .sliderActionLevel{background-color:#FDFB51; z-index:40;}
                 .sliderMinorLevel{background-color:#FAA629; z-index:30;}
                 .sliderModerateLevel{background-color:#FC0D1B; z-index:20;}
@@ -157,14 +157,19 @@
         #ftOptions{
             display: block;
             width: 100%;
-            padding-top: 180px;
+            padding-top: 165px;
             box-sizing: border-box;
-            text-align: center;
+			text-align: center;
+			display: flex;
+			flex-direction: column;
+			justify-content: space-around;
 
             .ft-option{
                 display: flex;
                 justify-content: flex-start;
-                width: 100%;
+				width: 100%;
+				box-sizing: border-box;
+				padding: 0 12px;
 
                 label{
                     font-size: 10px;
@@ -178,60 +183,112 @@
                     padding-top: 5px;
                 }
             }
+            
 
-            // Logos
-            #usgsDefaultLogo,
-            #recordsLogo{
-                height: 30px;
-                width: auto;
-                margin: 10px auto 0 auto;
-            }
-
-            // Key for flood levels
-            #levelKey{
+            // Legend for flood tools
+            #floodToolsLegend{
                 display: flex;
                 box-sizing: border-box;
-                margin-top: 20px;
-                flex-wrap: wrap;
-                
-                div{
-                    display: flex;
-                    position: relative;
-                    width: 50%;
-                    flex-direction: column;
-                    justify-content: center;
-                    height: 12px;
-                    margin: 2px 0;
-                    font-weight: 600;
-                    font-size: 10.5px;
-                    color: fade(@black, 80%);
-                    box-sizing: border-box;
-                    padding-left: 16px;
+				flex-wrap: wrap;
+				box-sizing: border-box;
+				width: 95%;
+				width: calc(~'100% - 24px');
+				margin: 6px auto 0 auto;
+				border: 1px solid #C6CEDA;
+				padding: 4px 8px 6px 8px;
+				border-radius: 3px;
 
-                    &:before{
-                        display: block;
-                        width: 12px;
-                        height: 12px;
-                        border-radius: 3px;
-                        content: '';
-                        position: absolute;
-                        left: 0;
-                    }
-                }
-                .action:before{
-                    background-color: #FDFB51;
+				.ft-legend-header{
+					font-size: 11px;
+					text-align: center;
+					box-sizing: border-box;
+					padding: 2px 0 0 0;
+					font-weight: 600;
+					width: 100%;
+					margin: 0 auto;
+				}
 
-                }
-                .minor:before{
-                    background-color: #FAA629;
-                }
-                .moderate:before{
-                    background-color: #FC0D1B;
-                }
-                .major:before{
-                    background-color: #C326FB;
-                }
-            }
+				.ft-legend-items{
+					display: flex;
+					width: 100%;
+
+					.left,
+					.right{
+						display: flex;
+						flex-direction: column;
+						justify-content: space-around;
+						width: 50%;
+						min-width: 50%;
+						max-width: 50%;
+
+						.key{
+							display: flex;
+							position: relative;
+							width: 50%;
+							flex-direction: column;
+							justify-content: center;
+							height: 12px;
+							margin: 2px 0;
+							font-weight: 600;
+							font-size: 10px;
+							color: fade(@black, 80%);
+							box-sizing: border-box;
+							padding-left: 16px;
+							padding-right: 6px;
+							text-align: left;
+							line-height: 10px;
+
+							&:before{
+								display: block;
+								width: 12px;
+								height: 12px;
+								border-radius: 3px;
+								content: '';
+								position: absolute;
+								left: 0;
+							}
+						}
+						.action:before{
+							background-color: #FDFB51;
+		
+						}
+						.minor:before{
+							background-color: #FAA629;
+						}
+						.moderate:before{
+							background-color: #FC0D1B;
+						}
+						.major:before{
+							background-color: #C326FB;
+						}
+						
+						.below-action,
+						.extended-rating{
+							margin-top: 5px;
+						}
+						.below-action:before{
+							background-color: #D8E1EE;
+						}
+						.extended-rating:before{
+							background-color: #35445b;
+						}
+					}
+				}
+			}
+			
+
+			// Logos
+			.ft-option-logos{
+				box-sizing: border-box;
+				padding: 12px 8px;
+
+				#usgsDefaultLogo,
+				#recordsLogo{
+					height: 24px;
+					width: auto;
+					margin: 0 auto 0 auto;
+				}
+			}
         }
 
     }
@@ -972,7 +1029,7 @@
             flex-grow: 3;
 
             #ftSliders{
-                padding: 25px;
+                padding: 25px 0;
                 text-align: center;
                 width: 100%;
 
@@ -1015,4 +1072,9 @@
 
 
     
+}
+
+// Hide Highcharts credit 
+.highcharts-credits{
+	display: none !important;
 }
