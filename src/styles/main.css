@@ -2963,7 +2963,7 @@ input[type=range].styled:focus::-ms-fill-upper {
 }
 #sidebar .wim-sidebar-panel {
   box-shadow: none !important;
-  border-bottom: 1px solid rgba(16, 21, 44, 0.8);
+  border-bottom: 1px solid rgba(16, 21, 44, 0.5);
   border-radius: 0;
 }
 #sidebar .wim-sidebar-panel .panel-heading {

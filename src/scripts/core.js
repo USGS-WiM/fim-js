@@ -500,7 +500,6 @@ require([
 
     var closeFloodTools = function(){
 		clearFTValues();
-        $("#floodToolsDiv").css("visibility", "hidden");
         map.getLayer("fimExtents").setVisibility(false);
         map.getLayer("fimGrid"+siteAttr.GRID_SERV).setVisibility(false);
         map.getLayer("fimBreach").setVisibility(false);
@@ -524,10 +523,18 @@ require([
 	
 	// Reset and Clear values, hide things for next time
 	var clearFTValues = function(){
-		$("#floodToolsDiv").addClass('loading-background');
-		$("#floodToolsDiv .panel-heading").addClass('loading-hide');
-		$("#floodToolsDiv .panel-body").addClass('loading-hide');
-		$("#floodToolsDiv").addClass('loading-background');
+
+		$("#floodToolsDiv").fadeOut(90);
+		setTimeout(function(){
+			$("#floodToolsDiv").fadeIn(0);
+			$("#floodToolsDiv").css("visibility", "hidden");
+			$("#floodToolsDiv").addClass('loading-background');
+			$("#floodToolsDiv .panel-heading").addClass('loading-hide');
+			$("#floodToolsDiv .panel-body").addClass('loading-hide');
+			$("#floodToolsDiv").addClass('loading-background');
+		}, 90);
+
+
 		// Hide error message
 		$("#floodToolsErrorMessage").hide();
 		$(".floodSlider").each(function(index) {
@@ -596,9 +603,9 @@ require([
         }
     });
 
-    // Flood Tools Accordions
-    // Flood Tools Accordions
-    // Flood Tools Accordions
+    // Flood Tools Tabs
+    // Flood Tools Tabs
+    // Flood Tools Tabs
     $(".ft-tab").click(function(){
         $(".ft-tab").removeClass("active");
         $(this).addClass("active");
@@ -606,8 +613,6 @@ require([
         $(".ftmodal-content").not("#" + toggleID).hide();
         $("#" + toggleID).show();
     });
-
-
 
     
     //map.getLayer("fimGrid2").on("load", gridsLayerComp);
