@@ -2,12 +2,7 @@
 @blue: #1D6DFA;
 
 
-#floodToolsPanelHeader{
-    font-size: 14px;
-    letter-spacing: -0.25px;
-    font-weight: 600;
-    color: @black;
-}
+
 
 
 #aboutModal, #userGuideModal, #shareModal {
@@ -184,22 +179,60 @@
     height: 325px;
 }
 
-#floodClose {
-    cursor: pointer;
-    display: inline;
-    padding-top: 3px;
-    padding-right: 6px;
-    font-size: 14px;
-    font-weight: bold;
+
+// Flood Tools Header
+.flood-tools-header{
+	display: flex;
+    width: 100%;
+	justify-content: space-between;
+	
+	#floodToolsModalHeader{
+		flex-grow: 3;
+		font-size: 14px;
+		letter-spacing: -0.25px;
+		font-weight: 600;
+		color: @black;
+	}
+
+	#floodClose,
+	#floodMin{
+		color: @black;
+		transition: 0.2s;
+		font-weight: bold;
+		position: relative;
+		top: 9px;
+		display: flex;
+		height: 100%;
+		flex-direction: column;
+		justify-content: center;
+
+		&:hover{
+			cursor: pointer;
+			color: @black;
+			transition: 0.2s;
+		}
+	}
+
+	#floodClose {
+		font-size: 18px;
+		margin-left: 15px;
+		margin-right: 10px;
+		&:hover{
+			color: @red;
+		}
+	}
+	
+	#floodMin {
+		font-size: 15px;
+		top: 11px;
+		&:hover{
+			color: @blue;
+		}
+	}
+
 }
 
-#floodMin {
-    cursor: pointer;
-    display: inline;
-    padding-right: 15px;
-    font-size: 20px;
-    font-weight: bold;
-}
+
 
 .tooltip {
     position: relative;
@@ -926,47 +959,7 @@ input[type="checkbox"], input[type="radio"] {
     margin: 0 !important;
     padding: 0 !important;
 }
-/*Flood tools modal tweaks*/
-#floodClose,
-#floodMin{
-    font-size: 0;
-    color: fade(@black, 95%);
-    transition: 0.2s;
-}
-#floodClose:hover,
-#floodMin:hover{
-    cursor: pointer;
-    color: @black;
-    transition: 0.2s;
-}
-#floodClose{
-    position: relative;
-    top: 6px;
-    margin-right: 4px;
-}
-#floodClose:hover{
-    color: @red;
-}
 
-#floodClose:before{
-    content: '\f00d';
-    font-family: 'Font Awesome 5 Pro';
-    font-size: 18px;
-}
-
-#floodMin{
-    position: relative;
-    top: 5px;
-}
-#floodMin:hover{
-    color: @blue;
-}
-#floodMin:before{
-    content: '\f2d2';
-    font-family: 'Font Awesome 5 Pro';
-    font-size: 14px;
-    font-weight: lighter;
-}
 #floodToolsDiv{
     box-shadow: 0px 6px 27px -7px rgba(0, 10, 80, 0.55)
 }
@@ -1736,14 +1729,14 @@ input[type=range].styled {
 // Error message on flood tools window.
 // Error message on flood tools window.
 #floodToolsErrorMessage{
-    display: block;
+    display: none;
     text-align: center;
     background-color: #FB4841;
     box-sizing: border-box;
     padding: 6px;
     font-weight: 500;
     font-size: 11px;
-    color: white;
+	color: white;
 }
 
 
@@ -1901,4 +1894,9 @@ input[type=range].styled {
 		transition: 0.2s;
 		text-decoration: underline;
 	}
+}
+
+// Hover pointer on map triangles
+#mapDiv_gc g image:hover{
+	cursor: pointer;
 }

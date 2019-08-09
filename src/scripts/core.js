@@ -490,9 +490,6 @@ require([
         maxHeight: 500
     });
 
-    $("#floodToolsDiv .dropdown").prepend("<div id='floodClose' title='close'></div>");
-    $("#floodToolsDiv .dropdown").prepend("<div id='floodMin' title='collapse'></div>");
-
     $("#floodMin").click(function(){
         $("#floodToolsDiv").css("visibility", "hidden");
         //map.getLayer("fimExtents").setVisibility(false);
@@ -502,6 +499,7 @@ require([
     });
 
     var closeFloodTools = function(){
+		clearFTValues();
         $("#floodToolsDiv").css("visibility", "hidden");
         map.getLayer("fimExtents").setVisibility(false);
         map.getLayer("fimGrid"+siteAttr.GRID_SERV).setVisibility(false);
@@ -521,26 +519,54 @@ require([
         if ($('#hydroChart3').highcharts() != null) {
             $('#hydroChart3').highcharts().destroy();
         }
-        map.infoWindow.hide();
+		map.infoWindow.hide();
+	}
+	
+	// Reset and Clear values, hide things for next time
+	var clearFTValues = function(){
+		$("#floodToolsDiv").addClass('loading-background');
+		$("#floodToolsDiv .panel-heading").addClass('loading-hide');
+		$("#floodToolsDiv .panel-body").addClass('loading-hide');
+		$("#floodToolsDiv").addClass('loading-background');
+		// Hide error message
+		$("#floodToolsErrorMessage").hide();
+		$(".floodSlider").each(function(index) {
+			this.value = 0;
+			this.min = 0;
+			this.max = 0;
+		});
+		$(".slider-min").text("");
+		$(".slider-max").text("");
+		$(".sliderWhiteSpace").css( "width", '0%' );
+		$(".sliderActionLevel").css( "width", '0%' );
+		$(".sliderMinorLevel").css( "width", '0%' );
+		$(".sliderModerateLevel").css( "width", '0%' );
+		$(".sliderMajorLevel").css( "width", '0%' );
+		$(".sliderExtendedLevel").css( "width", '0%' );
+		$("#floodGage").text("");
+		$("#floodDischarge").text("");
+		$(".floodSlider").trigger("change");
+	}
 
-
-    }
-
+	// Close Flood Tools
     $("#floodClose").click(function(){
         closeFloodTools();
     });
 
+	// Open flood tools or maximize from min
     $("#floodToolsOpen, #floodToolsMax").click(function(){
         $('#hydroChart').delay(500).show();
         $("#floodToolsDiv").css("visibility", "visible");
         $("#minFT").removeClass('visible');
     });
 
+	// Click Water Alert Link
     $("#waterAlertLink").click(function() {
        $("#waterAlertLink").attr("href", "https://water.usgs.gov/wateralert/subscribe/?fim=1&intro=1&site_no=" + siteAttr.SITE_NO + "&agency_cd=USGS&type_cd=st&parms=00065:" + results[$(".fts1 #floodSlider")[0].value].attributes["STAGE"]);
        $("#waterAlertLink").click();
     });
 
+	// Click disclaimer link, show disclaimer
     $("#disclaimerLink").click(function() {
         $("#aboutModal").modal('show');
         $("#disclaimerTab").trigger('click');
@@ -747,11 +773,7 @@ require([
 
             });
 
-            var siteClick = function(evt) {
-
-                // Hide error message
-                $("#floodToolsErrorMessage").hide();
-                
+            var siteClick = function(evt) {                
                 
                 var feature;
                 if (evt.graphic != undefined) {
@@ -884,11 +906,11 @@ require([
                 $("#floodToolsDiv .panel-body").addClass('loading-hide');
                 $("#floodToolsDiv").addClass('loading-background');
 
-                // Default to Flood Tools Tab
-                $(".ftmodal-content").hide();
-                $("#ftTools").show();
-                $(".ft-tab").removeClass("active");
-                $("#ftDataTabs .ft-tab:first-child").addClass("active");
+                // // Default to Flood Tools Tab
+                // $(".ftmodal-content").hide();
+                // $("#ftTools").show();
+                // $(".ft-tab").removeClass("active");
+                // $("#ftDataTabs .ft-main-tab").addClass("active");
         
 
                 
@@ -906,18 +928,8 @@ require([
                 map.getLayer("fimBreach").setVisibility(false);
                 map.getLayer("fimBreachMulti").setVisibility(false);
                 
-                $(".fts1 #floodGage").text("");
-                $(".fts2 #floodGage").text("");
-                $(".fts3 #floodGage").text("");
-                $(".fts1 #floodDischarge").text("");
-                $(".fts2 #floodDischarge").text("");
-                $(".fts3 #floodDischarge").text("");
-                $(".floodSlider").each(function(index) {
-                    this.value = 0;
-                });
-                $(".floodSlider").trigger("change");
+                
 
-                $("#zoomToLibExtent").hide();
 
                 //code to query related records for site and get logos and created/reviewed by cooperators
                 //first set anything that can be set with site attributes
@@ -1166,7 +1178,7 @@ require([
                             $(".ft-more-info-tab").click();
                         } else {
 							// Default to hydro tab if NWS data available
-							if($(".ft-hydro-tab").hasClass("nws-data-hidden")){
+							if(!$(".ft-hydro-tab").hasClass("nws-data-hidden")){
 								console.log("Open Hydro")
 								$(".ft-hydro-tab").click();
 							}else{ // Otherwise main tab
@@ -1431,12 +1443,6 @@ require([
                 $("#floodToolsDiv").css("visibility", "visible");
                 //$(".fts2").show();
                 //$(".fts3").css("visibility", "visible");
-
-                var floodStageBands = [];
-                var floodStageBands2 = [];
-				var floodStageBands3 = [];
-				
-
 
 
                 var deferreds = [nwisCall,nwsCall];
@@ -2188,7 +2194,6 @@ require([
 
                 function extentOnlyResult(featureSet) {
                     libExtent = featureSet.features[0].geometry.getExtent();
-                    $("#zoomToLibExtent").show();
                     $("#zoomToLibExtent").on('click', function(event) {
                         map.setExtent(libExtent, true);
                         //$("#zoomToLibExtent").off();
@@ -2207,7 +2212,7 @@ require([
 
                         sliderSetup(results);
 
-                        $("#floodToolsPanelHeader").html(attr["STATE"] + ": " + attr["COMMUNITY"]);
+                        $("#floodToolsModalHeader").text(attr["STATE"] + ": " + attr["COMMUNITY"]);
                         $("#shareLink").click(function() {
                             showShareModal();
                         });
@@ -4384,11 +4389,6 @@ var floodToolsError = function(type){
 	}
     
     $("#floodToolsErrorMessage").show();
-    // $("#ftError").addClass("visible");
-    // setTimeout(function(){
-    //     $("#ftError").removeClass("visible");
-    // }, 5000);
-
 
     $("#floodToolsDiv .panel-heading").removeClass('loading-hide');
     $("#floodToolsDiv .panel-body").removeClass('loading-hide');

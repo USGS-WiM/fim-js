@@ -776,7 +776,11 @@ $(".close-alert").click(function(){
                     <!-- Modal Title -->
                     <div class="panel-heading">
                         <div class="panel-title" id="floodToolsTitle">
-							<h4 id="floodToolsPanelHeader"></h4>
+							<h4 class="flood-tools-header">
+								<span id="floodToolsModalHeader"></span>
+								<div id='floodMin' title='collapse'><i class="far fa-window-restore"></i></div>
+								<div id='floodClose' title='close'><i class="far fa-times"></i></div>
+							</h4>
 							<div class="ft-header-links">
 								<button id="zoomToLibExtent" title="click to zoom to the extent of the flood library" type="button">Zoom to Location <i class="far fa-search-plus"></i></button>
 								<button id="shareLink" title="Get a link to share this specific site." type="button">Share <i class="far fa-share-alt"></i></button>
