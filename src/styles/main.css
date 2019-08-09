@@ -6,7 +6,6 @@ body {
 body {
   margin: 0;
   padding: 0 0 0 0;
-  background-image: url("../images/wim_abbr_black.png");
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: center;
@@ -1693,6 +1692,24 @@ input[type=range].styled:focus::-ms-fill-upper {
 .close-alert:hover {
   cursor: pointer;
 }
+.nws-data-hidden {
+  display: none !important;
+}
+.credit-link {
+  display: inline-block;
+  margin-right: 15px;
+  color: #1D6DFA;
+  transition: 0.2s;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: underline;
+}
+.credit-link:hover {
+  cursor: pointer;
+  color: #0441ad;
+  transition: 0.2s;
+  text-decoration: underline;
+}
 #floodToolsDiv {
   box-shadow: 0px 6px 27px -7px rgba(0, 10, 80, 0.55);
 }
@@ -1808,7 +1825,8 @@ input[type=range].styled:focus::-ms-fill-upper {
 #ftModal #ftSliders .slider-group .slider-levels .sliderActionLevel,
 #ftModal #ftSliders .slider-group .slider-levels .sliderMinorLevel,
 #ftModal #ftSliders .slider-group .slider-levels .sliderModerateLevel,
-#ftModal #ftSliders .slider-group .slider-levels .sliderMajorLevel {
+#ftModal #ftSliders .slider-group .slider-levels .sliderMajorLevel,
+#ftModal #ftSliders .slider-group .slider-levels .sliderExtendedLevel {
   display: block;
   height: 100%;
   width: 10px;
@@ -1834,6 +1852,10 @@ input[type=range].styled:focus::-ms-fill-upper {
 #ftModal #ftSliders .slider-group .slider-levels .sliderMajorLevel {
   background-color: #C326FB;
   z-index: 10;
+}
+#ftModal #ftSliders .slider-group .slider-levels .sliderExtendedLevel {
+  background-color: #35445b;
+  z-index: 5;
 }
 #ftModal #ftSliders #ftOptions {
   display: block;
@@ -2780,6 +2802,7 @@ input[type=range].styled:focus::-ms-fill-upper {
   margin-left: 3px;
   width: auto;
   display: inline-block;
+  opacity: 0.9;
 }
 .modal .modal-dialog .modal-content .modal-footer .modal-footer-buttons {
   display: -webkit-flex;
