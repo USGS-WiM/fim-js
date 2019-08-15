@@ -1256,7 +1256,9 @@ require([
 
             });
 
-            var siteClick = function(evt) {                
+            var siteClick = function(evt) {   
+				
+				console.log("SITE CLICK")
                 
                 var feature;
                 if (evt.graphic != undefined) {
@@ -2050,7 +2052,7 @@ require([
 						// Site One
                         if (finalNWISDataArray.length > 0) { 
 							var val = finalNWISDataArray[finalNWISDataArray.length-1][1];
-							if(val > gageValues[0].gageValue){
+							if(gageValues[0] && val > gageValues[0].gageValue){
 								$(".floodSlider.first-slider").value = val;
 							}else{console.log("Current height lower")}
 							$('.fts1 #floodGage').text(val);
@@ -2276,8 +2278,7 @@ require([
                             }
                         }
 
-                        // Fill slider min/max/current
-                        if (gageValues.length > 0) {
+                        if (gageValues[0]) {
 							// Flood levels near slider - Site 1
                             $(".fts1 .slider-min").text(gageValues[0].gageValue);
 							$(".fts1 .slider-max").text(gageValues[gageValues.length-1].gageValue);
@@ -2304,7 +2305,12 @@ require([
 							// Log
                             console.log("Flood stage bands")
                             console.log(floodStageBands)
-                        }
+                        }else{
+							console.log("Gage values not loaded?")
+							console.log(gageValues);
+							floodToolsError();
+						}
+
 
                         // Single Site Check
                         if (attr["MULTI_SITE"] == 0) {
