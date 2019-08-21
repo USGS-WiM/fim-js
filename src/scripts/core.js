@@ -3619,7 +3619,7 @@ require([
                     "copyrightText": "This page was produced by the FIM and the WIM",
                     "customTextElements": [
                         { "mapTitle": page2MapTitle },
-                        { "mapSeries": printAttr.REP_SER_NUM }
+                        { "mapSeries": (printAttr) ? printAttr.REP_SER_NUM : "" }
                     ],
                     "legendLayers": null//[sitesLegendLayer]
                 };
