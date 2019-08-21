@@ -3539,8 +3539,8 @@ require([
                     
                 sitesLayer.setVisibility(false);
 
-                var printParams = new PrintParameters();
-                printParams.map = map;
+                var page2PrintParams = new PrintParameters();
+                page2PrintParams.map = map;
 
                 var template = new PrintTemplate();
                 /*template.exportOptions = {
@@ -3591,33 +3591,91 @@ require([
                 //"Flood-Inundation Map for the " + mapInfoArray[0] + " at the U.S. Geological Survey Streamgage Number " + mapInfoArray[1] 
                 //+ "\n<FNT size='4'>Map corresponding to a Gage Height of " + mapInfoArray[2] + " feet and an Elevation of " + mapInfoArray[5] + " feet (NAVD 88)</LIN></FNT>"
 
+                var page2MapTitle = "";
+                if (siteAttr.MULTI_SITE == 0) {
+                    page2MapTitle = "Flood-Inundation Map for " + siteAttr.COMMUNITY + 
+                    " at the U.S. Geological Survey Streamgage Number " + siteAttr.SITE_NO 
+                    + "\n<FNT size='8'>Map corresponding to a Gage Height of " + 
+                    gageValues[$(".fts1 #floodSlider")[0].value].gageValue + " feet and an Elevation of " + 
+                    altitudeValues[$(".fts1 #floodSlider")[0].value].altitudeValue + " feet (NAVD 88)</FNT>";
+                } else if (siteAttr.MULTI_SITE == 1) {
+                    page2MapTitle = "Flood-Inundation Map for " + siteAttr.COMMUNITY + 
+                    " at the U.S. Geological Survey Streamgage Numbers " + siteAttr.SITE_NO + " and " + siteNo_2 +
+                    "\n<LIN leading='25'><FNT size='8'>Map corresponding to a Gage Height of " + 
+                    gageValues[$(".fts1 #floodSlider")[0].value].gageValue + " feet and an Elevation of " + 
+                    altitudeValues[$(".fts1 #floodSlider")[0].value].altitudeValue + " feet (NAVD 88) for Streamgage Number " + 
+                    siteAttr.SITE_NO + "</FNT>" +
+                    "\n<FNT size='8'>and " + gageValues2[$(".fts2 #floodSlider")[0].value].gageValue + " feet and an Elevation of " + 
+                    altitudeValues2[$(".fts2 #floodSlider")[0].value].altitudeValue + " feet (NAVD 88) for Streamgage Number " + 
+                    siteNo_2 +
+                    "</FNT></LIN>";
+                } else if (siteAttr.MULTI_SITE == 2 || siteAttr.MULTI_SITE == 3) {
+                    page2MapTitle = "three sites";
+                }
+
                 template.layoutOptions = {
                     "titleText": titleText,
                     "authorText" : "Flood Inundation Mapping",
                     "copyrightText": "This page was produced by the FIM and the WIM",
                     "customTextElements": [
-                        { "mapTitle": "Flood-Inundation Map for " + siteAttr.COMMUNITY + " at the U.S. Geological Survey Streamgage Number " + siteAttr.SITE_NO 
-                            + "\n<FNT size='8'>Map corresponding to a Gage Height of " + gageValues[$(".fts1 #floodSlider")[0].value].gageValue + " feet and an Elevation of " + altitudeValues[$(".fts1 #floodSlider")[0].value].altitudeValue + " feet (NAVD 88)</FNT>" },
+                        { "mapTitle": page2MapTitle },
                         { "mapSeries": printAttr.REP_SER_NUM }
                     ],
                     "legendLayers": null//[sitesLegendLayer]
                 };
 
-                var extraParams = new Object();
-                extraParams.Map_Info = 'a|b|c|d|e|f|g|h|i';
-                printParams.extraParameters = extraParams;
-
                 //"legendLayers": [legendLayer]
                 var docTitle = template.layoutOptions.titleText;
-                printParams.template = template;
+                page2PrintParams.template = template;
                 var printMap = new PrintTask("https://fimtest.wim.usgs.gov/arcgis/rest/services/FIMPrint/ExportWebMap/GPServer/Export%20Web%20Map");
                 //var printMap = new PrintTask("https://fim.wim.usgs.gov/arcgis/rest/services/FIMMapper/printTool/GPServer/printTool");
                 
-                map.getLayer("layer0").setVisibility(false);
-                printMap.execute(printParams, printPage2Done, printError);
+                /*map.getLayer("layer0").setVisibility(false);
+                map.removeLayer("nwsRadar");
+                map.removeLayer("fimExtentsMulit");
+                map.removeLayer("fimExtentsThreeSites");
+                map.removeLayer("fimBreachMulti");
+                map.removeLayer("fimGrid1");
+                map.removeLayer("fimGrid2");
+                map.removeLayer("fimGrid3");
+                map.removeLayer("fimGrid4");
+                map.removeLayer("floodWatchWarn");
+                map.removeLayer("ahpsSites");
+                map.removeLayer(sitesLayer);
+                //map.removeAllLayers();*/
+                //page2PrintParams.map = map;
 
+                var layersToReturn = [];
+                for (var i=0; i<map.layerIds.length-1; i++) {
+                    if (map.getLayer(map.layerIds[i]).visible == false) {
+                        map.removeLayer(map.layerIds[i]);
+                        layersToReturn.push(map.layerIds[i]);
+                        console.log("removed " + map.layerIds[i]);
+                    }
+                }
+
+                printMap.execute(page2PrintParams, printPage2Done, printError);
+                console.log('executed page 2');
+
+                map.addLayer(sitesLayer);
                 map.getLayer("layer0").setVisibility(true);
                 sitesLayer.setVisibility(true);
+
+                for (var j=0; j<layersToReturn.length; j++) {
+                    map.addLayer(layersToReturn[j]);
+                    console.log("added " + layersToReturn[j]);
+                }
+
+                /*map.addLayer("nwsRadar");
+                map.addLayer("fimExtentsMulit");
+                map.addLayer("fimExtentsThreeSites");
+                map.addLayer("fimBreachMulti");
+                map.addLayer("fimGrid1");
+                map.addLayer("fimGrid2");
+                map.addLayer("fimGrid3");
+                map.addLayer("fimGrid4");
+                map.addLayer("floodWatchWarn");
+                map.addLayer("ahpsSites");*/
 
                 function printPage2Done(event) {
                     //alert(event.url);

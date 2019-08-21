@@ -1776,7 +1776,7 @@ require([
 
                                     }
 
-                                    snapToFlood();
+                                    //snapToFlood();
 
                                 });
 
@@ -1922,683 +1922,6 @@ require([
 
 
                 var deferreds = [nwisCall,nwsCall];
-                
-                $.when(nwisCall,nwsCall,nwisCall2,nwsCall2,nwisCall3,nwsCall3)//)
-                    .done(function(nwisData,nwsData,nwisData2 = null,nwsData2 = null,nwisData3 = null,nwsData3 = null) {//}) {
-
-
-                        //NWIS data handling
-                        var siteData = $.parseJSON(nwisData[0]);
-                        var siteData2;
-                        var siteData3;
-
-                        var gageIndex;
-                        var pcodeAbbr;
-                        var dischargeIndex;
-                        $.each(siteData.data, function (key, value) {
-                            console.log(key);
-                            if (siteData.data[key].parameter_cd == "00065") {
-                                gageIndex = key;
-                                pcodeAbbr = "gh";
-                            } else if (siteData.data[key].parameter_cd == "00060") {
-                                dischargeIndex = key;
-                            } else if (siteData.data[key].parameter_cd == "62614") {
-                                gageIndex = key;
-                                pcodeAbbr = "ngvd29";
-                            } else if (siteData.data[key].parameter_cd == "62615") {
-                                gageIndex = key;
-                                pcodeAbbr = "navd88";
-                            }
-						});
-						
-						
-
-                        var hydroChartYAxisLabel;
-
-                        // Adjust labels for value changed by slider here
-                        switch (pcodeAbbr) {
-                            case "gh":
-                                $("#sgl").text("Selected gage height");
-                                $("#currentValue").text("Gage Height");
-                                hydroChartYAxisLabel = "Gage height";
-                                break;
-                            case "ngvd29":
-                                $("#sgl").text("Selected elevation (NGVD29)");
-                                $("#currentValue").text("Elevation (NGVD29)");
-                                hydroChartYAxisLabel = "Elevation (NGVD29)";
-                                break;
-                            case "navd88":
-                                $("#sgl").text("Selected  elevation (NAVD88)");
-                                $("#currentValue").text("Elevation (NAVD88)");
-                                hydroChartYAxisLabel = "Elevation (NAVD88)";
-                                break;
-                            default:
-                                $("#sgl").text("Selected gage height");
-                                $("#currentValue").text("Gage Height");
-                                hydroChartYAxisLabel = "Gage height";
-                        }
-
-                        var values = siteData.data[gageIndex].time_series_data;
-
-                        // var finalNWISDataArray = finalNWISDataArrayBuild(siteData.data[0].time_series_data);
-                        // var finalNWSDataArray = finalNWSDataArrayBuild(nwsData[0]);
-                        var finalNWISDataArray = finalNWISDataArrayBuild(values);
-                        var finalNWSDataArray = finalNWSDataArrayBuild(nwsData[0]);
-
-                        
-                        var finalNWISDataArray2 = [];
-                        var finalNWSDataArray2 = [];
-                        var finalNWISDataArray3 = [];
-                        var finalNWSDataArray3 = [];
-                        
-                        
-                        var gageIndex2;
-                        var gageIndex3;
-                        var dischargeIndex2;
-                        var dischargeIndex3;
-                        
-                        if (nwisData2[0].search('{"site') != -1) { 
-                            siteData2 = $.parseJSON(nwisData2[0]);
-                            if (siteData2) {
-                                $.each(siteData2.data, function (key, value) {
-                                    console.log(key);
-                                    if (siteData2.data[key].parameter_cd == "00065") {
-                                        gageIndex2 = key;
-                                    } else if (siteData2.data[key].parameter_cd == "00060"){
-                                        dischargeIndex2 = key;
-                                    }
-                                });
-                            }
-                            finalNWISDataArray2 = finalNWISDataArrayBuild(siteData2.data[gageIndex2].time_series_data);
-                        }
-                        if (nwisData3[0].search('{"site') != -1) { 
-                            siteData3 = $.parseJSON(nwisData3[0]);   
-                            if (siteData3) {
-                                $.each(siteData3.data, function (key, value) {
-                                    console.log(key);
-                                    if (siteData3.data[key].parameter_cd == "00065") {
-                                        gageIndex3 = key;
-                                    } else if (siteData3.data[key].parameter_cd == "00060"){
-                                        dischargeIndex3 = key;
-                                    }
-                                });
-                            }
-                            finalNWISDataArray3 = finalNWISDataArrayBuild(siteData3.data[gageIndex3].time_series_data);
-                        }
-
-                        function finalNWISDataArrayBuild(values) {
-                            var finalDataArray = [];
-                            $.each(values, function(key, value) {
-
-                                if (value[0] !== undefined) {
-                                    var time = value[0];
-                                    var value = value[1];
-
-                                    finalDataArray.push([time,value]);
-                                }
-
-                            });
-                            return finalDataArray
-                        }
-
-						// ======================================================
-						// ======================================================
-						// Set current Gage Height and Discharge Values
-						// ======================================================
-						// ======================================================
-						// Reset Vals
-						$('#floodGage').text('n/a');
-						$('#floodDischarge').text('n/a');
-						// Site One
-                        if (finalNWISDataArray.length > 0) { 
-							var val = finalNWISDataArray[finalNWISDataArray.length-1][1];
-							if(gageValues[0] && val > gageValues[0].gageValue){
-								$(".floodSlider.first-slider").value = val;
-							}else{console.log("Current height lower")}
-							$('.fts1 #floodGage').text(val);
-						}
-						// Site One Discharge
-                        if (dischargeIndex != null && siteData.data[dischargeIndex].time_series_data.length > 0 && siteData.data[dischargeIndex].time_series_data[siteData.data[dischargeIndex].time_series_data.length-1][1] != null) {
-                            $('.fts1 #floodDischarge').text(siteData.data[dischargeIndex].time_series_data[siteData.data[dischargeIndex].time_series_data.length-1][1]);
-                        } else if (dischargeIndex != null && siteData.data[dischargeIndex].time_series_data.length > 0 ) {
-                            $('.fts1 #floodDischarge').text('n/a (' + siteData.data[dischargeIndex].time_series_data[siteData.data[dischargeIndex].time_series_data.length-1][2] + ')');
-						}
-						// Site Two
-                        if (finalNWISDataArray2.length > 0) { 
-							var val = finalNWISDataArray2[finalNWISDataArray2.length-1][1];
-							if(val > gageValues2[0].gageValue){
-								$(".floodSlider.second-slider").value = val;
-							}else{console.log("Current height lower")}
-							$('.fts2 #floodGage').text(val);
-						}
-						// Site Two Discharge
-                        if (dischargeIndex2 != null && siteData2 && siteData2.data[dischargeIndex2].time_series_data[siteData2.data[dischargeIndex2].time_series_data.length-1][1] != null) {
-                            $('.fts2 #floodDischarge').text(siteData2.data[dischargeIndex2].time_series_data[siteData2.data[dischargeIndex2].time_series_data.length-1][1]);
-                        } else if (dischargeIndex2 != null && siteData2 && siteData2.data[dischargeIndex2].time_series_data[siteData2.data[dischargeIndex2].time_series_data.length-1].length > 2) {
-                            $('.fts2 #floodDischarge').text('n/a (' + siteData2.data[dischargeIndex2].time_series_data[siteData2.data[dischargeIndex2].time_series_data.length-1][2] + ')');
-						}
-						// Site Three
-                        if (finalNWISDataArray3.length > 0) { 
-							var val = finalNWISDataArray3[finalNWISDataArray3.length-1][1];
-							if(val > gageValues2[0].gageValue){
-								$(".floodSlider.third-slider").value = val;
-							}else{console.log("Current height lower")}
-							$('.fts3 #floodGage').text(val);
-						}
-						// Site Three Discharge
-                        if (dischargeIndex3 != null && siteData3 && siteData3.data[dischargeIndex3].time_series_data[siteData3.data[dischargeIndex3].time_series_data.length-1][1] != null) {
-                            $('.fts3 #floodDischarge').text(siteData3.data[dischargeIndex3].time_series_data[siteData3.data[dischargeIndex3].time_series_data.length-1][1]);
-                        } else if (dischargeIndex2 != null && siteData3 && siteData3.data[dischargeIndex3].time_series_data[siteData3.data[dischargeIndex3].time_series_data.length-1].length > 2) {
-                            $('.fts3 #floodDischarge').text('n/a (' + siteData3.data[dischargeIndex3].time_series_data[siteData3.data[dischargeIndex3].time_series_data.length-1][2] + ')');
-                        }
-
-                        if (nwsData2[0].children && nwsData2[0].children[0].children[0].textContent != "no nws data") { 
-                            finalNWSDataArray2 = finalNWSDataArrayBuild(nwsData2[0]);
-                        }
-                        if (nwsData3[0].children && nwsData3[0].children[0].children[0].textContent != "no nws data") { 
-                            finalNWSDataArray3 = finalNWSDataArrayBuild(nwsData3[0]);
-                        }
-                        
-                        //REVISIT: fix after getting single site data to work
-                        function finalNWSDataArrayBuild(values) {
-                            var finalDataArray = [];
-                            var nwsIndex = getNwsForecastIndex(values.children[0].children);
-                            if (values.children[0].children[nwsIndex] && values.children[0].children[nwsIndex].children.length > 0) {
-                                var nwsValues = values.children[0].children[nwsIndex].children;
-                            }
-                            if (nwsValues && nwsValues.length > 0) {
-                                var nwsDatum = (nwsValues[0].children[1].attributes.name.value == "Stage") ? 1 : 2;
-                                $.each(nwsValues, function(key, value) {
-
-                                    if (value.children[0].textContent !== "") {
-                                        var time = dateFix(value.children[0].textContent,"nws");
-                                        var value = Number(value.children[nwsDatum].textContent);
-
-                                        finalDataArray.push([time,value]);
-                                    }
-
-                                });
-                            }
-                            return finalDataArray;
-                        }
-
-
-                        // ========================================================================
-                        // ========================================================================
-                        // Get Flood Stages
-                        // Get Flood Stages
-                        // Get Flood Stages
-                        // ========================================================================
-                        // ========================================================================
-
-						function getFloodStages(data) {
-
-							// If NWS Data does not exist
-							if(data[0].getElementsByTagName("response")[0]){
-								console.log("NWS Data Not Available");
-								$(".nws-data-req").addClass("nws-data-hidden");
-								
-								floodToolsError("nws");
-
-								var levels = new Object();
-								levels.action = 0;
-								levels.flood = 0;
-								levels.moderate = 0;
-								levels.major = 0;
-								levels.top_curve = 0;
-								
-								console.log('Empty Flood Stages');
-								return levels;
-
-							}else{ // If NWS Data DOES exist
-								$(".nws-data-hidden").removeClass("nws-data-hidden");
-								var levels = new Object();
-								levels.action = (data[0].getElementsByTagName("action")[0].childNodes.length > 0) ? data[0].getElementsByTagName("action")[0].childNodes[0].nodeValue : null;
-								levels.flood = (data[0].getElementsByTagName("flood")[0].childNodes.length > 0) ? data[0].getElementsByTagName("flood")[0].childNodes[0].nodeValue : null;
-								levels.moderate = (data[0].getElementsByTagName("moderate")[0].childNodes.length > 0) ? data[0].getElementsByTagName("moderate")[0].childNodes[0].nodeValue : null;
-								
-								var tempMajor = (data[0].getElementsByTagName("major")[0].childNodes.length > 0) ? data[0].getElementsByTagName("major")[0].childNodes[0].nodeValue : null
-								var tempCurve = siteAttr.TOP_CURVE;
-								
-								// console.log("tempMajor");
-								// console.log(tempMajor);
-								// console.log("tempRecord");
-								// console.log(tempRecord);
-
-								if(tempCurve != null && tempCurve > tempMajor){
-									levels.major = tempMajor;
-									levels.top_curve = siteAttr.TOP_CURVE;
-								}else{
-									levels.major = tempMajor;
-									levels.top_curve = null;
-								}
-								
-								console.log('Flood stages');
-								console.log(levels)
-								return levels;
-							}
-						}
-
-
-						// ===============================================================
-						// ===============================================================
-						// Create Flood Stage Bands
-						// Create Flood Stage Bands
-						// Create Flood Stage Bands
-						// ===============================================================
-						// ===============================================================
-						var createFloodStageBand = function(sliderStages, sliderMax){
-
-							var stage = sliderStages;
-							var max = sliderMax;
-
-							var band = new Array();
-							band.push({
-								color: "#D8E1EE",
-								from: 0,
-								to: stage.action,
-								'label':{'text': "Below Action"}
-							})
-							band.push({
-								color: "#FDFB51",
-								from: stage.action,
-								to: stage.flood,
-								'label':{'text': "Action"}
-							});
-							band.push({
-								color: "#FAA629",
-								from: stage.flood,
-								to: stage.moderate,
-								'label':{'text': "Minor Flooding"}
-							})
-							band.push({
-								color: "#FC0D1B",
-								from: stage.moderate,
-								to: stage.major,
-								'label':{'text': "Moderate Flooding"}
-							})
-							// If Top Curve Exists
-							// Add Band for Extended Rating
-							if(stage.top_curve != null){
-								band.push({
-									color: "#C326FB",
-									from: stage.major,
-									to: stage.top_curve,
-									'label':{'text': "Major Flooding"}
-								})
-								band.push({
-									color: "#35445b",
-									from: stage.top_curve,
-									to: max,
-									'label':{'text': "Extended Rating"}
-								});
-							}else{
-								band.push({
-									color: "#C326FB",
-									from: stage.major,
-									to: max,
-									'label':{'text': "Major Flooding"}
-								})
-							}
-							
-							
-							return band;
-						}
-
-
-						// ===============================================================
-						// ===============================================================
-						// Slider & Current Values
-						// Slider & Current Values
-						// Slider & Current Values
-						// ===============================================================
-						// ===============================================================
-
-						var sliderStages = getFloodStages(nwsData);
-
-						var sliderMax1;
-						if (gageValues.length > 0) {
-							sliderMax1 = gageValues[gageValues.length-1].gageValue;
-						}
-
-						// Create Flood Stage Bands
-						var floodStageBands = createFloodStageBand(sliderStages, sliderMax1);
-
-
-                        // Set slider values
-                        // Set slider values
-                        // Set slider values
-						$(".fts1 .floodSlider").attr({"min": 0, "max": gageValues.length-1});
-						// If Two Sites
-                        if (siteAttr["MULTI_SITE"] >= 1) {
-							$(".fts2 .floodSlider").attr({"min": 0, "max": gageValues2.length-1});
-							// If Three Sites
-                            if (siteAttr["MULTI_SITE"] >= 2) {
-                                $(".fts3 .floodSlider").attr({"min": 0, "max": gageValues3.length-1});
-                            }
-                        }
-
-                        if (gageValues[0]) {
-							// Flood levels near slider - Site 1
-                            $(".fts1 .slider-min").text(gageValues[0].gageValue);
-							$(".fts1 .slider-max").text(gageValues[gageValues.length-1].gageValue);
-							
-							// Calculate slider band heights
-                            var flMax1 = gageValues[gageValues.length-1].gageValue;
-                            var flMin1 = gageValues[0].gageValue;
-							var flDiff1 = flMax1 - flMin1;
-							
-                            $(".fts1 .sliderWhiteSpace").css( "width", (sliderStages.action - flMin1) / flDiff1 * 100 + '%' );
-                            $(".fts1 .sliderActionLevel").css( "width", (sliderStages.flood - flMin1) / flDiff1 * 100 + '%' );
-                            $(".fts1 .sliderMinorLevel").css( "width", (sliderStages.moderate - flMin1) / flDiff1 * 100 + '%' );
-                            $(".fts1 .sliderModerateLevel").css( "width", (sliderStages.major - flMin1) / flDiff1 * 100 + '%' );
-							
-							// If "Top Curve" / Extended exists
-							if(sliderStages.top_curve != null){
-								$(".fts1 .sliderMajorLevel").css( "width", (sliderStages.top_curve - flMin1) / flDiff1 * 100 + '%' );
-								$(".fts1 .sliderExtendedLevel").css( "width", '100%' );
-							}else{
-								$(".fts1 .sliderMajorLevel").css( "width", '100%' );
-								$(".fts1 .sliderExtendedLevel").css( "width", '0%' );
-							}
-							
-							// Log
-                            console.log("Flood stage bands")
-                            console.log(floodStageBands)
-                        }else{
-							console.log("Gage values not loaded?")
-							console.log(gageValues);
-							floodToolsError();
-						}
-
-
-                        // Single Site Check
-                        if (attr["MULTI_SITE"] == 0) {
-							console.log("Single Site");
-							console.log("Site 1 NWS Data")
-                            console.log(nwsData);
-                        } else if (attr["MULTI_SITE"] > 0) {
-                            console.log("Multi Site");
-                            console.log("Site 2 NWS Data")
-                            console.log(nwsData2)
-							
-							var sliderStages2 = getFloodStages(nwsData2);
-							var sliderMax2;
-							if (gageValues2.length > 0) {
-								sliderMax2 = gageValues2[gageValues2.length-1].gageValue;
-							}
-
-							// Second Site Flood Bands
-                            if (typeof nwsData2[0] !== "string") {
-								// Create Flood Stage Bands
-								var floodStageBands2 = createFloodStageBand(sliderStages2, sliderMax2);
-							}
-							
-							// Second Site
-                            if (gageValues2.length > 0) {
-								// Flood levels near slider - Site 1
-                                $(".fts2 .slider-min").text(gageValues2[0].gageValue);
-                                $(".fts2 .slider-max").text(gageValues2[gageValues2.length-1].gageValue);
-	
-								// Calculate slider bar heights
-								var flMax2 = gageValues2[gageValues2.length-1].gageValue;
-								var flMin2 = gageValues2[0].gageValue;
-								var flDiff2 = flMax2 - flMin2;
-								
-								$(".fts2 .sliderWhiteSpace").css( "width", (sliderStages2.action - flMin2) / flDiff2 * 100 + '%' );
-								$(".fts2 .sliderActionLevel").css( "width", (sliderStages2.flood - flMin2) / flDiff2 * 100 + '%' );
-								$(".fts2 .sliderMinorLevel").css( "width", (sliderStages2.moderate - flMin2) / flDiff2 * 100 + '%' );
-								$(".fts2 .sliderModerateLevel").css( "width", (sliderStages2.major - flMin2) / flDiff2 * 100 + '%' );
-
-								// If "Top Curve" / Extended exists
-								if(sliderStages != null){
-									$(".fts2 .sliderMajorLevel").css( "width", (sliderStages2.top_curve - flMin2) / flDiff2 * 100 + '%' );
-									$(".fts2 .sliderExtendedLevel").css( "width", '100%' );
-								}else{
-									$(".fts2 .sliderMajorLevel").css( "width", '100%' );
-									$(".fts2 .sliderExtendedLevel").css( "width", '0%' );
-								}
-                            }
-						}
-						// Third Site
-                        if (attr["MULTI_SITE"] > 1) {
-							console.log("Triple Site");
-							console.log("Site 3 NWS Data")
-							console.log(nwsData3)
-
-							
-							var sliderStages3 = getFloodStages(nwsData3);
-							var sliderMax3;
-							if (gageValues3.length > 0) {
-								sliderMax3 = gageValues3[gageValues3.length-1].gageValue;
-							}
-
-							// Third Site Flood Bands
-							if (typeof nwsData2[0] !== "string") {
-								// Create Flood Stage Bands
-								var floodStageBands3 = createFloodStageBand(sliderStages3, sliderMax3);
-							}
-
-							// Flood levels near slider - Site 1
-                            $(".fts3 .slider-min").text(gageValues3[0].gageValue);
-							$(".fts3 .slider-max").text(gageValues3[gageValues3.length-1].gageValue);
-							
-							// Calculate Slider bar heights
-							var flMax3 = gageValues3[gageValues3.length-1].gageValue;
-							var flMin3 = gageValues3[0].gageValue;
-							var flDiff3 = flMax3 - flMin3;
-							
-							$(".fts3 .sliderWhiteSpace").css( "width", (sliderStages3.action - flMin3) / flDiff3 * 100 + '%' );
-							$(".fts3 .sliderActionLevel").css( "width", (sliderStages3.flood - flMin3) / flDiff3 * 100 + '%' );
-							$(".fts3 .sliderMinorLevel").css( "width", (sliderStages3.moderate - flMin3) / flDiff3 * 100 + '%' );
-							$(".fts3 .sliderModerateLevel").css( "width", (sliderStages3.major - flMin3) / flDiff3 * 100 + '%' );
-							
-							// If "Top Curve" / Extended exists
-							if(sliderStages != null){
-								$(".fts3 .sliderMajorLevel").css( "width", (sliderStages3.top_curve - flMin3) / flDiff3 * 100 + '%' );
-								$(".fts3 .sliderExtendedLevel").css( "width", '100%' );
-							}else{
-								$(".fts3 .sliderMajorLevel").css( "width", '100%' );
-								$(".fts3 .sliderExtendedLevel").css( "width", '0%' );
-							}
-                        }
-
-
-						// ===============================================================
-						// ===============================================================
-						// Hydrographs
-						// Hydrographs
-						// Hydrographs
-						// ===============================================================
-						// ===============================================================
-
-						// Hide all charts to start
-                        $('#hydroChart').hide();
-                        $('#hydroChart2').hide();
-                        $('#hydroChart3').hide();
-						$('.no-hydro').show();
-						
-						var getChartOptions = function(siteNo, finalNWISDataArray, finalNWSDataArray, sliderMax1, floodStageBands){
-							var opts = new Object();
-							opts.chart = {
-								type: 'line',
-								height: highChartHeight,
-								width: highChartWidth,
-								events:{
-									load: function() {
-										this.credits.element.onclick = function() {
-											window.open(
-											'http://www.highcharts.com',
-											'_blank'
-											);
-										}
-									}
-								}
-							};
-							opts.title = {
-								text: "Site " + siteNo
-							}
-							opts.plotOptions = {
-								series: {
-									cursor: 'pointer',
-									events: {
-										click: function (event) {
-											snapToFlood(event.point.y,".first-slider");
-										}
-									}
-								}
-							};
-							opts.series = [{
-								data: finalNWISDataArray,
-								name: "NWIS Observed",
-								color: "black",
-								marker: {
-									enabled: false,
-								}
-							},{
-								data: finalNWSDataArray,
-								name: "NWS Predicted",
-								color: 'black',
-								marker: {
-									enabled: true,
-									symbol: 'circle',
-									fillColor: 'white',
-									lineColor: 'black',
-									lineWidth: 1.25
-								}
-							}];
-							opts.xAxis = {
-								type: "datetime",
-                                tickInterval: 24*3600*1000
-							};
-							opts.yAxis = {
-								min: 0,
-								max: sliderMax1,
-								endOnTick: false,
-								resize: {
-									enabled: true
-								},
-								labels: {
-									format: "{value} ft"
-								},
-								title: {
-									text: hydroChartYAxisLabel
-								},
-								plotBands: floodStageBands
-							},
-							opts.tooltip = {
-								formatter: function() {
-									var date = new Date(this.x);
-									var dayOfWeek = getDay(date);
-									var month = getMonth(date);
-									var dayOfMonth = date.getDate()
-									var hours = date.getHours().toString();
-									var minutes = date.getMinutes().toString();
-									if (hours.length == 1) {
-										hours = "0"+hours;
-									}
-									if (minutes.length == 1) {
-										minutes = "0"+minutes;
-									}
-									return dayOfWeek + ', ' + month + ' ' + dayOfMonth + ', ' + hours + ':' + minutes + '' +
-										this.series.name + ': <b>' + this.y + ' ft</b>';
-								}
-							}
-
-							// Return options
-							return opts;
-						}
-						
-						// ===============================================================
-						// ===============================================================
-						// Create Hydrograph
-						// Create Hydrograph
-						// Create Hydrograph
-						// ===============================================================
-						// ===============================================================
-                        if (finalNWISDataArray.length > 0 || finalNWSDataArray.length > 0) {
-							$("#hydroChart").show();
-							// Get options
-							var chartOneOptions = getChartOptions(siteNo, finalNWISDataArray, finalNWSDataArray, sliderMax1, floodStageBands);
-							
-							// Cerate Chart
-							var hydroChart = new Highcharts.Chart('hydroChart', chartOneOptions, function(hydroChart){
-								console.log("Chart One Loaded");
-								if(floodStageBands[5]){
-									var chartYMax = parseInt(floodStageBands[5].to);
-								}else{
-									var chartYMax = parseInt(floodStageBands[4].to);
-								}
-                                hydroChart.yAxis[0].setExtremes(null, chartYMax);
-							});
-							// Hide if Hydrograph unavailable
-                            $('.no-hydro').hide();
-                        }
-
-						// Multisite Two
-                        if (siteData2 != undefined || finalNWSDataArray2.length > 0) {
-							$("#hydroChart2").show();
-							// Get options
-							var chartTwoOptions = getChartOptions(siteNo_2, finalNWISDataArray2, finalNWSDataArray2, sliderMax2, floodStageBands2);
-							// Create Chart
-                            var hydroChart2 = new Highcharts.Chart('hydroChart2', chartTwoOptions, function(hydroChart2){
-								console.log("Chart Two Loaded")
-								if(floodStageBands[5]){
-									var chartYMax = parseInt(floodStageBands2[5].to);
-								}else{
-									var chartYMax = parseInt(floodStageBands2[4].to);
-								}
-								hydroChart2.yAxis[0].setExtremes(null, chartYMax);
-                            });
-                            $('.no-hydro').hide();
-                        }
-
-						// Multisite Three
-                        if (siteData3 != undefined || finalNWSDataArray3.length > 0) {
-							$("#hydroChart3").show();
-							// Get options
-							var chartThreeOptions = getChartOptions(siteNo_3, finalNWISDataArray3, finalNWSDataArray3, sliderMax3, floodStageBands3);
-							// Create Chart
-                            var hydroChart3 = new Highcharts.Chart('hydroChart3', chartThreeOptions, function(hydroChart3){
-								console.log("Chart Three Loaded")
-								if(floodStageBands[5]){
-									var chartYMax = parseInt(floodStageBands3[5].to);
-								}else{
-									var chartYMax = parseInt(floodStageBands3[4].to);
-								}
-                                hydroChart3.yAxis[0].setExtremes(null, chartYMax);
-                            });
-                            $('.no-hydro').hide();
-                        }
-						
-						// ===============================================================
-						// ===============================================================
-						// Done Loading
-						// Done Loading
-						// Done Loading
-						// ===============================================================
-						// ===============================================================
-
-						// Set Default Tab
-						// Default to hydro tab if NWS data available
-						// NWS not available - default to main
-						if($(".ft-hydro-tab").hasClass("nws-data-hidden")){
-							console.log("Open Main")
-							$(".ft-main-tab").click();
-						}else{ // NWS Available - Hydro Tab
-							console.log("Open Hydro")
-							$(".ft-hydro-tab").click();
-						}
-
-                        $("#floodToolsDiv .panel-heading").removeClass('loading-hide');
-                        $("#floodToolsDiv .panel-body").removeClass('loading-hide');
-                        $("#floodToolsDiv").removeClass('loading-background');
-                    })
-                    .fail(function() {
-                        //alert('there was an issue');
-                        floodToolsError();
-                    });
-
 
                 var hazusQuery = new esriQuery();
                 hazusQuery.returnGeometry = false;
@@ -3213,7 +2536,686 @@ require([
                         var instanceX = docWidth*0.5-$("#floodToolsDiv").width()*0.5;
                         var instanceY = docHeight*0.5-$("#floodToolsDiv").height()*0.5;
 
-                        snapToFlood();
+                        $.when(nwisCall,nwsCall,nwisCall2,nwsCall2,nwisCall3,nwsCall3)//)
+                            .done(function(nwisData,nwsData,nwisData2 = null,nwsData2 = null,nwisData3 = null,nwsData3 = null) {//}) {
+
+
+                                //NWIS data handling
+                                var siteData = $.parseJSON(nwisData[0]);
+                                var siteData2;
+                                var siteData3;
+
+                                var gageIndex;
+                                var pcodeAbbr;
+                                var dischargeIndex;
+                                $.each(siteData.data, function (key, value) {
+                                    console.log(key);
+                                    if (siteData.data[key].parameter_cd == "00065") {
+                                        gageIndex = key;
+                                        pcodeAbbr = "gh";
+                                    } else if (siteData.data[key].parameter_cd == "00060") {
+                                        dischargeIndex = key;
+                                    } else if (siteData.data[key].parameter_cd == "62614") {
+                                        gageIndex = key;
+                                        pcodeAbbr = "ngvd29";
+                                    } else if (siteData.data[key].parameter_cd == "62615") {
+                                        gageIndex = key;
+                                        pcodeAbbr = "navd88";
+                                    }
+                                });
+                                
+                                
+
+                                var hydroChartYAxisLabel;
+
+                                // Adjust labels for value changed by slider here
+                                switch (pcodeAbbr) {
+                                    case "gh":
+                                        $("#sgl").text("Selected gage height");
+                                        $("#currentValue").text("Gage Height");
+                                        hydroChartYAxisLabel = "Gage height";
+                                        break;
+                                    case "ngvd29":
+                                        $("#sgl").text("Selected elevation (NGVD29)");
+                                        $("#currentValue").text("Elevation (NGVD29)");
+                                        hydroChartYAxisLabel = "Elevation (NGVD29)";
+                                        break;
+                                    case "navd88":
+                                        $("#sgl").text("Selected  elevation (NAVD88)");
+                                        $("#currentValue").text("Elevation (NAVD88)");
+                                        hydroChartYAxisLabel = "Elevation (NAVD88)";
+                                        break;
+                                    default:
+                                        $("#sgl").text("Selected gage height");
+                                        $("#currentValue").text("Gage Height");
+                                        hydroChartYAxisLabel = "Gage height";
+                                }
+
+                                var values = siteData.data[gageIndex].time_series_data;
+
+                                // var finalNWISDataArray = finalNWISDataArrayBuild(siteData.data[0].time_series_data);
+                                // var finalNWSDataArray = finalNWSDataArrayBuild(nwsData[0]);
+                                var finalNWISDataArray = finalNWISDataArrayBuild(values);
+                                var finalNWSDataArray = finalNWSDataArrayBuild(nwsData[0]);
+
+                                
+                                var finalNWISDataArray2 = [];
+                                var finalNWSDataArray2 = [];
+                                var finalNWISDataArray3 = [];
+                                var finalNWSDataArray3 = [];
+                                
+                                
+                                var gageIndex2;
+                                var gageIndex3;
+                                var dischargeIndex2;
+                                var dischargeIndex3;
+                                
+                                if (nwisData2[0].search('{"site') != -1) { 
+                                    siteData2 = $.parseJSON(nwisData2[0]);
+                                    if (siteData2) {
+                                        $.each(siteData2.data, function (key, value) {
+                                            console.log(key);
+                                            if (siteData2.data[key].parameter_cd == "00065") {
+                                                gageIndex2 = key;
+                                            } else if (siteData2.data[key].parameter_cd == "00060"){
+                                                dischargeIndex2 = key;
+                                            }
+                                        });
+                                    }
+                                    finalNWISDataArray2 = finalNWISDataArrayBuild(siteData2.data[gageIndex2].time_series_data);
+                                }
+                                if (nwisData3[0].search('{"site') != -1) { 
+                                    siteData3 = $.parseJSON(nwisData3[0]);   
+                                    if (siteData3) {
+                                        $.each(siteData3.data, function (key, value) {
+                                            console.log(key);
+                                            if (siteData3.data[key].parameter_cd == "00065") {
+                                                gageIndex3 = key;
+                                            } else if (siteData3.data[key].parameter_cd == "00060"){
+                                                dischargeIndex3 = key;
+                                            }
+                                        });
+                                    }
+                                    finalNWISDataArray3 = finalNWISDataArrayBuild(siteData3.data[gageIndex3].time_series_data);
+                                }
+
+                                function finalNWISDataArrayBuild(values) {
+                                    var finalDataArray = [];
+                                    $.each(values, function(key, value) {
+
+                                        if (value[0] !== undefined) {
+                                            var time = value[0];
+                                            var value = value[1];
+
+                                            finalDataArray.push([time,value]);
+                                        }
+
+                                    });
+                                    return finalDataArray
+                                }
+
+                                // ======================================================
+                                // ======================================================
+                                // Set current Gage Height and Discharge Values
+                                // ======================================================
+                                // ======================================================
+                                // Reset Vals
+                                $('#floodGage').text('n/a');
+                                $('#floodDischarge').text('n/a');
+                                // Site One
+                                if (finalNWISDataArray.length > 0) { 
+                                    var val = finalNWISDataArray[finalNWISDataArray.length-1][1];
+                                    if(gageValues[0] && val > gageValues[0].gageValue){
+                                        $(".floodSlider.first-slider").value = val;
+                                    }else{console.log("Current height lower")}
+                                    $('.fts1 #floodGage').text(val);
+                                }
+                                // Site One Discharge
+                                if (dischargeIndex != null && siteData.data[dischargeIndex].time_series_data.length > 0 && siteData.data[dischargeIndex].time_series_data[siteData.data[dischargeIndex].time_series_data.length-1][1] != null) {
+                                    $('.fts1 #floodDischarge').text(siteData.data[dischargeIndex].time_series_data[siteData.data[dischargeIndex].time_series_data.length-1][1]);
+                                } else if (dischargeIndex != null && siteData.data[dischargeIndex].time_series_data.length > 0 ) {
+                                    $('.fts1 #floodDischarge').text('n/a (' + siteData.data[dischargeIndex].time_series_data[siteData.data[dischargeIndex].time_series_data.length-1][2] + ')');
+                                }
+                                // Site Two
+                                if (finalNWISDataArray2.length > 0) { 
+                                    var val = finalNWISDataArray2[finalNWISDataArray2.length-1][1];
+                                    if(val > gageValues2[0].gageValue){
+                                        $(".floodSlider.second-slider").value = val;
+                                    }else{console.log("Current height lower")}
+                                    $('.fts2 #floodGage').text(val);
+                                }
+                                // Site Two Discharge
+                                if (dischargeIndex2 != null && siteData2 && siteData2.data[dischargeIndex2].time_series_data[siteData2.data[dischargeIndex2].time_series_data.length-1][1] != null) {
+                                    $('.fts2 #floodDischarge').text(siteData2.data[dischargeIndex2].time_series_data[siteData2.data[dischargeIndex2].time_series_data.length-1][1]);
+                                } else if (dischargeIndex2 != null && siteData2 && siteData2.data[dischargeIndex2].time_series_data[siteData2.data[dischargeIndex2].time_series_data.length-1].length > 2) {
+                                    $('.fts2 #floodDischarge').text('n/a (' + siteData2.data[dischargeIndex2].time_series_data[siteData2.data[dischargeIndex2].time_series_data.length-1][2] + ')');
+                                }
+                                // Site Three
+                                if (finalNWISDataArray3.length > 0) { 
+                                    var val = finalNWISDataArray3[finalNWISDataArray3.length-1][1];
+                                    if(val > gageValues3[0].gageValue){
+                                        $(".floodSlider.third-slider").value = val;
+                                    }else{console.log("Current height lower")}
+                                    $('.fts3 #floodGage').text(val);
+                                }
+                                // Site Three Discharge
+                                if (dischargeIndex3 != null && siteData3 && siteData3.data[dischargeIndex3].time_series_data[siteData3.data[dischargeIndex3].time_series_data.length-1][1] != null) {
+                                    $('.fts3 #floodDischarge').text(siteData3.data[dischargeIndex3].time_series_data[siteData3.data[dischargeIndex3].time_series_data.length-1][1]);
+                                } else if (dischargeIndex3 != null && siteData3 && siteData3.data[dischargeIndex3].time_series_data[siteData3.data[dischargeIndex3].time_series_data.length-1].length > 2) {
+                                    $('.fts3 #floodDischarge').text('n/a (' + siteData3.data[dischargeIndex3].time_series_data[siteData3.data[dischargeIndex3].time_series_data.length-1][2] + ')');
+                                }
+
+                                if (nwsData2[0].children && nwsData2[0].children[0].children[0].textContent != "no nws data") { 
+                                    finalNWSDataArray2 = finalNWSDataArrayBuild(nwsData2[0]);
+                                }
+                                if (nwsData3[0].children && nwsData3[0].children[0].children[0].textContent != "no nws data") { 
+                                    finalNWSDataArray3 = finalNWSDataArrayBuild(nwsData3[0]);
+                                }
+                                
+                                //REVISIT: fix after getting single site data to work
+                                function finalNWSDataArrayBuild(values) {
+                                    var finalDataArray = [];
+                                    var nwsIndex = getNwsForecastIndex(values.children[0].children);
+                                    if (values.children[0].children[nwsIndex] && values.children[0].children[nwsIndex].children.length > 0) {
+                                        var nwsValues = values.children[0].children[nwsIndex].children;
+                                    }
+                                    if (nwsValues && nwsValues.length > 0) {
+                                        var nwsDatum = (nwsValues[0].children[1].attributes.name.value == "Stage") ? 1 : 2;
+                                        $.each(nwsValues, function(key, value) {
+
+                                            if (value.children[0].textContent !== "") {
+                                                var time = dateFix(value.children[0].textContent,"nws");
+                                                var value = Number(value.children[nwsDatum].textContent);
+
+                                                finalDataArray.push([time,value]);
+                                            }
+
+                                        });
+                                    }
+                                    return finalDataArray;
+                                }
+
+
+                                // ========================================================================
+                                // ========================================================================
+                                // Get Flood Stages
+                                // Get Flood Stages
+                                // Get Flood Stages
+                                // ========================================================================
+                                // ========================================================================
+
+                                function getFloodStages(data) {
+
+                                    // If NWS Data does not exist
+                                    if(data[0].getElementsByTagName("response")[0]){
+                                        console.log("NWS Data Not Available");
+                                        $(".nws-data-req").addClass("nws-data-hidden");
+                                        
+                                        floodToolsError("nws");
+
+                                        var levels = new Object();
+                                        levels.action = 0;
+                                        levels.flood = 0;
+                                        levels.moderate = 0;
+                                        levels.major = 0;
+                                        levels.top_curve = 0;
+                                        
+                                        console.log('Empty Flood Stages');
+                                        return levels;
+
+                                    }else{ // If NWS Data DOES exist
+                                        $(".nws-data-hidden").removeClass("nws-data-hidden");
+                                        var levels = new Object();
+                                        levels.action = (data[0].getElementsByTagName("action")[0].childNodes.length > 0) ? data[0].getElementsByTagName("action")[0].childNodes[0].nodeValue : null;
+                                        levels.flood = (data[0].getElementsByTagName("flood")[0].childNodes.length > 0) ? data[0].getElementsByTagName("flood")[0].childNodes[0].nodeValue : null;
+                                        levels.moderate = (data[0].getElementsByTagName("moderate")[0].childNodes.length > 0) ? data[0].getElementsByTagName("moderate")[0].childNodes[0].nodeValue : null;
+                                        
+                                        var tempMajor = (data[0].getElementsByTagName("major")[0].childNodes.length > 0) ? data[0].getElementsByTagName("major")[0].childNodes[0].nodeValue : null
+                                        var tempCurve = siteAttr.TOP_CURVE;
+                                        
+                                        // console.log("tempMajor");
+                                        // console.log(tempMajor);
+                                        // console.log("tempRecord");
+                                        // console.log(tempRecord);
+
+                                        if(tempCurve != null && tempCurve > tempMajor){
+                                            levels.major = tempMajor;
+                                            levels.top_curve = siteAttr.TOP_CURVE;
+                                        }else{
+                                            levels.major = tempMajor;
+                                            levels.top_curve = null;
+                                        }
+                                        
+                                        console.log('Flood stages');
+                                        console.log(levels)
+                                        return levels;
+                                    }
+                                }
+
+
+                                // ===============================================================
+                                // ===============================================================
+                                // Create Flood Stage Bands
+                                // Create Flood Stage Bands
+                                // Create Flood Stage Bands
+                                // ===============================================================
+                                // ===============================================================
+                                var createFloodStageBand = function(sliderStages, sliderMax){
+
+                                    var stage = sliderStages;
+                                    var max = sliderMax;
+
+                                    var band = new Array();
+                                    band.push({
+                                        color: "#D8E1EE",
+                                        from: 0,
+                                        to: stage.action,
+                                        'label':{'text': "Below Action"}
+                                    })
+                                    band.push({
+                                        color: "#FDFB51",
+                                        from: stage.action,
+                                        to: stage.flood,
+                                        'label':{'text': "Action"}
+                                    });
+                                    band.push({
+                                        color: "#FAA629",
+                                        from: stage.flood,
+                                        to: stage.moderate,
+                                        'label':{'text': "Minor Flooding"}
+                                    })
+                                    band.push({
+                                        color: "#FC0D1B",
+                                        from: stage.moderate,
+                                        to: stage.major,
+                                        'label':{'text': "Moderate Flooding"}
+                                    })
+                                    // If Top Curve Exists
+                                    // Add Band for Extended Rating
+                                    if(stage.top_curve != null){
+                                        band.push({
+                                            color: "#C326FB",
+                                            from: stage.major,
+                                            to: stage.top_curve,
+                                            'label':{'text': "Major Flooding"}
+                                        })
+                                        band.push({
+                                            color: "#35445b",
+                                            from: stage.top_curve,
+                                            to: max,
+                                            'label':{'text': "Extended Rating"}
+                                        });
+                                    }else{
+                                        band.push({
+                                            color: "#C326FB",
+                                            from: stage.major,
+                                            to: max,
+                                            'label':{'text': "Major Flooding"}
+                                        })
+                                    }
+                                    
+                                    
+                                    return band;
+                                }
+
+
+                                // ===============================================================
+                                // ===============================================================
+                                // Slider & Current Values
+                                // Slider & Current Values
+                                // Slider & Current Values
+                                // ===============================================================
+                                // ===============================================================
+
+                                var sliderStages = getFloodStages(nwsData);
+
+                                var sliderMax1;
+                                if (gageValues.length > 0) {
+                                    sliderMax1 = gageValues[gageValues.length-1].gageValue;
+                                }
+
+                                // Create Flood Stage Bands
+                                var floodStageBands = createFloodStageBand(sliderStages, sliderMax1);
+
+
+                                // Set slider values
+                                // Set slider values
+                                // Set slider values
+                                $(".fts1 .floodSlider").attr({"min": 0, "max": gageValues.length-1});
+                                // If Two Sites
+                                if (siteAttr["MULTI_SITE"] >= 1) {
+                                    $(".fts2 .floodSlider").attr({"min": 0, "max": gageValues2.length-1});
+                                    // If Three Sites
+                                    if (siteAttr["MULTI_SITE"] >= 2) {
+                                        $(".fts3 .floodSlider").attr({"min": 0, "max": gageValues3.length-1});
+                                    }
+                                }
+
+
+
+                                if (gageValues[0]) {
+                                    // Flood levels near slider - Site 1
+                                    $(".fts1 .slider-min").text(gageValues[0].gageValue);
+                                    $(".fts1 .slider-max").text(gageValues[gageValues.length-1].gageValue);
+                                    
+                                    // Calculate slider band heights
+                                    var flMax1 = gageValues[gageValues.length-1].gageValue;
+                                    var flMin1 = gageValues[0].gageValue;
+                                    var flDiff1 = flMax1 - flMin1;
+                                    
+                                    $(".fts1 .sliderWhiteSpace").css( "width", (sliderStages.action - flMin1) / flDiff1 * 100 + '%' );
+                                    $(".fts1 .sliderActionLevel").css( "width", (sliderStages.flood - flMin1) / flDiff1 * 100 + '%' );
+                                    $(".fts1 .sliderMinorLevel").css( "width", (sliderStages.moderate - flMin1) / flDiff1 * 100 + '%' );
+                                    $(".fts1 .sliderModerateLevel").css( "width", (sliderStages.major - flMin1) / flDiff1 * 100 + '%' );
+                                    
+                                    // If "Top Curve" / Extended exists
+                                    if(sliderStages.top_curve != null){
+                                        $(".fts1 .sliderMajorLevel").css( "width", (sliderStages.top_curve - flMin1) / flDiff1 * 100 + '%' );
+                                        $(".fts1 .sliderExtendedLevel").css( "width", '100%' );
+                                    }else{
+                                        $(".fts1 .sliderMajorLevel").css( "width", '100%' );
+                                        $(".fts1 .sliderExtendedLevel").css( "width", '0%' );
+                                    }
+                                    
+                                    // Log
+                                    console.log("Flood stage bands")
+                                    console.log(floodStageBands)
+                                }else{
+                                    console.log("Gage values not loaded?")
+                                    console.log(gageValues);
+                                    floodToolsError();
+                                }
+
+
+                                // Single Site Check
+                                if (attr["MULTI_SITE"] == 0) {
+                                    console.log("Single Site");
+                                    console.log("Site 1 NWS Data")
+                                    console.log(nwsData);
+                                } else if (attr["MULTI_SITE"] > 0) {
+                                    console.log("Multi Site");
+                                    console.log("Site 2 NWS Data")
+                                    console.log(nwsData2)
+                                    
+                                    var sliderStages2 = getFloodStages(nwsData2);
+                                    var sliderMax2;
+                                    if (gageValues2.length > 0) {
+                                        sliderMax2 = gageValues2[gageValues2.length-1].gageValue;
+                                    }
+
+                                    // Second Site Flood Bands
+                                    if (typeof nwsData2[0] !== "string") {
+                                        // Create Flood Stage Bands
+                                        var floodStageBands2 = createFloodStageBand(sliderStages2, sliderMax2);
+                                    }
+                                    
+                                    // Second Site
+                                    if (gageValues2.length > 0) {
+                                        // Flood levels near slider - Site 1
+                                        $(".fts2 .slider-min").text(gageValues2[0].gageValue);
+                                        $(".fts2 .slider-max").text(gageValues2[gageValues2.length-1].gageValue);
+            
+                                        // Calculate slider bar heights
+                                        var flMax2 = gageValues2[gageValues2.length-1].gageValue;
+                                        var flMin2 = gageValues2[0].gageValue;
+                                        var flDiff2 = flMax2 - flMin2;
+                                        
+                                        $(".fts2 .sliderWhiteSpace").css( "width", (sliderStages2.action - flMin2) / flDiff2 * 100 + '%' );
+                                        $(".fts2 .sliderActionLevel").css( "width", (sliderStages2.flood - flMin2) / flDiff2 * 100 + '%' );
+                                        $(".fts2 .sliderMinorLevel").css( "width", (sliderStages2.moderate - flMin2) / flDiff2 * 100 + '%' );
+                                        $(".fts2 .sliderModerateLevel").css( "width", (sliderStages2.major - flMin2) / flDiff2 * 100 + '%' );
+
+                                        // If "Top Curve" / Extended exists
+                                        if(sliderStages != null){
+                                            $(".fts2 .sliderMajorLevel").css( "width", (sliderStages2.top_curve - flMin2) / flDiff2 * 100 + '%' );
+                                            $(".fts2 .sliderExtendedLevel").css( "width", '100%' );
+                                        }else{
+                                            $(".fts2 .sliderMajorLevel").css( "width", '100%' );
+                                            $(".fts2 .sliderExtendedLevel").css( "width", '0%' );
+                                        }
+                                    }
+                                }
+                                // Third Site
+                                if (attr["MULTI_SITE"] > 1) {
+                                    console.log("Triple Site");
+                                    console.log("Site 3 NWS Data")
+                                    console.log(nwsData3)
+
+                                    
+                                    var sliderStages3 = getFloodStages(nwsData3);
+                                    var sliderMax3;
+                                    if (gageValues3.length > 0) {
+                                        sliderMax3 = gageValues3[gageValues3.length-1].gageValue;
+                                    }
+
+                                    // Third Site Flood Bands
+                                    if (typeof nwsData2[0] !== "string") {
+                                        // Create Flood Stage Bands
+                                        var floodStageBands3 = createFloodStageBand(sliderStages3, sliderMax3);
+                                    }
+
+                                    // Flood levels near slider - Site 1
+                                    $(".fts3 .slider-min").text(gageValues3[0].gageValue);
+                                    $(".fts3 .slider-max").text(gageValues3[gageValues3.length-1].gageValue);
+                                    
+                                    // Calculate Slider bar heights
+                                    var flMax3 = gageValues3[gageValues3.length-1].gageValue;
+                                    var flMin3 = gageValues3[0].gageValue;
+                                    var flDiff3 = flMax3 - flMin3;
+                                    
+                                    $(".fts3 .sliderWhiteSpace").css( "width", (sliderStages3.action - flMin3) / flDiff3 * 100 + '%' );
+                                    $(".fts3 .sliderActionLevel").css( "width", (sliderStages3.flood - flMin3) / flDiff3 * 100 + '%' );
+                                    $(".fts3 .sliderMinorLevel").css( "width", (sliderStages3.moderate - flMin3) / flDiff3 * 100 + '%' );
+                                    $(".fts3 .sliderModerateLevel").css( "width", (sliderStages3.major - flMin3) / flDiff3 * 100 + '%' );
+                                    
+                                    // If "Top Curve" / Extended exists
+                                    if(sliderStages != null){
+                                        $(".fts3 .sliderMajorLevel").css( "width", (sliderStages3.top_curve - flMin3) / flDiff3 * 100 + '%' );
+                                        $(".fts3 .sliderExtendedLevel").css( "width", '100%' );
+                                    }else{
+                                        $(".fts3 .sliderMajorLevel").css( "width", '100%' );
+                                        $(".fts3 .sliderExtendedLevel").css( "width", '0%' );
+                                    }
+                                }
+
+
+                                // ===============================================================
+                                // ===============================================================
+                                // Hydrographs
+                                // Hydrographs
+                                // Hydrographs
+                                // ===============================================================
+                                // ===============================================================
+
+                                // Hide all charts to start
+                                $('#hydroChart').hide();
+                                $('#hydroChart2').hide();
+                                $('#hydroChart3').hide();
+                                $('.no-hydro').show();
+                                
+                                var getChartOptions = function(siteNo, finalNWISDataArray, finalNWSDataArray, sliderMax1, floodStageBands){
+                                    var opts = new Object();
+                                    opts.chart = {
+                                        type: 'line',
+                                        height: highChartHeight,
+                                        width: highChartWidth,
+                                        events:{
+                                            load: function() {
+                                                this.credits.element.onclick = function() {
+                                                    window.open(
+                                                    'http://www.highcharts.com',
+                                                    '_blank'
+                                                    );
+                                                }
+                                            }
+                                        }
+                                    };
+                                    opts.title = {
+                                        text: "Site " + siteNo
+                                    }
+                                    opts.plotOptions = {
+                                        series: {
+                                            cursor: 'pointer',
+                                            events: {
+                                                click: function (event) {
+                                                    snapToFlood(event.point.y,".first-slider");
+                                                }
+                                            }
+                                        }
+                                    };
+                                    opts.series = [{
+                                        data: finalNWISDataArray,
+                                        name: "NWIS Observed",
+                                        color: "black",
+                                        marker: {
+                                            enabled: false,
+                                        }
+                                    },{
+                                        data: finalNWSDataArray,
+                                        name: "NWS Predicted",
+                                        color: 'black',
+                                        marker: {
+                                            enabled: true,
+                                            symbol: 'circle',
+                                            fillColor: 'white',
+                                            lineColor: 'black',
+                                            lineWidth: 1.25
+                                        }
+                                    }];
+                                    opts.xAxis = {
+                                        type: "datetime",
+                                        tickInterval: 24*3600*1000
+                                    };
+                                    opts.yAxis = {
+                                        min: 0,
+                                        max: sliderMax1,
+                                        endOnTick: false,
+                                        resize: {
+                                            enabled: true
+                                        },
+                                        labels: {
+                                            format: "{value} ft"
+                                        },
+                                        title: {
+                                            text: hydroChartYAxisLabel
+                                        },
+                                        plotBands: floodStageBands
+                                    },
+                                    opts.tooltip = {
+                                        formatter: function() {
+                                            var date = new Date(this.x);
+                                            var dayOfWeek = getDay(date);
+                                            var month = getMonth(date);
+                                            var dayOfMonth = date.getDate()
+                                            var hours = date.getHours().toString();
+                                            var minutes = date.getMinutes().toString();
+                                            if (hours.length == 1) {
+                                                hours = "0"+hours;
+                                            }
+                                            if (minutes.length == 1) {
+                                                minutes = "0"+minutes;
+                                            }
+                                            return dayOfWeek + ', ' + month + ' ' + dayOfMonth + ', ' + hours + ':' + minutes + '' +
+                                                this.series.name + ': <b>' + this.y + ' ft</b>';
+                                        }
+                                    }
+
+                                    // Return options
+                                    return opts;
+                                }
+                                
+                                // ===============================================================
+                                // ===============================================================
+                                // Create Hydrograph
+                                // Create Hydrograph
+                                // Create Hydrograph
+                                // ===============================================================
+                                // ===============================================================
+                                if (finalNWISDataArray.length > 0 || finalNWSDataArray.length > 0) {
+                                    $("#hydroChart").show();
+                                    // Get options
+                                    var chartOneOptions = getChartOptions(siteNo, finalNWISDataArray, finalNWSDataArray, sliderMax1, floodStageBands);
+                                    
+                                    // Cerate Chart
+                                    var hydroChart = new Highcharts.Chart('hydroChart', chartOneOptions, function(hydroChart){
+                                        console.log("Chart One Loaded");
+                                        if(floodStageBands[5]){
+                                            var chartYMax = parseInt(floodStageBands[5].to);
+                                        }else{
+                                            var chartYMax = parseInt(floodStageBands[4].to);
+                                        }
+                                        hydroChart.yAxis[0].setExtremes(null, chartYMax);
+                                    });
+                                    // Hide if Hydrograph unavailable
+                                    $('.no-hydro').hide();
+                                }
+
+                                // Multisite Two
+                                if (siteData2 != undefined || finalNWSDataArray2.length > 0) {
+                                    $("#hydroChart2").show();
+                                    // Get options
+                                    var chartTwoOptions = getChartOptions(siteNo_2, finalNWISDataArray2, finalNWSDataArray2, sliderMax2, floodStageBands2);
+                                    // Create Chart
+                                    var hydroChart2 = new Highcharts.Chart('hydroChart2', chartTwoOptions, function(hydroChart2){
+                                        console.log("Chart Two Loaded")
+                                        if(floodStageBands[5]){
+                                            var chartYMax = parseInt(floodStageBands2[5].to);
+                                        }else{
+                                            var chartYMax = parseInt(floodStageBands2[4].to);
+                                        }
+                                        hydroChart2.yAxis[0].setExtremes(null, chartYMax);
+                                    });
+                                    $('.no-hydro').hide();
+                                }
+
+                                // Multisite Three
+                                if (siteData3 != undefined || finalNWSDataArray3.length > 0) {
+                                    $("#hydroChart3").show();
+                                    // Get options
+                                    var chartThreeOptions = getChartOptions(siteNo_3, finalNWISDataArray3, finalNWSDataArray3, sliderMax3, floodStageBands3);
+                                    // Create Chart
+                                    var hydroChart3 = new Highcharts.Chart('hydroChart3', chartThreeOptions, function(hydroChart3){
+                                        console.log("Chart Three Loaded")
+                                        if(floodStageBands[5]){
+                                            var chartYMax = parseInt(floodStageBands3[5].to);
+                                        }else{
+                                            var chartYMax = parseInt(floodStageBands3[4].to);
+                                        }
+                                        hydroChart3.yAxis[0].setExtremes(null, chartYMax);
+                                    });
+                                    $('.no-hydro').hide();
+                                }
+                                
+                                // ===============================================================
+                                // ===============================================================
+                                // Done Loading
+                                // Done Loading
+                                // Done Loading
+                                // ===============================================================
+                                // ===============================================================
+
+                                // Set Default Tab
+                                // Default to hydro tab if NWS data available
+                                // NWS not available - default to main
+                                if($(".ft-hydro-tab").hasClass("nws-data-hidden")){
+                                    console.log("Open Main")
+                                    $(".ft-main-tab").click();
+                                }else{ // NWS Available - Hydro Tab
+                                    console.log("Open Hydro")
+                                    $(".ft-hydro-tab").click();
+                                }
+
+                                $("#floodToolsDiv .panel-heading").removeClass('loading-hide');
+                                $("#floodToolsDiv .panel-body").removeClass('loading-hide');
+                                $("#floodToolsDiv").removeClass('loading-background');
+
+                                snapToFlood();
+
+                            })
+                            .fail(function() {
+                                //alert('there was an issue');
+                                floodToolsError();
+                            });
 
                     }
 
@@ -3509,7 +3511,10 @@ require([
                     case 1: 
                         checkLength = 2;
                         break;
-                    case (2 || 3):
+                    case 2:
+                        checkLength = 3;
+                        break;
+                    case 3:
                         checkLength = 3;
                         break;
                 }
@@ -4012,8 +4017,8 @@ require([
                     
                 sitesLayer.setVisibility(false);
 
-                var printParams = new PrintParameters();
-                printParams.map = map;
+                var page2PrintParams = new PrintParameters();
+                page2PrintParams.map = map;
 
                 var template = new PrintTemplate();
                 /*template.exportOptions = {
@@ -4064,33 +4069,91 @@ require([
                 //"Flood-Inundation Map for the " + mapInfoArray[0] + " at the U.S. Geological Survey Streamgage Number " + mapInfoArray[1] 
                 //+ "\n<FNT size='4'>Map corresponding to a Gage Height of " + mapInfoArray[2] + " feet and an Elevation of " + mapInfoArray[5] + " feet (NAVD 88)</LIN></FNT>"
 
+                var page2MapTitle = "";
+                if (siteAttr.MULTI_SITE == 0) {
+                    page2MapTitle = "Flood-Inundation Map for " + siteAttr.COMMUNITY + 
+                    " at the U.S. Geological Survey Streamgage Number " + siteAttr.SITE_NO 
+                    + "\n<FNT size='8'>Map corresponding to a Gage Height of " + 
+                    gageValues[$(".fts1 #floodSlider")[0].value].gageValue + " feet and an Elevation of " + 
+                    altitudeValues[$(".fts1 #floodSlider")[0].value].altitudeValue + " feet (NAVD 88)</FNT>";
+                } else if (siteAttr.MULTI_SITE == 1) {
+                    page2MapTitle = "Flood-Inundation Map for " + siteAttr.COMMUNITY + 
+                    " at the U.S. Geological Survey Streamgage Numbers " + siteAttr.SITE_NO + " and " + siteNo_2 +
+                    "\n<LIN leading='25'><FNT size='8'>Map corresponding to a Gage Height of " + 
+                    gageValues[$(".fts1 #floodSlider")[0].value].gageValue + " feet and an Elevation of " + 
+                    altitudeValues[$(".fts1 #floodSlider")[0].value].altitudeValue + " feet (NAVD 88) for Streamgage Number " + 
+                    siteAttr.SITE_NO + "</FNT>" +
+                    "\n<FNT size='8'>and " + gageValues2[$(".fts2 #floodSlider")[0].value].gageValue + " feet and an Elevation of " + 
+                    altitudeValues2[$(".fts2 #floodSlider")[0].value].altitudeValue + " feet (NAVD 88) for Streamgage Number " + 
+                    siteNo_2 +
+                    "</FNT></LIN>";
+                } else if (siteAttr.MULTI_SITE == 2 || siteAttr.MULTI_SITE == 3) {
+                    page2MapTitle = "three sites";
+                }
+
                 template.layoutOptions = {
                     "titleText": titleText,
                     "authorText" : "Flood Inundation Mapping",
                     "copyrightText": "This page was produced by the FIM and the WIM",
                     "customTextElements": [
-                        { "mapTitle": "Flood-Inundation Map for " + siteAttr.COMMUNITY + " at the U.S. Geological Survey Streamgage Number " + siteAttr.SITE_NO 
-                            + "\n<FNT size='8'>Map corresponding to a Gage Height of " + gageValues[$(".fts1 #floodSlider")[0].value].gageValue + " feet and an Elevation of " + altitudeValues[$(".fts1 #floodSlider")[0].value].altitudeValue + " feet (NAVD 88)</FNT>" },
+                        { "mapTitle": page2MapTitle },
                         { "mapSeries": printAttr.REP_SER_NUM }
                     ],
                     "legendLayers": null//[sitesLegendLayer]
                 };
 
-                var extraParams = new Object();
-                extraParams.Map_Info = 'a|b|c|d|e|f|g|h|i';
-                printParams.extraParameters = extraParams;
-
                 //"legendLayers": [legendLayer]
                 var docTitle = template.layoutOptions.titleText;
-                printParams.template = template;
+                page2PrintParams.template = template;
                 var printMap = new PrintTask("https://fimtest.wim.usgs.gov/arcgis/rest/services/FIMPrint/ExportWebMap/GPServer/Export%20Web%20Map");
                 //var printMap = new PrintTask("https://fim.wim.usgs.gov/arcgis/rest/services/FIMMapper/printTool/GPServer/printTool");
                 
-                map.getLayer("layer0").setVisibility(false);
-                printMap.execute(printParams, printPage2Done, printError);
+                /*map.getLayer("layer0").setVisibility(false);
+                map.removeLayer("nwsRadar");
+                map.removeLayer("fimExtentsMulit");
+                map.removeLayer("fimExtentsThreeSites");
+                map.removeLayer("fimBreachMulti");
+                map.removeLayer("fimGrid1");
+                map.removeLayer("fimGrid2");
+                map.removeLayer("fimGrid3");
+                map.removeLayer("fimGrid4");
+                map.removeLayer("floodWatchWarn");
+                map.removeLayer("ahpsSites");
+                map.removeLayer(sitesLayer);
+                //map.removeAllLayers();*/
+                //page2PrintParams.map = map;
 
+                var layersToReturn = [];
+                for (var i=0; i<map.layerIds.length-1; i++) {
+                    if (map.getLayer(map.layerIds[i]).visible == false) {
+                        map.removeLayer(map.layerIds[i]);
+                        layersToReturn.push(map.layerIds[i]);
+                        console.log("removed " + map.layerIds[i]);
+                    }
+                }
+
+                printMap.execute(page2PrintParams, printPage2Done, printError);
+                console.log('executed page 2');
+
+                map.addLayer(sitesLayer);
                 map.getLayer("layer0").setVisibility(true);
                 sitesLayer.setVisibility(true);
+
+                for (var j=0; j<layersToReturn.length; j++) {
+                    map.addLayer(layersToReturn[j]);
+                    console.log("added " + layersToReturn[j]);
+                }
+
+                /*map.addLayer("nwsRadar");
+                map.addLayer("fimExtentsMulit");
+                map.addLayer("fimExtentsThreeSites");
+                map.addLayer("fimBreachMulti");
+                map.addLayer("fimGrid1");
+                map.addLayer("fimGrid2");
+                map.addLayer("fimGrid3");
+                map.addLayer("fimGrid4");
+                map.addLayer("floodWatchWarn");
+                map.addLayer("ahpsSites");*/
 
                 function printPage2Done(event) {
                     //alert(event.url);
