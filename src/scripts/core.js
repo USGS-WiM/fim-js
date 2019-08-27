@@ -3453,7 +3453,7 @@ require([
 
                 var printAttr;
 
-                var sitesLayer = map.getLayer("fimSites");
+                //var sitesLayer = map.getLayer("fimSites");
                         
                 if (data.features.length > 0) {
                     printAttr = data.features[0].attributes;
@@ -3513,7 +3513,7 @@ require([
                     }
                     
                     map.getLayer("layer0").setVisibility(true);
-                    sitesLayer.setVisibility(true);
+                    //sitesLayer.setVisibility(true);
 
                     function printPage1Done(event) {
                         //alert(event.url);
@@ -3547,7 +3547,7 @@ require([
                     no_page_one = true;
                 }
                     
-                sitesLayer.setVisibility(false);
+                //sitesLayer.setVisibility(false);
 
                 var page2PrintParams = new PrintParameters();
                 page2PrintParams.map = map;
@@ -3579,27 +3579,11 @@ require([
                 //legendLayer.subLayerIds = [*];
 
                 var userTitle = $("#printTitle").val();
-                var siteCommunity = "";
-                var siteStatePrint = "";
-                var currentStage = "";
-                var currentReport = "";
-                var authors = "";
-                var rep_date = "";
-                var title = "";
-                var rep_series = "";
-                var series_num = "";
-                var add_info = "";
-                var currentElev = "";
-                var study_date = "";
-                var siteDefExp = "";
-                var siteToGage = "";
+
                 if (siteAttr.MULTI_SITE == '0') {
                     siteDefExp = "SITE_NO = '" + siteNo + "'";
                     siteToGage = "Map corresponding to a Gage Height of " + currentStage + " feet and an Elevation of " + currentElev + " feet (NAVD 88)";
                 } 
-
-                //"Flood-Inundation Map for the " + mapInfoArray[0] + " at the U.S. Geological Survey Streamgage Number " + mapInfoArray[1] 
-                //+ "\n<FNT size='4'>Map corresponding to a Gage Height of " + mapInfoArray[2] + " feet and an Elevation of " + mapInfoArray[5] + " feet (NAVD 88)</LIN></FNT>"
 
                 var page2MapTitle = "";
                 if (siteAttr.MULTI_SITE == 0) {
@@ -3611,7 +3595,7 @@ require([
                 } else if (siteAttr.MULTI_SITE == 1) {
                     page2MapTitle = "Flood-Inundation Map for " + siteAttr.COMMUNITY + 
                         " at the U.S. Geological Survey Streamgage Numbers " + siteAttr.SITE_NO + " and " + siteNo_2 +
-                        "\n<LIN leading='-5'><FNT size='8'>Map corresponding to a Gage Height of " + 
+                        "\n<LIN leading='0'><FNT size='8'>Map corresponding to a Gage Height of " + 
                         gageValues[$(".fts1 #floodSlider")[0].value].gageValue + " feet and an Elevation of " + 
                         altitudeValues[$(".fts1 #floodSlider")[0].value].altitudeValue + " feet (NAVD 88) for Streamgage Number " + 
                         siteAttr.SITE_NO + "</FNT>" +
@@ -3620,7 +3604,19 @@ require([
                         siteNo_2 +
                         "</FNT></LIN>";
                 } else if (siteAttr.MULTI_SITE == 2 || siteAttr.MULTI_SITE == 3) {
-                    page2MapTitle = "three sites";
+                    page2MapTitle = "Flood-Inundation Map for " + siteAttr.COMMUNITY + 
+                        " at the U.S. Geological Survey Streamgage Numbers " + siteAttr.SITE_NO + ", " + siteNo_2 + " and " + siteNo_3 +
+                        "\n<LIN leading='0'><FNT size='8'>Map corresponding to a Gage Height of " + 
+                        gageValues[$(".fts1 #floodSlider")[0].value].gageValue + " feet and an Elevation of " + 
+                        altitudeValues[$(".fts1 #floodSlider")[0].value].altitudeValue + " feet (NAVD 88) for Streamgage Number " + 
+                        siteAttr.SITE_NO + "</FNT>" +
+                        "\n<FNT size='8'>and " + gageValues2[$(".fts2 #floodSlider")[0].value].gageValue + " feet and an Elevation of " + 
+                        altitudeValues2[$(".fts2 #floodSlider")[0].value].altitudeValue + " feet (NAVD 88) for Streamgage Number " + 
+                        siteNo_2 + "</FNT>" +
+                        "\n<FNT size='8'>and " + gageValues3[$(".fts3 #floodSlider")[0].value].gageValue + " feet and an Elevation of " + 
+                        altitudeValues3[$(".fts3 #floodSlider")[0].value].altitudeValue + " feet (NAVD 88) for Streamgage Number " + 
+                        siteNo_3 +
+                        "</FNT></LIN>";
                 }
 
                 template.layoutOptions = {
@@ -3659,7 +3655,7 @@ require([
                 var graphicLayerIDs = map.graphicsLayerIds;
 
                 var layersToCheck = layerIDs.concat(graphicLayerIDs);
-
+                
                 var layersToReturn = [];
                 for (var i=0; i<layersToCheck.length-1; i++) {
                     if (map.getLayer(layersToCheck[i]).visible == false) {
@@ -3673,9 +3669,9 @@ require([
                 printMap.execute(page2PrintParams, printPage2Done, printPage2Error, 'page2');
                 console.log('executed page 2');
 
-                map.addLayer(sitesLayer);
+                //map.addLayer(sitesLayer);
                 map.getLayer("layer0").setVisibility(true);
-                sitesLayer.setVisibility(true);
+                //sitesLayer.setVisibility(true);
 
                 for (var j=0; j<layersToReturn.length; j++) {
                     map.addLayer(layersToReturn[j]);
