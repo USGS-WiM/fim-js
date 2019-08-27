@@ -3430,10 +3430,14 @@ require([
         "include_huc12": true
 
     });
+    
+    var printerations = 0;
+    var page1name = "";
+    var page2name = "";
 
     function printMap() {
 
-        var page1InfoUrl = 'https://gis.wim.usgs.gov/arcgis/rest/services/FIMMapper/FIMpage1design/MapServer/1/query?where=USGSID+LIKE+%27%25' + siteNo + '%25%27&outFields=*&returnGeometry=true&f=json';
+        var page1InfoUrl = 'https://fim.wim.usgs.gov/arcgis/rest/services/FIMMapper/FIMpage1design/MapServer/1/query?where=USGSID+LIKE+%27%25' + siteNo + '%25%27&outFields=*&returnGeometry=true&f=json';
         
         $.ajax({
             dataType: 'json',
@@ -3441,8 +3445,7 @@ require([
             url: page1InfoUrl,
             headers: {'Accept': '*/*'},
             success: function (data) {
-                var page1name;
-                var page2name;
+                
 
                 var site_no_for_print = siteAttr["SITE_NO"];
 
@@ -3504,8 +3507,11 @@ require([
                     //var printMap = new PrintTask("https://fim.wim.usgs.gov/arcgis/rest/services/FIMMapper/printTool/GPServer/printTool");
                     map.getLayer("layer0").setVisibility(false);
         
-                    printMap.execute(printParams, printPage1Done, printError);
-
+                    if (page1name == "") {
+                        printMap.execute(printParams, printPage1Done, printPage1Error, 'page1');
+                        console.log('executed page 1')
+                    }
+                    
                     map.getLayer("layer0").setVisibility(true);
                     sitesLayer.setVisibility(true);
 
@@ -3521,15 +3527,19 @@ require([
                         $("#printTitle").val("");
                         $("#printExecuteButton").button('reset');*/
 
+                        console.log('page 1 done');
+
                         page1name = event.url.split("GPServer/")[1];
                         console.log("page 1: " + page1name);
 
                         if (page2name != null) {
                             pdfMerge();
+                            printerations = 0;
                         }
                     }
 
-                    function printError(event) {
+                    function printPage1Error(event) {
+                        console.log('page 1 error');
                         $("#printExecuteButton").button('reset');
                         alert("Sorry, an unclear print error occurred. Try refreshing the application to fix the problem");
                     }
@@ -3594,21 +3604,21 @@ require([
                 var page2MapTitle = "";
                 if (siteAttr.MULTI_SITE == 0) {
                     page2MapTitle = "Flood-Inundation Map for " + siteAttr.COMMUNITY + 
-                    " at the U.S. Geological Survey Streamgage Number " + siteAttr.SITE_NO 
-                    + "\n<FNT size='8'>Map corresponding to a Gage Height of " + 
-                    gageValues[$(".fts1 #floodSlider")[0].value].gageValue + " feet and an Elevation of " + 
-                    altitudeValues[$(".fts1 #floodSlider")[0].value].altitudeValue + " feet (NAVD 88)</FNT>";
+                        " at the U.S. Geological Survey Streamgage Number " + siteAttr.SITE_NO 
+                        + "\n<FNT size='8'>Map corresponding to a Gage Height of " + 
+                        gageValues[$(".fts1 #floodSlider")[0].value].gageValue + " feet and an Elevation of " + 
+                        altitudeValues[$(".fts1 #floodSlider")[0].value].altitudeValue + " feet (NAVD 88)</FNT>";
                 } else if (siteAttr.MULTI_SITE == 1) {
                     page2MapTitle = "Flood-Inundation Map for " + siteAttr.COMMUNITY + 
-                    " at the U.S. Geological Survey Streamgage Numbers " + siteAttr.SITE_NO + " and " + siteNo_2 +
-                    "\n<LIN leading='25'><FNT size='8'>Map corresponding to a Gage Height of " + 
-                    gageValues[$(".fts1 #floodSlider")[0].value].gageValue + " feet and an Elevation of " + 
-                    altitudeValues[$(".fts1 #floodSlider")[0].value].altitudeValue + " feet (NAVD 88) for Streamgage Number " + 
-                    siteAttr.SITE_NO + "</FNT>" +
-                    "\n<FNT size='8'>and " + gageValues2[$(".fts2 #floodSlider")[0].value].gageValue + " feet and an Elevation of " + 
-                    altitudeValues2[$(".fts2 #floodSlider")[0].value].altitudeValue + " feet (NAVD 88) for Streamgage Number " + 
-                    siteNo_2 +
-                    "</FNT></LIN>";
+                        " at the U.S. Geological Survey Streamgage Numbers " + siteAttr.SITE_NO + " and " + siteNo_2 +
+                        "\n<LIN leading='-5'><FNT size='8'>Map corresponding to a Gage Height of " + 
+                        gageValues[$(".fts1 #floodSlider")[0].value].gageValue + " feet and an Elevation of " + 
+                        altitudeValues[$(".fts1 #floodSlider")[0].value].altitudeValue + " feet (NAVD 88) for Streamgage Number " + 
+                        siteAttr.SITE_NO + "</FNT>" +
+                        "\n<FNT size='8'>and " + gageValues2[$(".fts2 #floodSlider")[0].value].gageValue + " feet and an Elevation of " + 
+                        altitudeValues2[$(".fts2 #floodSlider")[0].value].altitudeValue + " feet (NAVD 88) for Streamgage Number " + 
+                        siteNo_2 +
+                        "</FNT></LIN>";
                 } else if (siteAttr.MULTI_SITE == 2 || siteAttr.MULTI_SITE == 3) {
                     page2MapTitle = "three sites";
                 }
@@ -3619,7 +3629,7 @@ require([
                     "copyrightText": "This page was produced by the FIM and the WIM",
                     "customTextElements": [
                         { "mapTitle": page2MapTitle },
-                        { "mapSeries": printAttr.REP_SER_NUM }
+                        { "mapSeries": (printAttr) ? printAttr.REP_SER_NUM : "" }
                     ],
                     "legendLayers": null//[sitesLegendLayer]
                 };
@@ -3630,9 +3640,9 @@ require([
                 var printMap = new PrintTask("https://fimtest.wim.usgs.gov/arcgis/rest/services/FIMPrint/ExportWebMap/GPServer/Export%20Web%20Map");
                 //var printMap = new PrintTask("https://fim.wim.usgs.gov/arcgis/rest/services/FIMMapper/printTool/GPServer/printTool");
                 
-                /*map.getLayer("layer0").setVisibility(false);
-                map.removeLayer("nwsRadar");
-                map.removeLayer("fimExtentsMulit");
+                map.getLayer("layer0").setVisibility(false);
+                /*map.removeLayer("nwsRadar");
+                map.removeLayer("fimExtentsMulti");
                 map.removeLayer("fimExtentsThreeSites");
                 map.removeLayer("fimBreachMulti");
                 map.removeLayer("fimGrid1");
@@ -3645,16 +3655,22 @@ require([
                 //map.removeAllLayers();*/
                 //page2PrintParams.map = map;
 
+                var layerIDs = map.layerIds;
+                var graphicLayerIDs = map.graphicsLayerIds;
+
+                var layersToCheck = layerIDs.concat(graphicLayerIDs);
+
                 var layersToReturn = [];
-                for (var i=0; i<map.layerIds.length-1; i++) {
-                    if (map.getLayer(map.layerIds[i]).visible == false) {
-                        map.removeLayer(map.layerIds[i]);
-                        layersToReturn.push(map.layerIds[i]);
-                        console.log("removed " + map.layerIds[i]);
+                for (var i=0; i<layersToCheck.length-1; i++) {
+                    if (map.getLayer(layersToCheck[i]).visible == false) {
+                        var layer = map.getLayer(layersToCheck[i]);
+                        map.removeLayer(layersToCheck[i]);
+                        layersToReturn.push(layer);
+                        //console.log("removed " + layersToCheck[i]);
                     }
                 }
 
-                printMap.execute(page2PrintParams, printPage2Done, printError);
+                printMap.execute(page2PrintParams, printPage2Done, printPage2Error, 'page2');
                 console.log('executed page 2');
 
                 map.addLayer(sitesLayer);
@@ -3663,7 +3679,7 @@ require([
 
                 for (var j=0; j<layersToReturn.length; j++) {
                     map.addLayer(layersToReturn[j]);
-                    console.log("added " + layersToReturn[j]);
+                    //console.log("added " + layersToReturn[j]);
                 }
 
                 /*map.addLayer("nwsRadar");
@@ -3689,11 +3705,16 @@ require([
                     $("#printTitle").val("");
                     $("#printExecuteButton").button('reset');*/
 
+                    console.log('page 2 done');
+
                     page2name = event.url.split("GPServer/")[1];
                     console.log("page 2: " + page2name);
 
                     if (page1name != null) {
                         pdfMerge();
+                        var times = printerations + 1;
+                        console.log("It took " + times + " attempts(s).");
+                        printerations = 0;
                     } else if (no_page_one == true) {
                         printCount++;
                         //var printJob = $('<a href="'+ event.url +'" target="_blank">Printout ' + printCount + ' </a>');
@@ -3703,6 +3724,7 @@ require([
                         $("#printModalBody").append(printJob);
                         $("#printTitle").val("");
                         $("#printExecuteButton").button('reset');
+                        printerations = 0;
                     }
                 }
 
@@ -3729,17 +3751,37 @@ require([
                             $("#printModalBody").append(printJob);
                             $("#printTitle").val("");
                             $("#printExecuteButton").button('reset');
+                            page1name = "";
+                            page2name = "";
                         }
                     });
                 }
 
-                function printError(event) {
-                    $("#printExecuteButton").button('reset');
-                    alert("Sorry, an unclear print error occurred. Please try refreshing the application to fix the problem");
-                }
+                
 
             }
         });
+    }
+    
+    function printPage2Error(event, page_num = null) {
+        console.log('page 2 error');
+        if (printerations < 5) {
+            printerations++;
+            /************************************
+            
+            Put in some code somewhere around here to handle cases where a page 1 is done, 
+            so only need to iterate on page 2 until there is a good one
+
+            */
+            console.log('trying print again');
+            printMap();
+        } else {
+            $("#printExecuteButton").button('reset');
+            alert("Sorry, an unclear print error occurred. Please try refreshing the application to fix the problem");
+            printerations = 0;
+            page1name = "";
+            page2name = "";
+        }
     }
 
     // Show modal dialog; handle legend sizing (both on doc ready)
