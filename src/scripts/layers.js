@@ -38,7 +38,23 @@ require([
             "showGroupHeading": false,
             "includeInLayerList": true,
             "layers": {
-                "FIM Sites": {
+                "FIM sites print": {
+                    "url" : "https://fimtest.wim.usgs.gov/arcgis/rest/services/FIMMapper/sites/MapServer",
+                    "options": {
+                        "id": "fimSitesPrint",
+                        "visibleLayers": [0],
+                        "opacity": 0.75,
+                        "visible": true
+                    },
+                    "wimOptions": {
+                        "type": "layer",
+                        "layerType": "agisDynamic",
+                        "includeInLayerList": false,
+                        "hasOpacitySlider": false,
+                        "includeLegend" : false,
+                        "legendLabel": false
+                    }
+                },"FIM Sites": {
                     "url" : "https://fimtest.wim.usgs.gov/arcgis/rest/services/FIMMapper/sites/MapServer/0",
                     "options": {
                         "id": "fimSites",
