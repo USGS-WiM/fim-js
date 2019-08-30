@@ -4101,8 +4101,8 @@ require([
                     //siteToGage = "Map corresponding to a Gage Height of " + currentStage + " feet and an Elevation of " + currentElev + " feet (NAVD 88)";
                 } 
 
-                sitesLayerPrint.setDefinitionExpression(siteDefExp);
-                sitesLayerPrint.refresh();
+                //sitesLayerPrint.setDefinitionExpression(siteDefExp);
+                //sitesLayerPrint.refresh();
 
                 var page2MapTitle = "";
                 if (siteAttr.MULTI_SITE == 0) {
@@ -4189,8 +4189,8 @@ require([
                 printMap.execute(page2PrintParams, printPage2Done, printPage2Error, 'page2');
                 console.log('executed page 2');
 
-                sitesLayerPrint.setDefinitionExpression("(Public = 1 OR Public =0) AND (MULTI_SITE = 0 OR MULTI_SITE = 1 OR MULTI_SITE = 3)");
-                sitesLayerPrint.refresh();
+                //sitesLayerPrint.setDefinitionExpression("(Public = 1 OR Public =0) AND (MULTI_SITE = 0 OR MULTI_SITE = 1 OR MULTI_SITE = 3)");
+                //sitesLayerPrint.refresh();
                 map.addLayer(baseLayer,0);
                 map.getLayer("layer0").setVisibility(true);
                 sitesLayerPrint.setVisibility(false);
