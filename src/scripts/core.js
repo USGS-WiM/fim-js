@@ -488,7 +488,9 @@ require([
         height: 500,
         maxWidth: 800,
         maxHeight: 500
-    });
+	});
+	
+
 
     $("#floodMin").click(function(){
         $("#floodToolsDiv").css("visibility", "hidden");
@@ -780,7 +782,9 @@ require([
 
             var siteClick = function(evt) {   
 				
-				console.log("SITE CLICK")
+				console.log("Site Clicked")
+				$("#floodToolsErrorMessage").hide();
+
                 
                 var feature;
                 if (evt.graphic != undefined) {
@@ -1415,7 +1419,8 @@ require([
                 var floodToolsHeight = docHeight*percentageOfScreen
                 var floodToolsWidth = docWidth*percentageOfScreen;
                 var highChartWidth = 405;
-                var highChartHeight = 300;
+				var highChartHeight = 300;
+				
                 if (docHeight < 500) {
                     $("#floodToolsDiv").height(floodToolsHeight);
                     highChartHeight = $("#floodToolsDiv").height() - 50;
@@ -1438,7 +1443,7 @@ require([
 
                 loadedInitialLibrary = true;
 
-                $("#floodToolsDiv").css("visibility", "visible");
+				$("#floodToolsDiv").css("visibility", "visible");
                 //$(".fts2").show();
                 //$(".fts3").css("visibility", "visible");
 
@@ -1663,7 +1668,7 @@ require([
                             //map.getLayer(gridLayer).setVisibility(true);
                         }
 
-                        $(".floodSlider").on("change", function() {
+                        $(".floodSlider").on("input", function() {
                             gridLayerIndexArrColl = [];
                             gridLayerIndex = [];
                             if (results != null) {
@@ -2285,7 +2290,8 @@ require([
                                         console.log('Empty Flood Stages');
                                         return levels;
 
-                                    }else{ // If NWS Data DOES exist
+									}else{ // If NWS Data DOES exist
+
                                         $(".nws-data-hidden").removeClass("nws-data-hidden");
                                         var levels = new Object();
                                         levels.action = (data[0].getElementsByTagName("action")[0].childNodes.length > 0) ? data[0].getElementsByTagName("action")[0].childNodes[0].nodeValue : null;
@@ -2441,7 +2447,7 @@ require([
                                     
                                     // Log
                                     console.log("Flood stage bands")
-                                    console.log(floodStageBands)
+									console.log(floodStageBands)
                                 }else{
                                     console.log("Gage values not loaded?")
                                     console.log(gageValues);
@@ -2731,8 +2737,7 @@ require([
                                 $("#floodToolsDiv .panel-body").removeClass('loading-hide');
                                 $("#floodToolsDiv").removeClass('loading-background');
 
-                                snapToFlood();
-
+								snapToFlood();
                             })
                             .fail(function() {
                                 //alert('there was an issue');
@@ -4506,9 +4511,9 @@ $('body').text( $('body').text().replace("●", ''));
 var floodToolsError = function(type){
 
 	if(type="nws"){
-		$("#floodToolsErrorMessage").text("Some data not available at this site.")
+		$("#floodToolsErrorMessageText").text("Some data not available at this site.")
 	}else{
-		$("#floodToolsErrorMessage").text("There was an error retrieving the data at this time. Please try again later.")
+		$("#floodToolsErrorMessageText").text("There was an error retrieving the data at this time. Please try again later.")
 	}
     
     $("#floodToolsErrorMessage").show();
@@ -4519,6 +4524,4 @@ var floodToolsError = function(type){
 
 
     // $("#floodToolsDiv").css("visibility", "hidden");
-
-
 }

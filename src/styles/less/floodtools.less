@@ -3,7 +3,11 @@
 @red: #FB4841;
 
 #floodToolsDiv{
-    box-shadow: 0px 6px 27px -7px rgba(0, 10, 80, 0.55);
+	box-shadow: 0px 6px 27px -7px rgba(0, 10, 80, 0.55);
+	height: fit-content !important;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
 
     .panel-heading{
         background-color: white;
@@ -13,8 +17,29 @@
             position:relative;
             top:-3px;
         }
-    }
+	}
+	
+	.panel-body{
+		flex-grow: 3;
+		padding-bottom: 0;
+	}
 }
+
+// Error message on flood tools window.
+// Error message on flood tools window.
+// Error message on flood tools window.
+#floodToolsErrorMessage{
+    display: none;
+    text-align: center;
+    background-color: #FB4841;
+    box-sizing: border-box;
+    padding: 6px;
+    font-weight: 500;
+    font-size: 11px;
+	color: white;
+	position: relative;
+}
+
 #ftModal{
     width: auto;
     display: flex;
@@ -66,7 +91,7 @@
             flex-direction: column;
             justify-content: flex-end;
             position: absolute;
-            width: 150px;
+            width: 124px;
 
             &.fts1{
                 left: 60px;
@@ -159,12 +184,45 @@
         #ftOptions{
             display: block;
             width: 100%;
-            padding-top: 165px;
+            padding-top: 142px;
             box-sizing: border-box;
 			text-align: center;
 			display: flex;
 			flex-direction: column;
 			justify-content: space-around;
+
+			.selected-gage-height{
+				margin-bottom: 4px;
+
+				small{
+					display: block;
+					text-align: center;
+					font-size: 10.5px;
+					font-weight: 500;
+				}
+
+				.sgh-flex{
+					display: flex;
+					justify-content: space-around;
+					
+					#sgh{
+						font-weight: 600;
+						text-align: center;
+						padding-top: 3px;
+	
+						label{
+							margin: 0 !important;
+							font-size: 16px;
+	
+							&:after{
+								content: 'ft';
+								font-size: 10.5px;
+								font-weight: 500;
+							}
+						}
+					}
+				}
+			}
 
             .ft-option{
                 display: flex;
@@ -195,16 +253,15 @@
 				box-sizing: border-box;
 				width: 95%;
 				width: calc(~'100% - 24px');
-				margin: 6px auto 0 auto;
+				margin: 4px auto 0 auto;
 				border: 1px solid #C6CEDA;
-				padding: 4px 8px 6px 8px;
+				padding: 2px 8px;
 				border-radius: 3px;
 
 				.ft-legend-header{
 					font-size: 11px;
 					text-align: center;
 					box-sizing: border-box;
-					padding: 2px 0 0 0;
 					font-weight: 600;
 					width: 100%;
 					margin: 0 auto;
@@ -327,11 +384,20 @@
                 justify-content: center;
                 height: 34px;
                 box-sizing: border-box;
-                padding: 0 6px;
+                padding: 0 8px;
                 letter-spacing: -0.35px;
                 font-weight: 600;
                 color: black;
-                background-color: white;
+				background-color: white;
+				
+				// First tab / long title gets set width
+				&.ft-main-tab{
+					width: 88px !important;
+				}
+				// Data tab / long title gets set width
+				&.ft-services-tab{
+					width: 75px !important;
+				}
 
                 &:hover{
                     color: black;
@@ -358,7 +424,8 @@
                 }
 
                 span{
-                    font-size: 11px;
+					font-size: 10.5px;
+					line-height: 11px;
                 }
                 i{
                     font-size: 14px;
@@ -1024,7 +1091,7 @@
         .panel-body{
             max-width: 100% !important;
             width: auto !important;
-            height: auto;
+			height: auto !important;
             flex-wrap: wrap;
             overflow: auto;
             flex-grow: 3;
