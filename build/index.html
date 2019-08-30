@@ -742,7 +742,9 @@ $(".close-alert").click(function(){
                 <div id="floodToolsDiv" class="panel panel-default floodToolsClass ">
 
 					<!-- Error message on top of title bar -->
-                    <div id="floodToolsErrorMessage"></div>
+                    <div id="floodToolsErrorMessage" class="ui-draggable-handle">
+						<span id="floodToolsErrorMessageText"></span>
+					</div>
 
 
                     <!-- Modal Title -->
@@ -837,6 +839,25 @@ $(".close-alert").click(function(){
                             <!-- Site options -->
                             <div id="ftOptions">
 
+								<!-- Selected Gage Heights -->
+								<div class="selected-gage-height">
+									<small>Selected Gage Height:</small>
+									<div class="sgh-flex">
+										<!-- Site One -->
+										<div id="sgh" class="fts1">
+											<label for="floodSlider" class="slider-min update"></label>
+										</div>
+										<!-- Site Two -->
+										<div id="sgh" class="fts2">
+											<label for="floodSlider" class="slider-min update"></label>
+										</div>
+										<!-- Site Three -->
+										<div id="sgh" class="fts3">
+											<label for="floodSlider" class="slider-min update"></label>
+										</div>
+									</div>
+								</div>
+
 								<!-- Checkboxes -->
 								<div class="ft-option-checkboxes">
 									<div id="satBasemap" class="ft-option">
@@ -889,32 +910,32 @@ $(".close-alert").click(function(){
                             <!-- Tabs / navigation for flood tools -->
                             <div id="ftDataTabs">
                                 <div class="ft-tab ft-main-tab active" data-toggle="ftTools" onclick="ga('send','event','Flood Tools Panel','click','Flood Tools');">
-                                    <span>Flood Tools</span>
-                                    <i class="fa fa-water"></i>
+                                    <span>Site Info & Conditions</span>
+                                    <i class="far fa-triangle"></i>
                                 </div>
                                 <div class="ft-tab ft-hydro-tab nws-data-req" data-toggle="ftHydro" onclick="ga('send','event','Hydrograph Panel','click','Hydrograph');">
                                     <span>Hydrograph</span>
-                                    <i class="fa fa-chart-bar"></i>
+                                    <i class="far fa-chart-bar"></i>
                                 </div>
                                 <div class="ft-tab ft-hazus-tab" data-toggle="ftHazus" onclick="ga('send','event','Hazus Panel','click','HAZUS');">
                                     <span>Hazus</span>
-                                    <i class="fa fa-building"></i>
+                                    <i class="far fa-building"></i>
                                 </div>
-                                <div class="ft-tab" data-toggle="ftServices" onclick="ga('send','event','Services&Data Panel','click','Services and Data');">
+                                <div class="ft-tab ft-services-tab" data-toggle="ftServices" onclick="ga('send','event','Services&Data Panel','click','Services and Data');">
                                     <span>Services & Data</span>
-                                    <i class="fa fa-server"></i>
+                                    <i class="far fa-server"></i>
                                 </div>
                                 <div class="ft-tab ft-webcam-tab" data-toggle="ftWebcam" onclick="ga('send','event','Webcam Panel','click','More Info');">
                                     <span>Webcam</span>
-                                    <i class="fa fa-video"></i>
+                                    <i class="far fa-video"></i>
                                 </div>
                                 <a class="ft-tab ft-webcam-link-tab" href="" target="_blank" onclick="ga('send','event','Webcam Panel','click','More Info');">
                                     <span>Webcam</span>
-                                    <i class="fa fa-video"></i>
+                                    <i class="far fa-video"></i>
                                 </a>
                                 <div class="ft-tab ft-more-info-tab" data-toggle="ftMoreInfo" onclick="ga('send','event','More Info Panel','click','More Info');">
                                     <span>More Info</span>
-                                    <i class="fa fa-question-circle"></i>
+                                    <i class="far fa-question-circle"></i>
                                 </div>
                             </div>
 
@@ -924,21 +945,7 @@ $(".close-alert").click(function(){
                                     Flood Tools Body
                                     Flood Tools Body
                                 -->
-                            <div id="ftTools" class="ftmodal-content">
-
-								<span class="nws-data-req">
-									<div id="sgl" class="small-label">Selected gage height</div>
-									<div id="sgh" class="fts1">
-										<label for="floodSlider" class="slider-min update"></label>
-									</div>
-									<div id="sgh" class="fts2">
-										<label for="floodSlider" class="slider-min update"></label>
-									</div>
-									<div id="sgh" class="fts3">
-										<label for="floodSlider" class="slider-min update"></label>
-									</div>
-								</span>
-                                
+                            <div id="ftTools" class="ftmodal-content">                                
 
                                 <!-- Current Conditions Table -->
                                 <div class="small-label">Current Conditions</div>
