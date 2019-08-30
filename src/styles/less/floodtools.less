@@ -9,9 +9,11 @@
 	flex-direction: column;
 	justify-content: space-between;
 
-    .panel-heading{
+    .panel-heading.main{
         background-color: white;
-        display: flex; 
+		display: flex; 
+		padding-top: 0px !important;
+		padding-bottom: 8px !important;
 
         .dropdown{
             position:relative;
@@ -389,10 +391,33 @@
                 font-weight: 600;
                 color: black;
 				background-color: white;
+				border-right: 1px solid rgba(0,0,0,0.08);
 				
 				// First tab / long title gets set width
 				&.ft-main-tab{
 					width: 88px !important;
+
+					.ft-main-tab-triangle {
+						width: 0;
+						height: 0;
+						border-right: 8px solid transparent;
+						border-left: 8px solid transparent;
+						border-bottom: 14px solid #82F651;
+						position: relative;
+						top: 9px;
+						left: 1px;
+
+						.inner-triangle {
+							position: absolute;
+							top: 4px;
+							left: -5px;
+							width: 0;
+							height: 0;
+							border-left: 5px solid transparent;
+							border-right: 5px solid transparent;
+							border-bottom: 8px solid black;
+						}
+					}
 				}
 				// Data tab / long title gets set width
 				&.ft-services-tab{
@@ -814,7 +839,6 @@
         // More Info
         // More Info
         #ftMoreInfo{
-            border-top: none;
 
             #moreInfo{
                 font-size: 13px;
@@ -1083,7 +1107,7 @@
         display: flex;
         flex-direction: column;
 
-        .panel-heading{
+        .panel-heading.main{
             min-height: fit-content;
         }
 

@@ -40,7 +40,8 @@
     <!-- End Google Analytics -->
 
     <!-- Font Awesome Pro CDN -->
-    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-6jHF7Z3XI3fF4XZixAuSu0gGKrXwoX/w3uFPxC56OtjChio7wtTGJWRW53Nhx6Ev" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.2/css/all.css" integrity="sha384-XxNLWSzCxOe/CFcHcAiJAZ7LarLmw3f4975gOO6QkxvULbGGNDoSOTzItGUG++Q+" crossorigin="anonymous">
+
 
 </head>
 <body>
@@ -81,10 +82,10 @@ USGS Bar
         </button>
 
         <button id="aboutNav" class="btn btn-default navbar-btn pull-right" onclick="ga('send','event','navbar','click','About Modal');">
-            <i class="fa fa-question-circle"></i><span>About</span>
+            <i class="far fa-question-circle"></i><span>About</span>
         </button>
         <button id="userGuideNav" class="btn btn-default navbar-btn pull-right" onclick="ga('send','event','navbar','click','User Guide');">
-            <i class="fa fa-book"></i><span>User Guide</span>
+            <i class="far fa-book-spells"></i><span>User Guide</span>
         </button>
 
         <!-- legend buttton for navbar. to be removed if we like the in-map legend toggle -->
@@ -742,13 +743,13 @@ $(".close-alert").click(function(){
                 <div id="floodToolsDiv" class="panel panel-default floodToolsClass ">
 
 					<!-- Error message on top of title bar -->
-                    <div id="floodToolsErrorMessage" class="ui-draggable-handle">
+                    <div id="floodToolsErrorMessage" class="panel-heading">
 						<span id="floodToolsErrorMessageText"></span>
 					</div>
 
 
                     <!-- Modal Title -->
-                    <div class="panel-heading">
+                    <div class="panel-heading main">
                         <div class="panel-title" id="floodToolsTitle">
 							<h4 class="flood-tools-header">
 								<span id="floodToolsModalHeader"></span>
@@ -911,7 +912,7 @@ $(".close-alert").click(function(){
                             <div id="ftDataTabs">
                                 <div class="ft-tab ft-main-tab active" data-toggle="ftTools" onclick="ga('send','event','Flood Tools Panel','click','Flood Tools');">
                                     <span>Site Info & Conditions</span>
-                                    <i class="far fa-triangle"></i>
+									<i class="ft-main-tab-triangle"><div class="inner-triangle"></div></i>
                                 </div>
                                 <div class="ft-tab ft-hydro-tab nws-data-req" data-toggle="ftHydro" onclick="ga('send','event','Hydrograph Panel','click','Hydrograph');">
                                     <span>Hydrograph</span>

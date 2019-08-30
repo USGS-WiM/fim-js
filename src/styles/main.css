@@ -1039,7 +1039,7 @@ input[type="radio"] {
   7-14 GH issues
 */
 /*Panel Title*/
-.panel-heading .dropdown {
+.panel-heading.main .dropdown {
   padding-top: 4px;
 }
 #floodToolsTitle {
@@ -1706,12 +1706,14 @@ input[type=range].styled:focus::-ms-fill-upper {
   -webkit-justify-content: space-between;
   justify-content: space-between;
 }
-#floodToolsDiv .panel-heading {
+#floodToolsDiv .panel-heading.main {
   background-color: white;
   display: -webkit-flex;
   display: flex;
+  padding-top: 0px !important;
+  padding-bottom: 8px !important;
 }
-#floodToolsDiv .panel-heading .dropdown {
+#floodToolsDiv .panel-heading.main .dropdown {
   position: relative;
   top: -3px;
 }
@@ -2083,9 +2085,30 @@ input[type=range].styled:focus::-ms-fill-upper {
   font-weight: 600;
   color: black;
   background-color: white;
+  border-right: 1px solid rgba(0, 0, 0, 0.08);
 }
 #ftModal #ftData #ftDataTabs .ft-tab.ft-main-tab {
   width: 88px !important;
+}
+#ftModal #ftData #ftDataTabs .ft-tab.ft-main-tab .ft-main-tab-triangle {
+  width: 0;
+  height: 0;
+  border-right: 8px solid transparent;
+  border-left: 8px solid transparent;
+  border-bottom: 14px solid #82F651;
+  position: relative;
+  top: 9px;
+  left: 1px;
+}
+#ftModal #ftData #ftDataTabs .ft-tab.ft-main-tab .ft-main-tab-triangle .inner-triangle {
+  position: absolute;
+  top: 4px;
+  left: -5px;
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 8px solid black;
 }
 #ftModal #ftData #ftDataTabs .ft-tab.ft-services-tab {
   width: 75px !important;
@@ -2419,9 +2442,6 @@ input[type=range].styled:focus::-ms-fill-upper {
   max-height: 100px;
   margin: 5px 10px;
 }
-#ftModal #ftData #ftMoreInfo {
-  border-top: none;
-}
 #ftModal #ftData #ftMoreInfo #moreInfo {
   font-size: 13px;
   line-height: 22px;
@@ -2646,7 +2666,7 @@ input[type=range].styled:focus::-ms-fill-upper {
     -webkit-flex-direction: column;
     flex-direction: column;
   }
-  #floodToolsDiv .panel-heading {
+  #floodToolsDiv .panel-heading.main {
     min-height: -webkit-fit-content;
     min-height: -moz-fit-content;
     min-height: fit-content;
