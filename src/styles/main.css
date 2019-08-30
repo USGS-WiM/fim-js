@@ -1560,16 +1560,6 @@ input[type=range].styled:focus::-ms-fill-upper {
   transition: 0.3s;
   opacity: 1;
 }
-#floodToolsErrorMessage {
-  display: none;
-  text-align: center;
-  background-color: #FB4841;
-  box-sizing: border-box;
-  padding: 6px;
-  font-weight: 500;
-  font-size: 11px;
-  color: white;
-}
 .esriPopup .titlePane {
   background-color: #10152C;
   display: -webkit-flex;
@@ -1706,6 +1696,15 @@ input[type=range].styled:focus::-ms-fill-upper {
 }
 #floodToolsDiv {
   box-shadow: 0px 6px 27px -7px rgba(0, 10, 80, 0.55);
+  height: -webkit-fit-content !important;
+  height: -moz-fit-content !important;
+  height: fit-content !important;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+  flex-direction: column;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
 }
 #floodToolsDiv .panel-heading {
   background-color: white;
@@ -1715,6 +1714,22 @@ input[type=range].styled:focus::-ms-fill-upper {
 #floodToolsDiv .panel-heading .dropdown {
   position: relative;
   top: -3px;
+}
+#floodToolsDiv .panel-body {
+  -webkit-flex-grow: 3;
+  flex-grow: 3;
+  padding-bottom: 0;
+}
+#floodToolsErrorMessage {
+  display: none;
+  text-align: center;
+  background-color: #FB4841;
+  box-sizing: border-box;
+  padding: 6px;
+  font-weight: 500;
+  font-size: 11px;
+  color: white;
+  position: relative;
 }
 #ftModal {
   width: auto;
@@ -1764,7 +1779,7 @@ input[type=range].styled:focus::-ms-fill-upper {
   -webkit-justify-content: flex-end;
   justify-content: flex-end;
   position: absolute;
-  width: 150px;
+  width: 124px;
 }
 #ftModal #ftSliders .slider-group.fts1 {
   left: 60px;
@@ -1854,7 +1869,7 @@ input[type=range].styled:focus::-ms-fill-upper {
 #ftModal #ftSliders #ftOptions {
   display: block;
   width: 100%;
-  padding-top: 165px;
+  padding-top: 142px;
   box-sizing: border-box;
   text-align: center;
   display: -webkit-flex;
@@ -1863,6 +1878,35 @@ input[type=range].styled:focus::-ms-fill-upper {
   flex-direction: column;
   -webkit-justify-content: space-around;
   justify-content: space-around;
+}
+#ftModal #ftSliders #ftOptions .selected-gage-height {
+  margin-bottom: 4px;
+}
+#ftModal #ftSliders #ftOptions .selected-gage-height small {
+  display: block;
+  text-align: center;
+  font-size: 10.5px;
+  font-weight: 500;
+}
+#ftModal #ftSliders #ftOptions .selected-gage-height .sgh-flex {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-justify-content: space-around;
+  justify-content: space-around;
+}
+#ftModal #ftSliders #ftOptions .selected-gage-height .sgh-flex #sgh {
+  font-weight: 600;
+  text-align: center;
+  padding-top: 3px;
+}
+#ftModal #ftSliders #ftOptions .selected-gage-height .sgh-flex #sgh label {
+  margin: 0 !important;
+  font-size: 16px;
+}
+#ftModal #ftSliders #ftOptions .selected-gage-height .sgh-flex #sgh label:after {
+  content: 'ft';
+  font-size: 10.5px;
+  font-weight: 500;
 }
 #ftModal #ftSliders #ftOptions .ft-option {
   display: -webkit-flex;
@@ -1895,16 +1939,15 @@ input[type=range].styled:focus::-ms-fill-upper {
   box-sizing: border-box;
   width: 95%;
   width: calc(100% - 24px);
-  margin: 6px auto 0 auto;
+  margin: 4px auto 0 auto;
   border: 1px solid #C6CEDA;
-  padding: 4px 8px 6px 8px;
+  padding: 2px 8px;
   border-radius: 3px;
 }
 #ftModal #ftSliders #ftOptions #floodToolsLegend .ft-legend-header {
   font-size: 11px;
   text-align: center;
   box-sizing: border-box;
-  padding: 2px 0 0 0;
   font-weight: 600;
   width: 100%;
   margin: 0 auto;
@@ -2035,11 +2078,17 @@ input[type=range].styled:focus::-ms-fill-upper {
   justify-content: center;
   height: 34px;
   box-sizing: border-box;
-  padding: 0 6px;
+  padding: 0 8px;
   letter-spacing: -0.35px;
   font-weight: 600;
   color: black;
   background-color: white;
+}
+#ftModal #ftData #ftDataTabs .ft-tab.ft-main-tab {
+  width: 88px !important;
+}
+#ftModal #ftData #ftDataTabs .ft-tab.ft-services-tab {
+  width: 75px !important;
 }
 #ftModal #ftData #ftDataTabs .ft-tab:hover {
   color: black;
@@ -2063,7 +2112,8 @@ input[type=range].styled:focus::-ms-fill-upper {
   height: 100%;
 }
 #ftModal #ftData #ftDataTabs .ft-tab span {
-  font-size: 11px;
+  font-size: 10.5px;
+  line-height: 11px;
 }
 #ftModal #ftData #ftDataTabs .ft-tab i {
   font-size: 14px;
@@ -2604,7 +2654,7 @@ input[type=range].styled:focus::-ms-fill-upper {
   #floodToolsDiv .panel-body {
     max-width: 100% !important;
     width: auto !important;
-    height: auto;
+    height: auto !important;
     -webkit-flex-wrap: wrap;
     flex-wrap: wrap;
     overflow: auto;
