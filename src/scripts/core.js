@@ -62,6 +62,7 @@ var actionCount = 0;
 var nofloodCount = 0;
 var currentBasemap;
 
+var sitesLayerPrint;
 
 require([
     'esri/arcgis/utils',
@@ -307,6 +308,16 @@ require([
         e.preventDefault();
         $(this).button('loading');
         printMap();
+    });
+
+    $("#printModal").on("click", function(evt) {
+        if(evt.target == this || $(evt.target).attr('class') == 'close'){
+            //alert("Close the Print Modal")
+            sitesLayerPrint.setVisibility(true);
+            map.reorderLayer(sitesLayerPrint,1000);
+        }else{
+            //alert("Don't close the Print Modal");
+        }
     });
 
     $('#shareLink').click(function(){
@@ -3458,7 +3469,8 @@ require([
 
                 var printAttr;
 
-                var sitesLayerPrint = map.getLayer("fimSites");
+                sitesLayerPrint = map.getLayer("fimSites");
+                map.reorderLayer(sitesLayerPrint,0);
                         
                 if (data.features.length > 0) {
                     printAttr = data.features[0].attributes;
@@ -3693,6 +3705,8 @@ require([
                     map.addLayer(layersToReturn[j]);
                     //console.log("added " + layersToReturn[j]);
                 }
+
+                map.reorderLayer(sitesLayerPrint,100);
 
                 /*map.addLayer("nwsRadar");
                 map.addLayer("fimExtentsMulit");
