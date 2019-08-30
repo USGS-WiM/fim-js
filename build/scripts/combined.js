@@ -807,8 +807,10 @@ require([
     $("#printModal").on("click", function(evt) {
         if(evt.target == this || $(evt.target).attr('class') == 'close'){
             //alert("Close the Print Modal")
-            sitesLayerPrint.setVisibility(true);
-            map.reorderLayer(sitesLayerPrint,1000);
+            if (sitesLayerPrint != undefined) {
+                sitesLayerPrint.setVisibility(true);
+                map.reorderLayer(sitesLayerPrint,1000);
+            }
         }else{
             //alert("Don't close the Print Modal");
         }
