@@ -3458,7 +3458,7 @@ require([
 
                 var printAttr;
 
-                //var sitesLayer = map.getLayer("fimSites");
+                var sitesLayerPrint = map.getLayer("fimSites");
                         
                 if (data.features.length > 0) {
                     printAttr = data.features[0].attributes;
@@ -3554,6 +3554,9 @@ require([
                     
                 //sitesLayer.setVisibility(false);
 
+                var baseLayer = map.getLayer("layer0");
+                map.removeLayer(baseLayer);
+
                 var page2PrintParams = new PrintParameters();
                 page2PrintParams.map = map;
 
@@ -3585,10 +3588,15 @@ require([
 
                 var userTitle = $("#printTitle").val();
 
+                var siteDefExp = "";
+
                 if (siteAttr.MULTI_SITE == '0') {
                     siteDefExp = "SITE_NO = '" + siteNo + "'";
-                    siteToGage = "Map corresponding to a Gage Height of " + currentStage + " feet and an Elevation of " + currentElev + " feet (NAVD 88)";
+                    //siteToGage = "Map corresponding to a Gage Height of " + currentStage + " feet and an Elevation of " + currentElev + " feet (NAVD 88)";
                 } 
+
+                sitesLayerPrint.setDefinitionExpression(siteDefExp);
+                sitesLayerPrint.refresh();
 
                 var page2MapTitle = "";
                 if (siteAttr.MULTI_SITE == 0) {
@@ -3634,14 +3642,13 @@ require([
                     ],
                     "legendLayers": null//[sitesLegendLayer]
                 };
-
+                
                 //"legendLayers": [legendLayer]
                 var docTitle = template.layoutOptions.titleText;
                 page2PrintParams.template = template;
                 var printMap = new PrintTask("https://fimtest.wim.usgs.gov/arcgis/rest/services/FIMPrint/ExportWebMap/GPServer/Export%20Web%20Map");
                 //var printMap = new PrintTask("https://fim.wim.usgs.gov/arcgis/rest/services/FIMMapper/printTool/GPServer/printTool");
                 
-                map.getLayer("layer0").setVisibility(false);
                 /*map.removeLayer("nwsRadar");
                 map.removeLayer("fimExtentsMulti");
                 map.removeLayer("fimExtentsThreeSites");
@@ -3671,12 +3678,16 @@ require([
                     }
                 }
 
+                sitesLayerPrint.setVisibility(true);
+
                 printMap.execute(page2PrintParams, printPage2Done, printPage2Error, 'page2');
                 console.log('executed page 2');
 
-                //map.addLayer(sitesLayer);
+                sitesLayerPrint.setDefinitionExpression("(Public = 1 OR Public =0) AND (MULTI_SITE = 0 OR MULTI_SITE = 1 OR MULTI_SITE = 3)");
+                sitesLayerPrint.refresh();
+                map.addLayer(baseLayer,0);
                 map.getLayer("layer0").setVisibility(true);
-                //sitesLayer.setVisibility(true);
+                sitesLayerPrint.setVisibility(false);
 
                 for (var j=0; j<layersToReturn.length; j++) {
                     map.addLayer(layersToReturn[j]);
@@ -3774,7 +3785,7 @@ require([
             so only need to iterate on page 2 until there is a good one
 
             */
-            console.log('trying print again');
+            console.log('trying print again (' + (printerations+1).toString() + ' attempts)');
             printMap();
         } else {
             $("#printExecuteButton").button('reset');
