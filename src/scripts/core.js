@@ -3506,7 +3506,7 @@ require([
                         "authorText" : "Flood Inundation Mapping",
                         "copyrightText": "This page was produced by the FIM and the WIM",
                         "customTextElements": [
-                            { "mapTitle": printAttr.TITLE + "\n at the U.S. Geological Survey Streamgage Number " + siteAttr.SITE_NO },
+                            { "mapTitle": printAttr.TITLE + " at the U.S. Geological Survey Streamgage Number " + siteAttr.SITE_NO },
                             { "mapSeries": printAttr.REP_SER_NUM },
                             { "studyArea": printAttr.STUDY_AREA },
                             { "purpose": printAttr.PURPOSE_SCOPE },
@@ -3613,37 +3613,39 @@ require([
                 //sitesLayerPrint.refresh();
 
                 var page2MapTitle = "";
+                var page2MapSubtitle = "";
                 if (siteAttr.MULTI_SITE == 0) {
                     page2MapTitle = "Flood-Inundation Map for " + siteAttr.COMMUNITY + 
-                        " at the U.S. Geological Survey Streamgage Number " + siteAttr.SITE_NO 
-                        + "\n<FNT size='8'>Map corresponding to a Gage Height of " + 
+                        " at the U.S. Geological Survey Streamgage Number " + siteAttr.SITE_NO;
+                        /*+ "\n<FNT size='8'>Map corresponding to a Gage Height of " + 
                         gageValues[$(".fts1 #floodSlider")[0].value].gageValue + " feet and an Elevation of " + 
-                        altitudeValues[$(".fts1 #floodSlider")[0].value].altitudeValue + " feet (NAVD 88)</FNT>";
+                        altitudeValues[$(".fts1 #floodSlider")[0].value].altitudeValue + " feet (NAVD 88)</FNT>";*/
+                    page2MapSubtitle = "Map corresponding to a Gage Height of " + 
+                        gageValues[$(".fts1 #floodSlider")[0].value].gageValue + " feet and an Elevation of " + 
+                        altitudeValues[$(".fts1 #floodSlider")[0].value].altitudeValue + " feet (NAVD 88)";
                 } else if (siteAttr.MULTI_SITE == 1) {
                     page2MapTitle = "Flood-Inundation Map for " + siteAttr.COMMUNITY + 
-                        " at the U.S. Geological Survey Streamgage Numbers " + siteAttr.SITE_NO + " and " + siteNo_2 +
-                        "\n<LIN leading='0'><FNT size='8'>Map corresponding to a Gage Height of " + 
+                        " at the U.S. Geological Survey Streamgage Numbers " + siteAttr.SITE_NO + " and " + siteNo_2;
+                    page2MapSubtitle = "Map corresponding to a Gage Height of " + 
                         gageValues[$(".fts1 #floodSlider")[0].value].gageValue + " feet and an Elevation of " + 
                         altitudeValues[$(".fts1 #floodSlider")[0].value].altitudeValue + " feet (NAVD 88) for Streamgage Number " + 
-                        siteAttr.SITE_NO + "</FNT>" +
-                        "\n<FNT size='8'>and " + gageValues2[$(".fts2 #floodSlider")[0].value].gageValue + " feet and an Elevation of " + 
+                        siteAttr.SITE_NO +
+                        "and " + gageValues2[$(".fts2 #floodSlider")[0].value].gageValue + " feet and an Elevation of " + 
                         altitudeValues2[$(".fts2 #floodSlider")[0].value].altitudeValue + " feet (NAVD 88) for Streamgage Number " + 
-                        siteNo_2 +
-                        "</FNT></LIN>";
+                        siteNo_2;
                 } else if (siteAttr.MULTI_SITE == 2 || siteAttr.MULTI_SITE == 3) {
                     page2MapTitle = "Flood-Inundation Map for " + siteAttr.COMMUNITY + 
-                        " at the U.S. Geological Survey Streamgage Numbers " + siteAttr.SITE_NO + ", " + siteNo_2 + " and " + siteNo_3 +
-                        "\n<LIN leading='0'><FNT size='8'>Map corresponding to a Gage Height of " + 
+                        " at the U.S. Geological Survey Streamgage Numbers " + siteAttr.SITE_NO + ", " + siteNo_2 + " and " + siteNo_3;
+                    page2MapSubtitle = "Map corresponding to a Gage Height of " + 
                         gageValues[$(".fts1 #floodSlider")[0].value].gageValue + " feet and an Elevation of " + 
                         altitudeValues[$(".fts1 #floodSlider")[0].value].altitudeValue + " feet (NAVD 88) for Streamgage Number " + 
-                        siteAttr.SITE_NO + "</FNT>" +
-                        "\n<FNT size='8'>and " + gageValues2[$(".fts2 #floodSlider")[0].value].gageValue + " feet and an Elevation of " + 
+                        siteAttr.SITE_NO +
+                        " and " + gageValues2[$(".fts2 #floodSlider")[0].value].gageValue + " feet and an Elevation of " + 
                         altitudeValues2[$(".fts2 #floodSlider")[0].value].altitudeValue + " feet (NAVD 88) for Streamgage Number " + 
-                        siteNo_2 + "</FNT>" +
-                        "\n<FNT size='8'>and " + gageValues3[$(".fts3 #floodSlider")[0].value].gageValue + " feet and an Elevation of " + 
+                        siteNo_2 +
+                        " and " + gageValues3[$(".fts3 #floodSlider")[0].value].gageValue + " feet and an Elevation of " + 
                         altitudeValues3[$(".fts3 #floodSlider")[0].value].altitudeValue + " feet (NAVD 88) for Streamgage Number " + 
-                        siteNo_3 +
-                        "</FNT></LIN>";
+                        siteNo_3; 
                 }
 
                 template.layoutOptions = {
@@ -3652,6 +3654,7 @@ require([
                     "copyrightText": "This page was produced by the FIM and the WIM",
                     "customTextElements": [
                         { "mapTitle": page2MapTitle },
+                        { "mapSubTitle": page2MapSubtitle },
                         { "mapSeries": (printAttr) ? printAttr.REP_SER_NUM : "" }
                     ],
                     "legendLayers": null//[sitesLegendLayer]
@@ -3765,9 +3768,14 @@ require([
                         url: "https://fimtest.wim.usgs.gov/fim-pdf-merge?page1name=" + page1name + "&page2name=" + page2name,
                         headers: {'Accept': '*/*'},
                         success: function (data) {
-                            var mergedTitle;
+                            var mergedTitle = "Map for site number " + siteNo;
+                            if (siteNo_2 != undefined) {
+                                mergedTitle = "Map for site numbers " + siteNo + " and " + siteNo_2;
+                            }if (siteNo_3 != undefined) {
+                                mergedTitle = "Map for site numbers " + siteNo + ", " + siteNo_2 + ", and " + siteNo_3;
+                            }
                             if (userTitle == "") {
-                                mergedTitle = "Map for site number " + site_no_for_print;
+                                //mergedTitle = "Map for site number " + site_no_for_print;
                             } else {
                                 mergedTitle = userTitle;
                             }
