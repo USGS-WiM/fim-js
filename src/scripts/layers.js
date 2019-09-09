@@ -51,6 +51,7 @@ require([
                         "layerType": "agisDynamic",
                         "includeInLayerList": false,
                         "hasOpacitySlider": false,
+                        "layerDefinitions": ["(Public = 1 OR Public =0) AND (MULTI_SITE = 0 OR MULTI_SITE = 1 OR MULTI_SITE = 3)"],
                         "includeLegend" : false,
                         "legendLabel": false
                     }
