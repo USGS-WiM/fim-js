@@ -2095,7 +2095,7 @@ input[type=range].styled:focus::-ms-fill-upper {
   height: 0;
   border-right: 8px solid transparent;
   border-left: 8px solid transparent;
-  border-bottom: 14px solid #82F651;
+  border-bottom: 14px solid rgba(0, 0, 0, 0.5);
   position: relative;
   top: 9px;
   left: 1px;
