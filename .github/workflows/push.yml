@@ -1,0 +1,28 @@
+on:
+  push:
+    branches:
+    - staging
+name: Deploy to S3
+jobs:
+  filtersForGitHubActions:
+    name: Filters for GitHub Actions
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: GitHub Action for npm
+      uses: actions/npm@59b64a598378f31e49cb76f27d6f3312b582f680
+      with:
+        args: run-script build
+    - name: GitHub Action for AWS
+      uses: actions/aws/cli@aba0951d3bb681880614bbf0daa29b4a0c9d77b8
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      with:
+        args: s3 cp /github/workspace/build/ s3://test.wim.usgs.gov/fim/ --recursive
+    - name: GitHub Action for Slack
+      uses: Ilshidur/action-slack@5faabb4216b20af98fe77b6d9048d24becfefd31
+      env:
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+      with:
+        args: Successfully deployed to S3
