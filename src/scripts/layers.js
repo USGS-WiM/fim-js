@@ -38,24 +38,7 @@ require([
             "showGroupHeading": false,
             "includeInLayerList": true,
             "layers": {
-                "FIM sites print": {
-                    "url" : "https://fimtest.wim.usgs.gov/arcgis/rest/services/FIMMapper/sites/MapServer",
-                    "options": {
-                        "id": "fimSitesPrint",
-                        "visibleLayers": [0],
-                        "opacity": 0.75,
-                        "visible": true
-                    },
-                    "wimOptions": {
-                        "type": "layer",
-                        "layerType": "agisDynamic",
-                        "includeInLayerList": false,
-                        "hasOpacitySlider": false,
-                        "layerDefinitions": ["(Public = 1 OR Public =0) AND (MULTI_SITE = 0 OR MULTI_SITE = 1 OR MULTI_SITE = 3)"],
-                        "includeLegend" : false,
-                        "legendLabel": false
-                    }
-                },"FIM Sites": {
+                "FIM Sites": {
                     "url" : "https://fimtest.wim.usgs.gov/arcgis/rest/services/FIMMapper/sites/MapServer/0",
                     "options": {
                         "id": "fimSites",
@@ -168,6 +151,24 @@ require([
                         "includeInLayerList": false,
                         "hasOpacitySlider": true,
                         "includeLegend" : true
+                    }
+                },
+                "FIM sites print": {
+                    "url" : "https://fimtest.wim.usgs.gov/arcgis/rest/services/FIMMapper/sites/MapServer",
+                    "options": {
+                        "id": "fimSitesPrint",
+                        "visibleLayers": [0],
+                        "opacity": 0.75,
+                        "visible": true
+                    },
+                    "wimOptions": {
+                        "type": "layer",
+                        "layerType": "agisDynamic",
+                        "includeInLayerList": false,
+                        "hasOpacitySlider": false,
+                        "layerDefinitions": ["(Public = 1 OR Public =0) AND (MULTI_SITE = 0 OR MULTI_SITE = 1 OR MULTI_SITE = 3)"],
+                        "includeLegend" : false,
+                        "legendLabel": false
                     }
                 },
                 "National Weather Service Radar": {
