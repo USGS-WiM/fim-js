@@ -41,7 +41,7 @@
     <script src="bower_components/highcharts/highcharts.js"></script>
     <script src="bower_components/bootstrap-sidebar/dist/js/sidebar.js"></script>
     <!-- <script src="bower_components/bootstrap-map-js/dist/js/bootstrapmap.min.js"></script> -->
-
+s
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -181,7 +181,7 @@ USGS Bar
                     <label for="printTitle">Title </label>
                     <input class="form-control" id="printTitle" placeholder="Enter a title for your printout">
 
-                    <button class="btn btn-blue" id="printExecuteButton" type="submit" data-loading-text="Printing...">
+                    <button class="btn btn-blue" id="printExecuteButton" type="submit" data-loading-text="Printing..." disabled>
                         <i class="fa fa-print"></i>
                         Print
                     </button>
@@ -189,6 +189,8 @@ USGS Bar
                         <i class="fa fa-times"></i>
                         Dismiss
                     </button>
+
+                    <div class='printWarning'>Please select and display a library to enable print function</div>
 
                 </form>
 

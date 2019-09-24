@@ -153,7 +153,7 @@ USGS Bar
                     <label for="printTitle">Title </label>
                     <input class="form-control" id="printTitle" placeholder="Enter a title for your printout">
 
-                    <button class="btn btn-blue" id="printExecuteButton" type="submit" data-loading-text="Printing...">
+                    <button class="btn btn-blue" id="printExecuteButton" type="submit" data-loading-text="Printing..." disabled>
                         <i class="fa fa-print"></i>
                         Print
                     </button>
@@ -161,6 +161,8 @@ USGS Bar
                         <i class="fa fa-times"></i>
                         Dismiss
                     </button>
+
+                    <div class='printWarning'>Please select and display a library to enable print function</div>
 
                 </form>
 

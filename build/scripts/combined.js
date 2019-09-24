@@ -77,24 +77,7 @@ require([
             "showGroupHeading": false,
             "includeInLayerList": true,
             "layers": {
-                "FIM sites print": {
-                    "url" : "https://fimtest.wim.usgs.gov/arcgis/rest/services/FIMMapper/sites/MapServer",
-                    "options": {
-                        "id": "fimSitesPrint",
-                        "visibleLayers": [0],
-                        "opacity": 0.75,
-                        "visible": true
-                    },
-                    "wimOptions": {
-                        "type": "layer",
-                        "layerType": "agisDynamic",
-                        "includeInLayerList": false,
-                        "hasOpacitySlider": false,
-                        "layerDefinitions": ["(Public = 1 OR Public =0) AND (MULTI_SITE = 0 OR MULTI_SITE = 1 OR MULTI_SITE = 3)"],
-                        "includeLegend" : false,
-                        "legendLabel": false
-                    }
-                },"FIM Sites": {
+                "FIM Sites": {
                     "url" : "https://fimtest.wim.usgs.gov/arcgis/rest/services/FIMMapper/sites/MapServer/0",
                     "options": {
                         "id": "fimSites",
@@ -207,6 +190,24 @@ require([
                         "includeInLayerList": false,
                         "hasOpacitySlider": true,
                         "includeLegend" : true
+                    }
+                },
+                "FIM sites print": {
+                    "url" : "https://fimtest.wim.usgs.gov/arcgis/rest/services/FIMMapper/sites/MapServer",
+                    "options": {
+                        "id": "fimSitesPrint",
+                        "visibleLayers": [0],
+                        "opacity": 0.75,
+                        "visible": true
+                    },
+                    "wimOptions": {
+                        "type": "layer",
+                        "layerType": "agisDynamic",
+                        "includeInLayerList": false,
+                        "hasOpacitySlider": false,
+                        "layerDefinitions": ["(Public = 1 OR Public =0) AND (MULTI_SITE = 0 OR MULTI_SITE = 1 OR MULTI_SITE = 3)"],
+                        "includeLegend" : false,
+                        "legendLabel": false
                     }
                 },
                 "National Weather Service Radar": {
@@ -1068,6 +1069,8 @@ require([
 	// Close Flood Tools
     $("#floodClose").click(function(){
         closeFloodTools();
+        $("#printExecuteButton").prop('disabled', true);
+        $(".printWarning").show();
     });
 
 	// Open flood tools or maximize from min
@@ -1293,7 +1296,6 @@ require([
 				console.log("Site Clicked")
 				$("#floodToolsErrorMessage").hide();
 
-                
                 var feature;
                 if (evt.graphic != undefined) {
                     feature = evt.graphic;
@@ -3244,6 +3246,8 @@ require([
                                 $("#floodToolsDiv .panel-heading").removeClass('loading-hide');
                                 $("#floodToolsDiv .panel-body").removeClass('loading-hide');
                                 $("#floodToolsDiv").removeClass('loading-background');
+                                $("#printExecuteButton").prop('disabled', false);
+                                $(".printWarning").hide();
 
 								snapToFlood();
                             })
@@ -4161,20 +4165,6 @@ require([
                 var printMap = new PrintTask("https://fimtest.wim.usgs.gov/arcgis/rest/services/FIMPrint/ExportWebMap/GPServer/Export%20Web%20Map");
                 //var printMap = new PrintTask("https://fim.wim.usgs.gov/arcgis/rest/services/FIMMapper/printTool/GPServer/printTool");
                 
-                /*map.removeLayer("nwsRadar");
-                map.removeLayer("fimExtentsMulti");
-                map.removeLayer("fimExtentsThreeSites");
-                map.removeLayer("fimBreachMulti");
-                map.removeLayer("fimGrid1");
-                map.removeLayer("fimGrid2");
-                map.removeLayer("fimGrid3");
-                map.removeLayer("fimGrid4");
-                map.removeLayer("floodWatchWarn");
-                map.removeLayer("ahpsSites");
-                map.removeLayer(sitesLayer);
-                //map.removeAllLayers();*/
-                //page2PrintParams.map = map;
-
                 var layerIDs = map.layerIds;
                 var graphicLayerIDs = map.graphicsLayerIds;
 

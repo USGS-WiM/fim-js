@@ -3450,3 +3450,9 @@ input[type=range].styled:focus::-ms-fill-upper {
 .sidebar-layers-item button:hover b {
   text-decoration: underline;
 }
+.printWarning {
+  padding-top: 5px;
+  font-weight: bold;
+  display: relative;
+  color: red;
+}
