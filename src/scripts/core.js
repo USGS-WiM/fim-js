@@ -146,6 +146,7 @@ require([
 
     esriConfig.defaults.io.corsEnabledServers.push("fim.wim.usgs.gov");
     esriConfig.defaults.io.corsEnabledServers.push("fimtest.wim.usgs.gov");
+    esriConfig.defaults.io.corsEnabledServers.push("fimnew.wim.usgs.gov");
     esriConfig.defaults.io.corsEnabledServers.push("gis.wim.usgs.gov");
     esri.config.defaults.io.proxyUrl = proxyUrl;
 
@@ -3531,7 +3532,7 @@ require([
 
                     var docTitle = template.layoutOptions.titleText;
                     printParams.template = template;
-                    var printMap = new PrintTask("https://fimtest.wim.usgs.gov/arcgis/rest/services/FIMPrint/ExportWebMap/GPServer/Export%20Web%20Map");
+                    var printMap = new PrintTask("https://fimnew.wim.usgs.gov/server/rest/services/FIMPrint/ExportWebMap/GPServer/Export%20Web%20Map");
                     //var printMap = new PrintTask("https://fim.wim.usgs.gov/arcgis/rest/services/FIMMapper/printTool/GPServer/printTool");
                     map.getLayer("layer0").setVisibility(false);
         
@@ -3557,7 +3558,7 @@ require([
 
                         console.log('page 1 done');
 
-                        page1name = event.url.split("GPServer/")[1];
+                        page1name = event.url.split("gpserver/")[1];
                         console.log("page 1: " + page1name);
 
                         if (page2name != null) {
@@ -3672,7 +3673,7 @@ require([
                 //"legendLayers": [legendLayer]
                 var docTitle = template.layoutOptions.titleText;
                 page2PrintParams.template = template;
-                var printMap = new PrintTask("https://fimtest.wim.usgs.gov/arcgis/rest/services/FIMPrint/ExportWebMap/GPServer/Export%20Web%20Map");
+                var printMap = new PrintTask("https://fimnew.wim.usgs.gov/server/rest/services/FIMPrint/ExportWebMap/GPServer/Export%20Web%20Map");
                 //var printMap = new PrintTask("https://fim.wim.usgs.gov/arcgis/rest/services/FIMMapper/printTool/GPServer/printTool");
                 
                 var layerIDs = map.layerIds;
@@ -3733,7 +3734,7 @@ require([
 
                     console.log('page 2 done');
 
-                    page2name = event.url.split("GPServer/")[1];
+                    page2name = event.url.split("gpserver/")[1];
                     console.log("page 2: " + page2name);
 
                     if (page1name != null) {
@@ -3759,8 +3760,8 @@ require([
                         dataType: 'json',
                         crossDomain: true,
                         type: 'GET',
-                        referer: 'fimtest.wim.usgs.gov',
-                        url: "https://fimtest.wim.usgs.gov/fim-pdf-merge?page1name=" + page1name + "&page2name=" + page2name,
+                        referer: 'fimnew.wim.usgs.gov',
+                        url: "https://fimnew.wim.usgs.gov/fim-pdf-merge?page1name=" + page1name + "&page2name=" + page2name,
                         headers: {'Accept': '*/*'},
                         success: function (data) {
                             var mergedTitle = "Map for site number " + siteNo;
@@ -3776,7 +3777,7 @@ require([
                             }
                             printCount++;
                             //var printJob = $('<a href="'+ event.url +'" target="_blank">Printout ' + printCount + ' </a>');
-                            var printJob = $('<p><label>' + printCount + ':&nbsp;</label><a href="https://fimtest.wim.usgs.gov/pdf/'+ data.filename +'" target="_blank">' + mergedTitle +' </a></p>');
+                            var printJob = $('<p><label>' + printCount + ':&nbsp;</label><a href="https://fimnew.wim.usgs.gov/pdf/'+ data.filename +'" target="_blank">' + mergedTitle +' </a></p>');
                             //$("#print-form").append(printJob);
                             $("#printJobsDiv").find("p.toRemove").remove();
                             $("#printModalBody").append(printJob);
