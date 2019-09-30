@@ -2216,6 +2216,8 @@ require([
                                     $('.fts1 #floodDischarge').text(siteData.data[dischargeIndex].time_series_data[siteData.data[dischargeIndex].time_series_data.length-1][1]);
                                 } else if (dischargeIndex != null && siteData.data[dischargeIndex].time_series_data.length > 0 ) {
                                     $('.fts1 #floodDischarge').text('n/a (' + siteData.data[dischargeIndex].time_series_data[siteData.data[dischargeIndex].time_series_data.length-1][2] + ')');
+                                } else {
+                                    $('.fts1 #floodDischarge').text('n/a');
                                 }
                                 // Site Two
                                 if (finalNWISDataArray2.length > 0) { 
@@ -2226,10 +2228,12 @@ require([
                                     $('.fts2 #floodGage').text(val);
                                 }
                                 // Site Two Discharge
-                                if (dischargeIndex2 != null && siteData2 && siteData2.data[dischargeIndex2].time_series_data[siteData2.data[dischargeIndex2].time_series_data.length-1][1] != null) {
+                                if (dischargeIndex2 != null && siteData2 && siteData2.data[dischargeIndex2].time_series_data.length > 0 && siteData2.data[dischargeIndex2].time_series_data[siteData2.data[dischargeIndex2].time_series_data.length-1][1] != null) {
                                     $('.fts2 #floodDischarge').text(siteData2.data[dischargeIndex2].time_series_data[siteData2.data[dischargeIndex2].time_series_data.length-1][1]);
-                                } else if (dischargeIndex2 != null && siteData2 && siteData2.data[dischargeIndex2].time_series_data[siteData2.data[dischargeIndex2].time_series_data.length-1].length > 2) {
+                                } else if (dischargeIndex2 != null && siteData2 && siteData2.data[dischargeIndex2].time_series_data.length > 0 && siteData2.data[dischargeIndex2].time_series_data[siteData2.data[dischargeIndex2].time_series_data.length-1].length > 2) {
                                     $('.fts2 #floodDischarge').text('n/a (' + siteData2.data[dischargeIndex2].time_series_data[siteData2.data[dischargeIndex2].time_series_data.length-1][2] + ')');
+                                } else {
+                                    $('.fts2 #floodDischarge').text('n/a');
                                 }
                                 // Site Three
                                 if (finalNWISDataArray3.length > 0) { 
@@ -2240,10 +2244,12 @@ require([
                                     $('.fts3 #floodGage').text(val);
                                 }
                                 // Site Three Discharge
-                                if (dischargeIndex3 != null && siteData3 && siteData3.data[dischargeIndex3].time_series_data[siteData3.data[dischargeIndex3].time_series_data.length-1][1] != null) {
+                                if (dischargeIndex3 != null && siteData3 && siteData3.data[dischargeIndex3].time_series_data.length > 0 && siteData3.data[dischargeIndex3].time_series_data[siteData3.data[dischargeIndex3].time_series_data.length-1][1] != null) {
                                     $('.fts3 #floodDischarge').text(siteData3.data[dischargeIndex3].time_series_data[siteData3.data[dischargeIndex3].time_series_data.length-1][1]);
-                                } else if (dischargeIndex3 != null && siteData3 && siteData3.data[dischargeIndex3].time_series_data[siteData3.data[dischargeIndex3].time_series_data.length-1].length > 2) {
+                                } else if (dischargeIndex3 != null && siteData3 && siteData3.data[dischargeIndex3].time_series_data.length > 0 && siteData3.data[dischargeIndex3].time_series_data[siteData3.data[dischargeIndex3].time_series_data.length-1].length > 2) {
                                     $('.fts3 #floodDischarge').text('n/a (' + siteData3.data[dischargeIndex3].time_series_data[siteData3.data[dischargeIndex3].time_series_data.length-1][2] + ')');
+                                } else {
+                                    $('.fts3 #floodDischarge').text('n/a');
                                 }
 
                                 if (nwsData2[0].children && nwsData2[0].children[0].children[0].textContent != "no nws data") { 
