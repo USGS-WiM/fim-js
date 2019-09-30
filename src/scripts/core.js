@@ -3096,7 +3096,7 @@ require([
 
                 }
                 slidersToAdjust[ind].val(closestArrayItem);
-                slidersToAdjust[ind].trigger("change");
+                slidersToAdjust[ind].trigger("input");
             }
             
         }
