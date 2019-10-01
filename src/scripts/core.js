@@ -664,6 +664,9 @@ require([
                 $.each(graphics, function (index, feature) {
                     if (feature.attributes["AHPS_ID"] != null) {
                         ahpsIds.push("'" + feature.attributes["AHPS_ID"].toUpperCase() + "'");
+                        if (feature.attributes["Public"] == 2) {
+                            feature.hide();
+                        }
                         //code to build look up array for use with multi-site libraries that can be used to make requests for multi-site nws predicted data
                         fimSiteAHPSLookup.push({site_no: feature.attributes.SITE_NO, ahps_id: feature.attributes.AHPS_ID});
                     }
