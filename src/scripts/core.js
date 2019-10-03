@@ -1541,6 +1541,7 @@ require([
                 //code for getting extent of library and setting up for zoom button to go to full extent of library
                 extentQuery.returnGeometry = true;
                 extentQuery.num = 1;
+                extentQuery.geometryPrecision = 0;
 
                 switch (attr["MULTI_SITE"]) {
                     case 0:
