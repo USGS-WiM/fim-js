@@ -3469,8 +3469,9 @@ require([
 
     function printMap() {
 
-        var page1InfoUrl = 'https://fim.wim.usgs.gov/arcgis/rest/services/FIMMapper/FIMpage1design/MapServer/1/query?where=USGSID+LIKE+%27%25' + siteNo + '%25%27&outFields=*&returnGeometry=true&f=json';
-        
+        //var page1InfoUrl = 'https://fim.wim.usgs.gov/arcgis/rest/services/FIMMapper/FIMpage1design/MapServer/1/query?where=USGSID+LIKE+%27%25' + siteNo + '%25%27&outFields=*&returnGeometry=true&f=json';
+        var page1InfoUrl = 'https://fimnew.wim.usgs.gov/fim-page-one?siteno=' +siteNo;
+
         $.ajax({
             dataType: 'json',
             type: 'GET',
@@ -3488,8 +3489,11 @@ require([
                 sitesLayerPrint = map.getLayer("fimSites");
                 map.reorderLayer(sitesLayerPrint,0);
                         
-                if (data.features.length > 0) {
-                    printAttr = data.features[0].attributes;
+                //if (data.features.length > 0) {
+                if (data.hassite == true) {
+                
+                    //printAttr = data.features[0].attributes;
+                    printAttr = data;
 
                     var printParams = new PrintParameters();
                     printParams.map = map;
