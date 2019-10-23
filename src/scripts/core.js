@@ -1155,18 +1155,31 @@ require([
 
                 $(".fts1 #usgsSiteNo").text(siteNo);
                 $(".fts1 #usgsSiteNo").attr("href", "https://waterdata.usgs.gov/nwis/uv?site_no="+siteNo);
-                $(".fts1 #nwsSiteID").text(ahpsID);
-                $(".fts1 #nwsSiteID").attr("href", "https://water.weather.gov/ahps2/hydrograph.php?gage="+feature.attributes.AHPS_ID);
+                if (ahpsID != "NONE") {
+                    $(".fts1 #nwsSiteID").text(ahpsID);
+                    $(".fts1 #nwsSiteID").attr("href", "https://water.weather.gov/ahps2/hydrograph.php?gage="+ahpsID);
+                } else {
+                    $(".fts1 #nwsSiteID").text("NONE");
+                }
                 
                 $(".fts2 #usgsSiteNo").text(siteNo_2);
                 $(".fts2 #usgsSiteNo").attr("href", "https://waterdata.usgs.gov/nwis/uv?site_no="+siteNo_2);
-                $(".fts2 #nwsSiteID").text(ahpsID_2);
-                $(".fts2 #nwsSiteID").attr("href", "https://water.weather.gov/ahps2/hydrograph.php?gage="+ahpsID_2);
+                if (ahpsID_2 != "NONE") {
+                    $(".fts2 #nwsSiteID").text(ahpsID_2);
+                    //$(".fts2 #nwsSiteID").attr("href", "https://water.weather.gov/ahps2/hydrograph.php?gage="+ahpsID_2);
+                    $(".fts2 #nwsSiteID").html("<a class='value' target='_blank' href='" + "https://water.weather.gov/ahps2/hydrograph.php?gage=" + ahpsID_2 + "'></a>");
+                } else {
+                    $(".fts2 #nwsSiteID").html("NONE");
+                }
                 
                 $(".fts3 #usgsSiteNo").text(siteNo_3);
                 $(".fts3 #usgsSiteNo").attr("href", "https://waterdata.usgs.gov/nwis/uv?site_no="+siteNo_3);
-                $(".fts3 #nwsSiteID").text(ahpsID_3);
-                $(".fts3 #nwsSiteID").attr("href", "https://water.weather.gov/ahps2/hydrograph.php?gage="+ahpsID_3);
+                if (ahpsID_3 != "NONE") {
+                    $(".fts3 #nwsSiteID").text(ahpsID_3);
+                    $(".fts3 #nwsSiteID").attr("href", "https://water.weather.gov/ahps2/hydrograph.php?gage="+ahpsID_3);
+                } else {
+                    $(".fts3 #nwsSiteID").text("NONE");
+                }
 
                 if (attr.HAS_GRIDS == 1) {
                     $("#gridLabel").show();
@@ -1581,7 +1594,7 @@ require([
 
                         sliderSetup(results);
 
-                        $("#floodToolsModalHeader").text(attr["STATE"] + ": " + attr["COMMUNITY"]);
+                        $("#floodToolsModalHeader").text(attr["STATE"] + ": " + attr["COMMUNITY"] + " (" + siteNo + ((siteNo_2) ? " & " + siteNo_2 : "") + ((siteNo_3) ? " & " + siteNo_3 : "") + ")");
                         $("#shareLink").click(function() {
                             showShareModal();
                         });
@@ -3524,7 +3537,7 @@ require([
                         "authorText" : "Flood Inundation Mapping",
                         "copyrightText": "This page was produced by the FIM and the WIM",
                         "customTextElements": [
-                            { "mapTitle": printAttr.TITLE + " at the U.S. Geological Survey Streamgage Number " + siteAttr.SITE_NO },
+                            { "mapTitle": printAttr.TITLE },
                             { "mapSeries": printAttr.REP_SER_NUM },
                             { "studyArea": printAttr.STUDY_AREA },
                             { "purpose": printAttr.PURPOSE_SCOPE },
@@ -3542,14 +3555,18 @@ require([
                     printParams.template = template;
                     var printMap = new PrintTask("https://fimnew.wim.usgs.gov/server/rest/services/FIMPrint/ExportWebMap/GPServer/Export%20Web%20Map");
                     //var printMap = new PrintTask("https://fim.wim.usgs.gov/arcgis/rest/services/FIMMapper/printTool/GPServer/printTool");
-                    map.getLayer("layer0").setVisibility(false);
+                    if (map.getLayer("layer0") !== undefined) {
+                        map.getLayer("layer0").setVisibility(false);
+                    }
         
                     if (page1name == "") {
                         printMap.execute(printParams, printPage1Done, printPage1Error, 'page1');
                         console.log('executed page 1')
                     }
                     
-                    map.getLayer("layer0").setVisibility(true);
+                    if (map.getLayer("layer0") !== undefined) {
+                        map.getLayer("layer0").setVisibility(true);
+                    }
                     //sitesLayer.setVisibility(true);
 
                     function printPage1Done(event) {
@@ -3587,8 +3604,10 @@ require([
                 //sitesLayer.setVisibility(false);
 
                 var baseLayer = map.getLayer("layer0");
-                map.removeLayer(baseLayer);
-
+                if (baseLayer !== undefined) {
+                    map.removeLayer(baseLayer);
+                }
+                
                 var page2PrintParams = new PrintParameters();
                 page2PrintParams.map = map;
 
@@ -3633,8 +3652,7 @@ require([
                 var page2MapTitle = "";
                 var page2MapSubtitle = "";
                 if (siteAttr.MULTI_SITE == 0) {
-                    page2MapTitle = "Flood-Inundation Map for " + siteAttr.COMMUNITY + 
-                        " at the U.S. Geological Survey Streamgage Number " + siteAttr.SITE_NO;
+                    page2MapTitle = "Flood-Inundation Map for " + siteAttr.COMMUNITY;
                         /*+ "\n<FNT size='8'>Map corresponding to a Gage Height of " + 
                         gageValues[$(".fts1 #floodSlider")[0].value].gageValue + " feet and an Elevation of " + 
                         altitudeValues[$(".fts1 #floodSlider")[0].value].altitudeValue + " feet (NAVD 88)</FNT>";*/
@@ -3642,8 +3660,7 @@ require([
                         gageValues[$(".fts1 #floodSlider")[0].value].gageValue + " feet and an Elevation of " + 
                         altitudeValues[$(".fts1 #floodSlider")[0].value].altitudeValue + " feet (NAVD 88)";
                 } else if (siteAttr.MULTI_SITE == 1) {
-                    page2MapTitle = "Flood-Inundation Map for " + siteAttr.COMMUNITY + 
-                        " at the U.S. Geological Survey Streamgage Numbers " + siteAttr.SITE_NO + " and " + siteNo_2;
+                    page2MapTitle = "Flood-Inundation Map for " + siteAttr.COMMUNITY;
                     page2MapSubtitle = "Map corresponding to a Gage Height of " + 
                         gageValues[$(".fts1 #floodSlider")[0].value].gageValue + " feet and an Elevation of " + 
                         altitudeValues[$(".fts1 #floodSlider")[0].value].altitudeValue + " feet (NAVD 88) for Streamgage Number " + 
@@ -3652,8 +3669,7 @@ require([
                         altitudeValues2[$(".fts2 #floodSlider")[0].value].altitudeValue + " feet (NAVD 88) for Streamgage Number " + 
                         siteNo_2;
                 } else if (siteAttr.MULTI_SITE == 2 || siteAttr.MULTI_SITE == 3) {
-                    page2MapTitle = "Flood-Inundation Map for " + siteAttr.COMMUNITY + 
-                        " at the U.S. Geological Survey Streamgage Numbers " + siteAttr.SITE_NO + ", " + siteNo_2 + " and " + siteNo_3;
+                    page2MapTitle = "Flood-Inundation Map for " + siteAttr.COMMUNITY;
                     page2MapSubtitle = "Map corresponding to a Gage Height of " + 
                         gageValues[$(".fts1 #floodSlider")[0].value].gageValue + " feet and an Elevation of " + 
                         altitudeValues[$(".fts1 #floodSlider")[0].value].altitudeValue + " feet (NAVD 88) for Streamgage Number " + 
@@ -3706,8 +3722,10 @@ require([
 
                 //sitesLayerPrint.setDefinitionExpression("(Public = 1 OR Public =0) AND (MULTI_SITE = 0 OR MULTI_SITE = 1 OR MULTI_SITE = 3)");
                 //sitesLayerPrint.refresh();
-                map.addLayer(baseLayer,0);
-                map.getLayer("layer0").setVisibility(true);
+                if (map.getLayer("layer0") !== undefined) {
+                    map.addLayer(baseLayer,0);
+                    map.getLayer("layer0").setVisibility(true);
+                }
                 sitesLayerPrint.setVisibility(false);
 
                 for (var j=0; j<layersToReturn.length; j++) {
