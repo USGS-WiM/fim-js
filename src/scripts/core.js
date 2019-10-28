@@ -299,6 +299,8 @@ require([
 
     function showPrintModal() {
         $('#printModal').modal('show');
+        map.getLayer("fimSitesPrint").setVisibility(true);
+        map.getLayer("fimSites").setVisibility(false);
     }
 
     $('#printNavButton').click(function(){
@@ -314,10 +316,10 @@ require([
     $("#printModal").on("click", function(evt) {
         if(evt.target == this || $(evt.target).attr('class') == 'close'){
             //alert("Close the Print Modal")
-            if (sitesLayerPrint != undefined) {
-                sitesLayerPrint.setVisibility(true);
-                map.reorderLayer(sitesLayerPrint,1000);
-            }
+            var sitesLayerPrint = map.getLayer("fimSites");
+            sitesLayerPrint.setVisibility(true);
+            map.reorderLayer(sitesLayerPrint,1000);  
+            map.getLayer("fimSitesPrint").setVisibility(false);
         }else{
             //alert("Don't close the Print Modal");
         }
@@ -3492,6 +3494,9 @@ require([
             headers: {'Accept': '*/*'},
             success: function (data) {
                 
+                var siteNo_print = siteNo;
+                var siteNo_2_print = siteNo_2;
+                var siteNo_3_print = siteNo_3;
 
                 var site_no_for_print = siteAttr["SITE_NO"];
 
@@ -3499,8 +3504,7 @@ require([
 
                 var printAttr;
 
-                sitesLayerPrint = map.getLayer("fimSites");
-                map.reorderLayer(sitesLayerPrint,0);
+                var userTitle = $("#printTitle").val();
                         
                 //if (data.features.length > 0) {
                 if (data.hassite == true) {
@@ -3527,7 +3531,7 @@ require([
 
                     var titleText;
                     if (userTitle == "") {
-                        titleText = "FIM";;
+                        titleText = "FIM";
                     } else {
                         titleText = userTitle;
                     }
@@ -3539,6 +3543,25 @@ require([
                         "customTextElements": [
                             { "mapTitle": printAttr.TITLE },
                             { "mapSeries": printAttr.REP_SER_NUM },
+                            { "uncertainty": "Although the flood-inundation maps represent the " +
+                                            "boundaries of inundated areas with a distinct line, " +
+                                            "some uncertainty is associated with these maps. The " +
+                                            "flood boundaries shown were estimated based on gage " +
+                                            "heights at selected USGS streamgages. Water-surface " +
+                                            "elevations along the stream reaches were estimated by " +
+                                            "steady-state hydraulic modeling, assuming unobstructed " +
+                                            "flow and using discharges and hydrologic conditions " +
+                                            "anticipated at the USGS streamgage(s). The hydraulic " +
+                                            "model reflects the land-cover characteristics of any " +
+                                            "bridge, dam, levee, or other hydraulic structure existing " +
+                                            "in " + printAttr.PUB_DATE + ". Unique meteorological factors " +
+                                            "(timing and distribution of precipitation) may cause " +
+                                            "actual discharges along the modeled reach to vary from " +
+                                            "assumed conditions during a flood and lead to deviations " +
+                                            "in the water-surface elevations and inundation boundaries " +
+                                            "shown. Additional areas may be flooded due to " +
+                                            "unanticipated backwater from major tributaries along " +
+                                            "the main stem or from localized debris or ice jams."},
                             { "studyArea": printAttr.STUDY_AREA },
                             { "purpose": printAttr.PURPOSE_SCOPE },
                             { "mapSources": "Detailed source data for this map series can be found in \"" + printAttr.TITLE + "(" + printAttr.PUB_DATE + ")\" at: " + printAttr.URL },
@@ -3554,39 +3577,19 @@ require([
                     var docTitle = template.layoutOptions.titleText;
                     printParams.template = template;
                     var printMap = new PrintTask("https://fimnew.wim.usgs.gov/server/rest/services/FIMPrint/ExportWebMap/GPServer/Export%20Web%20Map");
-                    //var printMap = new PrintTask("https://fim.wim.usgs.gov/arcgis/rest/services/FIMMapper/printTool/GPServer/printTool");
-                    if (map.getLayer("layer0") !== undefined) {
-                        map.getLayer("layer0").setVisibility(false);
-                    }
         
                     if (page1name == "") {
                         printMap.execute(printParams, printPage1Done, printPage1Error, 'page1');
                         console.log('executed page 1')
                     }
                     
-                    if (map.getLayer("layer0") !== undefined) {
-                        map.getLayer("layer0").setVisibility(true);
-                    }
-                    //sitesLayer.setVisibility(true);
-
                     function printPage1Done(event) {
-                        //alert(event.url);
-                        //window.open(event.url, "_blank");
-                        /*printCount++;
-                        //var printJob = $('<a href="'+ event.url +'" target="_blank">Printout ' + printCount + ' </a>');
-                        var printJob = $('<p><label>' + printCount + ': </label><a href="'+ event.url +'" target="_blank">' + docTitle +' page 1</a></p>');
-                        //$("#print-form").append(printJob);
-                        $("#printJobsDiv").find("p.toRemove").remove();
-                        $("#printModalBody").append(printJob);
-                        $("#printTitle").val("");
-                        $("#printExecuteButton").button('reset');*/
-
                         console.log('page 1 done');
 
                         page1name = event.url.split("gpserver/")[1];
                         console.log("page 1: " + page1name);
 
-                        if (page2name != null) {
+                        if (page2name != null && page2name != "") {
                             pdfMerge();
                             printerations = 0;
                         }
@@ -3601,13 +3604,6 @@ require([
                     no_page_one = true;
                 }
                     
-                //sitesLayer.setVisibility(false);
-
-                var baseLayer = map.getLayer("layer0");
-                if (baseLayer !== undefined) {
-                    map.removeLayer(baseLayer);
-                }
-                
                 var page2PrintParams = new PrintParameters();
                 page2PrintParams.map = map;
 
@@ -3633,21 +3629,13 @@ require([
                 }
 
                 template.preserveScale = false;
-                /*var sitesLegendLayer = new LegendLayer();
-                sitesLegendLayer.layerId = "fimSites";*/
-                //legendLayer.subLayerIds = [*];
-
-                var userTitle = $("#printTitle").val();
 
                 var siteDefExp = "";
 
                 if (siteAttr.MULTI_SITE == '0') {
-                    siteDefExp = "SITE_NO = '" + siteNo + "'";
+                    siteDefExp = "SITE_NO = '" + siteNo_print + "'";
                     //siteToGage = "Map corresponding to a Gage Height of " + currentStage + " feet and an Elevation of " + currentElev + " feet (NAVD 88)";
-                } 
-
-                //sitesLayerPrint.setDefinitionExpression(siteDefExp);
-                //sitesLayerPrint.refresh();
+                }
 
                 var page2MapTitle = "";
                 var page2MapSubtitle = "";
@@ -3659,28 +3647,28 @@ require([
                     page2MapSubtitle = "Map corresponding to a Gage Height of " + 
                         gageValues[$(".fts1 #floodSlider")[0].value].gageValue + " feet and an Elevation of " + 
                         altitudeValues[$(".fts1 #floodSlider")[0].value].altitudeValue + " feet (NAVD 88) for Streamgage Number " + 
-                        siteAttr.SITE_NO; 
+                        siteNo_print; 
                 } else if (siteAttr.MULTI_SITE == 1) {
-                    page2MapTitle = "Flood-Inundation Map for " + siteAttr.COMMUNITY + ", " + siteAttr.STATE;
+                    page2MapTitle = "Flood-Inundation Map for multiple streamgages around " + siteAttr.COMMUNITY + ", " + siteAttr.STATE;
                     page2MapSubtitle = "Map corresponding to a Gage Height of " + 
                         gageValues[$(".fts1 #floodSlider")[0].value].gageValue + " feet and an Elevation of " + 
                         altitudeValues[$(".fts1 #floodSlider")[0].value].altitudeValue + " feet (NAVD 88) for Streamgage Number " + 
-                        siteAttr.SITE_NO +
+                        siteNo_print +
                         "and " + gageValues2[$(".fts2 #floodSlider")[0].value].gageValue + " feet and an Elevation of " + 
                         altitudeValues2[$(".fts2 #floodSlider")[0].value].altitudeValue + " feet (NAVD 88) for Streamgage Number " + 
-                        siteNo_2;
+                        siteNo_2_print;
                 } else if (siteAttr.MULTI_SITE == 2 || siteAttr.MULTI_SITE == 3) {
-                    page2MapTitle = "Flood-Inundation Map for " + siteAttr.COMMUNITY + ", " + siteAttr.STATE;
+                    page2MapTitle = "Flood-Inundation Map for multiple streamgages around " + siteAttr.COMMUNITY + ", " + siteAttr.STATE;
                     page2MapSubtitle = "Map corresponding to a Gage Height of " + 
                         gageValues[$(".fts1 #floodSlider")[0].value].gageValue + " feet and an Elevation of " + 
                         altitudeValues[$(".fts1 #floodSlider")[0].value].altitudeValue + " feet (NAVD 88) for Streamgage Number " + 
-                        siteAttr.SITE_NO +
+                        siteNo_print +
                         " and " + gageValues2[$(".fts2 #floodSlider")[0].value].gageValue + " feet and an Elevation of " + 
                         altitudeValues2[$(".fts2 #floodSlider")[0].value].altitudeValue + " feet (NAVD 88) for Streamgage Number " + 
-                        siteNo_2 +
+                        siteNo_2_print +
                         " and " + gageValues3[$(".fts3 #floodSlider")[0].value].gageValue + " feet and an Elevation of " + 
                         altitudeValues3[$(".fts3 #floodSlider")[0].value].altitudeValue + " feet (NAVD 88) for Streamgage Number " + 
-                        siteNo_3; 
+                        siteNo_3_print; 
                 }
 
                 template.layoutOptions = {
@@ -3699,7 +3687,6 @@ require([
                 var docTitle = template.layoutOptions.titleText;
                 page2PrintParams.template = template;
                 var printMap = new PrintTask("https://fimnew.wim.usgs.gov/server/rest/services/FIMPrint/ExportWebMap/GPServer/Export%20Web%20Map");
-                //var printMap = new PrintTask("https://fim.wim.usgs.gov/arcgis/rest/services/FIMMapper/printTool/GPServer/printTool");
                 
                 var layerIDs = map.layerIds;
                 var graphicLayerIDs = map.graphicsLayerIds;
@@ -3716,69 +3703,48 @@ require([
                     }
                 }
 
-                sitesLayerPrint.setVisibility(true);
-
                 printMap.execute(page2PrintParams, printPage2Done, printPage2Error, 'page2');
                 console.log('executed page 2');
-
-                //sitesLayerPrint.setDefinitionExpression("(Public = 1 OR Public =0) AND (MULTI_SITE = 0 OR MULTI_SITE = 1 OR MULTI_SITE = 3)");
-                //sitesLayerPrint.refresh();
-                if (map.getLayer("layer0") !== undefined) {
-                    map.addLayer(baseLayer,0);
-                    map.getLayer("layer0").setVisibility(true);
-                }
-                sitesLayerPrint.setVisibility(false);
 
                 for (var j=0; j<layersToReturn.length; j++) {
                     map.addLayer(layersToReturn[j]);
                     //console.log("added " + layersToReturn[j]);
                 }
 
-                map.reorderLayer(sitesLayerPrint,100);
-
-                /*map.addLayer("nwsRadar");
-                map.addLayer("fimExtentsMulit");
-                map.addLayer("fimExtentsThreeSites");
-                map.addLayer("fimBreachMulti");
-                map.addLayer("fimGrid1");
-                map.addLayer("fimGrid2");
-                map.addLayer("fimGrid3");
-                map.addLayer("fimGrid4");
-                map.addLayer("floodWatchWarn");
-                map.addLayer("ahpsSites");*/
-
                 function printPage2Done(event) {
-                    //alert(event.url);
-                    //window.open(event.url, "_blank");
-                    /*printCount++;
-                    //var printJob = $('<a href="'+ event.url +'" target="_blank">Printout ' + printCount + ' </a>');
-                    var printJob = $('<p><label>' + printCount + ': </label><a href="'+ event.url +'" target="_blank">' + docTitle +' </a></p>');
-                    //$("#print-form").append(printJob);
-                    $("#printJobsDiv").find("p.toRemove").remove();
-                    $("#printModalBody").append(printJob);
-                    $("#printTitle").val("");
-                    $("#printExecuteButton").button('reset');*/
-
                     console.log('page 2 done');
 
                     page2name = event.url.split("gpserver/")[1];
                     console.log("page 2: " + page2name);
 
-                    if (page1name != null) {
+                    if (page1name != null && page1name != "") {
                         pdfMerge();
                         var times = printerations + 1;
                         console.log("It took " + times + " attempts(s).");
                         printerations = 0;
                     } else if (no_page_one == true) {
+                        var mergedTitle = "Map for site number " + siteNo_print;
+                        if (siteNo_2_print != undefined) {
+                            mergedTitle = "Map for site numbers " + siteNo_print + " and " + siteNo_2_print;
+                        }if (siteNo_3_print != undefined) {
+                            mergedTitle = "Map for site numbers " + siteNo_print + ", " + siteNo_2_print + ", and " + siteNo_3_print;
+                        }
+                        if (userTitle == "") {
+                            //mergedTitle = "Map for site number " + site_no_for_print;
+                        } else {
+                            mergedTitle = userTitle;
+                        }
                         printCount++;
                         //var printJob = $('<a href="'+ event.url +'" target="_blank">Printout ' + printCount + ' </a>');
-                        var printJob = $('<p><label>' + printCount + ': </label><a href="'+ event.url +'" target="_blank">' + docTitle +' </a></p>');
+                        var printJob = $('<p><label>' + printCount + ': </label><a href="'+ event.url +'" target="_blank"> ' + mergedTitle +' </a></p>');
                         //$("#print-form").append(printJob);
                         $("#printJobsDiv").find("p.toRemove").remove();
                         $("#printModalBody").append(printJob);
                         $("#printTitle").val("");
                         $("#printExecuteButton").button('reset');
                         printerations = 0;
+                        page1name = "";
+                        page2name = "";
                     }
                 }
 
@@ -3791,11 +3757,11 @@ require([
                         url: "https://fimnew.wim.usgs.gov/fim-pdf-merge?page1name=" + page1name + "&page2name=" + page2name,
                         headers: {'Accept': '*/*'},
                         success: function (data) {
-                            var mergedTitle = "Map for site number " + siteNo;
-                            if (siteNo_2 != undefined) {
-                                mergedTitle = "Map for site numbers " + siteNo + " and " + siteNo_2;
-                            }if (siteNo_3 != undefined) {
-                                mergedTitle = "Map for site numbers " + siteNo + ", " + siteNo_2 + ", and " + siteNo_3;
+                            var mergedTitle = "Map for site number " + siteNo_print;
+                            if (siteNo_2_print != undefined) {
+                                mergedTitle = "Map for site numbers " + siteNo_print + " and " + siteNo_2_print;
+                            }if (siteNo_3_print != undefined) {
+                                mergedTitle = "Map for site numbers " + siteNo_print + ", " + siteNo_2_print + ", and " + siteNo_3_print;
                             }
                             if (userTitle == "") {
                                 //mergedTitle = "Map for site number " + site_no_for_print;

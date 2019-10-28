@@ -153,13 +153,13 @@ require([
                         "includeLegend" : true
                     }
                 },
-                "FIM sites print": {
-                    "url" : "https://fimnew.wim.usgs.gov/server/rest/services/FIMMapper/sites/MapServer",
+                "FIM sites for print": {
+                    "url" : "https://fimnew.wim.usgs.gov/server/rest/services/FIMPrint/fimPrintTest/MapServer",
                     "options": {
                         "id": "fimSitesPrint",
                         "visibleLayers": [0],
-                        "opacity": 0.75,
-                        "visible": true
+                        "opacity": 1.0,
+                        "visible": false
                     },
                     "wimOptions": {
                         "type": "layer",
@@ -204,25 +204,8 @@ require([
                         "legendPlacement": 0,
                         "layerDefinitions": {1: "prod_type LIKE '%Flood%'"}
                     }
-                },/*
-                "USGS FIM Sites (NWS forecast category)": {
-                    "url" : "https://fimtest.wim.usgs.gov/ArcGIS/rest/services/FIMMapper/fimi_sites_for_legend_js/MapServer",
-                    "options": {
-                        "id": "fimSitesLegend",
-                        "opacity": 1.0,
-                        "visible": true
-                    },
-                    "wimOptions": {
-                        "type": "layer",
-                        "layerType": "agisDynamic",
-                        "includeInLayerList": false,
-                        "hasOpacitySlider": false,
-                        "includeLegend" : true,
-                        "layerIndex": 0,
-                        "legendLabel": false
-                    }
-                },*/
-                "grids1": {
+                },
+                "Depth grids": {
                     "url" : "https://fimnew.wim.usgs.gov/server/rest/services/FIMMapper/grids_1/MapServer",
                     "options": {
                         "id": "fimGrid1",
@@ -234,11 +217,11 @@ require([
                         "layerType": "agisDynamic",
                         "includeInLayerList": false,
                         "hasOpacitySlider": false,
-                        "includeLegend" : true
-                        //"legendLabel": false
+                        "includeLegend" : true,
+                        "legendLabel" : false
                     }
                 },
-                "grids2": {
+                "Depth grids ": {
                     "url" : "https://fimnew.wim.usgs.gov/server/rest/services/FIMMapper/grids_2/MapServer",
                     "options": {
                         "id": "fimGrid2",
@@ -250,11 +233,11 @@ require([
                         "layerType": "agisDynamic",
                         "includeInLayerList": false,
                         "hasOpacitySlider": false,
-                        "includeLegend" : true
-                        //"legendLabel": false
+                        "includeLegend" : true,
+                        "legendLabel" : false
                     }
                 },
-                "grids3": {
+                "Depth grids  ": {
                     "url" : "https://fimnew.wim.usgs.gov/server/rest/services/FIMMapper/grids_3/MapServer",
                     "options": {
                         "id": "fimGrid3",
@@ -268,10 +251,9 @@ require([
                         "hasOpacitySlider": false,
                         "includeLegend" : true,
                         "legendLabel" : false
-                        //"legendLabel": false
                     }
                 },
-                "grids4": {
+                "Depth grids   ": {
                     "url" : "https://fimnew.wim.usgs.gov/server/rest/services/FIMMapper/grids_4/MapServer",
                     "options": {
                         "id": "fimGrid4",
@@ -283,10 +265,10 @@ require([
                         "layerType": "agisDynamic",
                         "includeInLayerList": false,
                         "hasOpacitySlider": false,
-                        "includeLegend" : true
-                        //"legendLabel": false
+                        "includeLegend" : true,
+                        "legendLabel" : false
                     }
-                }//http://fimtest.wim.usgs.gov/ArcGIS/rest/services/FIMTest/grids_1_test/MapServer*/
+                }
             }
         },
         {
