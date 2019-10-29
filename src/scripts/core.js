@@ -3484,6 +3484,8 @@ require([
 
     function printMap() {
 
+        //create some kind of config object to print jobs. maybe can use job number to identify site number used for intial print
+
         //var page1InfoUrl = 'https://fim.wim.usgs.gov/arcgis/rest/services/FIMMapper/FIMpage1design/MapServer/1/query?where=USGSID+LIKE+%27%25' + siteNo + '%25%27&outFields=*&returnGeometry=true&f=json';
         var page1InfoUrl = 'https://fimnew.wim.usgs.gov/fim-page-one?siteno=' +siteNo;
 
@@ -3530,9 +3532,7 @@ require([
                     }
 
                     var titleText;
-                    if (userTitle == "") {
-                        titleText = "FIM";
-                    } else {
+                    if (userTitle != "") {
                         titleText = userTitle;
                     }
 
@@ -3729,9 +3729,7 @@ require([
                         }if (siteNo_3_print != undefined) {
                             mergedTitle = "Map for site numbers " + siteNo_print + ", " + siteNo_2_print + ", and " + siteNo_3_print;
                         }
-                        if (userTitle == "") {
-                            //mergedTitle = "Map for site number " + site_no_for_print;
-                        } else {
+                        if (userTitle != "") {
                             mergedTitle = userTitle;
                         }
                         printCount++;
@@ -3763,9 +3761,7 @@ require([
                             }if (siteNo_3_print != undefined) {
                                 mergedTitle = "Map for site numbers " + siteNo_print + ", " + siteNo_2_print + ", and " + siteNo_3_print;
                             }
-                            if (userTitle == "") {
-                                //mergedTitle = "Map for site number " + site_no_for_print;
-                            } else {
+                            if (userTitle != "") {
                                 mergedTitle = userTitle;
                             }
                             printCount++;
@@ -3788,7 +3784,7 @@ require([
         });
     }
     
-    function printPage2Error(event, page_num = null) {
+    function printPage2Error(event) {
         console.log('page 2 error');
         if (printerations < 5) {
             printerations++;
