@@ -2601,7 +2601,7 @@ require([
                                 $('#hydroChart3').hide();
                                 $('.no-hydro').show();
                                 
-                                var getChartOptions = function(siteNo, finalNWISDataArray, finalNWSDataArray, sliderMax1, floodStageBands){
+                                var getChartOptions = function(siteNo, finalNWISDataArray, finalNWSDataArray, sliderMax1, floodStageBands,slider){
                                     var opts = new Object();
                                     opts.chart = {
                                         type: 'line',
@@ -2626,7 +2626,7 @@ require([
                                             cursor: 'pointer',
                                             events: {
                                                 click: function (event) {
-                                                    snapToFlood(event.point.y,".first-slider");
+                                                    snapToFlood(event.point.y,slider);
                                                 }
                                             }
                                         }
@@ -2702,7 +2702,7 @@ require([
                                 if (finalNWISDataArray.length > 0 || finalNWSDataArray.length > 0) {
                                     $("#hydroChart").show();
                                     // Get options
-                                    var chartOneOptions = getChartOptions(siteNo, finalNWISDataArray, finalNWSDataArray, sliderMax1, floodStageBands);
+                                    var chartOneOptions = getChartOptions(siteNo, finalNWISDataArray, finalNWSDataArray, sliderMax1, floodStageBands,'.first-slider');
                                     
                                     // Cerate Chart
                                     var hydroChart = new Highcharts.Chart('hydroChart', chartOneOptions, function(hydroChart){
@@ -2722,7 +2722,7 @@ require([
                                 if (siteData2 != undefined || finalNWSDataArray2.length > 0) {
                                     $("#hydroChart2").show();
                                     // Get options
-                                    var chartTwoOptions = getChartOptions(siteNo_2, finalNWISDataArray2, finalNWSDataArray2, sliderMax2, floodStageBands2);
+                                    var chartTwoOptions = getChartOptions(siteNo_2, finalNWISDataArray2, finalNWSDataArray2, sliderMax2, floodStageBands2,'.second-slider');
                                     // Create Chart
                                     var hydroChart2 = new Highcharts.Chart('hydroChart2', chartTwoOptions, function(hydroChart2){
                                         console.log("Chart Two Loaded")
@@ -2740,7 +2740,7 @@ require([
                                 if (siteData3 != undefined || finalNWSDataArray3.length > 0) {
                                     $("#hydroChart3").show();
                                     // Get options
-                                    var chartThreeOptions = getChartOptions(siteNo_3, finalNWISDataArray3, finalNWSDataArray3, sliderMax3, floodStageBands3);
+                                    var chartThreeOptions = getChartOptions(siteNo_3, finalNWISDataArray3, finalNWSDataArray3, sliderMax3, floodStageBands3,'.third-slider');
                                     // Create Chart
                                     var hydroChart3 = new Highcharts.Chart('hydroChart3', chartThreeOptions, function(hydroChart3){
                                         console.log("Chart Three Loaded")
