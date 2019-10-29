@@ -41,7 +41,7 @@
     <script src="bower_components/highcharts/highcharts.js"></script>
     <script src="bower_components/bootstrap-sidebar/dist/js/sidebar.js"></script>
     <!-- <script src="bower_components/bootstrap-map-js/dist/js/bootstrapmap.min.js"></script> -->
-s
+
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -243,10 +243,7 @@ USGS Bar
                 <label>NWS Site ID:</label>
                 <a id="nwsSiteID" class="value" target="_blank" href=""></a>
             </div>
-            <div class="item nws-data-req">
-                <label>Selected gage height:</label>
-                <div class="value label-ft slider-min update"></div>
-            </div>
+			<!-- Current Conditions -->
             <div class="section-header">Current Conditions</div>
             <div class="item">
                 <label>Gage height:</label>
@@ -255,7 +252,21 @@ USGS Bar
             <div class="item">
                 <label>Discharge:</label>
                 <div class="value label-cfs" id="floodDischarge"></div>
+			</div>
+			<!-- Selected Conditions -->
+            <div class="section-header">Selected Conditions</div>
+			<div class="item">
+                <label>Gage height:</label>
+                <div class="value label-ft slider-min update"></div>
             </div>
+            <div class="item">
+                <label>Discharge:</label>
+                <div class="value label-cfs" id="floodDischargeSelected"></div>
+			</div>
+            <div class="item">
+                <label>Altitude:</label>
+                <div class="value label-cfs" id="altitudeSelected"></div>
+			</div>
         </div>
 
         <!-- Site Two -->
@@ -268,10 +279,7 @@ USGS Bar
                 <label>NWS Site ID:</label>
                 <a id="nwsSiteID" class="value" target="_blank" href=""></a>
             </div>
-            <div class="item nws-data-req">
-                <label>Selected gage height:</label>
-                <div class="value label-ft slider-min update"></div>
-            </div>
+			<!-- Current Conditions -->
             <div class="section-header">Current Conditions</div>
             <div class="item">
                 <label>Gage height:</label>
@@ -280,7 +288,21 @@ USGS Bar
             <div class="item">
                 <label>Discharge:</label>
                 <div class="value label-cfs" id="floodDischarge"></div>
+			</div>
+			<!-- Selected Conditions -->
+			<div class="section-header">Selected Conditions</div>
+			<div class="item">
+                <label>Gage height:</label>
+                <div class="value label-ft slider-min update"></div>
             </div>
+            <div class="item">
+                <label>Discharge:</label>
+                <div class="value label-cfs" id="floodDischargeSelected"></div>
+			</div>
+            <div class="item">
+                <label>Altitude:</label>
+                <div class="value label-cfs" id="altitudeSelected"></div>
+			</div>
         </div>
 
 
@@ -294,10 +316,7 @@ USGS Bar
                 <label>NWS Site ID:</label>
                 <a id="nwsSiteID" class="value" target="_blank" href=""></a>
             </div>
-            <div class="item nws-data-req">
-                <label>Selected gage height:</label>
-                <div class="value label-ft slider-min update"></div>
-            </div>
+			<!-- Current Conditions -->
             <div class="section-header">Current Conditions</div>
             <div class="item">
                 <label>Gage height:</label>
@@ -306,7 +325,21 @@ USGS Bar
             <div class="item">
                 <label>Discharge:</label>
                 <div class="value label-cfs" id="floodDischarge"></div>
+			</div>
+			<!-- Selected Conditions -->
+			<div class="section-header">Selected Conditions</div>
+			<div class="item">
+                <label>Gage height:</label>
+                <div class="value label-ft slider-min update"></div>
             </div>
+            <div class="item">
+                <label>Discharge:</label>
+                <div class="value label-cfs" id="floodDischargeSelected"></div>
+			</div>
+            <div class="item">
+                <label>Altitude:</label>
+                <div class="value label-cfs" id="altitudeSelected"></div>
+			</div>
         </div>
 
 
@@ -852,35 +885,53 @@ $(".close-alert").click(function(){
                             <div id="ftOptions">
 
 								<!-- Selected Gage Heights -->
-								<div class="selected-gage-height">
+								<div class="ft-options-row">
 									<small>Selected Gage Height:</small>
-									<div class="sgh-flex">
+									<div class="ft-options-flex">
 										<!-- Site One -->
-										<div id="sgh" class="fts1">
+										<div id="optionData" class="fts1">
 											<label for="floodSlider" class="slider-min update"></label>
 										</div>
 										<!-- Site Two -->
-										<div id="sgh" class="fts2">
+										<div id="optionData" class="fts2">
 											<label for="floodSlider" class="slider-min update"></label>
 										</div>
 										<!-- Site Three -->
-										<div id="sgh" class="fts3">
+										<div id="optionData" class="fts3">
 											<label for="floodSlider" class="slider-min update"></label>
+										</div>
+									</div>
+								</div>
+								<!-- Altitude -->
+								<div class="ft-options-row">
+									<small>Altitude:</small>
+									<div class="ft-options-flex">
+										<!-- Site One -->
+										<div id="optionData" class="fts1">
+											<label id="altitudeSelected"></label>
+										</div>
+										<!-- Site Two -->
+										<div id="optionData" class="fts2">
+											<label id="altitudeSelected"></label>
+										</div>
+										<!-- Site Three -->
+										<div id="optionData" class="fts3">
+											<label id="altitudeSelected"></label>
 										</div>
 									</div>
 								</div>
 
 								<!-- Checkboxes -->
 								<div class="ft-option-checkboxes">
-									<div id="satBasemap" class="ft-option">
+									<div id="satBasemap" class="ft-checkbox">
 										<input id="satCheckBox" type="checkbox" checked />
 										<label for="satCheckBox" id="satBasemap">View Satellite Imagery</label>
 									</div>
-									<div id="gridsCheck" class="ft-option">
+									<div id="gridsCheck" class="ft-checkbox">
 										<input id="gridsCheckBox" type="checkbox" />
 										<label for="gridsCheckBox">View grids</label>
 									</div>
-									<div id="aouCheck" class="ft-option">
+									<div id="aouCheck" class="ft-checkbox">
 										<input id="aouCheckBox" type="checkbox" checked />
 										<label for="aouCheckBox" id="aouCheck">Include Area of Uncertainty</label>
 									</div>
@@ -937,11 +988,11 @@ $(".close-alert").click(function(){
                                     <span>Services & Data</span>
                                     <i class="far fa-server"></i>
                                 </div>
-                                <div class="ft-tab ft-webcam-tab" data-toggle="ftWebcam" onclick="ga('send','event','Webcam Panel','click','More Info');">
+                                <div class="ft-tab ft-webcam-tab" data-toggle="ftWebcam" onclick="ga('send','event','Webcam Panel','click','Webcam');">
                                     <span>Webcam</span>
                                     <i class="far fa-video"></i>
                                 </div>
-                                <a class="ft-tab ft-webcam-link-tab" href="" target="_blank" onclick="ga('send','event','Webcam Panel','click','More Info');">
+                                <a class="ft-tab ft-webcam-link-tab" href="" target="_blank" onclick="ga('send','event','Webcam Panel','click','Webcam');">
                                     <span>Webcam</span>
                                     <i class="far fa-video"></i>
                                 </a>
@@ -959,32 +1010,56 @@ $(".close-alert").click(function(){
                                 -->
                             <div id="ftTools" class="ftmodal-content">                                
 
-                                <!-- Current Conditions Table -->
-                                <div class="small-label">Current Conditions</div>
-                                <div id="toolsTable">
-                                    <!-- Discharge -->
-                                    <div class="box bold">Discharge</div>
-                                    <div class="box fts1"><label id="floodDischarge" class="label-cfs"></label></div>
-                                    <div class="box fts2"><label id="floodDischarge" class="label-cfs"></label></div>
-                                    <div class="box fts3"><label id="floodDischarge" class="label-cfs"></label></div>
-                                    <div class="tools-table-space"></div>
+                                <!-- Site Info Table -->
+                                <div class="small-label">Site Info</div>
+                                <div class="tools-table">
                                     <!-- Site No -->
                                     <div class="box bold">USGS Site No</div>
-                                    <div class="box fts1"><a id="usgsSiteNo" target="_blank" href=""></a></div>
-                                    <div class="box fts2"><a id="usgsSiteNo" target="_blank" href=""></a></div>
-                                    <div class="box fts3"><a id="usgsSiteNo" target="_blank" href=""></a></div>
+                                    <div class="box fts1"><a id="usgsSiteNo" target="_blank" alt="" title="" href=""></a></div>
+                                    <div class="box fts2"><a id="usgsSiteNo" target="_blank" alt="" title="" href=""></a></div>
+                                    <div class="box fts3"><a id="usgsSiteNo" target="_blank" alt="" title="" href=""></a></div>
                                     <div class="tools-table-space"></div>
                                     <!-- Site ID -->
                                     <div class="box bold">NWS Site ID</div>
                                     <div class="box fts1"><a id="nwsSiteID" target="_blank" href=""></a></div>
                                     <div class="box fts2"><a id="nwsSiteID" target="_blank" href=""></a></div>
                                     <div class="box fts3"><a id="nwsSiteID" target="_blank" href=""></a></div>
+                                </div>
+                                <!-- Current Conditions Table -->
+                                <div class="small-label">Current Conditions</div>
+                                <div class="tools-table">
+                                    <!-- Discharge -->
+                                    <div class="box bold">Discharge</div>
+                                    <div class="box fts1"><label id="floodDischarge" class="label-cfs"></label></div>
+                                    <div class="box fts2"><label id="floodDischarge" class="label-cfs"></label></div>
+                                    <div class="box fts3"><label id="floodDischarge" class="label-cfs"></label></div>
                                     <div class="tools-table-space"></div>
                                     <!-- Gage Heights -->
                                     <div id="currentValue" class="box bold">Gage Height</div>
                                     <div class="box fts1"><label id="floodGage" class="label-ft"></label></div>
                                     <div class="box fts2"><label id="floodGage" class="label-ft"></label></div>
                                     <div class="box fts3"><label id="floodGage" class="label-ft"></label></div>
+                                </div>
+                                <!-- Selected Conditions Table -->
+                                <div class="small-label">Selected Conditions</div>
+                                <div class="tools-table">
+									<!-- Site No -->
+									<div class="box bold">Gage Height</div>
+									<div class="box fts1"><div class="value label-ft slider-min update"></div></div>
+									<div class="box fts2"><div class="value label-ft slider-min update"></div></div>
+									<div class="box fts3"><div class="value label-ft slider-min update"></div></div>
+									<div class="tools-table-space"></div>
+                                    <!-- Discharge -->
+                                    <div class="box bold">Discharge</div>
+                                    <div class="box fts1"><label id="floodDischargeSelected" class="label-cfs"></label></div>
+                                    <div class="box fts2"><label id="floodDischargeSelected" class="label-cfs"></label></div>
+                                    <div class="box fts3"><label id="floodDischargeSelected" class="label-cfs"></label></div>
+                                    <div class="tools-table-space"></div>
+                                    <!-- Site ID -->
+                                    <div class="box bold">Altitude</div>
+                                    <div class="box fts1"><label id="altitudeSelected" class="label-ft"></label></div>
+                                    <div class="box fts2"><label id="altitudeSelected" class="label-ft"></label></div>
+                                    <div class="box fts3"><label id="altitudeSelected" class="label-ft"></label></div>
                                 </div>
 
                                 <!-- Zoom -->

@@ -1,3 +1,10 @@
+// TODO
+// Update #altitudeSelected with altitude 
+// Update #floodDischargeSelected with selected discharge
+// with .fts1 .fts2 .fts3
+// Change alt and title for multi site to correct state/city
+
+
 //for jshint
 'use strict';
 // Generated on 2015-04-13 using generator-wim 0.0.1
@@ -907,7 +914,7 @@ require([
                             var siteObj = fimSiteAHPSLookup.filter(obj => { return obj.site_no === siteNo_2 });
                             if (siteObj && siteObj[0] && siteObj[0].ahps_id) {
                                 ahpsID_2 = siteObj[0].ahps_id;
-                            }
+							}
                         } else if (sites.features[i].attributes.ordinal == 3) {
                             siteNo_3 = sites.features[i].attributes.site_no;
                             if (siteNo_3.toString().length == 7) { 
@@ -1152,21 +1159,27 @@ require([
                 $("[id*='Tab']").parents("li").removeClass("active");
                 $(".nav-tabs #floodToolsTab").tab("show");
 
-
+				// Set site links, titles
                 $(".fts1 #usgsSiteNo").text(siteNo);
                 $(".fts1 #usgsSiteNo").attr("href", "https://waterdata.usgs.gov/nwis/uv?site_no="+siteNo);
                 $(".fts1 #nwsSiteID").text(ahpsID);
-                $(".fts1 #nwsSiteID").attr("href", "https://water.weather.gov/ahps2/hydrograph.php?gage="+feature.attributes.AHPS_ID);
-                
+                $(".fts1 #nwsSiteID").attr("href", "https://water.weather.gov/ahps2/hydrograph.php?gage="+ahpsID);
+				$(".fts1 #usgsSiteNo").attr("alt", attr["STATE"] + ": " + attr["COMMUNITY"]);
+				$(".fts1 #usgsSiteNo").attr("title", attr["STATE"] + ": " + attr["COMMUNITY"]);
+
                 $(".fts2 #usgsSiteNo").text(siteNo_2);
                 $(".fts2 #usgsSiteNo").attr("href", "https://waterdata.usgs.gov/nwis/uv?site_no="+siteNo_2);
                 $(".fts2 #nwsSiteID").text(ahpsID_2);
                 $(".fts2 #nwsSiteID").attr("href", "https://water.weather.gov/ahps2/hydrograph.php?gage="+ahpsID_2);
-                
-                $(".fts3 #usgsSiteNo").text(siteNo_3);
+				$(".fts2 #usgsSiteNo").attr("alt", attr["STATE"] + ": " + attr["COMMUNITY"]);
+				$(".fts2 #usgsSiteNo").attr("title", attr["STATE"] + ": " + attr["COMMUNITY"]);
+
+				$(".fts3 #usgsSiteNo").text(siteNo_3);
                 $(".fts3 #usgsSiteNo").attr("href", "https://waterdata.usgs.gov/nwis/uv?site_no="+siteNo_3);
                 $(".fts3 #nwsSiteID").text(ahpsID_3);
                 $(".fts3 #nwsSiteID").attr("href", "https://water.weather.gov/ahps2/hydrograph.php?gage="+ahpsID_3);
+				$(".fts3 #usgsSiteNo").attr("alt", attr["STATE"] + ": " + attr["COMMUNITY"]);
+				$(".fts3 #usgsSiteNo").attr("title", attr["STATE"] + ": " + attr["COMMUNITY"]);
 
                 if (attr.HAS_GRIDS == 1) {
                     $("#gridLabel").show();
@@ -1204,7 +1217,6 @@ require([
                         if (data.features && data.features.length > 0) {
                             $("#moreInfo").text(data.features[0].attributes.ADD_INFO);
                             $(".ft-more-info-tab").show();
-                            $(".ft-more-info-tab").click();
                         } else {
                             $("#moreInfo").text("Loading...");
                             $(".ft-more-info-tab").hide();
@@ -1580,7 +1592,9 @@ require([
 
                         sliderSetup(results);
 
-                        $("#floodToolsModalHeader").text(attr["STATE"] + ": " + attr["COMMUNITY"]);
+						// Set Flood Tools Title
+						$("#floodToolsModalHeader").text(attr["STATE"] + ": " + attr["COMMUNITY"]);
+
                         $("#shareLink").click(function() {
                             showShareModal();
                         });
@@ -1731,7 +1745,7 @@ require([
 
                                 } else if (siteAttr["MULTI_SITE"] == 1) {
                                     if ($(this).hasClass('first-slider')) {
-                                        $(".fts1 .slider-min.update").text(gageValues[this.value].gageValue);
+										$(".fts1 .slider-min.update").text(gageValues[this.value].gageValue);
                                     } else if ($(this).hasClass('second-slider')) {
                                         $(".fts2 .slider-min.update").text(gageValues2[this.value].gageValue);
                                     }
@@ -1753,15 +1767,17 @@ require([
                                         if (currentSlider2Value < parseFloat(tempPairValue[0].pairStage)) {
                                             for (var i = 0; i < gageValues2.length; i++) {
                                                 if (gageValues2[i].gageValue == parseFloat(tempPairValue[0].pairStage)) {
-                                                    $(".fts2 #floodSlider")[0].value = i;
-                                                    //slideWarningShow();
+													$(".fts2 #floodSlider")[0].value = i;
+													//slideWarningShow();
+													$(".fts2 .slider-min.update").text(gageValues2[$(".fts2 #floodSlider")[0].value].gageValue);
                                                     break;
                                                 }
                                             }
                                         } else if (currentSlider2Value > parseFloat(tempPairValue[tempPairValue.length-1].pairStage)) {
                                             for (i=0;i<gageValues2.length;i++) {
                                                 if (gageValues2[i].gageValue == parseFloat(tempPairValue[tempPairValue.length-1].pairStage)) {
-                                                    $(".fts2 #floodSlider")[0].value = i;
+													$(".fts2 #floodSlider")[0].value = i;
+													$(".fts2 .slider-min.update").text(gageValues2[$(".fts2 #floodSlider")[0].value].gageValue);
                                                     //slideWarningShow();
                                                     break;
                                                 }
@@ -1782,7 +1798,9 @@ require([
                                         if (currentSlider1Value < parseFloat(tempPairValue[0].pairStage)) {
                                             for (i=0;i<gageValues.length;i++) {
                                                 if (gageValues[i].gageValue == parseFloat(tempPairValue[0].pairStage)) {
-                                                    $(".fts1 #floodSlider")[0].value = i;
+													$(".fts1 #floodSlider")[0].value = i;
+													// Update current slider value
+													$(".fts1 .slider-min.update").text(gageValues[$(".fts1 #floodSlider")[0].value].gageValue);
                                                     //slideWarningShow();
                                                     break;
                                                 }
@@ -1790,7 +1808,9 @@ require([
                                         } else if (currentSlider1Value > parseFloat(tempPairValue[tempPairValue.length-1].pairStage)) {
                                             for (i=0;i<gageValues.length;i++) {
                                                 if (gageValues[i].gageValue == parseFloat(tempPairValue[tempPairValue.length-1].pairStage)) {
-                                                    $(".fts1 #floodSlider")[0].value = i;
+													$(".fts1 #floodSlider")[0].value = i;
+													// Update current slider value
+													$(".fts1 .slider-min.update").text(gageValues[$(".fts1 #floodSlider")[0].value].gageValue);
                                                     //slideWarningShow();
                                                     break;
                                                 }
@@ -1855,7 +1875,8 @@ require([
                                             for (var i = 0; i < gageValues2.length; i++) {
                                                 if (gageValues2[i].gageValue == parseFloat(tempPairValue[0].pairStage2)) {
                                                     $(".fts2 #floodSlider")[0].value = i;
-                                                    //slideWarningShow();
+													//slideWarningShow();
+													$(".fts2 .slider-min.update").text(gageValues2[$(".fts2 #floodSlider")[0].value].gageValue);													
                                                     break;
                                                 }
                                             }
@@ -1863,7 +1884,8 @@ require([
                                             for (i=0;i<gageValues2.length;i++) {
                                                 if (gageValues2[i].gageValue == parseFloat(tempPairValue[tempPairValue.length-1].pairStage2)) {
                                                     $(".fts2 #floodSlider")[0].value = i;
-                                                    //slideWarningShow();
+													//slideWarningShow();
+													$(".fts2 .slider-min.update").text(gageValues2[$(".fts2 #floodSlider")[0].value].gageValue);													
                                                     break;
                                                 }
                                             }
@@ -1883,7 +1905,8 @@ require([
                                         if (currentSlider3Value < parseFloat(newTempPair[0].value.pairStage3)) {
                                             for (var i = 0; i < gageValues3.length; i++) {
                                                 if (gageValues3[i].gageValue == parseFloat(newTempPair[0].value.pairStage3)) {
-                                                    $(".fts3 #floodSlider")[0].value = i;
+													$(".fts3 #floodSlider")[0].value = i;
+													$(".fts3 .slider-min.update").text(gageValues3[$(".fts3 #floodSlider")[0].value].gageValue);													
                                                     //slideWarningShow();
                                                     break;
                                                 }
@@ -1891,7 +1914,8 @@ require([
                                         } else if (currentSlider3Value > parseFloat(newTempPair[newTempPair.length-1].value.pairStage3)) {
                                             for (i=0;i<gageValues3.length;i++) {
                                                 if (gageValues3[i].gageValue == parseFloat(newTempPair[newTempPair.length-1].value.pairStage3)) {
-                                                    $(".fts3 #floodSlider")[0].value = i;
+													$(".fts3 #floodSlider")[0].value = i;
+													$(".fts3 .slider-min.update").text(gageValues3[$(".fts3 #floodSlider")[0].value].gageValue);													
                                                     //slideWarningShow();
                                                     break;
                                                 }
@@ -1913,7 +1937,8 @@ require([
                                             for (i=0;i<gageValues.length;i++) {
                                                 if (gageValues[i].gageValue == parseFloat(tempPairValue[0].pairStage1)) {
                                                     $(".fts1 #floodSlider")[0].value = i;
-                                                    //slideWarningShow();
+													//slideWarningShow();
+													$(".fts1 .slider-min.update").text(gageValues[$(".fts1 #floodSlider")[0].value].gageValue);													
                                                     break;
                                                 }
                                             }
@@ -1921,7 +1946,8 @@ require([
                                             for (i=0;i<gageValues.length;i++) {
                                                 if (gageValues[i].gageValue == parseFloat(tempPairValue[tempPairValue.length-1].pairStage1)) {
                                                     $(".fts1 #floodSlider")[0].value = i;
-                                                    //slideWarningShow();
+													//slideWarningShow();
+													$(".fts1 .slider-min.update").text(gageValues[$(".fts1 #floodSlider")[0].value].gageValue);													
                                                     break;
                                                 }
                                             }
@@ -1941,7 +1967,8 @@ require([
                                         if (currentSlider3Value < parseFloat(newTempPair[0].value.pairStage3)) {
                                             for (var i = 0; i < gageValues3.length; i++) {
                                                 if (gageValues3[i].gageValue == parseFloat(newTempPair[0].value.pairStage3)) {
-                                                    $(".fts3 #floodSlider")[0].value = i;
+													$(".fts3 #floodSlider")[0].value = i;
+													$(".fts3 .slider-min.update").text(gageValues3[$(".fts3 #floodSlider")[0].value].gageValue);													
                                                     //slideWarningShow();
                                                     break;
                                                 }
@@ -1949,7 +1976,8 @@ require([
                                         } else if (currentSlider3Value > parseFloat(newTempPair[newTempPair.length-1].value.pairStage3)) {
                                             for (i=0;i<gageValues3.length;i++) {
                                                 if (gageValues3[i].gageValue == parseFloat(newTempPair[newTempPair.length-1].value.pairStage3)) {
-                                                    $(".fts3 #floodSlider")[0].value = i;
+													$(".fts3 #floodSlider")[0].value = i;
+													$(".fts3 .slider-min.update").text(gageValues3[$(".fts3 #floodSlider")[0].value].gageValue);													
                                                     //slideWarningShow();
                                                     break;
                                                 }
@@ -1970,7 +1998,8 @@ require([
                                         if (currentSlider2Value < parseFloat(tempPairValue[0].pairStage2)) {
                                             for (var i = 0; i < gageValues2.length; i++) {
                                                 if (gageValues2[i].gageValue == parseFloat(tempPairValue[0].pairStage2)) {
-                                                    $(".fts2 #floodSlider")[0].value = i;
+													$(".fts2 #floodSlider")[0].value = i;
+													$(".fts2 .slider-min.update").text(gageValues2[$(".fts2 #floodSlider")[0].value].gageValue);																										
                                                     //slideWarningShow();
                                                     break;
                                                 }
@@ -1979,7 +2008,8 @@ require([
                                             for (i=0;i<gageValues2.length;i++) {
                                                 if (gageValues2[i].gageValue == parseFloat(tempPairValue[tempPairValue.length-1].pairStage2)) {
                                                     $(".fts2 #floodSlider")[0].value = i;
-                                                    //slideWarningShow();
+													//slideWarningShow();
+													$(".fts2 .slider-min.update").text(gageValues2[$(".fts2 #floodSlider")[0].value].gageValue);																										
                                                     break;
                                                 }
                                             }
@@ -2000,7 +2030,8 @@ require([
                                             for (i=0;i<gageValues.length;i++) {
                                                 if (gageValues[i].gageValue == parseFloat(newTempPair[0].value.pairStage1)) {
                                                     $(".fts1 #floodSlider")[0].value = i;
-                                                    //slideWarningShow();
+													//slideWarningShow();
+													$(".fts1 .slider-min.update").text(gageValues[$(".fts1 #floodSlider")[0].value].gageValue);																																							
                                                     break;
                                                 }
                                             }
@@ -2008,7 +2039,8 @@ require([
                                             for (i=0;i<gageValues.length;i++) {
                                                 if (gageValues[i].gageValue == parseFloat(newTempPair[newTempPair.length-1].value.pairStage1)) {
                                                     $(".fts1 #floodSlider")[0].value = i;
-                                                    //slideWarningShow();
+													//slideWarningShow();
+													$(".fts1 .slider-min.update").text(gageValues[$(".fts1 #floodSlider")[0].value].gageValue);																																							
                                                     break;
                                                 }
                                             }
@@ -2227,9 +2259,9 @@ require([
                                 if (finalNWISDataArray2.length > 0) { 
                                     var val = finalNWISDataArray2[finalNWISDataArray2.length-1][1];
                                     if(val > gageValues2[0].gageValue){
-                                        $(".floodSlider.second-slider").value = val;
+										$(".floodSlider.second-slider").value = val;
                                     }else{console.log("Current height lower")}
-                                    $('.fts2 #floodGage').text(val);
+									$('.fts2 #floodGage').text(val);
                                 }
                                 // Site Two Discharge
                                 if (dischargeIndex2 != null && siteData2 && siteData2.data[dischargeIndex2].time_series_data.length > 0 && siteData2.data[dischargeIndex2].time_series_data[siteData2.data[dischargeIndex2].time_series_data.length-1][1] != null) {
@@ -2295,12 +2327,25 @@ require([
                                 // ========================================================================
                                 // ========================================================================
 
-                                function getFloodStages(data) {
+                                function getFloodStages(data, siteNo) {
+
+									console.log("LOGGING DATA")
+									console.log("LOGGING DATA")
+									console.log("LOGGING DATA")
+									console.log(data);
+									console.log(ahpsID_2);
 
                                     // If NWS Data does not exist
                                     if(data[0].getElementsByTagName("response")[0]){
-                                        console.log("NWS Data Not Available");
-                                        $(".nws-data-req").addClass("nws-data-hidden");
+										console.log("NWS Data Not Available");
+										
+										if(siteNo == 1){
+											$(".nws-data-req-1").addClass("nws-data-hidden");
+										}else if(siteNo == 2){
+											$(".nws-data-req-2").addClass("nws-data-hidden");
+										}else if(siteNo == 3){
+											$(".nws-data-req-3").addClass("nws-data-hidden");
+										}
                                         
                                         floodToolsError("nws");
 
@@ -2419,7 +2464,7 @@ require([
                                 // ===============================================================
                                 // ===============================================================
 
-                                var sliderStages = getFloodStages(nwsData);
+                                var sliderStages = getFloodStages(nwsData, 1);
 
                                 var sliderMax1;
                                 if (gageValues.length > 0) {
@@ -2487,9 +2532,12 @@ require([
                                 } else if (attr["MULTI_SITE"] > 0) {
                                     console.log("Multi Site");
                                     console.log("Site 2 NWS Data")
-                                    console.log(nwsData2)
+									console.log(nwsData2)
+									
+									// Change flood tools header to site numbers
+									$("#floodToolsModalHeader").text("Site Numbers " + siteNo + " & " + siteNo_2);
                                     
-                                    var sliderStages2 = getFloodStages(nwsData2);
+                                    var sliderStages2 = getFloodStages(nwsData2, 2);
                                     var sliderMax2;
                                     if (gageValues2.length > 0) {
                                         sliderMax2 = gageValues2[gageValues2.length-1].gageValue;
@@ -2531,10 +2579,13 @@ require([
                                 if (attr["MULTI_SITE"] > 1) {
                                     console.log("Triple Site");
                                     console.log("Site 3 NWS Data")
-                                    console.log(nwsData3)
+									console.log(nwsData3)
+									// Change flood tools header to site numbers
+									$("#floodToolsModalHeader").text("Site Numbers" + siteNo + " & " + siteNo_2 + ", & " + siteNo_3);
+
 
                                     
-                                    var sliderStages3 = getFloodStages(nwsData3);
+                                    var sliderStages3 = getFloodStages(nwsData3, 3);
                                     var sliderMax3;
                                     if (gageValues3.length > 0) {
                                         sliderMax3 = gageValues3[gageValues3.length-1].gageValue;
@@ -2746,14 +2797,14 @@ require([
                                 // ===============================================================
                                 // ===============================================================
 
-                                // Set Default Tab
-                                // Default to hydro tab if NWS data available
-                                // NWS not available - default to main
-                                if($(".ft-hydro-tab").hasClass("nws-data-hidden")){
-                                    console.log("Open Main")
+								// Set Default Tab
+								// Default to More info tab, then Hydro,
+								// If unavailable, default to main
+								if($(".ft-more-info-tab").is(":visible")){
+									$(".ft-more-info-tab").click();
+								}else if($(".ft-hydro-tab").hasClass("nws-data-hidden")){ // If hydro unavailable, open main
                                     $(".ft-main-tab").click();
-                                }else{ // NWS Available - Hydro Tab
-                                    console.log("Open Hydro")
+                                }else{ // Else default to hydro if available
                                     $(".ft-hydro-tab").click();
                                 }
 
