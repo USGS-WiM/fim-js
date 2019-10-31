@@ -2603,6 +2603,22 @@ require([
                                 
                                 var getChartOptions = function(siteNo, finalNWISDataArray, finalNWSDataArray, sliderMax1, floodStageBands,slider){
                                     var opts = new Object();
+
+                                    //Calculate the minimum value for y-axis to find negative values. Use 0 if no negative values
+                                    var yMin = 0;
+
+                                    $.each(finalNWISDataArray, function(key, value) {
+                                        if (value[1] < 0 && value[1] < yMin) {
+                                            yMin = value[1];
+                                        }
+                                    });
+
+                                    $.each(finalNWSDataArray, function(key, value) {
+                                         if (value[1] < 0 && value[1] < yMin) {
+                                            yMin = value[1];
+                                        }
+                                    });
+
                                     opts.chart = {
                                         type: 'line',
                                         height: highChartHeight,
@@ -2655,7 +2671,7 @@ require([
                                         tickInterval: 24*3600*1000
                                     };
                                     opts.yAxis = {
-                                        min: 0,
+                                        min: yMin,
                                         max: sliderMax1,
                                         endOnTick: false,
                                         resize: {
