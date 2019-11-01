@@ -2358,6 +2358,19 @@ input[type=range].styled:focus::-ms-fill-upper {
 #ftModal #ftData #ftTools .tools-table .box .label-cfs:after {
   content: 'cfs';
 }
+#ftModal #ftData #ftTools .tools-table .box #siteName {
+  overflow: visible;
+  text-overflow: ellipsis;
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: -0.3px;
+  padding-right: 5px;
+  max-height: 20px;
+  min-height: 20px;
+  line-height: 11px;
+  box-sizing: border-box;
+  padding-bottom: 12px;
+}
 #ftModal #ftData #ftTools #toolsButtons {
   display: block;
   padding-top: 15px;

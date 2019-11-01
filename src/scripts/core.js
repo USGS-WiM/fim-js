@@ -1,5 +1,5 @@
 // TODO
-// Update #altitudeSelected with altitude 
+// Update #elevationSelected with altitude/Elevation 
 // Update #floodDischargeSelected with selected discharge
 // with .fts1 .fts2 .fts3
 // Change alt and title for multi site to correct state/city
@@ -523,8 +523,10 @@ require([
 
     var closeFloodTools = function(){
 		clearFTValues();
-        map.getLayer("fimExtents").setVisibility(false);
-        map.getLayer("fimGrid"+siteAttr.GRID_SERV).setVisibility(false);
+		map.getLayer("fimExtents").setVisibility(false);
+		if (map.getLayer("fimGrid"+siteAttr.GRID_SERV) !== undefined) {
+			map.getLayer("fimGrid"+siteAttr.GRID_SERV).setVisibility(false);
+		}
         map.getLayer("fimBreach").setVisibility(false);
         map.getLayer("fimSuppLyrs").setVisibility(false);
         map.getLayer("fimExtentsMulti").setVisibility(false);
@@ -543,7 +545,7 @@ require([
         }
 		map.infoWindow.hide();
 	}
-	
+
 	// Reset and Clear values, hide things for next time
 	var clearFTValues = function(){
 
@@ -872,8 +874,8 @@ require([
                             sitePopup(evt, featureSet);
                         }
                     }
-                }
-                
+				}
+				                
             }
 
             var sitePopup = function(evt, sites = null) {
@@ -1166,6 +1168,10 @@ require([
                 $(".fts1 #nwsSiteID").attr("href", "https://water.weather.gov/ahps2/hydrograph.php?gage="+ahpsID);
 				$(".fts1 #usgsSiteNo").attr("alt", attr["STATE"] + ": " + attr["COMMUNITY"]);
 				$(".fts1 #usgsSiteNo").attr("title", attr["STATE"] + ": " + attr["COMMUNITY"]);
+				$(".fts1 #siteName").text(attr["STATE"] + ": " + attr["COMMUNITY"])
+				$(".fts2 #siteName").text(attr["STATE"] + ": " + attr["COMMUNITY"])
+				$(".fts3 #siteName").text(attr["STATE"] + ": " + attr["COMMUNITY"])
+
 
                 $(".fts2 #usgsSiteNo").text(siteNo_2);
                 $(".fts2 #usgsSiteNo").attr("href", "https://waterdata.usgs.gov/nwis/uv?site_no="+siteNo_2);
@@ -2338,14 +2344,7 @@ require([
                                     // If NWS Data does not exist
                                     if(data[0].getElementsByTagName("response")[0]){
 										console.log("NWS Data Not Available");
-										
-										if(siteNo == 1){
-											$(".nws-data-req-1").addClass("nws-data-hidden");
-										}else if(siteNo == 2){
-											$(".nws-data-req-2").addClass("nws-data-hidden");
-										}else if(siteNo == 3){
-											$(".nws-data-req-3").addClass("nws-data-hidden");
-										}
+										$(".nws-data-req").addClass("nws-data-hidden");
                                         
                                         floodToolsError("nws");
 
@@ -2399,59 +2398,73 @@ require([
                                 // ===============================================================
                                 var createFloodStageBand = function(sliderStages, sliderMax){
 
-                                    var stage = sliderStages;
-                                    var max = sliderMax;
+									var stage = sliderStages;
 
-                                    var band = new Array();
-                                    band.push({
-                                        color: "#D8E1EE",
-                                        from: 0,
-                                        to: stage.action,
-                                        'label':{'text': "Below Action"}
-                                    })
-                                    band.push({
-                                        color: "#FDFB51",
-                                        from: stage.action,
-                                        to: stage.flood,
-                                        'label':{'text': "Action"}
-                                    });
-                                    band.push({
-                                        color: "#FAA629",
-                                        from: stage.flood,
-                                        to: stage.moderate,
-                                        'label':{'text': "Minor Flooding"}
-                                    })
-                                    band.push({
-                                        color: "#FC0D1B",
-                                        from: stage.moderate,
-                                        to: stage.major,
-                                        'label':{'text': "Moderate Flooding"}
-                                    })
-                                    // If Top Curve Exists
-                                    // Add Band for Extended Rating
-                                    if(stage.top_curve != null){
-                                        band.push({
-                                            color: "#C326FB",
-                                            from: stage.major,
-                                            to: stage.top_curve,
-                                            'label':{'text': "Major Flooding"}
-                                        })
-                                        band.push({
-                                            color: "#35445b",
-                                            from: stage.top_curve,
-                                            to: max,
-                                            'label':{'text': "Extended Rating"}
-                                        });
-                                    }else{
-                                        band.push({
-                                            color: "#C326FB",
-                                            from: stage.major,
-                                            to: max,
-                                            'label':{'text': "Major Flooding"}
-                                        })
-                                    }
-                                    
-                                    
+									if(stage.flood == null){stage.flood = stage.action;}
+									if(stage.moderate == null){stage.moderate = stage.flood;}
+									if(stage.major == null){stage.major = stage.moderate;}
+									
+									var max = sliderMax;
+
+									var band = new Array();
+									
+									if(stage.flood == null && stage.moderate == null && stage.major == null){
+										// Empty fs bands with missing data
+										band.push({color: "#fff", from: 0, to: 50, 'label':{'text':''}}); 
+										band.push({color: "#fff", from: 0, to: 0, 'label':{'text':''}}); 
+										band.push({color: "#fff", from: 0, to: 0, 'label':{'text':''}}); 
+										band.push({color: "#fff", from: 0, to: 0, 'label':{'text':''}}); 
+										band.push({color: "#fff", from: 0, to: max, 'label':{'text':''}}); 
+									}else{
+										band.push({
+											color: "#D8E1EE",
+											from: 0,
+											to: stage.action,
+											'label':{'text': "Below Action"}
+										})
+										band.push({
+											color: "#FDFB51",
+											from: stage.action,
+											to: stage.flood,
+											'label':{'text': "Action"}
+										});
+										band.push({
+											color: "#FAA629",
+											from: stage.flood,
+											to: stage.moderate,
+											'label':{'text': "Minor Flooding"}
+										})
+										band.push({
+											color: "#FC0D1B",
+											from: stage.moderate,
+											to: stage.major,
+											'label':{'text': "Moderate Flooding"}
+										})
+										// If Top Curve Exists
+										// Add Band for Extended Rating
+										if(stage.top_curve != null){
+											band.push({
+												color: "#C326FB",
+												from: stage.major,
+												to: stage.top_curve,
+												'label':{'text': "Major Flooding"}
+											})
+											band.push({
+												color: "#35445b",
+												from: stage.top_curve,
+												to: max,
+												'label':{'text': "Extended Rating"}
+											});
+										}else{
+											band.push({
+												color: "#C326FB",
+												from: stage.major,
+												to: max,
+												'label':{'text': "Major Flooding"}
+											})
+										}
+									}
+
                                     return band;
                                 }
 
@@ -2581,7 +2594,7 @@ require([
                                     console.log("Site 3 NWS Data")
 									console.log(nwsData3)
 									// Change flood tools header to site numbers
-									$("#floodToolsModalHeader").text("Site Numbers" + siteNo + " & " + siteNo_2 + ", & " + siteNo_3);
+									$("#floodToolsModalHeader").text("Site Numbers " + siteNo + " & " + siteNo_2 + ", & " + siteNo_3);
 
 
                                     
@@ -3036,6 +3049,9 @@ require([
             
         }
 
+
+
+
         function ahpsCountResult(featureSet) {
             console.log(featureSet.features.length);
             var i;
@@ -3085,6 +3101,8 @@ require([
         function queryFault(evt) {
             console.log("error: " + evt);
         }
+
+
 
     });
 
@@ -3511,7 +3529,15 @@ require([
         "include_huc10": true,
         "include_huc12": true
 
-    });
+	});
+
+
+	
+
+
+	// Printing
+	// Printing
+	// Printing
     
     var printerations = 0;
     var page1name = "";

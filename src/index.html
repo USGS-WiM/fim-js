@@ -264,8 +264,8 @@ USGS Bar
                 <div class="value label-cfs" id="floodDischargeSelected"></div>
 			</div>
             <div class="item">
-                <label>Altitude:</label>
-                <div class="value label-cfs" id="altitudeSelected"></div>
+                <label>Elevation:</label>
+                <div class="value label-cfs" id="elevationSelected"></div>
 			</div>
         </div>
 
@@ -300,8 +300,8 @@ USGS Bar
                 <div class="value label-cfs" id="floodDischargeSelected"></div>
 			</div>
             <div class="item">
-                <label>Altitude:</label>
-                <div class="value label-cfs" id="altitudeSelected"></div>
+                <label>Elevation:</label>
+                <div class="value label-cfs" id="elevationSelected"></div>
 			</div>
         </div>
 
@@ -337,8 +337,8 @@ USGS Bar
                 <div class="value label-cfs" id="floodDischargeSelected"></div>
 			</div>
             <div class="item">
-                <label>Altitude:</label>
-                <div class="value label-cfs" id="altitudeSelected"></div>
+                <label>Elevation:</label>
+                <div class="value label-cfs" id="elevationSelected"></div>
 			</div>
         </div>
 
@@ -821,62 +821,60 @@ $(".close-alert").click(function(){
                                     Flood Level Sliders
                                     Flood Level Sliders
 								-->
-							<span class="nws-data-req">
-								<!-- First slider -->
-								<div class="slider-group fts1">
-									<!-- Flood Level Colors -->
-									<div class="slider-levels">
-										<div class="sliderWhiteSpace"></div>
-										<div class="sliderActionLevel"></div>
-										<div class="sliderMinorLevel"></div>
-										<div class="sliderModerateLevel"></div>
-										<div class="sliderMajorLevel"></div>
-										<div class="sliderExtendedLevel"></div>
-									</div>
-									<!-- Actual Slider -->
-									<div class="slider-wrapper">
-										<label class="slider-max">N/A</label>
-										<input id="floodSlider" type="range" name="stage" value="0" min="0" max="10" class="styled ftSlider-vertical floodSlider first-slider"/>
-										<label class="slider-min">N/A</label>
-									</div>
+							<!-- First slider -->
+							<div class="slider-group fts1">
+								<!-- Flood Level Colors -->
+								<div class="slider-levels nws-data-req">
+									<div class="sliderWhiteSpace"></div>
+									<div class="sliderActionLevel"></div>
+									<div class="sliderMinorLevel"></div>
+									<div class="sliderModerateLevel"></div>
+									<div class="sliderMajorLevel"></div>
+									<div class="sliderExtendedLevel"></div>
 								</div>
-								<!-- Second slider -->
-								<div class="slider-group fts2">
-									<!-- Flood Level Colors -->
-									<div class="slider-levels">
-										<div class="sliderWhiteSpace"></div>
-										<div class="sliderActionLevel"></div>
-										<div class="sliderMinorLevel"></div>
-										<div class="sliderModerateLevel"></div>
-										<div class="sliderMajorLevel"></div>
-										<div class="sliderExtendedLevel"></div>
-									</div>
-									<!-- Actual Slider -->
-									<div class="slider-wrapper">
-										<label class="slider-max">N/A</label>
-										<input id="floodSlider" type="range" name="stage" value="0" min="0" max="10" class="styled ftSlider-vertical floodSlider second-slider"/>
-										<label class="slider-min">N/A</label>
-									</div>
+								<!-- Actual Slider -->
+								<div class="slider-wrapper">
+									<label class="slider-max">N/A</label>
+									<input id="floodSlider" type="range" name="stage" value="0" min="0" max="10" class="styled ftSlider-vertical floodSlider first-slider"/>
+									<label class="slider-min">N/A</label>
 								</div>
-								<!-- Third slider -->
-								<div class="slider-group fts3">
-									<!-- Flood Level Colors -->
-									<div class="slider-levels">
-										<div class="sliderWhiteSpace"></div>
-										<div class="sliderActionLevel"></div>
-										<div class="sliderMinorLevel"></div>
-										<div class="sliderModerateLevel"></div>
-										<div class="sliderMajorLevel"></div>
-										<div class="sliderExtendedLevel"></div>
-									</div>
-									<!-- Actual Slider -->
-									<div class="slider-wrapper">
-										<label class="slider-max">N/A</label>
-										<input id="floodSlider" type="range" name="stage" value="0" min="0" max="10" class="styled ftSlider-vertical floodSlider third-slider"/>
-										<label class="slider-min">N/A</label>
-									</div>
+							</div>
+							<!-- Second slider -->
+							<div class="slider-group fts2">
+								<!-- Flood Level Colors -->
+								<div class="slider-levels nws-data-req">
+									<div class="sliderWhiteSpace"></div>
+									<div class="sliderActionLevel"></div>
+									<div class="sliderMinorLevel"></div>
+									<div class="sliderModerateLevel"></div>
+									<div class="sliderMajorLevel"></div>
+									<div class="sliderExtendedLevel"></div>
 								</div>
-							</span>
+								<!-- Actual Slider -->
+								<div class="slider-wrapper">
+									<label class="slider-max">N/A</label>
+									<input id="floodSlider" type="range" name="stage" value="0" min="0" max="10" class="styled ftSlider-vertical floodSlider second-slider"/>
+									<label class="slider-min">N/A</label>
+								</div>
+							</div>
+							<!-- Third slider -->
+							<div class="slider-group fts3">
+								<!-- Flood Level Colors -->
+								<div class="slider-levels nws-data-req">
+									<div class="sliderWhiteSpace"></div>
+									<div class="sliderActionLevel"></div>
+									<div class="sliderMinorLevel"></div>
+									<div class="sliderModerateLevel"></div>
+									<div class="sliderMajorLevel"></div>
+									<div class="sliderExtendedLevel"></div>
+								</div>
+								<!-- Actual Slider -->
+								<div class="slider-wrapper">
+									<label class="slider-max">N/A</label>
+									<input id="floodSlider" type="range" name="stage" value="0" min="0" max="10" class="styled ftSlider-vertical floodSlider third-slider"/>
+									<label class="slider-min">N/A</label>
+								</div>
+							</div>
 
 
                             <!-- Site options -->
@@ -902,21 +900,21 @@ $(".close-alert").click(function(){
 										</div>
 									</div>
 								</div>
-								<!-- Altitude -->
+								<!-- Selected Discharge -->
 								<div class="ft-options-row">
-									<small>Altitude:</small>
+									<small>Selected Discharge:</small>
 									<div class="ft-options-flex">
 										<!-- Site One -->
 										<div id="optionData" class="fts1">
-											<label id="altitudeSelected"></label>
+											<label id="floodDischargeSelected"></label>
 										</div>
 										<!-- Site Two -->
 										<div id="optionData" class="fts2">
-											<label id="altitudeSelected"></label>
+											<label id="floodDischargeSelected"></label>
 										</div>
 										<!-- Site Three -->
 										<div id="optionData" class="fts3">
-											<label id="altitudeSelected"></label>
+											<label id="floodDischargeSelected"></label>
 										</div>
 									</div>
 								</div>
@@ -938,7 +936,7 @@ $(".close-alert").click(function(){
 								</div>
                                 
 								<!-- NWS Stages Legend -->
-                                <div id="floodToolsLegend" class="nws-data-req">
+                                <div id="floodToolsLegend">
 									<div class="ft-legend-header">NWS Stages</div>
 									
 									<div class="ft-legend-items">
@@ -976,7 +974,7 @@ $(".close-alert").click(function(){
                                     <span>Site Info & Conditions</span>
 									<i class="ft-main-tab-triangle"><div class="inner-triangle"></div></i>
                                 </div>
-                                <div class="ft-tab ft-hydro-tab nws-data-req" data-toggle="ftHydro" onclick="ga('send','event','Hydrograph Panel','click','Hydrograph');">
+                                <div class="ft-tab ft-hydro-tab" data-toggle="ftHydro" onclick="ga('send','event','Hydrograph Panel','click','Hydrograph');">
                                     <span>Hydrograph</span>
                                     <i class="far fa-chart-bar"></i>
                                 </div>
@@ -1024,6 +1022,12 @@ $(".close-alert").click(function(){
                                     <div class="box fts1"><a id="nwsSiteID" target="_blank" href=""></a></div>
                                     <div class="box fts2"><a id="nwsSiteID" target="_blank" href=""></a></div>
                                     <div class="box fts3"><a id="nwsSiteID" target="_blank" href=""></a></div>
+                                    <div class="tools-table-space"></div>
+                                    <!-- Site Name -->
+                                    <div class="box bold">Site Name</div>
+                                    <div class="box fts1"><label id="siteName"></label></div>
+                                    <div class="box fts2"><label id="siteName"></label></div>
+                                    <div class="box fts3"><label id="siteName"></label></div>
                                 </div>
                                 <!-- Current Conditions Table -->
                                 <div class="small-label">Current Conditions</div>
@@ -1056,10 +1060,10 @@ $(".close-alert").click(function(){
                                     <div class="box fts3"><label id="floodDischargeSelected" class="label-cfs"></label></div>
                                     <div class="tools-table-space"></div>
                                     <!-- Site ID -->
-                                    <div class="box bold">Altitude</div>
-                                    <div class="box fts1"><label id="altitudeSelected" class="label-ft"></label></div>
-                                    <div class="box fts2"><label id="altitudeSelected" class="label-ft"></label></div>
-                                    <div class="box fts3"><label id="altitudeSelected" class="label-ft"></label></div>
+                                    <div class="box bold">Elevation</div>
+                                    <div class="box fts1"><label id="elevationSelected" class="label-ft"></label></div>
+                                    <div class="box fts2"><label id="elevationSelected" class="label-ft"></label></div>
+                                    <div class="box fts3"><label id="elevationSelected" class="label-ft"></label></div>
                                 </div>
 
                                 <!-- Zoom -->
