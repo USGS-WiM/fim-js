@@ -1979,7 +1979,7 @@ input[type=range].styled:focus::-ms-fill-upper {
 }
 #ftModal #ftSliders #ftOptions .ft-options-row .ft-options-flex #optionData label {
   margin: 0 !important;
-  font-size: 14px;
+  font-size: 12.5px;
 }
 #ftModal #ftSliders #ftOptions .ft-options-row .ft-options-flex #optionData label:after {
   content: 'ft';
