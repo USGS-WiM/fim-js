@@ -42,9 +42,9 @@ if (window.DOMParser) {
  */
 var allLayers;
 
-var floodExtentsMultiTableUrl = "https://fimtest.wim.usgs.gov/arcgis/rest/services/FIMMapper/floodExtentsMulti/MapServer/1";
-var floodExtentsMultiThreeSitesTableUrl = "https://fimtest.wim.usgs.gov/arcgis/rest/services/FIMMapper/floodExtentsThreeSites/MapServer/1";
-var fimHazusUrl = "https://fimtest.wim.usgs.gov/arcgis/rest/services/FIMMapper/sites/MapServer/2";
+var floodExtentsMultiTableUrl = "https://fimnew.wim.usgs.gov/server/rest/services/FIMMapper/floodExtentsMulti/MapServer/1";
+var floodExtentsMultiThreeSitesTableUrl = "https://fimnew.wim.usgs.gov/server/rest/services/FIMMapper/floodExtentsThreeSites/MapServer/1";
+var fimHazusUrl = "https://fimnew.wim.usgs.gov/server/rest/services/FIMMapper/sites/MapServer/2";
 
 var fimiMoreInfoUrl = "https://fim.wim.usgs.gov/arcgis/rest/services/FIMMapper/fim_add_info/MapServer/1";
 var ahpsForecastUrl = "https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Observations/ahps_riv_gauges/MapServer/0";
@@ -78,13 +78,13 @@ require([
             "includeInLayerList": true,
             "layers": {
                 "FIM Sites": {
-                    "url" : "https://fimtest.wim.usgs.gov/arcgis/rest/services/FIMMapper/sites/MapServer/0",
+                    "url" : "https://fimnew.wim.usgs.gov/server/rest/services/FIMMapper/sites/MapServer/0",
                     "options": {
                         "id": "fimSites",
                         "opacity": 1.00,
                         "mode": FeatureLayer.MODE_SNAPSHOT,
                         "outFields": ["*"],
-                        "definitionExpression": "(Public = 1 OR Public =0) AND (MULTI_SITE = 0 OR MULTI_SITE = 1 OR MULTI_SITE = 3)",
+                        "definitionExpression": "(Public = 1 OR Public = 2) AND (MULTI_SITE = 0 OR MULTI_SITE = 1 OR MULTI_SITE = 3)",
                         //"infoTemplate": fimInfoTemplate,
                         "visible": true
                     },
@@ -98,7 +98,7 @@ require([
                     }
                 },
                 "Flood-inundation area": {
-                    "url" : "https://fimtest.wim.usgs.gov/arcgis/rest/services/FIMMapper/floodExtents/MapServer",
+                    "url" : "https://fimnew.wim.usgs.gov/server/rest/services/FIMMapper/floodExtents/MapServer",
                     "options": {
                         "id": "fimExtents",
                         "opacity": 0.75,
@@ -114,7 +114,7 @@ require([
                     }
                 },
                 "Flood-inundation area - two sites": {
-                    "url" : "https://fimtest.wim.usgs.gov/arcgis/rest/services/FIMMapper/floodExtentsMulti/MapServer",
+                    "url" : "https://fimnew.wim.usgs.gov/server/rest/services/FIMMapper/floodExtentsMulti/MapServer",
                     "options": {
                         "id": "fimExtentsMulti",
                         "opacity": 0.75,
@@ -130,7 +130,7 @@ require([
                     }
                 },
                 "Flood-inundation area - three sites": {
-                    "url" : "https://fimtest.wim.usgs.gov/arcgis/rest/services/FIMMapper/floodExtentsThreeSites/MapServer",
+                    "url" : "https://fimnew.wim.usgs.gov/server/rest/services/FIMMapper/floodExtentsThreeSites/MapServer",
                     "options": {
                         "id": "fimExtentsThreeSites",
                         "opacity": 0.75,
@@ -146,7 +146,7 @@ require([
                     }
                 },
                 "Area of uncertainty (where applicable)": {
-                    "url" : "https://fimtest.wim.usgs.gov/arcgis/rest/services/FIMMapper/breach/MapServer",
+                    "url" : "https://fimnew.wim.usgs.gov/server/rest/services/FIMMapper/breach/MapServer",
                     "options": {
                         "id": "fimBreach",
                         "opacity": 0.35,
@@ -162,7 +162,7 @@ require([
                     }
                 },
                 "Area of uncertainty (where applicable, two sites)": {
-                    "url" : "https://fimtest.wim.usgs.gov/arcgis/rest/services/FIMMapper/breachMulti/MapServer",
+                    "url" : "https://fimnew.wim.usgs.gov/server/rest/services/FIMMapper/breachMulti/MapServer",
                     "options": {
                         "id": "fimBreachMulti",
                         "opacity": 0.35,
@@ -178,7 +178,7 @@ require([
                     }
                 },
                 "Supplemental layers": {
-                    "url" : "https://fimtest.wim.usgs.gov/arcgis/rest/services/FIMMapper/suppLyrs/MapServer",
+                    "url" : "https://fimnew.wim.usgs.gov/server/rest/services/FIMMapper/suppLyrs/MapServer",
                     "options": {
                         "id": "fimSuppLyrs",
                         "opacity": 1.0,
@@ -192,20 +192,20 @@ require([
                         "includeLegend" : true
                     }
                 },
-                "FIM sites print": {
-                    "url" : "https://fimtest.wim.usgs.gov/arcgis/rest/services/FIMMapper/sites/MapServer",
+                "FIM sites for print": {
+                    "url" : "https://fimnew.wim.usgs.gov/server/rest/services/FIMPrint/fimPrintTest/MapServer",
                     "options": {
                         "id": "fimSitesPrint",
                         "visibleLayers": [0],
-                        "opacity": 0.75,
-                        "visible": true
+                        "opacity": 1.0,
+                        "visible": false
                     },
                     "wimOptions": {
                         "type": "layer",
                         "layerType": "agisDynamic",
                         "includeInLayerList": false,
                         "hasOpacitySlider": false,
-                        "layerDefinitions": ["(Public = 1 OR Public =0) AND (MULTI_SITE = 0 OR MULTI_SITE = 1 OR MULTI_SITE = 3)"],
+                        "layerDefinitions": ["(Public = 1) AND (MULTI_SITE = 0 OR MULTI_SITE = 1 OR MULTI_SITE = 3)"],
                         "includeLegend" : false,
                         "legendLabel": false
                     }
@@ -243,26 +243,9 @@ require([
                         "legendPlacement": 0,
                         "layerDefinitions": {1: "prod_type LIKE '%Flood%'"}
                     }
-                },/*
-                "USGS FIM Sites (NWS forecast category)": {
-                    "url" : "https://fimtest.wim.usgs.gov/ArcGIS/rest/services/FIMMapper/fimi_sites_for_legend_js/MapServer",
-                    "options": {
-                        "id": "fimSitesLegend",
-                        "opacity": 1.0,
-                        "visible": true
-                    },
-                    "wimOptions": {
-                        "type": "layer",
-                        "layerType": "agisDynamic",
-                        "includeInLayerList": false,
-                        "hasOpacitySlider": false,
-                        "includeLegend" : true,
-                        "layerIndex": 0,
-                        "legendLabel": false
-                    }
-                },*/
-                "grids1": {
-                    "url" : "https://fimtest.wim.usgs.gov/ArcGIS/rest/services/FIMMapper/grids_1/MapServer",
+                },
+                "Depth grids": {
+                    "url" : "https://fimnew.wim.usgs.gov/server/rest/services/FIMMapper/grids_1/MapServer",
                     "options": {
                         "id": "fimGrid1",
                         "opacity": 0.7,
@@ -273,12 +256,12 @@ require([
                         "layerType": "agisDynamic",
                         "includeInLayerList": false,
                         "hasOpacitySlider": false,
-                        "includeLegend" : true
-                        //"legendLabel": false
+                        "includeLegend" : true,
+                        "legendLabel" : false
                     }
                 },
-                "grids2": {
-                    "url" : "https://fimtest.wim.usgs.gov/ArcGIS/rest/services/FIMMapper/grids_2/MapServer",
+                "Depth grids ": {
+                    "url" : "https://fimnew.wim.usgs.gov/server/rest/services/FIMMapper/grids_2/MapServer",
                     "options": {
                         "id": "fimGrid2",
                         "opacity": 0.7,
@@ -289,12 +272,12 @@ require([
                         "layerType": "agisDynamic",
                         "includeInLayerList": false,
                         "hasOpacitySlider": false,
-                        "includeLegend" : true
-                        //"legendLabel": false
+                        "includeLegend" : true,
+                        "legendLabel" : false
                     }
                 },
-                "grids3": {
-                    "url" : "https://fimtest.wim.usgs.gov/ArcGIS/rest/services/FIMMapper/grids_3/MapServer",
+                "Depth grids  ": {
+                    "url" : "https://fimnew.wim.usgs.gov/server/rest/services/FIMMapper/grids_3/MapServer",
                     "options": {
                         "id": "fimGrid3",
                         "opacity": 0.7,
@@ -307,11 +290,10 @@ require([
                         "hasOpacitySlider": false,
                         "includeLegend" : true,
                         "legendLabel" : false
-                        //"legendLabel": false
                     }
                 },
-                "grids4": {
-                    "url" : "https://fimtest.wim.usgs.gov/ArcGIS/rest/services/FIMMapper/grids_4/MapServer",
+                "Depth grids   ": {
+                    "url" : "https://fimnew.wim.usgs.gov/server/rest/services/FIMMapper/grids_4/MapServer",
                     "options": {
                         "id": "fimGrid4",
                         "opacity": 0.7,
@@ -322,10 +304,10 @@ require([
                         "layerType": "agisDynamic",
                         "includeInLayerList": false,
                         "hasOpacitySlider": false,
-                        "includeLegend" : true
-                        //"legendLabel": false
+                        "includeLegend" : true,
+                        "legendLabel" : false
                     }
-                }//http://fimtest.wim.usgs.gov/ArcGIS/rest/services/FIMTest/grids_1_test/MapServer*/
+                }
             }
         },
         {
@@ -547,6 +529,9 @@ var gageValues3 = [];
 var altitudeValues = [];
 var altitudeValues2 = [];
 var altitudeValues3 = [];
+var dischargeValues = [];
+var dischargeValues2 = [];
+var dischargeValues3 = [];
 var gagePairs = [];
 
 var loadedInitialLibrary = false;
@@ -642,6 +627,7 @@ require([
 
     esriConfig.defaults.io.corsEnabledServers.push("fim.wim.usgs.gov");
     esriConfig.defaults.io.corsEnabledServers.push("fimtest.wim.usgs.gov");
+    esriConfig.defaults.io.corsEnabledServers.push("fimnew.wim.usgs.gov");
     esriConfig.defaults.io.corsEnabledServers.push("gis.wim.usgs.gov");
     esri.config.defaults.io.proxyUrl = proxyUrl;
 
@@ -794,6 +780,8 @@ require([
 
     function showPrintModal() {
         $('#printModal').modal('show');
+        map.getLayer("fimSitesPrint").setVisibility(true);
+        map.getLayer("fimSites").setVisibility(false);
     }
 
     $('#printNavButton').click(function(){
@@ -809,10 +797,10 @@ require([
     $("#printModal").on("click", function(evt) {
         if(evt.target == this || $(evt.target).attr('class') == 'close'){
             //alert("Close the Print Modal")
-            if (sitesLayerPrint != undefined) {
-                sitesLayerPrint.setVisibility(true);
-                map.reorderLayer(sitesLayerPrint,1000);
-            }
+            var sitesLayerPrint = map.getLayer("fimSites");
+            sitesLayerPrint.setVisibility(true);
+            map.reorderLayer(sitesLayerPrint,1000);  
+            map.getLayer("fimSitesPrint").setVisibility(false);
         }else{
             //alert("Don't close the Print Modal");
         }
@@ -1011,8 +999,10 @@ require([
 
     var closeFloodTools = function(){
 		clearFTValues();
-        map.getLayer("fimExtents").setVisibility(false);
-        map.getLayer("fimGrid"+siteAttr.GRID_SERV).setVisibility(false);
+		map.getLayer("fimExtents").setVisibility(false);
+		if (map.getLayer("fimGrid"+siteAttr.GRID_SERV) !== undefined) {
+			map.getLayer("fimGrid"+siteAttr.GRID_SERV).setVisibility(false);
+		}
         map.getLayer("fimBreach").setVisibility(false);
         map.getLayer("fimSuppLyrs").setVisibility(false);
         map.getLayer("fimExtentsMulti").setVisibility(false);
@@ -1031,7 +1021,7 @@ require([
         }
 		map.infoWindow.hide();
 	}
-	
+
 	// Reset and Clear values, hide things for next time
 	var clearFTValues = function(){
 
@@ -1159,6 +1149,9 @@ require([
                 $.each(graphics, function (index, feature) {
                     if (feature.attributes["AHPS_ID"] != null) {
                         ahpsIds.push("'" + feature.attributes["AHPS_ID"].toUpperCase() + "'");
+                        if (feature.attributes["Public"] == 2) {
+                            feature.hide();
+                        }
                         //code to build look up array for use with multi-site libraries that can be used to make requests for multi-site nws predicted data
                         fimSiteAHPSLookup.push({site_no: feature.attributes.SITE_NO, ahps_id: feature.attributes.AHPS_ID});
                     }
@@ -1357,8 +1350,8 @@ require([
                             sitePopup(evt, featureSet);
                         }
                     }
-                }
-                
+				}
+				                
             }
 
             var sitePopup = function(evt, sites = null) {
@@ -1399,7 +1392,7 @@ require([
                             var siteObj = fimSiteAHPSLookup.filter(obj => { return obj.site_no === siteNo_2 });
                             if (siteObj && siteObj[0] && siteObj[0].ahps_id) {
                                 ahpsID_2 = siteObj[0].ahps_id;
-                            }
+							}
                         } else if (sites.features[i].attributes.ordinal == 3) {
                             siteNo_3 = sites.features[i].attributes.site_no;
                             if (siteNo_3.toString().length == 7) { 
@@ -1645,20 +1638,28 @@ require([
                 $(".nav-tabs #floodToolsTab").tab("show");
 
 
+				// Set site links, titles
                 $(".fts1 #usgsSiteNo").text(siteNo);
                 $(".fts1 #usgsSiteNo").attr("href", "https://waterdata.usgs.gov/nwis/uv?site_no="+siteNo);
                 $(".fts1 #nwsSiteID").text(ahpsID);
-                $(".fts1 #nwsSiteID").attr("href", "https://water.weather.gov/ahps2/hydrograph.php?gage="+feature.attributes.AHPS_ID);
-                
+                $(".fts1 #nwsSiteID").attr("href", "https://water.weather.gov/ahps2/hydrograph.php?gage="+ahpsID);
+				$(".fts1 #siteName").text(attr["STATE"] + ": " + attr["COMMUNITY"])
+
+
                 $(".fts2 #usgsSiteNo").text(siteNo_2);
                 $(".fts2 #usgsSiteNo").attr("href", "https://waterdata.usgs.gov/nwis/uv?site_no="+siteNo_2);
                 $(".fts2 #nwsSiteID").text(ahpsID_2);
                 $(".fts2 #nwsSiteID").attr("href", "https://water.weather.gov/ahps2/hydrograph.php?gage="+ahpsID_2);
-                
-                $(".fts3 #usgsSiteNo").text(siteNo_3);
+
+				$(".fts3 #usgsSiteNo").text(siteNo_3);
+
                 $(".fts3 #usgsSiteNo").attr("href", "https://waterdata.usgs.gov/nwis/uv?site_no="+siteNo_3);
-                $(".fts3 #nwsSiteID").text(ahpsID_3);
-                $(".fts3 #nwsSiteID").attr("href", "https://water.weather.gov/ahps2/hydrograph.php?gage="+ahpsID_3);
+                if (ahpsID_3 != "NONE") {
+                    $(".fts3 #nwsSiteID").text(ahpsID_3);
+                    $(".fts3 #nwsSiteID").attr("href", "https://water.weather.gov/ahps2/hydrograph.php?gage="+ahpsID_3);
+                } else {
+                    $(".fts3 #nwsSiteID").text("NONE");
+                }
 
                 if (attr.HAS_GRIDS == 1) {
                     $("#gridLabel").show();
@@ -1696,7 +1697,6 @@ require([
                         if (data.features && data.features.length > 0) {
                             $("#moreInfo").text(data.features[0].attributes.ADD_INFO);
                             $(".ft-more-info-tab").show();
-                            $(".ft-more-info-tab").click();
                         } else {
                             $("#moreInfo").text("Loading...");
                             $(".ft-more-info-tab").hide();
@@ -2033,6 +2033,7 @@ require([
                 //code for getting extent of library and setting up for zoom button to go to full extent of library
                 extentQuery.returnGeometry = true;
                 extentQuery.num = 1;
+                extentQuery.geometryPrecision = 0;
 
                 switch (attr["MULTI_SITE"]) {
                     case 0:
@@ -2072,8 +2073,9 @@ require([
 
                         sliderSetup(results);
 
-                        $("#floodToolsModalHeader").text(attr["STATE"] + ": " + attr["COMMUNITY"]);
-                        $("#shareLink").click(function() {
+                        $("#floodToolsModalHeader").text(attr["STATE"] + ": " + attr["COMMUNITY"] + " (" + siteNo + ((siteNo_2) ? " & " + siteNo_2 : "") + ((siteNo_3) ? " & " + siteNo_3 : "") + ")");
+						
+						$("#shareLink").click(function() {
                             showShareModal();
                         });
 
@@ -2176,15 +2178,19 @@ require([
                             gridVisLayer.push(gridLayerIndexArrColl);
                             map.getLayer(gridLayer).setVisibleLayers(gridVisLayer);
                             //map.getLayer(gridLayer).setVisibility(true);
-                        }
+						}
 
                         $(".floodSlider").on("input", function() {
                             gridLayerIndexArrColl = [];
                             gridLayerIndex = [];
                             if (results != null) {
                                 if (siteAttr["MULTI_SITE"] == 0) {
-                                    $(".fts1 .slider-min.update").text(results[this.value].attributes["STAGE"]);
-                                    //Adjustments to hazus tab for slider change
+									// Update Values
+									$(".fts1 .slider-min.update").text(results[this.value].attributes["STAGE"]);
+									$(".fts1 .elevation-selected").text(results[this.value].attributes["ELEV"] || "N/A");
+									$(".fts1 .flood-discharge-selected").text(results[this.value].attributes["QCFS"] || "N/A");	
+				
+									//Adjustments to hazus tab for slider change
                                     $("#hazusTableSelectedStageLabel").text(results[this.value].attributes["STAGE"] + " ft");
                                     $("#hazusTable tr").removeClass('active');
                                     $("#hazus" + results[this.value].attributes["STAGE"]).addClass('active');
@@ -2223,9 +2229,13 @@ require([
 
                                 } else if (siteAttr["MULTI_SITE"] == 1) {
                                     if ($(this).hasClass('first-slider')) {
-                                        $(".fts1 .slider-min.update").text(gageValues[this.value].gageValue);
-                                    } else if ($(this).hasClass('second-slider')) {
-                                        $(".fts2 .slider-min.update").text(gageValues2[this.value].gageValue);
+										$(".fts1 .slider-min.update").text(gageValues[this.value].gageValue);
+										$(".fts1 .elevation-selected").text(altitudeValues[this.value].altitudeValue || "N/A");
+										$(".fts1 .flood-discharge-selected").text(dischargeValues[this.value].dischargeValue || "N/A");
+									} else if ($(this).hasClass('second-slider')) {
+										$(".fts2 .slider-min.update").text(gageValues2[this.value].gageValue);
+										$(".fts2 .elevation-selected").text(altitudeValues2[this.value].altitudeValue || "N/A");
+										$(".fts2 .flood-discharge-selected").text(dischargeValues2[this.value].dischargeValue || "N/A");
                                     }
 
                                     // Code to determine next possible combination if current selections are not available as map in library
@@ -2245,15 +2255,23 @@ require([
                                         if (currentSlider2Value < parseFloat(tempPairValue[0].pairStage)) {
                                             for (var i = 0; i < gageValues2.length; i++) {
                                                 if (gageValues2[i].gageValue == parseFloat(tempPairValue[0].pairStage)) {
-                                                    $(".fts2 #floodSlider")[0].value = i;
-                                                    //slideWarningShow();
+													$(".fts2 #floodSlider")[0].value = i;
+													//slideWarningShow();
+													$(".fts2 .slider-min.update").text(gageValues2[$(".fts2 #floodSlider")[0].value].gageValue);
+													$(".fts2 .elevation-selected").text(altitudeValues2[$(".fts2 #floodSlider")[0].value].altitudeValue || "N/A");
+													$(".fts2 .flood-discharge-selected").text(dischargeValues2[$(".fts2 #floodSlider")[0].value].dischargeValue || "N/A");
+
                                                     break;
                                                 }
                                             }
                                         } else if (currentSlider2Value > parseFloat(tempPairValue[tempPairValue.length-1].pairStage)) {
                                             for (i=0;i<gageValues2.length;i++) {
                                                 if (gageValues2[i].gageValue == parseFloat(tempPairValue[tempPairValue.length-1].pairStage)) {
-                                                    $(".fts2 #floodSlider")[0].value = i;
+													$(".fts2 #floodSlider")[0].value = i;
+													$(".fts2 .slider-min.update").text(gageValues2[$(".fts2 #floodSlider")[0].value].gageValue);
+													$(".fts2 .elevation-selected").text(altitudeValues2[$(".fts2 #floodSlider")[0].value].altitudeValue || "N/A");
+													$(".fts2 .flood-discharge-selected").text(dischargeValues2[$(".fts2 #floodSlider")[0].value].dischargeValue || "N/A");
+
                                                     //slideWarningShow();
                                                     break;
                                                 }
@@ -2274,16 +2292,26 @@ require([
                                         if (currentSlider1Value < parseFloat(tempPairValue[0].pairStage)) {
                                             for (i=0;i<gageValues.length;i++) {
                                                 if (gageValues[i].gageValue == parseFloat(tempPairValue[0].pairStage)) {
-                                                    $(".fts1 #floodSlider")[0].value = i;
-                                                    //slideWarningShow();
+													$(".fts1 #floodSlider")[0].value = i;
+													// Update current slider value
+													$(".fts1 .slider-min.update").text(gageValues[$(".fts1 #floodSlider")[0].value].gageValue);
+													$(".fts1 .elevation-selected").text(altitudeValues[$(".fts1 #floodSlider")[0].value].altitudeValue || "N/A");
+													$(".fts1 .flood-discharge-selected").text(dischargeValues[$(".fts1 #floodSlider")[0].value].dischargeValue || "N/A");
+				
+													//slideWarningShow();
                                                     break;
                                                 }
                                             }
                                         } else if (currentSlider1Value > parseFloat(tempPairValue[tempPairValue.length-1].pairStage)) {
                                             for (i=0;i<gageValues.length;i++) {
                                                 if (gageValues[i].gageValue == parseFloat(tempPairValue[tempPairValue.length-1].pairStage)) {
-                                                    $(".fts1 #floodSlider")[0].value = i;
-                                                    //slideWarningShow();
+													$(".fts1 #floodSlider")[0].value = i;
+													// Update current slider value
+													$(".fts1 .slider-min.update").text(gageValues[$(".fts1 #floodSlider")[0].value].gageValue);
+													$(".fts1 .elevation-selected").text(altitudeValues[$(".fts1 #floodSlider")[0].value].altitudeValue || "N/A");
+													$(".fts1 .flood-discharge-selected").text(dischargeValues[$(".fts1 #floodSlider")[0].value].dischargeValue || "N/A");
+				
+													//slideWarningShow();
                                                     break;
                                                 }
                                             }
@@ -2321,12 +2349,22 @@ require([
                                     }
                                     
                                 } else if (siteAttr["MULTI_SITE"] == 3) {
+
                                     if ($(this).hasClass('first-slider')) {
-                                        $(".fts1 .slider-min.update").text(gageValues[this.value].gageValue);
-                                    } else if ($(this).hasClass('second-slider')) {
-                                        $(".fts2 .slider-min.update").text(gageValues2[this.value].gageValue);
+										$(".fts1 .slider-min.update").text(gageValues[this.value].gageValue);
+										$(".fts1 .elevation-selected").text(altitudeValues[this.value].altitudeValue || "N/A");
+										$(".fts1 .flood-discharge-selected").text(dischargeValues[this.value].dischargeValue || "N/A");
+										
+									} else if ($(this).hasClass('second-slider')) {
+										$(".fts2 .slider-min.update").text(gageValues2[this.value].gageValue);
+										$(".fts2 .elevation-selected").text(altitudeValues2[this.value].altitudeValue || "N/A");
+										$(".fts2 .flood-discharge-selected").text(dischargeValues2[this.value].dischargeValue || "N/A");
+										
                                     } else if ($(this).hasClass('third-slider')) {
-                                        $(".fts3 .slider-min.update").text(gageValues3[this.value].gageValue);
+										$(".fts3 .slider-min.update").text(gageValues3[this.value].gageValue);
+										$(".fts3 .elevation-selected").text(altitudeValues3[this.value].altitudeValue || "N/A");
+										$(".fts3 .flood-discharge-selected").text(dischargeValues2[this.value].dischargeValue || "N/A");
+
                                     }
 
                                     // Code to determine next possible combination if current selections are not available as map in library
@@ -2347,7 +2385,10 @@ require([
                                             for (var i = 0; i < gageValues2.length; i++) {
                                                 if (gageValues2[i].gageValue == parseFloat(tempPairValue[0].pairStage2)) {
                                                     $(".fts2 #floodSlider")[0].value = i;
-                                                    //slideWarningShow();
+													//slideWarningShow();
+													$(".fts2 .slider-min.update").text(gageValues2[$(".fts2 #floodSlider")[0].value].gageValue);	
+													$(".fts2 .elevation-selected").text(altitudeValues2[$(".fts2 #floodSlider")[0].value].altitudeValue || "N/A");
+													$(".fts2 .flood-discharge-selected").text(dischargeValues2[$(".fts2 #floodSlider")[0].value].dischargeValue || "N/A");
                                                     break;
                                                 }
                                             }
@@ -2355,7 +2396,10 @@ require([
                                             for (i=0;i<gageValues2.length;i++) {
                                                 if (gageValues2[i].gageValue == parseFloat(tempPairValue[tempPairValue.length-1].pairStage2)) {
                                                     $(".fts2 #floodSlider")[0].value = i;
-                                                    //slideWarningShow();
+													//slideWarningShow();
+													$(".fts2 .slider-min.update").text(gageValues2[$(".fts2 #floodSlider")[0].value].gageValue);	
+													$(".fts2 .elevation-selected").text(altitudeValues2[$(".fts2 #floodSlider")[0].value].altitudeValue || "N/A");
+													$(".fts2 .flood-discharge-selected").text(dischargeValues2[$(".fts2 #floodSlider")[0].value].dischargeValue || "N/A");
                                                     break;
                                                 }
                                             }
@@ -2375,7 +2419,10 @@ require([
                                         if (currentSlider3Value < parseFloat(newTempPair[0].value.pairStage3)) {
                                             for (var i = 0; i < gageValues3.length; i++) {
                                                 if (gageValues3[i].gageValue == parseFloat(newTempPair[0].value.pairStage3)) {
-                                                    $(".fts3 #floodSlider")[0].value = i;
+													$(".fts3 #floodSlider")[0].value = i;
+													$(".fts3 .slider-min.update").text(gageValues3[$(".fts3 #floodSlider")[0].value].gageValue);	
+													$(".fts3 .elevation-selected").text(altitudeValues3[$(".fts3 #floodSlider")[0].value].altitudeValue || "N/A");
+													$(".fts3 .flood-discharge-selected").text(dischargeValues3[$(".fts3 #floodSlider")[0].value].dischargeValue || "N/A");
                                                     //slideWarningShow();
                                                     break;
                                                 }
@@ -2383,7 +2430,11 @@ require([
                                         } else if (currentSlider3Value > parseFloat(newTempPair[newTempPair.length-1].value.pairStage3)) {
                                             for (i=0;i<gageValues3.length;i++) {
                                                 if (gageValues3[i].gageValue == parseFloat(newTempPair[newTempPair.length-1].value.pairStage3)) {
-                                                    $(".fts3 #floodSlider")[0].value = i;
+													$(".fts3 #floodSlider")[0].value = i;
+													$(".fts3 .slider-min.update").text(gageValues3[$(".fts3 #floodSlider")[0].value].gageValue);				
+													$(".fts3 .elevation-selected").text(altitudeValues3[$(".fts3 #floodSlider")[0].value].altitudeValue || "N/A");
+													$(".fts3 .flood-discharge-selected").text(dischargeValues3[$(".fts3 #floodSlider")[0].value].dischargeValue || "N/A");
+
                                                     //slideWarningShow();
                                                     break;
                                                 }
@@ -2405,16 +2456,22 @@ require([
                                             for (i=0;i<gageValues.length;i++) {
                                                 if (gageValues[i].gageValue == parseFloat(tempPairValue[0].pairStage1)) {
                                                     $(".fts1 #floodSlider")[0].value = i;
-                                                    //slideWarningShow();
-                                                    break;
+													//slideWarningShow();
+													$(".fts1 .slider-min.update").text(gageValues[$(".fts1 #floodSlider")[0].value].gageValue);	
+													$(".fts1 .elevation-selected").text(altitudeValues[$(".fts1 #floodSlider")[0].value].altitudeValue || "N/A");
+													$(".fts1 .flood-discharge-selected").text(dischargeValues[$(".fts1 #floodSlider")[0].value].dischargeValue || "N/A");
+													break;
                                                 }
                                             }
                                         } else if (currentSlider1Value > parseFloat(tempPairValue[tempPairValue.length-1].pairStage1)) {
                                             for (i=0;i<gageValues.length;i++) {
                                                 if (gageValues[i].gageValue == parseFloat(tempPairValue[tempPairValue.length-1].pairStage1)) {
                                                     $(".fts1 #floodSlider")[0].value = i;
-                                                    //slideWarningShow();
-                                                    break;
+													//slideWarningShow();
+													$(".fts1 .slider-min.update").text(gageValues[$(".fts1 #floodSlider")[0].value].gageValue);	
+													$(".fts1 .elevation-selected").text(altitudeValues[$(".fts1 #floodSlider")[0].value].altitudeValue || "N/A");
+													$(".fts1 .flood-discharge-selected").text(dischargeValues[$(".fts1 #floodSlider")[0].value].dischargeValue || "N/A");
+													break;
                                                 }
                                             }
                                         }
@@ -2433,7 +2490,11 @@ require([
                                         if (currentSlider3Value < parseFloat(newTempPair[0].value.pairStage3)) {
                                             for (var i = 0; i < gageValues3.length; i++) {
                                                 if (gageValues3[i].gageValue == parseFloat(newTempPair[0].value.pairStage3)) {
-                                                    $(".fts3 #floodSlider")[0].value = i;
+													$(".fts3 #floodSlider")[0].value = i;
+													$(".fts3 .slider-min.update").text(gageValues3[$(".fts3 #floodSlider")[0].value].gageValue);
+													$(".fts3 .elevation-selected").text(altitudeValues3[$(".fts3 #floodSlider")[0].value].altitudeValue || "N/A");
+													$(".fts3 .flood-discharge-selected").text(dischargeValues3[$(".fts3 #floodSlider")[0].value].dischargeValue || "N/A");
+
                                                     //slideWarningShow();
                                                     break;
                                                 }
@@ -2441,7 +2502,10 @@ require([
                                         } else if (currentSlider3Value > parseFloat(newTempPair[newTempPair.length-1].value.pairStage3)) {
                                             for (i=0;i<gageValues3.length;i++) {
                                                 if (gageValues3[i].gageValue == parseFloat(newTempPair[newTempPair.length-1].value.pairStage3)) {
-                                                    $(".fts3 #floodSlider")[0].value = i;
+													$(".fts3 #floodSlider")[0].value = i;
+													$(".fts3 .slider-min.update").text(gageValues3[$(".fts3 #floodSlider")[0].value].gageValue);	
+													$(".fts3 .elevation-selected").text(altitudeValues3[$(".fts3 #floodSlider")[0].value].altitudeValue || "N/A");
+													$(".fts3 .flood-discharge-selected").text(dischargeValues3[$(".fts3 #floodSlider")[0].value].dischargeValue || "N/A");
                                                     //slideWarningShow();
                                                     break;
                                                 }
@@ -2462,7 +2526,10 @@ require([
                                         if (currentSlider2Value < parseFloat(tempPairValue[0].pairStage2)) {
                                             for (var i = 0; i < gageValues2.length; i++) {
                                                 if (gageValues2[i].gageValue == parseFloat(tempPairValue[0].pairStage2)) {
-                                                    $(".fts2 #floodSlider")[0].value = i;
+													$(".fts2 #floodSlider")[0].value = i;
+													$(".fts2 .slider-min.update").text(gageValues2[$(".fts2 #floodSlider")[0].value].gageValue);	
+													$(".fts2 .elevation-selected").text(altitudeValues2[$(".fts2 #floodSlider")[0].value].altitudeValue || "N/A");
+													$(".fts2 .flood-discharge-selected").text(dischargeValues2[$(".fts2 #floodSlider")[0].value].dischargeValue || "N/A");
                                                     //slideWarningShow();
                                                     break;
                                                 }
@@ -2471,7 +2538,10 @@ require([
                                             for (i=0;i<gageValues2.length;i++) {
                                                 if (gageValues2[i].gageValue == parseFloat(tempPairValue[tempPairValue.length-1].pairStage2)) {
                                                     $(".fts2 #floodSlider")[0].value = i;
-                                                    //slideWarningShow();
+													//slideWarningShow();
+													$(".fts2 .slider-min.update").text(gageValues2[$(".fts2 #floodSlider")[0].value].gageValue);
+													$(".fts2 .elevation-selected").text(altitudeValues2[$(".fts2 #floodSlider")[0].value].altitudeValue || "N/A");
+													$(".fts2 .flood-discharge-selected").text(dischargeValues2[$(".fts2 #floodSlider")[0].value].dischargeValue || "N/A");
                                                     break;
                                                 }
                                             }
@@ -2492,7 +2562,10 @@ require([
                                             for (i=0;i<gageValues.length;i++) {
                                                 if (gageValues[i].gageValue == parseFloat(newTempPair[0].value.pairStage1)) {
                                                     $(".fts1 #floodSlider")[0].value = i;
-                                                    //slideWarningShow();
+													//slideWarningShow();
+													$(".fts1 .slider-min.update").text(gageValues[$(".fts1 #floodSlider")[0].value].gageValue);	
+													$(".fts1 .elevation-selected").text(altitudeValues[$(".fts1 #floodSlider")[0].value].altitudeValue || "N/A");
+													$(".fts1 .flood-discharge-selected").text(dischargeValues[$(".fts1 #floodSlider")[0].value].dischargeValue || "N/A");
                                                     break;
                                                 }
                                             }
@@ -2500,8 +2573,11 @@ require([
                                             for (i=0;i<gageValues.length;i++) {
                                                 if (gageValues[i].gageValue == parseFloat(newTempPair[newTempPair.length-1].value.pairStage1)) {
                                                     $(".fts1 #floodSlider")[0].value = i;
-                                                    //slideWarningShow();
-                                                    break;
+													//slideWarningShow();
+													$(".fts1 .slider-min.update").text(gageValues[$(".fts1 #floodSlider")[0].value].gageValue);
+													$(".fts1 .elevation-selected").text(altitudeValues[$(".fts1 #floodSlider")[0].value].altitudeValue || "N/A");
+													$(".fts1 .flood-discharge-selected").text(dischargeValues[$(".fts1 #floodSlider")[0].value].dischargeValue || "N/A");
+													break;
                                                 }
                                             }
                                         }
@@ -2712,20 +2788,24 @@ require([
                                     $('.fts1 #floodDischarge').text(siteData.data[dischargeIndex].time_series_data[siteData.data[dischargeIndex].time_series_data.length-1][1]);
                                 } else if (dischargeIndex != null && siteData.data[dischargeIndex].time_series_data.length > 0 ) {
                                     $('.fts1 #floodDischarge').text('n/a (' + siteData.data[dischargeIndex].time_series_data[siteData.data[dischargeIndex].time_series_data.length-1][2] + ')');
+                                } else {
+                                    $('.fts1 #floodDischarge').text('n/a');
                                 }
                                 // Site Two
                                 if (finalNWISDataArray2.length > 0) { 
                                     var val = finalNWISDataArray2[finalNWISDataArray2.length-1][1];
                                     if(val > gageValues2[0].gageValue){
-                                        $(".floodSlider.second-slider").value = val;
+										$(".floodSlider.second-slider").value = val;
                                     }else{console.log("Current height lower")}
-                                    $('.fts2 #floodGage').text(val);
+									$('.fts2 #floodGage').text(val);
                                 }
                                 // Site Two Discharge
-                                if (dischargeIndex2 != null && siteData2 && siteData2.data[dischargeIndex2].time_series_data[siteData2.data[dischargeIndex2].time_series_data.length-1][1] != null) {
+                                if (dischargeIndex2 != null && siteData2 && siteData2.data[dischargeIndex2].time_series_data.length > 0 && siteData2.data[dischargeIndex2].time_series_data[siteData2.data[dischargeIndex2].time_series_data.length-1][1] != null) {
                                     $('.fts2 #floodDischarge').text(siteData2.data[dischargeIndex2].time_series_data[siteData2.data[dischargeIndex2].time_series_data.length-1][1]);
-                                } else if (dischargeIndex2 != null && siteData2 && siteData2.data[dischargeIndex2].time_series_data[siteData2.data[dischargeIndex2].time_series_data.length-1].length > 2) {
+                                } else if (dischargeIndex2 != null && siteData2 && siteData2.data[dischargeIndex2].time_series_data.length > 0 && siteData2.data[dischargeIndex2].time_series_data[siteData2.data[dischargeIndex2].time_series_data.length-1].length > 2) {
                                     $('.fts2 #floodDischarge').text('n/a (' + siteData2.data[dischargeIndex2].time_series_data[siteData2.data[dischargeIndex2].time_series_data.length-1][2] + ')');
+                                } else {
+                                    $('.fts2 #floodDischarge').text('n/a');
                                 }
                                 // Site Three
                                 if (finalNWISDataArray3.length > 0) { 
@@ -2736,10 +2816,12 @@ require([
                                     $('.fts3 #floodGage').text(val);
                                 }
                                 // Site Three Discharge
-                                if (dischargeIndex3 != null && siteData3 && siteData3.data[dischargeIndex3].time_series_data[siteData3.data[dischargeIndex3].time_series_data.length-1][1] != null) {
+                                if (dischargeIndex3 != null && siteData3 && siteData3.data[dischargeIndex3].time_series_data.length > 0 && siteData3.data[dischargeIndex3].time_series_data[siteData3.data[dischargeIndex3].time_series_data.length-1][1] != null) {
                                     $('.fts3 #floodDischarge').text(siteData3.data[dischargeIndex3].time_series_data[siteData3.data[dischargeIndex3].time_series_data.length-1][1]);
-                                } else if (dischargeIndex3 != null && siteData3 && siteData3.data[dischargeIndex3].time_series_data[siteData3.data[dischargeIndex3].time_series_data.length-1].length > 2) {
+                                } else if (dischargeIndex3 != null && siteData3 && siteData3.data[dischargeIndex3].time_series_data.length > 0 && siteData3.data[dischargeIndex3].time_series_data[siteData3.data[dischargeIndex3].time_series_data.length-1].length > 2) {
                                     $('.fts3 #floodDischarge').text('n/a (' + siteData3.data[dischargeIndex3].time_series_data[siteData3.data[dischargeIndex3].time_series_data.length-1][2] + ')');
+                                } else {
+                                    $('.fts3 #floodDischarge').text('n/a');
                                 }
 
                                 if (nwsData2[0].children && nwsData2[0].children[0].children[0].textContent != "no nws data") { 
@@ -2772,6 +2854,23 @@ require([
                                     return finalDataArray;
                                 }
 
+                                // ========================================================================
+
+								// Get Site Locations
+								// Get Site Locations
+								// Get Site Locations
+                                // ========================================================================
+								function getSiteLocation(siteNo){
+									var foundSiteName = "";
+									// Getting multi site location
+									$.each(map.getLayer('fimSites').graphics, function (index, value) {
+										if(siteNo === value.attributes.SITE_NO){
+											console.log("Multi Site: " + value.attributes.STATE + ": " + value.attributes.COMMUNITY); 
+											foundSiteName = value.attributes.STATE + ": " + value.attributes.COMMUNITY; 
+										}
+									});
+									return foundSiteName;
+								}
 
                                 // ========================================================================
                                 // ========================================================================
@@ -2781,12 +2880,16 @@ require([
                                 // ========================================================================
                                 // ========================================================================
 
-                                function getFloodStages(data) {
+                                function getFloodStages(data, siteNo) {
+
+									console.log("Get Flood Stages")
+									console.log(data);
+									console.log(ahpsID_2);
 
                                     // If NWS Data does not exist
                                     if(data[0].getElementsByTagName("response")[0]){
-                                        console.log("NWS Data Not Available");
-                                        $(".nws-data-req").addClass("nws-data-hidden");
+										console.log("NWS Data Not Available");
+										$(".nws-data-req").addClass("nws-data-hidden");
                                         
                                         floodToolsError("nws");
 
@@ -2840,59 +2943,73 @@ require([
                                 // ===============================================================
                                 var createFloodStageBand = function(sliderStages, sliderMax){
 
-                                    var stage = sliderStages;
-                                    var max = sliderMax;
+									var stage = sliderStages;
 
-                                    var band = new Array();
-                                    band.push({
-                                        color: "#D8E1EE",
-                                        from: 0,
-                                        to: stage.action,
-                                        'label':{'text': "Below Action"}
-                                    })
-                                    band.push({
-                                        color: "#FDFB51",
-                                        from: stage.action,
-                                        to: stage.flood,
-                                        'label':{'text': "Action"}
-                                    });
-                                    band.push({
-                                        color: "#FAA629",
-                                        from: stage.flood,
-                                        to: stage.moderate,
-                                        'label':{'text': "Minor Flooding"}
-                                    })
-                                    band.push({
-                                        color: "#FC0D1B",
-                                        from: stage.moderate,
-                                        to: stage.major,
-                                        'label':{'text': "Moderate Flooding"}
-                                    })
-                                    // If Top Curve Exists
-                                    // Add Band for Extended Rating
-                                    if(stage.top_curve != null){
-                                        band.push({
-                                            color: "#C326FB",
-                                            from: stage.major,
-                                            to: stage.top_curve,
-                                            'label':{'text': "Major Flooding"}
-                                        })
-                                        band.push({
-                                            color: "#35445b",
-                                            from: stage.top_curve,
-                                            to: max,
-                                            'label':{'text': "Extended Rating"}
-                                        });
-                                    }else{
-                                        band.push({
-                                            color: "#C326FB",
-                                            from: stage.major,
-                                            to: max,
-                                            'label':{'text': "Major Flooding"}
-                                        })
-                                    }
-                                    
-                                    
+									if(stage.flood == null){stage.flood = stage.action;}
+									if(stage.moderate == null){stage.moderate = stage.flood;}
+									if(stage.major == null){stage.major = stage.moderate;}
+									
+									var max = sliderMax;
+
+									var band = new Array();
+									
+									if(stage.flood == null && stage.moderate == null && stage.major == null){
+										// Empty fs bands with missing data
+										band.push({color: "#fff", from: 0, to: 50, 'label':{'text':''}}); 
+										band.push({color: "#fff", from: 0, to: 0, 'label':{'text':''}}); 
+										band.push({color: "#fff", from: 0, to: 0, 'label':{'text':''}}); 
+										band.push({color: "#fff", from: 0, to: 0, 'label':{'text':''}}); 
+										band.push({color: "#fff", from: 0, to: max, 'label':{'text':''}}); 
+									}else{
+										band.push({
+											color: "#D8E1EE",
+											from: 0,
+											to: stage.action,
+											'label':{'text': "Below Action"}
+										})
+										band.push({
+											color: "#FDFB51",
+											from: stage.action,
+											to: stage.flood,
+											'label':{'text': "Action"}
+										});
+										band.push({
+											color: "#FAA629",
+											from: stage.flood,
+											to: stage.moderate,
+											'label':{'text': "Minor Flooding"}
+										})
+										band.push({
+											color: "#FC0D1B",
+											from: stage.moderate,
+											to: stage.major,
+											'label':{'text': "Moderate Flooding"}
+										})
+										// If Top Curve Exists
+										// Add Band for Extended Rating
+										if(stage.top_curve != null){
+											band.push({
+												color: "#C326FB",
+												from: stage.major,
+												to: stage.top_curve,
+												'label':{'text': "Major Flooding"}
+											})
+											band.push({
+												color: "#35445b",
+												from: stage.top_curve,
+												to: max,
+												'label':{'text': "Extended Rating"}
+											});
+										}else{
+											band.push({
+												color: "#C326FB",
+												from: stage.major,
+												to: max,
+												'label':{'text': "Major Flooding"}
+											})
+										}
+									}
+
                                     return band;
                                 }
 
@@ -2905,7 +3022,7 @@ require([
                                 // ===============================================================
                                 // ===============================================================
 
-                                var sliderStages = getFloodStages(nwsData);
+                                var sliderStages = getFloodStages(nwsData, 1);
 
                                 var sliderMax1;
                                 if (gageValues.length > 0) {
@@ -2967,15 +3084,22 @@ require([
 
                                 // Single Site Check
                                 if (attr["MULTI_SITE"] == 0) {
-                                    console.log("Single Site");
-                                    console.log("Site 1 NWS Data")
-                                    console.log(nwsData);
+                                    console.log("Single Site: Site 1 NWS Data")
+									console.log(nwsData);
+									
                                 } else if (attr["MULTI_SITE"] > 0) {
-                                    console.log("Multi Site");
-                                    console.log("Site 2 NWS Data")
-                                    console.log(nwsData2)
+                                    console.log("Multi Site: Site 2 NWS Data")
+									console.log(nwsData2)
+
+									// Get site location name
+									$(".fts1 #siteName").text(getSiteLocation(siteNo));
+									$(".fts2 #siteName").text(getSiteLocation(siteNo_2));
+					
+									
+									// Change flood tools header to site numbers
+									$("#floodToolsModalHeader").text("Site Numbers " + siteNo + " & " + siteNo_2);
                                     
-                                    var sliderStages2 = getFloodStages(nwsData2);
+                                    var sliderStages2 = getFloodStages(nwsData2, 2);
                                     var sliderMax2;
                                     if (gageValues2.length > 0) {
                                         sliderMax2 = gageValues2[gageValues2.length-1].gageValue;
@@ -3015,12 +3139,17 @@ require([
                                 }
                                 // Third Site
                                 if (attr["MULTI_SITE"] > 1) {
-                                    console.log("Triple Site");
-                                    console.log("Site 3 NWS Data")
-                                    console.log(nwsData3)
+                                    console.log("Triple site: Site 3 NWS Data")
+									console.log(nwsData3)
+									// Change flood tools header to site numbers
+									$("#floodToolsModalHeader").text("Site Numbers " + siteNo + " & " + siteNo_2 + " & " + siteNo_3);
+									
+									// Get site location name
+									$(".fts3 #siteName").text(getSiteLocation(siteNo_3));
+
 
                                     
-                                    var sliderStages3 = getFloodStages(nwsData3);
+                                    var sliderStages3 = getFloodStages(nwsData3, 3);
                                     var sliderMax3;
                                     if (gageValues3.length > 0) {
                                         sliderMax3 = gageValues3[gageValues3.length-1].gageValue;
@@ -3071,8 +3200,24 @@ require([
                                 $('#hydroChart3').hide();
                                 $('.no-hydro').show();
                                 
-                                var getChartOptions = function(siteNo, finalNWISDataArray, finalNWSDataArray, sliderMax1, floodStageBands){
+                                var getChartOptions = function(siteNo, finalNWISDataArray, finalNWSDataArray, sliderMax1, floodStageBands,slider){
                                     var opts = new Object();
+
+                                    //Calculate the minimum value for y-axis to find negative values. Use 0 if no negative values
+                                    var yMin = 0;
+
+                                    $.each(finalNWISDataArray, function(key, value) {
+                                        if (value[1] < 0 && value[1] < yMin) {
+                                            yMin = value[1];
+                                        }
+                                    });
+
+                                    $.each(finalNWSDataArray, function(key, value) {
+                                         if (value[1] < 0 && value[1] < yMin) {
+                                            yMin = value[1];
+                                        }
+                                    });
+
                                     opts.chart = {
                                         type: 'line',
                                         height: highChartHeight,
@@ -3096,7 +3241,7 @@ require([
                                             cursor: 'pointer',
                                             events: {
                                                 click: function (event) {
-                                                    snapToFlood(event.point.y,".first-slider");
+                                                    snapToFlood(event.point.y,slider);
                                                 }
                                             }
                                         }
@@ -3125,7 +3270,7 @@ require([
                                         tickInterval: 24*3600*1000
                                     };
                                     opts.yAxis = {
-                                        min: 0,
+                                        min: yMin,
                                         max: sliderMax1,
                                         endOnTick: false,
                                         resize: {
@@ -3172,7 +3317,7 @@ require([
                                 if (finalNWISDataArray.length > 0 || finalNWSDataArray.length > 0) {
                                     $("#hydroChart").show();
                                     // Get options
-                                    var chartOneOptions = getChartOptions(siteNo, finalNWISDataArray, finalNWSDataArray, sliderMax1, floodStageBands);
+                                    var chartOneOptions = getChartOptions(siteNo, finalNWISDataArray, finalNWSDataArray, sliderMax1, floodStageBands,'.first-slider');
                                     
                                     // Cerate Chart
                                     var hydroChart = new Highcharts.Chart('hydroChart', chartOneOptions, function(hydroChart){
@@ -3192,7 +3337,7 @@ require([
                                 if (siteData2 != undefined || finalNWSDataArray2.length > 0) {
                                     $("#hydroChart2").show();
                                     // Get options
-                                    var chartTwoOptions = getChartOptions(siteNo_2, finalNWISDataArray2, finalNWSDataArray2, sliderMax2, floodStageBands2);
+                                    var chartTwoOptions = getChartOptions(siteNo_2, finalNWISDataArray2, finalNWSDataArray2, sliderMax2, floodStageBands2,'.second-slider');
                                     // Create Chart
                                     var hydroChart2 = new Highcharts.Chart('hydroChart2', chartTwoOptions, function(hydroChart2){
                                         console.log("Chart Two Loaded")
@@ -3210,7 +3355,7 @@ require([
                                 if (siteData3 != undefined || finalNWSDataArray3.length > 0) {
                                     $("#hydroChart3").show();
                                     // Get options
-                                    var chartThreeOptions = getChartOptions(siteNo_3, finalNWISDataArray3, finalNWSDataArray3, sliderMax3, floodStageBands3);
+                                    var chartThreeOptions = getChartOptions(siteNo_3, finalNWISDataArray3, finalNWSDataArray3, sliderMax3, floodStageBands3,'.third-slider');
                                     // Create Chart
                                     var hydroChart3 = new Highcharts.Chart('hydroChart3', chartThreeOptions, function(hydroChart3){
                                         console.log("Chart Three Loaded")
@@ -3232,14 +3377,14 @@ require([
                                 // ===============================================================
                                 // ===============================================================
 
-                                // Set Default Tab
-                                // Default to hydro tab if NWS data available
-                                // NWS not available - default to main
-                                if($(".ft-hydro-tab").hasClass("nws-data-hidden")){
-                                    console.log("Open Main")
+								// Set Default Tab
+								// Default to More info tab, then Hydro,
+								// If unavailable, default to main
+								if($(".ft-more-info-tab").is(":visible")){
+									$(".ft-more-info-tab").click();
+								}else if($(".ft-hydro-tab").hasClass("nws-data-hidden")){ // If hydro unavailable, open main
                                     $(".ft-main-tab").click();
-                                }else{ // NWS Available - Hydro Tab
-                                    console.log("Open Hydro")
+                                }else{ // Else default to hydro if available
                                     $(".ft-hydro-tab").click();
                                 }
 
@@ -3318,12 +3463,24 @@ require([
                     if (flag == false) {
                         altitudeValues.push({altitudeValue:value.attributes.ELEV.toFixed(2)});
                     }
+
+                    flag = false;
+                    
+                    for (i=0;i<dischargeValues.length;i++) {
+                        if (dischargeValues[i]["dischargeValue"] == value.attributes.QCFS) {
+                            flag = true;
+                        }
+                    }
+                    if (flag == false) {
+                        dischargeValues.push({dischargeValue:value.attributes.QCFS});
+                    }
                 });
 
                 gageValues.sort((a,b) => (Number(a.gageValue) > Number(b.gageValue)) ? 1 : ((Number(b.gageValue) > Number(a.gageValue)) ? -1 : 0));
                 
                 altitudeValues.sort((a,b) => (Number(a.altitudeValue) > Number(b.altitudeValue)) ? 1 : ((Number(b.altitudeValue) > Number(a.altitudeValue)) ? -1 : 0));
-                
+			   
+				dischargeValues.sort((a,b) => (Number(a.dischargeValue) > Number(b.dischargeValue)) ? 1 : ((Number(b.dischargeValue) > Number(a.dischargeValue)) ? -1 : 0));
             } else if (siteAttr["MULTI_SITE"] == 1) {
                 $.each(results, function(index, value)
                 {	
@@ -3355,6 +3512,17 @@ require([
                     
                     flag = false;
                     
+                    for (i=0;i<dischargeValues.length;i++) {
+                        if (dischargeValues[i]["dischargeValue"] == value.attributes.QCFS_1) {
+                            flag = true;
+                        }
+                    }
+                    if (flag == false) {
+                        dischargeValues.push({dischargeValue:value.attributes.QCFS_1});
+                    }
+                    
+                    flag = false;
+                    
                     for (i=0;i<gageValues2.length;i++) {
                         if (gageValues2[i]["gageValue"] == value.attributes.STAGE_2.toFixed(2)) {
                             flag = true;
@@ -3373,6 +3541,18 @@ require([
                     if (flag == false) {
                         altitudeValues2.push({altitudeValue:value.attributes.ELEV_2.toFixed(2)});
                     }
+                    flag = false;
+                    
+                    for (i=0;i<dischargeValues2.length;i++) {
+                        if (dischargeValues2[i]["dischargeValue"] == value.attributes.QCFS_2) {
+                            flag = true;
+                        }
+                    }
+                    if (flag == false) {
+                        dischargeValues2.push({dischargeValue:value.attributes.QCFS_2});
+					}
+					
+					
                     
                 });
 
@@ -3381,6 +3561,9 @@ require([
                 
                 altitudeValues.sort((a,b) => (Number(a.altitudeValue) > Number(b.altitudeValue)) ? 1 : ((Number(b.altitudeValue) > Number(a.altitudeValue)) ? -1 : 0));
                 altitudeValues2.sort((a,b) => (Number(a.altitudeValue) > Number(b.altitudeValue)) ? 1 : ((Number(b.altitudeValue) > Number(a.altitudeValue)) ? -1 : 0));
+                
+                dischargeValues.sort((a,b) => (Number(a.dischargeValue) > Number(b.dischargeValue)) ? 1 : ((Number(b.dischargeValue) > Number(a.dischargeValue)) ? -1 : 0));
+                dischargeValues2.sort((a,b) => (Number(a.dischargeValue) > Number(b.dischargeValue)) ? 1 : ((Number(b.dischargeValue) > Number(a.dischargeValue)) ? -1 : 0));
                 
                 console.log('stopping point');
 
@@ -3415,6 +3598,17 @@ require([
                     
                     flag = false;
                     
+                    for (i=0;i<dischargeValues.length;i++) {
+                        if (dischargeValues[i]["dischargeValue"] == value.attributes.QCFS_1) {
+                            flag = true;
+                        }
+                    }
+                    if (flag == false) {
+                        dischargeValues.push({dischargeValue:value.attributes.QCFS_1});
+                    }
+                    
+                    flag = false;
+                    
                     for (i=0;i<gageValues2.length;i++) {
                         if (gageValues2[i]["gageValue"] == value.attributes.STAGE_2.toFixed(2)) {
                             flag = true;
@@ -3433,6 +3627,17 @@ require([
                     }
                     if (flag == false) {
                         altitudeValues2.push({altitudeValue:value.attributes.ELEV_2.toFixed(2)});
+                    }
+
+                    flag = false;
+                    
+                    for (i=0;i<dischargeValues2.length;i++) {
+                        if (dischargeValues2[i]["dischargeValue"] == value.attributes.QCFS_2) {
+                            flag = true;
+                        }
+                    }
+                    if (flag == false) {
+                        dischargeValues2.push({dischargeValue:value.attributes.QCFS_2});
                     }
 
                     flag = false;
@@ -3457,6 +3662,16 @@ require([
                         altitudeValues3.push({altitudeValue:value.attributes.ELEV_3.toFixed(2)});
                     }
                     
+                    flag = false;
+                    
+                    for (i=0;i<dischargeValues3.length;i++) {
+                        if (dischargeValues3[i]["dischargeValue"] == value.attributes.QCFS_3) {
+                            flag = true;
+                        }
+                    }
+                    if (flag == false) {
+                        dischargeValues3.push({dischargeValue:value.attributes.QCFS_3});
+                    }
                 });
 
                 gageValues.sort((a,b) => (Number(a.gageValue) > Number(b.gageValue)) ? 1 : ((Number(b.gageValue) > Number(a.gageValue)) ? -1 : 0));
@@ -3466,10 +3681,17 @@ require([
                 altitudeValues.sort((a,b) => (Number(a.altitudeValue) > Number(b.altitudeValue)) ? 1 : ((Number(b.altitudeValue) > Number(a.altitudeValue)) ? -1 : 0));
                 altitudeValues2.sort((a,b) => (Number(a.altitudeValue) > Number(b.altitudeValue)) ? 1 : ((Number(b.altitudeValue) > Number(a.altitudeValue)) ? -1 : 0));
                 altitudeValues2.sort((a,b) => (Number(a.altitudeValue) > Number(b.altitudeValue)) ? 1 : ((Number(b.altitudeValue) > Number(a.altitudeValue)) ? -1 : 0));
+                
+                dischargeValues.sort((a,b) => (Number(a.dischargeValue) > Number(b.dischargeValue)) ? 1 : ((Number(b.dischargeValue) > Number(a.dischargeValue)) ? -1 : 0));
+                dischargeValues2.sort((a,b) => (Number(a.dischargeValue) > Number(b.dischargeValue)) ? 1 : ((Number(b.dischargeValue) > Number(a.dischargeValue)) ? -1 : 0));
+                dischargeValues3.sort((a,b) => (Number(a.dischargeValue) > Number(b.dischargeValue)) ? 1 : ((Number(b.dischargeValue) > Number(a.dischargeValue)) ? -1 : 0));
 
             }
             
         }
+
+
+
 
         function ahpsCountResult(featureSet) {
             console.log(featureSet.features.length);
@@ -3520,6 +3742,8 @@ require([
         function queryFault(evt) {
             console.log("error: " + evt);
         }
+
+
 
     });
 
@@ -3586,7 +3810,7 @@ require([
 
                 }
                 slidersToAdjust[ind].val(closestArrayItem);
-                slidersToAdjust[ind].trigger("change");
+                slidersToAdjust[ind].trigger("input");
             }
             
         }
@@ -3946,7 +4170,15 @@ require([
         "include_huc10": true,
         "include_huc12": true
 
-    });
+	});
+
+
+	
+
+
+	// Printing
+	// Printing
+	// Printing
     
     var printerations = 0;
     var page1name = "";
@@ -3954,8 +4186,11 @@ require([
 
     function printMap() {
 
-        var page1InfoUrl = 'https://fim.wim.usgs.gov/arcgis/rest/services/FIMMapper/FIMpage1design/MapServer/1/query?where=USGSID+LIKE+%27%25' + siteNo + '%25%27&outFields=*&returnGeometry=true&f=json';
-        
+        //create some kind of config object to print jobs. maybe can use job number to identify site number used for intial print
+
+        //var page1InfoUrl = 'https://fim.wim.usgs.gov/arcgis/rest/services/FIMMapper/FIMpage1design/MapServer/1/query?where=USGSID+LIKE+%27%25' + siteNo + '%25%27&outFields=*&returnGeometry=true&f=json';
+        var page1InfoUrl = 'https://fimnew.wim.usgs.gov/fim-page-one?siteno=' +siteNo;
+
         $.ajax({
             dataType: 'json',
             type: 'GET',
@@ -3963,6 +4198,9 @@ require([
             headers: {'Accept': '*/*'},
             success: function (data) {
                 
+                var siteNo_print = siteNo;
+                var siteNo_2_print = siteNo_2;
+                var siteNo_3_print = siteNo_3;
 
                 var site_no_for_print = siteAttr["SITE_NO"];
 
@@ -3970,11 +4208,13 @@ require([
 
                 var printAttr;
 
-                sitesLayerPrint = map.getLayer("fimSites");
-                map.reorderLayer(sitesLayerPrint,0);
+                var userTitle = $("#printTitle").val();
                         
-                if (data.features.length > 0) {
-                    printAttr = data.features[0].attributes;
+                //if (data.features.length > 0) {
+                if (data.hassite == true) {
+                
+                    //printAttr = data.features[0].attributes;
+                    printAttr = data;
 
                     var printParams = new PrintParameters();
                     printParams.map = map;
@@ -3994,9 +4234,7 @@ require([
                     }
 
                     var titleText;
-                    if (userTitle == "") {
-                        titleText = "FIM";;
-                    } else {
+                    if (userTitle != "") {
                         titleText = userTitle;
                     }
 
@@ -4005,8 +4243,27 @@ require([
                         "authorText" : "Flood Inundation Mapping",
                         "copyrightText": "This page was produced by the FIM and the WIM",
                         "customTextElements": [
-                            { "mapTitle": printAttr.TITLE + " at the U.S. Geological Survey Streamgage Number " + siteAttr.SITE_NO },
+                            { "mapTitle": printAttr.TITLE },
                             { "mapSeries": printAttr.REP_SER_NUM },
+                            { "uncertainty": "Although the flood-inundation maps represent the " +
+                                            "boundaries of inundated areas with a distinct line, " +
+                                            "some uncertainty is associated with these maps. The " +
+                                            "flood boundaries shown were estimated based on gage " +
+                                            "heights at selected USGS streamgages. Water-surface " +
+                                            "elevations along the stream reaches were estimated by " +
+                                            "steady-state hydraulic modeling, assuming unobstructed " +
+                                            "flow and using discharges and hydrologic conditions " +
+                                            "anticipated at the USGS streamgage(s). The hydraulic " +
+                                            "model reflects the land-cover characteristics of any " +
+                                            "bridge, dam, levee, or other hydraulic structure existing " +
+                                            "in " + printAttr.PUB_DATE + ". Unique meteorological factors " +
+                                            "(timing and distribution of precipitation) may cause " +
+                                            "actual discharges along the modeled reach to vary from " +
+                                            "assumed conditions during a flood and lead to deviations " +
+                                            "in the water-surface elevations and inundation boundaries " +
+                                            "shown. Additional areas may be flooded due to " +
+                                            "unanticipated backwater from major tributaries along " +
+                                            "the main stem or from localized debris or ice jams."},
                             { "studyArea": printAttr.STUDY_AREA },
                             { "purpose": printAttr.PURPOSE_SCOPE },
                             { "mapSources": "Detailed source data for this map series can be found in \"" + printAttr.TITLE + "(" + printAttr.PUB_DATE + ")\" at: " + printAttr.URL },
@@ -4021,36 +4278,20 @@ require([
 
                     var docTitle = template.layoutOptions.titleText;
                     printParams.template = template;
-                    var printMap = new PrintTask("https://fimtest.wim.usgs.gov/arcgis/rest/services/FIMPrint/ExportWebMap/GPServer/Export%20Web%20Map");
-                    //var printMap = new PrintTask("https://fim.wim.usgs.gov/arcgis/rest/services/FIMMapper/printTool/GPServer/printTool");
-                    map.getLayer("layer0").setVisibility(false);
+                    var printMap = new PrintTask("https://fimnew.wim.usgs.gov/server/rest/services/FIMPrint/ExportWebMap/GPServer/Export%20Web%20Map");
         
                     if (page1name == "") {
                         printMap.execute(printParams, printPage1Done, printPage1Error, 'page1');
                         console.log('executed page 1')
                     }
                     
-                    map.getLayer("layer0").setVisibility(true);
-                    //sitesLayer.setVisibility(true);
-
                     function printPage1Done(event) {
-                        //alert(event.url);
-                        //window.open(event.url, "_blank");
-                        /*printCount++;
-                        //var printJob = $('<a href="'+ event.url +'" target="_blank">Printout ' + printCount + ' </a>');
-                        var printJob = $('<p><label>' + printCount + ': </label><a href="'+ event.url +'" target="_blank">' + docTitle +' page 1</a></p>');
-                        //$("#print-form").append(printJob);
-                        $("#printJobsDiv").find("p.toRemove").remove();
-                        $("#printModalBody").append(printJob);
-                        $("#printTitle").val("");
-                        $("#printExecuteButton").button('reset');*/
-
                         console.log('page 1 done');
 
-                        page1name = event.url.split("GPServer/")[1];
+                        page1name = event.url.split("gpserver/")[1];
                         console.log("page 1: " + page1name);
 
-                        if (page2name != null) {
+                        if (page2name != null && page2name != "") {
                             pdfMerge();
                             printerations = 0;
                         }
@@ -4065,11 +4306,6 @@ require([
                     no_page_one = true;
                 }
                     
-                //sitesLayer.setVisibility(false);
-
-                var baseLayer = map.getLayer("layer0");
-                map.removeLayer(baseLayer);
-
                 var page2PrintParams = new PrintParameters();
                 page2PrintParams.map = map;
 
@@ -4095,56 +4331,46 @@ require([
                 }
 
                 template.preserveScale = false;
-                /*var sitesLegendLayer = new LegendLayer();
-                sitesLegendLayer.layerId = "fimSites";*/
-                //legendLayer.subLayerIds = [*];
-
-                var userTitle = $("#printTitle").val();
 
                 var siteDefExp = "";
 
                 if (siteAttr.MULTI_SITE == '0') {
-                    siteDefExp = "SITE_NO = '" + siteNo + "'";
+                    siteDefExp = "SITE_NO = '" + siteNo_print + "'";
                     //siteToGage = "Map corresponding to a Gage Height of " + currentStage + " feet and an Elevation of " + currentElev + " feet (NAVD 88)";
-                } 
-
-                //sitesLayerPrint.setDefinitionExpression(siteDefExp);
-                //sitesLayerPrint.refresh();
+                }
 
                 var page2MapTitle = "";
                 var page2MapSubtitle = "";
                 if (siteAttr.MULTI_SITE == 0) {
-                    page2MapTitle = "Flood-Inundation Map for " + siteAttr.COMMUNITY + 
-                        " at the U.S. Geological Survey Streamgage Number " + siteAttr.SITE_NO;
+                    page2MapTitle = "Flood-Inundation Map for " + siteAttr.COMMUNITY + ", " + siteAttr.STATE;
                         /*+ "\n<FNT size='8'>Map corresponding to a Gage Height of " + 
                         gageValues[$(".fts1 #floodSlider")[0].value].gageValue + " feet and an Elevation of " + 
                         altitudeValues[$(".fts1 #floodSlider")[0].value].altitudeValue + " feet (NAVD 88)</FNT>";*/
                     page2MapSubtitle = "Map corresponding to a Gage Height of " + 
                         gageValues[$(".fts1 #floodSlider")[0].value].gageValue + " feet and an Elevation of " + 
-                        altitudeValues[$(".fts1 #floodSlider")[0].value].altitudeValue + " feet (NAVD 88)";
+                        altitudeValues[$(".fts1 #floodSlider")[0].value].altitudeValue + " feet (NAVD 88) for Streamgage Number " + 
+                        siteNo_print; 
                 } else if (siteAttr.MULTI_SITE == 1) {
-                    page2MapTitle = "Flood-Inundation Map for " + siteAttr.COMMUNITY + 
-                        " at the U.S. Geological Survey Streamgage Numbers " + siteAttr.SITE_NO + " and " + siteNo_2;
+                    page2MapTitle = "Flood-Inundation Map for multiple streamgages around " + siteAttr.COMMUNITY + ", " + siteAttr.STATE;
                     page2MapSubtitle = "Map corresponding to a Gage Height of " + 
                         gageValues[$(".fts1 #floodSlider")[0].value].gageValue + " feet and an Elevation of " + 
                         altitudeValues[$(".fts1 #floodSlider")[0].value].altitudeValue + " feet (NAVD 88) for Streamgage Number " + 
-                        siteAttr.SITE_NO +
+                        siteNo_print +
                         "and " + gageValues2[$(".fts2 #floodSlider")[0].value].gageValue + " feet and an Elevation of " + 
                         altitudeValues2[$(".fts2 #floodSlider")[0].value].altitudeValue + " feet (NAVD 88) for Streamgage Number " + 
-                        siteNo_2;
+                        siteNo_2_print;
                 } else if (siteAttr.MULTI_SITE == 2 || siteAttr.MULTI_SITE == 3) {
-                    page2MapTitle = "Flood-Inundation Map for " + siteAttr.COMMUNITY + 
-                        " at the U.S. Geological Survey Streamgage Numbers " + siteAttr.SITE_NO + ", " + siteNo_2 + " and " + siteNo_3;
+                    page2MapTitle = "Flood-Inundation Map for multiple streamgages around " + siteAttr.COMMUNITY + ", " + siteAttr.STATE;
                     page2MapSubtitle = "Map corresponding to a Gage Height of " + 
                         gageValues[$(".fts1 #floodSlider")[0].value].gageValue + " feet and an Elevation of " + 
                         altitudeValues[$(".fts1 #floodSlider")[0].value].altitudeValue + " feet (NAVD 88) for Streamgage Number " + 
-                        siteAttr.SITE_NO +
+                        siteNo_print +
                         " and " + gageValues2[$(".fts2 #floodSlider")[0].value].gageValue + " feet and an Elevation of " + 
                         altitudeValues2[$(".fts2 #floodSlider")[0].value].altitudeValue + " feet (NAVD 88) for Streamgage Number " + 
-                        siteNo_2 +
+                        siteNo_2_print +
                         " and " + gageValues3[$(".fts3 #floodSlider")[0].value].gageValue + " feet and an Elevation of " + 
                         altitudeValues3[$(".fts3 #floodSlider")[0].value].altitudeValue + " feet (NAVD 88) for Streamgage Number " + 
-                        siteNo_3; 
+                        siteNo_3_print; 
                 }
 
                 template.layoutOptions = {
@@ -4162,8 +4388,7 @@ require([
                 //"legendLayers": [legendLayer]
                 var docTitle = template.layoutOptions.titleText;
                 page2PrintParams.template = template;
-                var printMap = new PrintTask("https://fimtest.wim.usgs.gov/arcgis/rest/services/FIMPrint/ExportWebMap/GPServer/Export%20Web%20Map");
-                //var printMap = new PrintTask("https://fim.wim.usgs.gov/arcgis/rest/services/FIMMapper/printTool/GPServer/printTool");
+                var printMap = new PrintTask("https://fimnew.wim.usgs.gov/server/rest/services/FIMPrint/ExportWebMap/GPServer/Export%20Web%20Map");
                 
                 var layerIDs = map.layerIds;
                 var graphicLayerIDs = map.graphicsLayerIds;
@@ -4180,67 +4405,46 @@ require([
                     }
                 }
 
-                sitesLayerPrint.setVisibility(true);
-
                 printMap.execute(page2PrintParams, printPage2Done, printPage2Error, 'page2');
                 console.log('executed page 2');
-
-                //sitesLayerPrint.setDefinitionExpression("(Public = 1 OR Public =0) AND (MULTI_SITE = 0 OR MULTI_SITE = 1 OR MULTI_SITE = 3)");
-                //sitesLayerPrint.refresh();
-                map.addLayer(baseLayer,0);
-                map.getLayer("layer0").setVisibility(true);
-                sitesLayerPrint.setVisibility(false);
 
                 for (var j=0; j<layersToReturn.length; j++) {
                     map.addLayer(layersToReturn[j]);
                     //console.log("added " + layersToReturn[j]);
                 }
 
-                map.reorderLayer(sitesLayerPrint,100);
-
-                /*map.addLayer("nwsRadar");
-                map.addLayer("fimExtentsMulit");
-                map.addLayer("fimExtentsThreeSites");
-                map.addLayer("fimBreachMulti");
-                map.addLayer("fimGrid1");
-                map.addLayer("fimGrid2");
-                map.addLayer("fimGrid3");
-                map.addLayer("fimGrid4");
-                map.addLayer("floodWatchWarn");
-                map.addLayer("ahpsSites");*/
-
                 function printPage2Done(event) {
-                    //alert(event.url);
-                    //window.open(event.url, "_blank");
-                    /*printCount++;
-                    //var printJob = $('<a href="'+ event.url +'" target="_blank">Printout ' + printCount + ' </a>');
-                    var printJob = $('<p><label>' + printCount + ': </label><a href="'+ event.url +'" target="_blank">' + docTitle +' </a></p>');
-                    //$("#print-form").append(printJob);
-                    $("#printJobsDiv").find("p.toRemove").remove();
-                    $("#printModalBody").append(printJob);
-                    $("#printTitle").val("");
-                    $("#printExecuteButton").button('reset');*/
-
                     console.log('page 2 done');
 
-                    page2name = event.url.split("GPServer/")[1];
+                    page2name = event.url.split("gpserver/")[1];
                     console.log("page 2: " + page2name);
 
-                    if (page1name != null) {
+                    if (page1name != null && page1name != "") {
                         pdfMerge();
                         var times = printerations + 1;
                         console.log("It took " + times + " attempts(s).");
                         printerations = 0;
                     } else if (no_page_one == true) {
+                        var mergedTitle = "Map for site number " + siteNo_print;
+                        if (siteNo_2_print != undefined) {
+                            mergedTitle = "Map for site numbers " + siteNo_print + " and " + siteNo_2_print;
+                        }if (siteNo_3_print != undefined) {
+                            mergedTitle = "Map for site numbers " + siteNo_print + ", " + siteNo_2_print + ", and " + siteNo_3_print;
+                        }
+                        if (userTitle != "") {
+                            mergedTitle = userTitle;
+                        }
                         printCount++;
                         //var printJob = $('<a href="'+ event.url +'" target="_blank">Printout ' + printCount + ' </a>');
-                        var printJob = $('<p><label>' + printCount + ': </label><a href="'+ event.url +'" target="_blank">' + docTitle +' </a></p>');
+                        var printJob = $('<p><label>' + printCount + ': </label><a href="'+ event.url +'" target="_blank"> ' + mergedTitle +' </a></p>');
                         //$("#print-form").append(printJob);
                         $("#printJobsDiv").find("p.toRemove").remove();
                         $("#printModalBody").append(printJob);
                         $("#printTitle").val("");
                         $("#printExecuteButton").button('reset');
                         printerations = 0;
+                        page1name = "";
+                        page2name = "";
                     }
                 }
 
@@ -4249,24 +4453,22 @@ require([
                         dataType: 'json',
                         crossDomain: true,
                         type: 'GET',
-                        referer: 'fimtest.wim.usgs.gov',
-                        url: "https://fimtest.wim.usgs.gov/fim-pdf-merge?page1name=" + page1name + "&page2name=" + page2name,
+                        referer: 'fimnew.wim.usgs.gov',
+                        url: "https://fimnew.wim.usgs.gov/fim-pdf-merge?page1name=" + page1name + "&page2name=" + page2name,
                         headers: {'Accept': '*/*'},
                         success: function (data) {
-                            var mergedTitle = "Map for site number " + siteNo;
-                            if (siteNo_2 != undefined) {
-                                mergedTitle = "Map for site numbers " + siteNo + " and " + siteNo_2;
-                            }if (siteNo_3 != undefined) {
-                                mergedTitle = "Map for site numbers " + siteNo + ", " + siteNo_2 + ", and " + siteNo_3;
+                            var mergedTitle = "Map for site number " + siteNo_print;
+                            if (siteNo_2_print != undefined) {
+                                mergedTitle = "Map for site numbers " + siteNo_print + " and " + siteNo_2_print;
+                            }if (siteNo_3_print != undefined) {
+                                mergedTitle = "Map for site numbers " + siteNo_print + ", " + siteNo_2_print + ", and " + siteNo_3_print;
                             }
-                            if (userTitle == "") {
-                                //mergedTitle = "Map for site number " + site_no_for_print;
-                            } else {
+                            if (userTitle != "") {
                                 mergedTitle = userTitle;
                             }
                             printCount++;
                             //var printJob = $('<a href="'+ event.url +'" target="_blank">Printout ' + printCount + ' </a>');
-                            var printJob = $('<p><label>' + printCount + ':&nbsp;</label><a href="https://fimtest.wim.usgs.gov/pdf/'+ data.filename +'" target="_blank">' + mergedTitle +' </a></p>');
+                            var printJob = $('<p><label>' + printCount + ':&nbsp;</label><a href="https://fimnew.wim.usgs.gov/pdf/'+ data.filename +'" target="_blank">' + mergedTitle +' </a></p>');
                             //$("#print-form").append(printJob);
                             $("#printJobsDiv").find("p.toRemove").remove();
                             $("#printModalBody").append(printJob);
@@ -4284,7 +4486,7 @@ require([
         });
     }
     
-    function printPage2Error(event, page_num = null) {
+    function printPage2Error(event) {
         console.log('page 2 error');
         if (printerations < 5) {
             printerations++;
