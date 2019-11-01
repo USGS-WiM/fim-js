@@ -1709,7 +1709,7 @@ require([
                                 if (siteAttr["MULTI_SITE"] == 0) {
 									// Update Values
 									$(".fts1 .slider-min.update").text(results[this.value].attributes["STAGE"]);
-									$(".fts1 .elevation-selected").text(results[this.value].attributes["ELEV"] || "N/A");
+									$(".fts1 .elevation-selected").text(results[this.value].attributes["ELEV"].toFixed(2) || "N/A");
 									$(".fts1 .flood-discharge-selected").text(results[this.value].attributes["QCFS"] || "N/A");	
 				
 									//Adjustments to hazus tab for slider change
@@ -2406,7 +2406,6 @@ require([
 
 									console.log("Get Flood Stages")
 									console.log(data);
-									console.log(ahpsID_2);
 
                                     // If NWS Data does not exist
                                     if(data[0].getElementsByTagName("response")[0]){
