@@ -302,6 +302,8 @@ require([
 
     function showPrintModal() {
         $('#printModal').modal('show');
+        map.getLayer("fimSitesPrint").setVisibility(true);
+        map.getLayer("fimSites").setVisibility(false);
     }
 
     $('#printNavButton').click(function(){
@@ -317,10 +319,10 @@ require([
     $("#printModal").on("click", function(evt) {
         if(evt.target == this || $(evt.target).attr('class') == 'close'){
             //alert("Close the Print Modal")
-            if (sitesLayerPrint != undefined) {
-                sitesLayerPrint.setVisibility(true);
-                map.reorderLayer(sitesLayerPrint,1000);
-            }
+            var sitesLayerPrint = map.getLayer("fimSites");
+            sitesLayerPrint.setVisibility(true);
+            map.reorderLayer(sitesLayerPrint,1000);  
+            map.getLayer("fimSitesPrint").setVisibility(false);
         }else{
             //alert("Don't close the Print Modal");
         }
@@ -1172,9 +1174,14 @@ require([
                 $(".fts2 #nwsSiteID").attr("href", "https://water.weather.gov/ahps2/hydrograph.php?gage="+ahpsID_2);
 
 				$(".fts3 #usgsSiteNo").text(siteNo_3);
+
                 $(".fts3 #usgsSiteNo").attr("href", "https://waterdata.usgs.gov/nwis/uv?site_no="+siteNo_3);
-                $(".fts3 #nwsSiteID").text(ahpsID_3);
-                $(".fts3 #nwsSiteID").attr("href", "https://water.weather.gov/ahps2/hydrograph.php?gage="+ahpsID_3);
+                if (ahpsID_3 != "NONE") {
+                    $(".fts3 #nwsSiteID").text(ahpsID_3);
+                    $(".fts3 #nwsSiteID").attr("href", "https://water.weather.gov/ahps2/hydrograph.php?gage="+ahpsID_3);
+                } else {
+                    $(".fts3 #nwsSiteID").text("NONE");
+                }
 
                 if (attr.HAS_GRIDS == 1) {
                     $("#gridLabel").show();
@@ -1548,6 +1555,7 @@ require([
                 //code for getting extent of library and setting up for zoom button to go to full extent of library
                 extentQuery.returnGeometry = true;
                 extentQuery.num = 1;
+                extentQuery.geometryPrecision = 0;
 
                 switch (attr["MULTI_SITE"]) {
                     case 0:
@@ -1587,10 +1595,9 @@ require([
 
                         sliderSetup(results);
 
-						// Set Flood Tools Title
-						$("#floodToolsModalHeader").text(attr["STATE"] + ": " + attr["COMMUNITY"]);
-
-                        $("#shareLink").click(function() {
+                        $("#floodToolsModalHeader").text(attr["STATE"] + ": " + attr["COMMUNITY"] + " (" + siteNo + ((siteNo_2) ? " & " + siteNo_2 : "") + ((siteNo_3) ? " & " + siteNo_3 : "") + ")");
+						
+						$("#shareLink").click(function() {
                             showShareModal();
                         });
 
@@ -1703,7 +1710,8 @@ require([
 									// Update Values
 									$(".fts1 .slider-min.update").text(results[this.value].attributes["STAGE"]);
 									$(".fts1 .elevation-selected").text(results[this.value].attributes["ELEV"] || "N/A");
-									$(".fts1 .flood-discharge-selected").text(results[this.value].attributes["QCFS"] || "N/A");					
+									$(".fts1 .flood-discharge-selected").text(results[this.value].attributes["QCFS"] || "N/A");	
+				
 									//Adjustments to hazus tab for slider change
                                     $("#hazusTableSelectedStageLabel").text(results[this.value].attributes["STAGE"] + " ft");
                                     $("#hazusTable tr").removeClass('active');
@@ -2714,8 +2722,24 @@ require([
                                 $('#hydroChart3').hide();
                                 $('.no-hydro').show();
                                 
-                                var getChartOptions = function(siteNo, finalNWISDataArray, finalNWSDataArray, sliderMax1, floodStageBands){
+                                var getChartOptions = function(siteNo, finalNWISDataArray, finalNWSDataArray, sliderMax1, floodStageBands,slider){
                                     var opts = new Object();
+
+                                    //Calculate the minimum value for y-axis to find negative values. Use 0 if no negative values
+                                    var yMin = 0;
+
+                                    $.each(finalNWISDataArray, function(key, value) {
+                                        if (value[1] < 0 && value[1] < yMin) {
+                                            yMin = value[1];
+                                        }
+                                    });
+
+                                    $.each(finalNWSDataArray, function(key, value) {
+                                         if (value[1] < 0 && value[1] < yMin) {
+                                            yMin = value[1];
+                                        }
+                                    });
+
                                     opts.chart = {
                                         type: 'line',
                                         height: highChartHeight,
@@ -2739,7 +2763,7 @@ require([
                                             cursor: 'pointer',
                                             events: {
                                                 click: function (event) {
-                                                    snapToFlood(event.point.y,".first-slider");
+                                                    snapToFlood(event.point.y,slider);
                                                 }
                                             }
                                         }
@@ -2768,7 +2792,7 @@ require([
                                         tickInterval: 24*3600*1000
                                     };
                                     opts.yAxis = {
-                                        min: 0,
+                                        min: yMin,
                                         max: sliderMax1,
                                         endOnTick: false,
                                         resize: {
@@ -2815,7 +2839,7 @@ require([
                                 if (finalNWISDataArray.length > 0 || finalNWSDataArray.length > 0) {
                                     $("#hydroChart").show();
                                     // Get options
-                                    var chartOneOptions = getChartOptions(siteNo, finalNWISDataArray, finalNWSDataArray, sliderMax1, floodStageBands);
+                                    var chartOneOptions = getChartOptions(siteNo, finalNWISDataArray, finalNWSDataArray, sliderMax1, floodStageBands,'.first-slider');
                                     
                                     // Cerate Chart
                                     var hydroChart = new Highcharts.Chart('hydroChart', chartOneOptions, function(hydroChart){
@@ -2835,7 +2859,7 @@ require([
                                 if (siteData2 != undefined || finalNWSDataArray2.length > 0) {
                                     $("#hydroChart2").show();
                                     // Get options
-                                    var chartTwoOptions = getChartOptions(siteNo_2, finalNWISDataArray2, finalNWSDataArray2, sliderMax2, floodStageBands2);
+                                    var chartTwoOptions = getChartOptions(siteNo_2, finalNWISDataArray2, finalNWSDataArray2, sliderMax2, floodStageBands2,'.second-slider');
                                     // Create Chart
                                     var hydroChart2 = new Highcharts.Chart('hydroChart2', chartTwoOptions, function(hydroChart2){
                                         console.log("Chart Two Loaded")
@@ -2853,7 +2877,7 @@ require([
                                 if (siteData3 != undefined || finalNWSDataArray3.length > 0) {
                                     $("#hydroChart3").show();
                                     // Get options
-                                    var chartThreeOptions = getChartOptions(siteNo_3, finalNWISDataArray3, finalNWSDataArray3, sliderMax3, floodStageBands3);
+                                    var chartThreeOptions = getChartOptions(siteNo_3, finalNWISDataArray3, finalNWSDataArray3, sliderMax3, floodStageBands3,'.third-slider');
                                     // Create Chart
                                     var hydroChart3 = new Highcharts.Chart('hydroChart3', chartThreeOptions, function(hydroChart3){
                                         console.log("Chart Three Loaded")
@@ -2979,7 +3003,6 @@ require([
                 altitudeValues.sort((a,b) => (Number(a.altitudeValue) > Number(b.altitudeValue)) ? 1 : ((Number(b.altitudeValue) > Number(a.altitudeValue)) ? -1 : 0));
 			   
 				dischargeValues.sort((a,b) => (Number(a.dischargeValue) > Number(b.dischargeValue)) ? 1 : ((Number(b.dischargeValue) > Number(a.dischargeValue)) ? -1 : 0));
-                
             } else if (siteAttr["MULTI_SITE"] == 1) {
                 $.each(results, function(index, value)
                 {	
@@ -3685,8 +3708,11 @@ require([
 
     function printMap() {
 
-        var page1InfoUrl = 'https://fim.wim.usgs.gov/arcgis/rest/services/FIMMapper/FIMpage1design/MapServer/1/query?where=USGSID+LIKE+%27%25' + siteNo + '%25%27&outFields=*&returnGeometry=true&f=json';
-        
+        //create some kind of config object to print jobs. maybe can use job number to identify site number used for intial print
+
+        //var page1InfoUrl = 'https://fim.wim.usgs.gov/arcgis/rest/services/FIMMapper/FIMpage1design/MapServer/1/query?where=USGSID+LIKE+%27%25' + siteNo + '%25%27&outFields=*&returnGeometry=true&f=json';
+        var page1InfoUrl = 'https://fimnew.wim.usgs.gov/fim-page-one?siteno=' +siteNo;
+
         $.ajax({
             dataType: 'json',
             type: 'GET',
@@ -3694,6 +3720,9 @@ require([
             headers: {'Accept': '*/*'},
             success: function (data) {
                 
+                var siteNo_print = siteNo;
+                var siteNo_2_print = siteNo_2;
+                var siteNo_3_print = siteNo_3;
 
                 var site_no_for_print = siteAttr["SITE_NO"];
 
@@ -3701,11 +3730,13 @@ require([
 
                 var printAttr;
 
-                sitesLayerPrint = map.getLayer("fimSites");
-                map.reorderLayer(sitesLayerPrint,0);
+                var userTitle = $("#printTitle").val();
                         
-                if (data.features.length > 0) {
-                    printAttr = data.features[0].attributes;
+                //if (data.features.length > 0) {
+                if (data.hassite == true) {
+                
+                    //printAttr = data.features[0].attributes;
+                    printAttr = data;
 
                     var printParams = new PrintParameters();
                     printParams.map = map;
@@ -3725,9 +3756,7 @@ require([
                     }
 
                     var titleText;
-                    if (userTitle == "") {
-                        titleText = "FIM";;
-                    } else {
+                    if (userTitle != "") {
                         titleText = userTitle;
                     }
 
@@ -3736,8 +3765,27 @@ require([
                         "authorText" : "Flood Inundation Mapping",
                         "copyrightText": "This page was produced by the FIM and the WIM",
                         "customTextElements": [
-                            { "mapTitle": printAttr.TITLE + " at the U.S. Geological Survey Streamgage Number " + siteAttr.SITE_NO },
+                            { "mapTitle": printAttr.TITLE },
                             { "mapSeries": printAttr.REP_SER_NUM },
+                            { "uncertainty": "Although the flood-inundation maps represent the " +
+                                            "boundaries of inundated areas with a distinct line, " +
+                                            "some uncertainty is associated with these maps. The " +
+                                            "flood boundaries shown were estimated based on gage " +
+                                            "heights at selected USGS streamgages. Water-surface " +
+                                            "elevations along the stream reaches were estimated by " +
+                                            "steady-state hydraulic modeling, assuming unobstructed " +
+                                            "flow and using discharges and hydrologic conditions " +
+                                            "anticipated at the USGS streamgage(s). The hydraulic " +
+                                            "model reflects the land-cover characteristics of any " +
+                                            "bridge, dam, levee, or other hydraulic structure existing " +
+                                            "in " + printAttr.PUB_DATE + ". Unique meteorological factors " +
+                                            "(timing and distribution of precipitation) may cause " +
+                                            "actual discharges along the modeled reach to vary from " +
+                                            "assumed conditions during a flood and lead to deviations " +
+                                            "in the water-surface elevations and inundation boundaries " +
+                                            "shown. Additional areas may be flooded due to " +
+                                            "unanticipated backwater from major tributaries along " +
+                                            "the main stem or from localized debris or ice jams."},
                             { "studyArea": printAttr.STUDY_AREA },
                             { "purpose": printAttr.PURPOSE_SCOPE },
                             { "mapSources": "Detailed source data for this map series can be found in \"" + printAttr.TITLE + "(" + printAttr.PUB_DATE + ")\" at: " + printAttr.URL },
@@ -3753,35 +3801,19 @@ require([
                     var docTitle = template.layoutOptions.titleText;
                     printParams.template = template;
                     var printMap = new PrintTask("https://fimnew.wim.usgs.gov/server/rest/services/FIMPrint/ExportWebMap/GPServer/Export%20Web%20Map");
-                    //var printMap = new PrintTask("https://fim.wim.usgs.gov/arcgis/rest/services/FIMMapper/printTool/GPServer/printTool");
-                    map.getLayer("layer0").setVisibility(false);
         
                     if (page1name == "") {
                         printMap.execute(printParams, printPage1Done, printPage1Error, 'page1');
                         console.log('executed page 1')
                     }
                     
-                    map.getLayer("layer0").setVisibility(true);
-                    //sitesLayer.setVisibility(true);
-
                     function printPage1Done(event) {
-                        //alert(event.url);
-                        //window.open(event.url, "_blank");
-                        /*printCount++;
-                        //var printJob = $('<a href="'+ event.url +'" target="_blank">Printout ' + printCount + ' </a>');
-                        var printJob = $('<p><label>' + printCount + ': </label><a href="'+ event.url +'" target="_blank">' + docTitle +' page 1</a></p>');
-                        //$("#print-form").append(printJob);
-                        $("#printJobsDiv").find("p.toRemove").remove();
-                        $("#printModalBody").append(printJob);
-                        $("#printTitle").val("");
-                        $("#printExecuteButton").button('reset');*/
-
                         console.log('page 1 done');
 
                         page1name = event.url.split("gpserver/")[1];
                         console.log("page 1: " + page1name);
 
-                        if (page2name != null) {
+                        if (page2name != null && page2name != "") {
                             pdfMerge();
                             printerations = 0;
                         }
@@ -3796,11 +3828,6 @@ require([
                     no_page_one = true;
                 }
                     
-                //sitesLayer.setVisibility(false);
-
-                var baseLayer = map.getLayer("layer0");
-                map.removeLayer(baseLayer);
-
                 var page2PrintParams = new PrintParameters();
                 page2PrintParams.map = map;
 
@@ -3826,56 +3853,46 @@ require([
                 }
 
                 template.preserveScale = false;
-                /*var sitesLegendLayer = new LegendLayer();
-                sitesLegendLayer.layerId = "fimSites";*/
-                //legendLayer.subLayerIds = [*];
-
-                var userTitle = $("#printTitle").val();
 
                 var siteDefExp = "";
 
                 if (siteAttr.MULTI_SITE == '0') {
-                    siteDefExp = "SITE_NO = '" + siteNo + "'";
+                    siteDefExp = "SITE_NO = '" + siteNo_print + "'";
                     //siteToGage = "Map corresponding to a Gage Height of " + currentStage + " feet and an Elevation of " + currentElev + " feet (NAVD 88)";
-                } 
-
-                //sitesLayerPrint.setDefinitionExpression(siteDefExp);
-                //sitesLayerPrint.refresh();
+                }
 
                 var page2MapTitle = "";
                 var page2MapSubtitle = "";
                 if (siteAttr.MULTI_SITE == 0) {
-                    page2MapTitle = "Flood-Inundation Map for " + siteAttr.COMMUNITY + 
-                        " at the U.S. Geological Survey Streamgage Number " + siteAttr.SITE_NO;
+                    page2MapTitle = "Flood-Inundation Map for " + siteAttr.COMMUNITY + ", " + siteAttr.STATE;
                         /*+ "\n<FNT size='8'>Map corresponding to a Gage Height of " + 
                         gageValues[$(".fts1 #floodSlider")[0].value].gageValue + " feet and an Elevation of " + 
                         altitudeValues[$(".fts1 #floodSlider")[0].value].altitudeValue + " feet (NAVD 88)</FNT>";*/
                     page2MapSubtitle = "Map corresponding to a Gage Height of " + 
                         gageValues[$(".fts1 #floodSlider")[0].value].gageValue + " feet and an Elevation of " + 
-                        altitudeValues[$(".fts1 #floodSlider")[0].value].altitudeValue + " feet (NAVD 88)";
+                        altitudeValues[$(".fts1 #floodSlider")[0].value].altitudeValue + " feet (NAVD 88) for Streamgage Number " + 
+                        siteNo_print; 
                 } else if (siteAttr.MULTI_SITE == 1) {
-                    page2MapTitle = "Flood-Inundation Map for " + siteAttr.COMMUNITY + 
-                        " at the U.S. Geological Survey Streamgage Numbers " + siteAttr.SITE_NO + " and " + siteNo_2;
+                    page2MapTitle = "Flood-Inundation Map for multiple streamgages around " + siteAttr.COMMUNITY + ", " + siteAttr.STATE;
                     page2MapSubtitle = "Map corresponding to a Gage Height of " + 
                         gageValues[$(".fts1 #floodSlider")[0].value].gageValue + " feet and an Elevation of " + 
                         altitudeValues[$(".fts1 #floodSlider")[0].value].altitudeValue + " feet (NAVD 88) for Streamgage Number " + 
-                        siteAttr.SITE_NO +
+                        siteNo_print +
                         "and " + gageValues2[$(".fts2 #floodSlider")[0].value].gageValue + " feet and an Elevation of " + 
                         altitudeValues2[$(".fts2 #floodSlider")[0].value].altitudeValue + " feet (NAVD 88) for Streamgage Number " + 
-                        siteNo_2;
+                        siteNo_2_print;
                 } else if (siteAttr.MULTI_SITE == 2 || siteAttr.MULTI_SITE == 3) {
-                    page2MapTitle = "Flood-Inundation Map for " + siteAttr.COMMUNITY + 
-                        " at the U.S. Geological Survey Streamgage Numbers " + siteAttr.SITE_NO + ", " + siteNo_2 + " and " + siteNo_3;
+                    page2MapTitle = "Flood-Inundation Map for multiple streamgages around " + siteAttr.COMMUNITY + ", " + siteAttr.STATE;
                     page2MapSubtitle = "Map corresponding to a Gage Height of " + 
                         gageValues[$(".fts1 #floodSlider")[0].value].gageValue + " feet and an Elevation of " + 
                         altitudeValues[$(".fts1 #floodSlider")[0].value].altitudeValue + " feet (NAVD 88) for Streamgage Number " + 
-                        siteAttr.SITE_NO +
+                        siteNo_print +
                         " and " + gageValues2[$(".fts2 #floodSlider")[0].value].gageValue + " feet and an Elevation of " + 
                         altitudeValues2[$(".fts2 #floodSlider")[0].value].altitudeValue + " feet (NAVD 88) for Streamgage Number " + 
-                        siteNo_2 +
+                        siteNo_2_print +
                         " and " + gageValues3[$(".fts3 #floodSlider")[0].value].gageValue + " feet and an Elevation of " + 
                         altitudeValues3[$(".fts3 #floodSlider")[0].value].altitudeValue + " feet (NAVD 88) for Streamgage Number " + 
-                        siteNo_3; 
+                        siteNo_3_print; 
                 }
 
                 template.layoutOptions = {
@@ -3894,7 +3911,6 @@ require([
                 var docTitle = template.layoutOptions.titleText;
                 page2PrintParams.template = template;
                 var printMap = new PrintTask("https://fimnew.wim.usgs.gov/server/rest/services/FIMPrint/ExportWebMap/GPServer/Export%20Web%20Map");
-                //var printMap = new PrintTask("https://fim.wim.usgs.gov/arcgis/rest/services/FIMMapper/printTool/GPServer/printTool");
                 
                 var layerIDs = map.layerIds;
                 var graphicLayerIDs = map.graphicsLayerIds;
@@ -3911,67 +3927,46 @@ require([
                     }
                 }
 
-                sitesLayerPrint.setVisibility(true);
-
                 printMap.execute(page2PrintParams, printPage2Done, printPage2Error, 'page2');
                 console.log('executed page 2');
-
-                //sitesLayerPrint.setDefinitionExpression("(Public = 1 OR Public =0) AND (MULTI_SITE = 0 OR MULTI_SITE = 1 OR MULTI_SITE = 3)");
-                //sitesLayerPrint.refresh();
-                map.addLayer(baseLayer,0);
-                map.getLayer("layer0").setVisibility(true);
-                sitesLayerPrint.setVisibility(false);
 
                 for (var j=0; j<layersToReturn.length; j++) {
                     map.addLayer(layersToReturn[j]);
                     //console.log("added " + layersToReturn[j]);
                 }
 
-                map.reorderLayer(sitesLayerPrint,100);
-
-                /*map.addLayer("nwsRadar");
-                map.addLayer("fimExtentsMulit");
-                map.addLayer("fimExtentsThreeSites");
-                map.addLayer("fimBreachMulti");
-                map.addLayer("fimGrid1");
-                map.addLayer("fimGrid2");
-                map.addLayer("fimGrid3");
-                map.addLayer("fimGrid4");
-                map.addLayer("floodWatchWarn");
-                map.addLayer("ahpsSites");*/
-
                 function printPage2Done(event) {
-                    //alert(event.url);
-                    //window.open(event.url, "_blank");
-                    /*printCount++;
-                    //var printJob = $('<a href="'+ event.url +'" target="_blank">Printout ' + printCount + ' </a>');
-                    var printJob = $('<p><label>' + printCount + ': </label><a href="'+ event.url +'" target="_blank">' + docTitle +' </a></p>');
-                    //$("#print-form").append(printJob);
-                    $("#printJobsDiv").find("p.toRemove").remove();
-                    $("#printModalBody").append(printJob);
-                    $("#printTitle").val("");
-                    $("#printExecuteButton").button('reset');*/
-
                     console.log('page 2 done');
 
                     page2name = event.url.split("gpserver/")[1];
                     console.log("page 2: " + page2name);
 
-                    if (page1name != null) {
+                    if (page1name != null && page1name != "") {
                         pdfMerge();
                         var times = printerations + 1;
                         console.log("It took " + times + " attempts(s).");
                         printerations = 0;
                     } else if (no_page_one == true) {
+                        var mergedTitle = "Map for site number " + siteNo_print;
+                        if (siteNo_2_print != undefined) {
+                            mergedTitle = "Map for site numbers " + siteNo_print + " and " + siteNo_2_print;
+                        }if (siteNo_3_print != undefined) {
+                            mergedTitle = "Map for site numbers " + siteNo_print + ", " + siteNo_2_print + ", and " + siteNo_3_print;
+                        }
+                        if (userTitle != "") {
+                            mergedTitle = userTitle;
+                        }
                         printCount++;
                         //var printJob = $('<a href="'+ event.url +'" target="_blank">Printout ' + printCount + ' </a>');
-                        var printJob = $('<p><label>' + printCount + ': </label><a href="'+ event.url +'" target="_blank">' + docTitle +' </a></p>');
+                        var printJob = $('<p><label>' + printCount + ': </label><a href="'+ event.url +'" target="_blank"> ' + mergedTitle +' </a></p>');
                         //$("#print-form").append(printJob);
                         $("#printJobsDiv").find("p.toRemove").remove();
                         $("#printModalBody").append(printJob);
                         $("#printTitle").val("");
                         $("#printExecuteButton").button('reset');
                         printerations = 0;
+                        page1name = "";
+                        page2name = "";
                     }
                 }
 
@@ -3984,15 +3979,13 @@ require([
                         url: "https://fimnew.wim.usgs.gov/fim-pdf-merge?page1name=" + page1name + "&page2name=" + page2name,
                         headers: {'Accept': '*/*'},
                         success: function (data) {
-                            var mergedTitle = "Map for site number " + siteNo;
-                            if (siteNo_2 != undefined) {
-                                mergedTitle = "Map for site numbers " + siteNo + " and " + siteNo_2;
-                            }if (siteNo_3 != undefined) {
-                                mergedTitle = "Map for site numbers " + siteNo + ", " + siteNo_2 + ", and " + siteNo_3;
+                            var mergedTitle = "Map for site number " + siteNo_print;
+                            if (siteNo_2_print != undefined) {
+                                mergedTitle = "Map for site numbers " + siteNo_print + " and " + siteNo_2_print;
+                            }if (siteNo_3_print != undefined) {
+                                mergedTitle = "Map for site numbers " + siteNo_print + ", " + siteNo_2_print + ", and " + siteNo_3_print;
                             }
-                            if (userTitle == "") {
-                                //mergedTitle = "Map for site number " + site_no_for_print;
-                            } else {
+                            if (userTitle != "") {
                                 mergedTitle = userTitle;
                             }
                             printCount++;
@@ -4015,7 +4008,7 @@ require([
         });
     }
     
-    function printPage2Error(event, page_num = null) {
+    function printPage2Error(event) {
         console.log('page 2 error');
         if (printerations < 5) {
             printerations++;
