@@ -261,11 +261,11 @@ USGS Bar
             </div>
             <div class="item">
                 <label>Discharge:</label>
-                <div class="value label-cfs" id="floodDischargeSelected"></div>
+                <div class="value label-cfs flood-discharge-selected"></div>
 			</div>
             <div class="item">
                 <label>Elevation:</label>
-                <div class="value label-cfs" id="elevationSelected"></div>
+                <div class="value label-cfs elevation-selected"></div>
 			</div>
         </div>
 
@@ -297,11 +297,11 @@ USGS Bar
             </div>
             <div class="item">
                 <label>Discharge:</label>
-                <div class="value label-cfs" id="floodDischargeSelected"></div>
+                <div class="value label-cfs flood-discharge-selected"></div>
 			</div>
             <div class="item">
                 <label>Elevation:</label>
-                <div class="value label-cfs" id="elevationSelected"></div>
+                <div class="value label-cfs elevation-selected"></div>
 			</div>
         </div>
 
@@ -334,11 +334,11 @@ USGS Bar
             </div>
             <div class="item">
                 <label>Discharge:</label>
-                <div class="value label-cfs" id="floodDischargeSelected"></div>
+                <div class="value label-cfs flood-discharge-selected"></div>
 			</div>
             <div class="item">
                 <label>Elevation:</label>
-                <div class="value label-cfs" id="elevationSelected"></div>
+                <div class="value label-cfs elevation-selected"></div>
 			</div>
         </div>
 
@@ -906,15 +906,15 @@ $(".close-alert").click(function(){
 									<div class="ft-options-flex">
 										<!-- Site One -->
 										<div id="optionData" class="fts1">
-											<label id="floodDischargeSelected"></label>
+											<label class="label-cfs flood-discharge-selected"></label>
 										</div>
 										<!-- Site Two -->
 										<div id="optionData" class="fts2">
-											<label id="floodDischargeSelected"></label>
+											<label class="label-cfs flood-discharge-selected"></label>
 										</div>
 										<!-- Site Three -->
 										<div id="optionData" class="fts3">
-											<label id="floodDischargeSelected"></label>
+											<label class="label-cfs flood-discharge-selected"></label>
 										</div>
 									</div>
 								</div>
@@ -1032,38 +1032,38 @@ $(".close-alert").click(function(){
                                 <!-- Current Conditions Table -->
                                 <div class="small-label">Current Conditions</div>
                                 <div class="tools-table">
+									<!-- Gage Heights -->
+									<div id="currentValue" class="box bold">Gage Height</div>
+									<div class="box fts1"><label id="floodGage" class="label-ft"></label></div>
+									<div class="box fts2"><label id="floodGage" class="label-ft"></label></div>
+									<div class="box fts3"><label id="floodGage" class="label-ft"></label></div>
+                                    <div class="tools-table-space"></div>
                                     <!-- Discharge -->
                                     <div class="box bold">Discharge</div>
                                     <div class="box fts1"><label id="floodDischarge" class="label-cfs"></label></div>
                                     <div class="box fts2"><label id="floodDischarge" class="label-cfs"></label></div>
                                     <div class="box fts3"><label id="floodDischarge" class="label-cfs"></label></div>
-                                    <div class="tools-table-space"></div>
-                                    <!-- Gage Heights -->
-                                    <div id="currentValue" class="box bold">Gage Height</div>
-                                    <div class="box fts1"><label id="floodGage" class="label-ft"></label></div>
-                                    <div class="box fts2"><label id="floodGage" class="label-ft"></label></div>
-                                    <div class="box fts3"><label id="floodGage" class="label-ft"></label></div>
                                 </div>
                                 <!-- Selected Conditions Table -->
                                 <div class="small-label">Selected Conditions</div>
                                 <div class="tools-table">
 									<!-- Site No -->
 									<div class="box bold">Gage Height</div>
-									<div class="box fts1"><div class="value label-ft slider-min update"></div></div>
-									<div class="box fts2"><div class="value label-ft slider-min update"></div></div>
-									<div class="box fts3"><div class="value label-ft slider-min update"></div></div>
+									<div class="box fts1"><label class="value label-ft slider-min update"></label></div>
+									<div class="box fts2"><label class="value label-ft slider-min update"></label></div>
+									<div class="box fts3"><label class="value label-ft slider-min update"></label></div>
 									<div class="tools-table-space"></div>
                                     <!-- Discharge -->
                                     <div class="box bold">Discharge</div>
-                                    <div class="box fts1"><label id="floodDischargeSelected" class="label-cfs"></label></div>
-                                    <div class="box fts2"><label id="floodDischargeSelected" class="label-cfs"></label></div>
-                                    <div class="box fts3"><label id="floodDischargeSelected" class="label-cfs"></label></div>
+                                    <div class="box fts1"><label class="label-cfs flood-discharge-selected"></label></div>
+                                    <div class="box fts2"><label class="label-cfs flood-discharge-selected"></label></div>
+                                    <div class="box fts3"><label class="label-cfs flood-discharge-selected"></label></div>
                                     <div class="tools-table-space"></div>
                                     <!-- Site ID -->
                                     <div class="box bold">Elevation</div>
-                                    <div class="box fts1"><label id="elevationSelected" class="label-ft"></label></div>
-                                    <div class="box fts2"><label id="elevationSelected" class="label-ft"></label></div>
-                                    <div class="box fts3"><label id="elevationSelected" class="label-ft"></label></div>
+                                    <div class="box fts1"><label class="label-ft elevation-selected"></label></div>
+                                    <div class="box fts2"><label class="label-ft elevation-selected"></label></div>
+                                    <div class="box fts3"><label class="label-ft elevation-selected"></label></div>
                                 </div>
 
                                 <!-- Zoom -->
