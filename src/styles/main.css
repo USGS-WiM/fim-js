@@ -1960,36 +1960,36 @@ input[type=range].styled:focus::-ms-fill-upper {
   -webkit-justify-content: space-around;
   justify-content: space-around;
 }
-#ftModal #ftSliders #ftOptions .selected-gage-height {
-  margin-bottom: 4px;
-}
-#ftModal #ftSliders #ftOptions .selected-gage-height small {
+#ftModal #ftSliders #ftOptions .ft-options-row small {
   display: block;
   text-align: center;
   font-size: 10.5px;
   font-weight: 500;
 }
-#ftModal #ftSliders #ftOptions .selected-gage-height .sgh-flex {
+#ftModal #ftSliders #ftOptions .ft-options-row .ft-options-flex {
   display: -webkit-flex;
   display: flex;
   -webkit-justify-content: space-around;
   justify-content: space-around;
 }
-#ftModal #ftSliders #ftOptions .selected-gage-height .sgh-flex #sgh {
+#ftModal #ftSliders #ftOptions .ft-options-row .ft-options-flex #optionData {
   font-weight: 600;
   text-align: center;
-  padding-top: 3px;
+  padding-top: 1.5px;
 }
-#ftModal #ftSliders #ftOptions .selected-gage-height .sgh-flex #sgh label {
+#ftModal #ftSliders #ftOptions .ft-options-row .ft-options-flex #optionData label {
   margin: 0 !important;
-  font-size: 16px;
+  font-size: 12.5px;
 }
-#ftModal #ftSliders #ftOptions .selected-gage-height .sgh-flex #sgh label:after {
+#ftModal #ftSliders #ftOptions .ft-options-row .ft-options-flex #optionData label:after {
   content: 'ft';
   font-size: 10.5px;
   font-weight: 500;
 }
-#ftModal #ftSliders #ftOptions .ft-option {
+#ftModal #ftSliders #ftOptions .ft-options-row .ft-options-flex #optionData label.label-cfs:after {
+  content: 'cfs';
+}
+#ftModal #ftSliders #ftOptions .ft-checkbox {
   display: -webkit-flex;
   display: flex;
   -webkit-justify-content: flex-start;
@@ -1998,19 +1998,22 @@ input[type=range].styled:focus::-ms-fill-upper {
   box-sizing: border-box;
   padding: 0 12px;
 }
-#ftModal #ftSliders #ftOptions .ft-option label {
+#ftModal #ftSliders #ftOptions .ft-checkbox label {
   font-size: 10px;
   font-weight: 500;
   padding-left: 5px;
   box-sizing: border-box;
-  line-height: 11.5px;
+  line-height: 11px;
   display: -webkit-flex;
   display: flex;
   -webkit-flex-direction: column;
   flex-direction: column;
   -webkit-justify-content: center;
   justify-content: center;
-  padding-top: 5px;
+  padding-top: 2px;
+}
+#ftModal #ftSliders #ftOptions .ft-checkbox input[type=checkbox] {
+  margin: 1px 0 0 0 !important;
 }
 #ftModal #ftSliders #ftOptions #floodToolsLegend {
   display: -webkit-flex;
@@ -2223,9 +2226,10 @@ input[type=range].styled:focus::-ms-fill-upper {
 }
 #ftModal #ftData .small-label {
   display: block;
-  font-size: 11px;
-  color: rgba(16, 21, 44, 0.7);
-  font-weight: 600;
+  font-size: 13px;
+  color: #10152C;
+  font-weight: 700;
+  letter-spacing: -0.2px;
   padding-bottom: 3px;
   border-bottom: 1px solid rgba(16, 21, 44, 0.15);
 }
@@ -2296,7 +2300,7 @@ input[type=range].styled:focus::-ms-fill-upper {
   font-size: 14px;
   font-weight: 500;
 }
-#ftModal #ftData #ftTools #toolsTable {
+#ftModal #ftData #ftTools .tools-table {
   width: 100%;
   display: -webkit-flex;
   display: flex;
@@ -2304,13 +2308,13 @@ input[type=range].styled:focus::-ms-fill-upper {
   flex-wrap: wrap;
   max-width: 460px;
   box-sizing: border-box;
-  padding-left: 20px;
-  margin-bottom: 20px;
+  padding: 5px 0 5px 10px;
+  margin-bottom: 12px;
 }
-#ftModal #ftData #ftTools #toolsTable .tools-table-space {
+#ftModal #ftData #ftTools .tools-table .tools-table-space {
   width: 100%;
 }
-#ftModal #ftData #ftTools #toolsTable .box {
+#ftModal #ftData #ftTools .tools-table .box {
   width: 25%;
   display: -webkit-flex;
   display: flex;
@@ -2320,41 +2324,55 @@ input[type=range].styled:focus::-ms-fill-upper {
   justify-content: center;
   font-weight: 700;
   box-sizing: border-box;
-  padding: 8px 0;
+  padding: 8px 0 0 0;
   color: #10152C;
-  font-size: 14px;
+  font-size: 13px;
 }
-#ftModal #ftData #ftTools #toolsTable .box.bold {
-  font-size: 11px;
-  color: rgba(16, 21, 44, 0.8);
+#ftModal #ftData #ftTools .tools-table .box.bold {
+  font-size: 12px;
+  color: #10152C;
+  letter-spacing: -0.2px;
   font-weight: 600;
   text-align: left;
 }
-#ftModal #ftData #ftTools #toolsTable .box label {
+#ftModal #ftData #ftTools .tools-table .box label {
   margin: 0;
   font-size: 14px;
 }
-#ftModal #ftData #ftTools #toolsTable .box a {
+#ftModal #ftData #ftTools .tools-table .box a {
   font-size: 14px;
   color: #1D6DFA;
   text-decoration: underline;
 }
-#ftModal #ftData #ftTools #toolsTable .box .label-ft:after,
-#ftModal #ftData #ftTools #toolsTable .box .label-fps:after,
-#ftModal #ftData #ftTools #toolsTable .box .label-cfs:after {
+#ftModal #ftData #ftTools .tools-table .box .label-ft:after,
+#ftModal #ftData #ftTools .tools-table .box .label-fps:after,
+#ftModal #ftData #ftTools .tools-table .box .label-cfs:after {
   letter-spacing: -0.2px;
   font-size: 11px;
   padding-left: 2px;
   font-weight: 500;
 }
-#ftModal #ftData #ftTools #toolsTable .box .label-ft:after {
+#ftModal #ftData #ftTools .tools-table .box .label-ft:after {
   content: 'feet';
 }
-#ftModal #ftData #ftTools #toolsTable .box .label-fps:after {
+#ftModal #ftData #ftTools .tools-table .box .label-fps:after {
   content: 'fps';
 }
-#ftModal #ftData #ftTools #toolsTable .box .label-cfs:after {
+#ftModal #ftData #ftTools .tools-table .box .label-cfs:after {
   content: 'cfs';
+}
+#ftModal #ftData #ftTools .tools-table .box #siteName {
+  overflow: visible;
+  text-overflow: ellipsis;
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: -0.3px;
+  padding-right: 5px;
+  max-height: 20px;
+  min-height: 20px;
+  line-height: 11px;
+  box-sizing: border-box;
+  padding-bottom: 12px;
 }
 #ftModal #ftData #ftTools #toolsButtons {
   display: block;
@@ -2599,7 +2617,7 @@ input[type=range].styled:focus::-ms-fill-upper {
   position: fixed;
   bottom: 0;
   right: 0;
-  height: 200px;
+  height: 235px;
   width: 220px;
   z-index: 100;
   background-color: white;
@@ -2613,7 +2631,7 @@ input[type=range].styled:focus::-ms-fill-upper {
   transition: all 0.2s ease;
 }
 #minFT.visible {
-  bottom: 0;
+  bottom: 45px;
   transition: all 0.2s ease;
 }
 #minFT .header {
@@ -3449,10 +3467,4 @@ input[type=range].styled:focus::-ms-fill-upper {
 }
 .sidebar-layers-item button:hover b {
   text-decoration: underline;
-}
-.printWarning {
-  padding-top: 5px;
-  font-weight: bold;
-  display: relative;
-  color: red;
 }

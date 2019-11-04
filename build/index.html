@@ -215,10 +215,7 @@ USGS Bar
                 <label>NWS Site ID:</label>
                 <a id="nwsSiteID" class="value" target="_blank" href=""></a>
             </div>
-            <div class="item nws-data-req">
-                <label>Selected gage height:</label>
-                <div class="value label-ft slider-min update"></div>
-            </div>
+			<!-- Current Conditions -->
             <div class="section-header">Current Conditions</div>
             <div class="item">
                 <label>Gage height:</label>
@@ -227,7 +224,21 @@ USGS Bar
             <div class="item">
                 <label>Discharge:</label>
                 <div class="value label-cfs" id="floodDischarge"></div>
+			</div>
+			<!-- Selected Conditions -->
+            <div class="section-header">Selected Conditions</div>
+			<div class="item">
+                <label>Gage height:</label>
+                <div class="value label-ft slider-min update"></div>
             </div>
+            <div class="item">
+                <label>Discharge:</label>
+                <div class="value label-cfs flood-discharge-selected"></div>
+			</div>
+            <div class="item">
+                <label>Elevation:</label>
+                <div class="value label-cfs elevation-selected"></div>
+			</div>
         </div>
 
         <!-- Site Two -->
@@ -238,12 +249,9 @@ USGS Bar
             </div>
             <div class="item">
                 <label>NWS Site ID:</label>
-                <a id="nwsSiteID" class="value" target="_blank" href=""></a>
+                <div id="nwsSiteID"></div>
             </div>
-            <div class="item nws-data-req">
-                <label>Selected gage height:</label>
-                <div class="value label-ft slider-min update"></div>
-            </div>
+			<!-- Current Conditions -->
             <div class="section-header">Current Conditions</div>
             <div class="item">
                 <label>Gage height:</label>
@@ -252,7 +260,21 @@ USGS Bar
             <div class="item">
                 <label>Discharge:</label>
                 <div class="value label-cfs" id="floodDischarge"></div>
+			</div>
+			<!-- Selected Conditions -->
+			<div class="section-header">Selected Conditions</div>
+			<div class="item">
+                <label>Gage height:</label>
+                <div class="value label-ft slider-min update"></div>
             </div>
+            <div class="item">
+                <label>Discharge:</label>
+                <div class="value label-cfs flood-discharge-selected"></div>
+			</div>
+            <div class="item">
+                <label>Elevation:</label>
+                <div class="value label-cfs elevation-selected"></div>
+			</div>
         </div>
 
 
@@ -266,10 +288,7 @@ USGS Bar
                 <label>NWS Site ID:</label>
                 <a id="nwsSiteID" class="value" target="_blank" href=""></a>
             </div>
-            <div class="item nws-data-req">
-                <label>Selected gage height:</label>
-                <div class="value label-ft slider-min update"></div>
-            </div>
+			<!-- Current Conditions -->
             <div class="section-header">Current Conditions</div>
             <div class="item">
                 <label>Gage height:</label>
@@ -278,7 +297,21 @@ USGS Bar
             <div class="item">
                 <label>Discharge:</label>
                 <div class="value label-cfs" id="floodDischarge"></div>
+			</div>
+			<!-- Selected Conditions -->
+			<div class="section-header">Selected Conditions</div>
+			<div class="item">
+                <label>Gage height:</label>
+                <div class="value label-ft slider-min update"></div>
             </div>
+            <div class="item">
+                <label>Discharge:</label>
+                <div class="value label-cfs flood-discharge-selected"></div>
+			</div>
+            <div class="item">
+                <label>Elevation:</label>
+                <div class="value label-cfs elevation-selected"></div>
+			</div>
         </div>
 
 
@@ -435,7 +468,7 @@ $(".close-alert").click(function(){
 							<div class="user-guide-item-image"><img src="images/userguide/explanation-min.png"/></div>
 						</div>
                         <div class="user-guide-item">
-                            <p><b>Using the Explanation</b>The expanded Explanation box explains the arrows and circles that appear for each site, displaying the results from the statistical analysis of trends.</p>
+                            <p><b>Using the Explanation</b>The expanded Explanation box explains the symbols, patterns, and colors of the visible data layers on the map.</p>
 							<div class="user-guide-item-image"><img src="images/userguide/explanation.png"/></div>
 						</div>
                         <div class="user-guide-item">
@@ -458,19 +491,23 @@ $(".close-alert").click(function(){
 							<div class="user-guide-item-image"><img src="images/userguide/points.png"/></div>
                         </div>
                         <div class="user-guide-item">
-							<p><b>Adjusting Popup Position</b>The pop-up window can be repositioned with mouse cursor and/or can be minimized to see the rest of the flood map layers if necessary.</p>
+							<p><b>Managing Flood Tools Popup</b>The Flood Tools pop-up window can be moved by clicking the title area and dragging the window. The window can be minimized by clicking the 'collapse' icon. It can be expanded once again with the 'expand' icon. The flood tools can be closed by clicking the 'X' icon.</p>
 							<div class="user-guide-item-image"><img src="images/userguide/window.png"/></div>
+                        </div>
+                        <div class="user-guide-item">
+							<p><b>Gage Height Slider</b>The Gage Height Slider allows the user to select a gage height and see corresponding flood extent and related information. Selecting 'View grids' will color code the inundated area, with values given in explanation. Selecting 'View Satellite Imagery" will toggle the basemap to Satellite Imagery.</p>
+							<div class="user-guide-item-image"><img src="images/userguide/gageslider.png"/></div>
                         </div>
                         <div class="user-guide-item">
 							<p><b>Sharing Site URL</b>At the end of the site name on the initial popup window, there is a link called "Share". When clicked, another popup window displays a site link URL which can be shared and used to browse directly to that particular site. This URL can be copied either by manually selecting the text or by clicking on the "Copy Link" button.</p>
 							<div class="user-guide-item-image"><img src="images/userguide/share.png"/></div>
                         </div>
                         <div class="user-guide-item">
-							<p><b>Site info & Conditions</b>In most cases, the first tab that a user will see, is called "Site Info & Conditions". Moving the slider to a different stream gage height/stage shows how the surrounding community would be affected at different water levels.</p>
+							<p><b>Site info & Conditions</b>This section shows current conditions at the streamgage(s) as well as the selected conditions based on the setting of the Gage Height Slider(s).</p>
 							<div class="user-guide-item-image"><img src="images/userguide/currentconditions.png"/></div>
                         </div>
                         <div class="user-guide-item">
-							<p><b>More Info Tab</b>In some cases, a user may see a tab called "More Info" first instead of "Flood Tools" tab. When a particular site has a special message/information that a user should be aware of, the "More Info" tab displays that message/information before a user can move on to using the other tools</p>
+							<p><b>More Info Tab</b>Displays optional additional information applicable for this site.</p>
 							<div class="user-guide-item-image"><img src="images/userguide/moreinfo.png"/></div>
                         </div>
                         <div class="user-guide-item">
@@ -478,12 +515,16 @@ $(".close-alert").click(function(){
 							<div class="user-guide-item-image"><img src="images/userguide/depth.png"/></div>
                         </div>
                         <div class="user-guide-item">
-							<p><b>Hydrograph</b>Change to the "Hydrograph" tab to view the observed and predicted (if available) gage height/stage data.</p>
+							<p><b>Hydrograph</b>Displays the observed and predicted gage height/stage data. Click/Tap on the hydrograph to adjust the Gage Height Slider.</p>
 							<div class="user-guide-item-image"><img src="images/userguide/window.png"/></div>
                         </div>
                         <div class="user-guide-item">
 							<p><b>Services & Data</b>The "Service and Data" tab includes access to study documentation and GIS data layers. Users can also sign up to receive text or email from the USGS when waters are rising in rivers and streams through WaterAlert. Users can use the flood inundation maps to determine what WaterAlert threshold to sign up for based on how flood levels will impact their area.</p>
 							<div class="user-guide-item-image"><img src="images/userguide/services.png"/></div>
+                        </div>
+                        <div class="user-guide-item">
+							<p><b>Zoom to Location</b>Selecting 'Zoom to location' will fit the interactive map window to display the extent of the flood library selected.</p>
+							<div class="user-guide-item-image"><img src="images/userguide/zoomlocation.png"/></div>
                         </div>
                     </div>
                 </div>
@@ -760,62 +801,60 @@ $(".close-alert").click(function(){
                                     Flood Level Sliders
                                     Flood Level Sliders
 								-->
-							<span class="nws-data-req">
-								<!-- First slider -->
-								<div class="slider-group fts1">
-									<!-- Flood Level Colors -->
-									<div class="slider-levels">
-										<div class="sliderWhiteSpace"></div>
-										<div class="sliderActionLevel"></div>
-										<div class="sliderMinorLevel"></div>
-										<div class="sliderModerateLevel"></div>
-										<div class="sliderMajorLevel"></div>
-										<div class="sliderExtendedLevel"></div>
-									</div>
-									<!-- Actual Slider -->
-									<div class="slider-wrapper">
-										<label class="slider-max">N/A</label>
-										<input id="floodSlider" type="range" name="stage" value="0" min="0" max="10" class="styled ftSlider-vertical floodSlider first-slider"/>
-										<label class="slider-min">N/A</label>
-									</div>
+							<!-- First slider -->
+							<div class="slider-group fts1">
+								<!-- Flood Level Colors -->
+								<div class="slider-levels nws-data-req">
+									<div class="sliderWhiteSpace"></div>
+									<div class="sliderActionLevel"></div>
+									<div class="sliderMinorLevel"></div>
+									<div class="sliderModerateLevel"></div>
+									<div class="sliderMajorLevel"></div>
+									<div class="sliderExtendedLevel"></div>
 								</div>
-								<!-- Second slider -->
-								<div class="slider-group fts2">
-									<!-- Flood Level Colors -->
-									<div class="slider-levels">
-										<div class="sliderWhiteSpace"></div>
-										<div class="sliderActionLevel"></div>
-										<div class="sliderMinorLevel"></div>
-										<div class="sliderModerateLevel"></div>
-										<div class="sliderMajorLevel"></div>
-										<div class="sliderExtendedLevel"></div>
-									</div>
-									<!-- Actual Slider -->
-									<div class="slider-wrapper">
-										<label class="slider-max">N/A</label>
-										<input id="floodSlider" type="range" name="stage" value="0" min="0" max="10" class="styled ftSlider-vertical floodSlider second-slider"/>
-										<label class="slider-min">N/A</label>
-									</div>
+								<!-- Actual Slider -->
+								<div class="slider-wrapper">
+									<label class="slider-max">N/A</label>
+									<input id="floodSlider" type="range" name="stage" value="0" min="0" max="10" class="styled ftSlider-vertical floodSlider first-slider"/>
+									<label class="slider-min">N/A</label>
 								</div>
-								<!-- Third slider -->
-								<div class="slider-group fts3">
-									<!-- Flood Level Colors -->
-									<div class="slider-levels">
-										<div class="sliderWhiteSpace"></div>
-										<div class="sliderActionLevel"></div>
-										<div class="sliderMinorLevel"></div>
-										<div class="sliderModerateLevel"></div>
-										<div class="sliderMajorLevel"></div>
-										<div class="sliderExtendedLevel"></div>
-									</div>
-									<!-- Actual Slider -->
-									<div class="slider-wrapper">
-										<label class="slider-max">N/A</label>
-										<input id="floodSlider" type="range" name="stage" value="0" min="0" max="10" class="styled ftSlider-vertical floodSlider third-slider"/>
-										<label class="slider-min">N/A</label>
-									</div>
+							</div>
+							<!-- Second slider -->
+							<div class="slider-group fts2">
+								<!-- Flood Level Colors -->
+								<div class="slider-levels nws-data-req">
+									<div class="sliderWhiteSpace"></div>
+									<div class="sliderActionLevel"></div>
+									<div class="sliderMinorLevel"></div>
+									<div class="sliderModerateLevel"></div>
+									<div class="sliderMajorLevel"></div>
+									<div class="sliderExtendedLevel"></div>
 								</div>
-							</span>
+								<!-- Actual Slider -->
+								<div class="slider-wrapper">
+									<label class="slider-max">N/A</label>
+									<input id="floodSlider" type="range" name="stage" value="0" min="0" max="10" class="styled ftSlider-vertical floodSlider second-slider"/>
+									<label class="slider-min">N/A</label>
+								</div>
+							</div>
+							<!-- Third slider -->
+							<div class="slider-group fts3">
+								<!-- Flood Level Colors -->
+								<div class="slider-levels nws-data-req">
+									<div class="sliderWhiteSpace"></div>
+									<div class="sliderActionLevel"></div>
+									<div class="sliderMinorLevel"></div>
+									<div class="sliderModerateLevel"></div>
+									<div class="sliderMajorLevel"></div>
+									<div class="sliderExtendedLevel"></div>
+								</div>
+								<!-- Actual Slider -->
+								<div class="slider-wrapper">
+									<label class="slider-max">N/A</label>
+									<input id="floodSlider" type="range" name="stage" value="0" min="0" max="10" class="styled ftSlider-vertical floodSlider third-slider"/>
+									<label class="slider-min">N/A</label>
+								</div>
+							</div>
 
 
                             <!-- Site options -->
@@ -824,42 +863,60 @@ $(".close-alert").click(function(){
                             <div id="ftOptions">
 
 								<!-- Selected Gage Heights -->
-								<div class="selected-gage-height">
+								<div class="ft-options-row">
 									<small>Selected Gage Height:</small>
-									<div class="sgh-flex">
+									<div class="ft-options-flex">
 										<!-- Site One -->
-										<div id="sgh" class="fts1">
+										<div id="optionData" class="fts1">
 											<label for="floodSlider" class="slider-min update"></label>
 										</div>
 										<!-- Site Two -->
-										<div id="sgh" class="fts2">
+										<div id="optionData" class="fts2">
 											<label for="floodSlider" class="slider-min update"></label>
 										</div>
 										<!-- Site Three -->
-										<div id="sgh" class="fts3">
+										<div id="optionData" class="fts3">
 											<label for="floodSlider" class="slider-min update"></label>
+										</div>
+									</div>
+								</div>
+								<!-- Selected Discharge -->
+								<div class="ft-options-row">
+									<small>Selected Discharge:</small>
+									<div class="ft-options-flex">
+										<!-- Site One -->
+										<div id="optionData" class="fts1">
+											<label class="label-cfs flood-discharge-selected"></label>
+										</div>
+										<!-- Site Two -->
+										<div id="optionData" class="fts2">
+											<label class="label-cfs flood-discharge-selected"></label>
+										</div>
+										<!-- Site Three -->
+										<div id="optionData" class="fts3">
+											<label class="label-cfs flood-discharge-selected"></label>
 										</div>
 									</div>
 								</div>
 
 								<!-- Checkboxes -->
 								<div class="ft-option-checkboxes">
-									<div id="satBasemap" class="ft-option">
+									<div id="satBasemap" class="ft-checkbox">
 										<input id="satCheckBox" type="checkbox" checked />
 										<label for="satCheckBox" id="satBasemap">View Satellite Imagery</label>
 									</div>
-									<div id="gridsCheck" class="ft-option">
+									<div id="gridsCheck" class="ft-checkbox">
 										<input id="gridsCheckBox" type="checkbox" />
-										<label for="gridsCheckBox">View grids</label>
+										<label for="gridsCheckBox">View Depth Grids</label>
 									</div>
-									<div id="aouCheck" class="ft-option">
+									<div id="aouCheck" class="ft-checkbox">
 										<input id="aouCheckBox" type="checkbox" checked />
 										<label for="aouCheckBox" id="aouCheck">Include Area of Uncertainty</label>
 									</div>
 								</div>
                                 
 								<!-- NWS Stages Legend -->
-                                <div id="floodToolsLegend" class="nws-data-req">
+                                <div id="floodToolsLegend">
 									<div class="ft-legend-header">NWS Stages</div>
 									
 									<div class="ft-legend-items">
@@ -897,7 +954,7 @@ $(".close-alert").click(function(){
                                     <span>Site Info & Conditions</span>
 									<i class="ft-main-tab-triangle"><div class="inner-triangle"></div></i>
                                 </div>
-                                <div class="ft-tab ft-hydro-tab nws-data-req" data-toggle="ftHydro" onclick="ga('send','event','Hydrograph Panel','click','Hydrograph');">
+                                <div class="ft-tab ft-hydro-tab" data-toggle="ftHydro" onclick="ga('send','event','Hydrograph Panel','click','Hydrograph');">
                                     <span>Hydrograph</span>
                                     <i class="far fa-chart-bar"></i>
                                 </div>
@@ -909,11 +966,11 @@ $(".close-alert").click(function(){
                                     <span>Services & Data</span>
                                     <i class="far fa-server"></i>
                                 </div>
-                                <div class="ft-tab ft-webcam-tab" data-toggle="ftWebcam" onclick="ga('send','event','Webcam Panel','click','More Info');">
+                                <div class="ft-tab ft-webcam-tab" data-toggle="ftWebcam" onclick="ga('send','event','Webcam Panel','click','Webcam');">
                                     <span>Webcam</span>
                                     <i class="far fa-video"></i>
                                 </div>
-                                <a class="ft-tab ft-webcam-link-tab" href="" target="_blank" onclick="ga('send','event','Webcam Panel','click','More Info');">
+                                <a class="ft-tab ft-webcam-link-tab" href="" target="_blank" onclick="ga('send','event','Webcam Panel','click','Webcam');">
                                     <span>Webcam</span>
                                     <i class="far fa-video"></i>
                                 </a>
@@ -931,20 +988,14 @@ $(".close-alert").click(function(){
                                 -->
                             <div id="ftTools" class="ftmodal-content">                                
 
-                                <!-- Current Conditions Table -->
-                                <div class="small-label">Current Conditions</div>
-                                <div id="toolsTable">
-                                    <!-- Discharge -->
-                                    <div class="box bold">Discharge</div>
-                                    <div class="box fts1"><label id="floodDischarge" class="label-cfs"></label></div>
-                                    <div class="box fts2"><label id="floodDischarge" class="label-cfs"></label></div>
-                                    <div class="box fts3"><label id="floodDischarge" class="label-cfs"></label></div>
-                                    <div class="tools-table-space"></div>
+                                <!-- Site Info Table -->
+                                <div class="small-label">Site Info</div>
+                                <div class="tools-table">
                                     <!-- Site No -->
                                     <div class="box bold">USGS Site No</div>
-                                    <div class="box fts1"><a id="usgsSiteNo" target="_blank" href=""></a></div>
-                                    <div class="box fts2"><a id="usgsSiteNo" target="_blank" href=""></a></div>
-                                    <div class="box fts3"><a id="usgsSiteNo" target="_blank" href=""></a></div>
+                                    <div class="box fts1"><a id="usgsSiteNo" target="_blank" alt="" title="" href=""></a></div>
+                                    <div class="box fts2"><a id="usgsSiteNo" target="_blank" alt="" title="" href=""></a></div>
+                                    <div class="box fts3"><a id="usgsSiteNo" target="_blank" alt="" title="" href=""></a></div>
                                     <div class="tools-table-space"></div>
                                     <!-- Site ID -->
                                     <div class="box bold">NWS Site ID</div>
@@ -952,11 +1003,47 @@ $(".close-alert").click(function(){
                                     <div class="box fts2"><a id="nwsSiteID" target="_blank" href=""></a></div>
                                     <div class="box fts3"><a id="nwsSiteID" target="_blank" href=""></a></div>
                                     <div class="tools-table-space"></div>
-                                    <!-- Gage Heights -->
-                                    <div id="currentValue" class="box bold">Gage Height</div>
-                                    <div class="box fts1"><label id="floodGage" class="label-ft"></label></div>
-                                    <div class="box fts2"><label id="floodGage" class="label-ft"></label></div>
-                                    <div class="box fts3"><label id="floodGage" class="label-ft"></label></div>
+                                    <!-- Site Name -->
+                                    <div class="box bold">Site Name</div>
+                                    <div class="box fts1"><label id="siteName"></label></div>
+                                    <div class="box fts2"><label id="siteName"></label></div>
+                                    <div class="box fts3"><label id="siteName"></label></div>
+                                </div>
+                                <!-- Current Conditions Table -->
+                                <div class="small-label">Current Conditions</div>
+                                <div class="tools-table">
+									<!-- Gage Heights -->
+									<div id="currentValue" class="box bold">Gage Height</div>
+									<div class="box fts1"><label id="floodGage" class="label-ft"></label></div>
+									<div class="box fts2"><label id="floodGage" class="label-ft"></label></div>
+									<div class="box fts3"><label id="floodGage" class="label-ft"></label></div>
+                                    <div class="tools-table-space"></div>
+                                    <!-- Discharge -->
+                                    <div class="box bold">Discharge</div>
+                                    <div class="box fts1"><label id="floodDischarge" class="label-cfs"></label></div>
+                                    <div class="box fts2"><label id="floodDischarge" class="label-cfs"></label></div>
+                                    <div class="box fts3"><label id="floodDischarge" class="label-cfs"></label></div>
+                                </div>
+                                <!-- Selected Conditions Table -->
+                                <div class="small-label">Selected Conditions</div>
+                                <div class="tools-table">
+									<!-- Site No -->
+									<div class="box bold">Gage Height</div>
+									<div class="box fts1"><label class="value label-ft slider-min update"></label></div>
+									<div class="box fts2"><label class="value label-ft slider-min update"></label></div>
+									<div class="box fts3"><label class="value label-ft slider-min update"></label></div>
+									<div class="tools-table-space"></div>
+                                    <!-- Discharge -->
+                                    <div class="box bold">Discharge</div>
+                                    <div class="box fts1"><label class="label-cfs flood-discharge-selected"></label></div>
+                                    <div class="box fts2"><label class="label-cfs flood-discharge-selected"></label></div>
+                                    <div class="box fts3"><label class="label-cfs flood-discharge-selected"></label></div>
+                                    <div class="tools-table-space"></div>
+                                    <!-- Site ID -->
+                                    <div class="box bold">Elevation</div>
+                                    <div class="box fts1"><label class="label-ft elevation-selected"></label></div>
+                                    <div class="box fts2"><label class="label-ft elevation-selected"></label></div>
+                                    <div class="box fts3"><label class="label-ft elevation-selected"></label></div>
                                 </div>
 
                                 <!-- Zoom -->
