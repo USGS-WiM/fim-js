@@ -180,6 +180,7 @@ body {
   width: 100%;
   -webkit-justify-content: space-between;
   justify-content: space-between;
+  max-width: 100%;
 }
 .flood-tools-header #floodToolsModalHeader {
   -webkit-flex-grow: 3;
@@ -188,13 +189,22 @@ body {
   letter-spacing: -0.25px;
   font-weight: 600;
   color: #10152C;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
-.flood-tools-header #floodClose,
-.flood-tools-header #floodMin {
+.flood-tools-header .flood-tools-window-controls {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-justify-content: flex-end;
+  justify-content: flex-end;
+  box-sizing: border-box;
+  padding: 0 0 0 15px;
+}
+.flood-tools-header .flood-tools-window-controls #floodClose,
+.flood-tools-header .flood-tools-window-controls #floodMin {
   color: #10152C;
   transition: 0.2s;
   font-weight: bold;
-  position: relative;
   top: 9px;
   display: -webkit-flex;
   display: flex;
@@ -204,25 +214,25 @@ body {
   -webkit-justify-content: center;
   justify-content: center;
 }
-.flood-tools-header #floodClose:hover,
-.flood-tools-header #floodMin:hover {
+.flood-tools-header .flood-tools-window-controls #floodClose:hover,
+.flood-tools-header .flood-tools-window-controls #floodMin:hover {
   cursor: pointer;
   color: #10152C;
   transition: 0.2s;
 }
-.flood-tools-header #floodClose {
+.flood-tools-header .flood-tools-window-controls #floodClose {
   font-size: 18px;
-  margin-left: 15px;
+  margin-left: 8px;
   margin-right: 10px;
 }
-.flood-tools-header #floodClose:hover {
+.flood-tools-header .flood-tools-window-controls #floodClose:hover {
   color: #FB4841;
 }
-.flood-tools-header #floodMin {
+.flood-tools-header .flood-tools-window-controls #floodMin {
   font-size: 15px;
   top: 11px;
 }
-.flood-tools-header #floodMin:hover {
+.flood-tools-header .flood-tools-window-controls #floodMin:hover {
   color: #1D6DFA;
 }
 .tooltip {
@@ -1128,7 +1138,7 @@ input[type="radio"] {
   -webkit-flex-direction: column !important;
   flex-direction: column !important;
   position: relative;
-  padding-bottom: 8px;
+  padding: 0 0 6px 8px;
 }
 #floodToolsTitle .ft-header-links {
   position: absolute;
@@ -2627,12 +2637,17 @@ input[type=range].styled:focus::-ms-fill-upper {
   box-shadow: 0px 6px 35px -10px rgba(20, 20, 40, 0.6) !important;
   display: -webkit-flex !important;
   display: flex !important;
-  bottom: -200px;
+  bottom: -240px;
   transition: all 0.2s ease;
 }
 #minFT.visible {
   bottom: 45px;
   transition: all 0.2s ease;
+}
+@media (max-width: 767px) {
+  #minFT.visible {
+    bottom: 0px;
+  }
 }
 #minFT .header {
   display: -webkit-flex;
