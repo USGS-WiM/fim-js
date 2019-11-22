@@ -1162,20 +1162,28 @@ require([
 
 				// Set site links, titles
                 $(".fts1 #usgsSiteNo").text(siteNo);
-                $(".fts1 #usgsSiteNo").attr("href", "https://waterdata.usgs.gov/nwis/uv?site_no="+siteNo);
-                $(".fts1 #nwsSiteID").text(ahpsID);
+                // Below is old NWIS site page
+                //$(".fts1 #usgsSiteNo").attr("href", "https://waterdata.usgs.gov/nwis/uv?site_no="+siteNo);
+                // Below is Next Gen NWIS site page
+                $(".fts1 #usgsSiteNo").attr("href", "https://waterdata.usgs.gov/monitoring-location/"+siteNo);$(".fts1 #nwsSiteID").text(ahpsID);
                 $(".fts1 #nwsSiteID").attr("href", "https://water.weather.gov/ahps2/hydrograph.php?gage="+ahpsID);
 				$(".fts1 #siteName").text(attr["STATE"] + ": " + attr["COMMUNITY"])
 
 
                 $(".fts2 #usgsSiteNo").text(siteNo_2);
-                $(".fts2 #usgsSiteNo").attr("href", "https://waterdata.usgs.gov/nwis/uv?site_no="+siteNo_2);
+                // Below is old NWIS site page
+                //$(".fts2 #usgsSiteNo").attr("href", "https://waterdata.usgs.gov/nwis/uv?site_no="+siteNo_2);
+                // Below is Next Gen NWIS site page
+                $(".fts2 #usgsSiteNo").attr("href", "https://waterdata.usgs.gov/monitoring-location/"+siteNo_2);
                 $(".fts2 #nwsSiteID").text(ahpsID_2);
                 $(".fts2 #nwsSiteID").attr("href", "https://water.weather.gov/ahps2/hydrograph.php?gage="+ahpsID_2);
 
 				$(".fts3 #usgsSiteNo").text(siteNo_3);
 
-                $(".fts3 #usgsSiteNo").attr("href", "https://waterdata.usgs.gov/nwis/uv?site_no="+siteNo_3);
+                // Below is old NWIS site page
+                //$(".fts3 #usgsSiteNo").attr("href", "https://waterdata.usgs.gov/nwis/uv?site_no="+siteNo_3);
+                // Below is Next Gen NWIS site page
+                $(".fts3 #usgsSiteNo").attr("href", "https://waterdata.usgs.gov/monitoring-location/"+siteNo_3);
                 if (ahpsID_3 != "NONE") {
                     $(".fts3 #nwsSiteID").text(ahpsID_3);
                     $(".fts3 #nwsSiteID").attr("href", "https://water.weather.gov/ahps2/hydrograph.php?gage="+ahpsID_3);
