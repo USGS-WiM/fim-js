@@ -1160,37 +1160,35 @@ require([
                 $(".nav-tabs #floodToolsTab").tab("show");
 
 
+		
+
 				// Set site links, titles
                 $(".fts1 #usgsSiteNo").text(siteNo);
-                // Below is old NWIS site page
-                //$(".fts1 #usgsSiteNo").attr("href", "https://waterdata.usgs.gov/nwis/uv?site_no="+siteNo);
-                // Below is Next Gen NWIS site page
-                $(".fts1 #usgsSiteNo").attr("href", "https://waterdata.usgs.gov/monitoring-location/"+siteNo);$(".fts1 #nwsSiteID").text(ahpsID);
-                $(".fts1 #nwsSiteID").attr("href", "https://water.weather.gov/ahps2/hydrograph.php?gage="+ahpsID);
+				$(".fts1 #usgsSiteNo").attr("href", "https://waterdata.usgs.gov/monitoring-location/"+siteNo);
 				$(".fts1 #siteName").text(attr["STATE"] + ": " + attr["COMMUNITY"])
-
+				if(ahpsID != "NONE"){
+					$(".fts1 .nws-site-id").html("<a href='https://water.weather.gov/ahps2/hydrograph.php?gage="+ahpsID+"' target='_blank' alt='"+ahpsID+"' title='"+ahpsID+"'>"+ahpsID+"</a>");
+				}else{
+					$(".fts1 .nws-site-id").html("NONE");
+				}
 
                 $(".fts2 #usgsSiteNo").text(siteNo_2);
-                // Below is old NWIS site page
-                //$(".fts2 #usgsSiteNo").attr("href", "https://waterdata.usgs.gov/nwis/uv?site_no="+siteNo_2);
-                // Below is Next Gen NWIS site page
                 $(".fts2 #usgsSiteNo").attr("href", "https://waterdata.usgs.gov/monitoring-location/"+siteNo_2);
-                $(".fts2 #nwsSiteID").text(ahpsID_2);
-                $(".fts2 #nwsSiteID").attr("href", "https://water.weather.gov/ahps2/hydrograph.php?gage="+ahpsID_2);
+				if(ahpsID_2 != "NONE"){
+					$(".fts2 .nws-site-id").html("<a href='https://water.weather.gov/ahps2/hydrograph.php?gage="+ahpsID_2+"' target='_blank' alt='"+ahpsID_2+"' title='"+ahpsID_2+"'>"+ahpsID_2+"</a>");
+				}else{
+					$(".fts2 .nws-site-id").html("NONE");
+				}
 
 				$(".fts3 #usgsSiteNo").text(siteNo_3);
-
-                // Below is old NWIS site page
-                //$(".fts3 #usgsSiteNo").attr("href", "https://waterdata.usgs.gov/nwis/uv?site_no="+siteNo_3);
-                // Below is Next Gen NWIS site page
                 $(".fts3 #usgsSiteNo").attr("href", "https://waterdata.usgs.gov/monitoring-location/"+siteNo_3);
-                if (ahpsID_3 != "NONE") {
-                    $(".fts3 #nwsSiteID").text(ahpsID_3);
-                    $(".fts3 #nwsSiteID").attr("href", "https://water.weather.gov/ahps2/hydrograph.php?gage="+ahpsID_3);
-                } else {
-                    $(".fts3 #nwsSiteID").text("NONE");
-                }
+				if(ahpsID_3 != "NONE"){
+					$(".fts3 .nws-site-id").html("<a href='https://water.weather.gov/ahps2/hydrograph.php?gage="+ahpsID_3+"' target='_blank' alt='"+ahpsID_3+"' title='"+ahpsID_3+"'>"+ahpsID_3+"</a>");
+				}else{
+					$(".fts3 .nws-site-id").html("NONE");
+				}
 
+				
                 if (attr.HAS_GRIDS == 1) {
                     $("#gridLabel").show();
                 } else {

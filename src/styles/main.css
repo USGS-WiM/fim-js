@@ -2743,10 +2743,10 @@ input[type=range].styled:focus::-ms-fill-upper {
 #minFT .body .min-ft .item .value.label-ft:after {
   content: 'ft';
 }
-#minFT .body .min-ft .item a.value {
+#minFT .body .min-ft .item a {
   color: #1D6DFA;
 }
-#minFT .body .min-ft .item a.value:hover {
+#minFT .body .min-ft .item a:hover {
   cursor: pointer;
   text-decoration: underline;
 }
