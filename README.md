@@ -41,6 +41,8 @@ To push tags to remote origin: `git push origin --tags`
 ## Authors
 
 * **[Nicholas Estes](https://www.usgs.gov/staff-profiles/nicholas-j-estes)**  - *Lead Developer* - [USGS Web Informatics & Mapping](https://wim.usgs.gov/)
+* **Mitch Samuels**  - *Developer* - [USGS Web Informatics & Mapping](https://wim.usgs.gov/)
+
 
 See also the list of [contributors](https://github.com/USGS-WiM/fim-js/contributors) who participated in this project.
 
