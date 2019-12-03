@@ -185,6 +185,7 @@
 	display: flex;
     width: 100%;
 	justify-content: space-between;
+    max-width: 100%;
 	
 	#floodToolsModalHeader{
 		flex-grow: 3;
@@ -192,41 +193,49 @@
 		letter-spacing: -0.25px;
 		font-weight: 600;
 		color: @black;
+		text-overflow: ellipsis;
+		overflow: hidden;
 	}
 
-	#floodClose,
-	#floodMin{
-		color: @black;
-		transition: 0.2s;
-		font-weight: bold;
-		position: relative;
-		top: 9px;
+	.flood-tools-window-controls{
 		display: flex;
-		height: 100%;
-		flex-direction: column;
-		justify-content: center;
+		justify-content: flex-end;
+		box-sizing: border-box;
+		padding: 0 0 0 15px;
 
-		&:hover{
-			cursor: pointer;
+		#floodClose,
+		#floodMin{
 			color: @black;
 			transition: 0.2s;
-		}
-	}
-
-	#floodClose {
-		font-size: 18px;
-		margin-left: 15px;
-		margin-right: 10px;
-		&:hover{
-			color: @red;
-		}
-	}
+			font-weight: bold;
+			top: 9px;
+			display: flex;
+			height: 100%;
+			flex-direction: column;
+			justify-content: center;
 	
-	#floodMin {
-		font-size: 15px;
-		top: 11px;
-		&:hover{
-			color: @blue;
+			&:hover{
+				cursor: pointer;
+				color: @black;
+				transition: 0.2s;
+			}
+		}
+	
+		#floodClose {
+			font-size: 18px;
+			margin-left: 8px;
+			margin-right: 10px;
+			&:hover{
+				color: @red;
+			}
+		}
+		
+		#floodMin {
+			font-size: 15px;
+			top: 11px;
+			&:hover{
+				color: @blue;
+			}
 		}
 	}
 
@@ -1041,14 +1050,15 @@ input[type="checkbox"], input[type="radio"] {
   font-size: 92px;
 }
 
-@media screen
-  and (max-device-width: 800px)
-  and (orientation: landscape) {
-    #rotationLock{
-      display: -webkit-flex !important;
-      display: flex !important;
-    }
-}
+// Rotation Lock Warning is currently disabled
+// @media screen
+//   and (max-device-width: 800px)
+//   and (orientation: landscape) {
+//     #rotationLock{
+//       display: -webkit-flex !important;
+//       display: flex !important;
+//     }
+// }
 
 
 /*User Guide*/
@@ -1222,7 +1232,7 @@ input[type="checkbox"], input[type="radio"] {
 	max-width: none !important;
 	flex-direction: column !important;
 	position: relative;
-	padding-bottom: 8px;
+	padding:0 0 6px 8px;
 
 	.ft-header-links{
 		position: absolute;

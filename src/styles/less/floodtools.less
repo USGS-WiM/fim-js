@@ -46,10 +46,11 @@
     width: auto;
     display: flex;
     min-width: 300px;
-    height: 400px;
+    height: 400px !important;
     min-width: none !important;
     box-sizing: border-box;
-    padding: 0 0 7px 0;
+	padding: 0 0 7px 0;
+	overflow: hidden !important;
 
     @media (max-width: 550px) {
         min-width: none;
@@ -526,7 +527,7 @@
             border-top: 1px solid fade(@black, 15%);
             padding: 15px 15px 20px 15px;
             flex-grow: 3;
-            overflow: auto;
+            overflow: auto !important;
         }
 
         // Tools Tab
@@ -972,13 +973,17 @@
     border-top-left-radius: 5px;
     box-shadow: 0px 6px 35px -10px rgba(20, 20, 40, 0.6) !important;
     display: flex !important;
-    bottom: -200px;
+    bottom: -240px;
     transition: all 0.2s ease;
 
     
     &.visible{
         bottom: 45px;
-        transition: all 0.2s ease;
+		transition: all 0.2s ease;
+		
+		@media (max-width: 767px) {
+			bottom: 0px;
+		}
     }
 
     .header{
@@ -1076,7 +1081,7 @@
                     &.label-ft:after{content:'ft';}
                 }
 
-                a.value{
+                a{
                     color: @blue;
 
                     &:hover{
