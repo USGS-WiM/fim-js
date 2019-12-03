@@ -966,12 +966,6 @@ input[type="radio"] {
   margin-top: 20px;
   font-size: 92px;
 }
-@media screen and (max-device-width: 800px) and (orientation: landscape) {
-  #rotationLock {
-    display: -webkit-flex !important;
-    display: flex !important;
-  }
-}
 /*User Guide*/
 #userGuideNav {
   color: white !important;
@@ -1827,10 +1821,11 @@ input[type=range].styled:focus::-ms-fill-upper {
   display: -webkit-flex;
   display: flex;
   min-width: 300px;
-  height: 400px;
+  height: 400px !important;
   min-width: none !important;
   box-sizing: border-box;
   padding: 0 0 7px 0;
+  overflow: hidden !important;
 }
 @media (max-width: 550px) {
   #ftModal {
@@ -2285,7 +2280,7 @@ input[type=range].styled:focus::-ms-fill-upper {
   padding: 15px 15px 20px 15px;
   -webkit-flex-grow: 3;
   flex-grow: 3;
-  overflow: auto;
+  overflow: auto !important;
 }
 #ftModal #ftData #ftTools {
   display: block;

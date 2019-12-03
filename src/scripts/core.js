@@ -1763,7 +1763,9 @@ require([
 									} else if ($(this).hasClass('second-slider')) {
 										$(".fts2 .slider-min.update").text(gageValues2[this.value].gageValue);
 										$(".fts2 .elevation-selected").text(altitudeValues2[this.value].altitudeValue || "N/A");
-										$(".fts2 .flood-discharge-selected").text(dischargeValues2[this.value].dischargeValue || "N/A");
+										if (typeof dischargeValues2[this.value] !== 'undefined'){
+											$(".fts2 .flood-discharge-selected").text(dischargeValues2[this.value].dischargeValue || "N/A");
+										}
                                     }
 
                                     // Code to determine next possible combination if current selections are not available as map in library
@@ -1824,8 +1826,12 @@ require([
 													// Update current slider value
 													$(".fts1 .slider-min.update").text(gageValues[$(".fts1 #floodSlider")[0].value].gageValue);
 													$(".fts1 .elevation-selected").text(altitudeValues[$(".fts1 #floodSlider")[0].value].altitudeValue || "N/A");
-													$(".fts1 .flood-discharge-selected").text(dischargeValues[$(".fts1 #floodSlider")[0].value].dischargeValue || "N/A");
-				
+													
+													if (typeof dischargeValues[$(".fts1 #floodSlider")[0].value] !== 'undefined'){
+														$(".fts1 .flood-discharge-selected").text(dischargeValues[$(".fts1 #floodSlider")[0].value].dischargeValue);
+													}else{
+														$(".fts1 .flood-discharge-selected").text("N/A");
+													}
 													//slideWarningShow();
                                                     break;
                                                 }
@@ -1837,8 +1843,13 @@ require([
 													// Update current slider value
 													$(".fts1 .slider-min.update").text(gageValues[$(".fts1 #floodSlider")[0].value].gageValue);
 													$(".fts1 .elevation-selected").text(altitudeValues[$(".fts1 #floodSlider")[0].value].altitudeValue || "N/A");
-													$(".fts1 .flood-discharge-selected").text(dischargeValues[$(".fts1 #floodSlider")[0].value].dischargeValue || "N/A");
-				
+													
+													if (typeof dischargeValues[$(".fts1 #floodSlider")[0].value] !== 'undefined'){
+														$(".fts1 .flood-discharge-selected").text(dischargeValues[$(".fts1 #floodSlider")[0].value].dischargeValue);
+													}else{
+														$(".fts1 .flood-discharge-selected").text("N/A");
+													}
+
 													//slideWarningShow();
                                                     break;
                                                 }
@@ -1891,7 +1902,7 @@ require([
                                     } else if ($(this).hasClass('third-slider')) {
 										$(".fts3 .slider-min.update").text(gageValues3[this.value].gageValue);
 										$(".fts3 .elevation-selected").text(altitudeValues3[this.value].altitudeValue || "N/A");
-										$(".fts3 .flood-discharge-selected").text(dischargeValues2[this.value].dischargeValue || "N/A");
+										$(".fts3 .flood-discharge-selected").text(dischargeValues3[this.value].dischargeValue || "N/A");
 
                                     }
 
@@ -1987,7 +1998,12 @@ require([
 													//slideWarningShow();
 													$(".fts1 .slider-min.update").text(gageValues[$(".fts1 #floodSlider")[0].value].gageValue);	
 													$(".fts1 .elevation-selected").text(altitudeValues[$(".fts1 #floodSlider")[0].value].altitudeValue || "N/A");
-													$(".fts1 .flood-discharge-selected").text(dischargeValues[$(".fts1 #floodSlider")[0].value].dischargeValue || "N/A");
+													
+													if (typeof dischargeValues[$(".fts1 #floodSlider")[0].value] !== 'undefined'){
+														$(".fts1 .flood-discharge-selected").text(dischargeValues[$(".fts1 #floodSlider")[0].value].dischargeValue);
+													}else{
+														$(".fts1 .flood-discharge-selected").text("N/A");
+													}
 													break;
                                                 }
                                             }
@@ -1998,7 +2014,12 @@ require([
 													//slideWarningShow();
 													$(".fts1 .slider-min.update").text(gageValues[$(".fts1 #floodSlider")[0].value].gageValue);	
 													$(".fts1 .elevation-selected").text(altitudeValues[$(".fts1 #floodSlider")[0].value].altitudeValue || "N/A");
-													$(".fts1 .flood-discharge-selected").text(dischargeValues[$(".fts1 #floodSlider")[0].value].dischargeValue || "N/A");
+													
+													if (typeof dischargeValues[$(".fts1 #floodSlider")[0].value] !== 'undefined'){
+														$(".fts1 .flood-discharge-selected").text(dischargeValues[$(".fts1 #floodSlider")[0].value].dischargeValue);
+													}else{
+														$(".fts1 .flood-discharge-selected").text("N/A");
+													}
 													break;
                                                 }
                                             }
@@ -2093,7 +2114,12 @@ require([
 													//slideWarningShow();
 													$(".fts1 .slider-min.update").text(gageValues[$(".fts1 #floodSlider")[0].value].gageValue);	
 													$(".fts1 .elevation-selected").text(altitudeValues[$(".fts1 #floodSlider")[0].value].altitudeValue || "N/A");
-													$(".fts1 .flood-discharge-selected").text(dischargeValues[$(".fts1 #floodSlider")[0].value].dischargeValue || "N/A");
+													
+													if (typeof dischargeValues[$(".fts1 #floodSlider")[0].value] !== 'undefined'){
+														$(".fts1 .flood-discharge-selected").text(dischargeValues[$(".fts1 #floodSlider")[0].value].dischargeValue);
+													}else{
+														$(".fts1 .flood-discharge-selected").text("N/A");
+													}
                                                     break;
                                                 }
                                             }
@@ -2104,7 +2130,12 @@ require([
 													//slideWarningShow();
 													$(".fts1 .slider-min.update").text(gageValues[$(".fts1 #floodSlider")[0].value].gageValue);
 													$(".fts1 .elevation-selected").text(altitudeValues[$(".fts1 #floodSlider")[0].value].altitudeValue || "N/A");
-													$(".fts1 .flood-discharge-selected").text(dischargeValues[$(".fts1 #floodSlider")[0].value].dischargeValue || "N/A");
+
+													if (typeof dischargeValues[$(".fts1 #floodSlider")[0].value] !== 'undefined'){
+														$(".fts1 .flood-discharge-selected").text(dischargeValues[$(".fts1 #floodSlider")[0].value].dischargeValue);
+													}else{
+														$(".fts1 .flood-discharge-selected").text("N/A");
+													}
 													break;
                                                 }
                                             }
@@ -2413,8 +2444,8 @@ require([
 									console.log("Get Flood Stages")
 									console.log(data);
 
-                                    // If NWS Data does not exist
-                                    if(data[0].getElementsByTagName("response")[0]){
+									// If NWS Data does not exist
+                                    if(data[0].toString().startsWith(" <!") ||data[0].toString().startsWith("<!") || data[0].getElementsByTagName("response")[0]){
 										console.log("NWS Data Not Available");
 										$(".nws-data-req").addClass("nws-data-hidden");
                                         
@@ -2655,7 +2686,7 @@ require([
                                         $(".fts2 .sliderModerateLevel").css( "width", (sliderStages2.major - flMin2) / flDiff2 * 100 + '%' );
 
                                         // If "Top Curve" / Extended exists
-                                        if(sliderStages != null){
+                                        if(sliderStages.top_curve != null){
                                             $(".fts2 .sliderMajorLevel").css( "width", (sliderStages2.top_curve - flMin2) / flDiff2 * 100 + '%' );
                                             $(".fts2 .sliderExtendedLevel").css( "width", '100%' );
                                         }else{
