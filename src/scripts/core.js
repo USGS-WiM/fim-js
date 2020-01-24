@@ -2450,7 +2450,7 @@ require([
 									// If NWS Data does not exist
                                     if(data[0].toString().startsWith(" <!") ||data[0].toString().startsWith("<!") || data[0].getElementsByTagName("response")[0]){
 										console.log("NWS Data Not Available");
-										$(".nws-data-req").addClass("nws-data-hidden");
+										$(".fts" + siteNo + " .nws-data-req").addClass("nws-data-hidden");
                                         
                                         floodToolsError("nws");
 
@@ -2516,7 +2516,7 @@ require([
 									
 									if(stage.flood == null && stage.moderate == null && stage.major == null){
 										// Empty fs bands with missing data
-										band.push({color: "#fff", from: 0, to: 50, 'label':{'text':''}}); 
+										band.push({color: "#fff", from: 0, to: 0, 'label':{'text':''}}); 
 										band.push({color: "#fff", from: 0, to: 0, 'label':{'text':''}}); 
 										band.push({color: "#fff", from: 0, to: 0, 'label':{'text':''}}); 
 										band.push({color: "#fff", from: 0, to: 0, 'label':{'text':''}}); 
@@ -2548,7 +2548,7 @@ require([
 										})
 										// If Top Curve Exists
 										// Add Band for Extended Rating
-										if(stage.top_curve != null){
+										if(stage.top_curve != null && stage.top_curve != 0){
 											band.push({
 												color: "#C326FB",
 												from: stage.major,
@@ -2561,7 +2561,7 @@ require([
 												to: max,
 												'label':{'text': "Extended Rating"}
 											});
-										}else{
+										}else if (stage.major != 0){
 											band.push({
 												color: "#C326FB",
 												from: stage.major,
@@ -2902,7 +2902,7 @@ require([
                                     // Create Chart
                                     var hydroChart2 = new Highcharts.Chart('hydroChart2', chartTwoOptions, function(hydroChart2){
                                         console.log("Chart Two Loaded")
-                                        if(floodStageBands[5]){
+                                        if(floodStageBands2[5]){
                                             var chartYMax = parseInt(floodStageBands2[5].to);
                                         }else{
                                             var chartYMax = parseInt(floodStageBands2[4].to);
@@ -2920,7 +2920,7 @@ require([
                                     // Create Chart
                                     var hydroChart3 = new Highcharts.Chart('hydroChart3', chartThreeOptions, function(hydroChart3){
                                         console.log("Chart Three Loaded")
-                                        if(floodStageBands[5]){
+                                        if(floodStageBands3[5]){
                                             var chartYMax = parseInt(floodStageBands3[5].to);
                                         }else{
                                             var chartYMax = parseInt(floodStageBands3[4].to);
