@@ -815,7 +815,7 @@ require([
                 if (evt.graphic != undefined) {
                     feature = evt.graphic;
                 } else {
-                    feature = evt.currentTarget.e_graphic;
+                    feature = evt.target.e_graphic;
                 }
                 var attr = feature.attributes;
                 siteAttr = attr;
@@ -882,7 +882,7 @@ require([
                 if (evt.graphic != undefined) {
                     feature = evt.graphic;
                 } else {
-                    feature = evt.currentTarget.e_graphic;
+                    feature = evt.target.e_graphic;
                 }
                 var attr = feature.attributes;
                 siteAttr = attr;
