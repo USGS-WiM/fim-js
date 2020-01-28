@@ -2506,12 +2506,12 @@ require([
 
 									var stage = sliderStages;
 
-									if(stage.flood == null){stage.flood = stage.action;}
-									if(stage.moderate == null){stage.moderate = stage.flood;}
-									if(stage.major == null){stage.major = stage.moderate;}
-									
 									var max = sliderMax;
 
+									if(stage.major == null){stage.major = max;}
+									if(stage.moderate == null){stage.moderate = stage.major;}
+									if(stage.flood == null){stage.flood = stage.moderate;}
+									
 									var band = new Array();
 									
 									if(stage.flood == null && stage.moderate == null && stage.major == null){
