@@ -212,8 +212,8 @@ USGS Bar
                 <a id="usgsSiteNo" class="value" target="_blank" href=""></a>
             </div>
             <div class="item">
-                <label>NWS Site ID:</label>
-                <a id="nwsSiteID" class="value" target="_blank" href=""></a>
+				<label>NWS Site ID:</label>
+				<div class="nws-site-id"></div>
             </div>
 			<!-- Current Conditions -->
             <div class="section-header">Current Conditions</div>
@@ -249,7 +249,7 @@ USGS Bar
             </div>
             <div class="item">
                 <label>NWS Site ID:</label>
-                <div id="nwsSiteID"></div>
+				<div class="nws-site-id"></div>
             </div>
 			<!-- Current Conditions -->
             <div class="section-header">Current Conditions</div>
@@ -286,7 +286,7 @@ USGS Bar
             </div>
             <div class="item">
                 <label>NWS Site ID:</label>
-                <a id="nwsSiteID" class="value" target="_blank" href=""></a>
+				<div class="nws-site-id"></div>
             </div>
 			<!-- Current Conditions -->
             <div class="section-header">Current Conditions</div>
@@ -777,8 +777,10 @@ $(".close-alert").click(function(){
                         <div class="panel-title" id="floodToolsTitle">
 							<h4 class="flood-tools-header">
 								<span id="floodToolsModalHeader"></span>
-								<div id='floodMin' title='collapse'><i class="far fa-window-restore"></i></div>
-								<div id='floodClose' title='close'><i class="far fa-times"></i></div>
+								<div class="flood-tools-window-controls">
+									<div id='floodMin' title='collapse'><i class="far fa-window-restore"></i></div>
+									<div id='floodClose' title='close'><i class="far fa-times"></i></div>
+								</div>
 							</h4>
 							<div class="ft-header-links">
 								<button id="zoomToLibExtent" title="click to zoom to the extent of the flood library" type="button">Zoom to Location <i class="far fa-search-plus"></i></button>
@@ -999,9 +1001,9 @@ $(".close-alert").click(function(){
                                     <div class="tools-table-space"></div>
                                     <!-- Site ID -->
                                     <div class="box bold">NWS Site ID</div>
-                                    <div class="box fts1"><a id="nwsSiteID" target="_blank" href=""></a></div>
-                                    <div class="box fts2"><a id="nwsSiteID" target="_blank" href=""></a></div>
-                                    <div class="box fts3"><a id="nwsSiteID" target="_blank" href=""></a></div>
+                                    <div class="box fts1"><span class="nws-site-id"></span></div>
+                                    <div class="box fts2"><span class="nws-site-id"></span></div>
+                                    <div class="box fts3"><span class="nws-site-id"></span></div>
                                     <div class="tools-table-space"></div>
                                     <!-- Site Name -->
                                     <div class="box bold">Site Name</div>
@@ -1217,10 +1219,10 @@ $(".close-alert").click(function(){
 </div>
 
 
-<div id="rotationLock">
+<!-- <div id="rotationLock">
   <div>Portrait mode is required on smaller screens. Please rotate your device.</div>
   <i class="fa fa-mobile" aria-hidden="true"></i>
-</div>
+</div> -->
 
 <div id="usgs-loader">
   Loading...

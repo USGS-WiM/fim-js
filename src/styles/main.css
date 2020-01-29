@@ -175,15 +175,12 @@ body {
   height: 325px;
 }
 .flood-tools-header {
-  display: -webkit-flex;
   display: flex;
   width: 100%;
-  -webkit-justify-content: space-between;
   justify-content: space-between;
   max-width: 100%;
 }
 .flood-tools-header #floodToolsModalHeader {
-  -webkit-flex-grow: 3;
   flex-grow: 3;
   font-size: 14px;
   letter-spacing: -0.25px;
@@ -193,9 +190,7 @@ body {
   overflow: hidden;
 }
 .flood-tools-header .flood-tools-window-controls {
-  display: -webkit-flex;
   display: flex;
-  -webkit-justify-content: flex-end;
   justify-content: flex-end;
   box-sizing: border-box;
   padding: 0 0 0 15px;
@@ -206,12 +201,9 @@ body {
   transition: 0.2s;
   font-weight: bold;
   top: 9px;
-  display: -webkit-flex;
   display: flex;
   height: 100%;
-  -webkit-flex-direction: column;
   flex-direction: column;
-  -webkit-justify-content: center;
   justify-content: center;
 }
 .flood-tools-header .flood-tools-window-controls #floodClose:hover,
@@ -296,11 +288,8 @@ a.lgi-zoom:hover {
   background-color: #10152C;
   z-index: 100000;
   border-radius: 3px;
-  display: -webkit-flex;
   display: flex;
-  -webkit-flex-wrap: wrap;
   flex-wrap: wrap;
-  -webkit-justify-content: space-between;
   justify-content: space-between;
   box-shadow: 0px 6px 27px -7px rgba(0, 10, 80, 0.55);
 }
@@ -547,7 +536,6 @@ input[type="radio"] {
 #homeButton .locateContainer,
 #locateButton .home,
 #homeButton .home {
-  -webkit-filter: invert(100%);
   filter: invert(100%);
   opacity: 0.6;
   top: -30px;
@@ -560,11 +548,8 @@ input[type="radio"] {
   width: 30px;
   height: 30px;
   background-color: white;
-  display: -webkit-flex;
   display: flex;
-  -webkit-flex-direction: column;
   flex-direction: column;
-  -webkit-justify-content: center;
   justify-content: center;
   border-radius: 3px;
   box-sizing: border-box;
@@ -625,9 +610,7 @@ input[type="radio"] {
   #floodToolsPanelHeader {
     font-size: 12px;
     letter-spacing: -0.25px;
-    display: -webkit-flex;
     display: flex;
-    -webkit-justify-content: space-between;
     justify-content: space-between;
   }
   .nav-tabs li {
@@ -805,15 +788,11 @@ input[type="radio"] {
   color: black;
 }
 .custom-legend .legend-item {
-  display: -webkit-flex;
   display: flex;
 }
 .custom-legend .legend-item .legend-icon {
-  display: -webkit-flex;
   display: flex;
-  -webkit-flex-direction: column;
   flex-direction: column;
-  -webkit-justify-content: center;
   justify-content: center;
   max-height: 22px;
   width: 30px;
@@ -829,13 +808,9 @@ input[type="radio"] {
   margin: 4px auto;
 }
 .custom-legend .legend-item .legend-text {
-  -webkit-flex-grow: 3;
   flex-grow: 3;
-  display: -webkit-flex;
   display: flex;
-  -webkit-flex-direction: column;
   flex-direction: column;
-  -webkit-justify-content: center;
   justify-content: center;
   font-size: 11px;
   font-weight: 500;
@@ -864,11 +839,9 @@ input[type="radio"] {
 #legendDiv_fimExtents,
 #legendDiv_fimBreach {
   font-size: 10px;
-  display: -webkit-flex !important;
   display: flex !important;
   font-weight: 500 !important;
   font-size: 11px;
-  -webkit-flex-direction: row-reverse;
   flex-direction: row-reverse;
   letter-spacing: -0.1px;
   color: rgba(16, 21, 44, 0.8);
@@ -877,7 +850,6 @@ input[type="radio"] {
 #legendDiv_fimSuppLyrs_1 table:first-child,
 #legendDiv_fimExtents table:first-child,
 #legendDiv_fimBreach table:first-child {
-  -webkit-flex-grow: 3;
   flex-grow: 3;
   box-sizing: border-box;
   margin: 3px 0 0 0;
@@ -1004,16 +976,11 @@ input[type="radio"] {
   max-height: 40px;
   transition: 0.3s;
   overflow: hidden;
-  height: -webkit-fit-content;
-  height: -moz-fit-content;
   height: fit-content;
 }
 .user-guide-entry b {
-  display: -webkit-flex;
   display: flex;
-  -webkit-flex-direction: column;
   flex-direction: column;
-  -webkit-justify-content: center;
   justify-content: center;
   line-height: 16px;
   font-size: 14px;
@@ -1059,29 +1026,18 @@ input[type="radio"] {
   margin: 0 !important;
 }
 .user-guide-item {
-  display: -webkit-flex;
   display: flex;
-  -webkit-justify-content: space-between;
   justify-content: space-between;
   box-sizing: border-box;
   padding: 0 0 0 0;
   min-height: 100px;
-  height: -webkit-fit-content;
-  height: -moz-fit-content;
   height: fit-content;
 }
 .user-guide-item .user-guide-item-image {
-  display: -webkit-flex;
   display: flex;
-  -webkit-flex-direction: column;
   flex-direction: column;
-  -webkit-justify-content: center;
   justify-content: center;
-  max-width: -webkit-fit-content;
-  max-width: -moz-fit-content;
   max-width: fit-content;
-  width: -webkit-fit-content;
-  width: -moz-fit-content;
   width: fit-content;
 }
 .user-guide-item .user-guide-item-image img {
@@ -1102,7 +1058,6 @@ input[type="radio"] {
   justify-content: center;
   -webkit-flex-grow: 2;
   color: rgba(16, 21, 44, 0.5);
-  -webkit-flex-grow: 2;
   flex-grow: 2;
   box-sizing: border-box;
   font-size: 12pt;
@@ -1126,10 +1081,8 @@ input[type="radio"] {
   padding-top: 4px;
 }
 #floodToolsTitle {
-  -webkit-flex-grow: 3 !important;
   flex-grow: 3 !important;
   max-width: none !important;
-  -webkit-flex-direction: column !important;
   flex-direction: column !important;
   position: relative;
   padding: 0 0 6px 8px;
@@ -1223,11 +1176,8 @@ a {
   width: 100%;
   height: 100%;
   /* background: red; */
-  display: -webkit-flex;
   display: flex;
-  -webkit-flex-direction: column;
   flex-direction: column;
-  -webkit-justify-content: center;
   justify-content: center;
   box-sizing: border-box;
   padding-top: 150px;
@@ -1597,7 +1547,6 @@ input[type=range].styled:focus::-ms-fill-upper {
   margin-left: 0 !important;
 }
 #ftError {
-  display: -webkit-flex;
   display: flex;
   box-sizing: border-box;
   padding: 12px;
@@ -1615,23 +1564,16 @@ input[type=range].styled:focus::-ms-fill-upper {
   opacity: 0;
 }
 #ftError i {
-  display: -webkit-flex;
   display: flex;
-  -webkit-flex-direction: column;
   flex-direction: column;
-  -webkit-justify-content: center;
   justify-content: center;
   font-size: 30px;
   margin-right: 12px;
 }
 #ftError p {
-  display: -webkit-flex;
   display: flex;
-  -webkit-flex-direction: column;
   flex-direction: column;
-  -webkit-justify-content: center;
   justify-content: center;
-  -webkit-flex-grow: 3;
   flex-grow: 3;
   font-size: 12px;
   line-height: 16px;
@@ -1645,24 +1587,18 @@ input[type=range].styled:focus::-ms-fill-upper {
 }
 .esriPopup .titlePane {
   background-color: #10152C;
-  display: -webkit-flex;
   display: flex;
-  -webkit-justify-content: space-between;
   justify-content: space-between;
   height: auto;
   box-sizing: border-box;
   padding: 6px;
 }
 .esriPopup .titlePane .title {
-  -webkit-flex-grow: 4;
   flex-grow: 4;
 }
 .esriPopup .titlePane .titleButton.close {
-  display: -webkit-flex;
   display: flex;
-  -webkit-flex-direction: column;
   flex-direction: column;
-  -webkit-justify-content: center;
   justify-content: center;
   position: relative;
 }
@@ -1779,19 +1715,13 @@ input[type=range].styled:focus::-ms-fill-upper {
 }
 #floodToolsDiv {
   box-shadow: 0px 6px 27px -7px rgba(0, 10, 80, 0.55);
-  height: -webkit-fit-content !important;
-  height: -moz-fit-content !important;
   height: fit-content !important;
-  display: -webkit-flex;
   display: flex;
-  -webkit-flex-direction: column;
   flex-direction: column;
-  -webkit-justify-content: space-between;
   justify-content: space-between;
 }
 #floodToolsDiv .panel-heading.main {
   background-color: white;
-  display: -webkit-flex;
   display: flex;
   padding-top: 0px !important;
   padding-bottom: 8px !important;
@@ -1801,7 +1731,6 @@ input[type=range].styled:focus::-ms-fill-upper {
   top: -3px;
 }
 #floodToolsDiv .panel-body {
-  -webkit-flex-grow: 3;
   flex-grow: 3;
   padding-bottom: 0;
 }
@@ -1818,7 +1747,6 @@ input[type=range].styled:focus::-ms-fill-upper {
 }
 #ftModal {
   width: auto;
-  display: -webkit-flex;
   display: flex;
   min-width: 300px;
   height: 400px !important;
@@ -1835,11 +1763,8 @@ input[type=range].styled:focus::-ms-fill-upper {
 #ftModal #ftSliders {
   width: 180px;
   min-width: 180px;
-  display: -webkit-flex;
   display: flex;
-  -webkit-justify-content: space-around;
   justify-content: space-around;
-  -webkit-flex-wrap: wrap;
   flex-wrap: wrap;
   box-sizing: border-box;
   padding: 20px 0 0 0;
@@ -1853,16 +1778,11 @@ input[type=range].styled:focus::-ms-fill-upper {
   margin-left: 30px;
 }
 #ftModal #ftSliders .slider-group {
-  -webkit-transform: rotate(90deg);
   transform: rotate(90deg);
-  -webkit-transform-origin: 0 0;
   transform-origin: 0 0;
   height: 44px;
-  display: -webkit-flex;
   display: flex;
-  -webkit-flex-direction: column;
   flex-direction: column;
-  -webkit-justify-content: flex-end;
   justify-content: flex-end;
   position: absolute;
   width: 124px;
@@ -1877,12 +1797,10 @@ input[type=range].styled:focus::-ms-fill-upper {
   left: 180px;
 }
 #ftModal #ftSliders .slider-group .slider-wrapper {
-  display: -webkit-flex;
   display: flex;
 }
 #ftModal #ftSliders .slider-group .slider-wrapper label {
   text-align: center;
-  -webkit-transform: rotate(-90deg);
   transform: rotate(-90deg);
   height: 0;
   width: 0;
@@ -1896,7 +1814,6 @@ input[type=range].styled:focus::-ms-fill-upper {
   left: -14px;
 }
 #ftModal #ftSliders .slider-group .slider-wrapper input {
-  -webkit-flex-grow: 3;
   flex-grow: 3;
   width: 100%;
   z-index: 60;
@@ -1958,11 +1875,8 @@ input[type=range].styled:focus::-ms-fill-upper {
   padding-top: 142px;
   box-sizing: border-box;
   text-align: center;
-  display: -webkit-flex;
   display: flex;
-  -webkit-flex-direction: column;
   flex-direction: column;
-  -webkit-justify-content: space-around;
   justify-content: space-around;
 }
 #ftModal #ftSliders #ftOptions .ft-options-row small {
@@ -1972,9 +1886,7 @@ input[type=range].styled:focus::-ms-fill-upper {
   font-weight: 500;
 }
 #ftModal #ftSliders #ftOptions .ft-options-row .ft-options-flex {
-  display: -webkit-flex;
   display: flex;
-  -webkit-justify-content: space-around;
   justify-content: space-around;
 }
 #ftModal #ftSliders #ftOptions .ft-options-row .ft-options-flex #optionData {
@@ -1995,9 +1907,7 @@ input[type=range].styled:focus::-ms-fill-upper {
   content: 'cfs';
 }
 #ftModal #ftSliders #ftOptions .ft-checkbox {
-  display: -webkit-flex;
   display: flex;
-  -webkit-justify-content: flex-start;
   justify-content: flex-start;
   width: 100%;
   box-sizing: border-box;
@@ -2009,11 +1919,8 @@ input[type=range].styled:focus::-ms-fill-upper {
   padding-left: 5px;
   box-sizing: border-box;
   line-height: 11px;
-  display: -webkit-flex;
   display: flex;
-  -webkit-flex-direction: column;
   flex-direction: column;
-  -webkit-justify-content: center;
   justify-content: center;
   padding-top: 2px;
 }
@@ -2021,9 +1928,7 @@ input[type=range].styled:focus::-ms-fill-upper {
   margin: 1px 0 0 0 !important;
 }
 #ftModal #ftSliders #ftOptions #floodToolsLegend {
-  display: -webkit-flex;
   display: flex;
-  -webkit-flex-wrap: wrap;
   flex-wrap: wrap;
   box-sizing: border-box;
   width: 95%;
@@ -2042,17 +1947,13 @@ input[type=range].styled:focus::-ms-fill-upper {
   margin: 0 auto;
 }
 #ftModal #ftSliders #ftOptions #floodToolsLegend .ft-legend-items {
-  display: -webkit-flex;
   display: flex;
   width: 100%;
 }
 #ftModal #ftSliders #ftOptions #floodToolsLegend .ft-legend-items .left,
 #ftModal #ftSliders #ftOptions #floodToolsLegend .ft-legend-items .right {
-  display: -webkit-flex;
   display: flex;
-  -webkit-flex-direction: column;
   flex-direction: column;
-  -webkit-justify-content: space-around;
   justify-content: space-around;
   width: 50%;
   min-width: 50%;
@@ -2060,13 +1961,10 @@ input[type=range].styled:focus::-ms-fill-upper {
 }
 #ftModal #ftSliders #ftOptions #floodToolsLegend .ft-legend-items .left .key,
 #ftModal #ftSliders #ftOptions #floodToolsLegend .ft-legend-items .right .key {
-  display: -webkit-flex;
   display: flex;
   position: relative;
   width: 50%;
-  -webkit-flex-direction: column;
   flex-direction: column;
-  -webkit-justify-content: center;
   justify-content: center;
   height: 12px;
   margin: 2px 0;
@@ -2130,7 +2028,6 @@ input[type=range].styled:focus::-ms-fill-upper {
   margin: 0 auto 0 auto;
 }
 #ftModal #ftData {
-  -webkit-flex-grow: 3;
   flex-grow: 3;
   box-sizing: border-box;
   padding: 0;
@@ -2139,31 +2036,22 @@ input[type=range].styled:focus::-ms-fill-upper {
   overflow: auto;
   border-left: 1px solid rgba(16, 21, 44, 0.15);
   max-width: 570px;
-  display: -webkit-flex;
   display: flex;
-  -webkit-flex-direction: column;
   flex-direction: column;
   height: 100%;
   overflow: hidden;
 }
 #ftModal #ftData #ftDataTabs {
-  display: -webkit-flex;
   display: flex;
-  -webkit-justify-content: flex-start;
   justify-content: flex-start;
-  -webkit-flex-wrap: wrap;
   flex-wrap: wrap;
   background-color: white;
   box-sizing: border-box;
-  min-height: -webkit-fit-content;
-  min-height: -moz-fit-content;
   min-height: fit-content;
   height: auto;
 }
 #ftModal #ftData #ftDataTabs .ft-tab {
-  display: -webkit-flex;
   display: flex;
-  -webkit-justify-content: center;
   justify-content: center;
   height: 34px;
   box-sizing: border-box;
@@ -2213,11 +2101,8 @@ input[type=range].styled:focus::-ms-fill-upper {
 }
 #ftModal #ftData #ftDataTabs .ft-tab span,
 #ftModal #ftData #ftDataTabs .ft-tab i {
-  display: -webkit-flex;
   display: flex;
-  -webkit-flex-direction: column;
   flex-direction: column;
-  -webkit-justify-content: center;
   justify-content: center;
   height: 100%;
 }
@@ -2278,7 +2163,6 @@ input[type=range].styled:focus::-ms-fill-upper {
   padding-top: 15px;
   border-top: 1px solid rgba(16, 21, 44, 0.15);
   padding: 15px 15px 20px 15px;
-  -webkit-flex-grow: 3;
   flex-grow: 3;
   overflow: auto !important;
 }
@@ -2307,9 +2191,7 @@ input[type=range].styled:focus::-ms-fill-upper {
 }
 #ftModal #ftData #ftTools .tools-table {
   width: 100%;
-  display: -webkit-flex;
   display: flex;
-  -webkit-flex-wrap: wrap;
   flex-wrap: wrap;
   max-width: 460px;
   box-sizing: border-box;
@@ -2321,11 +2203,8 @@ input[type=range].styled:focus::-ms-fill-upper {
 }
 #ftModal #ftData #ftTools .tools-table .box {
   width: 25%;
-  display: -webkit-flex;
   display: flex;
-  -webkit-flex-direction: column;
   flex-direction: column;
-  -webkit-justify-content: center;
   justify-content: center;
   font-weight: 700;
   box-sizing: border-box;
@@ -2406,9 +2285,7 @@ input[type=range].styled:focus::-ms-fill-upper {
 }
 #ftModal #ftData #ftHazus #hazusTableLabels {
   padding: 15px 0;
-  display: -webkit-flex;
   display: flex;
-  -webkit-justify-content: space-between;
   justify-content: space-between;
 }
 #ftModal #ftData #ftHazus #hazusTableLabels .hazus-label {
@@ -2567,9 +2444,7 @@ input[type=range].styled:focus::-ms-fill-upper {
   border-top: 1px solid rgba(16, 21, 44, 0.15);
   border-collapse: collapse;
   font-weight: 500;
-  display: -webkit-flex;
   display: flex;
-  -webkit-justify-content: space-between;
   justify-content: space-between;
   border-radius: 2px;
   width: 100%;
@@ -2590,7 +2465,6 @@ input[type=range].styled:focus::-ms-fill-upper {
 #ftModal .ft-accordion-header .header-icon {
   font-size: 16px;
   display: inline-block;
-  -webkit-flex-grow: 3;
   flex-grow: 3;
   padding-left: 5px;
 }
@@ -2626,11 +2500,9 @@ input[type=range].styled:focus::-ms-fill-upper {
   width: 220px;
   z-index: 100;
   background-color: white;
-  -webkit-flex-direction: column;
   flex-direction: column;
   border-top-left-radius: 5px;
   box-shadow: 0px 6px 35px -10px rgba(20, 20, 40, 0.6) !important;
-  display: -webkit-flex !important;
   display: flex !important;
   bottom: -240px;
   transition: all 0.2s ease;
@@ -2645,9 +2517,7 @@ input[type=range].styled:focus::-ms-fill-upper {
   }
 }
 #minFT .header {
-  display: -webkit-flex;
   display: flex;
-  -webkit-justify-content: space-between;
   justify-content: space-between;
   border-top-left-radius: 5px;
   background-color: #10152C;
@@ -2677,15 +2547,12 @@ input[type=range].styled:focus::-ms-fill-upper {
 }
 #minFT .body {
   width: 100%;
-  -webkit-flex-grow: 3;
   flex-grow: 3;
   overflow: auto;
   height: 100%;
   box-sizing: border-box;
   padding: 0 10px;
-  display: -webkit-flex;
   display: flex;
-  -webkit-flex-direction: column;
   flex-direction: column;
 }
 #minFT .body .min-ft {
@@ -2693,7 +2560,6 @@ input[type=range].styled:focus::-ms-fill-upper {
   margin: 15px 0 0 0;
 }
 #minFT .body .min-ft .item {
-  display: -webkit-flex;
   display: flex;
   width: 100%;
   font-size: 12px;
@@ -2702,15 +2568,11 @@ input[type=range].styled:focus::-ms-fill-upper {
 }
 #minFT .body .min-ft .item label,
 #minFT .body .min-ft .item .value {
-  display: -webkit-flex;
   display: flex;
-  -webkit-flex-direction: column;
   flex-direction: column;
-  -webkit-justify-content: center;
   justify-content: center;
   height: 100%;
   margin: 0;
-  -webkit-flex-grow: 3;
   flex-grow: 3;
 }
 #minFT .body .min-ft .item .value {
@@ -2768,24 +2630,18 @@ input[type=range].styled:focus::-ms-fill-upper {
     left: 0 !important;
     box-shadow: -5px 6px 27px -7px rgba(0, 10, 80, 0.55);
     max-width: 100vw;
-    display: -webkit-flex;
     display: flex;
-    -webkit-flex-direction: column;
     flex-direction: column;
   }
   #floodToolsDiv .panel-heading.main {
-    min-height: -webkit-fit-content;
-    min-height: -moz-fit-content;
     min-height: fit-content;
   }
   #floodToolsDiv .panel-body {
     max-width: 100% !important;
     width: auto !important;
     height: auto !important;
-    -webkit-flex-wrap: wrap;
     flex-wrap: wrap;
     overflow: auto;
-    -webkit-flex-grow: 3;
     flex-grow: 3;
   }
   #floodToolsDiv .panel-body #ftSliders {
@@ -2806,24 +2662,17 @@ input[type=range].styled:focus::-ms-fill-upper {
     margin: 0 4px;
   }
   #floodToolsDiv .panel-body #ftSliders #ftOptions .ft-option {
-    -webkit-justify-content: center;
     justify-content: center;
-    display: -webkit-flex;
     display: flex;
   }
   #floodToolsDiv .panel-body #ftData {
     box-sizing: border-box;
-    min-height: -webkit-fit-content;
-    min-height: -moz-fit-content;
     min-height: fit-content;
   }
   #floodToolsDiv .panel-body #ftData #ftDataTabs {
-    -webkit-justify-content: center !important;
     justify-content: center !important;
   }
   #floodToolsDiv .panel-body #ftData .ftmodal-content {
-    min-height: -webkit-fit-content;
-    min-height: -moz-fit-content;
     min-height: fit-content;
   }
 }
@@ -2844,16 +2693,12 @@ input[type=range].styled:focus::-ms-fill-upper {
   box-shadow: 0px 6px 35px -10px rgba(20, 20, 40, 0.6) !important;
   border-radius: 4px !important;
   max-height: 80vh;
-  display: -webkit-flex;
   display: flex;
-  -webkit-flex-direction: column;
   flex-direction: column;
 }
 .modal .modal-dialog .modal-content .modal-header {
   padding: 10px 15px;
   border-bottom: none;
-  min-height: -webkit-fit-content;
-  min-height: -moz-fit-content;
   min-height: fit-content;
 }
 .modal .modal-dialog .modal-content .modal-header .modal-title {
@@ -2877,9 +2722,7 @@ input[type=range].styled:focus::-ms-fill-upper {
   opacity: 1;
 }
 .modal .modal-dialog .modal-content .modal-body {
-  display: -webkit-flex;
   display: flex;
-  -webkit-flex-direction: column;
   flex-direction: column;
   overflow: auto;
 }
@@ -2888,14 +2731,9 @@ input[type=range].styled:focus::-ms-fill-upper {
   padding: 0 15px 0 13px !important;
   border-bottom: 2px solid rgba(16, 21, 44, 0.06) !important;
   width: 100%;
-  display: -webkit-flex;
   display: flex;
-  min-height: -webkit-fit-content;
-  min-height: -moz-fit-content;
   min-height: fit-content;
-  -webkit-flex-wrap: wrap;
   flex-wrap: wrap;
-  -webkit-justify-content: center;
   justify-content: center;
 }
 .modal .modal-dialog .modal-content .modal-body .nav-tabs li a,
@@ -2930,7 +2768,6 @@ input[type=range].styled:focus::-ms-fill-upper {
 }
 .modal .modal-dialog .modal-content .modal-body .tab-content {
   padding: 25px 15px 10px 15px !important;
-  -webkit-flex-grow: 3;
   flex-grow: 3;
   overflow: auto;
 }
@@ -2950,14 +2787,9 @@ input[type=range].styled:focus::-ms-fill-upper {
 .modal .modal-dialog .modal-content .modal-footer {
   margin: 0 auto;
   padding: 15px;
-  display: -webkit-flex;
   display: flex;
-  -webkit-flex-direction: column;
   flex-direction: column;
-  -webkit-justify-content: center;
   justify-content: center;
-  min-height: -webkit-fit-content;
-  min-height: -moz-fit-content;
   min-height: fit-content;
   background-color: #ECEEF3;
   width: 100%;
@@ -2980,9 +2812,7 @@ input[type=range].styled:focus::-ms-fill-upper {
   opacity: 0.9;
 }
 .modal .modal-dialog .modal-content .modal-footer .modal-footer-buttons {
-  display: -webkit-flex;
   display: flex;
-  -webkit-justify-content: space-between;
   justify-content: space-between;
   box-sizing: border-box;
   padding-top: 11px;
@@ -3112,7 +2942,6 @@ input[type=range].styled:focus::-ms-fill-upper {
   border: none;
   background-color: transparent;
   outline: none;
-  display: -webkit-flex;
   display: flex;
   margin: 0 0 3px 0;
   font-size: 11px;
@@ -3121,11 +2950,8 @@ input[type=range].styled:focus::-ms-fill-upper {
   color: #10152C;
 }
 .basemap-btn b {
-  display: -webkit-flex;
   display: flex;
-  -webkit-flex-direction: column;
   flex-direction: column;
-  -webkit-justify-content: center;
   justify-content: center;
   height: 24px;
   font-weight: 500;
@@ -3159,9 +2985,7 @@ input[type=range].styled:focus::-ms-fill-upper {
   text-transform: capitalize;
   font-weight: 600;
   letter-spacing: -0.25px;
-  display: -webkit-flex;
   display: flex;
-  -webkit-justify-content: space-between;
   justify-content: space-between;
 }
 #sidebar .wim-sidebar-panel .panel-heading h4 a:after {
@@ -3216,11 +3040,8 @@ input[type=range].styled:focus::-ms-fill-upper {
   box-sizing: border-box;
   padding: 5px 10px;
   line-height: 13px;
-  display: -webkit-flex;
   display: flex;
-  -webkit-flex-wrap: wrap;
   flex-wrap: wrap;
-  -webkit-justify-content: center;
   justify-content: center;
   display: none;
 }
@@ -3246,9 +3067,7 @@ input[type=range].styled:focus::-ms-fill-upper {
   z-index: 1010;
   box-sizing: border-box;
   padding: 5px 15px;
-  display: -webkit-flex;
   display: flex;
-  -webkit-justify-content: space-between;
   justify-content: space-between;
 }
 .usgs-bar img {
@@ -3310,11 +3129,8 @@ input[type=range].styled:focus::-ms-fill-upper {
   box-shadow: 0px 6px 35px -10px rgba(20, 20, 40, 0.6) !important;
 }
 .mobile-sidebar-toggle {
-  display: -webkit-inline-flex;
   display: inline-flex;
-  -webkit-flex-direction: column;
   flex-direction: column;
-  -webkit-justify-content: center;
   justify-content: center;
   transition: 0.12s;
   height: 35px;
@@ -3382,9 +3198,7 @@ input[type=range].styled:focus::-ms-fill-upper {
   width: 100%;
 }
 .sidebar-layers-item button {
-  display: -webkit-flex;
   display: flex;
-  -webkit-justify-content: space-between;
   justify-content: space-between;
   width: 100%;
   border: none;
@@ -3395,11 +3209,8 @@ input[type=range].styled:focus::-ms-fill-upper {
 }
 .sidebar-layers-item button .fa-square,
 .sidebar-layers-item button .fa-check-square {
-  display: -webkit-flex;
   display: flex;
-  -webkit-flex-direction: column;
   flex-direction: column;
-  -webkit-justify-content: center;
   justify-content: center;
   height: 28px;
   font-size: 16px;
@@ -3409,11 +3220,8 @@ input[type=range].styled:focus::-ms-fill-upper {
   transition: 0.15s;
 }
 .sidebar-layers-item button b {
-  display: -webkit-flex;
   display: flex;
-  -webkit-flex-direction: column;
   flex-direction: column;
-  -webkit-justify-content: center;
   justify-content: center;
   font-size: 11px;
   font-weight: 600;
@@ -3422,18 +3230,14 @@ input[type=range].styled:focus::-ms-fill-upper {
   box-sizing: border-box;
   padding: 0px;
   height: 28px;
-  -webkit-flex-grow: 3;
   flex-grow: 3;
   color: rgba(16, 21, 44, 0.9);
   letter-spacing: -0.2px;
   padding-bottom: 1px;
 }
 .sidebar-layers-item button .opacity {
-  display: -webkit-flex;
   display: flex;
-  -webkit-flex-direction: column;
   flex-direction: column;
-  -webkit-justify-content: center;
   justify-content: center;
   height: 28px;
   font-size: 12px;
@@ -3450,11 +3254,8 @@ input[type=range].styled:focus::-ms-fill-upper {
   transition: 0.15s;
 }
 .sidebar-layers-item button .zoomto {
-  display: -webkit-flex;
   display: flex;
-  -webkit-flex-direction: column;
   flex-direction: column;
-  -webkit-justify-content: center;
   justify-content: center;
   height: 28px;
   font-size: 12px;

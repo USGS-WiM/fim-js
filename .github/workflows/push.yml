@@ -2,10 +2,10 @@ on:
   push:
     branches:
     - staging
-name: Deploy to Test S3
+name: "Deploy to test.wim.usgs.gov/fim"
 jobs:
-  filtersForGitHubActions:
-    name: Filters for GitHub Actions
+  pushToTest:
+    name: Push to TEST
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
@@ -26,5 +26,5 @@ jobs:
       env:
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
       with:
-        args: Successfully deployed to S3
+        args: ":test: Successfully deployed *fim-js* to test.wim.usgs.gov/fim :fire:"
 

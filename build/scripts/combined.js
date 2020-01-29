@@ -1293,7 +1293,7 @@ require([
                 if (evt.graphic != undefined) {
                     feature = evt.graphic;
                 } else {
-                    feature = evt.currentTarget.e_graphic;
+                    feature = evt.target.e_graphic;
                 }
                 var attr = feature.attributes;
                 siteAttr = attr;
@@ -1360,7 +1360,7 @@ require([
                 if (evt.graphic != undefined) {
                     feature = evt.graphic;
                 } else {
-                    feature = evt.currentTarget.e_graphic;
+                    feature = evt.target.e_graphic;
                 }
                 var attr = feature.attributes;
                 siteAttr = attr;
@@ -1638,29 +1638,35 @@ require([
                 $(".nav-tabs #floodToolsTab").tab("show");
 
 
+		
+
 				// Set site links, titles
                 $(".fts1 #usgsSiteNo").text(siteNo);
-                $(".fts1 #usgsSiteNo").attr("href", "https://waterdata.usgs.gov/nwis/uv?site_no="+siteNo);
-                $(".fts1 #nwsSiteID").text(ahpsID);
-                $(".fts1 #nwsSiteID").attr("href", "https://water.weather.gov/ahps2/hydrograph.php?gage="+ahpsID);
+				$(".fts1 #usgsSiteNo").attr("href", "https://waterdata.usgs.gov/monitoring-location/"+siteNo);
 				$(".fts1 #siteName").text(attr["STATE"] + ": " + attr["COMMUNITY"])
-
+				if(ahpsID != "NONE"){
+					$(".fts1 .nws-site-id").html("<a href='https://water.weather.gov/ahps2/hydrograph.php?gage="+ahpsID+"' target='_blank' alt='"+ahpsID+"' title='"+ahpsID+"'>"+ahpsID+"</a>");
+				}else{
+					$(".fts1 .nws-site-id").html("NONE");
+				}
 
                 $(".fts2 #usgsSiteNo").text(siteNo_2);
-                $(".fts2 #usgsSiteNo").attr("href", "https://waterdata.usgs.gov/nwis/uv?site_no="+siteNo_2);
-                $(".fts2 #nwsSiteID").text(ahpsID_2);
-                $(".fts2 #nwsSiteID").attr("href", "https://water.weather.gov/ahps2/hydrograph.php?gage="+ahpsID_2);
+                $(".fts2 #usgsSiteNo").attr("href", "https://waterdata.usgs.gov/monitoring-location/"+siteNo_2);
+				if(ahpsID_2 != "NONE"){
+					$(".fts2 .nws-site-id").html("<a href='https://water.weather.gov/ahps2/hydrograph.php?gage="+ahpsID_2+"' target='_blank' alt='"+ahpsID_2+"' title='"+ahpsID_2+"'>"+ahpsID_2+"</a>");
+				}else{
+					$(".fts2 .nws-site-id").html("NONE");
+				}
 
 				$(".fts3 #usgsSiteNo").text(siteNo_3);
+                $(".fts3 #usgsSiteNo").attr("href", "https://waterdata.usgs.gov/monitoring-location/"+siteNo_3);
+				if(ahpsID_3 != "NONE"){
+					$(".fts3 .nws-site-id").html("<a href='https://water.weather.gov/ahps2/hydrograph.php?gage="+ahpsID_3+"' target='_blank' alt='"+ahpsID_3+"' title='"+ahpsID_3+"'>"+ahpsID_3+"</a>");
+				}else{
+					$(".fts3 .nws-site-id").html("NONE");
+				}
 
-                $(".fts3 #usgsSiteNo").attr("href", "https://waterdata.usgs.gov/nwis/uv?site_no="+siteNo_3);
-                if (ahpsID_3 != "NONE") {
-                    $(".fts3 #nwsSiteID").text(ahpsID_3);
-                    $(".fts3 #nwsSiteID").attr("href", "https://water.weather.gov/ahps2/hydrograph.php?gage="+ahpsID_3);
-                } else {
-                    $(".fts3 #nwsSiteID").text("NONE");
-                }
-
+				
                 if (attr.HAS_GRIDS == 1) {
                     $("#gridLabel").show();
                 } else {
@@ -2187,7 +2193,7 @@ require([
                                 if (siteAttr["MULTI_SITE"] == 0) {
 									// Update Values
 									$(".fts1 .slider-min.update").text(results[this.value].attributes["STAGE"]);
-									$(".fts1 .elevation-selected").text(results[this.value].attributes["ELEV"] || "N/A");
+									$(".fts1 .elevation-selected").text(results[this.value].attributes["ELEV"].toFixed(2) || "N/A");
 									$(".fts1 .flood-discharge-selected").text(results[this.value].attributes["QCFS"] || "N/A");	
 				
 									//Adjustments to hazus tab for slider change
@@ -2231,11 +2237,15 @@ require([
                                     if ($(this).hasClass('first-slider')) {
 										$(".fts1 .slider-min.update").text(gageValues[this.value].gageValue);
 										$(".fts1 .elevation-selected").text(altitudeValues[this.value].altitudeValue || "N/A");
-										$(".fts1 .flood-discharge-selected").text(dischargeValues[this.value].dischargeValue || "N/A");
-									} else if ($(this).hasClass('second-slider')) {
+										if (typeof dischargeValues[this.value] !== 'undefined'){
+											$(".fts1 .flood-discharge-selected").text(dischargeValues[this.value].dischargeValue || "N/A");
+                                        }
+                                    } else if ($(this).hasClass('second-slider')) {
 										$(".fts2 .slider-min.update").text(gageValues2[this.value].gageValue);
 										$(".fts2 .elevation-selected").text(altitudeValues2[this.value].altitudeValue || "N/A");
-										$(".fts2 .flood-discharge-selected").text(dischargeValues2[this.value].dischargeValue || "N/A");
+										if (typeof dischargeValues2[this.value] !== 'undefined'){
+											$(".fts2 .flood-discharge-selected").text(dischargeValues2[this.value].dischargeValue || "N/A");
+										}
                                     }
 
                                     // Code to determine next possible combination if current selections are not available as map in library
@@ -2270,8 +2280,9 @@ require([
 													$(".fts2 #floodSlider")[0].value = i;
 													$(".fts2 .slider-min.update").text(gageValues2[$(".fts2 #floodSlider")[0].value].gageValue);
 													$(".fts2 .elevation-selected").text(altitudeValues2[$(".fts2 #floodSlider")[0].value].altitudeValue || "N/A");
-													$(".fts2 .flood-discharge-selected").text(dischargeValues2[$(".fts2 #floodSlider")[0].value].dischargeValue || "N/A");
-
+                                                    if (dischargeValues2[$(".fts2 #floodSlider")[0].value] != undefined) {
+                                                        $(".fts2 .flood-discharge-selected").text(dischargeValues2[$(".fts2 #floodSlider")[0].value].dischargeValue || "N/A");
+                                                    }
                                                     //slideWarningShow();
                                                     break;
                                                 }
@@ -2296,8 +2307,12 @@ require([
 													// Update current slider value
 													$(".fts1 .slider-min.update").text(gageValues[$(".fts1 #floodSlider")[0].value].gageValue);
 													$(".fts1 .elevation-selected").text(altitudeValues[$(".fts1 #floodSlider")[0].value].altitudeValue || "N/A");
-													$(".fts1 .flood-discharge-selected").text(dischargeValues[$(".fts1 #floodSlider")[0].value].dischargeValue || "N/A");
-				
+													
+													if (typeof dischargeValues[$(".fts1 #floodSlider")[0].value] !== 'undefined'){
+														$(".fts1 .flood-discharge-selected").text(dischargeValues[$(".fts1 #floodSlider")[0].value].dischargeValue);
+													}else{
+														$(".fts1 .flood-discharge-selected").text("N/A");
+													}
 													//slideWarningShow();
                                                     break;
                                                 }
@@ -2309,8 +2324,13 @@ require([
 													// Update current slider value
 													$(".fts1 .slider-min.update").text(gageValues[$(".fts1 #floodSlider")[0].value].gageValue);
 													$(".fts1 .elevation-selected").text(altitudeValues[$(".fts1 #floodSlider")[0].value].altitudeValue || "N/A");
-													$(".fts1 .flood-discharge-selected").text(dischargeValues[$(".fts1 #floodSlider")[0].value].dischargeValue || "N/A");
-				
+													
+													if (typeof dischargeValues[$(".fts1 #floodSlider")[0].value] !== 'undefined'){
+														$(".fts1 .flood-discharge-selected").text(dischargeValues[$(".fts1 #floodSlider")[0].value].dischargeValue);
+													}else{
+														$(".fts1 .flood-discharge-selected").text("N/A");
+													}
+
 													//slideWarningShow();
                                                     break;
                                                 }
@@ -2363,7 +2383,7 @@ require([
                                     } else if ($(this).hasClass('third-slider')) {
 										$(".fts3 .slider-min.update").text(gageValues3[this.value].gageValue);
 										$(".fts3 .elevation-selected").text(altitudeValues3[this.value].altitudeValue || "N/A");
-										$(".fts3 .flood-discharge-selected").text(dischargeValues2[this.value].dischargeValue || "N/A");
+										$(".fts3 .flood-discharge-selected").text(dischargeValues3[this.value].dischargeValue || "N/A");
 
                                     }
 
@@ -2459,7 +2479,12 @@ require([
 													//slideWarningShow();
 													$(".fts1 .slider-min.update").text(gageValues[$(".fts1 #floodSlider")[0].value].gageValue);	
 													$(".fts1 .elevation-selected").text(altitudeValues[$(".fts1 #floodSlider")[0].value].altitudeValue || "N/A");
-													$(".fts1 .flood-discharge-selected").text(dischargeValues[$(".fts1 #floodSlider")[0].value].dischargeValue || "N/A");
+													
+													if (typeof dischargeValues[$(".fts1 #floodSlider")[0].value] !== 'undefined'){
+														$(".fts1 .flood-discharge-selected").text(dischargeValues[$(".fts1 #floodSlider")[0].value].dischargeValue);
+													}else{
+														$(".fts1 .flood-discharge-selected").text("N/A");
+													}
 													break;
                                                 }
                                             }
@@ -2470,7 +2495,12 @@ require([
 													//slideWarningShow();
 													$(".fts1 .slider-min.update").text(gageValues[$(".fts1 #floodSlider")[0].value].gageValue);	
 													$(".fts1 .elevation-selected").text(altitudeValues[$(".fts1 #floodSlider")[0].value].altitudeValue || "N/A");
-													$(".fts1 .flood-discharge-selected").text(dischargeValues[$(".fts1 #floodSlider")[0].value].dischargeValue || "N/A");
+													
+													if (typeof dischargeValues[$(".fts1 #floodSlider")[0].value] !== 'undefined'){
+														$(".fts1 .flood-discharge-selected").text(dischargeValues[$(".fts1 #floodSlider")[0].value].dischargeValue);
+													}else{
+														$(".fts1 .flood-discharge-selected").text("N/A");
+													}
 													break;
                                                 }
                                             }
@@ -2565,7 +2595,12 @@ require([
 													//slideWarningShow();
 													$(".fts1 .slider-min.update").text(gageValues[$(".fts1 #floodSlider")[0].value].gageValue);	
 													$(".fts1 .elevation-selected").text(altitudeValues[$(".fts1 #floodSlider")[0].value].altitudeValue || "N/A");
-													$(".fts1 .flood-discharge-selected").text(dischargeValues[$(".fts1 #floodSlider")[0].value].dischargeValue || "N/A");
+													
+													if (typeof dischargeValues[$(".fts1 #floodSlider")[0].value] !== 'undefined'){
+														$(".fts1 .flood-discharge-selected").text(dischargeValues[$(".fts1 #floodSlider")[0].value].dischargeValue);
+													}else{
+														$(".fts1 .flood-discharge-selected").text("N/A");
+													}
                                                     break;
                                                 }
                                             }
@@ -2576,7 +2611,12 @@ require([
 													//slideWarningShow();
 													$(".fts1 .slider-min.update").text(gageValues[$(".fts1 #floodSlider")[0].value].gageValue);
 													$(".fts1 .elevation-selected").text(altitudeValues[$(".fts1 #floodSlider")[0].value].altitudeValue || "N/A");
-													$(".fts1 .flood-discharge-selected").text(dischargeValues[$(".fts1 #floodSlider")[0].value].dischargeValue || "N/A");
+
+													if (typeof dischargeValues[$(".fts1 #floodSlider")[0].value] !== 'undefined'){
+														$(".fts1 .flood-discharge-selected").text(dischargeValues[$(".fts1 #floodSlider")[0].value].dischargeValue);
+													}else{
+														$(".fts1 .flood-discharge-selected").text("N/A");
+													}
 													break;
                                                 }
                                             }
@@ -2884,12 +2924,11 @@ require([
 
 									console.log("Get Flood Stages")
 									console.log(data);
-									console.log(ahpsID_2);
 
-                                    // If NWS Data does not exist
-                                    if(data[0].getElementsByTagName("response")[0]){
+									// If NWS Data does not exist
+                                    if(data[0].toString().startsWith(" <!") ||data[0].toString().startsWith("<!") || data[0].getElementsByTagName("response")[0]){
 										console.log("NWS Data Not Available");
-										$(".nws-data-req").addClass("nws-data-hidden");
+										$(".fts" + siteNo + " .nws-data-req").addClass("nws-data-hidden");
                                         
                                         floodToolsError("nws");
 
@@ -2945,17 +2984,17 @@ require([
 
 									var stage = sliderStages;
 
-									if(stage.flood == null){stage.flood = stage.action;}
-									if(stage.moderate == null){stage.moderate = stage.flood;}
-									if(stage.major == null){stage.major = stage.moderate;}
-									
 									var max = sliderMax;
 
+									if(stage.major == null){stage.major = max;}
+									if(stage.moderate == null){stage.moderate = stage.major;}
+									if(stage.flood == null){stage.flood = stage.moderate;}
+									
 									var band = new Array();
 									
 									if(stage.flood == null && stage.moderate == null && stage.major == null){
 										// Empty fs bands with missing data
-										band.push({color: "#fff", from: 0, to: 50, 'label':{'text':''}}); 
+										band.push({color: "#fff", from: 0, to: 0, 'label':{'text':''}}); 
 										band.push({color: "#fff", from: 0, to: 0, 'label':{'text':''}}); 
 										band.push({color: "#fff", from: 0, to: 0, 'label':{'text':''}}); 
 										band.push({color: "#fff", from: 0, to: 0, 'label':{'text':''}}); 
@@ -2987,7 +3026,7 @@ require([
 										})
 										// If Top Curve Exists
 										// Add Band for Extended Rating
-										if(stage.top_curve != null){
+										if(stage.top_curve != null && stage.top_curve != 0){
 											band.push({
 												color: "#C326FB",
 												from: stage.major,
@@ -3000,7 +3039,7 @@ require([
 												to: max,
 												'label':{'text': "Extended Rating"}
 											});
-										}else{
+										}else if (stage.major != 0){
 											band.push({
 												color: "#C326FB",
 												from: stage.major,
@@ -3128,7 +3167,7 @@ require([
                                         $(".fts2 .sliderModerateLevel").css( "width", (sliderStages2.major - flMin2) / flDiff2 * 100 + '%' );
 
                                         // If "Top Curve" / Extended exists
-                                        if(sliderStages != null){
+                                        if(sliderStages.top_curve != null){
                                             $(".fts2 .sliderMajorLevel").css( "width", (sliderStages2.top_curve - flMin2) / flDiff2 * 100 + '%' );
                                             $(".fts2 .sliderExtendedLevel").css( "width", '100%' );
                                         }else{
@@ -3341,7 +3380,7 @@ require([
                                     // Create Chart
                                     var hydroChart2 = new Highcharts.Chart('hydroChart2', chartTwoOptions, function(hydroChart2){
                                         console.log("Chart Two Loaded")
-                                        if(floodStageBands[5]){
+                                        if(floodStageBands2[5]){
                                             var chartYMax = parseInt(floodStageBands2[5].to);
                                         }else{
                                             var chartYMax = parseInt(floodStageBands2[4].to);
@@ -3359,7 +3398,7 @@ require([
                                     // Create Chart
                                     var hydroChart3 = new Highcharts.Chart('hydroChart3', chartThreeOptions, function(hydroChart3){
                                         console.log("Chart Three Loaded")
-                                        if(floodStageBands[5]){
+                                        if(floodStageBands3[5]){
                                             var chartYMax = parseInt(floodStageBands3[5].to);
                                         }else{
                                             var chartYMax = parseInt(floodStageBands3[4].to);
