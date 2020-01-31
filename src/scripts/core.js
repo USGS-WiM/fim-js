@@ -626,7 +626,12 @@ require([
         }else{
             $("#hazusRangeInfo").show();
         }
-    });
+	});
+	
+	// Dismiss mobile FT warning
+	$("#dismissMobileFTWarning").click(function(){
+		$(".ft-mboile-warning").remove();
+	})
 
     // Flood Tools Tabs
     // Flood Tools Tabs
@@ -2631,7 +2636,14 @@ require([
                                     }else{
                                         $(".fts1 .sliderMajorLevel").css( "width", '100%' );
                                         $(".fts1 .sliderExtendedLevel").css( "width", '0%' );
-                                    }
+									}
+									
+									// Hide all levels if all equal zero
+									if(sliderStages.action == 0 && sliderStages.flood == 0 && sliderStages.moderate == 0 && sliderStages.major == 0){
+										$(".fts1 .slider-levels").css( "opacity", '0.07' );
+									}else{
+										$(".fts1 .slider-levels").css( "opacity", '1' );
+									}
                                     
                                     // Log
                                     console.log("Flood stage bands")
@@ -2695,7 +2707,14 @@ require([
                                         }else{
                                             $(".fts2 .sliderMajorLevel").css( "width", '100%' );
                                             $(".fts2 .sliderExtendedLevel").css( "width", '0%' );
-                                        }
+										}
+										
+										// Hide all levels if all equal zero
+										if(sliderStages.action == 0 && sliderStages.flood == 0 && sliderStages.moderate == 0 && sliderStages.major == 0){
+											$(".fts1 .slider-levels").css( "opacity", '0.07' );
+										}else{
+											$(".fts1 .slider-levels").css( "opacity", '1' );
+										}
                                     }
                                 }
                                 // Third Site
@@ -2743,7 +2762,15 @@ require([
                                     }else{
                                         $(".fts3 .sliderMajorLevel").css( "width", '100%' );
                                         $(".fts3 .sliderExtendedLevel").css( "width", '0%' );
-                                    }
+									}
+
+									// Hide all levels if all equal zero
+									if(sliderStages.action == 0 && sliderStages.flood == 0 && sliderStages.moderate == 0 && sliderStages.major == 0){
+										$(".fts1 .slider-levels").css( "opacity", '0.07' );
+									}else{
+										$(".fts1 .slider-levels").css( "opacity", '1' );
+									}
+									
                                 }
 
 

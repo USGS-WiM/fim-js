@@ -228,6 +228,14 @@
 			&:hover{
 				color: @red;
 			}
+
+			@media (max-width: 700px) {
+				font-size: 30px !important;
+				max-height: 30px;
+				overflow: visible;
+				position: relative;
+				top: 7px;
+			}
 		}
 		
 		#floodMin {
@@ -235,6 +243,15 @@
 			top: 11px;
 			&:hover{
 				color: @blue;
+			}
+
+			@media (max-width: 700px) {
+				font-size: 20px !important;
+				margin-right: 8px;
+				max-height: 30px;
+				overflow: visible;
+				position: relative;
+				top: 7px;
 			}
 		}
 	}
@@ -339,9 +356,6 @@ a.lgi-zoom:hover {
         line-height: 35px !important;
     }
 }
-.navbar-brand b{
-  font-weight: 400;
-}
 .navbar-brand img{
   margin-right: 16px;
   display: inline;
@@ -354,14 +368,9 @@ a.lgi-zoom:hover {
       margin-top: 10px;
       display: inline-block;
       line-height: 15px !important;
-      padding-left: 15px !important;
-    }
-    .navbar-brand {
-      font-size: 11px;
-      word-spacing: 100%;
-      letter-spacing: -0.25px;
-    }
-    .navbar-brand b{
+	  padding-left: 15px !important;
+	  letter-spacing: 0px !important;
+	  fon-size: 12.5px !important;
     }
     .navbar-brand img{
       margin-right: 5px;
@@ -1270,6 +1279,7 @@ input[type="checkbox"], input[type="radio"] {
 }
 
 
+// Break words inside links instead of overflowing
 a{
   word-break: break-all !important;
 }
@@ -1316,10 +1326,12 @@ a{
 
 }*/
 
+
 .loading-hide{
   visibility: hidden !important;
 }
 
+// Background image (Gif with SVG fallback) for the loading window
 .loading-background{
   background-image: url("../images/ajax-loader.gif");
   background-image: url("../images/usgs-loading.svg");
@@ -1327,6 +1339,8 @@ a{
   background-size: 100px 100px;
   background-repeat: no-repeat;
   background-color: rgba(0,0,20,0.92) !important;
+  border: none !important;
+  border-radius: 0 !important;
 }
 .loading-background:before{
     content: 'Loading...';
@@ -1864,6 +1878,11 @@ input[type=range].styled {
   font-size: 12px;
   line-height: 22px;
   letter-spacing: -0.2px;
+
+	@media (max-width: 700px) {
+		font-size: 11px;
+		line-height: 16px;
+	}
 
   b{
     display: block;
