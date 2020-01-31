@@ -500,7 +500,9 @@
         flex-direction: column;
         height: 100%;
 		overflow: hidden;
+
 		@media (max-width: 700px) {
+			max-width: none;
 			height: 55%;
 			height: calc(~'100vh - 320px');
 		}
@@ -656,16 +658,17 @@
         // Body for each tab/content within 
         // Flood tools
         .ftmodal-content{
-            box-sizing: border-box;
             display: none;
             padding-top: 15px;
             border-top: 1px solid fade(@black, 15%);
-            padding: 15px 15px 20px 15px;
+			padding: 15px 15px 15px 15px !important;
             flex-grow: 3;
 			overflow: auto !important;
 			
 			@media (max-width: 700px) {
 				padding: 15px 5px 100px 5px;
+				height: fit-content !important;
+
 			}
         }
 
@@ -1267,8 +1270,8 @@
         width: 100% !important;
 		max-height: 85vh !important;
 		height: 85vh !important;
-		max-height: calc(~'100vh - 75px') !important;
-		height: calc(~'100vh - 75px') !important;
+		max-height: calc(~'100% - 75px') !important;
+		height: calc(~'100% - 75px') !important;
         bottom: 0px !important;
         top: auto !important;
         left: 0 !important;
@@ -1329,10 +1332,6 @@
                 #ftDataTabs{
                     justify-content: center !important;
                 }
-
-                .ftmodal-content{
-                    min-height: fit-content;
-                }
             }
             
         }
@@ -1360,9 +1359,9 @@
 	z-index: 500;
 	color: white;
 	box-sizing: border-box;
-	padding: 12px 15px 10px 15px;
-	font-size: 12px;
-	line-height: 18px;
+	padding: 18px 25px 10px 25px;
+	font-size: 14px;
+	line-height: 22px;
 	border-top-left-radius: 20px;
 	border-top-right-radius: 20px;
 	box-shadow: 0 -3.6px 3.6px rgba(0, 0, 0, 0.055), 0 -29px 29px rgba(0, 0, 0, 0.11);
@@ -1377,8 +1376,8 @@
 			color: white;
 			text-decoration: underline;
 			width: 100%;
-			font-size: 16px;
-			font-weight: 500;
+			font-size: 20px;
+			font-weight: 600;
 			letter-spacing: 0.5px;
 			background-color: transparent;
 			border: none;
