@@ -626,7 +626,12 @@ require([
         }else{
             $("#hazusRangeInfo").show();
         }
-    });
+	});
+	
+	// Dismiss mobile FT warning
+	$("#dismissMobileFTWarning").click(function(){
+		$(".ft-mboile-warning").remove();
+	})
 
     // Flood Tools Tabs
     // Flood Tools Tabs

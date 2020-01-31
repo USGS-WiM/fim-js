@@ -75,12 +75,15 @@
 
         &.onesite{
             .slider-group{
-                margin-left: 60px;
+				margin-left: 60px;
+				@media (max-width: 700px) {
+					margin-left: 10px;
+				}
             }
         }
         &.twosite{
             .slider-group{
-                margin-left: 30px;
+				margin-left: 30px;
             }
         }
         &.threesite{
@@ -95,16 +98,29 @@
             flex-direction: column;
             justify-content: flex-end;
             position: absolute;
-            width: 124px;
+			width: 124px;
+			
+			@media (max-width: 700px) {
+				margin-top: 30px;
+			}
 
             &.fts1{
-                left: 60px;
+				left: 60px;
+				@media (max-width: 700px) {
+					left: 55px !important;
+				}
             }
             &.fts2{
-                left: 120px;
+				left: 120px;
+				@media (max-width: 700px) {
+					left: 88px !important;
+				}
             }
             &.fts3{
-                left: 180px;
+				left: 180px;
+				@media (max-width: 700px) {
+					left: 122px !important;
+				}
             }
             
             // Wrapper containing actual slider
@@ -126,10 +142,16 @@
                     color: #10152C;
                 }
                 .slider-min{
-                    // left: -12px;
+					// left: -12px;
+					@media (max-width: 700px) {
+						top: 18px !important;
+					}
                 }
                 .slider-max{
-                    left: -14px;
+					left: -14px;
+					@media (max-width: 700px) {
+						top: 18px !important;
+					}
                 }
 
                 // Actual range
@@ -195,6 +217,13 @@
 			flex-direction: column;
 			justify-content: space-around;
 
+			@media (max-width: 700px) {
+				padding-top: 0;
+				width: 100%;
+				padding-left: 55px !important;
+				width: 100% !important;
+			}
+
 			.ft-options-row{
 
 				small{
@@ -207,15 +236,27 @@
 				.ft-options-flex{
 					display: flex;
 					justify-content: space-around;
+
+					@media (max-width: 700px) {
+						justify-content: center;
+					}
 					
 					#optionData{
 						font-weight: 600;
 						text-align: center;
 						padding-top: 1.5px;
+
+						@media (max-width: 700px) {
+							padding: 1.5px 3px 0 3px;
+						}
 	
 						label{
 							margin: 0 !important;
 							font-size: 12.5px;
+
+							@media (max-width: 700px) {
+								font-size: 15px;
+							}
 	
 							&:after{
 								content: 'ft';
@@ -230,12 +271,27 @@
 				}
 			}
 
+			.ft-option-checkboxes{
+				@media (max-width: 700px) {
+					text-align: left !important;
+					display: flex !important;
+					padding: 3px 0 !important;
+					justify-content: center;
+					order: 1;
+				}
+			}
+
             .ft-checkbox{
                 display: flex;
                 justify-content: flex-start;
 				width: 100%;
 				box-sizing: border-box;
 				padding: 0 12px;
+
+				@media (max-width: 700px) {
+					padding: 0 4px !important;
+					width: fit-contetnt;
+				}
 
                 label{
                     font-size: 10px;
@@ -246,12 +302,28 @@
                     display: flex;
                     flex-direction: column;
                     justify-content: center;
-                    padding-top: 2px;
+					padding-top: 2px;
+					
+					@media (max-width: 700px) {
+						line-height: 10px;
+					}
 				}
 				input[type=checkbox]{
 					margin: 1px 0 0 0 !important;
 				}
-            }
+			}
+			
+			@media (max-width: 700px) {
+				#satBasemap{
+					width: 90px !important;
+				}
+				#gridsCheck{
+					width: 82px !important;
+				}
+				#aouCheck{
+					width: 82px;
+				}
+			}
             
 
             // Legend for flood tools
@@ -267,6 +339,12 @@
 				padding: 2px 8px;
 				border-radius: 3px;
 
+				@media (max-width: 700px) {
+					padding: 0px 2px;
+					border: none;
+					margin: 0 auto;
+				}
+
 				.ft-legend-header{
 					font-size: 11px;
 					text-align: center;
@@ -274,11 +352,19 @@
 					font-weight: 600;
 					width: 100%;
 					margin: 0 auto;
+
+					@media (max-width: 700px) {
+						padding-bottom: 4px;
+					}
 				}
 
 				.ft-legend-items{
 					display: flex;
 					width: 100%;
+
+					@media (max-width: 700px) {
+						flex-direction: column;
+					}
 
 					.left,
 					.right{
@@ -288,6 +374,14 @@
 						width: 50%;
 						min-width: 50%;
 						max-width: 50%;
+						@media (max-width: 700px) {
+							flex-direction: row;
+							width: 100%;
+							min-width: 100%;
+							max-width: 100%;
+							justify-content: center;
+							flex-wrap:wrap;
+						}
 
 						.key{
 							display: flex;
@@ -314,6 +408,10 @@
 								content: '';
 								position: absolute;
 								left: 0;
+							}
+
+							@media (max-width: 700px) {
+								width: auto;
 							}
 						}
 						.action:before{
@@ -350,6 +448,10 @@
 				box-sizing: border-box;
 				padding: 12px 8px;
 
+				@media (max-width: 700px) {
+					display: none !important;
+				}
+
 				#usgsDefaultLogo,
 				#recordsLogo{
 					height: 24px;
@@ -357,7 +459,27 @@
 					margin: 0 auto 0 auto;
 				}
 			}
-        }
+		}
+		
+
+		// Change things based on number of sites
+		&.onesite{
+
+		}
+		&.twosite{
+			#ftOptions{
+				@media (max-width: 700px) {
+					padding-left: 80px !important;
+				}
+			}
+		}
+		&.threesite{
+			#ftOptions{
+				@media (max-width: 700px) {
+					padding-left: 110px !important;
+				}
+			}
+		}
 
     }
 
@@ -377,7 +499,11 @@
         display: flex;
         flex-direction: column;
         height: 100%;
-        overflow: hidden;
+		overflow: hidden;
+		@media (max-width: 700px) {
+			height: 55%;
+			height: calc(~'100vh - 320px');
+		}
 
         #ftDataTabs{
             display: flex;
@@ -386,7 +512,10 @@
             background-color: white;
             box-sizing: border-box;
             min-height: fit-content;
-            height: auto;
+			height: auto;
+			@media (max-width: 700px) {
+				border-top: 1px solid rgba(0, 0, 0, 0.08);
+			}
 
             .ft-tab{
                 display: flex;
@@ -399,6 +528,11 @@
                 color: black;
 				background-color: white;
 				border-right: 1px solid rgba(0,0,0,0.08);
+
+				@media (max-width: 700px) {
+					flex-grow:3;
+					border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+				}
 				
 				// First tab / long title gets set width
 				&.ft-main-tab{
@@ -528,7 +662,11 @@
             border-top: 1px solid fade(@black, 15%);
             padding: 15px 15px 20px 15px;
             flex-grow: 3;
-            overflow: auto !important;
+			overflow: auto !important;
+			
+			@media (max-width: 700px) {
+				padding: 15px 5px 100px 5px;
+			}
         }
 
         // Tools Tab
@@ -1122,11 +1260,15 @@
 // Rsponsive
 
 #floodToolsDiv{
+	border: none !important;
 
     // Switch to mobile FT at 700
     @media (max-width: 700px) {
         width: 100% !important;
-        max-height: 85vh !important;
+		max-height: 85vh !important;
+		height: 85vh !important;
+		max-height: calc(~'100vh - 75px') !important;
+		height: calc(~'100vh - 75px') !important;
         bottom: 0px !important;
         top: auto !important;
         left: 0 !important;
@@ -1152,7 +1294,12 @@
             #ftSliders{
                 padding: 25px 0;
                 text-align: center;
-                width: 100%;
+				width: 100%;
+				
+				@media (max-width: 700px) {
+					height: 200px;
+					padding: 6px 0;
+				}
 
                 #ftOptions{
                     width: auto;
@@ -1198,4 +1345,55 @@
 // Hide Highcharts credit 
 .highcharts-credits{
 	display: none !important;
+}
+
+
+// Mobile warning on flood ttools
+// Tell user to use minimize button
+.ft-mboile-warning{
+	display: block;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	width: 100vw;
+	background-color: @black;
+	z-index: 500;
+	color: white;
+	box-sizing: border-box;
+	padding: 12px 15px 10px 15px;
+	font-size: 12px;
+	line-height: 18px;
+	border-top-left-radius: 20px;
+	border-top-right-radius: 20px;
+	box-shadow: 0 -3.6px 3.6px rgba(0, 0, 0, 0.055), 0 -29px 29px rgba(0, 0, 0, 0.11);
+	
+	.ft-mobile-warning-dismiss{
+		display: flex;
+		justify-content: center;
+		width: 100%;
+		padding: 5px 0 10px 0;
+
+		button{
+			color: white;
+			text-decoration: underline;
+			width: 100%;
+			font-size: 16px;
+			font-weight: 500;
+			letter-spacing: 0.5px;
+			background-color: transparent;
+			border: none;
+			transition: 0.2s;
+			opacity: 1;
+
+			&:hover,
+			&:focus{
+				opacity: 0.75;
+				transition: 0.2s;
+			}
+		}
+	}
+
+	@media (min-width: 700px) {
+		display: none !important;
+	}
 }

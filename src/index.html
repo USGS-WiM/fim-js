@@ -95,7 +95,7 @@ USGS Bar
                 <i class="fas fa-bars"></i>
             </div>
             <div class="navbar-brand">
-                <span>Flood <b>Inundation</b> Mapper</span>
+                <span>Flood Inundation Mapper</span>
             </div>
         </div>
 
@@ -415,7 +415,7 @@ $(".close-alert").click(function(){
                         <div class="new-fim-message">
                             <b>Welcome to the USGS Flood Inundation Mapper.</b>
                             <span>
-                                This application allows you to explore flood inundation libraries throughout the US. The legacy mapper is located here: <a href="wimcloud.usgs.gov/apps/FIM/FloodInundationMapper.html" target="_blank" alt="Legacy FIM Mapper" title="Legacy FIM Mapper">wimcloud.usgs.gov/apps/FIM/FloodInundationMapper.html</a>, and is slated to be decommissioned once historic flood information is added to this interface.
+								The FIM Mapper allows users to explore the full set of inundation maps that shows where flooding would occur given a selected stream condition. Users can also access historical flood information and potential loss estimates based on the severity of the flood. The FIM Mapper helps communities visualize potential flooding scenarios, identify areas and resources that may be at risk, and enhance their local response effort during a flooding event. The legacy mapper is located <a href="https://wimcloud.usgs.gov/apps/FIM/FloodInundationMapper.html" target="_blank" alt="Legacy FIM" title="Legacy FIM">here</a>, and is slated to be decommissioned once historic flood information is added to this interface.
                             </span>
                         </div>
                         <h3>Disclaimer for Flood-Inundation Maps</h3>
@@ -815,13 +815,22 @@ $(".close-alert").click(function(){
 								<button id="shareLink" title="Get a link to share this specific site." type="button">Share <i class="far fa-share-alt"></i></button>
 							</div>
                         </div>
-                    </div>
+					</div>
+					
                     <!--
-                            Modal body
-                            Modal body
-                            Modal body
-                         -->
-
+						Modal body
+						Modal body
+						Modal body
+                    -->
+					<!-- Mobile warning to minimize FT -->
+					<div class="ft-mboile-warning">
+						<p>
+							Use the <i class="far fa-window-restore"></i> buttton to toggle between full-size and minimized flood tools to better view the map.
+						</p>
+						<span class="ft-mobile-warning-dismiss">
+							<button id="dismissMobileFTWarning">Dismiss</button>
+						</span>
+					</div>
                     <div class="panel-body" id="ftModal">
                         <!-- Sliders on left side -->
                         <div id="ftSliders">
