@@ -10,6 +10,7 @@ body {
   background-attachment: fixed;
   background-position: center;
   background-color: #474747;
+  height: 100%;
   padding-top: 95px;
 }
 @media (max-width: 767px) {
@@ -2930,7 +2931,7 @@ input[type=range].styled:focus::-ms-fill-upper {
     margin: 0 !important;
     width: 100vw !important;
     max-width: 100vw !important;
-    height: 100vh !important;
+    height: 100% !important;
   }
 }
 .modal .modal-dialog .modal-content {
@@ -2949,6 +2950,8 @@ input[type=range].styled:focus::-ms-fill-upper {
     position: fixed;
     bottom: 0;
     border-radius: 20px !important;
+    border-bottom-left-radius: 0px !important;
+    border-bottom-right-radius: 0px !important;
   }
 }
 .modal .modal-dialog .modal-content .modal-header {

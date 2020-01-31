@@ -1,5 +1,7 @@
 ![WiM](wimlogo.png)
 
+![Deploy to test.wim.usgs.gov/fim](https://github.com/USGS-WiM/fim-js/workflows/Deploy%20to%20test.wim.usgs.gov/fim/badge.svg?branch=staging)
+
 
 # Flood Inundation Mapper
 
