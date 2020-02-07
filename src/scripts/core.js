@@ -2618,7 +2618,7 @@ require([
 								// Calculate slider color heights
 								function heightFractionGet(lowEnd, highEnd, gages) {
 									var fraction;
-									var values = [parseInt(lowEnd), parseInt(highEnd)];
+									var values = [Number(lowEnd), Number(highEnd)];
 									var lowi = -1;
 									var highi = -1;
 									var lowSolved = false;
@@ -2626,7 +2626,7 @@ require([
 
 									var gageValuesStages = new Array();
 									gages.forEach(function(object){
-										gageValuesStages.push({"stage": parseInt(object.gageValue)});
+										gageValuesStages.push({"stage": Number(object.gageValue)});
 									});
 
 							
@@ -2715,8 +2715,10 @@ require([
 									
 									var whiteVal = heightFractionGet(0, sliderStages.action, gageValues) * 100
 									var actionVal = heightFractionGet(0, sliderStages.flood, gageValues) * 100
-									var moderateVal = heightFractionGet(0, sliderStages.moderate, gageValues) * 100
-									var majorVal = heightFractionGet(0, sliderStages.major, gageValues) * 100
+									var minorVal = heightFractionGet(0, sliderStages.moderate, gageValues) * 100
+									var moderateVal = heightFractionGet(0, sliderStages.major, gageValues) * 100
+                                    var majorVal;
+                                    var extendedVal;
 
 									// ALL VALS
 									console.log("ALL VALUES")
@@ -2725,8 +2727,9 @@ require([
 
 									$(".fts1 .sliderWhiteSpace").css( "width", whiteVal + "%" );
                                     $(".fts1 .sliderActionLevel").css( "width", actionVal + "%" );
-                                    $(".fts1 .sliderMinorLevel").css( "width", moderateVal + "%" );
-                                    $(".fts1 .sliderModerateLevel").css( "width", majorVal + "%" );
+                                    $(".fts1 .sliderMinorLevel").css( "width", minorVal + "%" );
+                                    $(".fts1 .sliderModerateLevel").css( "width", moderateVal + "%" );
+                                    //$(".fts1 .sliderMajorLevel").css("width", majorVal + "%");
 									
                                     // $(".fts1 .sliderWhiteSpace").css( "width", (sliderStages.action - flMin1) / flDiff1 * 100 + '%' );
                                     // $(".fts1 .sliderActionLevel").css( "width", (sliderStages.flood - flMin1) / flDiff1 * 100 + '%' );
@@ -2735,10 +2738,11 @@ require([
                                     
                                     // If "Top Curve" / Extended exists
                                     if(sliderStages.top_curve != null){
-										$(".fts1 .sliderMajorLevel").css( "width", majorVal + "%" );
+                                        majorVal = heightFractionGet(0, sliderStages.top_curve, gageValues) * 100
+                                        $(".fts1 .sliderMajorLevel").css( "width", majorVal + "%" );
                                         $(".fts1 .sliderExtendedLevel").css( "width", '100%' );
                                     }else{
-                                        $(".fts1 .sliderMajorLevel").css( "width", '100%' );
+                                        $(".fts1 .sliderMajorLevel").css( "width", "100%" );
                                         $(".fts1 .sliderExtendedLevel").css( "width", '0%' );
 									}
 									
