@@ -1798,7 +1798,7 @@ input[type=range].styled:focus::-ms-fill-upper {
 }
 @media (max-width: 700px) {
   #ftModal #ftSliders.onesite .slider-group {
-    margin-left: 10px;
+    margin-left: 30px;
   }
 }
 #ftModal #ftSliders.twosite .slider-group {

@@ -2610,7 +2610,93 @@ require([
                                     if (siteAttr["MULTI_SITE"] >= 2) {
                                         $(".fts3 .floodSlider").attr({"min": 0, "max": gageValues3.length-1});
                                     }
-                                }
+								}
+								
+
+								// Calculate slider color heights
+								// Calculate slider color heights
+								// Calculate slider color heights
+								function heightFractionGet(lowEnd, highEnd, gages) {
+									var fraction;
+									var values = [Number(lowEnd), Number(highEnd)];
+									var lowi = -1;
+									var highi = -1;
+									var lowSolved = false;
+									var highSolved = false;
+
+									var gageValuesStages = new Array();
+									gages.forEach(function(object){
+										gageValuesStages.push({"stage": Number(object.gageValue)});
+									});
+
+							
+									values.forEach(function(value){
+										if (lowSolved == false) {
+											lowi = -1;
+										} 
+										if (highSolved == false) {
+											highi = -1;
+										}
+										for (i=1; i<gageValuesStages.length; i++) {
+											if (lowSolved == false || highSolved == false) {
+												if (value == gageValuesStages[i-1].stage) {
+													if (value == lowEnd && lowSolved == false){
+														lowi = i-1;
+														lowSolved = true;
+													} else if (value == highEnd && highSolved == false) {
+														highi = i-1;
+														highSolved = true;
+													}
+												} else if (value > gageValuesStages[i-1].stage && value < gageValuesStages[i].stage) {
+													if (value == lowEnd && lowSolved == false){
+														lowi = i-0.5;
+														lowSolved = true;
+													} else if (value == highEnd && highSolved == false) {
+														highi = i-0.5;
+														highSolved = true;
+													}
+												} else if (value == gageValuesStages[i].stage) {
+													if (value == lowEnd && lowSolved == false){
+														lowi = i;
+														lowSolved = true;
+													} else if (value == highEnd && highSolved == false) {
+														highi = i;
+														highSolved = true;
+													}
+												}  else if (value < gageValuesStages[i-1].stage) {
+													if (value == lowEnd && lowSolved == false) {
+														lowi = 0;
+														lowSolved = true;
+													} else if (value == highEnd && highSolved == false) {
+														highi = 0;
+														highSolved = true;
+													}
+												} else if (value > gageValuesStages[i].stage && i == gageValuesStages.length-1) {
+													if (value == lowEnd && lowSolved == false) {
+														lowi = i;
+														lowSolved = true;
+														highSolved = true;
+													} else if (value == highEnd && highSolved == false) {
+														highi = i;
+														highSolved = true;
+													}
+												} 
+											}
+										}
+
+									})
+									
+									var iDiff = highi - lowi;
+
+									fraction = iDiff/gageValuesStages.length;
+
+									if (fraction < 0) {
+										fraction = 0;
+									}
+
+									return fraction;
+
+								} // End heightFractionGett
 
 
 
@@ -2618,23 +2704,40 @@ require([
                                     // Flood levels near slider - Site 1
                                     $(".fts1 .slider-min").text(gageValues[0].gageValue);
                                     $(".fts1 .slider-max").text(gageValues[gageValues.length-1].gageValue);
-                                    
+									
+
                                     // Calculate slider band heights
                                     var flMax1 = gageValues[gageValues.length-1].gageValue;
                                     var flMin1 = gageValues[0].gageValue;
                                     var flDiff1 = flMax1 - flMin1;
-                                    
-                                    $(".fts1 .sliderWhiteSpace").css( "width", (sliderStages.action - flMin1) / flDiff1 * 100 + '%' );
-                                    $(".fts1 .sliderActionLevel").css( "width", (sliderStages.flood - flMin1) / flDiff1 * 100 + '%' );
-                                    $(".fts1 .sliderMinorLevel").css( "width", (sliderStages.moderate - flMin1) / flDiff1 * 100 + '%' );
-                                    $(".fts1 .sliderModerateLevel").css( "width", (sliderStages.major - flMin1) / flDiff1 * 100 + '%' );
+									
+									var whiteVal = heightFractionGet(0, sliderStages.action, gageValues) * 100
+									var actionVal = heightFractionGet(0, sliderStages.flood, gageValues) * 100
+									var minorVal = heightFractionGet(0, sliderStages.moderate, gageValues) * 100
+									var moderateVal = heightFractionGet(0, sliderStages.major, gageValues) * 100
+                                    var majorVal;
+                                    var extendedVal;
+
+									$(".fts1 .sliderWhiteSpace").css( "width", whiteVal + "%" );
+                                    $(".fts1 .sliderActionLevel").css( "width", actionVal + "%" );
+                                    $(".fts1 .sliderMinorLevel").css( "width", minorVal + "%" );
+                                    $(".fts1 .sliderModerateLevel").css( "width", moderateVal + "%" );
                                     
                                     // If "Top Curve" / Extended exists
                                     if(sliderStages.top_curve != null){
-                                        $(".fts1 .sliderMajorLevel").css( "width", (sliderStages.top_curve - flMin1) / flDiff1 * 100 + '%' );
-                                        $(".fts1 .sliderExtendedLevel").css( "width", '100%' );
+										// Check if Extended starts at top of slider
+										// if so, don't show it
+										if(sliderStages.top_curve == gageValues[gageValues.length-1].gageValue){
+											$(".fts1 .sliderMajorLevel").css( "width", "100%" );
+											$(".fts1 .sliderExtendedLevel").css( "width", '0%' );
+										}else{
+											// Show extended rating
+											majorVal = heightFractionGet(0, sliderStages.top_curve, gageValues) * 100
+											$(".fts1 .sliderMajorLevel").css( "width", majorVal + "%" );
+											$(".fts1 .sliderExtendedLevel").css( "width", '100%' );
+										}
                                     }else{
-                                        $(".fts1 .sliderMajorLevel").css( "width", '100%' );
+                                        $(".fts1 .sliderMajorLevel").css( "width", "100%" );
                                         $(".fts1 .sliderExtendedLevel").css( "width", '0%' );
 									}
 									
@@ -2686,34 +2789,50 @@ require([
                                     
                                     // Second Site
                                     if (gageValues2.length > 0) {
-                                        // Flood levels near slider - Site 1
+                                        // Flood levels near slider - Site 2
                                         $(".fts2 .slider-min").text(gageValues2[0].gageValue);
-                                        $(".fts2 .slider-max").text(gageValues2[gageValues2.length-1].gageValue);
-            
+										$(".fts2 .slider-max").text(gageValues2[gageValues2.length-1].gageValue);
+										
                                         // Calculate slider bar heights
                                         var flMax2 = gageValues2[gageValues2.length-1].gageValue;
                                         var flMin2 = gageValues2[0].gageValue;
                                         var flDiff2 = flMax2 - flMin2;
-                                        
-                                        $(".fts2 .sliderWhiteSpace").css( "width", (sliderStages2.action - flMin2) / flDiff2 * 100 + '%' );
-                                        $(".fts2 .sliderActionLevel").css( "width", (sliderStages2.flood - flMin2) / flDiff2 * 100 + '%' );
-                                        $(".fts2 .sliderMinorLevel").css( "width", (sliderStages2.moderate - flMin2) / flDiff2 * 100 + '%' );
-                                        $(".fts2 .sliderModerateLevel").css( "width", (sliderStages2.major - flMin2) / flDiff2 * 100 + '%' );
 
-                                        // If "Top Curve" / Extended exists
-                                        if(sliderStages.top_curve != null){
-                                            $(".fts2 .sliderMajorLevel").css( "width", (sliderStages2.top_curve - flMin2) / flDiff2 * 100 + '%' );
-                                            $(".fts2 .sliderExtendedLevel").css( "width", '100%' );
-                                        }else{
-                                            $(".fts2 .sliderMajorLevel").css( "width", '100%' );
-                                            $(".fts2 .sliderExtendedLevel").css( "width", '0%' );
+										var whiteVal = heightFractionGet(0, sliderStages2.action, gageValues2) * 100
+										var actionVal = heightFractionGet(0, sliderStages2.flood, gageValues2) * 100
+										var minorVal = heightFractionGet(0, sliderStages2.moderate, gageValues2) * 100
+										var moderateVal = heightFractionGet(0, sliderStages2.major, gageValues2) * 100
+										var majorVal;
+										var extendedVal;
+
+										$(".fts2 .sliderWhiteSpace").css( "width", whiteVal + "%" );
+										$(".fts2 .sliderActionLevel").css( "width", actionVal + "%" );
+										$(".fts2 .sliderMinorLevel").css( "width", minorVal + "%" );
+										$(".fts2 .sliderModerateLevel").css( "width", moderateVal + "%" );
+										
+										// If "Top Curve" / Extended exists
+										if(sliderStages2.top_curve != null){
+											// Check if Extended starts at top of slider
+											// if so, don't show it
+											if(sliderStages2.top_curve == gageValues2[gageValues2.length-1].gageValue){
+												$(".fts2 .sliderMajorLevel").css( "width", "100%" );
+												$(".fts2 .sliderExtendedLevel").css( "width", '0%' );
+											}else{
+												// Show extended rating
+												majorVal = heightFractionGet(0, sliderStages2.top_curve, gageValues) * 100
+												$(".fts2 .sliderMajorLevel").css( "width", majorVal + "%" );
+												$(".fts2 .sliderExtendedLevel").css( "width", '100%' );
+											}
+										}else{
+											$(".fts2 .sliderMajorLevel").css( "width", "100%" );
+											$(".fts2 .sliderExtendedLevel").css( "width", '0%' );
 										}
 										
 										// Hide all levels if all equal zero
-										if(sliderStages.action == 0 && sliderStages.flood == 0 && sliderStages.moderate == 0 && sliderStages.major == 0){
-											$(".fts1 .slider-levels").css( "opacity", '0.07' );
+										if(sliderStages2.action == 0 && sliderStages.flood == 0 && sliderStages.moderate == 0 && sliderStages.major == 0){
+											$(".fts2 .slider-levels").css( "opacity", '0.07' );
 										}else{
-											$(".fts1 .slider-levels").css( "opacity", '1' );
+											$(".fts2 .slider-levels").css( "opacity", '1' );
 										}
                                     }
                                 }
@@ -2741,34 +2860,50 @@ require([
                                         var floodStageBands3 = createFloodStageBand(sliderStages3, sliderMax3);
                                     }
 
-                                    // Flood levels near slider - Site 1
+                                    // Flood levels near slider - Site 3
                                     $(".fts3 .slider-min").text(gageValues3[0].gageValue);
                                     $(".fts3 .slider-max").text(gageValues3[gageValues3.length-1].gageValue);
                                     
                                     // Calculate Slider bar heights
                                     var flMax3 = gageValues3[gageValues3.length-1].gageValue;
                                     var flMin3 = gageValues3[0].gageValue;
-                                    var flDiff3 = flMax3 - flMin3;
-                                    
-                                    $(".fts3 .sliderWhiteSpace").css( "width", (sliderStages3.action - flMin3) / flDiff3 * 100 + '%' );
-                                    $(".fts3 .sliderActionLevel").css( "width", (sliderStages3.flood - flMin3) / flDiff3 * 100 + '%' );
-                                    $(".fts3 .sliderMinorLevel").css( "width", (sliderStages3.moderate - flMin3) / flDiff3 * 100 + '%' );
-                                    $(".fts3 .sliderModerateLevel").css( "width", (sliderStages3.major - flMin3) / flDiff3 * 100 + '%' );
-                                    
-                                    // If "Top Curve" / Extended exists
-                                    if(sliderStages != null){
-                                        $(".fts3 .sliderMajorLevel").css( "width", (sliderStages3.top_curve - flMin3) / flDiff3 * 100 + '%' );
-                                        $(".fts3 .sliderExtendedLevel").css( "width", '100%' );
-                                    }else{
-                                        $(".fts3 .sliderMajorLevel").css( "width", '100%' );
-                                        $(".fts3 .sliderExtendedLevel").css( "width", '0%' );
+									var flDiff3 = flMax3 - flMin3;
+
+									var whiteVal = heightFractionGet(0, sliderStages3.action, gageValues3) * 100
+									var actionVal = heightFractionGet(0, sliderStages3.flood, gageValues3) * 100
+									var minorVal = heightFractionGet(0, sliderStages3.moderate, gageValues3) * 100
+									var moderateVal = heightFractionGet(0, sliderStages3.major, gageValues3) * 100
+									var majorVal;
+									var extendedVal;
+
+									$(".fts3 .sliderWhiteSpace").css( "width", whiteVal + "%" );
+									$(".fts3 .sliderActionLevel").css( "width", actionVal + "%" );
+									$(".fts3 .sliderMinorLevel").css( "width", minorVal + "%" );
+									$(".fts3 .sliderModerateLevel").css( "width", moderateVal + "%" );
+									
+									// If "Top Curve" / Extended exists
+									if(sliderStages3.top_curve != null){
+										// Check if Extended starts at top of slider
+										// if so, don't show it
+										if(sliderStages3.top_curve == gageValues3[gageValues3.length-1].gageValue){
+											$(".fts3 .sliderMajorLevel").css( "width", "100%" );
+											$(".fts3 .sliderExtendedLevel").css( "width", '0%' );
+										}else{
+											// Show extended rating
+											majorVal = heightFractionGet(0, sliderStages3.top_curve, gageValues) * 100
+											$(".fts3 .sliderMajorLevel").css( "width", majorVal + "%" );
+											$(".fts3 .sliderExtendedLevel").css( "width", '100%' );
+										}
+									}else{
+										$(".fts3 .sliderMajorLevel").css( "width", "100%" );
+										$(".fts3 .sliderExtendedLevel").css( "width", '0%' );
 									}
 
 									// Hide all levels if all equal zero
-									if(sliderStages.action == 0 && sliderStages.flood == 0 && sliderStages.moderate == 0 && sliderStages.major == 0){
-										$(".fts1 .slider-levels").css( "opacity", '0.07' );
+									if(sliderStages3.action == 0 && sliderStages3.flood == 0 && sliderStages3.moderate == 0 && sliderStages3.major == 0){
+										$(".fts3 .slider-levels").css( "opacity", '0.07' );
 									}else{
-										$(".fts1 .slider-levels").css( "opacity", '1' );
+										$(".fts3 .slider-levels").css( "opacity", '1' );
 									}
 									
                                 }
