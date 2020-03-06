@@ -1,5 +1,7 @@
 ![WiM](wimlogo.png)
 
+![Deploy to test.wim.usgs.gov/fim](https://github.com/USGS-WiM/fim-js/workflows/Deploy%20to%20test.wim.usgs.gov/fim/badge.svg?branch=staging)
+
 
 # Flood Inundation Mapper
 
@@ -41,6 +43,8 @@ To push tags to remote origin: `git push origin --tags`
 ## Authors
 
 * **[Nicholas Estes](https://www.usgs.gov/staff-profiles/nicholas-j-estes)**  - *Lead Developer* - [USGS Web Informatics & Mapping](https://wim.usgs.gov/)
+* **Mitch Samuels**  - *Developer* - [USGS Web Informatics & Mapping](https://wim.usgs.gov/)
+
 
 See also the list of [contributors](https://github.com/USGS-WiM/fim-js/contributors) who participated in this project.
 
@@ -56,4 +60,4 @@ In the spirit of open source, please cite any re-use of the source code stored i
 ## About WIM
 * This project authored by the [USGS WIM team](https://wim.usgs.gov)
 * WIM is a team of developers and technologists who build and manage tools, software, web services, and databases to support USGS science and other federal government cooperators.
-* WiM is a part of the [Upper Midwest Water Science Center](https://www.usgs.gov/centers/wisconsin-water-science-center).
+* WIM is a part of the [Upper Midwest Water Science Center](https://www.usgs.gov/centers/umid-water).

@@ -1,0 +1,1398 @@
+@black: #10152C;
+@blue: #1D6DFA;
+@red: #FB4841;
+
+// Div wrapper for flood tools
+#floodToolsDiv{
+	box-shadow: 0px 6px 27px -7px rgba(0, 10, 80, 0.55);
+	height: fit-content !important;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+
+    .panel-heading.main{
+        background-color: white;
+		display: flex; 
+		padding-top: 0px !important;
+		padding-bottom: 8px !important;
+
+        .dropdown{
+            position:relative;
+            top:-3px;
+        }
+	}
+	
+	.panel-body{
+		flex-grow: 3;
+		padding-bottom: 0;
+	}
+}
+
+// Error message on flood tools window.
+// Error message on flood tools window.
+// Error message on flood tools window.
+#floodToolsErrorMessage{
+    display: none;
+    text-align: center;
+    background-color: #FB4841;
+    box-sizing: border-box;
+    padding: 6px;
+    font-weight: 500;
+    font-size: 11px;
+	color: white;
+	position: relative;
+}
+
+#ftModal{
+    width: auto;
+    display: flex;
+    min-width: 300px;
+    height: 400px !important;
+    min-width: none !important;
+    box-sizing: border-box;
+	padding: 0 0 7px 0;
+	overflow: hidden !important;
+
+    @media (max-width: 550px) {
+        min-width: none;
+    }
+
+    // Flood level sliders
+    // Flood level sliders
+    // Flood level sliders
+    #ftSliders{
+		width: 180px;
+		min-width: 180px;
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+        box-sizing: border-box;
+        // background-color: fade(white, 55%);
+        padding: 20px 0 0 0;
+        position: relative;
+		// min-width: 180px;
+		background-color: white;
+
+        &.onesite{
+            .slider-group{
+				margin-left: 60px;
+				@media (max-width: 700px) {
+					margin-left: 30px;
+				}
+            }
+        }
+        &.twosite{
+            .slider-group{
+				margin-left: 30px;
+            }
+        }
+        &.threesite{
+
+        }
+
+        .slider-group{
+            transform: rotate(90deg);
+            transform-origin: 0 0;
+            height: 44px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            position: absolute;
+			width: 124px;
+			
+			@media (max-width: 700px) {
+				margin-top: 30px;
+			}
+
+            &.fts1{
+				left: 60px;
+				@media (max-width: 700px) {
+					left: 55px !important;
+				}
+            }
+            &.fts2{
+				left: 120px;
+				@media (max-width: 700px) {
+					left: 88px !important;
+				}
+            }
+            &.fts3{
+				left: 180px;
+				@media (max-width: 700px) {
+					left: 122px !important;
+				}
+            }
+            
+            // Wrapper containing actual slider
+            // As well as slider labels
+            .slider-wrapper{
+                display: flex;
+
+                // Min and max labels
+                label{
+                    text-align: center;
+                    transform: rotate(-90deg);
+                    height: 0;
+                    width: 0;
+                    position: relative;
+                    // top: -20px;
+                    top: -3px;
+                    font-size: 11px;
+                    letter-spacing: -0.2px;
+                    color: #10152C;
+                }
+                .slider-min{
+					// left: -12px;
+					@media (max-width: 700px) {
+						top: 18px !important;
+					}
+                }
+                .slider-max{
+					left: -14px;
+					@media (max-width: 700px) {
+						top: 18px !important;
+					}
+                }
+
+                // Actual range
+                input{
+                    flex-grow: 3;
+                    width: 100%;
+                    z-index: 60;
+                    position: relative;
+					direction: rtl;
+					box-shadow: none !important;
+					background:transparent;
+				}
+
+				input[type=range]::-moz-range-track {
+					background-color: transparent;
+				}
+            }
+
+            // Colored boxes to show
+            // Flood Levels
+            .slider-levels{
+                width: 100%;
+                height: 20px;
+                display: block;
+                position: absolute;
+                overflow:hidden;
+                margin-top: -2px;
+                // display: none;
+
+                .sliderWhiteSpace,
+                .sliderActionLevel,
+                .sliderMinorLevel,
+                .sliderModerateLevel,
+                .sliderMajorLevel,
+                .sliderExtendedLevel{
+                    display: block;
+                    height: 100%;
+                    width: 10px;
+                    position:absolute;
+                    right: 0;
+                }
+                .sliderWhiteSpace{background-color:#D8E1EE; z-index:50;}
+                .sliderActionLevel{background-color:#FDFB51; z-index:40;}
+                .sliderMinorLevel{background-color:#FAA629; z-index:30;}
+                .sliderModerateLevel{background-color:#FC0D1B; z-index:20;}
+                .sliderMajorLevel{background-color:#C326FB; z-index:10;}
+                .sliderExtendedLevel{background-color:#35445b; z-index:5;}
+            }
+            
+
+        }
+
+        // Options/Checkboxes
+        // Options/Checkboxes
+        // Options/Checkboxes
+        #ftOptions{
+            display: block;
+            width: 100%;
+            padding-top: 142px;
+            box-sizing: border-box;
+			text-align: center;
+			display: flex;
+			flex-direction: column;
+			justify-content: space-around;
+
+			@media (max-width: 700px) {
+				padding-top: 0;
+				width: 100%;
+				padding-left: 55px !important;
+				width: 100% !important;
+			}
+
+			.ft-options-row{
+
+				small{
+					display: block;
+					text-align: center;
+					font-size: 10.5px;
+					font-weight: 500;
+				}
+
+				.ft-options-flex{
+					display: flex;
+					justify-content: space-around;
+
+					@media (max-width: 700px) {
+						justify-content: center;
+					}
+					
+					#optionData{
+						font-weight: 600;
+						text-align: center;
+						padding-top: 1.5px;
+
+						@media (max-width: 700px) {
+							padding: 1.5px 3px 0 3px;
+						}
+	
+						label{
+							margin: 0 !important;
+							font-size: 12.5px;
+
+							@media (max-width: 700px) {
+								font-size: 15px;
+							}
+	
+							&:after{
+								content: 'ft';
+								font-size: 10.5px;
+								font-weight: 500;
+							}
+							&.label-cfs:after{
+								content: 'cfs';
+							}
+						}
+					}
+				}
+			}
+
+			.ft-option-checkboxes{
+				@media (max-width: 700px) {
+					text-align: left !important;
+					display: flex !important;
+					padding: 3px 0 !important;
+					justify-content: center;
+					order: 1;
+				}
+			}
+
+            .ft-checkbox{
+                display: flex;
+                justify-content: flex-start;
+				width: 100%;
+				box-sizing: border-box;
+				padding: 0 12px;
+
+				@media (max-width: 700px) {
+					padding: 0 4px !important;
+					width: fit-contetnt;
+				}
+
+                label{
+                    font-size: 10px;
+                    font-weight: 500;
+                    padding-left: 5px;
+                    box-sizing: border-box;
+                    line-height: 11px;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+					padding-top: 2px;
+					
+					@media (max-width: 700px) {
+						line-height: 10px;
+					}
+				}
+				input[type=checkbox]{
+					margin: 1px 0 0 0 !important;
+				}
+			}
+			
+			@media (max-width: 700px) {
+				#satBasemap{
+					width: 90px !important;
+				}
+				#gridsCheck{
+					width: 82px !important;
+				}
+				#aouCheck{
+					width: 82px;
+				}
+			}
+            
+
+            // Legend for flood tools
+            #floodToolsLegend{
+                display: flex;
+                box-sizing: border-box;
+				flex-wrap: wrap;
+				box-sizing: border-box;
+				width: 95%;
+				width: calc(~'100% - 24px');
+				margin: 4px auto 0 auto;
+				border: 1px solid #C6CEDA;
+				padding: 2px 8px;
+				border-radius: 3px;
+
+				@media (max-width: 700px) {
+					padding: 0px 2px;
+					border: none;
+					margin: 0 auto;
+				}
+
+				.ft-legend-header{
+					font-size: 11px;
+					text-align: center;
+					box-sizing: border-box;
+					font-weight: 600;
+					width: 100%;
+					margin: 0 auto;
+
+					@media (max-width: 700px) {
+						padding-bottom: 4px;
+					}
+				}
+
+				.ft-legend-items{
+					display: flex;
+					width: 100%;
+
+					@media (max-width: 700px) {
+						flex-direction: column;
+					}
+
+					.left,
+					.right{
+						display: flex;
+						flex-direction: column;
+						justify-content: space-around;
+						width: 50%;
+						min-width: 50%;
+						max-width: 50%;
+						@media (max-width: 700px) {
+							flex-direction: row;
+							width: 100%;
+							min-width: 100%;
+							max-width: 100%;
+							justify-content: center;
+							flex-wrap:wrap;
+						}
+
+						.key{
+							display: flex;
+							position: relative;
+							width: 50%;
+							flex-direction: column;
+							justify-content: center;
+							height: 12px;
+							margin: 2px 0;
+							font-weight: 600;
+							font-size: 10px;
+							color: fade(@black, 80%);
+							box-sizing: border-box;
+							padding-left: 16px;
+							padding-right: 6px;
+							text-align: left;
+							line-height: 10px;
+
+							&:before{
+								display: block;
+								width: 12px;
+								height: 12px;
+								border-radius: 3px;
+								content: '';
+								position: absolute;
+								left: 0;
+							}
+
+							@media (max-width: 700px) {
+								width: auto;
+							}
+						}
+						.action:before{
+							background-color: #FDFB51;
+		
+						}
+						.minor:before{
+							background-color: #FAA629;
+						}
+						.moderate:before{
+							background-color: #FC0D1B;
+						}
+						.major:before{
+							background-color: #C326FB;
+						}
+						
+						.below-action,
+						.extended-rating{
+							margin-top: 5px;
+						}
+						.below-action:before{
+							background-color: #D8E1EE;
+						}
+						.extended-rating:before{
+							background-color: #35445b;
+						}
+					}
+				}
+			}
+			
+
+			// Logos
+			.ft-option-logos{
+				box-sizing: border-box;
+				padding: 12px 8px;
+
+				@media (max-width: 700px) {
+					display: none !important;
+				}
+
+				#usgsDefaultLogo,
+				#recordsLogo{
+					height: 24px;
+					width: auto;
+					margin: 0 auto 0 auto;
+				}
+			}
+		}
+		
+
+		// Change things based on number of sites
+		&.onesite{
+
+		}
+		&.twosite{
+			#ftOptions{
+				@media (max-width: 700px) {
+					padding-left: 80px !important;
+				}
+			}
+		}
+		&.threesite{
+			#ftOptions{
+				@media (max-width: 700px) {
+					padding-left: 110px !important;
+				}
+			}
+		}
+
+    }
+
+
+    // Data and other items
+    // Data and other items
+    // Data and other items
+    #ftData{
+        flex-grow: 3;
+        box-sizing: border-box;
+        padding: 0;
+        max-height: 100%;
+        height: auto;
+        overflow: auto;
+        border-left: 1px solid fade(@black, 15%);
+        max-width: 570px;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+		overflow: hidden;
+
+		@media (max-width: 700px) {
+			max-width: none;
+			height: 55%;
+			height: calc(~'100vh - 320px');
+		}
+
+        #ftDataTabs{
+            display: flex;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+            background-color: white;
+            box-sizing: border-box;
+            min-height: fit-content;
+			height: auto;
+			@media (max-width: 700px) {
+				border-top: 1px solid rgba(0, 0, 0, 0.08);
+			}
+
+            .ft-tab{
+                display: flex;
+                justify-content: center;
+                height: 34px;
+                box-sizing: border-box;
+                padding: 0 8px;
+                letter-spacing: -0.35px;
+                font-weight: 600;
+                color: black;
+				background-color: white;
+				border-right: 1px solid rgba(0,0,0,0.08);
+
+				@media (max-width: 700px) {
+					flex-grow:3;
+					border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+				}
+				
+				// First tab / long title gets set width
+				&.ft-main-tab{
+					width: 88px !important;
+
+					.ft-main-tab-triangle {
+						width: 0;
+						height: 0;
+						border-right: 8px solid transparent;
+						border-left: 8px solid transparent;
+						border-bottom: 14px solid rgba(0,0,0,0.5);
+						position: relative;
+						top: 9px;
+						left: 1px;
+
+						.inner-triangle {
+							position: absolute;
+							top: 4px;
+							left: -5px;
+							width: 0;
+							height: 0;
+							border-left: 5px solid transparent;
+							border-right: 5px solid transparent;
+							border-bottom: 8px solid black;
+						}
+					}
+				}
+				// Data tab / long title gets set width
+				&.ft-services-tab{
+					width: 75px !important;
+				}
+
+                &:hover{
+                    color: black;
+                    cursor: pointer;
+
+                    span{
+                        text-decoration: underline;
+                    }
+                }
+
+                &.active{
+                    background-color: #ededed;
+                    color: black;
+
+                    span{
+                    }
+                }
+
+                span,i{
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    height: 100%;
+                }
+
+                span{
+					font-size: 10.5px;
+					line-height: 11px;
+                }
+                i{
+                    font-size: 14px;
+                    margin-left: 3px;
+                }
+            }
+        }
+
+        // Universal elements throughout all tabs
+        .small-label{
+            display: block;
+			font-size: 13px;
+			color: @black;
+			font-weight: 700;
+			letter-spacing: -0.2px;
+            padding-bottom: 3px;
+            border-bottom: 1px solid fade(@black, 15%);
+            
+            &.noborder{
+                border-bottom: none;
+            }
+        }
+
+        // Full FT Header
+        .ft-header{
+            display: block;
+            font-size: 15px;
+            font-weight: 700;
+            padding: 22px 0 12px 0;
+            color: @black;
+        }
+
+        // Buttons used within Flood Tools
+        .ft-button{
+            display: inline-block;
+            background-color: @blue;
+            box-sizing: border-box;
+            transition: 0.2s;
+            padding: 8px 14px;
+            border: none;
+            font-size: 12px;
+            letter-spacing: 0.2px;
+            border-radius: 4px;
+            color: white;
+            font-weight: 600;
+            margin-right: 10px;
+
+            &:hover{
+                cursor: pointer;
+                background-color: darken(@blue, 8%);
+                transition: 0.2s;
+            }
+        }
+
+        // Spacer to add whitespace between items
+        .ft-space{
+            display: block;
+            width: 100%;
+            height: 20px;
+        }
+
+        // Body for each tab/content within 
+        // Flood tools
+        .ftmodal-content{
+            display: none;
+            padding-top: 15px;
+            border-top: 1px solid fade(@black, 15%);
+			padding: 15px 15px 15px 15px !important;
+            flex-grow: 3;
+			overflow: auto !important;
+			
+			@media (max-width: 700px) {
+				padding: 15px 5px 100px 5px;
+				height: fit-content !important;
+
+			}
+        }
+
+        // Tools Tab
+        // Tools Tab
+        // Tools Tab
+        #ftTools{
+            display: block;
+
+            #sgh{
+                display: block;
+                padding-top: 12px;
+                margin-bottom: 20px;
+                padding-left: 20px;
+                display: inline-block;
+                width: auto;
+
+                label{
+                    font-weight: 700;
+                    font-size: 22px;
+                    letter-spacing: -0.3px;
+                    font-weight: 700;
+                    color: @black;
+
+                    &:after{
+                        content: 'feet';
+                        padding-left: 3px;
+                        font-size: 14px;
+                        font-weight: 500;
+                    }
+                }
+            }
+
+            .tools-table{
+                width: 100%;
+                display: flex;
+                flex-wrap: wrap;
+                max-width: 460px;
+				box-sizing: border-box;
+				padding: 5px 0 5px 10px;
+                margin-bottom: 12px;
+
+                .tools-table-space{
+                    width: 100%;
+                }
+
+                .box{
+                    width: 25%;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    font-weight: 700;
+                    // text-align: center;
+                    box-sizing: border-box;
+                    padding: 8px 0 0 0;
+                    color: @black;
+                    font-size: 13px;
+
+                    &.bold{
+						font-size: 12px;
+						color: @black;
+						letter-spacing: -0.2px;
+                        font-weight: 600;
+                        text-align: left;
+                    }
+
+                    label{
+                        margin: 0;
+                        font-size: 14px;
+                    }
+
+                    a{
+                        font-size: 14px;
+                        color: @blue;
+                        text-decoration: underline;
+                    }
+
+                    .label-ft:after,
+                    .label-fps:after,
+                    .label-cfs:after{
+                        letter-spacing: -0.2px;
+                        font-size: 11px;
+                        padding-left: 2px;
+                        font-weight: 500;
+                    }
+                    .label-ft:after{
+                        content: 'feet';
+                    }
+                    .label-fps:after{
+                        content: 'fps';
+                    }
+                    .label-cfs:after{
+                        content: 'cfs';
+					}
+					
+					#siteName{
+						overflow: visible;
+						text-overflow: ellipsis;
+						font-size: 10.5px;
+						font-weight: 500;
+						letter-spacing: -0.3px;
+						box-sizing: border-box;
+						padding-right: 5px;
+						max-height: 20px;
+						min-height: 20px;
+						line-height: 11px;
+						box-sizing: border-box;
+						padding-bottom: 12px;
+					}
+                }
+            }
+
+            // Tools buttons
+            #toolsButtons{
+                display: block;
+                padding-top: 15px;
+
+                b{
+                    display: block;
+                    color: @black;
+                    font-weight: 600;
+                    margin-bottom: 10px;
+                }
+
+                .btn{
+                    margin-right: 10px;
+                }
+            }
+        }
+
+        // Hydrographs
+        // Hydrographs
+        // Hydrographs
+        #ftHydro{
+            padding-left: 0;
+            padding-right: 0;
+
+            .chart-wrapper{
+                display: block;
+                width: 90%;
+                margin: 0 auto;
+            }
+
+            .highcharts-background{
+                fill: transparent !important;
+            }
+        }
+
+        // Hazus
+        // Hazus
+        // Hazus
+        #ftHazus{
+            // Hazus Table
+            // Hazus Table
+            // Hazus Table
+            #hazusTableLabels{
+                padding: 15px 0;
+                display: flex;
+                justify-content: space-between;
+
+                .hazus-label{
+                    width: 45%;
+
+                    span{
+                        font-weight: 700;
+                        font-size: 18px;
+                        padding-top: 7px;
+                        display: block;
+                        letter-spacing: -0.3px;
+                        font-weight: 700;
+                        color: @black;
+                    }
+                }
+            }
+            #hazusTable{
+                margin: 0 0 15px 0;
+                width: 100%;
+
+                tr{
+                    font-size: 10px;
+                    border-bottom: 1px solid fade(@black, 8%);
+                    display: none;
+
+                    td,th{
+                        box-sizing: border-box;
+                        padding: 5px 6px;
+                        font-size: 10px !important;
+
+                        &:nth-child(2),
+                        &:nth-child(3),
+                        &:nth-child(4){
+                            text-align: right;
+                        }
+
+                        &:nth-child(2){
+                            width: 110px !important;
+                        }
+                        &:nth-child(4){
+                            width: 120px;
+                        }
+                    }
+
+                    // Table Header
+                    th{
+                        color: fade(@black, 40%) !important;
+                        line-height: 10px !important;
+                        padding-bottom: 4px;
+                    }
+
+                    // Table body
+                    td{
+                        font-size: 11px !important;
+                        color: fade(@black, 50%);
+                        font-weight: 600 !important;
+                        font-family: 'Open Sans', sans-serif;
+                    }
+
+
+                    &.active{
+                        display: table-row;
+
+                        td, th{
+                            color: @black;
+                            font-size: 14px !important;
+                            font-weight: 700 !important;
+                        }
+                    }
+
+                    &#hazusTableHeader{
+                        display: table-row;
+                    }
+                }
+
+                // When full table visible
+                // When full table visible
+                // When full table visible
+                &.full-hazus{
+                    tr{
+                        display: table-row;
+                    }
+                }
+            }
+
+            // Hazus table info
+            #hazusRangeInfo{
+                display: block;
+                font-size: 10.5px;
+                font-weight: 600;
+                line-height: 15px;
+                box-sizing: border-box;
+                padding: 0 0 0 5px;
+                margin: 0 auto;
+                color: @red;
+                border-radius: 4px;
+                margin: 10px auto 25px auto;
+            }
+
+            // Show/Hide Hazus table
+            #hideFullHazus{
+                display: none;
+            }
+        }
+
+
+        // Services and Data
+        // Services and Data
+        // Services and Data
+        #ftServices{
+
+            #iwrssLogo{
+                display: inline-block;
+                float: right;
+                height: 85px;
+                position: relative;
+                top: -40px;
+                width: auto;
+            }
+
+            #mapsCreatedBy,
+            #mapsReviewedBy{
+                display: block;
+                box-sizing: border-box;
+                margin-bottom: 8px;
+            }
+
+            #reportCover img{
+                display: inline-block;
+                margin-left: 15px;
+                vertical-align: top;
+                width: 100px;
+                height: auto;
+            }
+
+            // Group of links
+            .ft-linkgroup{
+                display: block;
+                padding: 4px 10px;
+
+                a{
+                    color: @blue;
+                    display: block;
+                    box-sizing: border-box;
+                    padding: 4px 0;
+                    font-size: 12px;
+                    line-height: 12.5px;
+                }
+
+                br{
+                    display: none;
+                }
+            }
+
+            // Logos
+            #ftLogos{
+                display: block;
+                text-align: center;
+                border-top: 1px solid fade(@black, 15%);
+                box-sizing: border-box;
+                padding: 15px 0 0 0;
+                margin-top: 25px;
+
+                img{
+                    display: inline-block;
+                    width: auto;
+                    max-height: 100px;
+                    margin: 5px 10px;
+                }
+            }
+        }
+
+
+        // More Info
+        // More Info
+        // More Info
+        #ftMoreInfo{
+
+            #moreInfo{
+                font-size: 13px;
+                line-height: 22px;
+                display: block;
+                max-width: 600px;
+                font-weight: 500;
+                color: @black;
+            }
+        }
+
+        // Webcam
+        // Webcam
+        // Webcam
+        #ftWebcam{
+
+            img{
+                display: block;
+                max-width: 100%;
+                max-height: 100%;
+            }
+        }
+    }
+
+
+    // Custom Accordion Headers
+    // Custom Accordion Headers
+    // Custom Accordion Headers
+    .ft-accordion-header{
+        display: block;
+        background-color: white;
+        color: @black;
+        font-size: 16px;
+        box-sizing: border-box;
+        padding: 14px 14px 15px 10px;
+        border-top: 1px solid fade(@black, 15%);
+        border-collapse: collapse;
+        font-weight: 500;
+        display: flex;
+        justify-content: space-between;
+        border-radius: 2px;
+        width: 100%;
+        position: relative;
+        transition: 0.2s;
+
+        &.top{
+            border-top: none;
+        }
+        &.last{
+            border-bottom: 1px solid fade(@black, 15%);
+        }
+
+        span{
+            border: 1px solid transparent;
+            transition: 0.08s;
+            font-weight: 600;
+        }
+
+        .header-icon{
+            font-size: 16px;
+            display: inline-block;
+            flex-grow: 3;
+            padding-left: 5px;
+        }
+        .chevron{
+            box-sizing: border-box;
+            position: relative;
+            top: -1px;
+            font-size: 16px;
+        }
+
+        &:hover{
+            cursor: pointer;
+            // background-color: #F5F6FB;
+            transition: 0.2s;
+            padding-right: 18px;
+            background-color: #F5F6FB;
+
+            span{
+                border-bottom: 1px solid fade(@black, 80%);
+                transition: 0.08s;
+            }
+        }
+    }
+}
+
+
+// Minimized flood tools
+// Minimized flood tools
+// Minimized flood tools
+// Minimized flood tools
+#minFT .ion-close-round{
+    transition: 0.2s;
+    opacity: 0.5;
+}
+#minFT .ion-close-round:hover{
+    transition: 0.2s;
+    opacity: 1;
+}
+#minFT{
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    height: 235px;
+    width: 220px;
+    z-index: 100;
+    background-color: white;
+    flex-direction: column;
+    border-top-left-radius: 5px;
+    box-shadow: 0px 6px 35px -10px rgba(20, 20, 40, 0.6) !important;
+    display: flex !important;
+    bottom: -240px;
+    transition: all 0.2s ease;
+
+    
+    &.visible{
+        bottom: 45px;
+		transition: all 0.2s ease;
+		
+		@media (max-width: 767px) {
+			bottom: 0px;
+		}
+    }
+
+    .header{
+        display: flex;
+        justify-content: space-between;
+        border-top-left-radius: 5px;
+        background-color: @black;
+        color: white;
+        font-size: 12px;
+        font-weight: 600;
+        transition: 0.2s;
+        letter-spacing: 0.3px;
+        box-sizing: border-box;
+        padding: 7px 7px 9px 7px;
+
+        &:hover{
+            cursor: pointer;
+        }
+
+        .max-image{
+            img{
+                height: 20px;
+                float: right;
+                width: auto;
+                margin-top: -2px;
+                opacity: 0.5;
+                transition: 0.2s;
+
+                &:hover{
+                    opacity: 1;
+                    cursor: pointer;
+                    transition: 0.2s;
+                }
+            }
+        }
+    }
+
+    .body{
+        width: 100%;
+        flex-grow: 3;
+        overflow: auto;
+        height: 100%;
+        box-sizing: border-box;
+        padding: 0 10px;
+        display: flex;
+        flex-direction: column;
+
+
+        // Data table for each
+        // Site
+        .min-ft{
+            display: block;
+            margin: 15px 0 0 0;
+        
+            .item{
+                display: flex;
+                width: 100%;
+                font-size: 12px;
+                font-weight: 600;
+                color: fade(@black, 80%);
+        
+                label,
+                .value{
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    height: 100%;
+                    margin: 0;
+                    flex-grow: 3;
+                }
+        
+                label{
+        
+                }
+        
+                .value{
+                    text-align: right;
+                    position: relative;
+
+                    &.label-cfs,
+                    &.label-ft{
+                        &:after{
+                            position: absolute;
+                            content: '';
+                            top: 0;
+                            right: 0;
+                            font-size: 10px;
+                            padding-top: 1.5px;
+                        }
+                    }
+
+                    &.label-cfs{padding-right: 14px;}
+                    &.label-ft{padding-right: 8px;}
+                    &.label-cfs:after{content:'cfs';}
+                    &.label-ft:after{content:'ft';}
+                }
+
+                a{
+                    color: @blue;
+
+                    &:hover{
+                        cursor: pointer;
+                        text-decoration: underline;
+                    }
+                }
+            }
+        
+            .section-header{
+                display: block;
+                font-size: 11px;
+                color: fade(@black, 50%);
+                border-bottom: 1px solid fade(@black, 15%);
+                margin-top: 5px;
+            }
+        }
+    }
+
+    &.multisite .body .min-ft{
+        margin: 6px 0;
+        box-sizing: border-box;
+        padding: 7px;
+        background: #f1f1f1;
+        border-radius: 4px;
+    }
+}
+
+
+/////////////////////////////////////////////
+/////////////////////////////////////////////
+/////////////////////////////////////////////
+// Rsponsive
+// Rsponsive
+// Rsponsive
+// Rsponsive
+// Rsponsive
+
+#floodToolsDiv{
+	border: none !important;
+
+    // Switch to mobile FT at 700
+    @media (max-width: 700px) {
+        width: 100% !important;
+		max-height: 85vh !important;
+		height: 85vh !important;
+		max-height: calc(~'100% - 75px') !important;
+		height: calc(~'100% - 75px') !important;
+        bottom: 0px !important;
+        top: auto !important;
+        left: 0 !important;
+        box-shadow: -5px 6px 27px -7px rgba(0, 10, 80, 0.55);
+        max-width: 100vw;
+        display: flex;
+        flex-direction: column;
+
+        .panel-heading.main{
+            min-height: fit-content;
+        }
+
+
+        .panel-body{
+            max-width: 100% !important;
+            width: auto !important;
+			height: auto !important;
+            flex-wrap: wrap;
+            overflow: auto;
+            flex-grow: 3;
+            flex-grow: 3;
+
+            #ftSliders{
+                padding: 25px 0;
+                text-align: center;
+				width: 100%;
+				
+				@media (max-width: 700px) {
+					height: 200px;
+					padding: 6px 0;
+				}
+
+                #ftOptions{
+                    width: auto;
+                    margin: 0 auto;
+
+                    #levelKey{
+                        text-align: left;
+
+                        div{
+                            width: auto;
+                            box-sizing: border-box;
+                            margin: 0 4px;
+                        }
+                    }
+
+                    .ft-option{
+                        justify-content: center;
+                        display: flex;
+                    }
+                }
+            }
+
+            #ftData{
+                box-sizing: border-box;
+                min-height: fit-content;
+                
+                #ftDataTabs{
+                    justify-content: center !important;
+                }
+            }
+            
+        }
+    }
+
+
+    
+}
+
+// Hide Highcharts credit 
+.highcharts-credits{
+	display: none !important;
+}
+
+
+// Mobile warning on flood ttools
+// Tell user to use minimize button
+.ft-mboile-warning{
+	display: block;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	width: 100vw;
+	background-color: @black;
+	z-index: 500;
+	color: white;
+	box-sizing: border-box;
+	padding: 18px 25px 10px 25px;
+	font-size: 14px;
+	line-height: 22px;
+	border-top-left-radius: 20px;
+	border-top-right-radius: 20px;
+	box-shadow: 0 -3.6px 3.6px rgba(0, 0, 0, 0.055), 0 -29px 29px rgba(0, 0, 0, 0.11);
+	
+	.ft-mobile-warning-dismiss{
+		display: flex;
+		justify-content: center;
+		width: 100%;
+		padding: 5px 0 10px 0;
+
+		button{
+			color: white;
+			text-decoration: underline;
+			width: 100%;
+			font-size: 20px;
+			font-weight: 600;
+			letter-spacing: 0.5px;
+			background-color: transparent;
+			border: none;
+			transition: 0.2s;
+			opacity: 1;
+
+			&:hover,
+			&:focus{
+				opacity: 0.75;
+				transition: 0.2s;
+			}
+		}
+	}
+
+	@media (min-width: 700px) {
+		display: none !important;
+	}
+}

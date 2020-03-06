@@ -7,6 +7,10 @@ var del = require('del');
 var less = require('gulp-less');
 var wiredep = require('wiredep').stream;
 
+// Browser sync
+var browserSync = require("browser-sync").create();
+var reload = browserSync.reload;
+
 // Load plugins
 var $ = require('gulp-load-plugins')();
 
@@ -128,13 +132,15 @@ gulp.task('watch', ['less', 'connect', 'serve'], function () {
     gulp.watch([
         'src/*.html',
         'src/styles/**/*.css',
-        'src/less/**/*.less',
+        'src/**/*.less',
         'src/scripts/**/*.js',
         'src/images/**/*'
     ], function (event) {
         return gulp.src(event.path)
             .pipe($.connect.reload());
     });
+
+    gulp.watch("./src/**/*.less", ['sync-styles']);
 
     // Watch .css files
     gulp.watch('src/styles/**/*.css', ['styles']);
@@ -147,4 +153,34 @@ gulp.task('watch', ['less', 'connect', 'serve'], function () {
 
     // Watch bower files
     gulp.watch('bower.json', ['wiredep']);
+});
+
+
+// Browsersync
+// alternative to regular server
+
+gulp.task('bs', function(){
+
+   browserSync.init({
+    server: "./src/"
+   });  
+
+   gulp.watch("./src/**/*.less", ['sync-styles']);
+
+   gulp.watch("./src/**/*.html").on("change", reload);
+   gulp.watch("./src/**/*.js").on("change", reload);
+
+    
+});
+
+// Compile LESS to CSS then inject without reload
+// Compile LESS to CSS then inject without reload
+// Compile LESS to CSS then inject without reload
+gulp.task('sync-styles', function(){
+
+    gulp.src('./src/styles/less/main.less')
+        .pipe(less())
+        .pipe(gulp.dest('./src/styles/'))
+        .pipe(browserSync.stream());
+
 });

@@ -1,0 +1,2039 @@
+@black: #10152C;
+@blue: #1D6DFA;
+
+
+
+
+
+#aboutModal, #userGuideModal, #shareModal {
+    z-index: 10003 !important;
+}
+
+.dijitTooltipContainer {
+    border: solid black 1px;
+    background: white;
+    color: black;
+    border-radius: 3px;
+    font-size: small;
+    padding: 2px;
+}
+
+#slider {
+    // height: 300px;
+    vertical-align: middle;
+}
+.slider-view-body{
+  padding: 30px 0 0 0;
+  font-size: 14px;
+  font-weight: 400;
+}
+.slider-view-body a{
+  font-weight: bolder;
+}
+
+.keepit100 {
+    height: 100%;
+}
+
+.overflow-y-hidden {
+    overflow-y: hidden;
+}
+.esriSimpleSliderTL {
+    top: 5px;
+    left: 5px;
+    background-color: rgb(255,255,255);
+    background-color: rgba(255,255,255,0.8);
+}
+
+#homeButton {
+    position: absolute;
+    top: 70px;
+    left: 31px;
+    z-index: 50;
+    margin-left: 0;
+}
+
+#locateButton {
+    position: absolute;
+    top: 110px;
+    left: 31px;
+    z-index: 50;
+}
+
+.hover-content {
+    display:none;
+}
+
+
+
+.latLngScale {
+    position:absolute;
+    padding:4px;
+    left: 10px;
+    z-index:1;
+    color: black;
+    background-color: rgb(255,255,255);
+    background-color: rgba(255,255,255,0.8);
+    box-shadow: 0 5px 25px -5px rgba(30,16,84,.3);
+    border-radius: 4px;
+    bottom: 55px !important;
+    left: 30px !important;
+    border-radius: 5px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.07), 0 3px 6px rgba(0, 0, 0, 0.08);
+    background-color: #FFF !important;
+    letter-spacing: 0px !important;
+    font-weight: 500;
+    font-size: 11px;
+  
+}
+
+.latLngScale:hover .hover-content {
+    display:inline-block;
+}
+
+.alert {
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+#printTitle{
+    margin-bottom: 15px;
+}
+
+#legendCollapse {
+    /*max-height: inherit;*/
+}
+
+/*#legendElement {*/
+/*position:absolute;*/
+/*padding:4px;*/
+/*top:1em;*/
+/*right:10px;*/
+/*z-index:1;*/
+/*color: black;*/
+/*background-color: rgb(255,255,255);*/
+/*background-color: rgba(255,255,255,0.8);*/
+/*box-shadow: 0 1px 5px rgba(0,0,0,0.65);*/
+/*min-width: 200px;*/
+/*border-radius: 4px;*/
+/*overflow: auto;*/
+
+/*}*/
+
+.alert-info {
+    color: #333;
+    background-color: #f5f5f5;
+    border-color: #ddd;
+}
+
+.legendClass {
+    position:absolute;
+    top:5px;
+    right:5px;
+    z-index:3;
+    color: black;
+    background-color: rgb(255,255,255);
+    background-color: rgba(255,255,255,0.8);
+    box-shadow: 0 1px 5px rgba(0,0,0,0.65);
+    /*min-width: 150px;*/
+    border-radius: 4px;
+}
+
+.legendHeading {
+    color: black;
+    background-color: rgb(255,255,255);
+    background-color: rgba(255,255,255,0.8);
+    text-decoration: none !important;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+#legendButtonSidebar {
+    width: 100%;
+}
+
+.floodToolsClass {
+    position:absolute;
+    /*top:100px;
+    left:100px;
+    width:695px;
+    height:450px;*//**/
+    z-index:3;
+    color: black;
+    background-color: rgb(255,255,255);
+    background-color: rgba(255,255,255,0.8);
+    box-shadow: 0 1px 5px rgba(0,0,0,0.65);
+    /*min-width: 150px;*/
+    border-radius: 4px;
+    visibility: hidden;
+}
+
+#geoSearchModal {
+    z-index: 4;
+}
+
+#webCamIFrame {
+    width: 575px;
+    height: 325px;
+}
+
+
+// Flood Tools Header
+.flood-tools-header{
+	display: flex;
+    width: 100%;
+	justify-content: space-between;
+    max-width: 100%;
+	
+	#floodToolsModalHeader{
+		flex-grow: 3;
+		font-size: 14px;
+		letter-spacing: -0.25px;
+		font-weight: 600;
+		color: @black;
+		text-overflow: ellipsis;
+		overflow: hidden;
+	}
+
+	.flood-tools-window-controls{
+		display: flex;
+		justify-content: flex-end;
+		box-sizing: border-box;
+		padding: 0 0 0 15px;
+
+		#floodClose,
+		#floodMin{
+			color: @black;
+			transition: 0.2s;
+			font-weight: bold;
+			top: 9px;
+			display: flex;
+			height: 100%;
+			flex-direction: column;
+			justify-content: center;
+	
+			&:hover{
+				cursor: pointer;
+				color: @black;
+				transition: 0.2s;
+			}
+		}
+	
+		#floodClose {
+			font-size: 18px;
+			margin-left: 8px;
+			margin-right: 10px;
+			&:hover{
+				color: @red;
+			}
+
+			@media (max-width: 700px) {
+				font-size: 30px !important;
+				max-height: 30px;
+				overflow: visible;
+				position: relative;
+				top: 7px;
+			}
+		}
+		
+		#floodMin {
+			font-size: 15px;
+			top: 11px;
+			&:hover{
+				color: @blue;
+			}
+
+			@media (max-width: 700px) {
+				font-size: 20px !important;
+				margin-right: 8px;
+				max-height: 30px;
+				overflow: visible;
+				position: relative;
+				top: 7px;
+			}
+		}
+	}
+
+}
+
+
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}
+
+.lgi-zoom {
+    color: white;
+    background-color: black;
+    border: none !important;
+    padding: 5px 5px !important;
+}
+
+a.lgi-zoom {
+    color: white;
+}
+
+a.lgi-zoom:hover {
+    color: black;
+}
+
+.lyrTog {
+    width: 100%;
+    padding: 1px;
+    font-weight: bold;
+}
+
+.map {
+    overflow: auto;
+    overflow-x: hidden;
+}
+
+#mapDiv {
+    min-height: 100%;
+    max-height: 100%;
+}
+
+.esriPopup {
+    color: blue;
+}
+
+.opacity {
+    padding-left: 10px;
+}
+
+.opacitySlider {
+    position: absolute;
+    color: white;
+    width: 200px;
+    padding: 10px;
+    /*padding-bottom: 40px;*/
+    opacity: 0.95;
+    background-color: @black;
+    z-index: 100000;
+    border-radius: 3px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    box-shadow: 0px 6px 27px -7px rgba(0, 10, 80, 0.55)
+}
+
+.modal-dialog {
+}
+
+.navbar-brand {
+    padding:7px 0 7px 4px;
+    color: #fff !important;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: -1px !important;
+    padding-left: 0 !important;
+    height: 35px !important;
+
+    span{
+        padding-left: 0 !important;
+        line-height: 35px !important;
+    }
+}
+.navbar-brand img{
+  margin-right: 16px;
+  display: inline;
+  height: 28px;
+  width: auto;
+  margin-left: 15px;
+}
+@media (max-width: 767px) {
+    .navbar-brand span{
+      margin-top: 10px;
+      display: inline-block;
+      line-height: 15px !important;
+	  padding-left: 15px !important;
+	  letter-spacing: 0px !important;
+	  fon-size: 12.5px !important;
+    }
+    .navbar-brand img{
+      margin-right: 5px;
+      margin-left: 0;
+    }
+
+    #navbar .container-fluid{
+      padding-right: 0 !important;
+    }
+    #navbar .container-fluid button{
+      margin: 0 !important;
+    }
+}
+
+.ion-close-round:before {
+    content: "\f129";
+}
+
+
+
+.wim-alert-fixed {
+    display: none;
+    position: fixed;
+    top: 80px;
+    right: 5px;
+    z-index: 5000;
+    width: 280px;
+    box-sizing: border-box;
+    padding: 14px 18px;
+    margin: 10px 0;
+    font-size: 9pt;
+    letter-spacing: 0.8px;
+    border: 1px solid rgba(45, 49, 70, 0.5);
+    color: #FFFFFF;
+    border-radius: 3px;
+    font-weight: 400;
+    background-color: #e2e2e2;
+    color: #2D3146;
+}
+
+.wim-alert{
+    display:block;
+    width:100%;
+    box-sizing:border-box;
+    padding:14px 18px;
+    margin:10px 0;
+    font-size:9pt;
+    letter-spacing:.8px;
+    border:1px solid #d3d3d3;
+    color:#FFFFFF;
+    border-radius:3px;
+    font-weight:400;
+    background-color:#e2e2e2;
+    color:#2D3146
+}
+
+.wim-alert .ion-close-round{
+    float:right;
+    margin:0 0 0 10px;
+    color:rgba(255,255,255,0.5);
+    transition:.15s
+}
+.wim-alert .ion-close-round:hover{
+    color:rgba(255,255,255,0.9);
+    transition:.15s;
+    cursor:pointer
+}
+.wim-alert .ion-close-round{
+    color:rgba(45,49,70,0.5)
+}
+.wim-alert .ion-close-round:hover{
+    color:rgba(45,49,70,0.9)
+}
+
+.navbar-dark {
+    border-width:0;
+    color:#ffffff;
+    font-family:arial,sans-serif;
+    top:0;
+    position:fixed;
+    width:inherit;
+    top: 60px;
+    padding-right: 15px !important;
+
+    @media (max-width: 767px) {
+        top: 40px;
+    }
+
+    .navbar-btn{
+
+      span{
+        @media (max-width: 457px) {
+          display: none;
+        }
+      }
+    }
+}
+
+
+.esriScalebar{
+  bottom: 115px !important;
+  left: 30px !important;
+  @media (max-width: 767px) {
+    bottom: 15px !important;
+  }
+}
+.no-col-padding {
+    padding: 0;
+}
+
+
+
+.row-map {
+    background: #eee;
+}
+
+
+[class*="col-"] {
+    background-color: #eee;
+    border: 1px solid #E7E7E7;
+    text-align: center;
+}
+
+#wim_logo{
+    transition: 0.2s;
+    height: 22px;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    padding: 0;
+}
+
+#wim_logo:hover{
+    transition: 0.2s;
+    -webkit-transform: scale(1.07);
+    transform: scale(1.07);
+    cursor: pointer;
+}
+
+.wim-sidebar-panel {
+    margin-bottom: 2px;
+}
+
+
+input[type="checkbox"], input[type="radio"] {
+    float: left;
+}
+#layersPanel{
+    box-sizing: border-box;
+    padding: 10px 0 15px 0;
+}
+#sidebar .panel-collapse .btn-group-vertical button{
+    color: fade(@black, 70%);
+    border: none !important;
+    letter-spacing: -0.4px !important;
+
+    i{
+        margin-right: 5px;
+    }
+
+    &:hover{
+        color: @black !important;
+    }
+
+
+    label{
+        letter-spacing: -0.4px !important;
+    }
+}
+#sidebar .panel-collapse .btn-group-vertical label{
+    font-size: 8.5pt !important;
+    padding: 0 !important;
+    letter-spacing: 0.5px;
+    margin: 0;
+    font-weight: 500 !important;
+    color: fade(@black, 70%);
+}
+.esriLegendLayer td{
+    font-weight: 400;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 12px;
+}
+.esriLegendLayer tbody tr td img{
+    margin-right: 5px;
+    float: right;
+}
+
+.zoomDialog {
+    position: absolute;
+    color: white;
+    /*width: 200px;*/
+    padding: 5px;
+    /*padding-bottom: 40px;*/
+    opacity: 0.9;
+    border: solid 1px white;
+    background-color: black;
+    z-index: 1000;
+    border-radius: 3px;
+}
+
+.zoomClose {
+    color: white;
+}
+
+
+.container-fluid{
+  padding: 0 !important;
+}
+
+
+/*Map control styles*/
+#legendElement{
+  position: absolute;
+  right: 30px;
+  top: 15px;
+  border-radius: 4px;
+}
+#legendElement .panel-title a{
+    font-weight: 600;
+}
+@media (max-width: 767px) {
+    #legendElement{
+        max-width: 240px;
+    }
+}
+
+.navbar-btn{
+  height: 35px !important;
+}
+
+#mapDiv_zoom_slider{
+  // margin-top: -42px;
+}
+#locateButton,
+#homeButton{
+  margin-top: 30px;
+  margin-left: 0;
+  border-radius: 4px;
+  box-shadow: none;
+  background-color: transparent !important;
+
+    .locateContainer,
+    .home{
+        filter: invert(100%);
+        opacity: 0.6;
+        top: -30px;
+        position: relative;
+        opacity: 0;
+    }
+
+    //   Actual Icons for home & Location
+    &:before{
+        display: block;
+        width: 30px;
+        height: 30px;
+        background-color: white;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        border-radius: 3px;
+        box-sizing: border-box;
+        font-family: 'Font Awesome 5 Pro';
+        font-size: 18px;
+        color: @black;
+        transition: @transition;
+        font-weight: 500;
+        position: relative;
+        box-shadow: 0px 6px 27px -7px rgba(0, 10, 80, 0.55)
+    }
+
+    &:hover{
+        cursor: pointer;
+
+        &:before{
+            color: @blue;
+            transition: @transition;
+        }
+    }
+}
+#homeButton&:before{
+    content: '\f015';
+}
+#locateButton&:before{
+    content: '\f601';
+}
+#mapDiv_zoom_slider{
+    border-radius:3px;
+    background-color: white !important;
+    left: 30px !important;
+    top: 15px;
+}
+#legendElement #legendHeading{
+    border-radius: 4px;
+}
+
+.esriSimpleSliderDecrementButton,
+.esriSimpleSliderIncrementButton{
+    span{
+        color: @black !important;
+    }
+}
+.esriSimpleSliderDecrementButton:hover,
+.esriSimpleSliderIncrementButton:hover{
+    span{
+        color: @blue !important;
+    }
+}
+
+
+#servicesAndDataTabPane{
+  box-sizing: border-box;
+  padding: 25px;
+}
+
+.dropdown-toggle{
+  display: none !important;
+}
+
+.panel-title{
+  display: -webkit-flex;
+  display: flex;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+}
+@media (max-width: 767px) {
+  #floodToolsPanelHeader{
+    font-size: 12px;
+    letter-spacing: -0.25px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .nav-tabs li{
+    text-align: center;
+    padding: 4px;
+  }
+  .nav-tabs li a{
+    border-radius: 2px;
+    border-left: none !important;
+    border-top: none !important;
+    border-right: none !important;
+    border-bottom: none !important;
+    font-size: 12px;
+    padding: 10px 10px 11px 10px;
+  }
+}
+
+
+.search-help{
+  display: block;
+  width: 100%;
+  text-align: center;
+  padding-top: 15px;
+  font-size: 12px;
+}
+.search-help b{
+  display: block;
+  margin: 0 auto;
+  font-size: 14px;
+  margin-bottom: 8px;
+  margin-top: 25px;
+}
+.search-help code{
+  display: inline-block;
+  margin: 2px;
+}
+
+#geosearch{
+  display: -webkit-flex;
+  display: flex;
+  -webkit-justify-content: center;
+  justify-content: center;
+
+}
+.geosearch-form-buttons{
+  display: -webkit-flex;
+  display: flex;
+  -webkit-justify-content: center;
+  justify-content: center;
+}
+.geosearch-form-buttons button{
+  margin: 0 5px;
+}
+
+#floodToolsOpen{
+  font-size: 16px;
+  line-height: 30px;
+  display: -webkit-flex;
+  box-sizing: border-box;
+  padding: 4px 1px;
+  transition: 0.2s;
+  margin-bottom: 15px;
+  display: flex;
+  width: 100%;
+  background-color: #1E2732;
+  color: #FFF;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+  position: absolute;
+  margin-left: -19px;
+  margin-top: -42px;
+  box-sizing: content-box;
+}
+#floodToolsOpen:hover{
+  cursor: pointer !important;
+  transition: 0.2s;
+}
+#floodToolsOpen img{
+  transition: 0.2s;
+  opacity: 0.5;
+  height: 25px;
+  position: relative;
+  top: -2px;
+  left: -10px;
+}
+#floodToolsOpen:hover img{
+  transition: 0.2s;
+  opacity: 1;
+}
+
+/*end styles to be removed when wim styles are created*/
+
+
+
+/*Flood Tools*/
+.flood-tools{
+    display: -webkit-flex;
+    display: flex;
+    width: 95%;
+}
+.flood-tools-left{
+    width: 200px;
+    display: block;
+}
+.ftl-mobile{
+  display: none;
+}
+.ftl-desktop{
+  display: block;
+}
+.flood-tools-left img{
+    display: block;
+    margin: 0 auto;
+    width: auto;
+    height: auto;
+    max-width: 120px;
+    max-height: 120px;
+}
+.flood-tools-right{
+    -webkit-flex-grow: 3;
+    flex-grow: 3;
+    box-sizing: border-box;
+    padding: 25px 0 0 15px;
+}
+.flood-tools-value a{
+    font-weight: bolder;
+}
+#gridLabel{
+    display: block;
+    box-sizing: border-box;
+    padding: 15px 0 35px 0;
+}
+
+@media (max-width: 767px) {
+    .flood-tools{
+        -webkit-flex-direction: column;
+        flex-direction: column;
+    }
+    .vertical-slider{
+        -webkit-transform: rotate(270deg);
+        transform: rotate(0);
+        box-sizing: border-box;
+    }
+    .flood-tools-left{
+        text-align: center;
+        width: 100%;
+    }
+    .ftl-mobile{
+      display: block;
+    }
+    .ftl-desktop{
+      display: none;
+    }
+    #floodToolsPanel{
+      width: 100%;
+    }
+    .slider-values{
+        display: -webkit-flex;
+        display: flex;
+        -webkit-justify-content: space-between;
+        justify-content: space-between;
+        height: 20px;
+        margin-top: 15px;
+        box-sizing: border-box;
+        padding: 0 15px;
+        -webkit-flex-direction: row-reverse;
+        flex-direction: row-reverse;
+        position: relative;
+        width: 100%;
+        margin-left: 0px;
+    }
+}
+
+
+/*Legend Tweaks*/
+/*Legend Tweaks*/
+/*Legend Tweaks*/
+/*Legend Tweaks*/
+
+// Custom Legend
+.custom-legend{
+    display: block;
+    box-sizing: border-box;
+    padding: 10px 8px;
+
+    .legend-title{
+        font-size: 14px;
+        font-weight: 500;
+        color: black;
+    }
+
+    .legend-item{
+        display: flex;
+
+        .legend-icon{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            max-height: 22px;
+            width: 30px;
+
+            svg{
+                position: relative;
+                top: -4px;
+            }
+
+            img{
+                display: block;
+                height: 14px;
+                width: 14px;
+                margin: 4px auto;
+            }
+        }
+        .legend-text{
+            flex-grow: 3;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: -0.1px;
+            line-height: 10px;
+            color: rgba(16, 21, 44, 0.8);
+        }
+    }
+}
+// Hide AHPS legend initially
+#ahpsLegend{
+    display: none;
+}
+
+
+.esriLegendLayer td{
+    line-height: 15px;
+    box-sizing: border-box;
+    padding: 2px 0;
+}
+
+#legendDiv_fimSuppLyrs .esriLegendServiceLabel{
+    font-size: 12px;
+    line-height: 15px;
+    display: block;
+    padding: 8px 0;
+    text-align: center;
+    font-weight: 600;
+}
+
+#legendDiv_fimSuppLyrs_0,
+#legendDiv_fimSuppLyrs_1,
+#legendDiv_fimExtents,
+#legendDiv_fimBreach{
+    font-size: 10px;
+    display: flex !important;
+    font-weight: 500 !important;
+    font-size: 11px;
+    flex-direction: row-reverse;
+    letter-spacing: -0.1px;
+    color: rgba(16, 21, 44, 0.8);
+
+    table:first-child{
+        flex-grow: 3;
+        box-sizing: border-box;
+        margin: 3px 0 0 0;
+    }
+    table:last-child{
+        width: 15%;
+
+        img{
+            margin: 0;
+            float: none;
+        }
+    }
+}
+
+.esriLegendService{
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+#floodToolsDiv{
+    box-shadow: 0px 6px 27px -7px rgba(0, 10, 80, 0.55)
+}
+
+/*Services and Data Pane*/
+#servicesAndDataTabPane{
+
+}
+.data-flex{
+    display: -webkit-flex;
+    display: flex;
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+}
+#servicesAndDataTabPane img{
+    max-width: 100%;
+}
+@media (max-width: 767px) {
+    .data-flex{
+        display: -webkit-flex;
+        display: flex;
+        -webkit-flex-direction: column;
+        flex-direction: column;
+        -webkit-justify-content: space-between;
+        justify-content: space-between;
+    }
+}
+
+
+
+/*
+  Mitch
+  7/13
+*/
+#aboutNav{
+  transition: 0.2s;
+  color: white !important;
+  font-weight: 500 !important;
+
+  span{
+      margin-left: 4px;
+  }
+}
+#aboutNav:hover{
+    span{
+        text-decoration: underline;
+    }
+}
+
+
+.legendHeading:hover{
+    text-decoration: underline !important;
+}
+
+/*Rotation Lock*/
+#rotationLock{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: -webkit-flex;
+  display: none;
+  -webkit-flex-direction: column;
+  flex-direction: column;
+  -webkit-justify-content: center;
+  justify-content: center;
+  color: white;
+  box-sizing: border-box;
+  padding: 50px 5% 0 5%;
+  text-align: center;
+  background-color: black;
+  font-size: 16px;
+  font-weight: 300;
+  z-index: 1000000000000;
+}
+#rotationLock i{
+  margin-top: 20px;
+  font-size: 92px;
+}
+
+// Rotation Lock Warning is currently disabled
+// @media screen
+//   and (max-device-width: 800px)
+//   and (orientation: landscape) {
+//     #rotationLock{
+//       display: -webkit-flex !important;
+//       display: flex !important;
+//     }
+// }
+
+
+/*User Guide*/
+#userGuideNav{
+  color: white !important;
+  background-color: transparent !important;
+  border: none !important;
+  font-weight: 500 !important;
+  transition: 0.2s !important;
+  font-size: 11px !important;
+
+  span{
+      margin-left: 4px;
+  }
+}
+#userGuideNav:focus{
+  outline: none !important;
+}
+#userGuideNav:hover{
+    span{
+        text-decoration: underline;
+    }
+}
+#navbar{
+    background-color: #10152C !important;
+}
+#navbar button{
+  padding: 0 7px 2px 7px !important;
+}
+
+
+/*User Guide Modal*/
+.user-guide-header{
+    display: block;
+    font-size: 18px;
+    text-align: left;
+    box-sizing: border-box;
+    padding: 0 0 8px 0;
+    font-weight: 700;
+    // margin-bottom: 15px;
+	color: fade(@black, 90%);
+}
+
+.user-guide-entry{
+	max-height: 40px;
+	transition: 0.3s;
+	overflow: hidden;
+	height: fit-content;
+
+	b{
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		line-height: 16px;
+		font-size: 14px;
+		font-weight: 600;
+		color: @black;
+		height: 40px;
+		width: 100%;
+		border-bottom: 1px solid fade(@black, 12%);
+		box-sizing: border-box;
+		padding-left: 10px;
+	}
+
+	&:focus{
+		max-height: 600px;
+		transition: 0.3s;
+
+		b{
+			text-decoration: underline;
+		}
+	}
+
+	&:hover{
+		cursor: pointer;
+
+		b{
+			text-decoration: underline;
+		}
+	}
+
+	
+
+	.user-guide-entry-image{
+		box-sizing: border-box;
+		padding-bottom: 10px;
+		border-bottom: 1px solid fade(@black, 12%);
+
+		img{
+			display: block;
+			margin: 0 auto;
+			max-height: 130px;
+			width: auto;
+		}
+	}
+
+	p{
+		color: fade(@black, 50%);
+		box-sizing: border-box;
+		font-size: 12pt;
+		padding: 0 0 0 10px !important;
+		display: block;
+		line-height: 14px;
+		margin: 0 !important;
+	}
+}
+
+
+.user-guide-item{
+	display: flex;
+	justify-content: space-between;
+    box-sizing: border-box;
+	padding: 0 0 0 0;
+	min-height: 100px;
+	height: fit-content;
+	
+	.user-guide-item-image{
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		max-width: fit-content; 
+		width: fit-content;
+
+		img{
+			display: block;
+			height: 100%;
+			width: auto;
+			max-height: 80px;
+			max-width: 128px;
+			min-width: 128px !important;
+			border: 2px solid fade(@black, 20%);
+		}
+	}
+}
+.user-guide-item p{
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -webkit-flex-grow: 2;
+    color: fade(@black, 50%);
+    flex-grow: 2;
+    box-sizing: border-box;
+	font-size: 12pt;
+	line-height: 20px !important;
+	padding: 6px 15px 6px 0 !important;
+}
+.user-guide-item p b{
+    color: fade(@black, 90%);
+    display: block;
+	font-size: 14px;
+	margin-bottom: 6px;
+    font-weight: bolder;
+}
+
+
+/*
+  7-14 GH issues
+  7-14 GH issues
+  7-14 GH issues
+*/
+
+/*Panel Title*/
+.panel-heading.main .dropdown{
+	padding-top: 4px;
+}
+#floodToolsTitle{
+    flex-grow: 3 !important;
+	max-width: none !important;
+	flex-direction: column !important;
+	position: relative;
+	padding:0 0 6px 8px;
+
+	.ft-header-links{
+		position: absolute;
+		bottom: 0;
+		height: 12px;
+		line-height: 0;
+
+		button{
+			font-size: 11px;
+			padding: 0;
+			margin: 0;
+			background-color: transparent;
+			border: none;
+			box-shadow: none;
+			text-decoration: underline;
+			height: 12px;
+			line-height: 12px;
+			text-align: left;
+			transition: 0.2s;
+			padding-left: 1px;
+			font-weight: 500;
+			opacity: 0.65;
+	
+			&:hover{
+				color: darken(#1D6DFA, 10%);
+				transition: 0.2s;
+				opacity: 1;
+			}
+		}
+
+		#shareLink{
+			margin-left: 15px;
+		}
+	}
+}
+
+
+// Break words inside links instead of overflowing
+a{
+  word-break: break-all !important;
+}
+
+
+
+// Full page loader
+// Full page loader
+// Full page loader
+#usgs-loader{
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+  flex-direction: column;
+  -webkit-justify-content: center;
+  justify-content: center;
+  text-align: center;
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  left: 0%;
+  top: 0%;
+  background-color: rgba(0,0,10,0.8);
+  color: white;
+  font-weight: lighter;
+  box-sizing: border-box;
+  font-size: 18px;
+  padding: 15px 15px 35px 15px;
+  z-index: 50000000000;
+  background-image: url("../images/usgs-loading.svg");
+  background-position: center center;
+  background-size: 100px 100px;
+  background-repeat: no-repeat;
+  box-sizing: border-box;
+  padding: 130px 0 0 0;
+  font-weight: 600;
+  letter-spacing: 0.25px;
+
+//   Hide on IE 
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+	display: none;
+}
+//   display: none;
+}
+
+/*.loading-blur{
+  -webkit-filter: blur(3px);
+  filter: blur(3px);
+
+}*/
+
+
+.loading-hide{
+  visibility: hidden !important;
+}
+
+// Background image (Gif with SVG fallback) for the loading window
+.loading-background{
+  background-image: url("../images/ajax-loader.gif");
+  background-image: url("../images/usgs-loading.svg");
+  background-position: center center;
+  background-size: 100px 100px;
+  background-repeat: no-repeat;
+  background-color: rgba(0,0,20,0.92) !important;
+  border: none !important;
+  border-radius: 0 !important;
+}
+.loading-background:before{
+    content: 'Loading...';
+    color: white;
+    box-sizing: border-box;
+    padding: 35px;
+    position: absolute;
+    font-size: 14px;
+    top: 0;
+    right: 0px;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    /* background: red; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-sizing: border-box;
+    padding-top: 150px;
+}
+
+
+
+@media (max-width: 550px) {
+  .modal-body .nav-tabs li{
+    display: block;
+  }
+}
+
+#major,#moderate,#minor,#near,#noflood {
+    padding-left: 30px !important;
+}
+
+
+/* Float Search API above modal */
+.modal{
+	z-index: 9999 !important;
+}
+#printModal{
+	z-index: 99999 !important;
+}
+
+.modal-backdrop{
+  z-index: 9998;
+}
+.search-api-menu{
+    z-index: 11500 !important;
+}
+.search-api-menu *{
+    max-height: 60vh !important;
+    overflow:auto;
+
+}
+
+#geosearchNav{
+  background-color: @blue;
+  border: none;
+  font-size: 12px;
+
+  i{
+    margin-right: 5px;
+  }
+}
+
+.search-api-menu *::-webkit-scrollbar{width:0!important;}
+
+.modal-footer .close{
+    font-weight: 500;
+    background-color: #0F8AFF;
+    opacity: 1;
+    color: white;
+    text-shadow: none;
+    transition: 0.2s;
+    font-size: 16px;
+    letter-spacing: 0.5px;
+    float: none;
+    margin-top: 10px;
+    padding: 8px 20px 10px 20px;
+}
+.modal-footer .close:hover{
+    cursor: pointer;
+    transition: 0.2s;
+    background-color: #0070DB !important;
+}
+.modal-footer p{
+    font-weight: 600 !important;
+    font-size: 12px !important;
+}
+
+/* Border radius and shadow for modal */
+/*Mitch Feb 6*/
+.flood-tools-checkboxes{
+  display: block;
+  height: auto;
+  text-align:center;
+}
+
+.flood-tools-checkboxes div{
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 600;
+  box-sizing: border-box;
+  padding: 4px 5px;
+}
+.flood-tools-checkboxes div input{
+  margin-right: 5px;
+  position: relative;
+  top: -3px;
+}
+@media (max-width: 767px) {
+  .flood-tools-checkboxes div input{
+    top: -4px;
+  }
+}
+
+.flood-tools-logos{
+  display: block;
+  text-align: center;
+  box-sizing: border-box;
+  padding: 10px 0 0 0;
+}
+.flood-tools-logos img{
+  display: inline-block;
+  height: 30px;
+  width: auto;
+}
+
+#floodToolsDiv .panel-body{
+  display:-webkit-flex;
+  display:flex;
+}
+#floodToolsDiv .panel-body *{
+  font-size: 12px;
+  line-height: 14px
+}
+.ftl-desktop{
+  min-width: 191px;
+  max-width: 191px;
+  width: 191px;
+}
+
+.nav-tabs li a{
+  padding: 10px 10px 11px 10px;
+}
+
+
+.modal-logos img{
+  display: inline-block;
+  margin: 4px;
+}
+
+
+
+
+.btn.close{
+  background-color: rgba(68,115,255,1) !important;
+  color: white;
+  opacity: 1 !important;
+  font-size: 14px;
+  text-shadow: none !important;
+  margin-top: 25px;
+  font-weight: 400;
+  text-transform: lowercase;
+  letter-spacing: 1px;
+  transition: 0.2s;
+  padding: 12px 15px !important;
+  display: block;
+  margin: 25px auto 0 auto;
+  float: none;
+}
+
+.btn.close:hover{
+  background-color: rgba(68,115,255,0.75) !important;
+  transition: 0.2s;
+  cursor: pointer;
+}
+
+.btn.btn-blue{
+  background-color: rgba(68,115,255,1) !important;
+  color: white;
+  opacity: 1 !important;
+  font-size: 12px;
+  text-shadow: none !important;
+  font-weight: 400;
+  transition: 0.2s;
+  display: inline-block;
+  float: none;
+  margin: 0 10px 0 0;
+}
+
+.btn.btn-blue:hover{
+  background-color: rgba(68,115,255,0.75) !important;
+  transition: 0.2s;
+  cursor: pointer;
+}
+.btn.btn-secondary{
+  background-color: rgba(220,220,230,1) !important;
+  color: @black;
+  opacity: 1 !important;
+  font-size: 12px;
+  text-shadow: none !important;
+  font-weight: 400;
+  transition: 0.2s;
+  display: inline-block;
+  float: none;
+  margin: 0 10px 0 0;
+}
+
+.btn.btn-secondary:hover{
+  background-color: rgba(255,255,255,1) !important;
+  transition: 0.2s;
+  cursor: pointer;
+}
+
+
+@media (max-width: 767px) {
+  .flood-tools-checkboxes div{
+    display: -webkit-flex;
+    display: flex;
+    -webkit-justify-content: center;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+  }
+}
+
+#floodToolsTabs{
+  width: 450px;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+}
+@media (max-width: 767px) {
+  #floodToolsTabs{
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+  }
+}
+#floodToolsTabs a{
+  border-radius: 0 !important;
+  border-bottom: 1px solid #ddd !important;
+  font-size: 10.5px !important;
+  padding: 5px !important;
+  letter-spacing: -0.35px !important;
+
+}
+#floodToolsTabs > li.active a{
+  border-radius: 0 !important;
+  border-bottom: 1px solid #ddd !important;
+}
+
+
+/*Feb 22 Fixes*/
+@media (max-width: 767px) {
+    #floodToolsDiv{
+      top: 65px;
+      left: 5%;
+      width: 90%;
+    }
+    #floodToolsDiv .panel-body{
+      width: 100%;
+    }
+    #floodToolsTabs{
+      width: 100%;
+    }
+}
+
+#layersPanel .pull-right.glyphicon{
+  left: 5px;
+}
+
+#sidebar .panel-collapse .btn-group-vertical button{
+  padding: 0 10px;
+}
+
+#sidebar .panel-collapse .btn-group-vertical label:hover{
+  border-left: 2px solid transparent;
+}
+
+
+#legendElement{
+box-shadow: 0 5px 25px -5px rgba(30,16,84,.3);
+  border-radius:3px !important;
+  margin-top: 0;
+}
+#legendElement *{
+  border-radius: 3px;
+}
+#legendElement, #legendHeading{
+  text-transform: none !important;
+  font-weight: 900 !important;
+  color: @black !important;
+}
+
+#legendElement #legendHeading h4 a{
+  padding-bottom: 11px;
+
+  span{
+      margin-right: 3px;
+  }
+}
+
+#major{
+  margin-top:5px !important;
+}
+
+
+
+// Slider Styles
+input[type=range].styled {
+    -webkit-appearance: none;
+    width: 100%;
+  }
+  input[type=range].styled:focus {
+    outline: none;
+  }
+  input[type=range].styled::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 3px;
+    cursor: pointer;
+    background: #10152C;
+    border-radius: 0px;
+    border: none;
+  }
+  input[type=range].styled::-webkit-slider-thumb {
+    height: 26px;
+    width: 10px;
+    border-radius: 3px;
+    background:fade(#10152C, 78%);
+    cursor: pointer;
+    -webkit-appearance: none;
+    margin-top: -20px;
+  }
+  input[type=range].styled:focus::-webkit-slider-runnable-track {
+    background: #10152C;
+  }
+  input[type=range].styled::-moz-range-track {
+    width: 100%;
+    height: 2px;
+    cursor: pointer;
+    background: #070D27;
+    border-radius: 0px;
+  }
+  input[type=range].styled::-moz-range-thumb {
+    height: 26px;
+    width: 10px;
+    border-radius: 3px;
+    background:fade(#10152C, 78%);
+    cursor: pointer;
+  }
+  input[type=range].styled::-ms-track {
+    width: 100%;
+    height: 2px;
+    cursor: pointer;
+    background: transparent;
+    border-color: transparent;
+    color: transparent;
+  }
+  input[type=range].styled::-ms-fill-lower {
+    background: #070D27;
+  }
+  input[type=range].styled::-ms-fill-upper {
+    background: #070D27;
+  }
+  input[type=range].styled::-ms-thumb {
+    height: 26px;
+    width: 10px;
+    border-radius: 3px;
+    background:fade(#10152C, 78%);
+    cursor: pointer;
+  }
+  input[type=range].styled:focus::-ms-fill-lower {
+    background: #070D27;
+  }
+  input[type=range].styled:focus::-ms-fill-upper {
+    background: #070D27;
+  }
+
+
+//   ShareModal
+//   ShareModal
+//   ShareModal
+#shareModalBody{
+    margin: 0 auto;
+    text-align: center;
+
+    p{
+        font-size: 12px;
+        font-weight: 600;
+        color: @black;
+    }
+
+    code{
+        font-size: 14px;
+        font-weight: 600;
+        box-sizing: border-box;
+        padding: 8px;
+        white-space: pre-wrap;
+        line-height: 24px;
+    }
+
+    button{
+        display: block;
+        text-align: center;
+        width: 100%;
+        font-size: 10px;
+        background-color: transparent;
+        border: none;
+        font-weight: 600;
+        padding: 10px 0;
+        transition: 0.15s;
+        letter-spacing: -0.2px;
+        opacity: 0.5;
+
+        &:hover{
+            opacity: 1;
+        }
+
+        &:active{
+            box-shadow: none;
+        }
+
+        &.success{
+            color: @blue !important;
+            // font-size: 12px;
+            transition: 0.15s;
+            opacity: 1;
+        }
+    }
+
+
+}
+
+.navbar-brand{
+  margin-left: 0 !important;
+}
+//   Flood tools error toast
+//   Flood tools error toast
+//   Flood tools error toast
+// UNUSED
+// UNUSED
+// UNUSED
+#ftError{
+    display: flex;
+    box-sizing: border-box;
+    padding: 12px;
+    background-color: #E43947;
+    width: 280px;
+    position: fixed;
+    bottom: -150px;
+    left: 50%;
+    margin-left: -140px;
+    border-radius: 6px;
+    box-shadow: 0 5px 25px -5px rgba(30,16,84,.3);
+    color: white;
+    z-index: 100000;
+    transition: 0.3s;
+    opacity: 0;
+
+    i{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        font-size: 30px;
+        margin-right: 12px;
+    }
+
+    p{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        flex-grow: 3;
+        font-size: 12px;
+        line-height: 16px;
+        margin: 0;
+        padding: 0;
+    }
+
+    &.visible{
+        bottom: 15px;
+        transition: 0.3s;
+        opacity: 1;
+    }
+}
+
+
+
+
+// Default Esri Popup
+// Default Esri Popup
+// Default Esri Popup
+.esriPopup .titlePane{
+    background-color: @black;
+    display: flex;
+    justify-content: space-between;
+    height: auto;
+    box-sizing: border-box;
+    padding: 6px;
+
+    .title{
+        flex-grow: 4;
+    }
+
+    .titleButton.close{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        position: relative;
+    }
+    .titleButton{
+        position: relative;
+        right: auto;
+        left: auto;
+        top: 2px;
+        bottom: auto;
+        margin: 0 3px;
+    }
+}
+
+.esriPopup .contentPane{
+    line-height: 18px;
+    font-size: 12px;
+    padding: 4px 6px;
+}
+
+.new-fim-message{
+  display: block;
+  box-sizing: border-box;
+  padding: 10px;
+  border-radius: 4px;
+  margin: 0 auto 20px auto;
+  background-color: fade(@blue, 25%);
+  color: @black;
+  font-size: 12px;
+  line-height: 22px;
+  letter-spacing: -0.2px;
+
+	@media (max-width: 700px) {
+		font-size: 11px;
+		line-height: 16px;
+	}
+
+  b{
+    display: block;
+    margin-bottom: 5px;
+    font-size: 14px;
+  }
+
+  a{
+    text-decoration: underline;
+    font-weight: bold;
+  }
+}
+
+// Zoom Disclaimer
+.zoom-disclaimer{
+  background-color: #f23939;
+  width: 240px;
+  font-size: 11px;
+  box-sizing: border-box;
+  letter-spacing: -0.2px;
+  padding: 10px;
+  border-top-left-radius: 4px;
+  position: absolute;
+  // left: 50%;
+  // margin-left: -120px;
+  // top: -1px;
+  bottom: 44px;
+  right: 14px;
+  text-align: center;
+  z-index: 500;
+  color: white;
+  display: none;
+
+  @media (max-width: 767px) {
+    padding: 10px 5px;
+    font-size: 10.5px;
+	width: 220px;
+	bottom: 0;
+  }
+
+  a{
+    display: inline-block;
+  }
+
+  b{
+    display: block;
+    text-transform: capitalize;
+  }
+
+  span{
+    display: block;
+    text-align: left;
+    max-height: 0px;
+    transition: 0.2s;
+    overflow: hidden;
+
+    a{
+      color: white;
+      text-decoration: underline;
+
+      &:hover{
+        color: white;
+      }
+    }
+  }
+
+  &:hover{
+
+    span{
+      max-height: 320px;
+      transition: 0.2s;
+      overflow: hidden;
+    }
+  }
+}
+
+.esriControlsBR{
+  display: none;
+}
+
+
+.close-alert:hover{
+	cursor: pointer;
+}
+
+// Hide NWS data if unavailable
+.nws-data-hidden{
+	display: none !important;
+}
+
+// Credit links below disclaimer
+.credit-link{
+	display: inline-block;
+	margin-right: 15px;
+	color: @blue;
+	transition: 0.2s;
+	font-size: 14px;
+	font-weight: 600;
+	text-decoration: underline;
+
+	&:hover{
+		cursor: pointer;
+		color: darken(@blue, 20%);
+		transition: 0.2s;
+		text-decoration: underline;
+	}
+}
+
+// Hover pointer on map triangles
+#mapDiv_gc g image:hover{
+	cursor: pointer;
+}
+
+
+// IE Warning
+#IEWarning{
+	display: block;
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	top: 0;
+	left: 0;
+	background-color: white;
+	color: black;
+	line-height: 32px;
+	z-index: 50000;
+	display: none;
+
+	// Show only on IE
+	@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+		display: block;
+	}
+
+	p{
+		display: block;
+		font-size: 20px;
+		margin: 0 auto;
+		max-width: 500px;
+		box-sizing: border-box;
+		padding: 55px 15px;
+	}
+
+	img{
+		height: 60px;
+		width: auto;
+		margin: 0 auto;
+		display: block;
+	}
+}
