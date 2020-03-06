@@ -356,8 +356,22 @@ $(".close-alert").click(function(){
     //map.getLayer("huc8").setVisibility(false);
     //map.graphics.clear();
 });
+
+// If IE, show full page warning and prevent anything else.
+if (window.document.documentMode) {
+	$("#IEWarning").show();
+}
 </script>
 
+<div id="IEWarning">
+	<p>
+		Sorry, <b>Internet Explorer</b> is not supported.
+		<br/><br/>
+		Please switch to a modern browser like Google Chrome, Firefox, or Microsoft Edge to access <b>FIM</b>.
+	</p>
+
+	<a href="https://wim.usgs.gov/"><img src="images/wim_abbr_black.png"/></a>
+</div>
 
 
 <!--
