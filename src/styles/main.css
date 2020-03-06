@@ -105,9 +105,9 @@ body {
 #printTitle {
   margin-bottom: 15px;
 }
-#legendCollapse {
-  /*max-height: inherit;*/
-}
+/*#legendCollapse {
+  max-height: inherit;
+}*/
 /*#legendElement {*/
 /*position:absolute;*/
 /*padding:4px;*/
@@ -329,8 +329,8 @@ a.lgi-zoom:hover {
 .navbar-brand img {
   margin-right: 16px;
   display: inline;
-  height: 28px;
-  width: auto;
+  /*height: 28px;
+  width: auto;*/
   margin-left: 15px;
 }
 @media (max-width: 767px) {
@@ -340,7 +340,7 @@ a.lgi-zoom:hover {
     line-height: 15px !important;
     padding-left: 15px !important;
     letter-spacing: 0px !important;
-    fon-size: 12.5px !important;
+    font-size: 12.5px !important;
   }
   .navbar-brand img {
     margin-right: 5px;
@@ -2555,7 +2555,7 @@ input[type=range].styled:focus::-ms-fill-upper {
   display: none;
 }
 #ftModal #ftData #ftServices #iwrssLogo {
-  display: inline-block;
+  /*display: inline-block;*/
   float: right;
   height: 85px;
   position: relative;
@@ -3582,3 +3582,25 @@ input[type=range].styled:focus::-ms-fill-upper {
 .sidebar-layers-item button:hover b {
   text-decoration: underline;
 }
+
+.new-fim-message{
+    display: block;
+    box-sizing: border-box;
+    padding: 10px;
+    border-radius: 4px;
+    margin: 0 auto 20px auto;
+    background-color: #C5DBFE;
+    color: #10152C;
+    font-size: 14px;
+    line-height: 22px;
+    letter-spacing: -0.2px;
+  }
+  .new-fim-message a{
+      text-decoration: underline;
+      font-weight: bold;
+  }
+  .new-fim-message b{
+      display: block;
+      margin-bottom: 5px;
+      font-size: 16px;
+  }

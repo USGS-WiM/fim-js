@@ -1865,7 +1865,7 @@ require([
                                         }
                                         
                                     }
-
+                                    
                                     if (siteAttr["HAS_GRIDS"] == 1) {
                                         var gridLayerID;
                                         $.each(gagePairs, function(index, value)
@@ -1911,7 +1911,6 @@ require([
 										$(".fts3 .slider-min.update").text(gageValues3[this.value].gageValue);
 										$(".fts3 .elevation-selected").text(altitudeValues3[this.value].altitudeValue || "N/A");
 										$(".fts3 .flood-discharge-selected").text(dischargeValues3[this.value].dischargeValue || "N/A");
-
                                     }
 
                                     // Code to determine next possible combination if current selections are not available as map in library
@@ -4438,22 +4437,22 @@ require([
             if (exclusiveGroupName) {
 
                 if (!$('#' + camelize(exclusiveGroupName)).length) {
-                    var exGroupRoot = $('<div id="' + camelize(exclusiveGroupName +" Root") + '" class="btn-group-vertical lyrTog" style="cursor: pointer;" data-toggle="buttons"> <button type="button" class="btn btn-default active" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="glyphspan fa fa-check-square-o"></i>' + exclusiveGroupName + '</button> </div>');
 
+                    var exGroupRoot = $('<div id="' + camelize(exclusiveGroupName +" Root") + '" class="btn-group-vertical lyrTog" style="cursor: pointer;" data-toggle="buttons"> <button type="button" class="btn btn-default active" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="glyphspan fa fa-check-square-o"></i>' + exclusiveGroupName + '</button> </div>');
                     exGroupRoot.click(function(e) {
-                        exGroupRoot.find('i.glyphspan').toggleClass('fa-check-square-o fa-square-o');
+                        exGroupRoot.find('i.glyphspan').toggleClass('fa-check-square fa-square');
 
                         $.each(mapLayers, function (index, currentLayer) {
 
                             var tempLayer = map.getLayer(currentLayer[2].id);
 
                             if (currentLayer[0] == exclusiveGroupName) {
-                                if ($("#" + currentLayer[1]).find('i.glyphspan').hasClass('fa-dot-circle-o') && exGroupRoot.find('i.glyphspan').hasClass('fa-check-square-o')) {
+                                if ($("#" + currentLayer[1]).find('i.glyphspan').hasClass('fa-dot-circle-o') && exGroupRoot.find('i.glyphspan').hasClass('fa-check-square')) {
                                     console.log('adding layer: ',currentLayer[1]);
                                     map.addLayer(currentLayer[2]);
                                     var tempLayer = map.getLayer(currentLayer[2].id);
                                     tempLayer.setVisibility(true);
-                                } else if (exGroupRoot.find('i.glyphspan').hasClass('fa-square-o')) {
+                                } else if (exGroupRoot.find('i.glyphspan').hasClass('fa-square')) {
                                     console.log('removing layer: ',currentLayer[1]);
                                     map.removeLayer(currentLayer[2]);
                                 }
@@ -4487,14 +4486,14 @@ require([
                         $.each(mapLayers, function (index, currentLayer) {
 
                             if (currentLayer[0] == exclusiveGroupName) {
-                                if (currentLayer[1] == newLayer && $("#" + camelize(exclusiveGroupName + " Root")).find('i.glyphspan').hasClass('fa-check-square-o')) {
+                                if (currentLayer[1] == newLayer && $("#" + camelize(exclusiveGroupName + " Root")).find('i.glyphspan').hasClass('fa-check-square')) {
                                     console.log('adding layer: ',currentLayer[1]);
                                     map.addLayer(currentLayer[2]);
                                     var tempLayer = map.getLayer(currentLayer[2].id);
                                     tempLayer.setVisibility(true);
                                     //$('#' + camelize(currentLayer[1])).toggle();
                                 }
-                                else if (currentLayer[1] == newLayer && $("#" + camelize(exclusiveGroupName + " Root")).find('i.glyphspan').hasClass('fa-square-o')) {
+                                else if (currentLayer[1] == newLayer && $("#" + camelize(exclusiveGroupName + " Root")).find('i.glyphspan').hasClass('fa-square')) {
                                     console.log('groud heading not checked');
                                 }
                                 else {

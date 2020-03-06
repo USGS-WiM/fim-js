@@ -39,8 +39,13 @@
     </script>
     <!-- End Google Analytics -->
 
+<<<<<<< HEAD
     <!-- Font Awesome Pro CDN -->
 	<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.2/css/all.css" integrity="sha384-XxNLWSzCxOe/CFcHcAiJAZ7LarLmw3f4975gOO6QkxvULbGGNDoSOTzItGUG++Q+" crossorigin="anonymous">
+=======
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+
+>>>>>>> 1f25b09896f5c6c3d8f2527f0709e949c4609976
 
 
 </head>
@@ -383,6 +388,7 @@ $(".close-alert").click(function(){
                         <p>Version 1.1.0</p>
 
                     </div>
+<<<<<<< HEAD
                     <div role="tabpanel" class="tab-pane active" id="disclaimerTabPane">
                         <div class="new-fim-message">
                             <b>Welcome to the USGS FIM Mapper.</b>
@@ -390,6 +396,18 @@ $(".close-alert").click(function(){
                                 The FIM Mapper allows users to explore the full set of inundation maps that shows where flooding would occur given a selected stream condition. Users can also access historical flood information and potential loss estimates based on the severity of the flood. The FIM Mapper helps communities visualize potential flooding scenarios, identify areas and resources that may be at risk, and enhance their local response effort during a flooding event.
                             </span>
                         </div>
+=======
+                    <div role="tabpanel" class="tab-pane active" id="disclaimerTabPane"></br>
+
+                        <div class="new-fim-message">
+                            <b>Welcome to the mobile-friendly USGS FIM Mapper.</b>
+                            <span>
+                                Welcome to the mobile-friendly USGS FIM Mapper. This application allows users to explore a subset of USGS inundation maps (single-gage libraries), and offers many of the features available in the desktop-only application.
+                                The full-featured FIM Mapper is located here: <a href="https://wimcloud.usgs.gov/apps/FIM/FloodInundationMapper.html" alt="Full Featured FIM Mapper" title="Full Featured FIM Mapper" target="_blank">wimcloud.usgs.gov/apps/FIM/FloodInundationMapper.html</a>.
+                            </span>
+                        </div>
+
+>>>>>>> 1f25b09896f5c6c3d8f2527f0709e949c4609976
                         <h3>Disclaimer for Flood-Inundation Maps</h3>
                         <p>Inundated areas shown should not be used for navigation, regulatory, permitting, or other legal purposes.  Although USGS intends to make this server available 24 hours a day, 7 days a week, timely delivery of data and products from this server through the Internet is not guaranteed. The USGS provides these maps “as-is” for a quick reference, emergency planning tool but assumes no legal liability or responsibility resulting from the use of this information.</p>
 						<h3>USGS Data Disclaimer</h3>
@@ -788,6 +806,7 @@ $(".close-alert").click(function(){
 							</div>
                         </div>
                     </div>
+<<<<<<< HEAD
                     <!--
                             Modal body
                             Modal body
@@ -1067,6 +1086,56 @@ $(".close-alert").click(function(){
                                 <div class="no-hydro">No current or predicted gage height data available for this library</div>
 								<!-- Sites -->
 								<div class="fts1 chart-wrapper">
+=======
+                    <div class="panel-body">
+
+                        <div id="floodToolsPanel" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="floodToolsPanelHeader">
+                            <ul class="nav nav-tabs" id="floodToolsTabs">
+                                <li role="presentation" class="active"><a id="floodToolsTab" href="#floodToolsTabPane" data-toggle="tab" onclick="ga('send','event','Flood Tools Panel','click','Flood Tools');"><i class="fa fa-umbrella"></i>&nbsp;Flood Tools</a></li>
+                                <li role="presentation"><a id="hydroTab" href="#hydroTabPane" data-toggle="tab" onclick="ga('send','event','Flood Tools Panel','click','Hydrograph');"><i class="fa fa-line-chart"></i>&nbsp;Hydrograph</a></li>
+                                <!--<li role="presentation"><a id="webCamTab" href="#webCamTabPane" data-toggle="tab"><i class="fa fa-video-camera"></i>&nbsp;Web Cam</a></li>-->
+                                <li role="presentation"><a id="servicesAndDataTab" href="#servicesAndDataTabPane" data-toggle="tab" onclick="ga('send','event','Flood Tools Panel','click','Services and Data');"><i class="fa fa-server"></i>&nbsp;Services and Data</a></li>
+                                <li role="presentation"><a id="moreInfoTab" href="#moreInfoTabPane" data-toggle="tab" onclick="ga('send','event','Flood Tools Panel','click','More Info');"><i class="fa fa-question-circle"></i>&nbsp;More Info</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div role="tabpanel" class="tab-pane active" id="floodToolsTabPane">
+                                    <form id="slider" class="flood-tools">
+                                        <div class="flood-tools-left">
+                                            <div class="slider-values">
+                                                <div class="slider-max">52</div>
+                                                <div class="slider-min">12</div>
+                                            </div>
+                                            <input id="floodSlider" type="range" name="stage" value="0" min="0" max="10" class="vertical-slider"/>
+                                            <img id="usgsDefaultLogo" src="images/usgsLogoSm.jpg"/>
+                                            <img id="recordsLogo" src=""/>
+                                        </div>
+                                        <div class="flood-tools-right">
+                                            <div class="flood-tools-item">
+                                                <span class="flood-tools-label">Selected gage height:</span>
+                                                <span class="flood-tools-value"><label for="floodSlider" id="selectedValue"></label> feet</span>
+                                            </div>
+                                            <div class="flood-tools-item">
+                                                <span class="flood-tools-header"><b>Current Conditions</b></span>
+                                                <span class="flood-tools-label">Gage height:</span>
+                                                <span class="flood-tools-value"><label id="floodMaxGage" class="current"></label> feet</span>
+                                                <br/>
+                                                <span class="flood-tools-label">Discharge:</span>
+                                                <span class="flood-tools-value"><label id="floodMaxDischarge" class="current"></label> cfs</span>
+                                            </div>
+                                            <div class="flood-tools-item">
+                                                <span class="flood-tools-label">USGS Site No:</span>
+                                                <span class="flood-tools-value"><a id="usgsSiteNoMax" target="_blank" href=""></a></span>
+                                                <br/>
+                                                <span class="flood-tools-label">NWS Site ID:</span>
+                                                <span class="flood-tools-value"><a id="nwsSiteIDMax" target="_blank" href=""></a></span>
+                                            </div>
+                                            <label id="gridLabel">Click on map for estimated water depth</label>
+                                            <button id="zoomToLibExtent" title="click to zoom to the extent of the flood library" class="btn btn-default" type="button">Zoom</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div role="tabpanel" class="tab-pane" id="hydroTabPane">
+>>>>>>> 1f25b09896f5c6c3d8f2527f0709e949c4609976
                                     <div id="hydroChart"></div>
                                 </div>
                                 <div class="fts2 chart-wrapper">
