@@ -1497,9 +1497,128 @@ require([
 
                 $('#aouCheckBox').on('click', function(evt) {
                     if (evt.currentTarget.checked == true) {
-                        map.getLayer('fimBreach').setVisibility(true);
+                        if ($('#gridsCheckBox').prop('checked') == false) {
+                            map.getLayer('fimBreach').setVisibility(true);
+                        } else {
+                            if (siteAttr["HAS_GRIDS"] == 1) {
+                                gridLayerIndexArrColl = [];
+    
+                                if (siteAttr["MULTI_SITE"] == 0) {
+                                    for (var i=0; i < gridInfos.length; i++) {
+                                        if (gridInfos[i].shortname == siteAttr.SHORT_NAME && Number(gridInfos[i].gridid) == results[$(".fts1 #floodSlider")[0].value].attributes["GRIDID"]) {
+                                            gridLayerIndexArrColl.push(gridInfos[i].index);
+                                            gridLayerIndex = gridInfos[i].index;
+                                        } else if (gridInfos[i].shortname == siteAttr.SHORT_NAME && gridInfos[i].gridid == results[$(".fts1 #floodSlider")[0].value].attributes["GRIDID"]+'b' && $('#aouCheckBox').prop('checked') == true) {
+                                            gridLayerIndexArrColl.push(gridInfos[i].index);
+                                            gridLayerIndex = gridInfos[i].index;
+                                        }
+                                    }
+                                } else if (siteAttr["MULTI_SITE"] == 1) {
+                                    var gridLayerID;
+                                    $.each(gagePairs, function(index, value)
+                                    {
+                                        if (value.STAGE_1 == gageValues[0].gageValue && value.STAGE_2 == gageValues2[0].gageValue) {
+                                            gridLayerID = value.GRIDID;
+                                        }
+                                    });
+                                    for (var i=0; i < gridInfos.length; i++) {
+                                        if (gridInfos[i].shortname == siteAttr.SHORT_NAME && Number(gridInfos[i].gridid) == gridLayerID) {
+                                            gridLayerIndexArrColl.push(gridInfos[i].index);
+                                            gridLayerIndex = gridInfos[i].index;
+                                        } else if (gridInfos[i].shortname == siteAttr.SHORT_NAME && gridInfos[i].gridid == gridLayerID+'b' && $('#aouCheckBox').prop('checked') == true) {
+                                            gridLayerIndexArrColl.push(gridInfos[i].index);
+                                            gridLayerIndex = gridInfos[i].index;
+                                        }
+                                    }
+                                } else if (siteAttr["MULTI_SITE"] == 3) {
+                                    var gridLayerID;
+                                    $.each(gagePairs, function(index, value)
+                                    {
+                                        if (value.STAGE_1 == gageValues[0].gageValue && value.STAGE_2 == gageValues2[0].gageValue && value.STAGE_3 == gageValues3[0].gageValue) {
+                                            gridLayerID = value.GRIDID;
+                                        }
+                                    });
+                                    for (var i=0; i < gridInfos.length; i++) {
+                                        if (gridInfos[i].shortname == siteAttr.SHORT_NAME && Number(gridInfos[i].gridid) == gridLayerID) {
+                                            gridLayerIndexArrColl.push(gridInfos[i].index);
+                                            gridLayerIndex = gridInfos[i].index;
+                                        } else if (gridInfos[i].shortname == siteAttr.SHORT_NAME && gridInfos[i].gridid == gridLayerID+'b' && $('#aouCheckBox').prop('checked') == true) {
+                                            gridLayerIndexArrColl.push(gridInfos[i].index);
+                                            gridLayerIndex = gridInfos[i].index;
+                                        }
+                                    }
+                                }
+                                
+    
+                                //set grids layer definitions/choose the right layer here and in next input change function
+                                console.log('grid stuff');
+                                var gridLayer = "fimGrid" + siteAttr.GRID_SERV;
+                                var gridVisLayer = [];
+                                gridVisLayer.push(gridLayerIndexArrColl);
+                                map.getLayer(gridLayer).setVisibleLayers(gridVisLayer);
+                                //map.getLayer(gridLayer).setVisibility(true);
+                            }
+                        }
                     } else if (evt.currentTarget.checked == false) {
                         map.getLayer('fimBreach').setVisibility(false);
+                        if (siteAttr["HAS_GRIDS"] == 1) {
+                            gridLayerIndexArrColl = [];
+
+                            if (siteAttr["MULTI_SITE"] == 0) {
+                                for (var i=0; i < gridInfos.length; i++) {
+                                    if (gridInfos[i].shortname == siteAttr.SHORT_NAME && Number(gridInfos[i].gridid) == results[$(".fts1 #floodSlider")[0].value].attributes["GRIDID"]) {
+                                        gridLayerIndexArrColl.push(gridInfos[i].index);
+                                        gridLayerIndex = gridInfos[i].index;
+                                    } else if (gridInfos[i].shortname == siteAttr.SHORT_NAME && gridInfos[i].gridid == results[$(".fts1 #floodSlider")[0].value].attributes["GRIDID"]+'b' && $('#aouCheckBox').prop('checked') == true) {
+                                        gridLayerIndexArrColl.push(gridInfos[i].index);
+                                        gridLayerIndex = gridInfos[i].index;
+                                    }
+                                }
+                            } else if (siteAttr["MULTI_SITE"] == 1) {
+                                var gridLayerID;
+                                $.each(gagePairs, function(index, value)
+                                {
+                                    if (value.STAGE_1 == gageValues[0].gageValue && value.STAGE_2 == gageValues2[0].gageValue) {
+                                        gridLayerID = value.GRIDID;
+                                    }
+                                });
+                                for (var i=0; i < gridInfos.length; i++) {
+                                    if (gridInfos[i].shortname == siteAttr.SHORT_NAME && Number(gridInfos[i].gridid) == gridLayerID) {
+                                        gridLayerIndexArrColl.push(gridInfos[i].index);
+                                        gridLayerIndex = gridInfos[i].index;
+                                    } else if (gridInfos[i].shortname == siteAttr.SHORT_NAME && gridInfos[i].gridid == gridLayerID+'b' && $('#aouCheckBox').prop('checked') == true) {
+                                        gridLayerIndexArrColl.push(gridInfos[i].index);
+                                        gridLayerIndex = gridInfos[i].index;
+                                    }
+                                }
+                            } else if (siteAttr["MULTI_SITE"] == 3) {
+                                var gridLayerID;
+                                $.each(gagePairs, function(index, value)
+                                {
+                                    if (value.STAGE_1 == gageValues[0].gageValue && value.STAGE_2 == gageValues2[0].gageValue && value.STAGE_3 == gageValues3[0].gageValue) {
+                                        gridLayerID = value.GRIDID;
+                                    }
+                                });
+                                for (var i=0; i < gridInfos.length; i++) {
+                                    if (gridInfos[i].shortname == siteAttr.SHORT_NAME && Number(gridInfos[i].gridid) == gridLayerID) {
+                                        gridLayerIndexArrColl.push(gridInfos[i].index);
+                                        gridLayerIndex = gridInfos[i].index;
+                                    } else if (gridInfos[i].shortname == siteAttr.SHORT_NAME && gridInfos[i].gridid == gridLayerID+'b' && $('#aouCheckBox').prop('checked') == true) {
+                                        gridLayerIndexArrColl.push(gridInfos[i].index);
+                                        gridLayerIndex = gridInfos[i].index;
+                                    }
+                                }
+                            }
+                            
+
+                            //set grids layer definitions/choose the right layer here and in next input change function
+                            console.log('grid stuff');
+                            var gridLayer = "fimGrid" + siteAttr.GRID_SERV;
+                            var gridVisLayer = [];
+                            gridVisLayer.push(gridLayerIndexArrColl);
+                            map.getLayer(gridLayer).setVisibleLayers(gridVisLayer);
+                            //map.getLayer(gridLayer).setVisibility(true);
+						}
                     }
                 });
 
@@ -1520,22 +1639,87 @@ require([
                         switch (siteAttr["MULTI_SITE"]) {
                             case 0:
                                 map.getLayer('fimExtents').setVisibility(false);
+                                map.getLayer('fimBreach').setVisibility(false);
                                 break;
                             case 1:
                                 map.getLayer('fimExtentsMulti').setVisibility(false);
+                                map.getLayer('fimBreachMulti').setVisibility(false);
                                 break;
                             case (2 || 3):
                                 map.getLayer('fimExtentsThreeSites').setVisibility(false);
                                 break;
                         }
-                        map.getLayer('fimGrid' + siteAttr.GRID_SERV).setVisibility(true);
+                        if (siteAttr["HAS_GRIDS"] == 1) {
+                            gridLayerIndexArrColl = [];
+
+                            if (siteAttr["MULTI_SITE"] == 0) {
+                                for (var i=0; i < gridInfos.length; i++) {
+                                    if (gridInfos[i].shortname == siteAttr.SHORT_NAME && Number(gridInfos[i].gridid) == results[$(".fts1 #floodSlider")[0].value].attributes["GRIDID"]) {
+                                        gridLayerIndexArrColl.push(gridInfos[i].index);
+                                        gridLayerIndex = gridInfos[i].index;
+                                    } else if (gridInfos[i].shortname == siteAttr.SHORT_NAME && gridInfos[i].gridid == results[$(".fts1 #floodSlider")[0].value].attributes["GRIDID"]+'b' && $('#aouCheckBox').prop('checked') == true) {
+                                        gridLayerIndexArrColl.push(gridInfos[i].index);
+                                        gridLayerIndex = gridInfos[i].index;
+                                    }
+                                }
+                            } else if (siteAttr["MULTI_SITE"] == 1) {
+                                var gridLayerID;
+                                $.each(gagePairs, function(index, value)
+                                {
+                                    if (value.STAGE_1 == gageValues[0].gageValue && value.STAGE_2 == gageValues2[0].gageValue) {
+                                        gridLayerID = value.GRIDID;
+                                    }
+                                });
+                                for (var i=0; i < gridInfos.length; i++) {
+                                    if (gridInfos[i].shortname == siteAttr.SHORT_NAME && Number(gridInfos[i].gridid) == gridLayerID) {
+                                        gridLayerIndexArrColl.push(gridInfos[i].index);
+                                        gridLayerIndex = gridInfos[i].index;
+                                    } else if (gridInfos[i].shortname == siteAttr.SHORT_NAME && gridInfos[i].gridid == gridLayerID+'b' && $('#aouCheckBox').prop('checked') == true) {
+                                        gridLayerIndexArrColl.push(gridInfos[i].index);
+                                        gridLayerIndex = gridInfos[i].index;
+                                    }
+                                }
+                            } else if (siteAttr["MULTI_SITE"] == 3) {
+                                var gridLayerID;
+                                $.each(gagePairs, function(index, value)
+                                {
+                                    if (value.STAGE_1 == gageValues[0].gageValue && value.STAGE_2 == gageValues2[0].gageValue && value.STAGE_3 == gageValues3[0].gageValue) {
+                                        gridLayerID = value.GRIDID;
+                                    }
+                                });
+                                for (var i=0; i < gridInfos.length; i++) {
+                                    if (gridInfos[i].shortname == siteAttr.SHORT_NAME && Number(gridInfos[i].gridid) == gridLayerID) {
+                                        gridLayerIndexArrColl.push(gridInfos[i].index);
+                                        gridLayerIndex = gridInfos[i].index;
+                                    } else if (gridInfos[i].shortname == siteAttr.SHORT_NAME && gridInfos[i].gridid == gridLayerID+'b' && $('#aouCheckBox').prop('checked') == true) {
+                                        gridLayerIndexArrColl.push(gridInfos[i].index);
+                                        gridLayerIndex = gridInfos[i].index;
+                                    }
+                                }
+                            }
+                            
+
+                            //set grids layer definitions/choose the right layer here and in next input change function
+                            console.log('grid stuff');
+                            var gridLayer = "fimGrid" + siteAttr.GRID_SERV;
+                            var gridVisLayer = [];
+                            gridVisLayer.push(gridLayerIndexArrColl);
+                            map.getLayer(gridLayer).setVisibleLayers(gridVisLayer);
+                            map.getLayer(gridLayer).setVisibility(true);
+						}
                     } else if (evt.currentTarget.checked == false) {
                         switch (siteAttr["MULTI_SITE"]) {
                             case 0:
                                 map.getLayer('fimExtents').setVisibility(true);
+                                if ($('#aouCheckBox').prop('checked') == true) {
+                                    map.getLayer('fimBreach').setVisibility(true);
+                                }
                                 break;
                             case 1:
                                 map.getLayer('fimExtentsMulti').setVisibility(true);
+                                if ($('#aouCheckBox').prop('checked') == true) {
+                                    map.getLayer('fimBreachMulti').setVisibility(true);
+                                }
                                 break;
                             case (2 || 3):
                                 map.getLayer('fimExtentsThreeSites').setVisibility(true);
@@ -2140,7 +2324,7 @@ require([
                                     if (gridInfos[i].shortname == siteAttr.SHORT_NAME && Number(gridInfos[i].gridid) == results[$(".fts1 #floodSlider")[0].value].attributes["GRIDID"]) {
                                         gridLayerIndexArrColl.push(gridInfos[i].index);
                                         gridLayerIndex = gridInfos[i].index;
-                                    } else if (gridInfos[i].shortname == siteAttr.SHORT_NAME && gridInfos[i].gridid == results[$(".fts1 #floodSlider")[0].value].attributes["GRIDID"]+'b') {
+                                    } else if (gridInfos[i].shortname == siteAttr.SHORT_NAME && gridInfos[i].gridid == results[$(".fts1 #floodSlider")[0].value].attributes["GRIDID"]+'b' && $('#aouCheckBox').prop('checked') == true) {
                                         gridLayerIndexArrColl.push(gridInfos[i].index);
                                         gridLayerIndex = gridInfos[i].index;
                                     }
@@ -2157,7 +2341,7 @@ require([
                                     if (gridInfos[i].shortname == siteAttr.SHORT_NAME && Number(gridInfos[i].gridid) == gridLayerID) {
                                         gridLayerIndexArrColl.push(gridInfos[i].index);
                                         gridLayerIndex = gridInfos[i].index;
-                                    } else if (gridInfos[i].shortname == siteAttr.SHORT_NAME && gridInfos[i].gridid == gridLayerID+'b') {
+                                    } else if (gridInfos[i].shortname == siteAttr.SHORT_NAME && gridInfos[i].gridid == gridLayerID+'b' && $('#aouCheckBox').prop('checked') == true) {
                                         gridLayerIndexArrColl.push(gridInfos[i].index);
                                         gridLayerIndex = gridInfos[i].index;
                                     }
@@ -2174,7 +2358,7 @@ require([
                                     if (gridInfos[i].shortname == siteAttr.SHORT_NAME && Number(gridInfos[i].gridid) == gridLayerID) {
                                         gridLayerIndexArrColl.push(gridInfos[i].index);
                                         gridLayerIndex = gridInfos[i].index;
-                                    } else if (gridInfos[i].shortname == siteAttr.SHORT_NAME && gridInfos[i].gridid == gridLayerID+'b') {
+                                    } else if (gridInfos[i].shortname == siteAttr.SHORT_NAME && gridInfos[i].gridid == gridLayerID+'b' && $('#aouCheckBox').prop('checked') == true) {
                                         gridLayerIndexArrColl.push(gridInfos[i].index);
                                         gridLayerIndex = gridInfos[i].index;
                                     }
@@ -2224,7 +2408,7 @@ require([
                                             if (gridInfos[i].shortname == siteAttr.SHORT_NAME && Number(gridInfos[i].gridid) == results[$(".fts1 #floodSlider")[0].value].attributes["GRIDID"]) {
                                                 gridLayerIndexArrColl.push(gridInfos[i].index);
                                                 gridLayerIndex = gridInfos[i].index;
-                                            } else if (gridInfos[i].shortname == siteAttr.SHORT_NAME && gridInfos[i].gridid == results[$(".fts1 #floodSlider")[0].value].attributes["GRIDID"]+'b') {
+                                            } else if (gridInfos[i].shortname == siteAttr.SHORT_NAME && gridInfos[i].gridid == results[$(".fts1 #floodSlider")[0].value].attributes["GRIDID"]+'b' && $('#aouCheckBox').prop('checked') == true) {
                                                 gridLayerIndexArrColl.push(gridInfos[i].index);
                                                 gridLayerIndex = gridInfos[i].index;
                                             }
@@ -2356,7 +2540,7 @@ require([
                                             if (gridInfos[i].shortname == siteAttr.SHORT_NAME && Number(gridInfos[i].gridid) == gridLayerID) {
                                                 gridLayerIndexArrColl.push(gridInfos[i].index);
                                                 gridLayerIndex = gridInfos[i].index;
-                                            } else if (gridInfos[i].shortname == siteAttr.SHORT_NAME && gridInfos[i].gridid == gridLayerID+'b') {
+                                            } else if (gridInfos[i].shortname == siteAttr.SHORT_NAME && gridInfos[i].gridid == gridLayerID+'b' && $('#aouCheckBox').prop('checked') == true) {
                                                 gridLayerIndexArrColl.push(gridInfos[i].index);
                                                 gridLayerIndex = gridInfos[i].index;
                                             }
@@ -2640,7 +2824,7 @@ require([
                                             if (gridInfos[i].shortname == siteAttr.SHORT_NAME && Number(gridInfos[i].gridid) == gridLayerID) {
                                                 gridLayerIndexArrColl.push(gridInfos[i].index);
                                                 gridLayerIndex = gridInfos[i].index;
-                                            } else if (gridInfos[i].shortname == siteAttr.SHORT_NAME && gridInfos[i].gridid == gridLayerID+'b') {
+                                            } else if (gridInfos[i].shortname == siteAttr.SHORT_NAME && gridInfos[i].gridid == gridLayerID+'b' && $('#aouCheckBox').prop('checked') == true) {
                                                 gridLayerIndexArrColl.push(gridInfos[i].index);
                                                 gridLayerIndex = gridInfos[i].index;
                                             }
