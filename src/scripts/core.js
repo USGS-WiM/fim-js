@@ -1020,8 +1020,14 @@ require([
                 $('#aouCheckBox').on('click', function(evt) {
                     if (evt.currentTarget.checked == true) {
                         if ($('#gridsCheckBox').prop('checked') == false) {
-                            map.getLayer('fimBreach').setVisibility(true);
+                            if (siteAttr["MULTI_SITE"] == 0) {
+                                map.getLayer('fimBreach').setVisibility(true);
+                            } else if (siteAttr["MULTI_SITE"] == 1) {
+                                map.getLayer('fimBreachMulti').setVisibility(true);
+                            }
                         } else {
+                            map.getLayer('fimBreach').setVisibility(false);
+                            map.getLayer('fimBreachMulti').setVisibility(false);
                             if (siteAttr["HAS_GRIDS"] == 1) {
                                 gridLayerIndexArrColl = [];
     
@@ -1078,12 +1084,13 @@ require([
                                 var gridVisLayer = [];
                                 gridVisLayer.push(gridLayerIndexArrColl);
                                 map.getLayer(gridLayer).setVisibleLayers(gridVisLayer);
-                                //map.getLayer(gridLayer).setVisibility(true);
+                                map.getLayer(gridLayer).setVisibility(true);
                             }
                         }
                     } else if (evt.currentTarget.checked == false) {
                         map.getLayer('fimBreach').setVisibility(false);
-                        if (siteAttr["HAS_GRIDS"] == 1) {
+                        map.getLayer('fimBreachMulti').setVisibility(false);
+                        if (siteAttr["HAS_GRIDS"] == 1 && $('#gridsCheckBox').prop('checked') == true) {
                             gridLayerIndexArrColl = [];
 
                             if (siteAttr["MULTI_SITE"] == 0) {
@@ -1139,7 +1146,7 @@ require([
                             var gridVisLayer = [];
                             gridVisLayer.push(gridLayerIndexArrColl);
                             map.getLayer(gridLayer).setVisibleLayers(gridVisLayer);
-                            //map.getLayer(gridLayer).setVisibility(true);
+                            map.getLayer(gridLayer).setVisibility(true);
 						}
                     }
                 });
