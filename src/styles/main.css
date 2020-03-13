@@ -3831,3 +3831,10 @@ input[type=range].styled:focus::-ms-fill-upper {
 .sidebar-layers-item button:hover b {
   text-decoration: underline;
 }
+
+.legend-image {
+  opacity: 0.7;
+  display: none;
+  margin: 7px;
+  margin-top: 10px;
+}
