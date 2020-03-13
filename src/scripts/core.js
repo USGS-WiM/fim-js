@@ -1101,6 +1101,11 @@ require([
                                     $("#aou_grids_legend_title").show();
                                 } else {
                                     $("#aou_grids_legend_title").hide();
+                                    if (siteAttr["MULTI_SITE"] == 0 && $('#aouCheckBox').prop('checked') == true) {
+                                        map.getLayer('fimBreach').setVisibility(true)
+                                    } else if ($('#aouCheckBox').prop('checked') == true) {
+                                        map.getLayer('fimBreachMulti').setVisibility(true);
+                                    }
                                 }
                             }
                         }
@@ -1172,6 +1177,11 @@ require([
                                 $("#aou_grids_legend_title").show();
                             } else {
                                 $("#aou_grids_legend_title").hide();
+                                if (siteAttr["MULTI_SITE"] == 0 && $('#aouCheckBox').prop('checked') == true) {
+                                    map.getLayer('fimBreach').setVisibility(true)
+                                } else if ($('#aouCheckBox').prop('checked') == true) {
+                                    map.getLayer('fimBreachMulti').setVisibility(true);
+                                }
                             }
 						}
                     }
@@ -1270,6 +1280,11 @@ require([
                                 $("#aou_grids_legend_title").show();
                             } else {
                                 $("#aou_grids_legend_title").hide();
+                                if (siteAttr["MULTI_SITE"] == 0 && $('#aouCheckBox').prop('checked') == true) {
+                                    map.getLayer('fimBreach').setVisibility(true)
+                                } else if ($('#aouCheckBox').prop('checked') == true) {
+                                    map.getLayer('fimBreachMulti').setVisibility(true);
+                                }
                             }
 						}
                     } else if (evt.currentTarget.checked == false) {
