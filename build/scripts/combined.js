@@ -256,7 +256,7 @@ require([
                         "layerType": "agisDynamic",
                         "includeInLayerList": false,
                         "hasOpacitySlider": false,
-                        "includeLegend" : true,
+                        "includeLegend" : false,
                         "legendLabel" : false
                     }
                 },
@@ -272,7 +272,7 @@ require([
                         "layerType": "agisDynamic",
                         "includeInLayerList": false,
                         "hasOpacitySlider": false,
-                        "includeLegend" : true,
+                        "includeLegend" : false,
                         "legendLabel" : false
                     }
                 },
@@ -288,7 +288,7 @@ require([
                         "layerType": "agisDynamic",
                         "includeInLayerList": false,
                         "hasOpacitySlider": false,
-                        "includeLegend" : true,
+                        "includeLegend" : false,
                         "legendLabel" : false
                     }
                 },
@@ -304,7 +304,7 @@ require([
                         "layerType": "agisDynamic",
                         "includeInLayerList": false,
                         "hasOpacitySlider": false,
-                        "includeLegend" : true,
+                        "includeLegend" : false,
                         "legendLabel" : false
                     }
                 }
@@ -1303,6 +1303,9 @@ require([
                 var attr = feature.attributes;
                 siteAttr = attr;
 
+                $("#depth_grids_legend_title").hide();
+                $("#aou_grids_legend_title").hide();
+
                 if (siteAttr["MULTI_SITE"] == 0) {
                     $(".fts2").hide();
                     $(".fts3").hide();
@@ -1498,8 +1501,17 @@ require([
                 $('#aouCheckBox').on('click', function(evt) {
                     if (evt.currentTarget.checked == true) {
                         if ($('#gridsCheckBox').prop('checked') == false) {
-                            map.getLayer('fimBreach').setVisibility(true);
+                            if (siteAttr["MULTI_SITE"] == 0) {
+                                map.getLayer('fimBreach').setVisibility(true);
+                            } else if (siteAttr["MULTI_SITE"] == 1) {
+                                map.getLayer('fimBreachMulti').setVisibility(true);
+                            }
+                            $("#depth_grids_legend_title").hide();
+                            $("#aou_grids_legend_title").hide();
                         } else {
+                            map.getLayer('fimBreach').setVisibility(false);
+                            map.getLayer('fimBreachMulti').setVisibility(false);
+                            var has_breach_grids = false;
                             if (siteAttr["HAS_GRIDS"] == 1) {
                                 gridLayerIndexArrColl = [];
     
@@ -1511,6 +1523,7 @@ require([
                                         } else if (gridInfos[i].shortname == siteAttr.SHORT_NAME && gridInfos[i].gridid == results[$(".fts1 #floodSlider")[0].value].attributes["GRIDID"]+'b' && $('#aouCheckBox').prop('checked') == true) {
                                             gridLayerIndexArrColl.push(gridInfos[i].index);
                                             gridLayerIndex = gridInfos[i].index;
+                                            has_breach_grids = true;
                                         }
                                     }
                                 } else if (siteAttr["MULTI_SITE"] == 1) {
@@ -1528,6 +1541,9 @@ require([
                                         } else if (gridInfos[i].shortname == siteAttr.SHORT_NAME && gridInfos[i].gridid == gridLayerID+'b' && $('#aouCheckBox').prop('checked') == true) {
                                             gridLayerIndexArrColl.push(gridInfos[i].index);
                                             gridLayerIndex = gridInfos[i].index;
+                                            has_breach_grids = true;
+                                        } else if ($('#aouCheckBox').prop('checked') == false) {
+                                            
                                         }
                                     }
                                 } else if (siteAttr["MULTI_SITE"] == 3) {
@@ -1545,6 +1561,7 @@ require([
                                         } else if (gridInfos[i].shortname == siteAttr.SHORT_NAME && gridInfos[i].gridid == gridLayerID+'b' && $('#aouCheckBox').prop('checked') == true) {
                                             gridLayerIndexArrColl.push(gridInfos[i].index);
                                             gridLayerIndex = gridInfos[i].index;
+                                            has_breach_grids = true;
                                         }
                                     }
                                 }
@@ -1556,14 +1573,26 @@ require([
                                 var gridVisLayer = [];
                                 gridVisLayer.push(gridLayerIndexArrColl);
                                 map.getLayer(gridLayer).setVisibleLayers(gridVisLayer);
-                                //map.getLayer(gridLayer).setVisibility(true);
+                                map.getLayer(gridLayer).setVisibility(true);
+                                $("#depth_grids_legend_title").show();
+                                if (has_breach_grids == true) {
+                                    $("#aou_grids_legend_title").show();
+                                } else {
+                                    $("#aou_grids_legend_title").hide();
+                                    if (siteAttr["MULTI_SITE"] == 0 && $('#aouCheckBox').prop('checked') == true) {
+                                        map.getLayer('fimBreach').setVisibility(true)
+                                    } else if ($('#aouCheckBox').prop('checked') == true) {
+                                        map.getLayer('fimBreachMulti').setVisibility(true);
+                                    }
+                                }
                             }
                         }
                     } else if (evt.currentTarget.checked == false) {
                         map.getLayer('fimBreach').setVisibility(false);
-                        if (siteAttr["HAS_GRIDS"] == 1) {
+                        map.getLayer('fimBreachMulti').setVisibility(false);
+                        if (siteAttr["HAS_GRIDS"] == 1 && $('#gridsCheckBox').prop('checked') == true) {
                             gridLayerIndexArrColl = [];
-
+                            var has_breach_grids = false;
                             if (siteAttr["MULTI_SITE"] == 0) {
                                 for (var i=0; i < gridInfos.length; i++) {
                                     if (gridInfos[i].shortname == siteAttr.SHORT_NAME && Number(gridInfos[i].gridid) == results[$(".fts1 #floodSlider")[0].value].attributes["GRIDID"]) {
@@ -1572,6 +1601,7 @@ require([
                                     } else if (gridInfos[i].shortname == siteAttr.SHORT_NAME && gridInfos[i].gridid == results[$(".fts1 #floodSlider")[0].value].attributes["GRIDID"]+'b' && $('#aouCheckBox').prop('checked') == true) {
                                         gridLayerIndexArrColl.push(gridInfos[i].index);
                                         gridLayerIndex = gridInfos[i].index;
+                                        has_breach_grids = true;
                                     }
                                 }
                             } else if (siteAttr["MULTI_SITE"] == 1) {
@@ -1589,6 +1619,7 @@ require([
                                     } else if (gridInfos[i].shortname == siteAttr.SHORT_NAME && gridInfos[i].gridid == gridLayerID+'b' && $('#aouCheckBox').prop('checked') == true) {
                                         gridLayerIndexArrColl.push(gridInfos[i].index);
                                         gridLayerIndex = gridInfos[i].index;
+                                        has_breach_grids = true;
                                     }
                                 }
                             } else if (siteAttr["MULTI_SITE"] == 3) {
@@ -1606,6 +1637,7 @@ require([
                                     } else if (gridInfos[i].shortname == siteAttr.SHORT_NAME && gridInfos[i].gridid == gridLayerID+'b' && $('#aouCheckBox').prop('checked') == true) {
                                         gridLayerIndexArrColl.push(gridInfos[i].index);
                                         gridLayerIndex = gridInfos[i].index;
+                                        has_breach_grids = true;
                                     }
                                 }
                             }
@@ -1617,7 +1649,18 @@ require([
                             var gridVisLayer = [];
                             gridVisLayer.push(gridLayerIndexArrColl);
                             map.getLayer(gridLayer).setVisibleLayers(gridVisLayer);
-                            //map.getLayer(gridLayer).setVisibility(true);
+                            map.getLayer(gridLayer).setVisibility(true);
+                            $("#depth_grids_legend_title").show();
+                            if (has_breach_grids == true) {
+                                $("#aou_grids_legend_title").show();
+                            } else {
+                                $("#aou_grids_legend_title").hide();
+                                if (siteAttr["MULTI_SITE"] == 0 && $('#aouCheckBox').prop('checked') == true) {
+                                    map.getLayer('fimBreach').setVisibility(true)
+                                } else if ($('#aouCheckBox').prop('checked') == true) {
+                                    map.getLayer('fimBreachMulti').setVisibility(true);
+                                }
+                            }
 						}
                     }
                 });
@@ -1651,7 +1694,8 @@ require([
                         }
                         if (siteAttr["HAS_GRIDS"] == 1) {
                             gridLayerIndexArrColl = [];
-
+                            var has_breach_grids = false;
+                            
                             if (siteAttr["MULTI_SITE"] == 0) {
                                 for (var i=0; i < gridInfos.length; i++) {
                                     if (gridInfos[i].shortname == siteAttr.SHORT_NAME && Number(gridInfos[i].gridid) == results[$(".fts1 #floodSlider")[0].value].attributes["GRIDID"]) {
@@ -1660,6 +1704,7 @@ require([
                                     } else if (gridInfos[i].shortname == siteAttr.SHORT_NAME && gridInfos[i].gridid == results[$(".fts1 #floodSlider")[0].value].attributes["GRIDID"]+'b' && $('#aouCheckBox').prop('checked') == true) {
                                         gridLayerIndexArrColl.push(gridInfos[i].index);
                                         gridLayerIndex = gridInfos[i].index;
+                                        has_breach_grids = true;
                                     }
                                 }
                             } else if (siteAttr["MULTI_SITE"] == 1) {
@@ -1677,6 +1722,7 @@ require([
                                     } else if (gridInfos[i].shortname == siteAttr.SHORT_NAME && gridInfos[i].gridid == gridLayerID+'b' && $('#aouCheckBox').prop('checked') == true) {
                                         gridLayerIndexArrColl.push(gridInfos[i].index);
                                         gridLayerIndex = gridInfos[i].index;
+                                        has_breach_grids = true;
                                     }
                                 }
                             } else if (siteAttr["MULTI_SITE"] == 3) {
@@ -1694,6 +1740,7 @@ require([
                                     } else if (gridInfos[i].shortname == siteAttr.SHORT_NAME && gridInfos[i].gridid == gridLayerID+'b' && $('#aouCheckBox').prop('checked') == true) {
                                         gridLayerIndexArrColl.push(gridInfos[i].index);
                                         gridLayerIndex = gridInfos[i].index;
+                                        has_breach_grids = true;
                                     }
                                 }
                             }
@@ -1706,6 +1753,17 @@ require([
                             gridVisLayer.push(gridLayerIndexArrColl);
                             map.getLayer(gridLayer).setVisibleLayers(gridVisLayer);
                             map.getLayer(gridLayer).setVisibility(true);
+                            $("#depth_grids_legend_title").show();
+                            if (has_breach_grids == true) {
+                                $("#aou_grids_legend_title").show();
+                            } else {
+                                $("#aou_grids_legend_title").hide();
+                                if (siteAttr["MULTI_SITE"] == 0 && $('#aouCheckBox').prop('checked') == true) {
+                                    map.getLayer('fimBreach').setVisibility(true)
+                                } else if ($('#aouCheckBox').prop('checked') == true) {
+                                    map.getLayer('fimBreachMulti').setVisibility(true);
+                                }
+                            }
 						}
                     } else if (evt.currentTarget.checked == false) {
                         switch (siteAttr["MULTI_SITE"]) {
@@ -1726,6 +1784,8 @@ require([
                                 break;
                         }
                         map.getLayer('fimGrid' + siteAttr.GRID_SERV).setVisibility(false);
+                        $("#depth_grids_legend_title").hide();
+                        $("#aou_grids_legend_title").hide();
                     }
                 });
 
