@@ -217,7 +217,7 @@ require([
                         "layerType": "agisDynamic",
                         "includeInLayerList": false,
                         "hasOpacitySlider": false,
-                        "includeLegend" : true,
+                        "includeLegend" : false,
                         "legendLabel" : false
                     }
                 },
@@ -233,7 +233,7 @@ require([
                         "layerType": "agisDynamic",
                         "includeInLayerList": false,
                         "hasOpacitySlider": false,
-                        "includeLegend" : true,
+                        "includeLegend" : false,
                         "legendLabel" : false
                     }
                 },
@@ -249,7 +249,7 @@ require([
                         "layerType": "agisDynamic",
                         "includeInLayerList": false,
                         "hasOpacitySlider": false,
-                        "includeLegend" : true,
+                        "includeLegend" : false,
                         "legendLabel" : false
                     }
                 },
@@ -265,7 +265,7 @@ require([
                         "layerType": "agisDynamic",
                         "includeInLayerList": false,
                         "hasOpacitySlider": false,
-                        "includeLegend" : true,
+                        "includeLegend" : false,
                         "legendLabel" : false
                     }
                 }
