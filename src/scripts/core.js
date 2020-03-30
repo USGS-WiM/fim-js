@@ -1233,7 +1233,7 @@ require([
                                 var gridLayerID;
                                 $.each(gagePairs, function(index, value)
                                 {
-                                    if (value.STAGE_1 == gageValues[0].gageValue && value.STAGE_2 == gageValues2[0].gageValue) {
+                                    if (value.STAGE_1 == gageValues[$(".fts1 #floodSlider")[0].value].gageValue && value.STAGE_2 == gageValues2[$(".fts2 #floodSlider")[0].value].gageValue) {
                                         gridLayerID = value.GRIDID;
                                     }
                                 });
@@ -1251,7 +1251,7 @@ require([
                                 var gridLayerID;
                                 $.each(gagePairs, function(index, value)
                                 {
-                                    if (value.STAGE_1 == gageValues[0].gageValue && value.STAGE_2 == gageValues2[0].gageValue && value.STAGE_3 == gageValues3[0].gageValue) {
+                                    if (value.STAGE_1 == gageValues[$(".fts1 #floodSlider")[0].value].gageValue && value.STAGE_2 == gageValues2[$(".fts2 #floodSlider")[0].value].gageValue && value.STAGE_3 == gageValues3[$(".fts3 #floodSlider")[0].value].gageValue) {
                                         gridLayerID = value.GRIDID;
                                     }
                                 });
@@ -2481,7 +2481,7 @@ require([
                                     } else if (siteData.data[key].parameter_cd == "62614") {
                                         gageIndex = key;
                                         pcodeAbbr = "ngvd29";
-                                    } else if (siteData.data[key].parameter_cd == "62615") {
+                                    } else if (siteData.data[key].parameter_cd == "62615" && siteAttr["SITE_NO"] != "04295000") {
                                         gageIndex = key;
                                         pcodeAbbr = "navd88";
                                     }
@@ -2504,7 +2504,7 @@ require([
                                         hydroChartYAxisLabel = "Elevation (NGVD29)";
                                         break;
                                     case "navd88":
-                                        $("#sgl").text("Selected  elevation (NAVD88)");
+                                        $("#sgl").text("Selected elevation (NAVD88)");
                                         $("#currentValue").text("Elevation (NAVD88)");
                                         hydroChartYAxisLabel = "Elevation (NAVD88)";
                                         break;
