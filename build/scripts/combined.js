@@ -2085,18 +2085,6 @@ require([
 
                                         var formattedDate = dateFormat(valDate);
 
-                                        /*if (variable == "Discharge") {
-                                            $(".fts1 #floodDischarge").text(varValue);
-                                            if ($(".fts1 #floodDischarge").text().length == 0 || $(".fts1 #floodDischarge").text() == "-999999") {
-                                                $(".fts1 #floodDischarge").text("n/a");
-                                            }
-                                        } else if (variable == "Gage height") {
-                                            $(".fts1 #floodGage").text(varValue);
-                                            if ($(".fts1 #floodGage").text().length == 0 || $(".fts1 #floodGage").text() == "-999999") {
-                                                $(".fts1 #floodGage").text("n/a");
-                                            }
-                                        }*/
-
                                         var rtLabel = "";
                                         if (varValue == "-999999") {
                                             rtLabel = "<label class='paramLabel'>" + variable + ": <span style='font-weight: normal'>N/A</span></label>";
@@ -3013,30 +3001,35 @@ require([
                                         $(".ghselected").show();
                                         $("#sliderSelected").html("<small>Selected Gage Height:</small>");
                                         $("#currentValue").text("Gage Height");
+                                        $("#selectedElevValue").text("Elevation");
                                         hydroChartYAxisLabel = "Gage height";
                                         break;
                                     case "ngvd29_lake":
                                         $(".ghselected").hide();
-                                        $("#sliderSelected").html("<small>Selected Lake water level elevation:</small>");
+                                        $("#sliderSelected").html("<small>Selected Lake Water Level Elevation (NGVD29):</small>");
                                         $("#currentValue").text("Lake Water Level Elevation (NGVD29)");
+                                        $("#selectedElevValue").text("Lake Water Level Elevation (NGVD29)");
                                         hydroChartYAxisLabel = "Lake Water Level Elevation (NGVD29)";
                                         break;
                                     case "navd88_lake":
                                         $(".ghselected").hide();
-                                        $("#sliderSelected").html("<small>Selected lake water level elevation:</small>");
+                                        $("#sliderSelected").html("<small>Selected Lake Water Level Elevation (NAVD88):</small>");
                                         $("#currentValue").text("Lake Water Level Elevation (NAVD88)");
+                                        $("#selectedElevValue").text("Lake Water Level Elevation (NAVD88)");
                                         hydroChartYAxisLabel = "Lake Water Level Elevation (NAVD88)";
                                         break;
                                     case "navd88_stream":
                                         $(".ghselected").hide();
-                                        $("#sliderSelected").html("<small>Selected stream water level elevation:</small>");
+                                        $("#sliderSelected").html("<small>Selected Stream Water Level Elevation (NAVD88):</small>");
                                         $("#currentValue").text("Stream Water Level Elevation (NAVD88)");
+                                        $("#selectedElevValue").text("Stream Water Level Elevation (NAVD88)");
                                         hydroChartYAxisLabel = "Stream Water Level Elevation (NAVD88)";
                                         break;
                                     default:
                                         $(".ghselected").show();
                                         $("#sliderSelected").html("<small>Selected Gage Height:</small>");
                                         $("#currentValue").text("Gage Height");
+                                        $("#selectedElevValue").text("Elevation");
                                         hydroChartYAxisLabel = "Gage height";
                                 }
 
@@ -3109,8 +3102,8 @@ require([
                                 // ======================================================
                                 // ======================================================
                                 // Reset Vals
-                                $('#floodGage').text('n/a');
-                                $('#floodDischarge').text('n/a');
+                                $('#floodGage').text('N/A');
+                                $('#floodDischarge').text('N/A');
                                 // Site One
                                 if (finalNWISDataArray.length > 0) { 
                                     var val = finalNWISDataArray[finalNWISDataArray.length-1][1];
@@ -3123,9 +3116,9 @@ require([
                                 if (dischargeIndex != null && siteData.data[dischargeIndex].time_series_data.length > 0 && siteData.data[dischargeIndex].time_series_data[siteData.data[dischargeIndex].time_series_data.length-1][1] != null) {
                                     $('.fts1 #floodDischarge').text(siteData.data[dischargeIndex].time_series_data[siteData.data[dischargeIndex].time_series_data.length-1][1]);
                                 } else if (dischargeIndex != null && siteData.data[dischargeIndex].time_series_data.length > 0 ) {
-                                    $('.fts1 #floodDischarge').text('n/a (' + siteData.data[dischargeIndex].time_series_data[siteData.data[dischargeIndex].time_series_data.length-1][2] + ')');
+                                    $('.fts1 #floodDischarge').text('N/A (' + siteData.data[dischargeIndex].time_series_data[siteData.data[dischargeIndex].time_series_data.length-1][2] + ')');
                                 } else {
-                                    $('.fts1 #floodDischarge').text('n/a');
+                                    $('.fts1 #floodDischarge').text('N/A');
                                 }
                                 // Site Two
                                 if (finalNWISDataArray2.length > 0) { 
@@ -3139,9 +3132,9 @@ require([
                                 if (dischargeIndex2 != null && siteData2 && siteData2.data[dischargeIndex2].time_series_data.length > 0 && siteData2.data[dischargeIndex2].time_series_data[siteData2.data[dischargeIndex2].time_series_data.length-1][1] != null) {
                                     $('.fts2 #floodDischarge').text(siteData2.data[dischargeIndex2].time_series_data[siteData2.data[dischargeIndex2].time_series_data.length-1][1]);
                                 } else if (dischargeIndex2 != null && siteData2 && siteData2.data[dischargeIndex2].time_series_data.length > 0 && siteData2.data[dischargeIndex2].time_series_data[siteData2.data[dischargeIndex2].time_series_data.length-1].length > 2) {
-                                    $('.fts2 #floodDischarge').text('n/a (' + siteData2.data[dischargeIndex2].time_series_data[siteData2.data[dischargeIndex2].time_series_data.length-1][2] + ')');
+                                    $('.fts2 #floodDischarge').text('N/A (' + siteData2.data[dischargeIndex2].time_series_data[siteData2.data[dischargeIndex2].time_series_data.length-1][2] + ')');
                                 } else {
-                                    $('.fts2 #floodDischarge').text('n/a');
+                                    $('.fts2 #floodDischarge').text('N/A');
                                 }
                                 // Site Three
                                 if (finalNWISDataArray3.length > 0) { 
@@ -3155,9 +3148,9 @@ require([
                                 if (dischargeIndex3 != null && siteData3 && siteData3.data[dischargeIndex3].time_series_data.length > 0 && siteData3.data[dischargeIndex3].time_series_data[siteData3.data[dischargeIndex3].time_series_data.length-1][1] != null) {
                                     $('.fts3 #floodDischarge').text(siteData3.data[dischargeIndex3].time_series_data[siteData3.data[dischargeIndex3].time_series_data.length-1][1]);
                                 } else if (dischargeIndex3 != null && siteData3 && siteData3.data[dischargeIndex3].time_series_data.length > 0 && siteData3.data[dischargeIndex3].time_series_data[siteData3.data[dischargeIndex3].time_series_data.length-1].length > 2) {
-                                    $('.fts3 #floodDischarge').text('n/a (' + siteData3.data[dischargeIndex3].time_series_data[siteData3.data[dischargeIndex3].time_series_data.length-1][2] + ')');
+                                    $('.fts3 #floodDischarge').text('N/A (' + siteData3.data[dischargeIndex3].time_series_data[siteData3.data[dischargeIndex3].time_series_data.length-1][2] + ')');
                                 } else {
-                                    $('.fts3 #floodDischarge').text('n/a');
+                                    $('.fts3 #floodDischarge').text('N/A');
                                 }
 
                                 if (nwsData2[0].children && nwsData2[0].children[0].children[0].textContent != "no nws data") { 
