@@ -930,7 +930,7 @@ if (window.document.documentMode) {
 
 								<!-- Selected Gage Heights -->
 								<div class="ft-options-row">
-									<small>Selected Gage Height:</small>
+									<div id="sliderSelected"><small>Selected Gage Height:</small></div>
 									<div class="ft-options-flex">
 										<!-- Site One -->
 										<div id="optionData" class="fts1">
@@ -1093,23 +1093,23 @@ if (window.document.documentMode) {
                                 <!-- Selected Conditions Table -->
                                 <div class="small-label">Selected Conditions</div>
                                 <div class="tools-table">
-									<!-- Site No -->
-									<div class="box bold">Gage Height</div>
-									<div class="box fts1"><label class="value label-ft slider-min update"></label></div>
+									<!-- Gage Height -->
+									<div class="box bold ghselected">Gage Height</div>
+									<div class="box fts1 ghselected"><label class="value label-ft slider-min update"></label></div>
 									<div class="box fts2"><label class="value label-ft slider-min update"></label></div>
 									<div class="box fts3"><label class="value label-ft slider-min update"></label></div>
-									<div class="tools-table-space"></div>
+									<div class="tools-table-space ghselected"></div>
+                                    <!-- Elevation -->
+                                    <div id="selectedElevValue" class="box bold">Elevation</div>
+                                    <div class="box fts1"><label class="label-ft elevation-selected"></label></div>
+                                    <div class="box fts2"><label class="label-ft elevation-selected"></label></div>
+                                    <div class="box fts3"><label class="label-ft elevation-selected"></label></div>
+                                    <div class="tools-table-space"></div>
                                     <!-- Discharge -->
                                     <div class="box bold">Discharge</div>
                                     <div class="box fts1"><label class="label-cfs flood-discharge-selected"></label></div>
                                     <div class="box fts2"><label class="label-cfs flood-discharge-selected"></label></div>
                                     <div class="box fts3"><label class="label-cfs flood-discharge-selected"></label></div>
-                                    <div class="tools-table-space"></div>
-                                    <!-- Site ID -->
-                                    <div class="box bold">Elevation</div>
-                                    <div class="box fts1"><label class="label-ft elevation-selected"></label></div>
-                                    <div class="box fts2"><label class="label-ft elevation-selected"></label></div>
-                                    <div class="box fts3"><label class="label-ft elevation-selected"></label></div>
                                 </div>
 
                                 <!-- Zoom -->

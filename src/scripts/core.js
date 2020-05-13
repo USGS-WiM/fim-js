@@ -42,6 +42,9 @@ var siteNo_3;
 var ahpsID;
 var ahpsID_2;
 var ahpsID_3;
+var pcode;
+var pcode_2;
+var pcode_3;
 
 var fimSiteAHPSLookup = [];
 
@@ -895,11 +898,52 @@ require([
                 var attr = feature.attributes;
                 siteAttr = attr;
 
+                function getPCODE(siteno) {
+                    var pcode;
+
+                    var allSites = map.getLayer("fimSites").graphics;
+
+                    $.each(allSites, function(index, site) {
+                        if (site.attributes.SITE_NO == siteno) {
+                            pcode = site.attributes.PCODE;
+                        }
+                    });
+
+                    return pcode;
+                }
+
                 if (sites && sites.features.length > 1) {
                     siteNo_2 = null;
                     siteNo_3 = null;
                     ahpsID_2 = null;
                     ahpsID_3 = null;
+                    pcode_2 = null;
+                    pcode_3 = null;
+
+
+                    // need to find way to find and assign PCODE for all three sites
+                    //
+                    //
+                    //
+                    //
+                    //
+                    /*
+
+
+                            lk;hj   lkjhk;h;
+                            ;ajsdlkjfa;sd
+                            g
+                            arg;ilas;dgjhs;ldkfgjs
+                            dfga
+                            sdjg;aljhg;alkdfjga
+                            sdga'dfhgalk;dhfg;lsjhdfg
+                            asdghwekhek;rqhwerkjhqeglhasd
+                            g
+                            df'tr'lwejg'werigj
+
+
+
+                    */
                     for (var i=0; i<sites.features.length; i++) {
                         if (sites.features[i].attributes.ordinal == 1) {
                             siteNo = sites.features[i].attributes.site_no;
@@ -912,6 +956,8 @@ require([
                             if (siteObj && siteObj[0] && siteObj[0].ahps_id) {
                                 ahpsID = siteObj[0].ahps_id;
                             }
+                            pcode = getPCODE(siteNo);
+                            //pcode = "00060";
                         } else if (sites.features[i].attributes.ordinal == 2) {
                             siteNo_2 = sites.features[i].attributes.site_no;
                             if (siteNo_2.toString().length == 7) { 
@@ -922,7 +968,9 @@ require([
                             var siteObj = fimSiteAHPSLookup.filter(obj => { return obj.site_no === siteNo_2 });
                             if (siteObj && siteObj[0] && siteObj[0].ahps_id) {
                                 ahpsID_2 = siteObj[0].ahps_id;
-							}
+                            }
+                            pcode_2 = getPCODE(siteNo_2);
+                            //pcode_2 = "00060";
                         } else if (sites.features[i].attributes.ordinal == 3) {
                             siteNo_3 = sites.features[i].attributes.site_no;
                             if (siteNo_3.toString().length == 7) { 
@@ -934,11 +982,14 @@ require([
                             if (siteObj && siteObj[0] && siteObj[0].ahps_id) {
                                 ahpsID_3 = siteObj[0].ahps_id;
                             }
+                            pcode_3 = getPCODE(siteNo_3);
+                            //pcode_3 = "00060";
                         }
                     }
 
                 } else {
                     siteNo = siteAttr["SITE_NO"];
+                    pcode = siteAttr["PCODE"];
                     siteNo_2 = null;
                     siteNo_3 = null;
                     ahpsID_2 = null;
@@ -1233,7 +1284,7 @@ require([
                                 var gridLayerID;
                                 $.each(gagePairs, function(index, value)
                                 {
-                                    if (value.STAGE_1 == gageValues[0].gageValue && value.STAGE_2 == gageValues2[0].gageValue) {
+                                    if (value.STAGE_1 == gageValues[$(".fts1 #floodSlider")[0].value].gageValue && value.STAGE_2 == gageValues2[$(".fts2 #floodSlider")[0].value].gageValue) {
                                         gridLayerID = value.GRIDID;
                                     }
                                 });
@@ -1251,7 +1302,7 @@ require([
                                 var gridLayerID;
                                 $.each(gagePairs, function(index, value)
                                 {
-                                    if (value.STAGE_1 == gageValues[0].gageValue && value.STAGE_2 == gageValues2[0].gageValue && value.STAGE_3 == gageValues3[0].gageValue) {
+                                    if (value.STAGE_1 == gageValues[$(".fts1 #floodSlider")[0].value].gageValue && value.STAGE_2 == gageValues2[$(".fts2 #floodSlider")[0].value].gageValue && value.STAGE_3 == gageValues3[$(".fts3 #floodSlider")[0].value].gageValue) {
                                         gridLayerID = value.GRIDID;
                                     }
                                 });
@@ -1556,18 +1607,6 @@ require([
 
                                         var formattedDate = dateFormat(valDate);
 
-                                        /*if (variable == "Discharge") {
-                                            $(".fts1 #floodDischarge").text(varValue);
-                                            if ($(".fts1 #floodDischarge").text().length == 0 || $(".fts1 #floodDischarge").text() == "-999999") {
-                                                $(".fts1 #floodDischarge").text("n/a");
-                                            }
-                                        } else if (variable == "Gage height") {
-                                            $(".fts1 #floodGage").text(varValue);
-                                            if ($(".fts1 #floodGage").text().length == 0 || $(".fts1 #floodGage").text() == "-999999") {
-                                                $(".fts1 #floodGage").text("n/a");
-                                            }
-                                        }*/
-
                                         var rtLabel = "";
                                         if (varValue == "-999999") {
                                             rtLabel = "<label class='paramLabel'>" + variable + ": <span style='font-weight: normal'>N/A</span></label>";
@@ -1610,34 +1649,14 @@ require([
                         console.log("Error processing the JSON. The error is:" + error);
                     }
                 });
-
-                //variable to putting together sites for nwis call
-                //probably no longer needed
-                /*var nwisSites;
-                if (siteAttr.MULTI_SITE == 0) {
-                    nwisSites = siteNo;
-                } else {
-                    nwisSites = sites.features.map(e => siteNoFix(e.attributes.site_no)).join(',');
-                }
-
-                function siteNoFix(site_no) {
-                    var siteno;
-                    
-                    if (site_no.toString().length == 7) {
-                        siteno = "0" + site_no;
-                    } else {
-                        siteno = site_no;
-                    }
-
-                    return siteno;
-                }*/
-
+                
                 //call for observed (NWIS) hydro data
                 var nwisCall = $.ajax({
                     dataType: 'text',
                     type: 'GET',
                     //url: proxyUrl + "site_no="+siteNo+"&hydroGet=true",
-                    url: nwisUrl + siteNo,//siteNo + "," + siteNo_2,
+                    //url: nwisUrl + siteNo,//siteNo + "," + siteNo_2,
+                    url: nwisUrl + "&parameterCd=" + pcode + ",00060&sites=" + siteNo,//siteNo + "," + siteNo_2,
                     headers: {'Accept': '*/*'}
                 });
                 
@@ -1653,11 +1672,13 @@ require([
                     type: 'GET',
                     //url: proxyUrl + "site_no="+siteNo+"&hydroGet=true",
                     url: '.',//siteNo + "," + siteNo_2,
+                    //url: nwisUrl + "&parameterCd=" + pcode_2 + ",00065&sites=" + siteNo,//siteNo + "," + siteNo_2,
                     headers: {'Accept': '*/*'}
                 }
 
                 if (siteNo_2 != undefined) {
-                    nwisCall2Details.url = nwisUrl + siteNo_2//siteNo + "," + siteNo_2,
+                    //nwisCall2Details.url = nwisUrl + siteNo_2//siteNo + "," + siteNo_2,
+                    nwisCall2Details.url = nwisUrl + "&parameterCd=" + pcode_2 + ",00060&sites=" + siteNo_2//siteNo + "," + siteNo_2,
                 }
                 var nwisCall2 = $.ajax(nwisCall2Details);
 
@@ -1675,15 +1696,17 @@ require([
                 var nwsCall2 = $.ajax(nwsCall2Details);
 
                 var nwisCall3Details = {
-                        dataType: 'text',
-                        type: 'GET',
-                        //url: proxyUrl + "site_no="+siteNo+"&hydroGet=true",
-                        url: '.',//siteNo + "," + siteNo_2,
-                        headers: {'Accept': '*/*'}
-                    }
+                    dataType: 'text',
+                    type: 'GET',
+                    //url: proxyUrl + "site_no="+siteNo+"&hydroGet=true",
+                    url: '.',//siteNo + "," + siteNo_2,
+                    //url: nwisUrl + "&parameterCd=" + pcode_3 + ",00065&sites=" + siteNo,//siteNo + "," + siteNo_2,
+                    headers: {'Accept': '*/*'}
+                }
 
                 if (siteNo_3 != undefined) {
-                    nwisCall3Details.url = nwisUrl + siteNo_3//siteNo + "," + siteNo_2,
+                    //nwisCall3Details.url = nwisUrl + siteNo_3//siteNo + "," + siteNo_2,
+                    nwisCall3Details.url = nwisUrl + "&parameterCd=" + pcode_3 + ",00060&sites=" + siteNo_3//siteNo + "," + siteNo_2,
                 }
                 var nwisCall3 = $.ajax(nwisCall3Details);
 
@@ -2480,10 +2503,13 @@ require([
                                         dischargeIndex = key;
                                     } else if (siteData.data[key].parameter_cd == "62614") {
                                         gageIndex = key;
-                                        pcodeAbbr = "ngvd29";
+                                        pcodeAbbr = "ngvd29_lake";
                                     } else if (siteData.data[key].parameter_cd == "62615") {
                                         gageIndex = key;
-                                        pcodeAbbr = "navd88";
+                                        pcodeAbbr = "navd88_lake";
+                                    } else if (siteData.data[key].parameter_cd == "63160") {
+                                        gageIndex = key;
+                                        pcodeAbbr = "navd88_stream";
                                     }
                                 });
                                 
@@ -2494,23 +2520,38 @@ require([
                                 // Adjust labels for value changed by slider here
                                 switch (pcodeAbbr) {
                                     case "gh":
-                                        $("#sgl").text("Selected gage height");
+                                        $(".ghselected").show();
+                                        $("#sliderSelected").html("<small>Selected Gage Height:</small>");
                                         $("#currentValue").text("Gage Height");
+                                        $("#selectedElevValue").text("Elevation");
                                         hydroChartYAxisLabel = "Gage height";
                                         break;
-                                    case "ngvd29":
-                                        $("#sgl").text("Selected elevation (NGVD29)");
-                                        $("#currentValue").text("Elevation (NGVD29)");
-                                        hydroChartYAxisLabel = "Elevation (NGVD29)";
+                                    case "ngvd29_lake":
+                                        $(".ghselected").hide();
+                                        $("#sliderSelected").html("<small>Selected Lake Water Level Elevation (NGVD29):</small>");
+                                        $("#currentValue").text("Lake Water Level Elevation (NGVD29)");
+                                        $("#selectedElevValue").text("Lake Water Level Elevation (NGVD29)");
+                                        hydroChartYAxisLabel = "Lake Water Level Elevation (NGVD29)";
                                         break;
-                                    case "navd88":
-                                        $("#sgl").text("Selected  elevation (NAVD88)");
-                                        $("#currentValue").text("Elevation (NAVD88)");
-                                        hydroChartYAxisLabel = "Elevation (NAVD88)";
+                                    case "navd88_lake":
+                                        $(".ghselected").hide();
+                                        $("#sliderSelected").html("<small>Selected Lake Water Level Elevation (NAVD88):</small>");
+                                        $("#currentValue").text("Lake Water Level Elevation (NAVD88)");
+                                        $("#selectedElevValue").text("Lake Water Level Elevation (NAVD88)");
+                                        hydroChartYAxisLabel = "Lake Water Level Elevation (NAVD88)";
+                                        break;
+                                    case "navd88_stream":
+                                        $(".ghselected").hide();
+                                        $("#sliderSelected").html("<small>Selected Stream Water Level Elevation (NAVD88):</small>");
+                                        $("#currentValue").text("Stream Water Level Elevation (NAVD88)");
+                                        $("#selectedElevValue").text("Stream Water Level Elevation (NAVD88)");
+                                        hydroChartYAxisLabel = "Stream Water Level Elevation (NAVD88)";
                                         break;
                                     default:
-                                        $("#sgl").text("Selected gage height");
+                                        $(".ghselected").show();
+                                        $("#sliderSelected").html("<small>Selected Gage Height:</small>");
                                         $("#currentValue").text("Gage Height");
+                                        $("#selectedElevValue").text("Elevation");
                                         hydroChartYAxisLabel = "Gage height";
                                 }
 
@@ -2583,8 +2624,8 @@ require([
                                 // ======================================================
                                 // ======================================================
                                 // Reset Vals
-                                $('#floodGage').text('n/a');
-                                $('#floodDischarge').text('n/a');
+                                $('#floodGage').text('N/A');
+                                $('#floodDischarge').text('N/A');
                                 // Site One
                                 if (finalNWISDataArray.length > 0) { 
                                     var val = finalNWISDataArray[finalNWISDataArray.length-1][1];
@@ -2597,9 +2638,9 @@ require([
                                 if (dischargeIndex != null && siteData.data[dischargeIndex].time_series_data.length > 0 && siteData.data[dischargeIndex].time_series_data[siteData.data[dischargeIndex].time_series_data.length-1][1] != null) {
                                     $('.fts1 #floodDischarge').text(siteData.data[dischargeIndex].time_series_data[siteData.data[dischargeIndex].time_series_data.length-1][1]);
                                 } else if (dischargeIndex != null && siteData.data[dischargeIndex].time_series_data.length > 0 ) {
-                                    $('.fts1 #floodDischarge').text('n/a (' + siteData.data[dischargeIndex].time_series_data[siteData.data[dischargeIndex].time_series_data.length-1][2] + ')');
+                                    $('.fts1 #floodDischarge').text('N/A (' + siteData.data[dischargeIndex].time_series_data[siteData.data[dischargeIndex].time_series_data.length-1][2] + ')');
                                 } else {
-                                    $('.fts1 #floodDischarge').text('n/a');
+                                    $('.fts1 #floodDischarge').text('N/A');
                                 }
                                 // Site Two
                                 if (finalNWISDataArray2.length > 0) { 
@@ -2613,9 +2654,9 @@ require([
                                 if (dischargeIndex2 != null && siteData2 && siteData2.data[dischargeIndex2].time_series_data.length > 0 && siteData2.data[dischargeIndex2].time_series_data[siteData2.data[dischargeIndex2].time_series_data.length-1][1] != null) {
                                     $('.fts2 #floodDischarge').text(siteData2.data[dischargeIndex2].time_series_data[siteData2.data[dischargeIndex2].time_series_data.length-1][1]);
                                 } else if (dischargeIndex2 != null && siteData2 && siteData2.data[dischargeIndex2].time_series_data.length > 0 && siteData2.data[dischargeIndex2].time_series_data[siteData2.data[dischargeIndex2].time_series_data.length-1].length > 2) {
-                                    $('.fts2 #floodDischarge').text('n/a (' + siteData2.data[dischargeIndex2].time_series_data[siteData2.data[dischargeIndex2].time_series_data.length-1][2] + ')');
+                                    $('.fts2 #floodDischarge').text('N/A (' + siteData2.data[dischargeIndex2].time_series_data[siteData2.data[dischargeIndex2].time_series_data.length-1][2] + ')');
                                 } else {
-                                    $('.fts2 #floodDischarge').text('n/a');
+                                    $('.fts2 #floodDischarge').text('N/A');
                                 }
                                 // Site Three
                                 if (finalNWISDataArray3.length > 0) { 
@@ -2629,9 +2670,9 @@ require([
                                 if (dischargeIndex3 != null && siteData3 && siteData3.data[dischargeIndex3].time_series_data.length > 0 && siteData3.data[dischargeIndex3].time_series_data[siteData3.data[dischargeIndex3].time_series_data.length-1][1] != null) {
                                     $('.fts3 #floodDischarge').text(siteData3.data[dischargeIndex3].time_series_data[siteData3.data[dischargeIndex3].time_series_data.length-1][1]);
                                 } else if (dischargeIndex3 != null && siteData3 && siteData3.data[dischargeIndex3].time_series_data.length > 0 && siteData3.data[dischargeIndex3].time_series_data[siteData3.data[dischargeIndex3].time_series_data.length-1].length > 2) {
-                                    $('.fts3 #floodDischarge').text('n/a (' + siteData3.data[dischargeIndex3].time_series_data[siteData3.data[dischargeIndex3].time_series_data.length-1][2] + ')');
+                                    $('.fts3 #floodDischarge').text('N/A (' + siteData3.data[dischargeIndex3].time_series_data[siteData3.data[dischargeIndex3].time_series_data.length-1][2] + ')');
                                 } else {
-                                    $('.fts3 #floodDischarge').text('n/a');
+                                    $('.fts3 #floodDischarge').text('N/A');
                                 }
 
                                 if (nwsData2[0].children && nwsData2[0].children[0].children[0].textContent != "no nws data") { 
@@ -3171,18 +3212,35 @@ require([
 
                                     //Calculate the minimum value for y-axis to find negative values. Use 0 if no negative values
                                     var yMin = 0;
+                                    var lowestVal;
 
                                     $.each(finalNWISDataArray, function(key, value) {
+                                        //Code to determine yMin value if under zero
                                         if (value[1] < 0 && value[1] < yMin) {
                                             yMin = value[1];
+                                        }
+                                        //Code to determine smallest value on the hydrograph
+                                        if (key == 0) {
+                                            lowestVal = value[1];
+                                        } else if (value[1] < lowestVal) {
+                                            lowestVal = value[1];
                                         }
                                     });
 
                                     $.each(finalNWSDataArray, function(key, value) {
-                                         if (value[1] < 0 && value[1] < yMin) {
+                                        if (value[1] < 0 && value[1] < yMin) {
                                             yMin = value[1];
                                         }
+                                        if (key == 0) {
+                                            lowestVal = value[1];
+                                        } else if (value[1] < lowestVal) {
+                                            lowestVal = value[1];
+                                        }
                                     });
+
+                                    if (lowestVal > 10) {
+                                        yMin = lowestVal - (lowestVal % 10);
+                                    }
 
                                     opts.chart = {
                                         type: 'line',
