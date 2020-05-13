@@ -2168,7 +2168,7 @@ require([
 
                 if (siteNo_2 != undefined) {
                     //nwisCall2Details.url = nwisUrl + siteNo_2//siteNo + "," + siteNo_2,
-                    nwisCall2Details.url = nwisUrl + "&parameterCd=" + pcode_2 + ",00065&sites=" + siteNo_2//siteNo + "," + siteNo_2,
+                    nwisCall2Details.url = nwisUrl + "&parameterCd=" + pcode_2 + ",00060&sites=" + siteNo_2//siteNo + "," + siteNo_2,
                 }
                 var nwisCall2 = $.ajax(nwisCall2Details);
 
@@ -2196,7 +2196,7 @@ require([
 
                 if (siteNo_3 != undefined) {
                     //nwisCall3Details.url = nwisUrl + siteNo_3//siteNo + "," + siteNo_2,
-                    nwisCall3Details.url = nwisUrl + "&parameterCd=" + pcode_3 + ",00065&sites=" + siteNo_3//siteNo + "," + siteNo_2,
+                    nwisCall3Details.url = nwisUrl + "&parameterCd=" + pcode_3 + ",00060&sites=" + siteNo_3//siteNo + "," + siteNo_2,
                 }
                 var nwisCall3 = $.ajax(nwisCall3Details);
 
@@ -3010,32 +3010,32 @@ require([
                                 // Adjust labels for value changed by slider here
                                 switch (pcodeAbbr) {
                                     case "gh":
+                                        $(".ghselected").show();
                                         $("#sliderSelected").html("<small>Selected Gage Height:</small>");
-                                        $("#sgl").text("Selected gage height");
                                         $("#currentValue").text("Gage Height");
                                         hydroChartYAxisLabel = "Gage height";
                                         break;
                                     case "ngvd29_lake":
-                                        $("#sliderSelected").html("<small>Selected lake water level elevation:</small>");
-                                        $("#sgl").text("Selected Lake Water Level Elevation (NGVD29)");
-                                        $("#currentValue").text("Selected Lake Water Level Elevation (NGVD29)");
-                                        hydroChartYAxisLabel = "Selected Lake Water Level Elevation (NGVD29)";
+                                        $(".ghselected").hide();
+                                        $("#sliderSelected").html("<small>Selected Lake water level elevation:</small>");
+                                        $("#currentValue").text("Lake Water Level Elevation (NGVD29)");
+                                        hydroChartYAxisLabel = "Lake Water Level Elevation (NGVD29)";
                                         break;
                                     case "navd88_lake":
+                                        $(".ghselected").hide();
                                         $("#sliderSelected").html("<small>Selected lake water level elevation:</small>");
-                                        $("#sgl").text("Selected elevation (NAVD88)");
-                                        $("#currentValue").text("Elevation (NAVD88)");
-                                        hydroChartYAxisLabel = "Elevation (NAVD88)";
+                                        $("#currentValue").text("Lake Water Level Elevation (NAVD88)");
+                                        hydroChartYAxisLabel = "Lake Water Level Elevation (NAVD88)";
                                         break;
                                     case "navd88_stream":
+                                        $(".ghselected").hide();
                                         $("#sliderSelected").html("<small>Selected stream water level elevation:</small>");
-                                        $("#sgl").text("Selected Lake Water Level Elevation (NAVD88)");
-                                        $("#currentValue").text("Selected Lake Water Level Elevation (NAVD88)");
-                                        hydroChartYAxisLabel = "Selected Lake Water Level Elevation (NAVD88)";
+                                        $("#currentValue").text("Stream Water Level Elevation (NAVD88)");
+                                        hydroChartYAxisLabel = "Stream Water Level Elevation (NAVD88)";
                                         break;
                                     default:
+                                        $(".ghselected").show();
                                         $("#sliderSelected").html("<small>Selected Gage Height:</small>");
-                                        $("#sgl").text("Selected gage height");
                                         $("#currentValue").text("Gage Height");
                                         hydroChartYAxisLabel = "Gage height";
                                 }
