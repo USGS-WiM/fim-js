@@ -2001,7 +2001,17 @@ require([
                     success: function (data) {
 
                         if (data.features && data.features.length > 0) {
-                            $("#moreInfo").text(data.features[0].attributes.ADD_INFO);
+                            $("#moreInfo").text("");
+                            var moreInfoArray = data.features[0].attributes.ADD_INFO.split("\n");
+                            if (moreInfoArray.length > 0) {
+                                $.each(moreInfoArray, function(index, value) {
+                                    if (value.length > 0) {
+                                        $("#moreInfo").append("<p>" + value + "</p>");
+                                    }
+                                });
+                            } else {
+                                $("#moreInfo").append(data.features[0].attributes.ADD_INFO);
+                            }                      
                             $(".ft-more-info-tab").show();
                         } else {
                             $("#moreInfo").text("Loading...");
