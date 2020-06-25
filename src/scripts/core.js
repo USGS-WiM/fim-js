@@ -45,6 +45,7 @@ var ahpsID_3;
 var pcode;
 var pcode_2;
 var pcode_3;
+var pcodeAbbr;
 
 var fimSiteAHPSLookup = [];
 
@@ -1016,6 +1017,10 @@ require([
                 gageValues2 = [];
                 gageValues3 = [];
                 gagePairs = [];
+
+                altitudeValues = [];
+                altitudeValues2 = [];
+                altitudeValues3 = [];
 
                 map.getLayer("fimExtents").setVisibility(false);
                 map.getLayer("fimExtentsMulti").setVisibility(false);
@@ -1996,7 +2001,8 @@ require([
                             if (results != null) {
                                 if (siteAttr["MULTI_SITE"] == 0) {
 									// Update Values
-									$(".fts1 .slider-min.update").text(results[this.value].attributes["STAGE"]);
+                                    $(".fts1 .slider-min.update").text(results[this.value].attributes["STAGE"]);
+                                    $(".fts1 .slider-elev.update").text(results[this.value].attributes["ELEV"].toFixed(2) || "N/A");
 									$(".fts1 .elevation-selected").text(results[this.value].attributes["ELEV"].toFixed(2) || "N/A");
 									$(".fts1 .flood-discharge-selected").text(results[this.value].attributes["QCFS"] || "N/A");	
 				
@@ -2040,13 +2046,15 @@ require([
                                 } else if (siteAttr["MULTI_SITE"] == 1) {
                                     if ($(this).hasClass('first-slider')) {
 										$(".fts1 .slider-min.update").text(gageValues[this.value].gageValue);
-										$(".fts1 .elevation-selected").text(altitudeValues[this.value].altitudeValue || "N/A");
+										$(".fts1 .slider-elev.update").text(altitudeValues[this.value].altitudeValue || "N/A");
+									    $(".fts1 .elevation-selected").text(altitudeValues[this.value].altitudeValue || "N/A");
 										if (typeof dischargeValues[this.value] !== 'undefined'){
 											$(".fts1 .flood-discharge-selected").text(dischargeValues[this.value].dischargeValue || "N/A");
                                         }
                                     } else if ($(this).hasClass('second-slider')) {
 										$(".fts2 .slider-min.update").text(gageValues2[this.value].gageValue);
-										$(".fts2 .elevation-selected").text(altitudeValues2[this.value].altitudeValue || "N/A");
+										$(".fts2 .slider-elev.update").text(altitudeValues2[this.value].altitudeValue || "N/A");
+									    $(".fts2 .elevation-selected").text(altitudeValues2[this.value].altitudeValue || "N/A");
 										if (typeof dischargeValues2[this.value] !== 'undefined'){
 											$(".fts2 .flood-discharge-selected").text(dischargeValues2[this.value].dischargeValue || "N/A");
 										}
@@ -2072,7 +2080,8 @@ require([
 													$(".fts2 #floodSlider")[0].value = i;
 													//slideWarningShow();
 													$(".fts2 .slider-min.update").text(gageValues2[$(".fts2 #floodSlider")[0].value].gageValue);
-													$(".fts2 .elevation-selected").text(altitudeValues2[$(".fts2 #floodSlider")[0].value].altitudeValue || "N/A");
+													$(".fts2 .slider-elev.update").text(altitudeValues2[$(".fts2 #floodSlider")[0].value].altitudeValue || "N/A");
+									                $(".fts2 .elevation-selected").text(altitudeValues2[$(".fts2 #floodSlider")[0].value].altitudeValue || "N/A");
 													$(".fts2 .flood-discharge-selected").text(dischargeValues2[$(".fts2 #floodSlider")[0].value].dischargeValue || "N/A");
 
                                                     break;
@@ -2083,7 +2092,8 @@ require([
                                                 if (gageValues2[i].gageValue == parseFloat(tempPairValue[tempPairValue.length-1].pairStage)) {
 													$(".fts2 #floodSlider")[0].value = i;
 													$(".fts2 .slider-min.update").text(gageValues2[$(".fts2 #floodSlider")[0].value].gageValue);
-													$(".fts2 .elevation-selected").text(altitudeValues2[$(".fts2 #floodSlider")[0].value].altitudeValue || "N/A");
+													$(".fts2 .slider-elev.update").text(altitudeValues2[$(".fts2 #floodSlider")[0].value].altitudeValue || "N/A");
+									                $(".fts2 .elevation-selected").text(altitudeValues2[$(".fts2 #floodSlider")[0].value].altitudeValue || "N/A");
                                                     if (dischargeValues2[$(".fts2 #floodSlider")[0].value] != undefined) {
                                                         $(".fts2 .flood-discharge-selected").text(dischargeValues2[$(".fts2 #floodSlider")[0].value].dischargeValue || "N/A");
                                                     }
@@ -2110,7 +2120,8 @@ require([
 													$(".fts1 #floodSlider")[0].value = i;
 													// Update current slider value
 													$(".fts1 .slider-min.update").text(gageValues[$(".fts1 #floodSlider")[0].value].gageValue);
-													$(".fts1 .elevation-selected").text(altitudeValues[$(".fts1 #floodSlider")[0].value].altitudeValue || "N/A");
+													$(".fts1 .slider-elev.update").text(altitudeValues[$(".fts1 #floodSlider")[0].value].altitudeValue || "N/A");
+									                $(".fts1 .elevation-selected").text(altitudeValues[$(".fts1 #floodSlider")[0].value].altitudeValue || "N/A");
 													
 													if (typeof dischargeValues[$(".fts1 #floodSlider")[0].value] !== 'undefined'){
 														$(".fts1 .flood-discharge-selected").text(dischargeValues[$(".fts1 #floodSlider")[0].value].dischargeValue);
@@ -2127,7 +2138,8 @@ require([
 													$(".fts1 #floodSlider")[0].value = i;
 													// Update current slider value
 													$(".fts1 .slider-min.update").text(gageValues[$(".fts1 #floodSlider")[0].value].gageValue);
-													$(".fts1 .elevation-selected").text(altitudeValues[$(".fts1 #floodSlider")[0].value].altitudeValue || "N/A");
+													$(".fts1 .slider-elev.update").text(altitudeValues[$(".fts1 #floodSlider")[0].value].altitudeValue || "N/A");
+									                $(".fts1 .elevation-selected").text(altitudeValues[$(".fts1 #floodSlider")[0].value].altitudeValue || "N/A");
 													
 													if (typeof dischargeValues[$(".fts1 #floodSlider")[0].value] !== 'undefined'){
 														$(".fts1 .flood-discharge-selected").text(dischargeValues[$(".fts1 #floodSlider")[0].value].dischargeValue);
@@ -2176,17 +2188,20 @@ require([
 
                                     if ($(this).hasClass('first-slider')) {
 										$(".fts1 .slider-min.update").text(gageValues[this.value].gageValue);
-										$(".fts1 .elevation-selected").text(altitudeValues[this.value].altitudeValue || "N/A");
+										$(".fts1 .slider-elev.update").text(altitudeValues[this.value].altitudeValue || "N/A");
+									    $(".fts1 .elevation-selected").text(altitudeValues[this.value].altitudeValue || "N/A");
 										$(".fts1 .flood-discharge-selected").text(dischargeValues[this.value].dischargeValue || "N/A");
 										
 									} else if ($(this).hasClass('second-slider')) {
 										$(".fts2 .slider-min.update").text(gageValues2[this.value].gageValue);
-										$(".fts2 .elevation-selected").text(altitudeValues2[this.value].altitudeValue || "N/A");
+										$(".fts2 .slider-elev.update").text(altitudeValues2[this.value].altitudeValue || "N/A");
+									    $(".fts2 .elevation-selected").text(altitudeValues2[this.value].altitudeValue || "N/A");
 										$(".fts2 .flood-discharge-selected").text(dischargeValues2[this.value].dischargeValue || "N/A");
 										
                                     } else if ($(this).hasClass('third-slider')) {
 										$(".fts3 .slider-min.update").text(gageValues3[this.value].gageValue);
-										$(".fts3 .elevation-selected").text(altitudeValues3[this.value].altitudeValue || "N/A");
+										$(".fts3 .slider-elev.update").text(altitudeValues3[this.value].altitudeValue || "N/A");
+									    $(".fts3 .elevation-selected").text(altitudeValues3[this.value].altitudeValue || "N/A");
 										$(".fts3 .flood-discharge-selected").text(dischargeValues3[this.value].dischargeValue || "N/A");
                                     }
 
@@ -2210,7 +2225,8 @@ require([
                                                     $(".fts2 #floodSlider")[0].value = i;
 													//slideWarningShow();
 													$(".fts2 .slider-min.update").text(gageValues2[$(".fts2 #floodSlider")[0].value].gageValue);	
-													$(".fts2 .elevation-selected").text(altitudeValues2[$(".fts2 #floodSlider")[0].value].altitudeValue || "N/A");
+													$(".fts2 .slider-elev.update").text(altitudeValues2[$(".fts2 #floodSlider")[0].value].altitudeValue || "N/A");
+									                $(".fts2 .elevation-selected").text(altitudeValues2[$(".fts2 #floodSlider")[0].value].altitudeValue || "N/A");
 													$(".fts2 .flood-discharge-selected").text(dischargeValues2[$(".fts2 #floodSlider")[0].value].dischargeValue || "N/A");
                                                     break;
                                                 }
@@ -2221,7 +2237,8 @@ require([
                                                     $(".fts2 #floodSlider")[0].value = i;
 													//slideWarningShow();
 													$(".fts2 .slider-min.update").text(gageValues2[$(".fts2 #floodSlider")[0].value].gageValue);	
-													$(".fts2 .elevation-selected").text(altitudeValues2[$(".fts2 #floodSlider")[0].value].altitudeValue || "N/A");
+													$(".fts2 .slider-elev.update").text(altitudeValues2[$(".fts2 #floodSlider")[0].value].altitudeValue || "N/A");
+									                $(".fts2 .elevation-selected").text(altitudeValues2[$(".fts2 #floodSlider")[0].value].altitudeValue || "N/A");
 													$(".fts2 .flood-discharge-selected").text(dischargeValues2[$(".fts2 #floodSlider")[0].value].dischargeValue || "N/A");
                                                     break;
                                                 }
@@ -2244,7 +2261,8 @@ require([
                                                 if (gageValues3[i].gageValue == parseFloat(newTempPair[0].value.pairStage3)) {
 													$(".fts3 #floodSlider")[0].value = i;
 													$(".fts3 .slider-min.update").text(gageValues3[$(".fts3 #floodSlider")[0].value].gageValue);	
-													$(".fts3 .elevation-selected").text(altitudeValues3[$(".fts3 #floodSlider")[0].value].altitudeValue || "N/A");
+													$(".fts3 .slider-elev.update").text(altitudeValues3[$(".fts3 #floodSlider")[0].value].altitudeValue || "N/A");
+									                $(".fts3 .elevation-selected").text(altitudeValues3[$(".fts3 #floodSlider")[0].value].altitudeValue || "N/A");
 													$(".fts3 .flood-discharge-selected").text(dischargeValues3[$(".fts3 #floodSlider")[0].value].dischargeValue || "N/A");
                                                     //slideWarningShow();
                                                     break;
@@ -2255,7 +2273,8 @@ require([
                                                 if (gageValues3[i].gageValue == parseFloat(newTempPair[newTempPair.length-1].value.pairStage3)) {
 													$(".fts3 #floodSlider")[0].value = i;
 													$(".fts3 .slider-min.update").text(gageValues3[$(".fts3 #floodSlider")[0].value].gageValue);				
-													$(".fts3 .elevation-selected").text(altitudeValues3[$(".fts3 #floodSlider")[0].value].altitudeValue || "N/A");
+													$(".fts3 .slider-elev.update").text(altitudeValues3[$(".fts3 #floodSlider")[0].value].altitudeValue || "N/A");
+									                $(".fts3 .elevation-selected").text(altitudeValues3[$(".fts3 #floodSlider")[0].value].altitudeValue || "N/A");
 													$(".fts3 .flood-discharge-selected").text(dischargeValues3[$(".fts3 #floodSlider")[0].value].dischargeValue || "N/A");
 
                                                     //slideWarningShow();
@@ -2281,7 +2300,8 @@ require([
                                                     $(".fts1 #floodSlider")[0].value = i;
 													//slideWarningShow();
 													$(".fts1 .slider-min.update").text(gageValues[$(".fts1 #floodSlider")[0].value].gageValue);	
-													$(".fts1 .elevation-selected").text(altitudeValues[$(".fts1 #floodSlider")[0].value].altitudeValue || "N/A");
+													$(".fts1 .slider-elev.update").text(altitudeValues[$(".fts1 #floodSlider")[0].value].altitudeValue || "N/A");
+									                $(".fts1 .elevation-selected").text(altitudeValues[$(".fts1 #floodSlider")[0].value].altitudeValue || "N/A");
 													
 													if (typeof dischargeValues[$(".fts1 #floodSlider")[0].value] !== 'undefined'){
 														$(".fts1 .flood-discharge-selected").text(dischargeValues[$(".fts1 #floodSlider")[0].value].dischargeValue);
@@ -2297,7 +2317,8 @@ require([
                                                     $(".fts1 #floodSlider")[0].value = i;
 													//slideWarningShow();
 													$(".fts1 .slider-min.update").text(gageValues[$(".fts1 #floodSlider")[0].value].gageValue);	
-													$(".fts1 .elevation-selected").text(altitudeValues[$(".fts1 #floodSlider")[0].value].altitudeValue || "N/A");
+													$(".fts1 .slider-elev.update").text(altitudeValues[$(".fts1 #floodSlider")[0].value].altitudeValue || "N/A");
+									                $(".fts1 .elevation-selected").text(altitudeValues[$(".fts1 #floodSlider")[0].value].altitudeValue || "N/A");
 													
 													if (typeof dischargeValues[$(".fts1 #floodSlider")[0].value] !== 'undefined'){
 														$(".fts1 .flood-discharge-selected").text(dischargeValues[$(".fts1 #floodSlider")[0].value].dischargeValue);
@@ -2325,7 +2346,8 @@ require([
                                                 if (gageValues3[i].gageValue == parseFloat(newTempPair[0].value.pairStage3)) {
 													$(".fts3 #floodSlider")[0].value = i;
 													$(".fts3 .slider-min.update").text(gageValues3[$(".fts3 #floodSlider")[0].value].gageValue);
-													$(".fts3 .elevation-selected").text(altitudeValues3[$(".fts3 #floodSlider")[0].value].altitudeValue || "N/A");
+													$(".fts3 .slider-elev.update").text(altitudeValues3[$(".fts3 #floodSlider")[0].value].altitudeValue || "N/A");
+									                $(".fts3 .elevation-selected").text(altitudeValues3[$(".fts3 #floodSlider")[0].value].altitudeValue || "N/A");
 													$(".fts3 .flood-discharge-selected").text(dischargeValues3[$(".fts3 #floodSlider")[0].value].dischargeValue || "N/A");
 
                                                     //slideWarningShow();
@@ -2337,7 +2359,8 @@ require([
                                                 if (gageValues3[i].gageValue == parseFloat(newTempPair[newTempPair.length-1].value.pairStage3)) {
 													$(".fts3 #floodSlider")[0].value = i;
 													$(".fts3 .slider-min.update").text(gageValues3[$(".fts3 #floodSlider")[0].value].gageValue);	
-													$(".fts3 .elevation-selected").text(altitudeValues3[$(".fts3 #floodSlider")[0].value].altitudeValue || "N/A");
+													$(".fts3 .slider-elev.update").text(altitudeValues3[$(".fts3 #floodSlider")[0].value].altitudeValue || "N/A");
+									                $(".fts3 .elevation-selected").text(altitudeValues3[$(".fts3 #floodSlider")[0].value].altitudeValue || "N/A");
 													$(".fts3 .flood-discharge-selected").text(dischargeValues3[$(".fts3 #floodSlider")[0].value].dischargeValue || "N/A");
                                                     //slideWarningShow();
                                                     break;
@@ -2361,7 +2384,8 @@ require([
                                                 if (gageValues2[i].gageValue == parseFloat(tempPairValue[0].pairStage2)) {
 													$(".fts2 #floodSlider")[0].value = i;
 													$(".fts2 .slider-min.update").text(gageValues2[$(".fts2 #floodSlider")[0].value].gageValue);	
-													$(".fts2 .elevation-selected").text(altitudeValues2[$(".fts2 #floodSlider")[0].value].altitudeValue || "N/A");
+													$(".fts2 .slider-elev.update").text(altitudeValues2[$(".fts2 #floodSlider")[0].value].altitudeValue || "N/A");
+									                $(".fts2 .elevation-selected").text(altitudeValues2[$(".fts2 #floodSlider")[0].value].altitudeValue || "N/A");
 													$(".fts2 .flood-discharge-selected").text(dischargeValues2[$(".fts2 #floodSlider")[0].value].dischargeValue || "N/A");
                                                     //slideWarningShow();
                                                     break;
@@ -2373,7 +2397,8 @@ require([
                                                     $(".fts2 #floodSlider")[0].value = i;
 													//slideWarningShow();
 													$(".fts2 .slider-min.update").text(gageValues2[$(".fts2 #floodSlider")[0].value].gageValue);
-													$(".fts2 .elevation-selected").text(altitudeValues2[$(".fts2 #floodSlider")[0].value].altitudeValue || "N/A");
+													$(".fts2 .slider-elev.update").text(altitudeValues2[$(".fts2 #floodSlider")[0].value].altitudeValue || "N/A");
+									                $(".fts2 .elevation-selected").text(altitudeValues2[$(".fts2 #floodSlider")[0].value].altitudeValue || "N/A");
 													$(".fts2 .flood-discharge-selected").text(dischargeValues2[$(".fts2 #floodSlider")[0].value].dischargeValue || "N/A");
                                                     break;
                                                 }
@@ -2397,7 +2422,8 @@ require([
                                                     $(".fts1 #floodSlider")[0].value = i;
 													//slideWarningShow();
 													$(".fts1 .slider-min.update").text(gageValues[$(".fts1 #floodSlider")[0].value].gageValue);	
-													$(".fts1 .elevation-selected").text(altitudeValues[$(".fts1 #floodSlider")[0].value].altitudeValue || "N/A");
+													$(".fts1 .slider-elev.update").text(altitudeValues[$(".fts1 #floodSlider")[0].value].altitudeValue || "N/A");
+									                $(".fts1 .elevation-selected").text(altitudeValues[$(".fts1 #floodSlider")[0].value].altitudeValue || "N/A");
 													
 													if (typeof dischargeValues[$(".fts1 #floodSlider")[0].value] !== 'undefined'){
 														$(".fts1 .flood-discharge-selected").text(dischargeValues[$(".fts1 #floodSlider")[0].value].dischargeValue);
@@ -2413,7 +2439,8 @@ require([
                                                     $(".fts1 #floodSlider")[0].value = i;
 													//slideWarningShow();
 													$(".fts1 .slider-min.update").text(gageValues[$(".fts1 #floodSlider")[0].value].gageValue);
-													$(".fts1 .elevation-selected").text(altitudeValues[$(".fts1 #floodSlider")[0].value].altitudeValue || "N/A");
+													$(".fts1 .slider-elev.update").text(altitudeValues[$(".fts1 #floodSlider")[0].value].altitudeValue || "N/A");
+									                $(".fts1 .elevation-selected").text(altitudeValues[$(".fts1 #floodSlider")[0].value].altitudeValue || "N/A");
 
 													if (typeof dischargeValues[$(".fts1 #floodSlider")[0].value] !== 'undefined'){
 														$(".fts1 .flood-discharge-selected").text(dischargeValues[$(".fts1 #floodSlider")[0].value].dischargeValue);
@@ -2502,8 +2529,8 @@ require([
                                 var siteData3;
 
                                 var gageIndex;
-                                var pcodeAbbr;
                                 var dischargeIndex;
+                                pcodeAbbr = null;
                                 $.each(siteData.data, function (key, value) {
                                     console.log(key);
                                     if (siteData.data[key].parameter_cd == "00065") {
@@ -2531,36 +2558,59 @@ require([
                                 switch (pcodeAbbr) {
                                     case "gh":
                                         $(".ghselected").show();
+                                        $("#sliderSelected").show();
+                                        $(".slider-min.update").show();
                                         $("#sliderSelected").html("<small>Selected Gage Height:</small>");
-                                        $("#currentValue").text("Gage Height");
+                                        $(".slider-elev-label").hide()
+                                        $(".slider-elev.update").hide();
+										$("#currentValue").text("Gage Height");
                                         $("#selectedElevValue").text("Elevation");
                                         hydroChartYAxisLabel = "Gage height";
                                         break;
                                     case "ngvd29_lake":
                                         $(".ghselected").hide();
-                                        $("#sliderSelected").html("<small>Selected Lake Water Level Elevation (NGVD29):</small>");
-                                        $("#currentValue").text("Lake Water Level Elevation (NGVD29)");
+                                        $("#sliderSelected").hide();
+                                        $(".slider-min.update").hide();
+                                        //$("#sliderSelected").html("<small>Selected Lake Water Level Elevation (NGVD29):</small>");
+                                        $(".slider-elev-label").show();
+                                        $(".slider-elev-label").html("<small>Selected Lake Water Level Elevation (NGVD29):</small>");
+                                        $(".slider-elev.update").show();
+										$("#currentValue").text("Lake Water Level Elevation (NGVD29)");
                                         $("#selectedElevValue").text("Lake Water Level Elevation (NGVD29)");
                                         hydroChartYAxisLabel = "Lake Water Level Elevation (NGVD29)";
                                         break;
                                     case "navd88_lake":
                                         $(".ghselected").hide();
-                                        $("#sliderSelected").html("<small>Selected Lake Water Level Elevation (NAVD88):</small>");
-                                        $("#currentValue").text("Lake Water Level Elevation (NAVD88)");
+                                        $("#sliderSelected").hide();
+                                        $(".slider-min.update").hide();
+                                        //$("#sliderSelected").html("<small>Selected Lake Water Level Elevation (NAVD88):</small>");
+                                        $(".slider-elev-label").show();
+                                        $(".slider-elev-label").html("<small>Selected Lake Water Level Elevation (NAVD88):</small>");
+                                        $(".slider-elev.update").show();
+										$("#currentValue").text("Lake Water Level Elevation (NAVD88)");
                                         $("#selectedElevValue").text("Lake Water Level Elevation (NAVD88)");
                                         hydroChartYAxisLabel = "Lake Water Level Elevation (NAVD88)";
                                         break;
                                     case "navd88_stream":
                                         $(".ghselected").hide();
-                                        $("#sliderSelected").html("<small>Selected Stream Water Level Elevation (NAVD88):</small>");
-                                        $("#currentValue").text("Stream Water Level Elevation (NAVD88)");
+                                        $("#sliderSelected").hide();
+                                        $(".slider-min.update").hide();
+                                        //$("#sliderSelected").html("<small>Selected Stream Water Level Elevation (NAVD88):</small>");
+                                        $(".slider-elev-label").show();
+                                        $(".slider-elev-label").html("<small>Selected Stream Water Level Elevation (NAVD88):</small>");
+                                        $(".slider-elev.update").show();
+										$("#currentValue").text("Stream Water Level Elevation (NAVD88)");
                                         $("#selectedElevValue").text("Stream Water Level Elevation (NAVD88)");
                                         hydroChartYAxisLabel = "Stream Water Level Elevation (NAVD88)";
                                         break;
                                     default:
                                         $(".ghselected").show();
+                                        $("#sliderSelected").show();
+                                        $(".slider-min.update").show();
                                         $("#sliderSelected").html("<small>Selected Gage Height:</small>");
-                                        $("#currentValue").text("Gage Height");
+                                        $(".slider-elev-label").hide();
+                                        $(".slider-elev.update").hide();
+										$("#currentValue").text("Gage Height");
                                         $("#selectedElevValue").text("Elevation");
                                         hydroChartYAxisLabel = "Gage height";
                                 }
@@ -2885,8 +2935,14 @@ require([
                                 var sliderStages = getFloodStages(nwsData, 1);
 
                                 var sliderMax1;
-                                if (gageValues.length > 0) {
-                                    sliderMax1 = gageValues[gageValues.length-1].gageValue;
+                                if (pcodeAbbr == "gh") {
+                                    if (gageValues.length > 0) {
+                                        sliderMax1 = gageValues[gageValues.length-1].gageValue;
+                                    }
+                                } else {
+                                    if (altitudeValues.length > 0) {
+                                        sliderMax1 = altitudeValues[altitudeValues.length-1].altitudeValue;
+                                    }
                                 }
 
                                 // Create Flood Stage Bands
@@ -2918,13 +2974,18 @@ require([
 									var lowSolved = false;
 									var highSolved = false;
 
-									var gageValuesStages = new Array();
-									gages.forEach(function(object){
-										gageValuesStages.push({"stage": Number(object.gageValue)});
-									});
-
-							
-									values.forEach(function(value){
+                                    var gageValuesStages = new Array();
+                                    if (pcodeAbbr == "gh") {
+                                        gages.forEach(function(object){
+                                            gageValuesStages.push({"stage": Number(object.gageValue)});
+                                        });
+                                    } else {
+                                        gages.forEach(function(object){
+                                            gageValuesStages.push({"stage": Number(object.altitudeValue)});
+                                        });
+                                    }
+									
+                                    values.forEach(function(value){
 										if (lowSolved == false) {
 											lowi = -1;
 										} 
@@ -2996,21 +3057,40 @@ require([
 
                                 if (gageValues[0]) {
                                     // Flood levels near slider - Site 1
-                                    $(".fts1 .slider-min").text(gageValues[0].gageValue);
-                                    $(".fts1 .slider-max").text(gageValues[gageValues.length-1].gageValue);
+                                    if (pcodeAbbr == "gh") {
+                                        $(".fts1 .slider-min").text(gageValues[0].gageValue);
+                                        $(".fts1 .slider-max").text(gageValues[gageValues.length-1].gageValue);
+                                    } else {
+                                        $(".fts1 .slider-min").text(altitudeValues[0].altitudeValue);
+                                        $(".fts1 .slider-max").text(altitudeValues[altitudeValues.length-1].altitudeValue);
+                                    }
+                                    
 									
 
                                     // Calculate slider band heights
-                                    var flMax1 = gageValues[gageValues.length-1].gageValue;
-                                    var flMin1 = gageValues[0].gageValue;
-                                    var flDiff1 = flMax1 - flMin1;
-									
-									var whiteVal = heightFractionGet(0, sliderStages.action, gageValues) * 100
-									var actionVal = heightFractionGet(0, sliderStages.flood, gageValues) * 100
-									var minorVal = heightFractionGet(0, sliderStages.moderate, gageValues) * 100
-									var moderateVal = heightFractionGet(0, sliderStages.major, gageValues) * 100
-                                    var majorVal;
-                                    var extendedVal;
+                                    if (pcodeAbbr == "gh") {
+                                        var flMax1 = gageValues[gageValues.length-1].gageValue;
+                                        var flMin1 = gageValues[0].gageValue;
+                                        var flDiff1 = flMax1 - flMin1;
+                                        
+                                        var whiteVal = heightFractionGet(0, sliderStages.action, gageValues) * 100
+                                        var actionVal = heightFractionGet(0, sliderStages.flood, gageValues) * 100
+                                        var minorVal = heightFractionGet(0, sliderStages.moderate, gageValues) * 100
+                                        var moderateVal = heightFractionGet(0, sliderStages.major, gageValues) * 100
+                                        var majorVal;
+                                        var extendedVal;
+                                    } else {
+                                        var flMax1 = altitudeValues[altitudeValues.length-1].altitudeValue;
+                                        var flMin1 = altitudeValues[0].altitudeValue;
+                                        var flDiff1 = flMax1 - flMin1;
+                                        
+                                        var whiteVal = heightFractionGet(0, sliderStages.action, altitudeValues) * 100
+                                        var actionVal = heightFractionGet(0, sliderStages.flood, altitudeValues) * 100
+                                        var minorVal = heightFractionGet(0, sliderStages.moderate, altitudeValues) * 100
+                                        var moderateVal = heightFractionGet(0, sliderStages.major, altitudeValues) * 100
+                                        var majorVal;
+                                        var extendedVal;
+                                    }
 
 									$(".fts1 .sliderWhiteSpace").css( "width", whiteVal + "%" );
                                     $(".fts1 .sliderActionLevel").css( "width", actionVal + "%" );
@@ -3018,7 +3098,7 @@ require([
                                     $(".fts1 .sliderModerateLevel").css( "width", moderateVal + "%" );
                                     
                                     // If "Top Curve" / Extended exists
-                                    if(sliderStages.top_curve != null){
+                                    if(sliderStages.top_curve != null && pcodeAbbr == "gh"){
 										// Check if Extended starts at top of slider
 										// if so, don't show it
 										if(sliderStages.top_curve == gageValues[gageValues.length-1].gageValue){
@@ -3071,8 +3151,14 @@ require([
                                     
                                     var sliderStages2 = getFloodStages(nwsData2, 2);
                                     var sliderMax2;
-                                    if (gageValues2.length > 0) {
-                                        sliderMax2 = gageValues2[gageValues2.length-1].gageValue;
+                                    if (pcodeAbbr == "gh") {
+                                        if (gageValues2.length > 0) {
+                                            sliderMax2 = gageValues2[gageValues2.length-1].gageValue;
+                                        }
+                                    } else {
+                                        if (altitudeValues2.length > 0) {
+                                            sliderMax2 = altitudeValues2[altitudeValues2.length-1].altitudeValue;
+                                        }
                                     }
 
                                     // Second Site Flood Bands
@@ -3084,20 +3170,38 @@ require([
                                     // Second Site
                                     if (gageValues2.length > 0) {
                                         // Flood levels near slider - Site 2
-                                        $(".fts2 .slider-min").text(gageValues2[0].gageValue);
-										$(".fts2 .slider-max").text(gageValues2[gageValues2.length-1].gageValue);
-										
-                                        // Calculate slider bar heights
-                                        var flMax2 = gageValues2[gageValues2.length-1].gageValue;
-                                        var flMin2 = gageValues2[0].gageValue;
-                                        var flDiff2 = flMax2 - flMin2;
+                                        if (pcodeAbbr == "gh") {
+                                            $(".fts2 .slider-min").text(gageValues2[0].gageValue);
+										    $(".fts2 .slider-max").text(gageValues2[gageValues2.length-1].gageValue);
+                                        } else {
+                                            $(".fts2 .slider-min").text(altitudeValues2[0].altitudeValue);
+                                            $(".fts2 .slider-max").text(altitudeValues2[altitudeValues2.length-1].altitudeValue);
+                                        }
+                                        
+                                        // Calculate slider band heights
+                                        if (pcodeAbbr == "gh") {
+                                            var flMax2 = gageValues2[gageValues2.length-1].gageValue;
+                                            var flMin2 = gageValues2[0].gageValue;
+                                            var flDiff2 = flMax2 - flMin2;
 
-										var whiteVal = heightFractionGet(0, sliderStages2.action, gageValues2) * 100
-										var actionVal = heightFractionGet(0, sliderStages2.flood, gageValues2) * 100
-										var minorVal = heightFractionGet(0, sliderStages2.moderate, gageValues2) * 100
-										var moderateVal = heightFractionGet(0, sliderStages2.major, gageValues2) * 100
-										var majorVal;
-										var extendedVal;
+                                            var whiteVal = heightFractionGet(0, sliderStages2.action, gageValues2) * 100
+                                            var actionVal = heightFractionGet(0, sliderStages2.flood, gageValues2) * 100
+                                            var minorVal = heightFractionGet(0, sliderStages2.moderate, gageValues2) * 100
+                                            var moderateVal = heightFractionGet(0, sliderStages2.major, gageValues2) * 100
+                                            var majorVal;
+                                            var extendedVal;
+                                        } else {
+                                            var flMax2 = altitudeValues2[altitudeValues2.length-1].altitudeValue;
+                                            var flMin2 = altitudeValues2[0].altitudeValue;
+                                            var flDiff2 = flMax2 - flMin2;
+                                            
+                                            var whiteVal = heightFractionGet(0, sliderStages2.action, altitudeValues2) * 100
+                                            var actionVal = heightFractionGet(0, sliderStages2.flood, altitudeValues2) * 100
+                                            var minorVal = heightFractionGet(0, sliderStages2.moderate, altitudeValues2) * 100
+                                            var moderateVal = heightFractionGet(0, sliderStages2.major, altitudeValues2) * 100
+                                            var majorVal;
+                                            var extendedVal;
+                                        }
 
 										$(".fts2 .sliderWhiteSpace").css( "width", whiteVal + "%" );
 										$(".fts2 .sliderActionLevel").css( "width", actionVal + "%" );
@@ -3105,7 +3209,7 @@ require([
 										$(".fts2 .sliderModerateLevel").css( "width", moderateVal + "%" );
 										
 										// If "Top Curve" / Extended exists
-										if(sliderStages2.top_curve != null){
+										if(sliderStages2.top_curve != null && pcodeAbbr == "gh"){
 											// Check if Extended starts at top of slider
 											// if so, don't show it
 											if(sliderStages2.top_curve == gageValues2[gageValues2.length-1].gageValue){
@@ -3148,6 +3252,16 @@ require([
                                         sliderMax3 = gageValues3[gageValues3.length-1].gageValue;
                                     }
 
+                                    if (pcodeAbbr == "gh") {
+                                        if (gageValues3.length > 0) {
+                                            sliderMax3 = gageValues3[gageValues3.length-1].gageValue;
+                                        }
+                                    } else {
+                                        if (altitudeValues3.length > 0) {
+                                            sliderMax3 = altitudeValues3[altitudeValues3.length-1].altitudeValue;
+                                        }
+                                    }
+
                                     // Third Site Flood Bands
                                     if (typeof nwsData2[0] !== "string") {
                                         // Create Flood Stage Bands
@@ -3155,20 +3269,38 @@ require([
                                     }
 
                                     // Flood levels near slider - Site 3
-                                    $(".fts3 .slider-min").text(gageValues3[0].gageValue);
-                                    $(".fts3 .slider-max").text(gageValues3[gageValues3.length-1].gageValue);
+                                    if (pcodeAbbr == "gh") {
+                                        $(".fts3 .slider-min").text(gageValues3[0].gageValue);
+                                        $(".fts3 .slider-max").text(gageValues3[gageValues3.length-1].gageValue);
+                                    } else {
+                                        $(".fts3 .slider-min").text(altitudeValues3[0].altitudeValue);
+                                        $(".fts3 .slider-max").text(altitudeValues3[altitudeValues3.length-1].altitudeValue);
+                                    }
                                     
-                                    // Calculate Slider bar heights
-                                    var flMax3 = gageValues3[gageValues3.length-1].gageValue;
-                                    var flMin3 = gageValues3[0].gageValue;
-									var flDiff3 = flMax3 - flMin3;
+                                    // Calculate slider band heights
+                                    if (pcodeAbbr == "gh") {
+                                        var flMax3 = gageValues3[gageValues3.length-1].gageValue;
+                                        var flMin3 = gageValues3[0].gageValue;
+                                        var flDiff3 = flMax3 - flMin3;
 
-									var whiteVal = heightFractionGet(0, sliderStages3.action, gageValues3) * 100
-									var actionVal = heightFractionGet(0, sliderStages3.flood, gageValues3) * 100
-									var minorVal = heightFractionGet(0, sliderStages3.moderate, gageValues3) * 100
-									var moderateVal = heightFractionGet(0, sliderStages3.major, gageValues3) * 100
-									var majorVal;
-									var extendedVal;
+                                        var whiteVal = heightFractionGet(0, sliderStages3.action, gageValues3) * 100
+                                        var actionVal = heightFractionGet(0, sliderStages3.flood, gageValues3) * 100
+                                        var minorVal = heightFractionGet(0, sliderStages3.moderate, gageValues3) * 100
+                                        var moderateVal = heightFractionGet(0, sliderStages3.major, gageValues3) * 100
+                                        var majorVal;
+                                        var extendedVal;
+                                    } else {
+                                        var flMax3 = altitudeValues3[altitudeValues3.length-1].altitudeValue;
+                                        var flMin3 = altitudeValues3[0].altitudeValue;
+                                        var flDiff3 = flMax3 - flMin3;
+                                        
+                                        var whiteVal = heightFractionGet(0, sliderStages3.action, altitudeValues3) * 100
+                                        var actionVal = heightFractionGet(0, sliderStages3.flood, altitudeValues3) * 100
+                                        var minorVal = heightFractionGet(0, sliderStages3.moderate, altitudeValues3) * 100
+                                        var moderateVal = heightFractionGet(0, sliderStages3.major, altitudeValues3) * 100
+                                        var majorVal;
+                                        var extendedVal;
+                                    }
 
 									$(".fts3 .sliderWhiteSpace").css( "width", whiteVal + "%" );
 									$(".fts3 .sliderActionLevel").css( "width", actionVal + "%" );
@@ -3176,7 +3308,7 @@ require([
 									$(".fts3 .sliderModerateLevel").css( "width", moderateVal + "%" );
 									
 									// If "Top Curve" / Extended exists
-									if(sliderStages3.top_curve != null){
+									if(sliderStages3.top_curve != null && pcodeAbbr == "gh"){
 										// Check if Extended starts at top of slider
 										// if so, don't show it
 										if(sliderStages3.top_curve == gageValues3[gageValues3.length-1].gageValue){
@@ -3799,7 +3931,11 @@ require([
                 
                 stageValues = [stage1,stage2,stage3];
                 slidersToAdjust = [$(".first-slider"),$(".second-slider"),$(".third-slider")];
-                gageValuesToCheck = [gageValues,gageValues2,gageValues3];
+                if (pcodeAbbr == "gh") {
+                    gageValuesToCheck = [gageValues,gageValues2,gageValues3];
+                } else {
+                    gageValuesToCheck = [altitudeValues,altitudeValues2,altitudeValues3];
+                }
 
                 switch(siteAttr.MULTI_SITE) {
                     case 0:
@@ -3819,13 +3955,24 @@ require([
                 checkLength = 1;
                 stageValues = [stage];
                 slidersToAdjust = [$(slider)];
-                if (slider == ".first-slider") {
-                    gageValuesToCheck = [gageValues];
-                } else if (slider == ".second-slider") {
-                    gageValuesToCheck = [gageValues2];
-                } else if (slider == ".third-slider") {
-                    gageValuesToCheck = [gageValues3];
+                if (pcodeAbbr == "gh") {
+                    if (slider == ".first-slider") {
+                        gageValuesToCheck = [gageValues];
+                    } else if (slider == ".second-slider") {
+                        gageValuesToCheck = [gageValues2];
+                    } else if (slider == ".third-slider") {
+                        gageValuesToCheck = [gageValues3];
+                    }
+                } else {
+                    if (slider == ".first-slider") {
+                        gageValuesToCheck = [altitudeValues];
+                    } else if (slider == ".second-slider") {
+                        gageValuesToCheck = [altitudeValues2];
+                    } else if (slider == ".third-slider") {
+                        gageValuesToCheck = [altitudeValues3];
+                    }
                 }
+                
             }
 
             for (var ind=0; ind < checkLength; ind++) {
@@ -3835,7 +3982,7 @@ require([
 
                 for(var i=0; i < gageValuesToCheck[ind].length; i++){
 
-                    tempNum = Math.abs(gageValuesToCheck[ind][i]["gageValue"]- stageValues[ind]);
+                    tempNum = Math.abs(gageValuesToCheck[ind][i]["gageValue"] - stageValues[ind]);
 
                     if(i == 0 || tempNum < closestNum){
                         closestNum = tempNum;
