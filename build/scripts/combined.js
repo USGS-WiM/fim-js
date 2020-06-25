@@ -946,7 +946,7 @@ require([
 
     on(dom.byId('btnNatlMap'), 'click', function () {
         map.setBasemap("topo");
-        map.addLayer(nationalMapBasemap, 2);
+        map.addLayer(nationalMapBasemap, 1);
     });
 
     map.on('basemap-change', function(evt) {
@@ -1866,7 +1866,7 @@ require([
                     } else if (evt.currentTarget.checked == false) {
                         if (currentBasemap == "tnm") {
                             map.setBasemap("topo");
-                            map.addLayer(nationalMapBasemap);
+                            map.addLayer(nationalMapBasemap, 1);
                         } else {
                             map.setBasemap(currentBasemap);
                             map.removeLayer(nationalMapBasemap);
@@ -2247,7 +2247,8 @@ require([
 
                 loadedInitialLibrary = true;
 
-				$("#floodToolsDiv").css("visibility", "visible");
+                $("#floodToolsDiv").css("visibility", "visible");
+                $("#minFT").removeClass('visible');
                 //$(".fts2").show();
                 //$(".fts3").css("visibility", "visible");
 
@@ -3835,6 +3836,14 @@ require([
                                     var yMin = 0;
                                     var lowestVal;
 
+                                    var graph_title = "";
+                                    // Get community for hydrograph label
+                                    $.each(map.getLayer('fimSites').graphics, function (index, value) {
+                                        if(siteNo === value.attributes.SITE_NO){
+                                            graph_title = value.attributes.STATE + ": " + value.attributes.COMMUNITY + " (" + siteNo + ")"; 
+                                        }
+                                    });
+
                                     $.each(finalNWISDataArray, function(key, value) {
                                         //Code to determine yMin value if under zero
                                         if (value[1] < 0 && value[1] < yMin) {
@@ -3879,7 +3888,7 @@ require([
                                         }
                                     };
                                     opts.title = {
-                                        text: "Site " + siteNo
+                                        text: graph_title
                                     }
                                     opts.plotOptions = {
                                         series: {
