@@ -507,7 +507,7 @@
 			height: calc(~'100vh - 320px');
 		}
 
-        #ftDataTabs{
+        #ftDataTabs, #historicalFloodTabs{
             display: flex;
             justify-content: flex-start;
             flex-wrap: wrap;
@@ -561,6 +561,11 @@
 							border-bottom: 8px solid black;
 						}
 					}
+                }
+                
+                // Historical Flooding tab / long title gets set width
+                &.ft-historic-tab{
+					width: 75px !important;
 				}
 				// Data tab / long title gets set width
 				&.ft-services-tab{

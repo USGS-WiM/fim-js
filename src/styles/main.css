@@ -2358,7 +2358,8 @@ input[type=range].styled:focus::-ms-fill-upper {
     height: calc(100vh - 320px);
   }
 }
-#ftModal #ftData #ftDataTabs {
+#ftModal #ftData #ftDataTabs,
+#ftModal #ftData #historicalFloodTabs {
   display: -webkit-flex;
   display: flex;
   -webkit-justify-content: flex-start;
@@ -2373,11 +2374,13 @@ input[type=range].styled:focus::-ms-fill-upper {
   height: auto;
 }
 @media (max-width: 700px) {
-  #ftModal #ftData #ftDataTabs {
+  #ftModal #ftData #ftDataTabs,
+  #ftModal #ftData #historicalFloodTabs {
     border-top: 1px solid rgba(0, 0, 0, 0.08);
   }
 }
-#ftModal #ftData #ftDataTabs .ft-tab {
+#ftModal #ftData #ftDataTabs .ft-tab,
+#ftModal #ftData #historicalFloodTabs .ft-tab {
   display: -webkit-flex;
   display: flex;
   -webkit-justify-content: center;
@@ -2392,16 +2395,19 @@ input[type=range].styled:focus::-ms-fill-upper {
   border-right: 1px solid rgba(0, 0, 0, 0.08);
 }
 @media (max-width: 700px) {
-  #ftModal #ftData #ftDataTabs .ft-tab {
+  #ftModal #ftData #ftDataTabs .ft-tab,
+  #ftModal #ftData #historicalFloodTabs .ft-tab {
     -webkit-flex-grow: 3;
     flex-grow: 3;
     border-bottom: 1px solid rgba(0, 0, 0, 0.08);
   }
 }
-#ftModal #ftData #ftDataTabs .ft-tab.ft-main-tab {
+#ftModal #ftData #ftDataTabs .ft-tab.ft-main-tab,
+#ftModal #ftData #historicalFloodTabs .ft-tab.ft-main-tab {
   width: 88px !important;
 }
-#ftModal #ftData #ftDataTabs .ft-tab.ft-main-tab .ft-main-tab-triangle {
+#ftModal #ftData #ftDataTabs .ft-tab.ft-main-tab .ft-main-tab-triangle,
+#ftModal #ftData #historicalFloodTabs .ft-tab.ft-main-tab .ft-main-tab-triangle {
   width: 0;
   height: 0;
   border-right: 8px solid transparent;
@@ -2411,7 +2417,8 @@ input[type=range].styled:focus::-ms-fill-upper {
   top: 9px;
   left: 1px;
 }
-#ftModal #ftData #ftDataTabs .ft-tab.ft-main-tab .ft-main-tab-triangle .inner-triangle {
+#ftModal #ftData #ftDataTabs .ft-tab.ft-main-tab .ft-main-tab-triangle .inner-triangle,
+#ftModal #ftData #historicalFloodTabs .ft-tab.ft-main-tab .ft-main-tab-triangle .inner-triangle {
   position: absolute;
   top: 4px;
   left: -5px;
@@ -2421,22 +2428,32 @@ input[type=range].styled:focus::-ms-fill-upper {
   border-right: 5px solid transparent;
   border-bottom: 8px solid black;
 }
-#ftModal #ftData #ftDataTabs .ft-tab.ft-services-tab {
+#ftModal #ftData #ftDataTabs .ft-tab.ft-historic-tab,
+#ftModal #ftData #historicalFloodTabs .ft-tab.ft-historic-tab {
   width: 75px !important;
 }
-#ftModal #ftData #ftDataTabs .ft-tab:hover {
+#ftModal #ftData #ftDataTabs .ft-tab.ft-services-tab,
+#ftModal #ftData #historicalFloodTabs .ft-tab.ft-services-tab {
+  width: 75px !important;
+}
+#ftModal #ftData #ftDataTabs .ft-tab:hover,
+#ftModal #ftData #historicalFloodTabs .ft-tab:hover {
   color: black;
   cursor: pointer;
 }
-#ftModal #ftData #ftDataTabs .ft-tab:hover span {
+#ftModal #ftData #ftDataTabs .ft-tab:hover span,
+#ftModal #ftData #historicalFloodTabs .ft-tab:hover span {
   text-decoration: underline;
 }
-#ftModal #ftData #ftDataTabs .ft-tab.active {
+#ftModal #ftData #ftDataTabs .ft-tab.active,
+#ftModal #ftData #historicalFloodTabs .ft-tab.active {
   background-color: #ededed;
   color: black;
 }
 #ftModal #ftData #ftDataTabs .ft-tab span,
-#ftModal #ftData #ftDataTabs .ft-tab i {
+#ftModal #ftData #historicalFloodTabs .ft-tab span,
+#ftModal #ftData #ftDataTabs .ft-tab i,
+#ftModal #ftData #historicalFloodTabs .ft-tab i {
   display: -webkit-flex;
   display: flex;
   -webkit-flex-direction: column;
@@ -2445,11 +2462,13 @@ input[type=range].styled:focus::-ms-fill-upper {
   justify-content: center;
   height: 100%;
 }
-#ftModal #ftData #ftDataTabs .ft-tab span {
+#ftModal #ftData #ftDataTabs .ft-tab span,
+#ftModal #ftData #historicalFloodTabs .ft-tab span {
   font-size: 10.5px;
   line-height: 11px;
 }
-#ftModal #ftData #ftDataTabs .ft-tab i {
+#ftModal #ftData #ftDataTabs .ft-tab i,
+#ftModal #ftData #historicalFloodTabs .ft-tab i {
   font-size: 14px;
   margin-left: 3px;
 }
@@ -3830,11 +3849,4 @@ input[type=range].styled:focus::-ms-fill-upper {
 }
 .sidebar-layers-item button:hover b {
   text-decoration: underline;
-}
-
-.legend-image {
-  opacity: 0.7;
-  display: none;
-  margin: 7px;
-  margin-top: 10px;
 }
