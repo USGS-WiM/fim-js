@@ -1166,45 +1166,58 @@ if (window.document.documentMode) {
 
                             <!--
 								Historical Flooding
-								Hydrographs
-								Hydrographs
+								Historical Flooding
+								Historical Flooding
                             -->
                             <!-- Accordion Header -->
-                            <div id="ftHistorical">
-                                <div id="historicalFloodTabs">
-                                    <div class="ft-tab top-ten-tab" data-toggle="topTen" onclick="ga('send','event','Top Ten Panel','click','Top Ten');">
-                                        <span>Top 10 Annual Flood Peaks</span>
-                                        <i class="far fa-chart-bar"></i>
-                                    </div>
-                                    <div class="ft-tab all-annual-tab" data-toggle="allAnnual" onclick="ga('send','event','All Annual Panel','click','All Annual');">
-                                        <span>Annual Flood Peaks</span>
-                                        <i class="far fa-chart-bar"></i>
-                                    </div>
-                                </div>
-                                <div id="topTen" class="ftmodal-content">
-                                    <div>Top Ten Floods go here.</div>
-                                    <div class="fts1 chart-wrapper">
-                                        <div id="topTenChart"></div>
-                                    </div>
-                                    <div class="fts2 chart-wrapper">
-                                        <div id="topTenChart2"></div>
-                                    </div>
-                                    <div class="fts3 chart-wrapper">
-                                        <div id="topTenChart3"></div>
-                                    </div>
-                                </div>
-                                <div id="allAnnual" class="ftmodal-content">
-                                    <div>All Annual Floods go here.</div>
-                                    <div class="fts1 chart-wrapper">
-                                        <div id="allAnnualChart"></div>
-                                    </div>
-                                    <div class="fts2 chart-wrapper">
-                                        <div id="allAnnualChart2"></div>
-                                    </div>
-                                    <div class="fts3 chart-wrapper">
-                                        <div id="allAnnualChart3"></div>
-                                    </div>
-                                </div>
+                            <div id="ftHistorical" class="ftmodal-content nopadding">
+							
+								<!-- Tabs -->
+								<!-- Use custom function in core.js -->
+								<div class="ft-tabs">
+									<div class="tab active" id="topTen">
+										<span>Top 10 Annual Flood Peaks</span>
+										<i class="far fa-chart-bar"></i>
+									</div>
+									<div class="tab" id="allAnnual">
+										<span>All Annual Floods go here</span>
+										<i class="far fa-chart-bar"></i>
+									</div>
+								</div>
+
+								<!-- Content -->
+								<!-- Top Ten --> 
+								<div id="topTenContent" class="ftnested-content">
+									<div>Top Ten Floods go here.</div>
+									<div class="fts1 chart-wrapper">
+										<div id="topTenChart"></div>
+									</div>
+									<div class="fts2 chart-wrapper">
+										<div id="topTenChart2"></div>
+									</div>
+									<div class="fts3 chart-wrapper">
+										<div id="topTenChart3"></div>
+									</div>
+								</div>
+								<!-- All Annual -->
+								<div id="allAnnualContent" class="ftnested-content" style="display: none;">
+									<div>All Annual Floods go here.</div>
+									<div class="fts1 chart-wrapper">
+										<div id="allAnnualChart"></div>
+									</div>
+									<div class="fts2 chart-wrapper">
+										<div id="allAnnualChart2"></div>
+									</div>
+									<div class="fts3 chart-wrapper">
+										<div id="allAnnualChart3"></div>
+									</div>
+								</div>
+
+
+
+
+
+
                             </div>
 
 

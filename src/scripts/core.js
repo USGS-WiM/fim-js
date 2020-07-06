@@ -646,6 +646,21 @@ require([
         var toggleID = $(this).attr("data-toggle").toString();
         $(".ftmodal-content").not("#" + toggleID).hide();
         $("#" + toggleID).show();
+	});
+	
+
+    // Historical Tabs
+    $("#topTen").click(function(){
+        $("#allAnnual").removeClass("active");
+        $(this).addClass("active");
+        $("#topTenContent").show();
+        $("#allAnnualContent").hide();
+    });
+    $("#allAnnual").click(function(){
+        $("#topTen").removeClass("active");
+        $(this).addClass("active");
+        $("#allAnnualContent").show();
+        $("#topTenContent").hide();
     });
 
     

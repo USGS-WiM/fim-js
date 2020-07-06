@@ -507,7 +507,8 @@
 			height: calc(~'100vh - 320px');
 		}
 
-        #ftDataTabs, #historicalFloodTabs{
+		#ftDataTabs,
+		.ft-tabs{
             display: flex;
             justify-content: flex-start;
             flex-wrap: wrap;
@@ -519,6 +520,7 @@
 				border-top: 1px solid rgba(0, 0, 0, 0.08);
 			}
 
+            .tab,
             .ft-tab{
                 display: flex;
                 justify-content: center;
@@ -662,7 +664,7 @@
 
         // Body for each tab/content within 
         // Flood tools
-        .ftmodal-content{
+		.ftmodal-content{
             display: none;
             padding-top: 15px;
             border-top: 1px solid fade(@black, 15%);
@@ -673,7 +675,23 @@
 			@media (max-width: 700px) {
 				padding: 15px 5px 100px 5px;
 				height: fit-content !important;
+			}
 
+			&.nopadding{
+				padding: 0 !important;
+			}
+		}
+		// Same as ftmodal-content, but not hidden
+		.ftnested-content{
+            padding-top: 15px;
+            border-top: 1px solid fade(@black, 15%);
+			padding: 15px 15px 15px 15px !important;
+            flex-grow: 3;
+			overflow: auto !important;
+			
+			@media (max-width: 700px) {
+				padding: 15px 5px 100px 5px;
+				height: fit-content !important;
 			}
         }
 
