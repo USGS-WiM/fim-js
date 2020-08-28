@@ -10,6 +10,7 @@ var fimHazusUrl = "https://fimnew.wim.usgs.gov/server/rest/services/FIMMapper/si
 var fimiMoreInfoUrl = "https://fim.wim.usgs.gov/arcgis/rest/services/FIMMapper/fim_add_info/MapServer/1";
 var ahpsForecastUrl = "https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Observations/ahps_riv_gauges/MapServer/0";
 var nwisUrl = "https://waterservices.usgs.gov/nwis/iv/?format=nwjson&period=P7D";//&parameterCd=00060,00065,62614,62615&sites=";
+var historicalUrl = "http://nwis.waterdata.usgs.gov/ms/nwis/peak?agency_cd=USGS&format=rdb&site_no=";
 var proxyUrl = "https://services.wim.usgs.gov/proxies/httpProxy/Default.aspx?";
 
 require([
@@ -46,7 +47,7 @@ require([
                         "opacity": 1.00,
                         "mode": FeatureLayer.MODE_SNAPSHOT,
                         "outFields": ["*"],
-                        "definitionExpression": "(Public = 1 OR Public = 2) AND (MULTI_SITE = 0 OR MULTI_SITE = 1 OR MULTI_SITE = 3)",
+                        "definitionExpression": "(Public = 0 OR Public = 1 OR Public = 2) AND (MULTI_SITE = 0 OR MULTI_SITE = 1 OR MULTI_SITE = 3)",
                         //"infoTemplate": fimInfoTemplate,
                         "visible": true
                     },
@@ -167,7 +168,7 @@ require([
                         "layerType": "agisDynamic",
                         "includeInLayerList": false,
                         "hasOpacitySlider": false,
-                        "layerDefinitions": ["(Public = 1) AND (MULTI_SITE = 0 OR MULTI_SITE = 1 OR MULTI_SITE = 3)"],
+                        "layerDefinitions": ["(Public = 0 OR Public = 1) AND (MULTI_SITE = 0 OR MULTI_SITE = 1 OR MULTI_SITE = 3)"],
                         "includeLegend" : false,
                         "legendLabel": false
                     }

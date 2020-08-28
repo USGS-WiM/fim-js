@@ -729,15 +729,15 @@ if (window.document.documentMode) {
                             </div>
                             
                             <!-- Custom depth grids legends -->
-                            <div id="depth_grids_legend" class="legend-image">
+                            <!--<div id="depth_grids_legend" class="legend-image">
                                 <img src="images/depth_grids.png"/>
-                            </div>
+                            </div>-->
                             <div id="depth_grids_legend_title" class="legend-image">
                                 <img src="images/depth_grids_labeled.png"/>
                             </div>
-                            <div id="aou_grids_legend" class="legend-image">
+                            <!--<div id="aou_grids_legend" class="legend-image">
                                 <img src="images/area_of_uncertainty.png"/>
-                            </div>
+                            </div>-->
                             <div id="aou_grids_legend_title" class="legend-image">
                                 <img src="images/area_of_uncertainty_labeled.png"/>
                             </div>
@@ -1040,8 +1040,12 @@ if (window.document.documentMode) {
                                 </div>
                                 <div class="ft-tab ft-hydro-tab" data-toggle="ftHydro" onclick="ga('send','event','Hydrograph Panel','click','Hydrograph');">
                                     <span>Hydrograph</span>
-                                    <i class="far fa-chart-bar"></i>
+                                    <i class="far fa-chart-line"></i>
                                 </div>
+                                <!--<div class="ft-tab ft-historic-tab" data-toggle="ftHistorical" onclick="ga('send','event','Historical Panel','click','Historical');">
+                                    <span>Historical Flooding</span>
+                                    <i class="far fa-chart-bar"></i>
+                                </div>-->
                                 <div class="ft-tab ft-hazus-tab" data-toggle="ftHazus" onclick="ga('send','event','Hazus Panel','click','HAZUS');">
                                     <span>Hazus</span>
                                     <i class="far fa-building"></i>
@@ -1146,7 +1150,7 @@ if (window.document.documentMode) {
                             -->
                             <!-- Accordion Header -->
                             <div id="ftHydro" class="ftmodal-content">
-                                <div class="no-hydro">No current or predicted gage height data available for this library</div>
+                                <div class="no-hydro">No historical flooding data available for this library</div>
 								<!-- Sites -->
 								<div class="fts1 chart-wrapper">
                                     <div id="hydroChart"></div>
@@ -1157,6 +1161,63 @@ if (window.document.documentMode) {
                                 <div class="fts3 chart-wrapper">
                                     <div id="hydroChart3"></div>
                                 </div>
+                            </div>
+
+
+                            <!--
+								Historical Flooding
+								Historical Flooding
+								Historical Flooding
+                            -->
+                            <!-- Accordion Header -->
+                            <div id="ftHistorical" class="ftmodal-content nopadding">
+							
+								<!-- Tabs -->
+								<!-- Use custom function in core.js -->
+								<div class="ft-tabs">
+									<div class="tab active" id="topTen">
+										<span>Top 10 Annual Flood Peaks</span>
+										<i class="far fa-chart-bar"></i>
+									</div>
+									<div class="tab" id="allAnnual">
+										<span>All Annual Floods go here</span>
+										<i class="far fa-chart-bar"></i>
+									</div>
+								</div>
+
+								<!-- Content -->
+								<!-- Top Ten --> 
+								<div id="topTenContent" class="ftnested-content">
+									<div>Top Ten Floods go here.</div>
+									<div class="fts1 chart-wrapper">
+										<div id="topTenChart"></div>
+									</div>
+									<div class="fts2 chart-wrapper">
+										<div id="topTenChart2"></div>
+									</div>
+									<div class="fts3 chart-wrapper">
+										<div id="topTenChart3"></div>
+									</div>
+								</div>
+								<!-- All Annual -->
+								<div id="allAnnualContent" class="ftnested-content" style="display: none;">
+									<div>All Annual Floods go here.</div>
+									<div class="fts1 chart-wrapper">
+										<div id="allAnnualChart"></div>
+									</div>
+									<div class="fts2 chart-wrapper">
+										<div id="allAnnualChart2"></div>
+									</div>
+									<div class="fts3 chart-wrapper">
+										<div id="allAnnualChart3"></div>
+									</div>
+								</div>
+
+
+
+
+
+
                             </div>
 
 

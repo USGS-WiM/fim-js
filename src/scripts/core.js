@@ -71,6 +71,68 @@ var currentBasemap;
 
 var sitesLayerPrint;
 
+var usStates = [
+        { name: 'ALABAMA', abbreviation: 'AL'},
+        { name: 'ALASKA', abbreviation: 'AK'},
+        { name: 'AMERICAN SAMOA', abbreviation: 'AS'},
+        { name: 'ARIZONA', abbreviation: 'AZ'},
+        { name: 'ARKANSAS', abbreviation: 'AR'},
+        { name: 'CALIFORNIA', abbreviation: 'CA'},
+        { name: 'COLORADO', abbreviation: 'CO'},
+        { name: 'CONNECTICUT', abbreviation: 'CT'},
+        { name: 'DELAWARE', abbreviation: 'DE'},
+        { name: 'DISTRICT OF COLUMBIA', abbreviation: 'DC'},
+        { name: 'FEDERATED STATES OF MICRONESIA', abbreviation: 'FM'},
+        { name: 'FLORIDA', abbreviation: 'FL'},
+        { name: 'GEORGIA', abbreviation: 'GA'},
+        { name: 'GUAM', abbreviation: 'GU'},
+        { name: 'HAWAII', abbreviation: 'HI'},
+        { name: 'IDAHO', abbreviation: 'ID'},
+        { name: 'ILLINOIS', abbreviation: 'IL'},
+        { name: 'INDIANA', abbreviation: 'IN'},
+        { name: 'IOWA', abbreviation: 'IA'},
+        { name: 'KANSAS', abbreviation: 'KS'},
+        { name: 'KENTUCKY', abbreviation: 'KY'},
+        { name: 'LOUISIANA', abbreviation: 'LA'},
+        { name: 'MAINE', abbreviation: 'ME'},
+        { name: 'MARSHALL ISLANDS', abbreviation: 'MH'},
+        { name: 'MARYLAND', abbreviation: 'MD'},
+        { name: 'MASSACHUSETTS', abbreviation: 'MA'},
+        { name: 'MICHIGAN', abbreviation: 'MI'},
+        { name: 'MINNESOTA', abbreviation: 'MN'},
+        { name: 'MISSISSIPPI', abbreviation: 'MS'},
+        { name: 'MISSOURI', abbreviation: 'MO'},
+        { name: 'MONTANA', abbreviation: 'MT'},
+        { name: 'NEBRASKA', abbreviation: 'NE'},
+        { name: 'NEVADA', abbreviation: 'NV'},
+        { name: 'NEW HAMPSHIRE', abbreviation: 'NH'},
+        { name: 'NEW JERSEY', abbreviation: 'NJ'},
+        { name: 'NEW MEXICO', abbreviation: 'NM'},
+        { name: 'NEW YORK', abbreviation: 'NY'},
+        { name: 'NORTH CAROLINA', abbreviation: 'NC'},
+        { name: 'NORTH DAKOTA', abbreviation: 'ND'},
+        { name: 'NORTHERN MARIANA ISLANDS', abbreviation: 'MP'},
+        { name: 'OHIO', abbreviation: 'OH'},
+        { name: 'OKLAHOMA', abbreviation: 'OK'},
+        { name: 'OREGON', abbreviation: 'OR'},
+        { name: 'PALAU', abbreviation: 'PW'},
+        { name: 'PENNSYLVANIA', abbreviation: 'PA'},
+        { name: 'PUERTO RICO', abbreviation: 'PR'},
+        { name: 'RHODE ISLAND', abbreviation: 'RI'},
+        { name: 'SOUTH CAROLINA', abbreviation: 'SC'},
+        { name: 'SOUTH DAKOTA', abbreviation: 'SD'},
+        { name: 'TENNESSEE', abbreviation: 'TN'},
+        { name: 'TEXAS', abbreviation: 'TX'},
+        { name: 'UTAH', abbreviation: 'UT'},
+        { name: 'VERMONT', abbreviation: 'VT'},
+        { name: 'VIRGIN ISLANDS', abbreviation: 'VI'},
+        { name: 'VIRGINIA', abbreviation: 'VA'},
+        { name: 'WASHINGTON', abbreviation: 'WA'},
+        { name: 'WEST VIRGINIA', abbreviation: 'WV'},
+        { name: 'WISCONSIN', abbreviation: 'WI'},
+        { name: 'WYOMING', abbreviation: 'WY' }
+    ];
+
 require([
     'esri/arcgis/utils',
     'esri/Color',
@@ -646,6 +708,21 @@ require([
         var toggleID = $(this).attr("data-toggle").toString();
         $(".ftmodal-content").not("#" + toggleID).hide();
         $("#" + toggleID).show();
+	});
+	
+
+    // Historical Tabs
+    $("#topTen").click(function(){
+        $("#allAnnual").removeClass("active");
+        $(this).addClass("active");
+        $("#topTenContent").show();
+        $("#allAnnualContent").hide();
+    });
+    $("#allAnnual").click(function(){
+        $("#topTen").removeClass("active");
+        $(this).addClass("active");
+        $("#allAnnualContent").show();
+        $("#topTenContent").hide();
     });
 
     
@@ -1664,6 +1741,34 @@ require([
                         console.log("Error processing the JSON. The error is:" + error);
                     }
                 });
+
+                var stateCd = "";
+
+                $.each(usStates, function(index, value) {
+                    if (value.name == attr["STATE"]) {
+                        stateCd = value.abbreviation;
+                    }
+                });
+
+                var historicalCall = $.ajax({
+                    dataType: 'text',
+                    type: 'GET',
+                    //url: proxyUrl + "site_no="+siteNo+"&hydroGet=true",
+                    //url: nwisUrl + siteNo,//siteNo + "," + siteNo_2,
+                    url: proxyUrl + "stateCd=" + stateCd + "&site_no=" + siteNo + "&historical=true",
+                    headers: {'Accept': '*/*'}
+                });
+
+                $.when(historicalCall)//)
+                    .done(function(historicalData) {
+                        
+                        console.log("historical data", historicalData);
+                        
+                    })
+                    .fail(function() {
+                        //alert('there was an issue');
+                        floodToolsError();
+                    });
                 
                 //call for observed (NWIS) hydro data
                 var nwisCall = $.ajax({
@@ -1926,7 +2031,7 @@ require([
                                 //placeholder
                                 break;
                             case (3):
-                                layerDefinitions[0] = "USGSID_1 = '" + siteNo + "' AND STAGE_1 = " + gageValues[0].gageValue + "AND USGSID_2 = '" + siteNo_2 + "' AND STAGE_2 = " + gageValues2[0].gageValue + "AND USGSID_3 = '" + siteNo_3 + "' AND STAGE_3 = " + gageValues3[0].gageValue;
+                                layerDefinitions[0] = "USGSID_1 = '" + siteNo + "' AND STAGE_1 = " + gageValues[0].gageValue + "AND USGSID_2 = '" + siteNo_2 + "' AND STAGE_2 = " + gageValues2[0].gageValue + " AND USGSID_3 = '" + siteNo_3 + "' AND STAGE_3 = " + gageValues3[0].gageValue;
                                 map.getLayer("fimExtentsThreeSites").setLayerDefinitions(layerDefinitions);
                                 //REVISIT: when breach is available for three site libraries
                                 //map.getLayer("fimBreachThreeSites").setLayerDefinitions(layerDefinitions);
@@ -2083,8 +2188,9 @@ require([
 													$(".fts2 .slider-min.update").text(gageValues2[$(".fts2 #floodSlider")[0].value].gageValue);
 													$(".fts2 .slider-elev.update").text(altitudeValues2[$(".fts2 #floodSlider")[0].value].altitudeValue || "N/A");
 									                $(".fts2 .elevation-selected").text(altitudeValues2[$(".fts2 #floodSlider")[0].value].altitudeValue || "N/A");
-													$(".fts2 .flood-discharge-selected").text(dischargeValues2[$(".fts2 #floodSlider")[0].value].dischargeValue || "N/A");
-
+													if (dischargeValues2[$(".fts2 #floodSlider")[0].value] != undefined) {
+                                                        $(".fts2 .flood-discharge-selected").text(dischargeValues2[$(".fts2 #floodSlider")[0].value].dischargeValue || "N/A");
+                                                    }
                                                     break;
                                                 }
                                             }
@@ -2180,7 +2286,7 @@ require([
                                         map.getLayer(gridLayer).setVisibleLayers(gridVisLayer);
                                         
                                         var layerDefinitions = [];
-                                        layerDefinitions[0] = "USGSID_1 = '" + siteNo + "' AND STAGE_1 = " + gageValues[$(".fts1 #floodSlider")[0].value].gageValue + "AND USGSID_2 = '" + siteNo_2 + "' AND STAGE_2 = " + gageValues2[$(".fts2 #floodSlider")[0].value].gageValue;
+                                        layerDefinitions[0] = "USGSID_1 = '" + siteNo + "' AND STAGE_1 = " + gageValues[$(".fts1 #floodSlider")[0].value].gageValue + " AND USGSID_2 = '" + siteNo_2 + "' AND STAGE_2 = " + gageValues2[$(".fts2 #floodSlider")[0].value].gageValue;
                                         map.getLayer("fimExtentsMulti").setLayerDefinitions(layerDefinitions);
                                         map.getLayer("fimBreachMulti").setLayerDefinitions(layerDefinitions);
                                     }
@@ -4427,6 +4533,14 @@ require([
                     if (userTitle != "") {
                         titleText = userTitle;
                     }
+                    
+                    function textMarkUp(text) {
+                        var rawText = text;
+
+                        var textWithMarkUp = rawText.replace("mi2", "mi<sup>2</sup>");
+
+                        return textWithMarkUp;
+                    }
 
                     template.layoutOptions = {
                         "titleText": titleText,
@@ -4454,14 +4568,14 @@ require([
                                             "shown. Additional areas may be flooded due to " +
                                             "unanticipated backwater from major tributaries along " +
                                             "the main stem or from localized debris or ice jams."},
-                            { "studyArea": printAttr.STUDY_AREA },
-                            { "purpose": printAttr.PURPOSE_SCOPE },
+                            { "studyArea": textMarkUp(printAttr.STUDY_AREA) },
+                            { "purpose": textMarkUp(printAttr.PURPOSE_SCOPE) },
                             { "mapSources": "Detailed source data for this map series can be found in \"" + printAttr.TITLE + "(" + printAttr.PUB_DATE + ")\" at: " + printAttr.URL },
                             { "suggestedCitation": siteAttr.AUTHORS + ", " + siteAttr.REP_DATE + ", " + siteAttr.TITLE + ": " + siteAttr.REP_SERIES + " " + series_num + ", " + siteAttr.ADD_INFO},
-                            { "hydroData": printAttr.HYDRO_STEADY },
-                            { "hydraulicModel": printAttr.MODEL_CALIB },
-                            { "surfaceProfile": printAttr.WATER_PROFILE },
-                            { "floodMaps": printAttr.PROD_ACC }
+                            { "hydroData": textMarkUp(printAttr.HYDRO_STEADY) },
+                            { "hydraulicModel": textMarkUp(printAttr.MODEL_CALIB) },
+                            { "surfaceProfile": textMarkUp(printAttr.WATER_PROFILE) },
+                            { "floodMaps": textMarkUp(printAttr.PROD_ACC) }
                         ],
                         "legendLayers": null//[sitesLegendLayer]
                     };
