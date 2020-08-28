@@ -1760,15 +1760,15 @@ require([
                 });
 
                 $.when(historicalCall)//)
-                            .done(function(historicalData) {
-                                
-                                console.log("historical data", historicalData);
-
-                            })
-                            .fail(function() {
-                                //alert('there was an issue');
-                                floodToolsError();
-                            });
+                    .done(function(historicalData) {
+                        
+                        console.log("historical data", historicalData);
+                        
+                    })
+                    .fail(function() {
+                        //alert('there was an issue');
+                        floodToolsError();
+                    });
                 
                 //call for observed (NWIS) hydro data
                 var nwisCall = $.ajax({
@@ -2031,7 +2031,7 @@ require([
                                 //placeholder
                                 break;
                             case (3):
-                                layerDefinitions[0] = "USGSID_1 = '" + siteNo + "' AND STAGE_1 = " + gageValues[0].gageValue + "AND USGSID_2 = '" + siteNo_2 + "' AND STAGE_2 = " + gageValues2[0].gageValue + "AND USGSID_3 = '" + siteNo_3 + "' AND STAGE_3 = " + gageValues3[0].gageValue;
+                                layerDefinitions[0] = "USGSID_1 = '" + siteNo + "' AND STAGE_1 = " + gageValues[0].gageValue + "AND USGSID_2 = '" + siteNo_2 + "' AND STAGE_2 = " + gageValues2[0].gageValue + " AND USGSID_3 = '" + siteNo_3 + "' AND STAGE_3 = " + gageValues3[0].gageValue;
                                 map.getLayer("fimExtentsThreeSites").setLayerDefinitions(layerDefinitions);
                                 //REVISIT: when breach is available for three site libraries
                                 //map.getLayer("fimBreachThreeSites").setLayerDefinitions(layerDefinitions);
@@ -2188,8 +2188,9 @@ require([
 													$(".fts2 .slider-min.update").text(gageValues2[$(".fts2 #floodSlider")[0].value].gageValue);
 													$(".fts2 .slider-elev.update").text(altitudeValues2[$(".fts2 #floodSlider")[0].value].altitudeValue || "N/A");
 									                $(".fts2 .elevation-selected").text(altitudeValues2[$(".fts2 #floodSlider")[0].value].altitudeValue || "N/A");
-													$(".fts2 .flood-discharge-selected").text(dischargeValues2[$(".fts2 #floodSlider")[0].value].dischargeValue || "N/A");
-
+													if (dischargeValues2[$(".fts2 #floodSlider")[0].value] != undefined) {
+                                                        $(".fts2 .flood-discharge-selected").text(dischargeValues2[$(".fts2 #floodSlider")[0].value].dischargeValue || "N/A");
+                                                    }
                                                     break;
                                                 }
                                             }
@@ -2285,7 +2286,7 @@ require([
                                         map.getLayer(gridLayer).setVisibleLayers(gridVisLayer);
                                         
                                         var layerDefinitions = [];
-                                        layerDefinitions[0] = "USGSID_1 = '" + siteNo + "' AND STAGE_1 = " + gageValues[$(".fts1 #floodSlider")[0].value].gageValue + "AND USGSID_2 = '" + siteNo_2 + "' AND STAGE_2 = " + gageValues2[$(".fts2 #floodSlider")[0].value].gageValue;
+                                        layerDefinitions[0] = "USGSID_1 = '" + siteNo + "' AND STAGE_1 = " + gageValues[$(".fts1 #floodSlider")[0].value].gageValue + " AND USGSID_2 = '" + siteNo_2 + "' AND STAGE_2 = " + gageValues2[$(".fts2 #floodSlider")[0].value].gageValue;
                                         map.getLayer("fimExtentsMulti").setLayerDefinitions(layerDefinitions);
                                         map.getLayer("fimBreachMulti").setLayerDefinitions(layerDefinitions);
                                     }
@@ -4532,6 +4533,14 @@ require([
                     if (userTitle != "") {
                         titleText = userTitle;
                     }
+                    
+                    function textMarkUp(text) {
+                        var rawText = text;
+
+                        var textWithMarkUp = rawText.replace("mi2", "mi<sup>2</sup>");
+
+                        return textWithMarkUp;
+                    }
 
                     template.layoutOptions = {
                         "titleText": titleText,
@@ -4559,14 +4568,14 @@ require([
                                             "shown. Additional areas may be flooded due to " +
                                             "unanticipated backwater from major tributaries along " +
                                             "the main stem or from localized debris or ice jams."},
-                            { "studyArea": printAttr.STUDY_AREA },
-                            { "purpose": printAttr.PURPOSE_SCOPE },
+                            { "studyArea": textMarkUp(printAttr.STUDY_AREA) },
+                            { "purpose": textMarkUp(printAttr.PURPOSE_SCOPE) },
                             { "mapSources": "Detailed source data for this map series can be found in \"" + printAttr.TITLE + "(" + printAttr.PUB_DATE + ")\" at: " + printAttr.URL },
                             { "suggestedCitation": siteAttr.AUTHORS + ", " + siteAttr.REP_DATE + ", " + siteAttr.TITLE + ": " + siteAttr.REP_SERIES + " " + series_num + ", " + siteAttr.ADD_INFO},
-                            { "hydroData": printAttr.HYDRO_STEADY },
-                            { "hydraulicModel": printAttr.MODEL_CALIB },
-                            { "surfaceProfile": printAttr.WATER_PROFILE },
-                            { "floodMaps": printAttr.PROD_ACC }
+                            { "hydroData": textMarkUp(printAttr.HYDRO_STEADY) },
+                            { "hydraulicModel": textMarkUp(printAttr.MODEL_CALIB) },
+                            { "surfaceProfile": textMarkUp(printAttr.WATER_PROFILE) },
+                            { "floodMaps": textMarkUp(printAttr.PROD_ACC) }
                         ],
                         "legendLayers": null//[sitesLegendLayer]
                     };
