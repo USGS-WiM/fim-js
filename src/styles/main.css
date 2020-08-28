@@ -857,6 +857,11 @@ input[type="radio"] {
   line-height: 10px;
   color: rgba(16, 21, 44, 0.8);
 }
+.legend-image {
+  opacity: .7;
+  display: none;
+  margin: 10px 7px 7px;
+}
 #ahpsLegend {
   display: none;
 }
