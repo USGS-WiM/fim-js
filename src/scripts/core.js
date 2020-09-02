@@ -4834,7 +4834,7 @@ require([
                                             "the main stem or from localized debris or ice jams."},
                             { "studyArea": textMarkUp(printAttr.STUDY_AREA) },
                             { "purpose": textMarkUp(printAttr.PURPOSE_SCOPE) },
-                            { "mapSources": "Detailed source data for this map series can be found in \"" + printAttr.TITLE + "(" + printAttr.PUB_DATE + ")\" at: " + printAttr.URL },
+                            { "mapSources": "Detailed source data for this map series can be found in \"" + printAttr.TITLE + " (" + printAttr.PUB_DATE + ")\" at: " + printAttr.URL },
                             { "suggestedCitation": siteAttr.AUTHORS + ", " + siteAttr.REP_DATE + ", " + siteAttr.TITLE + ": " + siteAttr.REP_SERIES + " " + series_num + ", " + siteAttr.ADD_INFO},
                             { "hydroData": textMarkUp(printAttr.HYDRO_STEADY) },
                             { "hydraulicModel": textMarkUp(printAttr.MODEL_CALIB) },
