@@ -1042,10 +1042,10 @@ if (window.document.documentMode) {
                                     <span>Hydrograph</span>
                                     <i class="far fa-chart-line"></i>
                                 </div>
-                                <!--<div class="ft-tab ft-historic-tab" data-toggle="ftHistorical" onclick="ga('send','event','Historical Panel','click','Historical');">
+                                <div id="historicTab" class="ft-tab ft-historic-tab" data-toggle="ftHistorical" onclick="ga('send','event','Historical Panel','click','Historical');">
                                     <span>Historical Flooding</span>
                                     <i class="far fa-chart-bar"></i>
-                                </div>-->
+                                </div>
                                 <div class="ft-tab ft-hazus-tab" data-toggle="ftHazus" onclick="ga('send','event','Hazus Panel','click','HAZUS');">
                                     <span>Hazus</span>
                                     <i class="far fa-building"></i>
@@ -1180,7 +1180,7 @@ if (window.document.documentMode) {
 										<i class="far fa-chart-bar"></i>
 									</div>
 									<div class="tab" id="allAnnual">
-										<span>All Annual Floods go here</span>
+										<span>Annual Flood Peaks</span>
 										<i class="far fa-chart-bar"></i>
 									</div>
 								</div>
@@ -1188,7 +1188,6 @@ if (window.document.documentMode) {
 								<!-- Content -->
 								<!-- Top Ten --> 
 								<div id="topTenContent" class="ftnested-content">
-									<div>Top Ten Floods go here.</div>
 									<div class="fts1 chart-wrapper">
 										<div id="topTenChart"></div>
 									</div>
@@ -1198,10 +1197,11 @@ if (window.document.documentMode) {
 									<div class="fts3 chart-wrapper">
 										<div id="topTenChart3"></div>
 									</div>
+                                    <p class="historicPeakStudyDate"></p>
+                                    <p class="historicPeakDataLink"></p>
 								</div>
 								<!-- All Annual -->
 								<div id="allAnnualContent" class="ftnested-content" style="display: none;">
-									<div>All Annual Floods go here.</div>
 									<div class="fts1 chart-wrapper">
 										<div id="allAnnualChart"></div>
 									</div>
@@ -1211,12 +1211,9 @@ if (window.document.documentMode) {
 									<div class="fts3 chart-wrapper">
 										<div id="allAnnualChart3"></div>
 									</div>
-								</div>
-
-
-
-
-
+                                    <p class="historicPeakStudyDate"></p>
+                                    <p class="historicPeakDataLink"></p>
+                                </div>
 
                             </div>
 

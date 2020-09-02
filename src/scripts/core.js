@@ -1759,16 +1759,280 @@ require([
                     headers: {'Accept': '*/*'}
                 });
 
-                $.when(historicalCall)//)
-                    .done(function(historicalData) {
-                        
-                        console.log("historical data", historicalData);
-                        
-                    })
-                    .fail(function() {
-                        //alert('there was an issue');
-                        floodToolsError();
-                    });
+                if (siteAttr.MULTI_SITE == 0) {
+
+                    $(".ft-tab.ft-historic-tab,#ftHistorical").show();
+
+                    var allHistoricFloods = [];
+
+                    $.when(historicalCall)//)
+                        .done(function(historicalData) {
+                            
+                            var topTenFloods = [];
+
+                            var historicResult = historicalData;
+                            /*var dataSortField = new SortField();
+                            var numericDataSort = new Sort();*/
+                            
+                            if (historicResult.match("No sites") != null) { 
+                                //historicPeakResultIWant = false;
+                                console.log("No sites");
+                            } else {
+                                //historicPeakResultIWant = true;
+                                
+                                //Parse result here........................
+                                var historicResultByLine = historicResult.split("\n");
+
+                                function dateAdjustment(inDate) {
+                                    var outDate;
+
+                                    var dateParts = inDate.split("-");
+                                    var month;
+                                    var day;
+
+                                    //month fix
+                                    if (dateParts[1] == "00") {
+                                        month = "01";
+                                    } else {
+                                        month = dateParts[1];
+                                    }
+                                    //day fix
+                                    if (dateParts[2] == "00") {
+                                        day = "01";
+                                    } else {
+                                        day = dateParts[2];
+                                    }
+
+                                    outDate = dateParts[0] + "-" + month + "-" + day;
+
+                                    return outDate;
+                                }
+                                
+                                for (var i = 0; i < historicResultByLine.length; i++) {
+                                    var currentLine = historicResultByLine[i];
+                                    if (currentLine.match("#") == null && currentLine.match("USGS") != null) {
+                                        var lineSplit = currentLine.split("\t");
+                                        var dateFlood = dateAdjustment(lineSplit[2]);
+                                        var gageHeightFlood = lineSplit[6];
+                                        var codeFlood = lineSplit[7];
+                                        if (!isNaN(new Date(dateFlood+"T00:00:00").getTime())) {
+                                            allHistoricFloods.push([new Date(dateFlood).getTime(), parseFloat(gageHeightFlood), codeFlood]);
+                                        }
+                                    }
+                                }
+
+                                var floodPeakChartHeight = 300;
+                                var floodPeakChartWidth = 475;
+
+                                Highcharts.chart('allAnnualChart', {
+                                    chart: {
+                                        type: 'column',
+                                        height: floodPeakChartHeight,
+                                        width: floodPeakChartWidth
+                                    },
+                                    title: {
+                                        text: 'Annual Flood Peaks for ' + siteAttr.COMMUNITY
+                                    },
+                                    subtitle: {
+                                        text: ''
+                                    },
+                                    xAxis: {
+                                        type: "datetime",
+                                        tickInterval: "4",
+                                        labels: {
+                                            formatter: function() {
+                                                return Highcharts.dateFormat('%Y', this.value)
+                                            }
+                                        }
+                                    },
+                                    yAxis: {
+                                        min: 0,
+                                        max: null,
+                                        endOnTick: false,
+                                        resize: {
+                                            enabled: true
+                                        },
+                                        title: {
+                                            text: "Gage Height (ft)"
+                                        }
+                                    },
+                                    tooltip: {
+                                        valueSuffix: ' ft'
+                                    },
+                                    plotOptions: {
+                                        series: {
+                                            color: "#000000",
+                                            events: {
+                                                click: function (event) {
+                                                    snapToFlood(event.point.y,".first-slider");
+                                                }
+                                            }
+                                        },
+                                        bar: {
+                                            dataLabels: {
+                                                enabled: true
+                                            }
+                                        }
+                                    },
+                                    legend: {
+                                        enabled: false
+                                    },
+                                    credits: {
+                                        enabled: false
+                                    },
+                                    series: [{
+                                        data: allHistoricFloods,
+                                        name: 'Annual Flood Peaks'
+                                    },{
+                                        data: allHistoricFloods,
+                                        name: 'Annual Flood Peaks Points',
+                                        type: "scatter", 
+                                        marker: {
+                                            type: 'circle',
+                                            color: '#000000',
+                                            size: 10
+                                        }
+                                    }],
+                                    tooltip: {
+                                        formatter: function() {
+                                            var elem = allHistoricFloods.find(element => element[0] == this.x && element[1] == this.y);
+                                            var code = elem[2];
+                                            var date = new Date(this.x);
+                                            var month = getMonth(date);
+                                            var dayOfMonth = date.getDate();
+                                            var year = date.getFullYear();
+                                            if (code != "") {
+                                                return "Peak: <b>" + this.y + " ft*</b><br/>" +
+                                                month + ' ' + dayOfMonth + ', ' + year;
+                                            } else {
+                                                return "Peak: <b>" + this.y + " ft</b><br/>" +
+                                                month + ' ' + dayOfMonth + ', ' + year;
+                                            }
+                                        }
+                                    }
+                                });
+                                
+                                
+                                //Sort array collection by top 10 descending and then get first 10 items
+                                
+                                var tempAllFloods = allHistoricFloods.sort(function(a, b) {
+                                    return b[1] - a[1];
+                                });
+                                
+                                var unorderedTopTenFloods = tempAllFloods.slice(0,10);;
+
+                                topTenFloods = unorderedTopTenFloods.sort(function(a, b) { return a[0] - b[0]; });
+
+                                var topTenDates = ["Current Stage"];
+                                var topTenValues = [{y: Number($('.fts1 #floodGage').html()), color: "#000000"}];
+                                $.each(topTenFloods, function(index, value) {
+                                    topTenDates.push(value[0]);
+                                    topTenValues.push(value[1]);
+                                });
+
+                                Highcharts.chart('topTenChart', {
+                                    chart: {
+                                        type: 'column',
+                                        height: floodPeakChartHeight,
+                                        width: floodPeakChartWidth
+                                    },
+                                    title: {
+                                        text: 'Top 10 Annual Flood Peaks for ' + siteAttr.COMMUNITY
+                                    },
+                                    subtitle: {
+                                        text: ''
+                                    },
+                                    xAxis: {
+                                        type: "datetime",
+                                        categories: topTenDates,
+                                        labels: {
+                                            formatter: function() {
+                                                if (isNaN(this.value)) {
+                                                    return this.value;
+                                                } else {
+                                                    return Highcharts.dateFormat('%b %e, %Y', this.value)
+                                                }
+                                            }
+                                        }
+                                    },
+                                    yAxis: {
+                                        min: 0,
+                                        max: null,
+                                        endOnTick: false,
+                                        resize: {
+                                            enabled: true
+                                        },
+                                        title: {
+                                            text: "Gage Height (ft)"
+                                        }
+                                    },
+                                    tooltip: {
+                                        valueSuffix: ' ft'
+                                    },
+                                    plotOptions: {
+                                        series: {
+                                            events: {
+                                                click: function (event) {
+                                                    snapToFlood(event.point.y,".first-slider");
+                                                }
+                                            }
+                                        },
+                                        bar: {
+                                            dataLabels: {
+                                                enabled: true
+                                            }
+                                        }
+                                    },
+                                    legend: {
+                                        enabled: false
+                                    },
+                                    credits: {
+                                        enabled: false
+                                    },
+                                    series: [{
+                                        data: topTenValues,
+                                        name: 'Top Ten Flood Peaks'
+                                    }],
+                                    tooltip: {
+                                        formatter: function() {
+                                            if (this.x != "Current Stage") {
+                                                var elem = allHistoricFloods.find(element => element[0] == this.x && element[1] == this.y);
+                                                var code = elem[2];
+                                            }
+                                            var date = new Date(this.x);
+                                            var month = getMonth(date);
+                                            var dayOfMonth = date.getDate();
+                                            var year = date.getFullYear();
+                                            if (this.x == "Current Stage") {
+                                                return "Current stage: <b>" + this.y + " ft</b>";
+                                            } else if (code != "") {
+                                                return "Peak: <b>" + this.y + " ft</b><br/>" +
+                                                    month + ' ' + dayOfMonth + ', ' + year;
+                                            } else {
+                                                return "Peak: <b>" + this.y + " ft*</b><br/>" +
+                                                    month + ' ' + dayOfMonth + ', ' + year;
+                                            }
+                                        }
+                                    }
+                                });
+
+                                $(".historicPeakStudyDate").html("Click on an historical flood to see the estimated extent. Due to changes in the channel" +
+                                            " and urbanization over time, these areas are only an estimate using " + siteAttr.STUDY_DATE + " modeled conditions. These numbers are" +
+                                            " provided for historical context only and are not reviewed inundation areas for the selected flood height.");
+                                $(".historicPeakDataLink").html("*Please visit the <a target='_blank' href='http://waterdata.usgs.gov/nwis/inventory?agency_code=USGS&site_no=" + siteAttr.SITE_NO + "'>USGS NWIS Flood Peaks Page</a>" +
+                                            " for more information on flagged peaks and the full flood peak record.");
+                                
+                            }
+                            
+                        })
+                        .fail(function() {
+                            //alert('there was an issue');
+                            floodToolsError();
+                        });
+
+                } else {
+                    $(".ft-tab.ft-historic-tab,#ftHistorical").hide();
+                }
                 
                 //call for observed (NWIS) hydro data
                 var nwisCall = $.ajax({
