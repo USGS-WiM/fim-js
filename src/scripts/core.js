@@ -1828,8 +1828,15 @@ require([
                                     chart: {
                                         type: 'column',
                                         height: floodPeakChartHeight,
-                                        width: floodPeakChartWidth
-                                    },
+                                        // width: floodPeakChartWidth
+									},
+									responsive: {  
+										rules: [{  
+										  	condition: {  
+												maxWidth: floodPeakChartWidth  
+										  	},  
+										}]  
+									},
                                     title: {
                                         text: 'Annual Flood Peaks for ' + siteAttr.COMMUNITY
                                     },
@@ -1934,8 +1941,15 @@ require([
                                     chart: {
                                         type: 'column',
                                         height: floodPeakChartHeight,
-                                        width: floodPeakChartWidth
-                                    },
+                                        // width: floodPeakChartWidth
+									},
+									responsive: {  
+										rules: [{  
+										  	condition: {  
+												maxWidth: floodPeakChartWidth  
+										  	},  
+										}]  
+									},
                                     title: {
                                         text: 'Top 10 Annual Flood Peaks for ' + siteAttr.COMMUNITY
                                     },
@@ -3766,7 +3780,7 @@ require([
                                     opts.chart = {
                                         type: 'line',
                                         height: highChartHeight,
-                                        width: highChartWidth,
+                                        // width: highChartWidth,
                                         events:{
                                             load: function() {
                                                 this.credits.element.onclick = function() {
@@ -3777,7 +3791,17 @@ require([
                                                 }
                                             }
                                         }
-                                    };
+									};
+									
+									opts.responsive = {  
+										rules: [{  
+										  	condition: {  
+												maxWidth: highChartWidth  
+										  	},  
+										}]  
+									};
+
+
                                     opts.title = {
                                         text: graph_title
                                     }
