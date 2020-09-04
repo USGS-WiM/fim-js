@@ -315,16 +315,16 @@ require([
 
     //following block forces map size to override problems with default behavior
     $(window).resize(function () {
-        if ($("#legendCollapse").hasClass('in')) {
-            maxLegendHeight =  ($('#mapDiv').height()) * 0.90;
-            $('#legendElement').css('height', maxLegendHeight);
-            $('#legendElement').css('max-height', maxLegendHeight);
-            maxLegendDivHeight = ($('#legendElement').height()) - parseInt($('#legendHeading').css("height").replace('px',''));
-            $('#legendDiv').css('max-height', maxLegendDivHeight);
-        }
-        else {
-            $('#legendElement').css('height', 'initial');
-        }
+        // if ($("#legendCollapse").hasClass('in')) {
+        //     maxLegendHeight =  ($('#mapDiv').height()) * 0.90;
+        //     $('#legendElement').css('height', maxLegendHeight);
+        //     $('#legendElement').css('max-height', maxLegendHeight);
+        //     maxLegendDivHeight = ($('#legendElement').height()) - parseInt($('#legendHeading').css("height").replace('px',''));
+        //     $('#legendDiv').css('max-height', maxLegendDivHeight);
+        // }
+        // else {
+        //     $('#legendElement').css('height', 'initial');
+        // }
 
         /*if ($("#floodToolsDiv").css("visibility") == "visible") {
             var instance = $('#floodToolsDiv').data('lobiPanel');
@@ -5107,20 +5107,6 @@ require([
 
 
         $("#legendDiv").niceScroll();
-
-        maxLegendHeight =  ($('#mapDiv').height()) * 0.90;
-        $('#legendElement').css('max-height', maxLegendHeight);
-
-        $('#legendCollapse').on('shown.bs.collapse', function () {
-            maxLegendHeight =  ($('#mapDiv').height()) * 0.90;
-            $('#legendElement').css('max-height', maxLegendHeight);
-            maxLegendDivHeight = ($('#legendElement').height()) - parseInt($('#legendHeading').css("height").replace('px',''));
-            $('#legendDiv').css('max-height', maxLegendDivHeight);
-        });
-
-        $('#legendCollapse').on('hide.bs.collapse', function () {
-            $('#legendElement').css('height', 'initial');
-        });
 
     });
 
