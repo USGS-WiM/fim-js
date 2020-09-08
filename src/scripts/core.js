@@ -315,16 +315,16 @@ require([
 
     //following block forces map size to override problems with default behavior
     $(window).resize(function () {
-        if ($("#legendCollapse").hasClass('in')) {
-            maxLegendHeight =  ($('#mapDiv').height()) * 0.90;
-            $('#legendElement').css('height', maxLegendHeight);
-            $('#legendElement').css('max-height', maxLegendHeight);
-            maxLegendDivHeight = ($('#legendElement').height()) - parseInt($('#legendHeading').css("height").replace('px',''));
-            $('#legendDiv').css('max-height', maxLegendDivHeight);
-        }
-        else {
-            $('#legendElement').css('height', 'initial');
-        }
+        // if ($("#legendCollapse").hasClass('in')) {
+        //     maxLegendHeight =  ($('#mapDiv').height()) * 0.90;
+        //     $('#legendElement').css('height', maxLegendHeight);
+        //     $('#legendElement').css('max-height', maxLegendHeight);
+        //     maxLegendDivHeight = ($('#legendElement').height()) - parseInt($('#legendHeading').css("height").replace('px',''));
+        //     $('#legendDiv').css('max-height', maxLegendDivHeight);
+        // }
+        // else {
+        //     $('#legendElement').css('height', 'initial');
+        // }
 
         /*if ($("#floodToolsDiv").css("visibility") == "visible") {
             var instance = $('#floodToolsDiv').data('lobiPanel');
@@ -1828,8 +1828,15 @@ require([
                                     chart: {
                                         type: 'column',
                                         height: floodPeakChartHeight,
-                                        width: floodPeakChartWidth
-                                    },
+                                        // width: floodPeakChartWidth
+									},
+									responsive: {  
+										rules: [{  
+										  	condition: {  
+												maxWidth: floodPeakChartWidth  
+										  	},  
+										}]  
+									},
                                     title: {
                                         text: 'Annual Flood Peaks for ' + siteAttr.COMMUNITY
                                     },
@@ -1934,8 +1941,15 @@ require([
                                     chart: {
                                         type: 'column',
                                         height: floodPeakChartHeight,
-                                        width: floodPeakChartWidth
-                                    },
+                                        // width: floodPeakChartWidth
+									},
+									responsive: {  
+										rules: [{  
+										  	condition: {  
+												maxWidth: floodPeakChartWidth  
+										  	},  
+										}]  
+									},
                                     title: {
                                         text: 'Top 10 Annual Flood Peaks for ' + siteAttr.COMMUNITY
                                     },
@@ -3766,7 +3780,7 @@ require([
                                     opts.chart = {
                                         type: 'line',
                                         height: highChartHeight,
-                                        width: highChartWidth,
+                                        // width: highChartWidth,
                                         events:{
                                             load: function() {
                                                 this.credits.element.onclick = function() {
@@ -3777,7 +3791,17 @@ require([
                                                 }
                                             }
                                         }
-                                    };
+									};
+									
+									opts.responsive = {  
+										rules: [{  
+										  	condition: {  
+												maxWidth: highChartWidth  
+										  	},  
+										}]  
+									};
+
+
                                     opts.title = {
                                         text: graph_title
                                     }
@@ -5107,20 +5131,6 @@ require([
 
 
         $("#legendDiv").niceScroll();
-
-        maxLegendHeight =  ($('#mapDiv').height()) * 0.90;
-        $('#legendElement').css('max-height', maxLegendHeight);
-
-        $('#legendCollapse').on('shown.bs.collapse', function () {
-            maxLegendHeight =  ($('#mapDiv').height()) * 0.90;
-            $('#legendElement').css('max-height', maxLegendHeight);
-            maxLegendDivHeight = ($('#legendElement').height()) - parseInt($('#legendHeading').css("height").replace('px',''));
-            $('#legendDiv').css('max-height', maxLegendDivHeight);
-        });
-
-        $('#legendCollapse').on('hide.bs.collapse', function () {
-            $('#legendElement').css('height', 'initial');
-        });
 
     });
 
