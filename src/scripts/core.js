@@ -1815,7 +1815,7 @@ require([
                                         var dateFlood = dateAdjustment(lineSplit[2]);
                                         var gageHeightFlood = lineSplit[6];
                                         var codeFlood = lineSplit[7];
-                                        if (!isNaN(new Date(dateFlood+"T00:00:00").getTime())) {
+                                        if (!isNaN(new Date(dateFlood+"T00:00:00").getTime()) && gageHeightFlood != "") {
                                             allHistoricFloods.push([new Date(dateFlood).getTime(), parseFloat(gageHeightFlood), codeFlood]);
                                         }
                                     }
