@@ -863,7 +863,7 @@ require([
     });
 
     $("#printModal").on("click", function(evt) {
-        if(evt.target == this || $(evt.target).attr('class') == 'close'){
+        if(evt.target == this || $(evt.target).attr('class') == 'close' || evt.target.id == "printDismissButton"){
             //alert("Close the Print Modal")
             var sitesLayerPrint = map.getLayer("fimSites");
             sitesLayerPrint.setVisibility(true);
