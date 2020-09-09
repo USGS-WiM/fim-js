@@ -817,6 +817,11 @@ input[type="radio"] {
   font-size: 14px;
   font-weight: 500;
   color: black;
+  line-height: 14px;
+}
+.custom-legend .legend-title small {
+  display: block;
+  margin: 0 0 10px 0;
 }
 .custom-legend .legend-item {
   display: -webkit-flex;
@@ -2384,6 +2389,10 @@ input[type=range].styled:focus::-ms-fill-upper {
     border-top: 1px solid rgba(0, 0, 0, 0.08);
   }
 }
+#ftModal #ftData #ftDataTabs.no-top-border,
+#ftModal #ftData .ft-tabs.no-top-border {
+  border-top: none;
+}
 #ftModal #ftData #ftDataTabs .tab,
 #ftModal #ftData .ft-tabs .tab,
 #ftModal #ftData #ftDataTabs .ft-tab,
@@ -3168,7 +3177,7 @@ input[type=range].styled:focus::-ms-fill-upper {
   color: white;
   text-decoration: underline;
   width: 100%;
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 600;
   letter-spacing: 0.5px;
   background-color: transparent;
@@ -3185,6 +3194,36 @@ input[type=range].styled:focus::-ms-fill-upper {
   .ft-mboile-warning {
     display: none !important;
   }
+}
+.chart-wrapper {
+  display: block;
+  max-width: 90%;
+  margin: 0 auto;
+  -webkit-transform-origin: top left;
+  transform-origin: top left;
+}
+@media (max-width: 700px) {
+  .chart-wrapper {
+    width: 100%;
+    max-width: 100%;
+    padding: 0;
+    margin: 0;
+    display: block;
+    overflow: auto;
+    min-width: 100%;
+  }
+}
+@media (max-width: 700px) {
+  .ftnested-content {
+    display: block;
+    width: 100%;
+    overflow: auto;
+    padding: 0;
+    margin: 0;
+  }
+}
+.highcharts-background {
+  fill: transparent !important;
 }
 .modal {
   background-color: rgba(16, 21, 44, 0.25);
@@ -3762,7 +3801,8 @@ input[type=range].styled:focus::-ms-fill-upper {
 #legendWrapper {
   display: block;
   overflow: auto;
-  max-height: 280px;
+  max-height: 300px;
+  max-height: 50vh;
 }
 #legendElement #legendDiv {
   position: relative;
