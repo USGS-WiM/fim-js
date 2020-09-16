@@ -1591,7 +1591,7 @@ require([
                 }else if(feature.attributes.HAS_WEBCAM == "2"){ //Image
                     $(".ft-webcam-tab").show();
                     $(".ft-webcam-link-tab").hide();
-                    $("#webcamImage").attr('src', feature.attributes.WEBCAM_INFO);
+                    $("#webcamImage").attr('src', feature.attributes.WEBCAM_INFO.replace('http:', 'https:'));
                     console.log("Webcam image embedded.")
                 }else{
                     $(".ft-webcam-tab").hide();

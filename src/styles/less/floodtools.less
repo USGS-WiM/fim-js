@@ -25,6 +25,11 @@
 	.panel-body{
 		flex-grow: 3;
 		padding-bottom: 0;
+
+		@media (max-width: 550px) {
+			display: flex;
+			flex-direction: column;
+		}
 	}
 }
 
@@ -310,6 +315,7 @@
 				}
 				input[type=checkbox]{
 					margin: 1px 0 0 0 !important;
+					height: 100%;
 				}
 			}
 			
@@ -503,8 +509,9 @@
 
 		@media (max-width: 700px) {
 			max-width: none;
-			height: 55%;
-			height: calc(~'100vh - 320px');
+			height: 10px;
+			flex-grow:3;
+			// height: calc(~'100vh - 320px');
 		}
 
 		#ftDataTabs,
@@ -678,7 +685,7 @@
 			
 			@media (max-width: 700px) {
 				padding: 15px 5px 100px 5px;
-				height: fit-content !important;
+				// height: fit-content !important;
 			}
 
 			&.nopadding{
@@ -752,7 +759,11 @@
                     box-sizing: border-box;
                     padding: 8px 0 0 0;
                     color: @black;
-                    font-size: 13px;
+					font-size: 13px;
+					
+					@media (max-width: 767px) {
+						width: 48%;
+					}
 
                     &.bold{
 						font-size: 12px;
@@ -971,7 +982,11 @@
                 height: 85px;
                 position: relative;
                 top: -40px;
-                width: auto;
+				width: auto;
+				
+				@media (max-width: 550px) {
+					position: unset;
+				}
             }
 
             #mapsCreatedBy,
@@ -1355,7 +1370,10 @@
             #ftData{
                 box-sizing: border-box;
                 min-height: fit-content;
-                
+
+				@media (max-width: 700px) {
+					min-height: unset;
+				}
                 #ftDataTabs{
                     justify-content: center !important;
                 }
@@ -1382,15 +1400,15 @@
 	bottom: 0;
 	left: 0;
 	width: 100vw;
-	background-color: @black;
+	background-color: #000000;
 	z-index: 500;
 	color: white;
 	box-sizing: border-box;
 	padding: 18px 25px 10px 25px;
-	font-size: 14px;
-	line-height: 22px;
-	border-top-left-radius: 20px;
-	border-top-right-radius: 20px;
+	font-size: 13px;
+	line-height: 24px;
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
 	box-shadow: 0 -3.6px 3.6px rgba(0, 0, 0, 0.055), 0 -29px 29px rgba(0, 0, 0, 0.11);
 	
 	.ft-mobile-warning-dismiss{
@@ -1400,19 +1418,21 @@
 		padding: 5px 0 10px 0;
 
 		button{
-			color: white;
-			text-decoration: underline;
+			color: black;
+			background-color: white;
 			width: 100%;
-			font-size: 16px;
+			font-size: 14px;
 			font-weight: 600;
 			letter-spacing: 0.5px;
-			background-color: transparent;
 			border: none;
+			padding: 8px 0;
 			transition: 0.2s;
 			opacity: 1;
+			border-radius: 4px;
 
 			&:hover,
 			&:focus{
+				text-decoration: underline;
 				opacity: 0.75;
 				transition: 0.2s;
 			}

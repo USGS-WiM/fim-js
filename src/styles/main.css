@@ -1874,6 +1874,14 @@ input[type=range].styled:focus::-ms-fill-upper {
   flex-grow: 3;
   padding-bottom: 0;
 }
+@media (max-width: 550px) {
+  #floodToolsDiv .panel-body {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+  }
+}
 #floodToolsErrorMessage {
   display: none;
   text-align: center;
@@ -2170,6 +2178,7 @@ input[type=range].styled:focus::-ms-fill-upper {
 }
 #ftModal #ftSliders #ftOptions .ft-checkbox input[type=checkbox] {
   margin: 1px 0 0 0 !important;
+  height: 100%;
 }
 @media (max-width: 700px) {
   #ftModal #ftSliders #ftOptions #satBasemap {
@@ -2364,8 +2373,9 @@ input[type=range].styled:focus::-ms-fill-upper {
 @media (max-width: 700px) {
   #ftModal #ftData {
     max-width: none;
-    height: 55%;
-    height: calc(100vh - 320px);
+    height: 10px;
+    -webkit-flex-grow: 3;
+    flex-grow: 3;
   }
 }
 #ftModal #ftData #ftDataTabs,
@@ -2569,9 +2579,6 @@ input[type=range].styled:focus::-ms-fill-upper {
 @media (max-width: 700px) {
   #ftModal #ftData .ftmodal-content {
     padding: 15px 5px 100px 5px;
-    height: -webkit-fit-content !important;
-    height: -moz-fit-content !important;
-    height: fit-content !important;
   }
 }
 #ftModal #ftData .ftmodal-content.nopadding {
@@ -2643,6 +2650,11 @@ input[type=range].styled:focus::-ms-fill-upper {
   padding: 8px 0 0 0;
   color: #10152C;
   font-size: 13px;
+}
+@media (max-width: 767px) {
+  #ftModal #ftData #ftTools .tools-table .box {
+    width: 48%;
+  }
 }
 #ftModal #ftData #ftTools .tools-table .box.bold {
   font-size: 12px;
@@ -2812,6 +2824,11 @@ input[type=range].styled:focus::-ms-fill-upper {
   position: relative;
   top: -40px;
   width: auto;
+}
+@media (max-width: 550px) {
+  #ftModal #ftData #ftServices #iwrssLogo {
+    position: unset;
+  }
 }
 #ftModal #ftData #ftServices #mapsCreatedBy,
 #ftModal #ftData #ftServices #mapsReviewedBy {
@@ -3145,6 +3162,11 @@ input[type=range].styled:focus::-ms-fill-upper {
     padding: 6px 0;
   }
 }
+@media (max-width: 700px) and (max-width: 700px) {
+  #floodToolsDiv .panel-body #ftData {
+    min-height: unset;
+  }
+}
 .highcharts-credits {
   display: none !important;
 }
@@ -3154,15 +3176,15 @@ input[type=range].styled:focus::-ms-fill-upper {
   bottom: 0;
   left: 0;
   width: 100vw;
-  background-color: #10152C;
+  background-color: #000000;
   z-index: 500;
   color: white;
   box-sizing: border-box;
   padding: 18px 25px 10px 25px;
-  font-size: 14px;
-  line-height: 22px;
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
+  font-size: 13px;
+  line-height: 24px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
   box-shadow: 0 -3.6px 3.6px rgba(0, 0, 0, 0.055), 0 -29px 29px rgba(0, 0, 0, 0.11);
 }
 .ft-mboile-warning .ft-mobile-warning-dismiss {
@@ -3174,19 +3196,21 @@ input[type=range].styled:focus::-ms-fill-upper {
   padding: 5px 0 10px 0;
 }
 .ft-mboile-warning .ft-mobile-warning-dismiss button {
-  color: white;
-  text-decoration: underline;
+  color: black;
+  background-color: white;
   width: 100%;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 600;
   letter-spacing: 0.5px;
-  background-color: transparent;
   border: none;
+  padding: 8px 0;
   transition: 0.2s;
   opacity: 1;
+  border-radius: 4px;
 }
 .ft-mboile-warning .ft-mobile-warning-dismiss button:hover,
 .ft-mboile-warning .ft-mobile-warning-dismiss button:focus {
+  text-decoration: underline;
   opacity: 0.75;
   transition: 0.2s;
 }
@@ -3259,7 +3283,7 @@ input[type=range].styled:focus::-ms-fill-upper {
     width: 100vw !important;
     position: fixed;
     bottom: 0;
-    border-radius: 20px !important;
+    border-radius: 12px !important;
     border-bottom-left-radius: 0px !important;
     border-bottom-right-radius: 0px !important;
   }
