@@ -657,6 +657,13 @@ require([
 	// Open flood tools or maximize from min
     $("#floodToolsOpen, #floodToolsMax").click(function(){
         $('#hydroChart').delay(500).show();
+        if (siteAttr.MULTI_SITE == 1) {
+            $('#hydroChart2').delay(500).show();
+        } 
+        if (siteAttr.MULTI_SITE > 1) {
+            $('#hydroChart2').delay(500).show();
+            $('#hydroChart3').delay(500).show();
+        } 
         $("#floodToolsDiv").css("visibility", "visible");
         $("#minFT").removeClass('visible');
     });
