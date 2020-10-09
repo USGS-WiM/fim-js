@@ -71,6 +71,9 @@ var currentBasemap;
 
 var sitesLayerPrint;
 
+var allAnnualChart;
+var topTenChart;
+
 var usStates = [
         { name: 'ALABAMA', abbreviation: 'AL'},
         { name: 'ALASKA', abbreviation: 'AK'},
@@ -654,6 +657,13 @@ require([
 	// Open flood tools or maximize from min
     $("#floodToolsOpen, #floodToolsMax").click(function(){
         $('#hydroChart').delay(500).show();
+        if (siteAttr.MULTI_SITE == 1) {
+            $('#hydroChart2').delay(500).show();
+        } 
+        if (siteAttr.MULTI_SITE > 1) {
+            $('#hydroChart2').delay(500).show();
+            $('#hydroChart3').delay(500).show();
+        } 
         $("#floodToolsDiv").css("visibility", "visible");
         $("#minFT").removeClass('visible');
     });
@@ -1588,7 +1598,7 @@ require([
                 }else if(feature.attributes.HAS_WEBCAM == "2"){ //Image
                     $(".ft-webcam-tab").show();
                     $(".ft-webcam-link-tab").hide();
-                    $("#webcamImage").attr('src', feature.attributes.WEBCAM_INFO);
+                    $("#webcamImage").attr('src', feature.attributes.WEBCAM_INFO.replace('http:', 'https:'));
                     console.log("Webcam image embedded.")
                 }else{
                     $(".ft-webcam-tab").hide();
@@ -1759,17 +1769,18 @@ require([
                     headers: {'Accept': '*/*'}
                 });
 
+                var allHistoricFloods = [];
+                var topTenFloods = [];
+                var topTenDates = [];
+                var topTenValues = [];
+                
                 if (siteAttr.MULTI_SITE == 0) {
 
                     $(".ft-tab.ft-historic-tab,#ftHistorical").show();
 
-                    var allHistoricFloods = [];
-
                     $.when(historicalCall)//)
                         .done(function(historicalData) {
                             
-                            var topTenFloods = [];
-
                             var historicResult = historicalData;
                             /*var dataSortField = new SortField();
                             var numericDataSort = new Sort();*/
@@ -1824,7 +1835,7 @@ require([
                                 var floodPeakChartHeight = 300;
                                 var floodPeakChartWidth = 475;
 
-                                Highcharts.chart('allAnnualChart', {
+                                allAnnualChart = Highcharts.chart('allAnnualChart', {
                                     chart: {
                                         type: 'column',
                                         height: floodPeakChartHeight,
@@ -1930,14 +1941,15 @@ require([
 
                                 topTenFloods = unorderedTopTenFloods.sort(function(a, b) { return a[0] - b[0]; });
 
-                                var topTenDates = ["Current Stage"];
-                                var topTenValues = [{y: Number($('.fts1 #floodGage').html()), color: "#000000"}];
+                                topTenDates = ["Current Stage"];
+                                topTenValues = [{y: Number($('.fts1 #floodGage').html()), color: "#000000"}];
+
                                 $.each(topTenFloods, function(index, value) {
                                     topTenDates.push(value[0]);
                                     topTenValues.push(value[1]);
                                 });
 
-                                Highcharts.chart('topTenChart', {
+                                topTenChart = Highcharts.chart('topTenChart', {
                                     chart: {
                                         type: 'column',
                                         height: floodPeakChartHeight,
@@ -3063,6 +3075,8 @@ require([
                                     return finalDataArray
                                 }
 
+                                console.log('current gage height here');
+
                                 // ======================================================
                                 // ======================================================
                                 // Set current Gage Height and Discharge Values
@@ -3078,6 +3092,16 @@ require([
                                         $(".floodSlider.first-slider").value = val;
                                     }else{console.log("Current height lower")}
                                     $('.fts1 #floodGage').text(val);
+                                    if (topTenValues.length != topTenDates.length) {
+                                        topTenValues.unshift(Number({y: Number(val), color: "#000000"}));
+                                    } else if (topTenValues.length > 0 && topTenValues.length == topTenDates.length) {
+                                        topTenValues[0] = {y: Number(val), color: "#000000"};
+                                        topTenChart.series[0].update({
+                                            data: topTenValues,
+                                            name: 'Top Ten Flood Peaks'
+                                        });
+                                        //topTenChart.redraw();
+                                    }
                                 }
                                 // Site One Discharge
                                 if (dischargeIndex != null && siteData.data[dischargeIndex].time_series_data.length > 0 && siteData.data[dischargeIndex].time_series_data[siteData.data[dischargeIndex].time_series_data.length-1][1] != null) {
