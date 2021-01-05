@@ -581,9 +581,10 @@ require([
 
 
     $("#floodMin").click(function(){
-        $("#floodToolsDiv").css("visibility", "hidden");
+        $("#floodToolsDiv").toggleClass("mobile-minimized")
+        // $("#floodToolsDiv").css("visibility", "hidden");
         //map.getLayer("fimExtents").setVisibility(false);
-        $("#minFT").addClass('visible');
+        // $("#minFT").addClass('visible');
 
         $('#hydroChart, #hydroChart2, #hydroChart3').hide();
     });

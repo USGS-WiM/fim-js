@@ -1951,7 +1951,7 @@ input[type=range].styled:focus::-ms-fill-upper {
 }
 @media (max-width: 700px) {
   #ftModal #ftSliders .slider-group {
-    margin-top: 30px;
+    margin-top: 12px;
   }
 }
 #ftModal #ftSliders .slider-group.fts1 {
@@ -1989,28 +1989,19 @@ input[type=range].styled:focus::-ms-fill-upper {
   height: 0;
   width: 0;
   position: relative;
-  top: -3px;
+  top: 40px;
   font-size: 11px;
   letter-spacing: -0.2px;
   color: #10152C;
 }
-@media (max-width: 700px) {
-  #ftModal #ftSliders .slider-group .slider-wrapper .slider-min {
-    top: 18px !important;
-  }
-}
 #ftModal #ftSliders .slider-group .slider-wrapper .slider-max {
   left: -14px;
-}
-@media (max-width: 700px) {
-  #ftModal #ftSliders .slider-group .slider-wrapper .slider-max {
-    top: 18px !important;
-  }
 }
 #ftModal #ftSliders .slider-group .slider-wrapper input {
   -webkit-flex-grow: 3;
   flex-grow: 3;
   width: 100%;
+  height: 38px;
   z-index: 60;
   position: relative;
   direction: rtl;
@@ -2081,14 +2072,39 @@ input[type=range].styled:focus::-ms-fill-upper {
   #ftModal #ftSliders #ftOptions {
     padding-top: 0;
     width: 100%;
-    padding-left: 55px !important;
+    padding-left: 70px !important;
     width: 100% !important;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+  }
+}
+#ftModal #ftSliders #ftOptions #ftOptionsMeta {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-justify-content: center;
+  justify-content: center;
+  width: 100%;
+  padding-bottom: 8px;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+}
+@media (max-width: 700px) {
+  #ftModal #ftSliders #ftOptions .ft-options-row {
+    padding: 0 5px;
   }
 }
 #ftModal #ftSliders #ftOptions .ft-options-row small {
   display: block;
   text-align: center;
   font-size: 10.5px;
+  line-height: 11px;
   font-weight: 500;
 }
 #ftModal #ftSliders #ftOptions .ft-options-row .ft-options-flex {
@@ -2154,7 +2170,10 @@ input[type=range].styled:focus::-ms-fill-upper {
 @media (max-width: 700px) {
   #ftModal #ftSliders #ftOptions .ft-checkbox {
     padding: 0 4px !important;
-    width: fit-contetnt;
+    width: auto !important;
+    height: -webkit-fit-content !important;
+    height: -moz-fit-content !important;
+    height: fit-content !important;
   }
 }
 #ftModal #ftSliders #ftOptions .ft-checkbox label {
@@ -2178,7 +2197,12 @@ input[type=range].styled:focus::-ms-fill-upper {
 }
 #ftModal #ftSliders #ftOptions .ft-checkbox input[type=checkbox] {
   margin: 1px 0 0 0 !important;
-  height: 100%;
+  height: auto;
+}
+@media (max-width: 700px) {
+  #ftModal #ftSliders #ftOptions .ft-checkbox input[type=checkbox] {
+    margin-top: 3px 0 0 0 !important;
+  }
 }
 @media (max-width: 700px) {
   #ftModal #ftSliders #ftOptions #satBasemap {
@@ -2209,6 +2233,9 @@ input[type=range].styled:focus::-ms-fill-upper {
     padding: 0px 2px;
     border: none;
     margin: 0 auto;
+    height: -webkit-fit-content;
+    height: -moz-fit-content;
+    height: fit-content;
   }
 }
 #ftModal #ftSliders #ftOptions #floodToolsLegend .ft-legend-header {
@@ -2221,7 +2248,7 @@ input[type=range].styled:focus::-ms-fill-upper {
 }
 @media (max-width: 700px) {
   #ftModal #ftSliders #ftOptions #floodToolsLegend .ft-legend-header {
-    padding-bottom: 4px;
+    padding-bottom: 0px;
   }
 }
 #ftModal #ftSliders #ftOptions #floodToolsLegend .ft-legend-items {
@@ -3090,6 +3117,9 @@ input[type=range].styled:focus::-ms-fill-upper {
 #floodToolsDiv {
   border: none !important;
 }
+#floodToolsDiv.mobile-minimized {
+  bottom: calc(-100vh + 280px) !important;
+}
 @media (max-width: 700px) {
   #floodToolsDiv {
     width: 100% !important;
@@ -3155,14 +3185,23 @@ input[type=range].styled:focus::-ms-fill-upper {
     -webkit-justify-content: center !important;
     justify-content: center !important;
   }
+  #floodToolsDiv .panel-body #ftData svg {
+    width: 100% !important;
+    max-width: 92vw;
+  }
 }
 @media (max-width: 700px) and (max-width: 700px) {
   #floodToolsDiv .panel-body #ftSliders {
-    height: 200px;
+    height: 160px;
     padding: 6px 0;
   }
 }
 @media (max-width: 700px) and (max-width: 700px) {
+  #floodToolsDiv .panel-body #ftData {
+    min-height: 100%;
+  }
+}
+@media (max-width: 700px) and (max-width: 550px) {
   #floodToolsDiv .panel-body #ftData {
     min-height: unset;
   }
