@@ -1788,6 +1788,7 @@ require([
                             if (historicResult.match("No sites") != null) { 
                                 //historicPeakResultIWant = false;
                                 console.log("No sites");
+                                $(".ft-tab.ft-historic-tab,#ftHistorical").hide();
                             } else {
                                 //historicPeakResultIWant = true;
                                 
@@ -2944,6 +2945,9 @@ require([
                                     } else if (siteData.data[key].parameter_cd == "63160") {
                                         gageIndex = key;
                                         pcodeAbbr = "navd88_stream";
+                                    } else if (siteData.data[key].parameter_cd == "72214") {
+                                        gageIndex = key;
+                                        pcodeAbbr = "igld";
                                     }
                                 });
                                 
@@ -2999,6 +3003,18 @@ require([
 										$("#currentValue").text("Stream Water Level Elevation (NAVD88)");
                                         $("#selectedElevValue").text("Stream Water Level Elevation (NAVD88)");
                                         hydroChartYAxisLabel = "Stream Water Level Elevation (NAVD88)";
+                                        break;
+                                    case "igld":
+                                        $(".ghselected").hide();
+                                        $("#sliderSelected").hide();
+                                        $(".slider-min.update").hide();
+                                        //$("#sliderSelected").html("<small>Selected Stream Water Level Elevation (NAVD88):</small>");
+                                        $(".slider-elev-label").show();
+                                        $(".slider-elev-label").html("<small>Selected Lake Water Level Elevation (IGLD):</small>");
+                                        $(".slider-elev.update").show();
+                                        $("#currentValue").text("Lake Water Level Elevation (IGLD)");
+                                        $("#selectedElevValue").text("Lake Water Level Elevation (IGLD)");
+                                        hydroChartYAxisLabel = "Lake Water Level Elevation (IGLD)";
                                         break;
                                     default:
                                         $(".ghselected").show();
@@ -3272,13 +3288,13 @@ require([
 									
 									var band = new Array();
 									
-									if(stage.flood == null && stage.moderate == null && stage.major == null){
+									if((stage.flood == null && stage.moderate == null && stage.major == null) || (stage.flood == 0 && stage.moderate == 0 && stage.major == 0)){
 										// Empty fs bands with missing data
 										band.push({color: "#fff", from: 0, to: 0, 'label':{'text':''}}); 
 										band.push({color: "#fff", from: 0, to: 0, 'label':{'text':''}}); 
 										band.push({color: "#fff", from: 0, to: 0, 'label':{'text':''}}); 
 										band.push({color: "#fff", from: 0, to: 0, 'label':{'text':''}}); 
-										band.push({color: "#fff", from: 0, to: max, 'label':{'text':''}}); 
+										band.push({color: "#fff", from: 0, to: Number(max) + 1, 'label':{'text':''}}); 
 									}else{
 										band.push({
 											color: "#D8E1EE",
@@ -3915,9 +3931,9 @@ require([
                                     // Cerate Chart
                                     var hydroChart = new Highcharts.Chart('hydroChart', chartOneOptions, function(hydroChart){
                                         console.log("Chart One Loaded");
-                                        if(floodStageBands[5]){
+                                        if (floodStageBands[5]) {
                                             var chartYMax = parseInt(floodStageBands[5].to);
-                                        }else{
+                                        }else {
                                             var chartYMax = parseInt(floodStageBands[4].to);
                                         }
                                         hydroChart.yAxis[0].setExtremes(null, chartYMax);
@@ -5834,14 +5850,14 @@ $('body').text( $('body').text().replace("●", ''));
 // Flood Tools Error
 var floodToolsError = function(type){
 
-	if(type="nws"){
-		$("#floodToolsErrorMessageText").text("Some data not available at this site.")
-	}else{
+	if (type == "nws" && ahpsID != "NONE") {
+        $("#floodToolsErrorMessageText").text("Some data not available at this site.")
+        $("#floodToolsErrorMessage").show();
+	} else if (type != "nws") {
 		$("#floodToolsErrorMessageText").text("There was an error retrieving the data at this time. Please try again later.")
-	}
+        $("#floodToolsErrorMessage").show();
+    }
     
-    $("#floodToolsErrorMessage").show();
-
     $("#floodToolsDiv .panel-heading").removeClass('loading-hide');
     $("#floodToolsDiv .panel-body").removeClass('loading-hide');
     $("#floodToolsDiv").removeClass('loading-background');
