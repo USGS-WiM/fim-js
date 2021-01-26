@@ -4513,7 +4513,7 @@ require([
             identifyParameters.mapExtent = map.extent;
             identifyParameters.spatialReference = map.spatialReference;
 
-            var identifyTask = new IdentifyTask("https://gis.wim.usgs.gov/ArcGIS/rest/services/FIMMapper/grids_" + grid_serv + "/MapServer");
+            var identifyTask = new IdentifyTask("https://fimnew.wim.usgs.gov/server/rest/services/FIMMapper/grids_" + grid_serv + "/MapServer");
             identifyTask.showBusyCursor = true;
 
             var deferredResult = identifyTask.execute(identifyParameters);
