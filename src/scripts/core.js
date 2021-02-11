@@ -5148,19 +5148,53 @@ require([
         });
         function showSiteListModal () {
             $('#siteListModal').modal('show');
-            console.log("getting site numbers");
             $.getJSON("https://fimnew.wim.usgs.gov/server/rest/services/FIMMapper/sites/MapServer/0/query?where=PUBLIC+%3D+1&text=&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&relationParam=&outFields=SITE_NO%2C+COMMUNITY%2C+STATE&returnGeometry=true&returnTrueCurves=false&maxAllowableOffset=&geometryPrecision=&outSR=&having=&returnIdsOnly=false&returnCountOnly=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdbVersion=&historicMoment=&returnDistinctValues=false&resultOffset=&resultRecordCount=&queryByDistance=&returnExtentOnly=false&datumTransformation=%C2%B6meterValues=&rangeValues=&quantizationParameters=&f=json", function (response) {
-            console.log("response", response.features);
-            console.log("response.features[0]", response.features[0])
+
+            var siteInfo = response.features;
+            /*
             for (var siteCount = 0; siteCount < response.features.length; siteCount++)   {
-                //console.log("siteCount", siteCount);
-                console.log("Site Number", response.features[siteCount].attributes.SITE_NO)
-                console.log("Community", response.features[siteCount].attributes.COMMUNITY)
-                console.log("State", response.features[siteCount].attributes.STATE)
-                //console.log("Site Number ", response.features[attribute].site_no)
-               // console.log("Name ", attribute.community);
-               // console.log("State ", attribute.state);
-            } 
+                var currentSite = response.features[siteCount].attributes.SITE_NO
+                var currentCommunity =  response.features[siteCount].attributes.COMMUNITY
+                var currentState =  response.features[siteCount].attributes.STATE
+                theStates.push(currentState);
+            } */
+            function alphabetizeStates(siteState1, siteState2) {
+                // Assuming you want case-insensitive comparison
+                siteState1 = siteState1.toLowerCase();
+                siteState2 = siteState2.toLowerCase();
+              
+                return (siteState1 < siteState2) ? -1 : (siteState1 > siteState2) ? 1 : 0;
+              }
+
+              siteInfo.sort(function(site1, site2) {
+                 var siteState1 = site1.attributes.STATE;
+                 var siteState2 = site2.attributes.STATE;
+                return alphabetizeStates(siteState1, siteState2);
+              })
+
+              for (var siteCount = 0; siteCount < siteInfo.length; siteCount++)   {
+                 
+                var currentSite = siteInfo[siteCount].attributes.SITE_NO;
+                var currentCommunity =  siteInfo[siteCount].attributes.COMMUNITY;
+                var currentState =  siteInfo[siteCount].attributes.STATE;
+                //console.log(currentState)
+                if (siteCount == 0) {
+                    //console.log(currentState)
+                    $("#listOfSites").html("<b>" + currentState + "</b>" + "<br><div class='siteListText'>" + currentSite + "  -  " + currentCommunity + "</div>");
+                }
+                if (siteCount > 0) {
+                    if (currentState == siteInfo[siteCount -1].attributes.STATE) {
+                       
+                    $("#listOfSites").append("<div class='siteListText'>" + currentSite + "  -  " + currentCommunity + "</div>"); 
+                    }
+                    else {
+                        
+                    $("#listOfSites").append("<br><b>" + currentState + "</b>" + "<br><div class='siteListText'>" + currentSite + "  -  " + currentCommunity + "</div>");
+                    }  
+                }
+            }
+
+            //$("#listOfSites").append("All Done");
             
             });
         }

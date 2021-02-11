@@ -1026,6 +1026,10 @@ input[type="radio"] {
 #siteListNav:hover span {
   text-decoration: underline;
 }
+.siteListText {
+  font-size: small;
+  margin-left: 15px;
+}
 #navbar {
   background-color: #10152C !important;
 }
