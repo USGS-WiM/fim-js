@@ -5146,6 +5146,12 @@ require([
         $('#userGuideNav').click(function(){
             showUserGuideModal();
         });
+        function showSiteListModal () {
+            $('#siteListModal').modal('show');
+        }
+        $('#siteListNav').click(function(){
+            showSiteListModal();
+        });
 
         $("#html").niceScroll();
         $("#sidebar").niceScroll();
