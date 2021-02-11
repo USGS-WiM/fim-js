@@ -5148,6 +5148,21 @@ require([
         });
         function showSiteListModal () {
             $('#siteListModal').modal('show');
+            console.log("getting site numbers");
+            $.getJSON("https://fimnew.wim.usgs.gov/server/rest/services/FIMMapper/sites/MapServer/0/query?where=PUBLIC+%3D+1&text=&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&relationParam=&outFields=SITE_NO%2C+COMMUNITY%2C+STATE&returnGeometry=true&returnTrueCurves=false&maxAllowableOffset=&geometryPrecision=&outSR=&having=&returnIdsOnly=false&returnCountOnly=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdbVersion=&historicMoment=&returnDistinctValues=false&resultOffset=&resultRecordCount=&queryByDistance=&returnExtentOnly=false&datumTransformation=%C2%B6meterValues=&rangeValues=&quantizationParameters=&f=json", function (response) {
+            console.log("response", response.features);
+            console.log("response.features[0]", response.features[0])
+            for (var siteCount = 0; siteCount < response.features.length; siteCount++)   {
+                //console.log("siteCount", siteCount);
+                console.log("Site Number", response.features[siteCount].attributes.SITE_NO)
+                console.log("Community", response.features[siteCount].attributes.COMMUNITY)
+                console.log("State", response.features[siteCount].attributes.STATE)
+                //console.log("Site Number ", response.features[attribute].site_no)
+               // console.log("Name ", attribute.community);
+               // console.log("State ", attribute.state);
+            } 
+            
+            });
         }
         $('#siteListNav').click(function(){
             showSiteListModal();
