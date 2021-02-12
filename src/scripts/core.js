@@ -314,6 +314,8 @@ require([
         } else {
             $(".zoom-disclaimer").hide();
         }
+
+
     })
 
     //following block forces map size to override problems with default behavior
@@ -465,7 +467,56 @@ require([
         }
         map.infoWindow.set('highlight', true);
         $('[class^="scalebar"]').attr('bottom', '40px');
+        populateSiteList();
     });
+
+    function populateSiteList() {
+        //get the site data
+        $.getJSON("https://fimnew.wim.usgs.gov/server/rest/services/FIMMapper/sites/MapServer/0/query?where=PUBLIC+%3D+1&text=&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&relationParam=&outFields=SITE_NO%2C+COMMUNITY%2C+STATE&returnGeometry=true&returnTrueCurves=false&maxAllowableOffset=&geometryPrecision=&outSR=&having=&returnIdsOnly=false&returnCountOnly=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdbVersion=&historicMoment=&returnDistinctValues=false&resultOffset=&resultRecordCount=&queryByDistance=&returnExtentOnly=false&datumTransformation=%C2%B6meterValues=&rangeValues=&quantizationParameters=&f=json", function (response) {
+
+            //contains a json of all sites and relevant attributes
+            var siteInfo = response.features;
+
+            //used to alphabetize the site json by state name
+            function alphabetizeStates(siteState1, siteState2) {
+                //just in case there are any weird capitalizations
+                siteState1 = siteState1.toLowerCase();
+                siteState2 = siteState2.toLowerCase();
+                //see if the names are greater/less than/equal 
+                return (siteState1 < siteState2) ? -1 : (siteState1 > siteState2) ? 1 : 0;
+            }
+            //sort the site info json
+            siteInfo.sort(function(site1, site2) {
+                var siteState1 = site1.attributes.STATE;
+                var siteState2 = site2.attributes.STATE;
+                return alphabetizeStates(siteState1, siteState2);
+            })
+            //get the relevant attributes out of the json, append them to the html so that they display in the modal
+            for (var siteCount = 0; siteCount < siteInfo.length; siteCount++)   {
+                var currentSite = siteInfo[siteCount].attributes.SITE_NO;
+                var currentCommunity =  siteInfo[siteCount].attributes.COMMUNITY;
+                var currentState =  siteInfo[siteCount].attributes.STATE;
+                //////////will need to update this to real url///////////////
+                var hrefSite = "https://fim.wim.usgs.gov/fim/?site_no=" + currentSite;
+                //Display the name of each state once, each followed by a list of sites in that state
+                //Always display the state name of the first site
+                if (siteCount == 0) {
+                    $("#listOfSites").html("<b>" + currentState + "</b>" + "<div class='siteListText'><a href="+ hrefSite + ">" + currentSite + "</a>" + "  -  " + currentCommunity + "</div>");
+                }
+                if (siteCount > 0) {
+                    //If the state name is the same as the previous one, just diplay the site_no/community
+                    if (currentState == siteInfo[siteCount -1].attributes.STATE) {
+                    $("#listOfSites").append("<div class='siteListText'><a href="+ hrefSite + ">" + currentSite + "</a>" + "  -  " + currentCommunity + "</div>"); 
+                    }
+                    //If the state name is different than the previous state name, display it in the modal, followed by the site info
+                    else {
+                    $("#listOfSites").append("<br><b>" + currentState + "</b>" + "<div class='siteListText'><a href="+ hrefSite + ">" + currentSite + "</a>" + "  -  " + currentCommunity + "</div>");
+                    }  
+                }
+            }
+            });
+    }
+    
 
     function closeDialog() {
         dijitPopup.close(dialog);
@@ -5147,56 +5198,9 @@ require([
             showUserGuideModal();
         });
         function showSiteListModal () {
+            //open the site list modal 
             $('#siteListModal').modal('show');
-            $.getJSON("https://fimnew.wim.usgs.gov/server/rest/services/FIMMapper/sites/MapServer/0/query?where=PUBLIC+%3D+1&text=&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&relationParam=&outFields=SITE_NO%2C+COMMUNITY%2C+STATE&returnGeometry=true&returnTrueCurves=false&maxAllowableOffset=&geometryPrecision=&outSR=&having=&returnIdsOnly=false&returnCountOnly=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdbVersion=&historicMoment=&returnDistinctValues=false&resultOffset=&resultRecordCount=&queryByDistance=&returnExtentOnly=false&datumTransformation=%C2%B6meterValues=&rangeValues=&quantizationParameters=&f=json", function (response) {
 
-            var siteInfo = response.features;
-            /*
-            for (var siteCount = 0; siteCount < response.features.length; siteCount++)   {
-                var currentSite = response.features[siteCount].attributes.SITE_NO
-                var currentCommunity =  response.features[siteCount].attributes.COMMUNITY
-                var currentState =  response.features[siteCount].attributes.STATE
-                theStates.push(currentState);
-            } */
-            function alphabetizeStates(siteState1, siteState2) {
-                // Assuming you want case-insensitive comparison
-                siteState1 = siteState1.toLowerCase();
-                siteState2 = siteState2.toLowerCase();
-              
-                return (siteState1 < siteState2) ? -1 : (siteState1 > siteState2) ? 1 : 0;
-              }
-
-              siteInfo.sort(function(site1, site2) {
-                 var siteState1 = site1.attributes.STATE;
-                 var siteState2 = site2.attributes.STATE;
-                return alphabetizeStates(siteState1, siteState2);
-              })
-
-              for (var siteCount = 0; siteCount < siteInfo.length; siteCount++)   {
-                 
-                var currentSite = siteInfo[siteCount].attributes.SITE_NO;
-                var currentCommunity =  siteInfo[siteCount].attributes.COMMUNITY;
-                var currentState =  siteInfo[siteCount].attributes.STATE;
-                //console.log(currentState)
-                if (siteCount == 0) {
-                    //console.log(currentState)
-                    $("#listOfSites").html("<b>" + currentState + "</b>" + "<br><div class='siteListText'>" + currentSite + "  -  " + currentCommunity + "</div>");
-                }
-                if (siteCount > 0) {
-                    if (currentState == siteInfo[siteCount -1].attributes.STATE) {
-                       
-                    $("#listOfSites").append("<div class='siteListText'>" + currentSite + "  -  " + currentCommunity + "</div>"); 
-                    }
-                    else {
-                        
-                    $("#listOfSites").append("<br><b>" + currentState + "</b>" + "<br><div class='siteListText'>" + currentSite + "  -  " + currentCommunity + "</div>");
-                    }  
-                }
-            }
-
-            //$("#listOfSites").append("All Done");
-            
-            });
         }
         $('#siteListNav').click(function(){
             showSiteListModal();
