@@ -1026,14 +1026,9 @@ input[type="radio"] {
 #siteListNav:hover span {
   text-decoration: underline;
 }
-.siteListFooter {
-  width: 100%; 
-  background-color: #ECEEF3;
-  margin: 0 auto;
-  text-transform: capitalize;
-  background-color: blue;
-  letter-spacing: 0.4px;
-  font-size: 12px;
+.siteListText {
+  text-indent: 15px;
+  font-size: small;
 }
 #navbar {
   background-color: #10152C !important;

@@ -496,7 +496,7 @@ require([
                 var currentSite = siteInfo[siteCount].attributes.SITE_NO;
                 var currentCommunity =  siteInfo[siteCount].attributes.COMMUNITY;
                 var currentState =  siteInfo[siteCount].attributes.STATE;
-                //////////will need to update this to real url///////////////
+                //////////will need to update this to prevent full page re-load///////////////
                 var hrefSite = "https://fim.wim.usgs.gov/fim/?site_no=" + currentSite;
                 //Display the name of each state once, each followed by a list of sites in that state
                 //Always display the state name of the first site
