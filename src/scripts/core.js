@@ -480,8 +480,11 @@ require([
             //there's one state listed as Illinois-Kentucky
             //in the current online list of sites, it's listed under Illinois, so do the same here
             for (var siteCount = 0; siteCount < siteInfo.length; siteCount++) {
+                console.log(siteInfo[siteCount]);
                 if (siteInfo[siteCount].attributes.STATE == "Illinois-Kentucky") {
                     siteInfo[siteCount].attributes.STATE = "Illinois"
+                    //add a note to the description that it belongs to both states
+                    siteInfo[siteCount].attributes.COMMUNITY += ", (IL-KY)"
                 }
             }
 
