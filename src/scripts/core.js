@@ -477,25 +477,56 @@ require([
             //contains a json of all sites and relevant attributes
             var siteInfo = response.features;
 
+            //there's one state listed as Illinois-Kentucky
+            //in the current online list of sites, it's listed under Illinois, so do the same here
+            for (var siteCount = 0; siteCount < siteInfo.length; siteCount++) {
+                if (siteInfo[siteCount].attributes.STATE == "Illinois-Kentucky") {
+                    siteInfo[siteCount].attributes.STATE = "Illinois"
+                }
+            }
+
             //used to alphabetize the site json by state name
             function alphabetizeStates(siteState1, siteState2) {
-                //just in case there are any weird capitalizations
-                siteState1 = siteState1.toLowerCase();
-                siteState2 = siteState2.toLowerCase();
-                //see if the names are greater/less than/equal 
-                return (siteState1 < siteState2) ? -1 : (siteState1 > siteState2) ? 1 : 0;
+                //assuming that longer site numbers are greater (listed after) shorter site numbers
+                if (siteState1 == siteNo1) {
+                    //put shorter site number first if they're different lengths
+                    if (siteState1.length !== siteState2.length) {
+                        return (siteState1.length < siteState2.length) ? -1 : (siteState1.length > siteState2.length) ? 1 : 0;
+                    }
+                    //if they're the same length, sort by leader characters
+                    else {
+                        return (siteState1 < siteState2) ? -1 : (siteState1 > siteState2) ? 1 : 0;
+                    }
+                }
+                //don't factor length into alphabetizing state names
+                else {
+                    return (siteState1 < siteState2) ? -1 : (siteState1 > siteState2) ? 1 : 0;
+                }
             }
+            //this variable needs to be accessed outside of the sort function
+            var siteNo1;
             //sort the site info json
             siteInfo.sort(function(site1, site2) {
+                //get state attributes
                 var siteState1 = site1.attributes.STATE;
                 var siteState2 = site2.attributes.STATE;
-                return alphabetizeStates(siteState1, siteState2);
+                //get site number attributes
+                siteNo1 = site1.attributes.SITE_NO;
+                var siteNo2 = site2.attributes.SITE_NO;
+                //sort by site number within each state
+                return alphabetizeStates(
+                    [alphabetizeStates(siteState1, siteState2), alphabetizeStates(siteNo1, siteNo2)],
+                    [alphabetizeStates(siteState2, siteState1), alphabetizeStates(siteNo2, siteNo1)]
+                );
             })
             //get the relevant attributes out of the json, append them to the html so that they display in the modal
             for (var siteCount = 0; siteCount < siteInfo.length; siteCount++)   {
                 var currentSite = siteInfo[siteCount].attributes.SITE_NO;
                 var currentCommunity =  siteInfo[siteCount].attributes.COMMUNITY;
                 var currentState =  siteInfo[siteCount].attributes.STATE;
+                if (siteCount > 0) {
+                    var previousState = siteInfo[siteCount -1].attributes.STATE;
+                }
                 //////////will need to update this to prevent full page re-load///////////////
                 var hrefSite = "https://fim.wim.usgs.gov/fim/?site_no=" + currentSite;
                 //Display the name of each state once, each followed by a list of sites in that state
@@ -505,7 +536,7 @@ require([
                 }
                 if (siteCount > 0) {
                     //If the state name is the same as the previous one, just diplay the site_no/community
-                    if (currentState == siteInfo[siteCount -1].attributes.STATE) {
+                    if (currentState == previousState) {
                     $("#listOfSites").append("<div class='siteListText'><a href="+ hrefSite + ">" + currentSite + "</a>" + "  -  " + currentCommunity + "</div>"); 
                     }
                     //If the state name is different than the previous state name, display it in the modal, followed by the site info
