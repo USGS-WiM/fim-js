@@ -364,10 +364,6 @@ require([
 
     });
 
-    
-
-
-
     $('#aboutModal').modal('show');
     $('#disclaimerTab').trigger('click');
 
@@ -524,6 +520,8 @@ require([
             })
             //get the relevant attributes out of the json, append them to the html so that they display in the modal
             for (var siteCount = 0; siteCount < siteInfo.length; siteCount++)   {
+                var lat = siteInfo[siteCount].geometry.x;
+                var lng = siteInfo[siteCount].geometry.y;
                 var currentSite = siteInfo[siteCount].attributes.SITE_NO;
                 var currentCommunity =  siteInfo[siteCount].attributes.COMMUNITY;
                 var currentState =  siteInfo[siteCount].attributes.STATE;
@@ -535,7 +533,12 @@ require([
                 //Display the name of each state once, each followed by a list of sites in that state
                 //Always display the state name of the first site
                 if (siteCount == 0) {
-                    $("#listOfSites").html("<b>" + currentState + "</b>" + "<div class='siteListText'><a href="+ hrefSite + ">" + currentSite + "</a>" + "  -  " + currentCommunity + "</div>");
+                    $("#listOfSites").html("<b>" + currentState + "</b>" + "<div class='siteListText'><button class='siteListTextBtn' id=" + currentSite + ">" + currentSite + "</button>" + "  -  " + currentCommunity + "</div>");
+                    document.getElementById("06759500").addEventListener('click', {
+                        handleEvent: function (event) {
+                          navigateToSite(currentSite, lat, lng);
+                        }
+                      });
                 }
                 if (siteCount > 0) {
                     //If the state name is the same as the previous one, just diplay the site_no/community
@@ -548,7 +551,16 @@ require([
                     }  
                 }
             }
-            });
+        });
+    }
+
+    function navigateToSite(chosenSite, siteLat, siteLng) {
+        console.log("x:", siteLat, " y:", siteLng)
+        console.log("map center", map.extent.getCenter())
+
+
+        //close the site modal
+         $('#siteListModal').modal('hide');
     }
     
 
@@ -1061,6 +1073,7 @@ require([
             }
 
             var sitePopup = function(evt, sites = null) {
+                
 
                 var feature;
                 if (evt.graphic != undefined) {

@@ -851,21 +851,23 @@ if (window.document.documentMode) {
 
 
                     <!-- Modal Title -->
-                    <div class="panel-heading main">
-                        <div class="panel-title" id="floodToolsTitle">
-							<h4 class="flood-tools-header">
-								<span id="floodToolsModalHeader"></span>
-								<div class="flood-tools-window-controls">
-									<div id='floodMin' title='collapse'><i class="far fa-window-restore"></i></div>
-									<div id='floodClose' title='close'><i class="far fa-times"></i></div>
-								</div>
-							</h4>
-							<div class="ft-header-links">
-								<button id="zoomToLibExtent" title="click to zoom to the extent of the flood library" type="button">Zoom to Location <i class="far fa-search-plus"></i></button>
-								<button id="shareLink" title="Get a link to share this specific site." type="button">Share <i class="far fa-share-alt"></i></button>
-							</div>
+                    <div id="sitePopup">
+                        <div class="panel-heading main" >
+                            <div class="panel-title" id="floodToolsTitle">
+                                <h4 class="flood-tools-header">
+                                    <span id="floodToolsModalHeader"></span>
+                                    <div class="flood-tools-window-controls">
+                                        <div id='floodMin' title='collapse'><i class="far fa-window-restore"></i></div>
+                                        <div id='floodClose' title='close'><i class="far fa-times"></i></div>
+                                    </div>
+                                </h4>
+                                <div class="ft-header-links">
+                                    <button id="zoomToLibExtent" title="click to zoom to the extent of the flood library" type="button">Zoom to Location <i class="far fa-search-plus"></i></button>
+                                    <button id="shareLink" title="Get a link to share this specific site." type="button">Share <i class="far fa-share-alt"></i></button>
+                                </div>
+                            </div>
                         </div>
-					</div>
+                    </div>
 					
                     <!--
 						Modal body
