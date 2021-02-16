@@ -4731,7 +4731,19 @@ require([
 
 
 function createSearchAPI() {
+    var texasSearchOn = true;
+    /*
+    try {
+        search_api;
+    }
+    catch(err) {
+        texasSearchOn = false;
+        $('#geosearchModalAlert').modal('show');
+    }
+    if (texasSearchOn) {
+        */
     // create search_api widget in element "geosearch"
+    /*
     search_api.create( "geosearch", {
         on_result: function(o) {
             // what to do when a location is found
@@ -4778,7 +4790,9 @@ function createSearchAPI() {
         "include_huc10": true,
         "include_huc12": true
 
-	});
+	    }); */
+        showSearchModal();
+    //}
 }
 
 
@@ -5132,7 +5146,6 @@ function createSearchAPI() {
         // Geosearch nav menu is selected
         $('#geosearchNav').click(function(){
             createSearchAPI();
-            showSearchModal();
         });
 
         function showAboutModal () {
