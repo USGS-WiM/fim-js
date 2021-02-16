@@ -4737,7 +4737,7 @@ function createSearchAPI() {
     }
     catch(err) {
         texasSearchOn = false;
-        $('#geosearchModalAlert2').modal('show');
+        $('#geosearchModalAlert').modal('show');
     }
     if (texasSearchOn) {
     // create search_api widget in element "geosearch"
@@ -4786,7 +4786,7 @@ function createSearchAPI() {
         "include_huc10": true,
         "include_huc12": true
 	    }); 
-        showSearchModal();
+        $('#geosearchModal').modal('show');
     }
 }
 
@@ -5135,9 +5135,6 @@ function createSearchAPI() {
 
     // Show modal dialog; handle legend sizing (both on doc ready)
     $(document).ready(function(){
-        function showSearchModal() {
-            $('#geosearchModal').modal('show');
-        }
         // Geosearch nav menu is selected
         $('#geosearchNav').click(function(){
             createSearchAPI();
