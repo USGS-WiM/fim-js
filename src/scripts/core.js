@@ -1551,10 +1551,8 @@ require([
                 $("[id*='Tab']").parents("li").removeClass("active");
                 $(".nav-tabs #floodToolsTab").tab("show");
 
-
-		
-
-				// Set site links, titles
+                
+                // Set site links, titles
                 $(".fts1 #usgsSiteNo").text(siteNo);
 				$(".fts1 #usgsSiteNo").attr("href", "https://waterdata.usgs.gov/monitoring-location/"+siteNo);
 				$(".fts1 #siteName").text(attr["STATE"] + ": " + attr["COMMUNITY"])
