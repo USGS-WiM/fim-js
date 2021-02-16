@@ -4730,7 +4730,7 @@ require([
     }
 
 
-
+function createSearchAPI() {
     // create search_api widget in element "geosearch"
     search_api.create( "geosearch", {
         on_result: function(o) {
@@ -4779,6 +4779,7 @@ require([
         "include_huc12": true
 
 	});
+}
 
 
 	
@@ -5130,6 +5131,7 @@ require([
         }
         // Geosearch nav menu is selected
         $('#geosearchNav').click(function(){
+            createSearchAPI();
             showSearchModal();
         });
 
