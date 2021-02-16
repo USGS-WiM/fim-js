@@ -4731,17 +4731,20 @@ require([
 
 
 function createSearchAPI() {
-    var searchApiDefined = typeof search_api;
-    if (searchApiDefined == "undefined") {
-        alert("Geosearch is temporarily unavailable.")
+    var texasSearchOn = true;
+    try {
+        search_api;
     }
-    if (searchApiDefined !== "undefined") {
+    catch(err) {
+        texasSearchOn = false;
+        $('#geosearchModalAlert').modal('show');
+    }
+    if (texasSearchOn) {
     // create search_api widget in element "geosearch"
     search_api.create( "geosearch", {
         on_result: function(o) {
             // what to do when a location is found
             // o.result is geojson point feature of location with properties
-
             // zoom to location
             require(["esri/geometry/Extent"], function(Extent) {
                 var noExtents = ["GNIS_MAJOR", "GNIS_MINOR", "ZIPCODE", "AREACODE"];
@@ -4782,11 +4785,9 @@ function createSearchAPI() {
         "include_huc8": true,
         "include_huc10": true,
         "include_huc12": true
-
-	});
-    showSearchModal();
+	    }); 
+        $('#geosearchModal').modal('show');
     }
-
 }
 
 
@@ -5134,9 +5135,6 @@ function createSearchAPI() {
 
     // Show modal dialog; handle legend sizing (both on doc ready)
     $(document).ready(function(){
-        function showSearchModal() {
-            $('#geosearchModal').modal('show');
-        }
         // Geosearch nav menu is selected
         $('#geosearchNav').click(function(){
             createSearchAPI();
