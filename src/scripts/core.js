@@ -4731,6 +4731,11 @@ require([
 
 
 function createSearchAPI() {
+    var searchApiDefined = typeof search_api;
+    if (searchApiDefined == "undefined") {
+        alert("Geosearch is temporarily unavailable.")
+    }
+    if (searchApiDefined !== "undefined") {
     // create search_api widget in element "geosearch"
     search_api.create( "geosearch", {
         on_result: function(o) {
@@ -4779,6 +4784,9 @@ function createSearchAPI() {
         "include_huc12": true
 
 	});
+    showSearchModal();
+    }
+
 }
 
 
@@ -5132,7 +5140,6 @@ function createSearchAPI() {
         // Geosearch nav menu is selected
         $('#geosearchNav').click(function(){
             createSearchAPI();
-            showSearchModal();
         });
 
         function showAboutModal () {
