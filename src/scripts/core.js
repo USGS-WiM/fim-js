@@ -280,6 +280,7 @@ require([
         scalebarUnit: "dual"
     });
 
+    //Get the url and check if there is a site queried
     var url_string = window.location;
     var site_no_param = "";
     if (url_string.search != undefined) {
@@ -291,7 +292,8 @@ require([
 
     map.on('extent-change', function(evt) {
         if (site_no_param != "") {
-
+            
+        console.log("reached extent-change (with value for site_no_param)");
             var fim_sites = map.graphics.graphics;
             $.each(fim_sites, function(index, value) {
                 if (value.attributes != undefined && value.attributes.SITE_NO == site_no_param) {
@@ -478,7 +480,6 @@ require([
             //there's one state listed as Illinois-Kentucky
             //in the current online list of sites, it's listed under Illinois, so do the same here
             for (var siteCount = 0; siteCount < siteInfo.length; siteCount++) {
-                console.log(siteInfo[siteCount]);
                 if (siteInfo[siteCount].attributes.STATE == "Illinois-Kentucky") {
                     siteInfo[siteCount].attributes.STATE = "Illinois"
                     //add a note to the description that it belongs to both states
@@ -838,11 +839,12 @@ require([
     //map.getLayer("fimGrid2").on("load", gridsLayerComp);
 
     map.on('layer-add', function (evt) {
-        console.log("evt on layer add", evt)
+        
         var layer = evt.layer.id;
         var actualLayer = evt.layer;
 
         if (layer == "fimSites") {
+            console.log("fimSites layer added");
             fimSitesLayer = evt.layer; 
 
             var initialSiteLoad = map.getLayer(layer).on('update-end', function(evt) {
@@ -1019,12 +1021,17 @@ require([
 
                 var feature;
                 if (evt.graphic != undefined) {
+                    console.log("evt.graphic is not undefined");
                     feature = evt.graphic;
                 } else {
                     feature = evt.target.e_graphic;
+                    console.log("evt.graphic is undefined");
+                    console.log("feature", feature);
                 }
                 var attr = feature.attributes;
+                console.log("attr", attr)
                 siteAttr = attr;
+                console.log("siteAttr", siteAttr);
 
                 $("#depth_grids_legend_title").hide();
                 $("#aou_grids_legend_title").hide();
