@@ -74,6 +74,8 @@ var sitesLayerPrint;
 var allAnnualChart;
 var topTenChart;
 
+var fimSitesLayer;
+
 var usStates = [
         { name: 'ALABAMA', abbreviation: 'AL'},
         { name: 'ALASKA', abbreviation: 'AK'},
@@ -534,9 +536,10 @@ require([
                 //Always display the state name of the first site
                 if (siteCount == 0) {
                     $("#listOfSites").html("<b>" + currentState + "</b>" + "<div class='siteListText'><button class='siteListTextBtn' id=" + currentSite + ">" + currentSite + "</button>" + "  -  " + currentCommunity + "</div>");
+                    
                     document.getElementById("06759500").addEventListener('click', {
                         handleEvent: function (event) {
-                          navigateToSite(currentSite, lat, lng);
+                          navigateToSite("06759500", lat, lng);
                         }
                       });
                 }
@@ -555,14 +558,13 @@ require([
     }
 
     function navigateToSite(chosenSite, siteLat, siteLng) {
-        console.log("x:", siteLat, " y:", siteLng)
-        console.log("map center", map.extent.getCenter())
+        map.removeLayer(fimSitesLayer);
+        console.log("chosenSite", chosenSite);
+        site_no_param = chosenSite;
+        map.addLayer(fimSitesLayer);
 
-
-        //close the site modal
          $('#siteListModal').modal('hide');
-    }
-    
+    } 
 
     function closeDialog() {
         dijitPopup.close(dialog);
@@ -836,10 +838,12 @@ require([
     //map.getLayer("fimGrid2").on("load", gridsLayerComp);
 
     map.on('layer-add', function (evt) {
+        console.log("evt on layer add", evt)
         var layer = evt.layer.id;
         var actualLayer = evt.layer;
 
         if (layer == "fimSites") {
+            fimSitesLayer = evt.layer; 
 
             var initialSiteLoad = map.getLayer(layer).on('update-end', function(evt) {
 
@@ -937,8 +941,12 @@ require([
                         if (site_no_param != "") {
 
                             var fim_sites = map.getLayer(layer).graphics;
+                            console.log("fim_sites", fim_sites);
                             $.each(fim_sites, function(index, value) {
                                 if (value.attributes != undefined && value.attributes.SITE_NO == site_no_param) {
+                                    console.log("value.attributes.SITE_NO", value.attributes.SITE_NO);
+                                    console.log("site_no_param", site_no_param)
+                                    console.log("VALUE", value);
                                     /*var screenPoint = screenUtils.toScreenGeometry(map.extent, map.width, map.height, value.geometry);
                                     var event = new MouseEvent('click', {
                                         'view': window,
@@ -948,8 +956,12 @@ require([
                                     var graphic = value;
                                     //$(graphic)[0].trigger('click');
                                     graphic._shape.rawNode.id = site_no_param;
+                                    console.log("graphic._shape", graphic._shape)
+                                    console.log("graphic._shape.rawNode", graphic._shape.rawNode)
                                     $("#" + site_no_param).on('click', siteClick);
                                     $("#" + site_no_param).trigger('click');
+                                    console.log($("#" + site_no_param));
+                                    console.log(document.getElementById("#" + site_no_param))
                                 }
                             });
 
@@ -1002,6 +1014,7 @@ require([
             var siteClick = function(evt) {   
 				
 				console.log("Site Clicked")
+                console.log("evt in siteClick", evt)
 				$("#floodToolsErrorMessage").hide();
 
                 var feature;
