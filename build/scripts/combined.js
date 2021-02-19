@@ -4826,7 +4826,8 @@ require([
             var checkLength;
             var stageValues = [];
             var slidersToAdjust = [];
-            var gageValuesToCheck
+            var gageValuesToCheck;
+            var valueToCheck;
             var stage1;
             var stage2;
             var stage3;
@@ -4870,6 +4871,7 @@ require([
                     } else if (slider == ".third-slider") {
                         gageValuesToCheck = [gageValues3];
                     }
+                    valueToCheck = "gageValue";
                 } else {
                     if (slider == ".first-slider") {
                         gageValuesToCheck = [altitudeValues];
@@ -4878,6 +4880,7 @@ require([
                     } else if (slider == ".third-slider") {
                         gageValuesToCheck = [altitudeValues3];
                     }
+                    valueToCheck = "altitudeValue";
                 }
                 
             }
@@ -4889,7 +4892,7 @@ require([
 
                 for(var i=0; i < gageValuesToCheck[ind].length; i++){
 
-                    tempNum = Math.abs(gageValuesToCheck[ind][i]["gageValue"] - stageValues[ind]);
+                    tempNum = Math.abs(gageValuesToCheck[ind][i][valueToCheck] - stageValues[ind]);
 
                     if(i == 0 || tempNum < closestNum){
                         closestNum = tempNum;
