@@ -291,9 +291,11 @@ require([
     }
 
     map.on('extent-change', function(evt) {
+
         if (site_no_param != "") {
             
         console.log("reached extent-change (with value for site_no_param)");
+        console.log("map.getLevel", map.getLevel())
             var fim_sites = map.graphics.graphics;
             $.each(fim_sites, function(index, value) {
                 if (value.attributes != undefined && value.attributes.SITE_NO == site_no_param) {
@@ -523,8 +525,6 @@ require([
             })
             //get the relevant attributes out of the json, append them to the html so that they display in the modal
             for (var siteCount = 0; siteCount < siteInfo.length; siteCount++)   {
-                var lat = siteInfo[siteCount].geometry.x;
-                var lng = siteInfo[siteCount].geometry.y;
                 var currentSite = siteInfo[siteCount].attributes.SITE_NO;
                 var currentCommunity =  siteInfo[siteCount].attributes.COMMUNITY;
                 var currentState =  siteInfo[siteCount].attributes.STATE;
@@ -552,13 +552,14 @@ require([
                     }  
                 }
                 var currentElement = document.getElementById(siteBtnID);
-                        if (currentElement !== null) {
-                            currentElement.addEventListener('click', {
-                                handleEvent: function (event) {
-                                navigateToSite(event);
-                                }
-                            });
+                    if (currentElement !== null) {
+                        currentElement.addEventListener('click', {
+                            handleEvent: function (event) {
+                            map.setLevel(4);
+                            navigateToSite(event);
                         }
+                    });
+                }
             }
         });
     }
@@ -567,7 +568,7 @@ require([
         site_no_param = evt.target.innerHTML
         map.removeLayer(fimSitesLayer);
         map.addLayer(fimSitesLayer);
-         $('#siteListModal').modal('hide');
+        $('#siteListModal').modal('hide');
     } 
 
     function closeDialog() {
@@ -943,33 +944,26 @@ require([
                         initialSiteLoad.remove();
                         $("#usgs-loader").hide();
 
-                        if (site_no_param != "") {
 
                             var fim_sites = map.getLayer(layer).graphics;
                             $.each(fim_sites, function(index, value) {
-                                if (value.attributes != undefined && value.attributes.SITE_NO == site_no_param) {
-                                    console.log("value.attributes.SITE_NO", value.attributes.SITE_NO);
-                                    console.log("site_no_param", site_no_param)
-                                    console.log("VALUE", value);
-                                    /*var screenPoint = screenUtils.toScreenGeometry(map.extent, map.width, map.height, value.geometry);
-                                    var event = new MouseEvent('click', {
-                                        'view': window,
-                                        'bubbles': false,
-                                        'cancelable': true
-                                    });*/
+                                if (value.attributes != undefined ) {
+                                    
+                                    var siteID = value.attributes.SITE_NO;
+                                    //console.log("siteID", siteID)
                                     var graphic = value;
-                                    //$(graphic)[0].trigger('click');
-                                    graphic._shape.rawNode.id = site_no_param;
-                                    console.log("graphic._shape", graphic._shape)
-                                    console.log("graphic._shape.rawNode", graphic._shape.rawNode)
-                                    $("#" + site_no_param).on('click', siteClick);
-                                    $("#" + site_no_param).trigger('click');
-                                    console.log($("#" + site_no_param));
-                                    console.log(document.getElementById("#" + site_no_param))
+                                    if (graphic._shape !== null) {
+                                        graphic._shape.rawNode.id = siteID;
+                                        $("#" + siteID).on('click', siteClick);
+                                        //console.log($("#" + siteID));
+                                    }
+                                    
                                 }
                             });
+                            if (site_no_param !== "") {
+                                $("#" + site_no_param).trigger('click');
+                            }
 
-                        }
 
                     },
                     error: function (error) {
