@@ -281,7 +281,6 @@ require([
         scalebarUnit: "dual"
     });
 
-    //Get the url and check if there is a site queried
     var url_string = window.location;
     var site_no_param = "";
     if (url_string.search != undefined) {
@@ -292,11 +291,7 @@ require([
     }
 
     map.on('extent-change', function(evt) {
-
         if (site_no_param != "") {
-            
-        console.log("reached extent-change (with value for site_no_param)");
-        console.log("map.getLevel", map.getLevel())
             var fim_sites = map.graphics.graphics;
             $.each(fim_sites, function(index, value) {
                 if (value.attributes != undefined && value.attributes.SITE_NO == site_no_param) {
@@ -533,13 +528,10 @@ require([
                 if (siteCount > 0) {
                     var previousState = siteInfo[siteCount -1].attributes.STATE;
                 }
-                //////////will need to update this to prevent full page re-load///////////////
-                var hrefSite = "https://fim.wim.usgs.gov/fim/?site_no=" + currentSite;
                 //Display the name of each state once, each followed by a list of sites in that state
                 //Always display the state name of the first site
                 if (siteCount == 0) {
-                    //$("#listOfSites").html("<b>" + currentState + "</b>" + "<div class='siteListText'><button class='siteListTextBtn' onclick='navigateToSite(" + currentSite + ")'  id=" + siteBtnID + ">" + currentSite + "</button>" + "  -  " + currentCommunity + "</div>"); 
-                    $("#listOfSites").html("<b>" + currentState + "</b>" + "<div class='siteListText'><button class='siteListTextBtn'  id=" + siteBtnID + ">" + currentSite + "</button>" + "  -  " + currentCommunity + "</div>"); 
+                     $("#listOfSites").html("<b>" + currentState + "</b>" + "<div class='siteListText'><button class='siteListTextBtn'  id=" + siteBtnID + ">" + currentSite + "</button>" + "  -  " + currentCommunity + "</div>"); 
                
                 }
                 if (siteCount > 0) {
@@ -852,7 +844,6 @@ require([
         var actualLayer = evt.layer;
 
         if (layer == "fimSites") {
-            console.log("fimSites layer added");
             fimSitesLayer = evt.layer; 
 
             var initialSiteLoad = map.getLayer(layer).on('update-end', function(evt) {
@@ -952,14 +943,11 @@ require([
                             var fim_sites = map.getLayer(layer).graphics;
                             $.each(fim_sites, function(index, value) {
                                 if (value.attributes != undefined ) {
-                                    
                                     var siteID = value.attributes.SITE_NO;
-                                    //console.log("siteID", siteID)
                                     var graphic = value;
                                     if (graphic._shape !== null) {
                                         graphic._shape.rawNode.id = siteID;
                                         $("#" + siteID).on('click', siteClick);
-                                        //console.log($("#" + siteID));
                                     }
                                     
                                 }
@@ -1014,24 +1002,16 @@ require([
             });
 
             var siteClick = function(evt) {   
-				
-				console.log("Site Clicked")
-                console.log("evt in siteClick", evt)
 				$("#floodToolsErrorMessage").hide();
 
                 var feature;
                 if (evt.graphic != undefined) {
-                    console.log("evt.graphic is not undefined");
                     feature = evt.graphic;
                 } else {
                     feature = evt.target.e_graphic;
-                    console.log("evt.graphic is undefined");
-                    console.log("feature", feature);
                 }
                 var attr = feature.attributes;
-                console.log("attr", attr)
                 siteAttr = attr;
-                console.log("siteAttr", siteAttr);
 
                 $("#depth_grids_legend_title").hide();
                 $("#aou_grids_legend_title").hide();
@@ -1093,8 +1073,6 @@ require([
             }
 
             var sitePopup = function(evt, sites = null) {
-                
-
                 var feature;
                 if (evt.graphic != undefined) {
                     feature = evt.graphic;
