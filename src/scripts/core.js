@@ -73,6 +73,7 @@ var sitesLayerPrint;
 
 var allAnnualChart;
 var topTenChart;
+var initMapCenter;
 
 var fimSitesLayer;
 
@@ -446,7 +447,7 @@ require([
     on(map, "load", function() {
         var scale =  map.getScale().toFixed(0);
         $('#scale')[0].innerHTML = addCommas(scale);
-        var initMapCenter = webMercatorUtils.webMercatorToGeographic(map.extent.getCenter());
+        initMapCenter = webMercatorUtils.webMercatorToGeographic(map.extent.getCenter());
         $('#latitude').html(initMapCenter.y.toFixed(3));
         $('#longitude').html(initMapCenter.x.toFixed(3));
 
@@ -555,7 +556,6 @@ require([
                     if (currentElement !== null) {
                         currentElement.addEventListener('click', {
                             handleEvent: function (event) {
-                            map.setLevel(4);
                             navigateToSite(event);
                         }
                     });
@@ -565,10 +565,14 @@ require([
     }
 
     function navigateToSite(evt) {
+        map.centerAt(initMapCenter);
+        map.setLevel(4);
         site_no_param = evt.target.innerHTML
         map.removeLayer(fimSitesLayer);
-        map.addLayer(fimSitesLayer);
-        $('#siteListModal').modal('hide');
+        setTimeout(() => {
+            map.addLayer(fimSitesLayer);
+            $('#siteListModal').modal('hide'); 
+        }, 1000);
     } 
 
     function closeDialog() {
