@@ -557,14 +557,13 @@ require([
     }
 
     function navigateToSite(evt) {
-        map.centerAt(initMapCenter);
-        map.setLevel(4);
         site_no_param = evt.target.innerHTML
         map.removeLayer(fimSitesLayer);
-        setTimeout(() => {
+        map.centerAt(initMapCenter);
+        map.setLevel(4).then(function() {
             map.addLayer(fimSitesLayer);
-            $('#siteListModal').modal('hide'); 
-        }, 1000);
+        });
+        $('#siteListModal').modal('hide'); 
     } 
 
     function closeDialog() {
