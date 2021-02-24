@@ -528,6 +528,7 @@ require([
                 var currentSite = siteInfo[siteCount].attributes.SITE_NO;
                 var currentCommunity =  siteInfo[siteCount].attributes.COMMUNITY;
                 var currentState =  siteInfo[siteCount].attributes.STATE;
+                var siteBtnID = currentSite + "list";
                 if (siteCount > 0) {
                     var previousState = siteInfo[siteCount -1].attributes.STATE;
                 }
@@ -536,34 +537,36 @@ require([
                 //Display the name of each state once, each followed by a list of sites in that state
                 //Always display the state name of the first site
                 if (siteCount == 0) {
-                    $("#listOfSites").html("<b>" + currentState + "</b>" + "<div class='siteListText'><button class='siteListTextBtn' id=" + currentSite + ">" + currentSite + "</button>" + "  -  " + currentCommunity + "</div>");
-                    
-                    document.getElementById("06759500").addEventListener('click', {
-                        handleEvent: function (event) {
-                          navigateToSite("06759500", lat, lng);
-                        }
-                      });
+                    //$("#listOfSites").html("<b>" + currentState + "</b>" + "<div class='siteListText'><button class='siteListTextBtn' onclick='navigateToSite(" + currentSite + ")'  id=" + siteBtnID + ">" + currentSite + "</button>" + "  -  " + currentCommunity + "</div>"); 
+                    $("#listOfSites").html("<b>" + currentState + "</b>" + "<div class='siteListText'><button class='siteListTextBtn'  id=" + siteBtnID + ">" + currentSite + "</button>" + "  -  " + currentCommunity + "</div>"); 
+               
                 }
                 if (siteCount > 0) {
                     //If the state name is the same as the previous one, just diplay the site_no/community
                     if (currentState == previousState) {
-                    $("#listOfSites").append("<div class='siteListText'><a href="+ hrefSite + ">" + currentSite + "</a>" + "  -  " + currentCommunity + "</div>"); 
+                        $("#listOfSites").append("<div class='siteListText'><button class='siteListTextBtn' id=" + siteBtnID + ">" + currentSite + "</button>" + "  -  " + currentCommunity + "</div>");  
                     }
                     //If the state name is different than the previous state name, display it in the modal, followed by the site info
                     else {
-                    $("#listOfSites").append("<br><b>" + currentState + "</b>" + "<div class='siteListText'><a href="+ hrefSite + ">" + currentSite + "</a>" + "  -  " + currentCommunity + "</div>");
+                        $("#listOfSites").append("<br><b>" + currentState + "</b>" + "<div class='siteListText'><button class='siteListTextBtn' id=" + siteBtnID + ">" + currentSite + "</button>" + "  -  " + currentCommunity + "</div>");
                     }  
                 }
+                var currentElement = document.getElementById(siteBtnID);
+                        if (currentElement !== null) {
+                            currentElement.addEventListener('click', {
+                                handleEvent: function (event) {
+                                navigateToSite(event);
+                                }
+                            });
+                        }
             }
         });
     }
 
-    function navigateToSite(chosenSite, siteLat, siteLng) {
+    function navigateToSite(evt) {
+        site_no_param = evt.target.innerHTML
         map.removeLayer(fimSitesLayer);
-        console.log("chosenSite", chosenSite);
-        site_no_param = chosenSite;
         map.addLayer(fimSitesLayer);
-
          $('#siteListModal').modal('hide');
     } 
 
@@ -943,7 +946,6 @@ require([
                         if (site_no_param != "") {
 
                             var fim_sites = map.getLayer(layer).graphics;
-                            console.log("fim_sites", fim_sites);
                             $.each(fim_sites, function(index, value) {
                                 if (value.attributes != undefined && value.attributes.SITE_NO == site_no_param) {
                                     console.log("value.attributes.SITE_NO", value.attributes.SITE_NO);
