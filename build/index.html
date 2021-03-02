@@ -830,9 +830,6 @@ if (window.document.documentMode) {
 						<p>
 							Use the <i class="far fa-window-restore"></i> buttton to toggle between full-size and minimized flood tools to better view the map.
 						</p>
-						<span class="ft-mobile-warning-dismiss">
-							<button id="dismissMobileFTWarning">Dismiss</button>
-						</span>
 					</div>
                     <div class="panel-body" id="ftModal">
                         <!-- Sliders on left side -->
@@ -903,61 +900,83 @@ if (window.document.documentMode) {
                             <!-- Site options -->
                             <!-- Site options -->
                             <div id="ftOptions">
+															
+								<div id="ftOptionsMeta">
+									<!-- Site No. -->
+									<div class="ft-options-row">
+										<small>Site Number:</small>
+										<div class="ft-options-flex">
+											<!-- Site One -->
+											<div id="optionData" class="fts1">
+												<label class="no-unit" id="usgsSiteNo"></label>
+											</div>
+											<!-- Site Two -->
+											<div id="optionData" class="fts2">
+												<label class="no-unit" id="usgsSiteNo"></label>
+											</div>
+											<!-- Site Three -->
+											<div id="optionData" class="fts3">
+												<label class="no-unit" id="usgsSiteNo"></label>
+											</div>
+										</div>
+									</div>
+									<!-- Selected Gage Heights -->
+									<div class="ft-options-row">
+										<div id="sliderSelected"><small>Selected Gage Height:</small></div>
+										<div class="ft-options-flex">
+											<!-- Site One -->
+											<div id="optionData" class="fts1">
+												<label for="floodSlider" class="slider-min update"></label>
+											</div>
+											<!-- Site Two -->
+											<div id="optionData" class="fts2">
+												<label for="floodSlider" class="slider-min update"></label>
+											</div>
+											<!-- Site Three -->
+											<div id="optionData" class="fts3">
+												<label for="floodSlider" class="slider-min update"></label>
+											</div>
+										</div>
+									</div>
+									<!-- Selected Elevation -->
+									<div class="ft-options-row" id="elevationMeta">
+										<div id="sliderSelected" class="slider-elev-label"><small>Selected Elevation:</small></div>
+										<div class="ft-options-flex">
+											<!-- Site One -->
+											<div id="optionData" class="fts1">
+												<label for="floodSlider" class="slider-elev update"></label>
+											</div>
+											<!-- Site Two -->
+											<div id="optionData" class="fts2">
+												<label for="floodSlider" class="slider-elev update"></label>
+											</div>
+											<!-- Site Three -->
+											<div id="optionData" class="fts3">
+												<label for="floodSlider" class="slider-elev update"></label>
+											</div>
+										</div>
+									</div>
+									<!-- Selected Discharge -->
+									<div class="ft-options-row">
+										<small>Selected Discharge:</small>
+										<div class="ft-options-flex">
+											<!-- Site One -->
+											<div id="optionData" class="fts1">
+												<label class="label-cfs flood-discharge-selected"></label>
+											</div>
+											<!-- Site Two -->
+											<div id="optionData" class="fts2">
+												<label class="label-cfs flood-discharge-selected"></label>
+											</div>
+											<!-- Site Three -->
+											<div id="optionData" class="fts3">
+												<label class="label-cfs flood-discharge-selected"></label>
+											</div>
+										</div>
+									</div>
+								</div>
 
-								<!-- Selected Gage Heights -->
-								<div class="ft-options-row">
-									<div id="sliderSelected"><small>Selected Gage Height:</small></div>
-									<div class="ft-options-flex">
-										<!-- Site One -->
-										<div id="optionData" class="fts1">
-											<label for="floodSlider" class="slider-min update"></label>
-										</div>
-										<!-- Site Two -->
-										<div id="optionData" class="fts2">
-											<label for="floodSlider" class="slider-min update"></label>
-										</div>
-										<!-- Site Three -->
-										<div id="optionData" class="fts3">
-											<label for="floodSlider" class="slider-min update"></label>
-										</div>
-									</div>
-                                </div>
-                                <!-- Selected Elevation -->
-								<div class="ft-options-row">
-									<div id="sliderSelected" class="slider-elev-label"><small>Selected Elevation:</small></div>
-									<div class="ft-options-flex">
-										<!-- Site One -->
-										<div id="optionData" class="fts1">
-											<label for="floodSlider" class="slider-elev update"></label>
-										</div>
-										<!-- Site Two -->
-										<div id="optionData" class="fts2">
-											<label for="floodSlider" class="slider-elev update"></label>
-										</div>
-										<!-- Site Three -->
-										<div id="optionData" class="fts3">
-											<label for="floodSlider" class="slider-elev update"></label>
-										</div>
-									</div>
-								</div>
-								<!-- Selected Discharge -->
-								<div class="ft-options-row">
-									<small>Selected Discharge:</small>
-									<div class="ft-options-flex">
-										<!-- Site One -->
-										<div id="optionData" class="fts1">
-											<label class="label-cfs flood-discharge-selected"></label>
-										</div>
-										<!-- Site Two -->
-										<div id="optionData" class="fts2">
-											<label class="label-cfs flood-discharge-selected"></label>
-										</div>
-										<!-- Site Three -->
-										<div id="optionData" class="fts3">
-											<label class="label-cfs flood-discharge-selected"></label>
-										</div>
-									</div>
-								</div>
+								
 
 								<!-- Checkboxes -->
 								<div class="ft-option-checkboxes">
@@ -976,7 +995,7 @@ if (window.document.documentMode) {
 								</div>
                                 
 								<!-- NWS Stages Legend -->
-                                <div id="floodToolsLegend">
+                                <div class="flood-tools-legend">
 									<div class="ft-legend-header">NWS Stages</div>
 									
 									<div class="ft-legend-items">
@@ -1055,12 +1074,12 @@ if (window.document.documentMode) {
                                 <!-- Site Info Table -->
                                 <div class="small-label">Site Info</div>
                                 <div class="tools-table">
-                                    <!-- Site No -->
-                                    <div class="box bold">USGS Site No</div>
-                                    <div class="box fts1"><a id="usgsSiteNo" target="_blank" alt="" title="" href=""></a></div>
-                                    <div class="box fts2"><a id="usgsSiteNo" target="_blank" alt="" title="" href=""></a></div>
-                                    <div class="box fts3"><a id="usgsSiteNo" target="_blank" alt="" title="" href=""></a></div>
-                                    <div class="tools-table-space"></div>
+									<!-- Site No -->
+									<div class="box bold">USGS Site No</div>
+									<div class="box fts1"><a id="usgsSiteNo" target="_blank" alt="" title="" href=""></a></div>
+									<div class="box fts2"><a id="usgsSiteNo" target="_blank" alt="" title="" href=""></a></div>
+									<div class="box fts3"><a id="usgsSiteNo" target="_blank" alt="" title="" href=""></a></div>
+									<div class="tools-table-space"></div>
                                     <!-- Site ID -->
                                     <div class="box bold">NWS Site ID</div>
                                     <div class="box fts1"><span class="nws-site-id"></span></div>
@@ -1126,6 +1145,7 @@ if (window.document.documentMode) {
                             -->
                             <!-- Accordion Header -->
                             <div id="ftHydro" class="ftmodal-content">
+
                                 <div class="no-hydro">No historical flooding data available for this library</div>
 								<!-- Sites -->
 								<div class="fts1 chart-wrapper">
@@ -1303,6 +1323,9 @@ if (window.document.documentMode) {
                                 <div id="moreInfo"></div>
                             </div>
 
+
+							<!-- Spacer -->
+							<div id="ftDataSpacer"></div>
 
                         </div>
                     </div>

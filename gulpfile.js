@@ -95,10 +95,25 @@ gulp.task('default', ['clean'], function () {
     gulp.start('build');
 });
 
+// Run Bukld
+gulp.task('connectBuild', function(){
+    $.connect.server({
+        root: 'src',
+        port: 9000,
+        livereload: true
+    });
+});
+
+// Open
+gulp.task('serve-build', ['connectBuild'], function() {
+    open("http://localhost:9000");
+});
+
+
 // Connect
 gulp.task('connect', function(){
     $.connect.server({
-        root: 'src',
+        root: 'build',
         port: 9000,
         livereload: true
     });
