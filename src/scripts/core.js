@@ -573,20 +573,20 @@ require([
         expand: false,
         editTitle: false,
         width: 800,
-        height: 500,
+        height: 550,
         maxWidth: 800,
-        maxHeight: 500
+        maxHeight: 550
 	});
 	
 
 
     $("#floodMin").click(function(){
-        $("#floodToolsDiv").toggleClass("mobile-minimized")
+        $("#floodToolsDiv").toggleClass("is-minimized")
         // $("#floodToolsDiv").css("visibility", "hidden");
         //map.getLayer("fimExtents").setVisibility(false);
         // $("#minFT").addClass('visible');
 
-        $('#hydroChart, #hydroChart2, #hydroChart3').hide();
+        // $('#hydroChart, #hydroChart2, #hydroChart3').hide();
     });
 
     var closeFloodTools = function(){
@@ -650,6 +650,7 @@ require([
 
 	// Close Flood Tools
     $("#floodClose").click(function(){
+        $("#floodToolsDiv").removeClass("is-minimized")
         closeFloodTools();
         $("#printExecuteButton").prop('disabled', true);
         $(".printWarning").show();
@@ -705,10 +706,7 @@ require([
         }
 	});
 	
-	// Dismiss mobile FT warning
-	$("#dismissMobileFTWarning").click(function(){
-		$(".ft-mboile-warning").remove();
-	})
+	
 
     // Flood Tools Tabs
     // Flood Tools Tabs
@@ -924,6 +922,7 @@ require([
                     $(".fts2").hide();
                     $(".fts3").hide();
                     $("#ftSliders").attr('class', 'onesite');
+                    $("#floodToolsDiv").attr('class', 'panel panel-default floodToolsClass onesite');
                     sitePopup(evt);
                 } else if (siteAttr["MULTI_SITE"] > 0) {
 
@@ -934,11 +933,13 @@ require([
                         $(".fts2").show();
                         $(".fts3").hide();
                         $("#ftSliders").attr('class', 'twosite');
+                        $("#floodToolsDiv").attr('class', 'panel panel-default floodToolsClass twosite');
 
                     } else if (siteAttr["MULTI_SITE"] == 3) {
                         $(".fts2").show();
                         $(".fts3").show();
                         $("#ftSliders").attr('class', 'threesite');
+                        $("#floodToolsDiv").attr('class', 'panel panel-default floodToolsClass threesite');
                     }
                     
                     var multiSitesQuery = new esriQuery(); 
@@ -2166,6 +2167,10 @@ require([
 
                 $("#floodToolsDiv").css("visibility", "visible");
                 $("#minFT").removeClass('visible');
+                // Dismiss mobile FT warning
+				setTimeout(function(){
+					$(".ft-mboile-warning").remove();
+				}, 5000);
                 //$(".fts2").show();
                 //$(".fts3").css("visibility", "visible");
 
@@ -2285,7 +2290,8 @@ require([
 
                         sliderSetup(results);
 
-                        $("#floodToolsModalHeader").text(attr["STATE"] + ": " + attr["COMMUNITY"] + " (" + siteNo + ((siteNo_2) ? " & " + siteNo_2 : "") + ((siteNo_3) ? " & " + siteNo_3 : "") + ")");
+                        $("#floodToolsModalHeader").text(attr["STATE"] + ": " + attr["COMMUNITY"] );
+                        // $("#floodToolsModalHeader").text(attr["STATE"] + ": " + attr["COMMUNITY"] + " (" + siteNo + ((siteNo_2) ? " & " + siteNo_2 : "") + ((siteNo_3) ? " & " + siteNo_3 : "") + ")");
 						
 						$("#shareLink").click(function() {
                             showShareModal();
@@ -2959,7 +2965,7 @@ require([
                                         $("#sliderSelected").show();
                                         $(".slider-min.update").show();
                                         $("#sliderSelected").html("<small>Selected Gage Height:</small>");
-                                        $(".slider-elev-label").hide()
+                                        $("#elevationMeta").hide();
                                         $(".slider-elev.update").hide();
 										$("#currentValue").text("Gage Height");
                                         $("#selectedElevValue").text("Elevation");
@@ -2970,7 +2976,7 @@ require([
                                         $("#sliderSelected").hide();
                                         $(".slider-min.update").hide();
                                         //$("#sliderSelected").html("<small>Selected Lake Water Level Elevation (NGVD29):</small>");
-                                        $(".slider-elev-label").show();
+                                        $("#elevationMeta").show();
                                         $(".slider-elev-label").html("<small>Selected Lake Water Level Elevation (NGVD29):</small>");
                                         $(".slider-elev.update").show();
 										$("#currentValue").text("Lake Water Level Elevation (NGVD29)");
@@ -2982,7 +2988,7 @@ require([
                                         $("#sliderSelected").hide();
                                         $(".slider-min.update").hide();
                                         //$("#sliderSelected").html("<small>Selected Lake Water Level Elevation (NAVD88):</small>");
-                                        $(".slider-elev-label").show();
+                                        $("#elevationMeta").show();
                                         $(".slider-elev-label").html("<small>Selected Lake Water Level Elevation (NAVD88):</small>");
                                         $(".slider-elev.update").show();
 										$("#currentValue").text("Lake Water Level Elevation (NAVD88)");
@@ -2994,7 +3000,7 @@ require([
                                         $("#sliderSelected").hide();
                                         $(".slider-min.update").hide();
                                         //$("#sliderSelected").html("<small>Selected Stream Water Level Elevation (NAVD88):</small>");
-                                        $(".slider-elev-label").show();
+                                        $("#elevationMeta").show();
                                         $(".slider-elev-label").html("<small>Selected Stream Water Level Elevation (NAVD88):</small>");
                                         $(".slider-elev.update").show();
 										$("#currentValue").text("Stream Water Level Elevation (NAVD88)");
@@ -3006,6 +3012,7 @@ require([
                                         $("#sliderSelected").show();
                                         $(".slider-min.update").show();
                                         $("#sliderSelected").html("<small>Selected Gage Height:</small>");
+                                        $("#elevationMeta").hide();
                                         $(".slider-elev-label").hide();
                                         $(".slider-elev.update").hide();
 										$("#currentValue").text("Gage Height");
@@ -3557,7 +3564,7 @@ require([
 					
 									
 									// Change flood tools header to site numbers
-									$("#floodToolsModalHeader").text("Site Numbers " + siteNo + " & " + siteNo_2);
+									$("#floodToolsModalHeader").text("SITES " + siteNo + " & " + siteNo_2);
                                     
                                     var sliderStages2 = getFloodStages(nwsData2, 2);
                                     var sliderMax2;

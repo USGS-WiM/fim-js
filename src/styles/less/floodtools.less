@@ -9,6 +9,37 @@
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
+	transition: all 0.2s ease;
+	max-width: 1000px;
+
+	// minimized class - desktop changes
+	@media (min-width: 700px) {
+		min-height: 500px;
+
+		#floodToolsModalHeader{
+			font-size: 12px;
+		}
+
+
+		&.is-minimized{
+			transition: all 0.2s ease;
+			max-width: 200px;
+			overflow: hidden;
+
+			&.twosite{
+				max-width: 225px;
+			}
+			&.threesite{
+				max-width: 240px;
+			}
+
+			#ftData{
+				max-width: 0px;
+				overflow: hidden;
+				// display: none !important;
+			}
+		}
+	}
 
     .panel-heading.main{
         background-color: white;
@@ -21,6 +52,7 @@
             top:-3px;
         }
 	}
+
 	
 	.panel-body{
 		flex-grow: 3;
@@ -66,8 +98,8 @@
     // Flood level sliders
     // Flood level sliders
     #ftSliders{
-		width: 180px;
-		min-width: 180px;
+		width: 200px;
+		min-width: 200px;
         display: flex;
         justify-content: space-around;
         flex-wrap: wrap;
@@ -81,18 +113,19 @@
         &.onesite{
             .slider-group{
 				margin-left: 60px;
-				@media (max-width: 700px) {
-					margin-left: 30px;
-				}
             }
         }
         &.twosite{
+			width: 225px;
             .slider-group{
-				margin-left: 30px;
+				margin-left: 40px;
             }
         }
         &.threesite{
-
+			width: 240px;
+			.slider-group{
+				margin-left: 26px;
+            }
         }
 
         .slider-group{
@@ -103,28 +136,29 @@
             flex-direction: column;
             justify-content: flex-end;
             position: absolute;
-			width: 124px;
+			width: 110px;
 			
 			@media (max-width: 700px) {
 				margin-top: 12px;
+				width: 128px;
 			}
 
             &.fts1{
 				left: 60px;
 				@media (max-width: 700px) {
-					left: 55px !important;
+					left: 35px !important;
 				}
             }
             &.fts2{
-				left: 120px;
+				left: 130px;
 				@media (max-width: 700px) {
 					left: 88px !important;
 				}
             }
             &.fts3{
-				left: 180px;
+				left: 200px;
 				@media (max-width: 700px) {
-					left: 122px !important;
+					left: 142px !important;
 				}
             }
             
@@ -206,7 +240,7 @@
         #ftOptions{
             display: block;
             width: 100%;
-            padding-top: 142px;
+            padding-top: 130px;
             box-sizing: border-box;
 			text-align: center;
 			display: flex;
@@ -216,35 +250,41 @@
 			@media (max-width: 700px) {
 				padding-top: 0;
 				width: 100%;
-				padding-left: 70px !important;
-				width: 100% !important;
-				display: flex;
-				flex-direction: row;
-				justify-content: center;
-				flex-wrap: wrap;
+				justify-content: flex-end;
 			}
 
 			// Container for rows
 			#ftOptionsMeta{
 				display: flex;
 				justify-content: center;
+				flex-direction: column;
 				width: 100%;
 				padding-bottom: 8px;
 				height: fit-content;
+
+				@media (max-width: 700px) {
+					height: auto;
+					flex-grow: 3;
+					padding-left: 40px;
+					box-sizing: border-box;
+					flex-direction: column;
+				}
 			}
 
 			.ft-options-row{
-
-				@media (max-width: 700px) {
-					padding: 0 5px;
-				}
+				padding: 3px 5px;
 
 				small{
 					display: block;
 					text-align: center;
-					font-size: 10.5px;
+					font-size: 10px;
 					line-height: 11px;
 					font-weight: 500;
+					opacity: 0.65;
+
+					@media (max-width: 700px) {
+						font-size: 12px;
+					}
 				}
 
 				.ft-options-flex{
@@ -257,19 +297,20 @@
 					
 					#optionData{
 						font-weight: 600;
-						text-align: center;
+						text-align: left;
 						padding-top: 1.5px;
 
 						@media (max-width: 700px) {
-							padding: 1.5px 3px 0 3px;
+							padding: 1.5px 5px 0 5spx;
 						}
 	
 						label{
 							margin: 0 !important;
-							font-size: 12.5px;
+							font-size: 12px;
+							text-align: left;
 
 							@media (max-width: 700px) {
-								font-size: 15px;
+								padding: 4px 5px 0 5px;
 							}
 	
 							&:after{
@@ -279,6 +320,11 @@
 							}
 							&.label-cfs:after{
 								content: 'cfs';
+							}
+							&.no-unit{
+								&:after{
+									content: '';
+								}
 							}
 						}
 					}
@@ -313,151 +359,14 @@
                     font-weight: 500;
                     padding-left: 5px;
                     box-sizing: border-box;
-                    line-height: 11px;
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: center;
-					padding-top: 2px;
-					
-					@media (max-width: 700px) {
-						line-height: 10px;
-					}
+                    line-height: 15px;
 				}
 				input[type=checkbox]{
 					margin: 1px 0 0 0 !important;
 					height: auto;
+					transform: scale(1.2);
 					@media (max-width: 700px) {
-						margin-top: 3px 0 0 0 !important;
-					}
-				}
-			}
-			
-			@media (max-width: 700px) {
-				#satBasemap{
-					width: 90px !important;
-				}
-				#gridsCheck{
-					width: 82px !important;
-				}
-				#aouCheck{
-					width: 82px;
-				}
-			}
-            
-
-            // Legend for flood tools
-            #floodToolsLegend{
-                display: flex;
-                box-sizing: border-box;
-				flex-wrap: wrap;
-				box-sizing: border-box;
-				width: 95%;
-				width: calc(~'100% - 24px');
-				margin: 4px auto 0 auto;
-				border: 1px solid #C6CEDA;
-				padding: 2px 8px;
-				border-radius: 3px;
-
-				@media (max-width: 700px) {
-					padding: 0px 2px;
-					border: none;
-					margin: 0 auto;
-					height: fit-content;
-				}
-
-				.ft-legend-header{
-					font-size: 11px;
-					text-align: center;
-					box-sizing: border-box;
-					font-weight: 600;
-					width: 100%;
-					margin: 0 auto;
-
-					@media (max-width: 700px) {
-						padding-bottom: 0px;
-					}
-				}
-
-				.ft-legend-items{
-					display: flex;
-					width: 100%;
-
-					@media (max-width: 700px) {
-						flex-direction: column;
-					}
-
-					.left,
-					.right{
-						display: flex;
-						flex-direction: column;
-						justify-content: space-around;
-						width: 50%;
-						min-width: 50%;
-						max-width: 50%;
-						@media (max-width: 700px) {
-							flex-direction: row;
-							width: 100%;
-							min-width: 100%;
-							max-width: 100%;
-							justify-content: center;
-							flex-wrap:wrap;
-						}
-
-						.key{
-							display: flex;
-							position: relative;
-							width: 50%;
-							flex-direction: column;
-							justify-content: center;
-							height: 12px;
-							margin: 2px 0;
-							font-weight: 600;
-							font-size: 10px;
-							color: fade(@black, 80%);
-							box-sizing: border-box;
-							padding-left: 16px;
-							padding-right: 6px;
-							text-align: left;
-							line-height: 10px;
-
-							&:before{
-								display: block;
-								width: 12px;
-								height: 12px;
-								border-radius: 3px;
-								content: '';
-								position: absolute;
-								left: 0;
-							}
-
-							@media (max-width: 700px) {
-								width: auto;
-							}
-						}
-						.action:before{
-							background-color: #FDFB51;
-		
-						}
-						.minor:before{
-							background-color: #FAA629;
-						}
-						.moderate:before{
-							background-color: #FC0D1B;
-						}
-						.major:before{
-							background-color: #C326FB;
-						}
-						
-						.below-action,
-						.extended-rating{
-							margin-top: 5px;
-						}
-						.below-action:before{
-							background-color: #D8E1EE;
-						}
-						.extended-rating:before{
-							background-color: #35445b;
-						}
+						margin: 0px !important;
 					}
 				}
 			}
@@ -466,7 +375,7 @@
 			// Logos
 			.ft-option-logos{
 				box-sizing: border-box;
-				padding: 12px 8px;
+				padding: 2px 8px;
 
 				@media (max-width: 700px) {
 					display: none !important;
@@ -494,9 +403,9 @@
 			}
 		}
 		&.threesite{
-			#ftOptions{
+			#ftOptionsMeta{
 				@media (max-width: 700px) {
-					padding-left: 110px !important;
+					padding-left: 120px !important;
 				}
 			}
 		}
@@ -526,6 +435,12 @@
 			height: 10px;
 			flex-grow:3;
 			// height: calc(~'100vh - 320px');
+		}
+
+		#ftDataSpacer{
+			display: none;
+			width: 100%;
+			min-height: 165px;
 		}
 
 		#ftDataTabs,
@@ -1312,19 +1227,13 @@
 /////////////////////////////////////////////
 /////////////////////////////////////////////
 /////////////////////////////////////////////
-// Rsponsive
-// Rsponsive
-// Rsponsive
-// Rsponsive
-// Rsponsive
+// Responsive
+// Responsive
+// Responsive
 
 #floodToolsDiv{
 	border: none !important;
-
-	// Class toggled when minimized clicked - moves to bottom on mobile
-	&.mobile-minimized{
-		bottom: calc(~'-100vh + 280px') !important;
-	}
+	transition: height 0.3s ease;
 
     // Switch to mobile FT at 700
     @media (max-width: 700px) {
@@ -1333,13 +1242,24 @@
 		height: 85vh !important;
 		max-height: calc(~'100% - 75px') !important;
 		height: calc(~'100% - 75px') !important;
-        bottom: 0px !important;
+        bottom: -20px !important;
         top: auto !important;
         left: 0 !important;
         box-shadow: -5px 6px 27px -7px rgba(0, 10, 80, 0.55);
         max-width: 100vw;
         display: flex;
         flex-direction: column;
+
+		// Class toggled when minimized clicked - moves to bottom on mobile
+		&.is-minimized{
+			height: 290px !important;
+			transition: height 0.3s ease;
+			overflow: hidden;
+			// bottom: calc(~'-100vh + 360px') !important;
+			#ftData{
+				display: none !important;
+			}
+		}
 
         .panel-heading.main{
             min-height: fit-content;
@@ -1356,18 +1276,15 @@
             flex-grow: 3;
 
             #ftSliders{
-                padding: 25px 0;
                 text-align: center;
 				width: 100%;
-				
-				@media (max-width: 700px) {
-					height: 160px;
-					padding: 6px 0;
-				}
+				height: 240px;
+				padding: 6px 0 6px 0;
 
                 #ftOptions{
                     width: auto;
                     margin: 0 auto;
+					padding: 0 0 0 0 !important;
 
                     #levelKey{
                         text-align: left;
@@ -1383,6 +1300,7 @@
                         justify-content: center;
                         display: flex;
                     }
+
                 }
             }
 
@@ -1424,47 +1342,20 @@
 .ft-mboile-warning{
 	display: block;
 	position: fixed;
-	bottom: 0;
-	left: 0;
-	width: 100vw;
-	background-color: #000000;
+	bottom: 2vw;
+	right: 2vw;
+	width: 94vw;
+	max-width: 300px;
+	background-color: #FFF;
+	border: 1px solid rgba(0,0,0,0.25);
 	z-index: 500;
-	color: white;
 	box-sizing: border-box;
-	padding: 18px 25px 10px 25px;
-	font-size: 13px;
-	line-height: 24px;
-	border-top-left-radius: 10px;
-	border-top-right-radius: 10px;
-	box-shadow: 0 -3.6px 3.6px rgba(0, 0, 0, 0.055), 0 -29px 29px rgba(0, 0, 0, 0.11);
-	
-	.ft-mobile-warning-dismiss{
-		display: flex;
-		justify-content: center;
-		width: 100%;
-		padding: 5px 0 10px 0;
-
-		button{
-			color: black;
-			background-color: white;
-			width: 100%;
-			font-size: 14px;
-			font-weight: 600;
-			letter-spacing: 0.5px;
-			border: none;
-			padding: 8px 0;
-			transition: 0.2s;
-			opacity: 1;
-			border-radius: 4px;
-
-			&:hover,
-			&:focus{
-				text-decoration: underline;
-				opacity: 0.75;
-				transition: 0.2s;
-			}
-		}
-	}
+	padding: 12px 8px 4px 8px;
+	box-shadow: 0px 6px 9px -4px rgba(30, 30, 60, 0.13);
+	text-align: center;
+	font-size: 12px;
+	line-height: 20px;
+	border-radius: 5px;
 
 	@media (min-width: 700px) {
 		display: none !important;
@@ -1504,4 +1395,137 @@
 }
 .highcharts-background{
 	fill: transparent !important;
+}
+
+
+
+// Legend for flood tools
+.flood-tools-legend{
+	display: flex;
+	box-sizing: border-box;
+	flex-wrap: wrap;
+	box-sizing: border-box;
+	width: 95%;
+	width: calc(~'100% - 24px');
+	margin: 4px auto 0 auto;
+	border: 1px solid #C6CEDA;
+	padding: 2px 8px;
+	border-radius: 3px;
+
+	@media (max-width: 700px) {
+		padding: 5px 2px;
+		border: none;
+		margin: 0 auto;
+		flex-wrap: nowrap;
+		height: fit-content;
+	}
+
+
+	.ft-legend-header{
+		font-size: 11px;
+		text-align: center;
+		box-sizing: border-box;
+		font-weight: 600;
+		width: 100%;
+		margin: 0 auto;
+
+		@media (max-width: 700px) {
+			padding-bottom: 0px;
+			white-space: pre;
+			padding-right: 10px;
+			font-size: 9px;
+			text-align: left;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			width: fit-content;
+		}
+	}
+
+	.ft-legend-items{
+		display: flex;
+		width: 100%;
+
+		@media (max-width: 700px) {
+			flex-wrap: wrap;
+		}
+
+		.left,
+		.right{
+			display: flex;
+			flex-direction: column;
+			justify-content: space-around;
+			width: 50%;
+			min-width: 50%;
+			max-width: 50%;
+			@media (max-width: 700px) {
+				flex-direction: row;
+				justify-content: flex-start;
+				width: auto;
+				min-width: unset;
+				max-width: unset;
+			}
+
+			.key{
+				display: flex;
+				position: relative;
+				width: 50%;
+				flex-direction: column;
+				justify-content: center;
+				height: 12px;
+				margin: 2px 0;
+				font-weight: 500;
+				font-size: 10px !important;
+				color: fade(@black, 80%);
+				box-sizing: border-box;
+				padding-left: 16px;
+				padding-right: 6px;
+				text-align: left;
+				line-height: 10px;
+
+				&:before{
+					display: block;
+					width: 12px;
+					height: 12px;
+					border-radius: 3px;
+					content: '';
+					position: absolute;
+					left: 0;
+				}
+
+				@media (max-width: 700px) {
+					width: auto;
+				}
+			}
+			.action:before{
+				background-color: #FDFB51;
+
+			}
+			.minor:before{
+				background-color: #FAA629;
+			}
+			.moderate:before{
+				background-color: #FC0D1B;
+			}
+			.major:before{
+				background-color: #C326FB;
+			}
+			
+			.below-action,
+			.extended-rating{
+				margin-top: 5px;
+			}
+			.below-action:before{
+				background-color: #D8E1EE;
+			}
+			.extended-rating:before{
+				background-color: #35445b;
+			}
+		}
+	}
+}
+
+
+#floodToolsModalHeader:hover{
+	cursor: move;
 }
