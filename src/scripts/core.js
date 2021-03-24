@@ -3899,7 +3899,7 @@ require([
                                         if (value[1] < 0 && value[1] < yMin) {
                                             yMin = value[1];
                                         }
-                                        if (key == 0) {
+                                        if (key == 0 && lowestVal == null) {
                                             lowestVal = value[1];
                                         } else if (value[1] < lowestVal) {
                                             lowestVal = value[1];
@@ -4455,7 +4455,8 @@ require([
             var checkLength;
             var stageValues = [];
             var slidersToAdjust = [];
-            var gageValuesToCheck
+            var gageValuesToCheck;
+            var valueToCheck;
             var stage1;
             var stage2;
             var stage3;
@@ -4469,8 +4470,10 @@ require([
                 slidersToAdjust = [$(".first-slider"),$(".second-slider"),$(".third-slider")];
                 if (pcodeAbbr == "gh") {
                     gageValuesToCheck = [gageValues,gageValues2,gageValues3];
+                    valueToCheck = "gageValue";
                 } else {
                     gageValuesToCheck = [altitudeValues,altitudeValues2,altitudeValues3];
+                    valueToCheck = "altitudeValue";
                 }
 
                 switch(siteAttr.MULTI_SITE) {
@@ -4499,6 +4502,7 @@ require([
                     } else if (slider == ".third-slider") {
                         gageValuesToCheck = [gageValues3];
                     }
+                    valueToCheck = "gageValue";
                 } else {
                     if (slider == ".first-slider") {
                         gageValuesToCheck = [altitudeValues];
@@ -4507,6 +4511,7 @@ require([
                     } else if (slider == ".third-slider") {
                         gageValuesToCheck = [altitudeValues3];
                     }
+                    valueToCheck = "altitudeValue";
                 }
                 
             }
@@ -4518,7 +4523,7 @@ require([
 
                 for(var i=0; i < gageValuesToCheck[ind].length; i++){
 
-                    tempNum = Math.abs(gageValuesToCheck[ind][i]["gageValue"] - stageValues[ind]);
+                    tempNum = Math.abs(gageValuesToCheck[ind][i][valueToCheck] - stageValues[ind]);
 
                     if(i == 0 || tempNum < closestNum){
                         closestNum = tempNum;
