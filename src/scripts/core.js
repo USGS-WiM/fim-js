@@ -77,6 +77,8 @@ var initMapCenter;
 
 var fimSitesLayer;
 
+var siteInfo
+
 var usStates = [
         { name: 'ALABAMA', abbreviation: 'AL'},
         { name: 'ALASKA', abbreviation: 'AK'},
@@ -472,8 +474,11 @@ require([
         //get the site data
         $.getJSON("https://fimnew.wim.usgs.gov/server/rest/services/FIMMapper/sites/MapServer/0/query?where=PUBLIC+%3D+1&text=&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&relationParam=&outFields=SITE_NO%2C+COMMUNITY%2C+STATE&returnGeometry=true&returnTrueCurves=false&maxAllowableOffset=&geometryPrecision=&outSR=&having=&returnIdsOnly=false&returnCountOnly=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdbVersion=&historicMoment=&returnDistinctValues=false&resultOffset=&resultRecordCount=&queryByDistance=&returnExtentOnly=false&datumTransformation=%C2%B6meterValues=&rangeValues=&quantizationParameters=&f=json", function (response) {
 
+            console.log("site feature x", response.features[1].geometry.x);
+            console.log("site feature y", response.features[1].geometry.y);
+
             //contains a json of all sites and relevant attributes
-            var siteInfo = response.features;
+            siteInfo = response.features;
 
             //there's one state listed as Illinois-Kentucky
             //in the current online list of sites, it's listed under Illinois, so do the same here
@@ -532,7 +537,6 @@ require([
                 //Always display the state name of the first site
                 if (siteCount == 0) {
                      $("#listOfSites").html("<b>" + currentState + "</b>" + "<div class='siteListText'><button class='siteListTextBtn'  id=" + siteBtnID + ">" + currentSite + "</button>" + "  -  " + currentCommunity + "</div>"); 
-               
                 }
                 if (siteCount > 0) {
                     //If the state name is the same as the previous one, just diplay the site_no/community
@@ -557,10 +561,20 @@ require([
     }
 
     function navigateToSite(evt) {
+        var siteLocation;
         site_no_param = evt.target.innerHTML
+        //find the site with the matching site number and extract it's coordinates
+        for (var siteCount = 0; siteCount < siteInfo.length; siteCount++) {
+            var currentGeometry = siteInfo[siteCount].geometry;
+            var currentSite = siteInfo[siteCount].attributes.SITE_NO;
+            if (currentSite === site_no_param) {
+                siteLocation = currentGeometry;
+            }
+        }
+        //remove the FIM sites layer and re-add it after panning to the gage location 
+        //when the map is centered on the gage, the gage click can be auto-triggered and the modal will open
         map.removeLayer(fimSitesLayer);
-        map.centerAt(initMapCenter);
-        map.setLevel(4).then(function() {
+        map.centerAt(siteLocation).then(function() {
             map.addLayer(fimSitesLayer);
         });
         $('#siteListModal').modal('hide'); 
