@@ -77,7 +77,7 @@ var initMapCenter;
 
 var fimSitesLayer;
 
-var siteInfo
+var siteInfo;
 
 var usStates = [
         { name: 'ALABAMA', abbreviation: 'AL'},
@@ -4108,8 +4108,6 @@ require([
                 }
 
             }
-
-            map.getLayer("fimSites").on('click', siteClick);
 
         } else if (layer == "fimGrid1" || layer == "fimGrid2" || layer == "fimGrid3" || layer == "fimGrid4") {
             //var layer = evt.layer.id;
