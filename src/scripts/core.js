@@ -79,6 +79,8 @@ var fimSitesLayer;
 
 var siteInfo;
 
+var siteClickListener;
+
 var usStates = [
         { name: 'ALABAMA', abbreviation: 'AL'},
         { name: 'ALASKA', abbreviation: 'AK'},
@@ -561,6 +563,7 @@ require([
     }
 
     function navigateToSite(evt) {
+        siteClickListener = 1;
         var siteLocation;
         site_no_param = evt.target.innerHTML
         //find the site with the matching site number and extract it's coordinates
@@ -953,21 +956,26 @@ require([
                         $("#usgs-loader").hide();
 
 
+                        if (site_no_param != "") {
+
                             var fim_sites = map.getLayer(layer).graphics;
                             $.each(fim_sites, function(index, value) {
-                                if (value.attributes != undefined ) {
-                                    var siteID = value.attributes.SITE_NO;
+                                if (value.attributes != undefined && value.attributes.SITE_NO == site_no_param) {
+                                    /*var screenPoint = screenUtils.toScreenGeometry(map.extent, map.width, map.height, value.geometry);
+                                    var event = new MouseEvent('click', {
+                                        'view': window,
+                                        'bubbles': false,
+                                        'cancelable': true
+                                    });*/
                                     var graphic = value;
-                                    if (graphic._shape !== null) {
-                                        graphic._shape.rawNode.id = siteID;
-                                        $("#" + siteID).on('click', siteClick);
-                                    }
-                                    
+                                    //$(graphic)[0].trigger('click');
+                                    graphic._shape.rawNode.id = site_no_param;
+                                    $("#" + site_no_param).on('click', siteClick);
+                                    $("#" + site_no_param).trigger('click');
                                 }
                             });
-                            if (site_no_param !== "") {
-                                $("#" + site_no_param).trigger('click');
-                            }
+
+                        }
 
 
                     },
@@ -4108,7 +4116,9 @@ require([
                 }
 
             }
-
+            if (siteClickListener === undefined) {
+                map.getLayer("fimSites").on('click', siteClick);
+            }
         } else if (layer == "fimGrid1" || layer == "fimGrid2" || layer == "fimGrid3" || layer == "fimGrid4") {
             //var layer = evt.layer.id;
             var grids;
