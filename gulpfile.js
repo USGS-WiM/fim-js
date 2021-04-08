@@ -173,7 +173,7 @@ gulp.task('watch', ['less', 'connect', 'serve'], function () {
 
 // Browsersync
 // alternative to regular server
-
+// After running Browsersync, run regular gulp and gulp build to make sure less changes built
 gulp.task('bs', function(){
 
    browserSync.init({
@@ -181,6 +181,11 @@ gulp.task('bs', function(){
    });  
 
    gulp.watch("./src/**/*.less", ['sync-styles']);
+
+//    Build CSS?
+    // gulp.watch('src/styles/**/*.css', ['styles']);
+
+
 
    gulp.watch("./src/**/*.html").on("change", reload);
    gulp.watch("./src/**/*.js").on("change", reload);
