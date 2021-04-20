@@ -18,6 +18,7 @@ var defaultMapCenter = [-95.6, 38.6];
 var printCount = 0;
 
 var siteAttr;
+var siteDatumInfo = [];
 
 var results;
 
@@ -1551,10 +1552,8 @@ require([
                 $("[id*='Tab']").parents("li").removeClass("active");
                 $(".nav-tabs #floodToolsTab").tab("show");
 
-
-		
-
-				// Set site links, titles
+                
+                // Set site links, titles
                 $(".fts1 #usgsSiteNo").text(siteNo);
 				$(".fts1 #usgsSiteNo").attr("href", "https://waterdata.usgs.gov/monitoring-location/"+siteNo);
 				$(".fts1 #siteName").text(attr["STATE"] + ": " + attr["COMMUNITY"])
@@ -1638,14 +1637,48 @@ require([
                     }
                 });
 
+                function getDatumInfo(response) {
+                    var returnSiteDatumInfo = [];
+                    var datumValueKey;
+                    var datumKey;
+
+                    var rdbByLine = response.split("\n");
+
+                    for (var i = 0; i < rdbByLine.length; i++) {
+                        var currentLine = rdbByLine[i];
+                        if (currentLine.match("#") == null && currentLine.match("agency_cd") != null) {
+                            var lineSplit = currentLine.split("\t");
+                            $.each(lineSplit, function(key, value) {
+                                if (lineSplit[key] == "alt_va") {
+                                    datumValueKey = key;
+                                }
+                                if (lineSplit[key] == "alt_datum_cd") {
+                                    datumKey = key;
+                                }
+                            });
+                        }
+                        if (currentLine.match("#") == null && currentLine.match("USGS") != null) {
+                            var lineSplit = currentLine.split("\t");
+                            returnSiteDatumInfo.push(Number(lineSplit[datumValueKey]));
+                            returnSiteDatumInfo.push(lineSplit[datumKey]);
+                        }
+                    }
+
+                    return returnSiteDatumInfo;
+
+                };
+
                 $.ajax({
                     dataType: 'text',
                     type: 'GET',
-                    url: proxyUrl + "site_no="+siteNo+"&site_info=true",
+                    //url: proxyUrl + "site_no="+siteNo+"&site_info=true",
+                    url: "https://waterservices.usgs.gov/nwis/site/?format=rdb&sites="+siteNo+"&siteStatus=all",
                     headers: {'Accept': '*/*'},
                     success: function (data) {
                         var rtHtml = "";
                         var nwisHtml = "";
+
+                        siteDatumInfo = getDatumInfo(data);
 
                         //var ivUrl = "http://waterservices.usgs.gov/nwis/site/?format=gm&sites="+attr['Name']+"&siteOutput=expanded&outputDataTypeCd=iv&hasDataTypeCd=iv&parameterCd=00065,00060,00010,00095,63680,99133";
                         var ivUrl = "https://waterservices.usgs.gov/nwis/iv/?format=json&sites="+attr['SITE_NO']+"&parameterCd=00060,00065";
@@ -1788,6 +1821,7 @@ require([
                             if (historicResult.match("No sites") != null) { 
                                 //historicPeakResultIWant = false;
                                 console.log("No sites");
+                                $(".ft-tab.ft-historic-tab,#ftHistorical").hide();
                             } else {
                                 //historicPeakResultIWant = true;
                                 
@@ -1824,7 +1858,12 @@ require([
                                     if (currentLine.match("#") == null && currentLine.match("USGS") != null) {
                                         var lineSplit = currentLine.split("\t");
                                         var dateFlood = dateAdjustment(lineSplit[2]);
-                                        var gageHeightFlood = lineSplit[6];
+                                        var gageHeightFlood;
+                                        if (siteAttr.PCODE !== '00065') {
+                                            gageHeightFlood = Number(lineSplit[6]) + siteDatumInfo[0];
+                                        } else {
+                                            gageHeightFlood = lineSplit[6];
+                                        }
                                         var codeFlood = lineSplit[7];
                                         if (!isNaN(new Date(dateFlood+"T00:00:00").getTime()) && gageHeightFlood != "") {
                                             allHistoricFloods.push([new Date(dateFlood).getTime(), parseFloat(gageHeightFlood), codeFlood]);
@@ -1834,6 +1873,20 @@ require([
 
                                 var floodPeakChartHeight = 300;
                                 var floodPeakChartWidth = 475;
+
+                                var yAxisText = "";
+
+                                if (siteAttr.PCODE == "00065") {
+                                    yAxisText = "Gage Height (ft)";
+                                } else if (siteAttr.PCODE  == "62614") {
+                                    yAxisText = "Lake Water Level Elevation (ft)";
+                                } else if (siteAttr.PCODE  == "62615") {
+                                    yAxisText = "Lake Water Level Elevation (ft)";
+                                } else if (siteAttr.PCODE  == "63160") {
+                                    yAxisText = "Stream Water Level Elevation (ft)";
+                                } else if (siteAttr.PCODE  == "72214") {
+                                    yAxisText = "Lake Water Level Elevation (ft)";
+                                }
 
                                 allAnnualChart = Highcharts.chart('allAnnualChart', {
                                     chart: {
@@ -1871,7 +1924,7 @@ require([
                                             enabled: true
                                         },
                                         title: {
-                                            text: "Gage Height (ft)"
+                                            text: yAxisText
                                         }
                                     },
                                     tooltip: {
@@ -1989,7 +2042,7 @@ require([
                                             enabled: true
                                         },
                                         title: {
-                                            text: "Gage Height (ft)"
+                                            text: yAxisText
                                         }
                                     },
                                     tooltip: {
@@ -2944,6 +2997,9 @@ require([
                                     } else if (siteData.data[key].parameter_cd == "63160") {
                                         gageIndex = key;
                                         pcodeAbbr = "navd88_stream";
+                                    } else if (siteData.data[key].parameter_cd == "72214") {
+                                        gageIndex = key;
+                                        pcodeAbbr = "igld";
                                     }
                                 });
                                 
@@ -2957,12 +3013,12 @@ require([
                                         $(".ghselected").show();
                                         $("#sliderSelected").show();
                                         $(".slider-min.update").show();
-                                        $("#sliderSelected").html("<small>Selected Gage Height:</small>");
+                                        $("#sliderSelected").html("<small>Selected Gage Height (" + siteDatumInfo[1] + "):</small>");
                                         $(".slider-elev-label").hide()
                                         $(".slider-elev.update").hide();
-										$("#currentValue").text("Gage Height");
-                                        $("#selectedElevValue").text("Elevation");
-                                        hydroChartYAxisLabel = "Gage height";
+										$("#currentValue").text("Gage Height (" + siteDatumInfo[1] + ")");
+                                        $("#selectedElevValue").text("Elevation (" + siteDatumInfo[1] + ")");
+                                        hydroChartYAxisLabel = "Gage height (" + siteDatumInfo[1] + ")";
                                         break;
                                     case "ngvd29_lake":
                                         $(".ghselected").hide();
@@ -2982,11 +3038,11 @@ require([
                                         $(".slider-min.update").hide();
                                         //$("#sliderSelected").html("<small>Selected Lake Water Level Elevation (NAVD88):</small>");
                                         $(".slider-elev-label").show();
-                                        $(".slider-elev-label").html("<small>Selected Lake Water Level Elevation (NAVD88):</small>");
+                                        $(".slider-elev-label").html("<small>Selected Lake Water Level Elevation (" + siteDatumInfo[1] + "):</small>");
                                         $(".slider-elev.update").show();
-										$("#currentValue").text("Lake Water Level Elevation (NAVD88)");
-                                        $("#selectedElevValue").text("Lake Water Level Elevation (NAVD88)");
-                                        hydroChartYAxisLabel = "Lake Water Level Elevation (NAVD88)";
+										$("#currentValue").text("Lake Water Level Elevation (" + siteDatumInfo[1] + ")");
+                                        $("#selectedElevValue").text("Lake Water Level Elevation (" + siteDatumInfo[1] + ")");
+                                        hydroChartYAxisLabel = "Lake Water Level Elevation (" + siteDatumInfo[1] + ")";
                                         break;
                                     case "navd88_stream":
                                         $(".ghselected").hide();
@@ -2994,11 +3050,23 @@ require([
                                         $(".slider-min.update").hide();
                                         //$("#sliderSelected").html("<small>Selected Stream Water Level Elevation (NAVD88):</small>");
                                         $(".slider-elev-label").show();
-                                        $(".slider-elev-label").html("<small>Selected Stream Water Level Elevation (NAVD88):</small>");
+                                        $(".slider-elev-label").html("<small>Selected Stream Water Level Elevation (" + siteDatumInfo[1] + "):</small>");
                                         $(".slider-elev.update").show();
-										$("#currentValue").text("Stream Water Level Elevation (NAVD88)");
-                                        $("#selectedElevValue").text("Stream Water Level Elevation (NAVD88)");
-                                        hydroChartYAxisLabel = "Stream Water Level Elevation (NAVD88)";
+										$("#currentValue").text("Stream Water Level Elevation (" + siteDatumInfo[1] + ")");
+                                        $("#selectedElevValue").text("Stream Water Level Elevation (" + siteDatumInfo[1] + ")");
+                                        hydroChartYAxisLabel = "Stream Water Level Elevation (" + siteDatumInfo[1] + ")";
+                                        break;
+                                    case "igld":
+                                        $(".ghselected").hide();
+                                        $("#sliderSelected").hide();
+                                        $(".slider-min.update").hide();
+                                        //$("#sliderSelected").html("<small>Selected Stream Water Level Elevation (NAVD88):</small>");
+                                        $(".slider-elev-label").show();
+                                        $(".slider-elev-label").html("<small>Selected Lake Water Level Elevation (" + siteDatumInfo[1] + "):</small>");
+                                        $(".slider-elev.update").show();
+                                        $("#currentValue").text("Lake Water Level Elevation (" + siteDatumInfo[1] + ")");
+                                        $("#selectedElevValue").text("Lake Water Level Elevation (" + siteDatumInfo[1] + ")");
+                                        hydroChartYAxisLabel = "Lake Water Level Elevation (" + siteDatumInfo[1] + ")";
                                         break;
                                     default:
                                         $(".ghselected").show();
@@ -3272,13 +3340,13 @@ require([
 									
 									var band = new Array();
 									
-									if(stage.flood == null && stage.moderate == null && stage.major == null){
+									if((stage.flood == null && stage.moderate == null && stage.major == null) || (stage.flood == 0 && stage.moderate == 0 && stage.major == 0)){
 										// Empty fs bands with missing data
 										band.push({color: "#fff", from: 0, to: 0, 'label':{'text':''}}); 
 										band.push({color: "#fff", from: 0, to: 0, 'label':{'text':''}}); 
 										band.push({color: "#fff", from: 0, to: 0, 'label':{'text':''}}); 
 										band.push({color: "#fff", from: 0, to: 0, 'label':{'text':''}}); 
-										band.push({color: "#fff", from: 0, to: max, 'label':{'text':''}}); 
+										band.push({color: "#fff", from: 0, to: Number(max) + 1, 'label':{'text':''}}); 
 									}else{
 										band.push({
 											color: "#D8E1EE",
@@ -3790,7 +3858,7 @@ require([
                                         if (value[1] < 0 && value[1] < yMin) {
                                             yMin = value[1];
                                         }
-                                        if (key == 0 && lowestVal == null) {
+                                        if (key == 0 && value[1] < lowestVal) {
                                             lowestVal = value[1];
                                         } else if (value[1] < lowestVal) {
                                             lowestVal = value[1];
@@ -3915,9 +3983,9 @@ require([
                                     // Cerate Chart
                                     var hydroChart = new Highcharts.Chart('hydroChart', chartOneOptions, function(hydroChart){
                                         console.log("Chart One Loaded");
-                                        if(floodStageBands[5]){
+                                        if (floodStageBands[5]) {
                                             var chartYMax = parseInt(floodStageBands[5].to);
-                                        }else{
+                                        }else {
                                             var chartYMax = parseInt(floodStageBands[4].to);
                                         }
                                         hydroChart.yAxis[0].setExtremes(null, chartYMax);
@@ -4346,8 +4414,7 @@ require([
             var checkLength;
             var stageValues = [];
             var slidersToAdjust = [];
-            var gageValuesToCheck;
-            var valueToCheck;
+            var gageValuesToCheck
             var stage1;
             var stage2;
             var stage3;
@@ -4361,10 +4428,8 @@ require([
                 slidersToAdjust = [$(".first-slider"),$(".second-slider"),$(".third-slider")];
                 if (pcodeAbbr == "gh") {
                     gageValuesToCheck = [gageValues,gageValues2,gageValues3];
-                    valueToCheck = "gageValue";
                 } else {
                     gageValuesToCheck = [altitudeValues,altitudeValues2,altitudeValues3];
-                    valueToCheck = "altitudeValue";
                 }
 
                 switch(siteAttr.MULTI_SITE) {
@@ -4393,7 +4458,6 @@ require([
                     } else if (slider == ".third-slider") {
                         gageValuesToCheck = [gageValues3];
                     }
-                    valueToCheck = "gageValue";
                 } else {
                     if (slider == ".first-slider") {
                         gageValuesToCheck = [altitudeValues];
@@ -4402,7 +4466,6 @@ require([
                     } else if (slider == ".third-slider") {
                         gageValuesToCheck = [altitudeValues3];
                     }
-                    valueToCheck = "altitudeValue";
                 }
                 
             }
@@ -4414,7 +4477,7 @@ require([
 
                 for(var i=0; i < gageValuesToCheck[ind].length; i++){
 
-                    tempNum = Math.abs(gageValuesToCheck[ind][i][valueToCheck] - stageValues[ind]);
+                    tempNum = Math.abs(gageValuesToCheck[ind][i]["gageValue"] - stageValues[ind]);
 
                     if(i == 0 || tempNum < closestNum){
                         closestNum = tempNum;
@@ -4502,7 +4565,7 @@ require([
             identifyParameters.mapExtent = map.extent;
             identifyParameters.spatialReference = map.spatialReference;
 
-            var identifyTask = new IdentifyTask("https://gis.wim.usgs.gov/ArcGIS/rest/services/FIMMapper/grids_" + grid_serv + "/MapServer");
+            var identifyTask = new IdentifyTask("https://fimnew.wim.usgs.gov/server/rest/services/FIMMapper/grids_" + grid_serv + "/MapServer");
             identifyTask.showBusyCursor = true;
 
             var deferredResult = identifyTask.execute(identifyParameters);
@@ -4735,21 +4798,13 @@ require([
     }
 
 
-function createSearchAPI() {
-    var texasSearchOn = true;
-    try {
-        search_api;
-    }
-    catch(err) {
-        texasSearchOn = false;
-        $('#geosearchModalAlert').modal('show');
-    }
-    if (texasSearchOn) {
+
     // create search_api widget in element "geosearch"
     search_api.create( "geosearch", {
         on_result: function(o) {
             // what to do when a location is found
             // o.result is geojson point feature of location with properties
+
             // zoom to location
             require(["esri/geometry/Extent"], function(Extent) {
                 var noExtents = ["GNIS_MAJOR", "GNIS_MINOR", "ZIPCODE", "AREACODE"];
@@ -4790,10 +4845,8 @@ function createSearchAPI() {
         "include_huc8": true,
         "include_huc10": true,
         "include_huc12": true
-	    }); 
-        $('#geosearchModal').modal('show');
-    }
-}
+
+	});
 
 
 	
@@ -5140,9 +5193,12 @@ function createSearchAPI() {
 
     // Show modal dialog; handle legend sizing (both on doc ready)
     $(document).ready(function(){
+        function showSearchModal() {
+            $('#geosearchModal').modal('show');
+        }
         // Geosearch nav menu is selected
         $('#geosearchNav').click(function(){
-            createSearchAPI();
+            showSearchModal();
         });
 
         function showAboutModal () {
@@ -5846,14 +5902,14 @@ $('body').text( $('body').text().replace("●", ''));
 // Flood Tools Error
 var floodToolsError = function(type){
 
-	if(type="nws"){
-		$("#floodToolsErrorMessageText").text("Some data not available at this site.")
-	}else{
+	if (type == "nws" && ahpsID != "NONE") {
+        $("#floodToolsErrorMessageText").text("Some data not available at this site.")
+        $("#floodToolsErrorMessage").show();
+	} else if (type != "nws") {
 		$("#floodToolsErrorMessageText").text("There was an error retrieving the data at this time. Please try again later.")
-	}
+        $("#floodToolsErrorMessage").show();
+    }
     
-    $("#floodToolsErrorMessage").show();
-
     $("#floodToolsDiv .panel-heading").removeClass('loading-hide');
     $("#floodToolsDiv .panel-body").removeClass('loading-hide');
     $("#floodToolsDiv").removeClass('loading-background');
