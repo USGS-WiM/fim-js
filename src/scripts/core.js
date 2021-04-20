@@ -4864,8 +4864,8 @@ require([
 
         //create some kind of config object to print jobs. maybe can use job number to identify site number used for intial print
 
-        var page1InfoUrl = 'https://fim.wim.usgs.gov/arcgis/rest/services/FIMMapper/FIMpage1design/MapServer/1/query?where=USGSID+LIKE+%27%25' + siteNo + '%25%27&outFields=*&returnGeometry=true&f=json';
-        //var page1InfoUrl = 'https://fimnew.wim.usgs.gov/fim-page-one?siteno=' +siteNo;
+        //var page1InfoUrl = 'https://fim.wim.usgs.gov/arcgis/rest/services/FIMMapper/FIMpage1design/MapServer/1/query?where=USGSID+LIKE+%27%25' + siteNo + '%25%27&outFields=*&returnGeometry=true&f=json';
+        var page1InfoUrl = 'https://fimnew.wim.usgs.gov/fim-page-one?siteno=' +siteNo;
 
         $.ajax({
             dataType: 'json',
@@ -4886,11 +4886,11 @@ require([
 
                 var userTitle = $("#printTitle").val();
                         
-                if (data.features.length > 0) {
-                //if (data.hassite == true) {
+                //if (data.features.length > 0) {
+                if (data.hassite == true) {
                 
-                    printAttr = data.features[0].attributes;
-                    //printAttr = data;
+                    //printAttr = data.features[0].attributes;
+                    printAttr = data;
 
                     var printParams = new PrintParameters();
                     printParams.map = map;
@@ -5023,37 +5023,43 @@ require([
                     //siteToGage = "Map corresponding to a Gage Height of " + currentStage + " feet and an Elevation of " + currentElev + " feet (NAVD 88)";
                 }
 
+                //check for sites without site datum info
+
+                if (siteDatumInfo[1] == "" && siteAttr.PCODE == "62614") {
+                    siteDatumInfo [1] = "NGVD29";
+                }
+
                 var page2MapTitle = "";
                 var page2MapSubtitle = "";
                 if (siteAttr.MULTI_SITE == 0) {
                     page2MapTitle = "Flood-Inundation Map for " + siteAttr.COMMUNITY + ", " + siteAttr.STATE;
                         /*+ "\n<FNT size='8'>Map corresponding to a Gage Height of " + 
                         gageValues[$(".fts1 #floodSlider")[0].value].gageValue + " feet and an Elevation of " + 
-                        altitudeValues[$(".fts1 #floodSlider")[0].value].altitudeValue + " feet (NAVD 88)</FNT>";*/
+                        altitudeValues[$(".fts1 #floodSlider")[0].value].altitudeValue + " feet (" + siteDatumInfo[1] + ")</FNT>";*/
                     page2MapSubtitle = "Map corresponding to a Gage Height of " + 
                         gageValues[$(".fts1 #floodSlider")[0].value].gageValue + " feet and an Elevation of " + 
-                        altitudeValues[$(".fts1 #floodSlider")[0].value].altitudeValue + " feet (NAVD 88) for Streamgage Number " + 
+                        altitudeValues[$(".fts1 #floodSlider")[0].value].altitudeValue + " feet (" + siteDatumInfo[1] + ") for Streamgage Number " + 
                         siteNo_print; 
                 } else if (siteAttr.MULTI_SITE == 1) {
                     page2MapTitle = "Flood-Inundation Map for multiple streamgages around " + siteAttr.COMMUNITY + ", " + siteAttr.STATE;
                     page2MapSubtitle = "Map corresponding to a Gage Height of " + 
                         gageValues[$(".fts1 #floodSlider")[0].value].gageValue + " feet and an Elevation of " + 
-                        altitudeValues[$(".fts1 #floodSlider")[0].value].altitudeValue + " feet (NAVD 88) for Streamgage Number " + 
+                        altitudeValues[$(".fts1 #floodSlider")[0].value].altitudeValue + " feet (" + siteDatumInfo[1] + ") for Streamgage Number " + 
                         siteNo_print +
                         "and " + gageValues2[$(".fts2 #floodSlider")[0].value].gageValue + " feet and an Elevation of " + 
-                        altitudeValues2[$(".fts2 #floodSlider")[0].value].altitudeValue + " feet (NAVD 88) for Streamgage Number " + 
+                        altitudeValues2[$(".fts2 #floodSlider")[0].value].altitudeValue + " feet (" + siteDatumInfo[1] + ") for Streamgage Number " + 
                         siteNo_2_print;
                 } else if (siteAttr.MULTI_SITE == 2 || siteAttr.MULTI_SITE == 3) {
                     page2MapTitle = "Flood-Inundation Map for multiple streamgages around " + siteAttr.COMMUNITY + ", " + siteAttr.STATE;
                     page2MapSubtitle = "Map corresponding to a Gage Height of " + 
                         gageValues[$(".fts1 #floodSlider")[0].value].gageValue + " feet and an Elevation of " + 
-                        altitudeValues[$(".fts1 #floodSlider")[0].value].altitudeValue + " feet (NAVD 88) for Streamgage Number " + 
+                        altitudeValues[$(".fts1 #floodSlider")[0].value].altitudeValue + " feet (" + siteDatumInfo[1] + ") for Streamgage Number " + 
                         siteNo_print +
                         " and " + gageValues2[$(".fts2 #floodSlider")[0].value].gageValue + " feet and an Elevation of " + 
-                        altitudeValues2[$(".fts2 #floodSlider")[0].value].altitudeValue + " feet (NAVD 88) for Streamgage Number " + 
+                        altitudeValues2[$(".fts2 #floodSlider")[0].value].altitudeValue + " feet (" + siteDatumInfo[1] + ") for Streamgage Number " + 
                         siteNo_2_print +
                         " and " + gageValues3[$(".fts3 #floodSlider")[0].value].gageValue + " feet and an Elevation of " + 
-                        altitudeValues3[$(".fts3 #floodSlider")[0].value].altitudeValue + " feet (NAVD 88) for Streamgage Number " + 
+                        altitudeValues3[$(".fts3 #floodSlider")[0].value].altitudeValue + " feet (" + siteDatumInfo[1] + ") for Streamgage Number " + 
                         siteNo_3_print; 
                 }
 
