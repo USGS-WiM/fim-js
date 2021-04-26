@@ -1609,13 +1609,13 @@ require([
                 $.ajax({
                     dataType: 'json',
                     type: 'GET',
-                    url: fimiMoreInfoUrl + "/query?where=USGSID%20%3D%20" + siteNo + "&outFields=ADD_INFO&f=json",
+                    url: fimMoreInfoUrl + siteNo,
                     headers: {'Accept': '*/*'},
                     success: function (data) {
 
-                        if (data.features && data.features.length > 0) {
+                        if (data.hassite == true) {
                             $("#moreInfo").text("");
-                            var moreInfoArray = data.features[0].attributes.ADD_INFO.split("\n");
+                            var moreInfoArray = data.ADD_INFO.split("\\n");
                             if (moreInfoArray.length > 0) {
                                 $.each(moreInfoArray, function(index, value) {
                                     if (value.length > 0) {
@@ -1623,7 +1623,7 @@ require([
                                     }
                                 });
                             } else {
-                                $("#moreInfo").append(data.features[0].attributes.ADD_INFO);
+                                $("#moreInfo").append(data.ADD_INFO);
                             }                      
                             $(".ft-more-info-tab").show();
                         } else {
@@ -5026,7 +5026,7 @@ require([
                 //check for sites without site datum info
 
                 if (siteDatumInfo[1] == "" && siteAttr.PCODE == "62614") {
-                    siteDatumInfo [1] = "NGVD29";
+                    siteDatumInfo[1] = "NGVD29";
                 }
 
                 var page2MapTitle = "";
