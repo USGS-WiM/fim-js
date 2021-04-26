@@ -46,7 +46,8 @@ var floodExtentsMultiTableUrl = "https://fimnew.wim.usgs.gov/server/rest/service
 var floodExtentsMultiThreeSitesTableUrl = "https://fimnew.wim.usgs.gov/server/rest/services/FIMMapper/floodExtentsThreeSites/MapServer/1";
 var fimHazusUrl = "https://fimnew.wim.usgs.gov/server/rest/services/FIMMapper/sites/MapServer/2";
 
-var fimiMoreInfoUrl = "https://fim.wim.usgs.gov/arcgis/rest/services/FIMMapper/fim_add_info/MapServer/1";
+//var fimiMoreInfoUrl = "https://fimnew.wim.usgs.gov/arcgis/rest/services/FIMMapper/fim_add_info/MapServer/1";
+var fimMoreInfoUrl = 'https://fimnew.wim.usgs.gov/fim-more-info?siteno=';
 var ahpsForecastUrl = "https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Observations/ahps_riv_gauges/MapServer/0";
 var nwisUrl = "https://waterservices.usgs.gov/nwis/iv/?format=nwjson&period=P7D";//&parameterCd=00060,00065,62614,62615&sites=";
 var historicalUrl = "http://nwis.waterdata.usgs.gov/ms/nwis/peak?agency_cd=USGS&format=rdb&site_no=";
@@ -2089,13 +2090,13 @@ require([
                 $.ajax({
                     dataType: 'json',
                     type: 'GET',
-                    url: fimiMoreInfoUrl + "/query?where=USGSID%20%3D%20" + siteNo + "&outFields=ADD_INFO&f=json",
+                    url: fimMoreInfoUrl + siteNo,
                     headers: {'Accept': '*/*'},
                     success: function (data) {
 
-                        if (data.features && data.features.length > 0) {
+                        if (data.hassite == true) {
                             $("#moreInfo").text("");
-                            var moreInfoArray = data.features[0].attributes.ADD_INFO.split("\n");
+                            var moreInfoArray = data.ADD_INFO.split("\\n");
                             if (moreInfoArray.length > 0) {
                                 $.each(moreInfoArray, function(index, value) {
                                     if (value.length > 0) {
@@ -2103,7 +2104,7 @@ require([
                                     }
                                 });
                             } else {
-                                $("#moreInfo").append(data.features[0].attributes.ADD_INFO);
+                                $("#moreInfo").append(data.ADD_INFO);
                             }                      
                             $(".ft-more-info-tab").show();
                         } else {
@@ -5506,7 +5507,7 @@ require([
                 //check for sites without site datum info
 
                 if (siteDatumInfo[1] == "" && siteAttr.PCODE == "62614") {
-                    siteDatumInfo [1] = "NGVD29";
+                    siteDatumInfo[1] = "NGVD29";
                 }
 
                 var page2MapTitle = "";
