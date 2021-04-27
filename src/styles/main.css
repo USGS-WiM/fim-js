@@ -3041,6 +3041,18 @@ input[type=range].styled:focus::-ms-fill-upper {
 #floodToolsModalHeader:hover {
   cursor: move;
 }
+#tdiv {
+  flex-direction: column;
+  justify-content: space-between;
+  transition: all 0.2s ease;
+  max-width: 1000px;
+}
+#axdiv {
+  flex-direction: column;
+  justify-content: space-between;
+  transition: all 0.2s ease;
+  max-width: 1000px;
+}
 .modal {
   background-color: rgba(16, 21, 44, 0.25);
   z-index: 100000 !important;
