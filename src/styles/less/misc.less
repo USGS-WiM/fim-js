@@ -2050,3 +2050,48 @@ input[type=range].styled {
 		display: block;
 	}
 }
+
+
+#toggleMobileToolView{
+	display: none;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	border-radius: 4px;
+	width: 100%;
+	text-align: center;
+	z-index: 5;
+	box-sizing: border-box;
+	padding: 5px 0;
+	border-top: 1px solid rgba(0,0,0,0.1);
+	background-color: white;
+
+	@media (max-width: 700px) {
+		display: flex;
+    }
+
+	button{
+		width: 50%;
+		height: 32px;
+		border: none;
+		background-color: white;
+		color: #070D27;
+		border-radius: 4px;
+		margin: 0 5px;
+
+		&.active{
+			background-color: #1D6DFA;
+			color: white;
+		}
+	}
+}
+
+// Changes for mobile second view toggle
+&.second-view{
+	#ftSliders{
+		display: none !important;
+	}
+	#ftData{
+		display: flex !important;
+	}
+}

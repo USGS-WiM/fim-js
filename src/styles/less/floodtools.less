@@ -14,7 +14,7 @@
 
 	// minimized class - desktop changes
 	@media (min-width: 700px) {
-		min-height: 520px;
+		st: 520px;
 
 		#floodToolsModalHeader{
 			font-size: 12px;
@@ -90,6 +90,9 @@
 	padding: 0 0 7px 0;
 	overflow: hidden !important;
 
+    @media (max-width: 700px) {
+		padding: 0 0 50px 0;
+    }
     @media (max-width: 550px) {
         min-width: none;
     }
@@ -251,7 +254,7 @@
 			@media (max-width: 700px) {
 				padding-top: 0;
 				width: 100%;
-				justify-content: flex-end;
+				justify-content: center;
 			}
 
 			// Container for rows
@@ -266,7 +269,7 @@
 				@media (max-width: 700px) {
 					height: auto;
 					flex-grow: 3;
-					padding-left: 40px;
+					padding-left: 100px;
 					box-sizing: border-box;
 					flex-direction: column;
 				}
@@ -285,6 +288,7 @@
 
 					@media (max-width: 700px) {
 						font-size: 12px;
+						text-align: left;
 					}
 				}
 
@@ -293,7 +297,7 @@
 					justify-content: space-around;
 
 					@media (max-width: 700px) {
-						justify-content: center;
+						justify-content: flex-start;
 					}
 					
 					#optionData{
@@ -336,9 +340,11 @@
 				@media (max-width: 700px) {
 					text-align: left !important;
 					display: flex !important;
-					padding: 3px 0 !important;
+					padding: 3px 0 0 15px !important;
+					margin-top: 10px;
 					justify-content: center;
 					order: 1;
+					flex-wrap: wrap;
 				}
 			}
 
@@ -350,9 +356,10 @@
 				padding: 0 12px;
 
 				@media (max-width: 700px) {
-					padding: 0 4px !important;
+					padding: 0 6px 6px 0 !important;
 					width: auto !important;
 					height: fit-content !important;
+					white-space: pre;
 				}
 
                 label{
@@ -361,12 +368,17 @@
                     padding-left: 5px;
                     box-sizing: border-box;
                     line-height: 15px;
+
+					@media (max-width: 700px) {
+						padding-right: 10px;
+					}
 				}
 				input[type=checkbox]{
 					margin: 1px 0 0 0 !important;
 					height: auto;
 					transform: scale(1.2);
 					@media (max-width: 700px) {
+						transform: scale(1.4);
 						margin: 0px !important;
 					}
 				}
@@ -406,7 +418,7 @@
 		&.threesite{
 			#ftOptionsMeta{
 				@media (max-width: 700px) {
-					padding-left: 120px !important;
+					padding-left: 160px !important;
 				}
 			}
 		}
@@ -425,7 +437,7 @@
         height: auto;
         overflow: auto;
         border-left: 1px solid fade(@black, 15%);
-        max-width: 570px;
+        // max-width: 570px;
         display: flex;
         flex-direction: column;
         height: 100%;
@@ -435,6 +447,7 @@
 			max-width: none;
 			height: 10px;
 			flex-grow:3;
+			padding-bottom: 50px;
 			// height: calc(~'100vh - 320px');
 		}
 
@@ -1060,6 +1073,7 @@
             }
         }
     }
+
 }
 
 /////////////////////////////////////////////
@@ -1078,8 +1092,8 @@
         width: 100% !important;
 		max-height: 85vh !important;
 		height: 85vh !important;
-		max-height: calc(~'100% - 75px') !important;
-		height: calc(~'100% - 75px') !important;
+		max-height: calc(~'100% - 90px') !important;
+		height: calc(~'100% - 90px') !important;
         bottom: -20px !important;
         top: auto !important;
         left: 0 !important;
@@ -1090,13 +1104,14 @@
 
 		// Class toggled when minimized clicked - moves to bottom on mobile
 		&.is-minimized{
-			height: 290px !important;
+			height: 50vh !important;
+			min-height: 390px;
 			transition: height 0.3s ease;
 			overflow: hidden;
 			// bottom: calc(~'-100vh + 360px') !important;
-			#ftData{
-				display: none !important;
-			}
+			// #ftData{
+			// 	display: none !important;
+			// }
 		}
 
         .panel-heading.main{
@@ -1116,13 +1131,16 @@
             #ftSliders{
                 text-align: center;
 				width: 100%;
-				height: 240px;
-				padding: 6px 0 6px 0;
+				height: 220px;
+				height: 100% !important;
+				padding: 6px 0 45px 0;
 
                 #ftOptions{
-                    width: auto;
+                    width: 100%;
                     margin: 0 auto;
 					padding: 0 0 0 0 !important;
+					height: fit-content;
+					min-height: 270px;
 
                     #levelKey{
                         text-align: left;
@@ -1180,10 +1198,10 @@
 .ft-mboile-warning{
 	display: block;
 	position: fixed;
-	bottom: 2vw;
-	right: 2vw;
-	width: 94vw;
-	max-width: 300px;
+	top: 1vw;
+	left: 50%;
+	margin-left: -140px;
+	width: 280px;
 	background-color: #FFF;
 	border: 1px solid rgba(0,0,0,0.25);
 	z-index: 500;
@@ -1191,8 +1209,8 @@
 	padding: 12px 8px 4px 8px;
 	box-shadow: 0px 6px 9px -4px rgba(30, 30, 60, 0.13);
 	text-align: center;
-	font-size: 12px;
-	line-height: 20px;
+	font-size: 11.5px;
+	line-height: 18px;
 	border-radius: 5px;
 
 	@media (min-width: 700px) {
@@ -1251,10 +1269,11 @@
 	border-radius: 3px;
 
 	@media (max-width: 700px) {
-		padding: 5px 2px;
+		padding: 0 2px;
 		border: none;
-		margin: 0 auto;
+		margin: 0 auto 0 auto;
 		flex-wrap: nowrap;
+		flex-direction: column;
 		height: fit-content;
 	}
 
@@ -1268,15 +1287,9 @@
 		margin: 0 auto;
 
 		@media (max-width: 700px) {
-			padding-bottom: 0px;
-			white-space: pre;
-			padding-right: 10px;
 			font-size: 9px;
-			text-align: left;
-			display: flex;
-			flex-direction: column;
-			justify-content: center;
-			width: fit-content;
+			text-align: center;
+			padding-bottom: 5px;
 		}
 	}
 
@@ -1286,6 +1299,7 @@
 
 		@media (max-width: 700px) {
 			flex-wrap: wrap;
+			justify-content: center;
 		}
 
 		.left,

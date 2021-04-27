@@ -588,6 +588,16 @@ require([
 
         // $('#hydroChart, #hydroChart2, #hydroChart3').hide();
     });
+    $("#toggleMobileToolViewTools").click(function(){
+		$("#toggleMobileToolViewData").removeClass("active");
+		$(this).addClass("active");
+        $("#ftModal").removeClass("second-view")
+    });
+    $("#toggleMobileToolViewData").click(function(){
+		$(this).addClass("active");
+		$("#toggleMobileToolViewTools").removeClass("active");
+        $("#ftModal").addClass("second-view")
+    });
 
     var closeFloodTools = function(){
 		clearFTValues();
