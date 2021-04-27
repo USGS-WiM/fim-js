@@ -1628,6 +1628,7 @@ require([
                             $(".ft-more-info-tab").show();
                         } else {
                             $("#moreInfo").text("Loading...");
+                            $(".ft-hydro-tab").click();
                             $(".ft-more-info-tab").hide();
                         }
 
