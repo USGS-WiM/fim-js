@@ -3068,6 +3068,18 @@ require([
                                         $("#selectedElevValue").text("Lake Water Level Elevation (" + siteDatumInfo[1] + ")");
                                         hydroChartYAxisLabel = "Lake Water Level Elevation (" + siteDatumInfo[1] + ")";
                                         break;
+                                    case "igld":
+                                        $(".ghselected").hide();
+                                        $("#sliderSelected").hide();
+                                        $(".slider-min.update").hide();
+                                        //$("#sliderSelected").html("<small>Selected Stream Water Level Elevation (NAVD88):</small>");
+                                        $(".slider-elev-label").show();
+                                        $(".slider-elev-label").html("<small>Selected Lake Water Level Elevation (IGLD):</small>");
+                                        $(".slider-elev.update").show();
+                                        $("#currentValue").text("Lake Water Level Elevation (IGLD)");
+                                        $("#selectedElevValue").text("Lake Water Level Elevation (IGLD)");
+                                        hydroChartYAxisLabel = "Lake Water Level Elevation (IGLD)";
+                                        break;
                                     default:
                                         $(".ghselected").show();
                                         $("#sliderSelected").show();
