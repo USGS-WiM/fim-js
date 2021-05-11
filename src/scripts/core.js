@@ -671,7 +671,7 @@ require([
 
 	// Click Water Alert Link
     $("#waterAlertLink").click(function() {
-       $("#waterAlertLink").attr("href", "https://water.usgs.gov/wateralert/subscribe/?fim=1&intro=1&site_no=" + siteAttr.SITE_NO + "&agency_cd=USGS&type_cd=st&parms=00065:" + results[$(".fts1 #floodSlider")[0].value].attributes["STAGE"]);
+       $("#waterAlertLink").attr("href", "https://water.usgs.gov/wateralert/subscribe/?fim=1&intro=1&site_no=" + siteAttr.SITE_NO + "&agency_cd=USGS&type_cd=st&parms="+ siteAttr.PCODE + ":" + results[$(".fts1 #floodSlider")[0].value].attributes["STAGE"]);
        $("#waterAlertLink").click();
     });
 
