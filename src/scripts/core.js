@@ -4550,7 +4550,8 @@ require([
         //$("[id*='fimExtents'] .esriLegendLayerLabel").hide();
         var identifyParameters = new IdentifyParameters();
         if (siteAttr != null && siteAttr.HAS_GRIDS == 1 && ((map.getLayer("fimExtents").visible == true || map.getLayer("fimGrid" + siteAttr.GRID_SERV).visible == true) 
-                                                        || (map.getLayer("fimExtentsMulti").visible == true || map.getLayer("fimGrid" + siteAttr.GRID_SERV).visible == true)) && evt.target.localName != "image") {
+                                                        || (map.getLayer("fimExtentsMulti").visible == true || map.getLayer("fimGrid" + siteAttr.GRID_SERV).visible == true)
+                                                        || (map.getLayer("fimExtentsThreeSites").visible == true || map.getLayer("fimGrid" + siteAttr.GRID_SERV).visible == true)) && evt.target.localName != "image") {
             //come back to this to deal with grid clicks
 
             //getGridLayerIndex();
