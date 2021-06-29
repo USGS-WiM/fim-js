@@ -708,8 +708,14 @@ if (window.document.documentMode) {
 							<h4 class="flood-tools-header">
 								<span id="floodToolsModalHeader"></span>
 								<div class="flood-tools-window-controls">
-									<div id='floodMin' title='collapse'><i class="far fa-window-restore"></i></div>
-									<div id='floodClose' title='close'><i class="far fa-times"></i></div>
+									<div id='floodMin' title='Minimize'><i class="far fa-window-minimize"></i></div>
+									<!-- Half -->
+									<div id='floodHalf' title='Half Window'>
+										<i class="far fa-arrow-to-left"></i>
+										<i class="far fa-arrow-to-bottom"></i>
+									</div>
+									<div id='floodMaximize' title='Maximize'><i class="far fa-arrow-from-bottom"></i></div>
+									<div id='floodClose' title='Close'><i class="far fa-times"></i></div>
 								</div>
 							</h4>
 							<div class="ft-header-links">
@@ -718,6 +724,8 @@ if (window.document.documentMode) {
 							</div>
                         </div>
 					</div>
+
+					<!-- Mobile modal collapse buttons -->
 					
                     <!--
 						Modal body
@@ -903,6 +911,13 @@ if (window.document.documentMode) {
 										<input id="aouCheckBox" type="checkbox" checked />
 										<label for="aouCheckBox" id="aouCheck">Include Area of Uncertainty</label>
 									</div>
+								</div>
+
+
+								<!-- Opacity Slider -->
+								<div id="ftOpacitySlider">
+									<label>Opacity:</label>
+									<input type="range" class="range-styled"/>
 								</div>
                                 
 								<!-- NWS Stages Legend -->
@@ -1230,7 +1245,7 @@ if (window.document.documentMode) {
 								More Info
 							-->
                             <div id="ftMoreInfo" class="ftmodal-content">
-                                <div id="moreInfo"></div>
+                                <div id="moreInfo">Loading...</div>
                             </div>
 
 

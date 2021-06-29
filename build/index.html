@@ -680,8 +680,14 @@ if (window.document.documentMode) {
 							<h4 class="flood-tools-header">
 								<span id="floodToolsModalHeader"></span>
 								<div class="flood-tools-window-controls">
-									<div id='floodMin' title='collapse'><i class="far fa-window-restore"></i></div>
-									<div id='floodClose' title='close'><i class="far fa-times"></i></div>
+									<div id='floodMin' title='Minimize'><i class="far fa-window-minimize"></i></div>
+									<!-- Half -->
+									<div id='floodHalf' title='Half Window'>
+										<i class="far fa-arrow-to-left"></i>
+										<i class="far fa-arrow-to-bottom"></i>
+									</div>
+									<div id='floodMaximize' title='Maximize'><i class="far fa-arrow-from-bottom"></i></div>
+									<div id='floodClose' title='Close'><i class="far fa-times"></i></div>
 								</div>
 							</h4>
 							<div class="ft-header-links">
@@ -690,19 +696,34 @@ if (window.document.documentMode) {
 							</div>
                         </div>
 					</div>
+
+					<!-- Mobile modal collapse buttons -->
 					
                     <!--
 						Modal body
 						Modal body
 						Modal body
                     -->
-					<!-- Mobile warning to minimize FT -->
+					<!-- Mobile warning to minimize Flood Tools on mobile -->
 					<div class="ft-mboile-warning">
 						<p>
 							Use the <i class="far fa-window-restore"></i> buttton to toggle between full-size and minimized flood tools to better view the map.
 						</p>
 					</div>
                     <div class="panel-body" id="ftModal">
+
+						<!-- Mobile view toggle button - floats bottom -->
+						<div id="toggleMobileToolView">
+							<button id="toggleMobileToolViewTools" class="active">
+								Tools
+							</button>
+							<button id="toggleMobileToolViewData">
+								Data
+							</button>
+						</div>
+						
+
+
                         <!-- Sliders on left side -->
                         <div id="ftSliders">
 
@@ -767,7 +788,6 @@ if (window.document.documentMode) {
 							</div>
 
 
-                            <!-- Site options -->
                             <!-- Site options -->
                             <!-- Site options -->
                             <div id="ftOptions">
@@ -864,6 +884,13 @@ if (window.document.documentMode) {
 										<label for="aouCheckBox" id="aouCheck">Include Area of Uncertainty</label>
 									</div>
 								</div>
+
+
+								<!-- Opacity Slider -->
+								<div id="ftOpacitySlider">
+									<label>Opacity:</label>
+									<input type="range" class="range-styled"/>
+								</div>
                                 
 								<!-- NWS Stages Legend -->
                                 <div class="flood-tools-legend">
@@ -890,7 +917,6 @@ if (window.document.documentMode) {
 								</div>
 
                             </div>
-
 
 
                         </div>
@@ -1191,7 +1217,7 @@ if (window.document.documentMode) {
 								More Info
 							-->
                             <div id="ftMoreInfo" class="ftmodal-content">
-                                <div id="moreInfo"></div>
+                                <div id="moreInfo">Loading...</div>
                             </div>
 
 

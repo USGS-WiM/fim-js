@@ -580,14 +580,20 @@ require([
 	
 
 
+    $("#floodHalf").click(function(){
+        $("#floodToolsDiv").toggleClass("is-half")
+    });
     $("#floodMin").click(function(){
         $("#floodToolsDiv").toggleClass("is-minimized")
-        // $("#floodToolsDiv").css("visibility", "hidden");
-        //map.getLayer("fimExtents").setVisibility(false);
-        // $("#minFT").addClass('visible');
-
-        // $('#hydroChart, #hydroChart2, #hydroChart3').hide();
     });
+    $("#floodMaximize").click(function(){
+		if($( "#floodToolsDiv" ).hasClass( "is-minimized" )){
+			$("#floodToolsDiv").removeClass("is-minimized")
+		}else{
+			$("#floodToolsDiv").removeClass("is-half")
+		}
+    });
+
     $("#toggleMobileToolViewTools").click(function(){
 		$("#toggleMobileToolViewData").removeClass("active");
 		$(this).addClass("active");

@@ -1060,13 +1060,29 @@ require([
 	
 
 
+    $("#floodHalf").click(function(){
+        $("#floodToolsDiv").toggleClass("is-half")
+    });
     $("#floodMin").click(function(){
         $("#floodToolsDiv").toggleClass("is-minimized")
-        // $("#floodToolsDiv").css("visibility", "hidden");
-        //map.getLayer("fimExtents").setVisibility(false);
-        // $("#minFT").addClass('visible');
+    });
+    $("#floodMaximize").click(function(){
+		if($( "#floodToolsDiv" ).hasClass( "is-minimized" )){
+			$("#floodToolsDiv").removeClass("is-minimized")
+		}else{
+			$("#floodToolsDiv").removeClass("is-half")
+		}
+    });
 
-        // $('#hydroChart, #hydroChart2, #hydroChart3').hide();
+    $("#toggleMobileToolViewTools").click(function(){
+		$("#toggleMobileToolViewData").removeClass("active");
+		$(this).addClass("active");
+        $("#ftModal").removeClass("second-view")
+    });
+    $("#toggleMobileToolViewData").click(function(){
+		$(this).addClass("active");
+		$("#toggleMobileToolViewTools").removeClass("active");
+        $("#ftModal").addClass("second-view")
     });
 
     var closeFloodTools = function(){
@@ -2080,7 +2096,7 @@ require([
                 }else if(feature.attributes.HAS_WEBCAM == "2"){ //Image
                     $(".ft-webcam-tab").show();
                     $(".ft-webcam-link-tab").hide();
-                    $("#webcamImage").attr('src', feature.attributes.WEBCAM_INFO.replace('http:', 'https:'));
+                    // $("#webcamImage").attr('src', feature.attributes.WEBCAM_INFO.replace('http:', 'https:'));
                     console.log("Webcam image embedded.")
                 }else{
                     $(".ft-webcam-tab").hide();

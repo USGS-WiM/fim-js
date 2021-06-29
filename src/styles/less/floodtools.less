@@ -14,13 +14,35 @@
 
 	// minimized class - desktop changes
 	@media (min-width: 700px) {
-		st: 520px;
 
 		#floodToolsModalHeader{
 			font-size: 12px;
 		}
 
 
+		&.is-half{
+			transition: all 0.2s ease;
+			max-width: 200px;
+			overflow: hidden;
+
+			&.twosite{
+				max-width: 225px;
+			}
+			&.threesite{
+				max-width: 240px;
+			}
+
+			#ftData{
+				max-width: 0px;
+				overflow: hidden;
+				// display: none !important;
+			}
+
+			// Rotate minimize arrow
+			.fa-arrow-to-left{
+				transform: rotate(180deg);
+			}
+		}
 		&.is-minimized{
 			transition: all 0.2s ease;
 			max-width: 200px;
@@ -84,7 +106,7 @@
     width: auto;
     display: flex;
     min-width: 300px;
-    height: 400px !important;
+    height: 440px !important;
     min-width: none !important;
     box-sizing: border-box;
 	padding: 0 0 7px 0;
@@ -276,7 +298,7 @@
 			}
 
 			.ft-options-row{
-				padding: 3px 5px;
+				padding: 0 5px;
 
 				small{
 					display: block;
@@ -1104,15 +1126,32 @@
         flex-direction: column;
 
 		// Class toggled when minimized clicked - moves to bottom on mobile
-		&.is-minimized{
+		&.is-half{
 			height: 50vh !important;
 			min-height: 390px;
 			transition: height 0.3s ease;
 			overflow: hidden;
-			// bottom: calc(~'-100vh + 360px') !important;
-			// #ftData{
-			// 	display: none !important;
-			// }
+			#floodHalf{
+				display: none !important;
+			}
+			#floodMaximize{
+				display: block;
+			}
+		}
+		&.is-minimized{
+			height: 60px !important;
+			min-height: 60px;
+			transition: height 0.3s ease;
+			overflow: hidden;
+
+			#toggleMobileToolView,
+			#floodMin,
+			#floodHalf{
+				display: none !important;
+			}
+			#floodMaximize{
+				display: block;
+			}
 		}
 
         .panel-heading.main{
@@ -1255,6 +1294,29 @@
 }
 
 
+// Opacity Slider
+#ftOpacitySlider{
+	padding: 6px 10px;
+	display: flex;
+
+	label{
+		font-size: 11px;
+		text-align: center;
+		box-sizing: border-box;
+		font-weight: 600;
+		margin: 0 auto;
+
+		@media (max-width: 700px) {
+			font-size: 9px;
+			text-align: center;
+			padding-bottom: 5px;
+		}
+	}
+
+	input{
+		margin: auto 15px;
+	}
+}
 
 // Legend for flood tools
 .flood-tools-legend{
