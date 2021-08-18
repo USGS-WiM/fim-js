@@ -1546,6 +1546,7 @@ require([
                 var suppLyrsDef = [];
                 suppLyrsDef[0] = "USGSID = '" + siteNo + "'";
                 suppLyrsDef[1] = "USGSID = '" + siteNo + "'";
+                suppLyrsDef[2] = "USGSID = '" + siteNo + "'";
                 suppLyrs.setLayerDefinitions(suppLyrsDef);
                 suppLyrs.setVisibility(true);
 
