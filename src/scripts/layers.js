@@ -142,7 +142,7 @@ require([
                     }
                 },
                 "Supplemental layers": {
-                    "url" : "https://fimnew.wim.usgs.gov/server/rest/services/FIMMapper/suppLyrs/MapServer",
+                    "url" : "https://fim.wim.usgs.gov/server/rest/services/FIMMapper/suppLyrs/MapServer",
                     "options": {
                         "id": "fimSuppLyrs",
                         "opacity": 1.0,
