@@ -1546,6 +1546,7 @@ require([
                 var suppLyrsDef = [];
                 suppLyrsDef[0] = "USGSID = '" + siteNo + "'";
                 suppLyrsDef[1] = "USGSID = '" + siteNo + "'";
+                suppLyrsDef[2] = "USGSID = '" + siteNo + "'";
                 suppLyrs.setLayerDefinitions(suppLyrsDef);
                 suppLyrs.setVisibility(true);
 
@@ -4628,7 +4629,7 @@ require([
                         
                         var template;
                         if (siteAttr.REP_LINK != "NONE") {
-                            template = new esri.InfoTemplate("Water depth <a alt='Water depth is the elevation difference between the modeled water surface and the measured land surface. A range is shown to reflect the accuracy of the modeling and measurements. Depth ranges in the channel area may reflect a higher level of inaccuracy due to challenges in estimating channel depths. Please the full report for more information (found in \'Services and Data\').' title='Water depth is the elevation difference between the modeled water surface and the measured land surface. A range is shown to reflect the accuracy of the modeling and measurements. Depth ranges in the channel area may reflect a higher level of inaccuracy due to challenges in estimating channel depths. Please the full report for more information (found in \'Services and Data\').'><i style='color: white; opacity: 0.8;' class='fa fa-question-circle'></a>",
+                            template = new esri.InfoTemplate("Water depth <a alt='Water depth is the elevation difference between the modeled water surface and the measured land surface. A range is shown to reflect the accuracy of the modeling and measurements. Depth ranges in the channel area may reflect a higher level of inaccuracy due to challenges in estimating channel depths. Please the full report for more information (found in Services & Data).' title='Water depth is the elevation difference between the modeled water surface and the measured land surface. A range is shown to reflect the accuracy of the modeling and measurements. Depth ranges in the channel area may reflect a higher level of inaccuracy due to challenges in estimating channel depths. Please the full report for more information (found in Services & Data).'><i style='color: white; opacity: 0.8;' class='fa fa-question-circle'></a>",
                             "<b>Range:</b> " + range + " ft");
                         } else {
                             template = new esri.InfoTemplate("Water depth",
