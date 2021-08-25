@@ -2094,7 +2094,7 @@ input[type=range]:focus::-ms-fill-upper {
   display: -webkit-flex;
   display: flex;
   min-width: 300px;
-  height: 440px !important;
+  height: 460px !important;
   min-width: none !important;
   box-sizing: border-box;
   padding: 0 0 7px 0;
@@ -2694,6 +2694,7 @@ input[type=range]:focus::-ms-fill-upper {
   -webkit-flex-grow: 3;
   flex-grow: 3;
   overflow: auto !important;
+  max-width: 100vw;
 }
 @media (max-width: 700px) {
   #ftModal #ftData .ftnested-content {
@@ -3220,21 +3221,30 @@ input[type=range]:focus::-ms-fill-upper {
   display: flex;
 }
 #ftOpacitySlider label {
-  font-size: 11px;
-  text-align: center;
   box-sizing: border-box;
   font-weight: 600;
   margin: 0 auto;
+  font-size: 10.5px !important;
+  line-height: 10px !important;
+  text-align: left;
+  letter-spacing: -0.3px;
+  min-width: 58px;
 }
 @media (max-width: 700px) {
   #ftOpacitySlider label {
     font-size: 9px;
-    text-align: center;
     padding-bottom: 5px;
   }
 }
 #ftOpacitySlider input {
-  margin: auto 15px;
+  margin: auto 0px;
+}
+@media (max-width: 700px) {
+  #ftOpacitySlider {
+    margin-top: 100px;
+    max-width: 90vw;
+    margin: 0 auto;
+  }
 }
 .flood-tools-legend {
   display: -webkit-flex;
