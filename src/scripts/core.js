@@ -1859,14 +1859,14 @@ require([
                                     var currentLine = historicResultByLine[i];
                                     if (currentLine.match("#") == null && currentLine.match("USGS") != null) {
                                         var lineSplit = currentLine.split("\t");
-                                        var dateFlood = dateAdjustment(lineSplit[2]);
+                                        var dateFlood = dateAdjustment(lineSplit[3]);
                                         var gageHeightFlood;
                                         if (siteAttr.PCODE !== '00065') {
-                                            gageHeightFlood = Number(lineSplit[6]) + siteDatumInfo[0];
+                                            gageHeightFlood = Number(lineSplit[7]) + siteDatumInfo[0];
                                         } else {
-                                            gageHeightFlood = lineSplit[6];
+                                            gageHeightFlood = lineSplit[7];
                                         }
-                                        var codeFlood = lineSplit[7];
+                                        var codeFlood = lineSplit[8];
                                         if (!isNaN(new Date(dateFlood+"T00:00:00").getTime()) && gageHeightFlood != "") {
                                             allHistoricFloods.push([new Date(dateFlood).getTime(), parseFloat(gageHeightFlood), codeFlood]);
                                         }
