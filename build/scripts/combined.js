@@ -87,7 +87,7 @@ require([
                         "opacity": 1.00,
                         "mode": FeatureLayer.MODE_SNAPSHOT,
                         "outFields": ["*"],
-                        "definitionExpression": "(Public = 1 OR Public = 2) AND (MULTI_SITE = 0 OR MULTI_SITE = 1 OR MULTI_SITE = 3)",
+                        "definitionExpression": "(Public = 0 OR Public = 1 OR Public = 2) AND (MULTI_SITE = 0 OR MULTI_SITE = 1 OR MULTI_SITE = 3)",
                         //"infoTemplate": fimInfoTemplate,
                         "visible": true
                     },
@@ -208,7 +208,7 @@ require([
                         "layerType": "agisDynamic",
                         "includeInLayerList": false,
                         "hasOpacitySlider": false,
-                        "layerDefinitions": ["(Public = 1) AND (MULTI_SITE = 0 OR MULTI_SITE = 1 OR MULTI_SITE = 3)"],
+                        "layerDefinitions": ["(Public = 0 OR Public = 1) AND (MULTI_SITE = 0 OR MULTI_SITE = 1 OR MULTI_SITE = 3)"],
                         "includeLegend" : false,
                         "legendLabel": false
                     }
@@ -2340,14 +2340,14 @@ require([
                                     var currentLine = historicResultByLine[i];
                                     if (currentLine.match("#") == null && currentLine.match("USGS") != null) {
                                         var lineSplit = currentLine.split("\t");
-                                        var dateFlood = dateAdjustment(lineSplit[2]);
+                                        var dateFlood = dateAdjustment(lineSplit[3]);
                                         var gageHeightFlood;
                                         if (siteAttr.PCODE !== '00065') {
-                                            gageHeightFlood = Number(lineSplit[6]) + siteDatumInfo[0];
+                                            gageHeightFlood = Number(lineSplit[7]) + siteDatumInfo[0];
                                         } else {
-                                            gageHeightFlood = lineSplit[6];
+                                            gageHeightFlood = lineSplit[7];
                                         }
-                                        var codeFlood = lineSplit[7];
+                                        var codeFlood = lineSplit[8];
                                         if (!isNaN(new Date(dateFlood+"T00:00:00").getTime()) && gageHeightFlood != "") {
                                             allHistoricFloods.push([new Date(dateFlood).getTime(), parseFloat(gageHeightFlood), codeFlood]);
                                         }
