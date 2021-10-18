@@ -2581,28 +2581,24 @@ require([
         hazusQuery.orderByFields = ["gridID ASC"];
         hazusQuery.where = "studyArea = '" + attr["SHORT_NAME"] + "'";
 
-        //console.log("hazusQuery", hazusQuery);
-        //console.log("attr", attr);
-
         // Using fim HAZUS url found in layers.js. edit there, if needed.
         var hazusQueryTask = new QueryTask(fimHazusUrlTest);
-        // console.log("hazusQueryTask", hazusQueryTask);
-
         hazusQueryTask.execute(hazusQuery, hazusResult);
 
         function hazusResult(featureSet) {
-          console.log("featureSet", featureSet);
-          console.log("MADE IT TO HAZUS RESULT");
+          //Variables to be populated with summed values for each GridID
           var gridTotalLoss = 0;
           var gridBldgLoss = 0;
           var gridContLoss = 0;
           var gridShelterNee = 0;
-          var gridDisplacedH = 0;
           var currentGrid;
           var hazusTableObj = [];
           if (featureSet.features.length > 0) {
+            //This sums all the features for each gridID; Right now, it's not needed because I'm using pre-summed data
+            //It works for data that doesn't come pre-summed, but QueryTask has a max feature limit of 1,000, which was causing trouble
+            //Leaving in for now in case we figure out a way around the max count
             for (i = 0; i < featureSet.features.length; i++) {
-              // console.log("feature", featureSet.features[i]);
+              //Since the data are sorted by GridID, if the current ID doesn't match the previous, start summing again
               if (
                 currentGrid !== featureSet.features[i].attributes.gridID &&
                 i > 0
@@ -2635,7 +2631,6 @@ require([
               ShelterNee: gridShelterNee,
             };
             hazusTableObj.push(tempFeature);
-            console.log("hazusTableObj", hazusTableObj);
 
             // Site ID and Stage Label
             $("#hazusTableSiteLabel").html(
