@@ -2335,19 +2335,40 @@ require([
 
                                     return outDate;
                                 }
-                                
+
+                                var dateFloodIndex;
+                                var gageHeightIndex;
+                                var gageHeightCodeIndex;
+
                                 for (var i = 0; i < historicResultByLine.length; i++) {
                                     var currentLine = historicResultByLine[i];
+                                    //the following determines the proper index for gage height and gage height code
+                                    if (currentLine.match("#") == null && currentLine.match("agency_cd") != null) {
+                                      console.log(currentLine);
+                                      var lineSplit = currentLine.split("\t");
+                                      $.each(lineSplit, function(index, value) {
+                                        if (value == 'peak_dt') {
+                                          dateFloodIndex = index;
+                                        }
+                                        if (value == 'gage_ht') {
+                                          gageHeightIndex = index;
+                                        }
+                                        if (value == 'gage_ht_cd') {
+                                          gageHeightCodeIndex = index;
+                                        }
+                                      });
+                                    }
+                                    //the following determines gage height and adds siteDatum value, if necessary. Also, indicates gage height code, if applied to value.
                                     if (currentLine.match("#") == null && currentLine.match("USGS") != null) {
                                         var lineSplit = currentLine.split("\t");
-                                        var dateFlood = dateAdjustment(lineSplit[3]);
+                                        var dateFlood = dateAdjustment(lineSplit[dateFloodIndex]);
                                         var gageHeightFlood;
                                         if (siteAttr.PCODE !== '00065') {
-                                            gageHeightFlood = Number(lineSplit[7]) + siteDatumInfo[0];
+                                            gageHeightFlood = Number(lineSplit[gageHeightIndex]) + siteDatumInfo[0];
                                         } else {
-                                            gageHeightFlood = lineSplit[7];
+                                            gageHeightFlood = lineSplit[gageHeightIndex];
                                         }
-                                        var codeFlood = lineSplit[8];
+                                        var codeFlood = lineSplit[gageHeightCodeIndex];
                                         if (!isNaN(new Date(dateFlood+"T00:00:00").getTime()) && gageHeightFlood != "") {
                                             allHistoricFloods.push([new Date(dateFlood).getTime(), parseFloat(gageHeightFlood), codeFlood]);
                                         }
