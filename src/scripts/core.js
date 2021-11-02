@@ -2575,101 +2575,161 @@ require([
 
         var deferreds = [nwisCall, nwsCall];
 
-        var hazusQuery = new esriQuery();
-        hazusQuery.returnGeometry = false;
-        hazusQuery.outFields = ["*"];
-        hazusQuery.orderByFields = ["gridID ASC"];
-        hazusQuery.where = "studyArea = '" + attr["SHORT_NAME"] + "'";
+        function getHazus() {
+          var hazusQuery = new esriQuery();
+          hazusQuery.returnGeometry = false;
+          hazusQuery.outFields = ["*"];
+          hazusQuery.orderByFields = ["gridID ASC"];
+          hazusQuery.where = "studyArea = '" + attr["SHORT_NAME"] + "'";
 
-        // Using fim HAZUS url found in layers.js. edit there, if needed.
-        var hazusQueryTask = new QueryTask(fimHazusUrlTest);
-        hazusQueryTask.execute(hazusQuery, hazusResult);
+          // Using fim HAZUS url found in layers.js. edit there, if needed.
+          var hazusQueryTask = new QueryTask(fimHazusUrlTest);
+          hazusQueryTask.execute(hazusQuery, hazusResult);
 
-        function hazusResult(featureSet) {
-          //Variables to be populated with summed values for each GridID
-          var gridTotalLoss = 0;
-          var gridBldgLoss = 0;
-          var gridContLoss = 0;
-          var gridShelterNee = 0;
-          var currentGrid;
-          var hazusTableObj = [];
-          if (featureSet.features.length > 0) {
-            //This sums all the features for each gridID; Right now, it's not needed because I'm using pre-summed data
-            //It works for data that doesn't come pre-summed, but QueryTask has a max feature limit of 1,000, which was causing trouble
-            //Leaving in for now in case we figure out a way around the max count
-            for (i = 0; i < featureSet.features.length; i++) {
-              //Since the data are sorted by GridID, if the current ID doesn't match the previous, start summing again
-              if (
-                currentGrid !== featureSet.features[i].attributes.gridID &&
-                i > 0
-              ) {
-                var tempFeature = {
-                  gridID: currentGrid,
-                  totalLoss: gridTotalLoss,
-                  BldgLoss: gridBldgLoss,
-                  ContLoss: gridContLoss,
-                  ShelterNee: gridShelterNee,
-                };
-                hazusTableObj.push(tempFeature);
-                gridTotalLoss = 0;
-                gridBldgLoss = 0;
-                gridContLoss = 0;
-                gridShelterNee = 0;
+          function hazusResult(featureSet) {
+            //Variables to be populated with summed values for each GridID
+            var gridTotalLoss = 0;
+            var gridBldgLoss = 0;
+            var gridContLoss = 0;
+            var gridShelterNee = 0;
+            var currentGrid;
+            var hazusTableObj = [];
+            if (featureSet.features.length > 0) {
+              //This sums all the features for each gridID; Right now, it's not needed because I'm using pre-summed data
+              //It works for data that doesn't come pre-summed, but QueryTask has a max feature limit of 1,000, which was causing trouble
+              //Leaving in for now in case we figure out a way around the max count
+              for (i = 0; i < featureSet.features.length; i++) {
+                //Since the data are sorted by GridID, if the current ID doesn't match the previous, start summing again
+                if (
+                  currentGrid !== featureSet.features[i].attributes.gridID &&
+                  i > 0
+                ) {
+                  var tempFeature = {
+                    stage: stageFinder(currentGrid, siteAttr.MULTI_SITE),
+                    totalLoss: gridTotalLoss,
+                    BldgLoss: gridBldgLoss,
+                    ContLoss: gridContLoss,
+                    ShelterNee: gridShelterNee,
+                  };
+                  hazusTableObj.push(tempFeature);
+                  gridTotalLoss = 0;
+                  gridBldgLoss = 0;
+                  gridContLoss = 0;
+                  gridShelterNee = 0;
+                }
+                gridTotalLoss += featureSet.features[i].attributes.TotalLoss;
+                gridBldgLoss += featureSet.features[i].attributes.BldgLoss;
+                gridContLoss += featureSet.features[i].attributes.ContLoss;
+                gridShelterNee += featureSet.features[i].attributes.ShelterNee;
+
+                currentGrid = featureSet.features[i].attributes.gridID;
               }
-              gridTotalLoss += featureSet.features[i].attributes.TotalLoss;
-              gridBldgLoss += featureSet.features[i].attributes.BldgLoss;
-              gridContLoss += featureSet.features[i].attributes.ContLoss;
-              gridShelterNee += featureSet.features[i].attributes.ShelterNee;
+              var tempFeature = {
+                stage: stageFinder(currentGrid, siteAttr.MULTI_SITE),
+                totalLoss: gridTotalLoss,
+                BldgLoss: gridBldgLoss,
+                ContLoss: gridContLoss,
+                ShelterNee: gridShelterNee,
+              };
+              hazusTableObj.push(tempFeature);
 
-              currentGrid = featureSet.features[i].attributes.gridID;
+              // Site ID and Stage Label
+              $("#hazusTableSiteLabel").html(
+                featureSet.features[0].attributes["USGSID"]
+              );
+
+              $(".ft-hazus-tab").show();
+              $("#hazusTable tbody").empty();
+              // $("#hazusTable tr td").remove();
+
+              //sort hazusTableObj ascending by GRIDID
+              hazusTableObj.sort(function(a, b){
+                return a.stage - b.stage;
+              });
+
+              if (siteAttr.MULTI_SITE == 0) {
+                $("#hazusTable thead").html("<tr id='hazusTableHeader'>" +
+                    "<th>Stage (ft)</th>" + 
+                    "<th>Total Loss ($)</th>" + 
+                    "<th>Building Loss ($)</th>" + 
+                    "<th>Content Loss ($)</th> +" + 
+                    "<th>Shelter Needs</th>" + 
+                  "</tr>");
+              } else if (siteAttr.MULTI_SITE == 1) {   
+                $("#hazusTable thead").html("<tr id='hazusTableHeader'>" +
+                    "<th>Stages (ft)<br/>(" + siteNo + ", " + siteNo_2 + ")</th>" + 
+                    "<th>Total Loss ($)</th>" + 
+                    "<th>Building Loss ($)</th>" + 
+                    "<th>Content Loss ($)</th> +" + 
+                    "<th>Shelter Needs</th>" + 
+                  "</tr>");
+              } else if (siteAttr.MULTI_SITE == 3) {   
+                $("#hazusTable thead").html("<tr id='hazusTableHeader'>" +
+                    "<th>Stages (ft)<br/>(" + siteNo + ", " + siteNo_2 + ", " + siteNo_3 + ")</th>" + 
+                    "<th>Total Loss ($)</th>" + 
+                    "<th>Building Loss ($)</th>" + 
+                    "<th>Content Loss ($)</th> +" + 
+                    "<th>Shelter Needs</th>" + 
+                  "</tr>");
+              }
+
+              for (var i = 0; i < hazusTableObj.length; i++) {
+                var html =
+                  "<tr id='hazus" +
+                  hazusTableObj[i].gridID +
+                  "'><td>" +
+                  hazusTableObj[i].stage +
+                  "</td><td>" +
+                  hazusTableObj[i].totalLoss +
+                  "</td><td>" +
+                  hazusTableObj[i].BldgLoss +
+                  "</td><td>" +
+                  hazusTableObj[i].ContLoss +
+                  "</td> + <td>" +
+                  hazusTableObj[i].ShelterNee +
+                  "</td></tr>";
+                $("#hazusTable tbody").append(html);
+              }
+
+              // Fill in min and max hazus table info
+              var hazusMax = featureSet.features.length - 1;
+              console.log("HAZUS MAX:");
+              console.log("HAZUS MAX:");
+              console.log("HAZUS MAX:");
+              console.log(hazusMax);
+              $("#hazusMinLvl").html(featureSet.features[0].attributes["gridID"]);
+              $("#hazusMaxLvl").html(
+                featureSet.features[hazusMax].attributes["gridID"]
+              );
+            } else {
+              $(".ft-hazus-tab").hide();
             }
-            var tempFeature = {
-              gridID: currentGrid,
-              totalLoss: gridTotalLoss,
-              BldgLoss: gridBldgLoss,
-              ContLoss: gridContLoss,
-              ShelterNee: gridShelterNee,
-            };
-            hazusTableObj.push(tempFeature);
+          }
 
-            // Site ID and Stage Label
-            $("#hazusTableSiteLabel").html(
-              featureSet.features[0].attributes["USGSID"]
-            );
-
-            $(".ft-hazus-tab").show();
-            $("#hazusTable tbody").empty();
-            // $("#hazusTable tr td").remove();
-            for (var i = 0; i < hazusTableObj.length; i++) {
-              var html =
-                "<tr id='hazus" +
-                hazusTableObj[i].gridID +
-                "'><td>" +
-                hazusTableObj[i].gridID +
-                "</td><td>" +
-                hazusTableObj[i].totalLoss +
-                "</td><td>" +
-                hazusTableObj[i].BldgLoss +
-                "</td><td>" +
-                hazusTableObj[i].ContLoss +
-                "</td> + <td>" +
-                hazusTableObj[i].ShelterNee +
-                "</td></tr>";
-              $("#hazusTable tbody").append(html);
+          //function to look up stage or stages (for multi-sites) from grid IDs
+          function stageFinder(gridID, multisite) {
+            var stages = [];
+            var stageFound = false;
+            
+            if (multisite == 0) {
+              $.each(extentResults, function(key, value) {
+                if (stageFound == false && Number(gridID) == value.attributes.GRIDID) {
+                  stageFound = true;
+                  stages[0] = value.attributes.STAGE;
+                }
+              });
+            } else if (multisite == 1) {
+              $.each(extentResults, function(key, value) {
+                if (stageFound == false && Number(gridID) == value.attributes.GRIDID) {
+                  stageFound = true;
+                  stages[0] = value.attributes.STAGE_1;
+                  stages[1] = value.attributes.STAGE_2;
+                }
+              });
             }
+            
 
-            // Fill in min and max hazus table info
-            var hazusMax = featureSet.features.length - 1;
-            console.log("HAZUS MAX:");
-            console.log("HAZUS MAX:");
-            console.log("HAZUS MAX:");
-            console.log(hazusMax);
-            $("#hazusMinLvl").html(featureSet.features[0].attributes["gridID"]);
-            $("#hazusMaxLvl").html(
-              featureSet.features[hazusMax].attributes["gridID"]
-            );
-          } else {
-            $(".ft-hazus-tab").hide();
+            return stages;
           }
         }
 
@@ -2757,6 +2817,8 @@ require([
           if (featureSet.features.length > 0) {
             results = featureSet.features;
             extentResults = results;
+
+            getHazus();
 
             sliderSetup(results);
 

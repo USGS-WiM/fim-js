@@ -10,7 +10,7 @@ var floodExtentsMultiThreeSitesTableUrl =
 var fimHazusUrl =
   "https://fimnew.wim.usgs.gov/server/rest/services/FIMMapper/sites/MapServer/2";
 var fimHazusUrlTest =
-  "https://fim.wim.usgs.gov/server/rest/services/FIMTest/hazusResults/MapServer/0";
+  "https://fim.wim.usgs.gov/server/rest/services/FIMTest/fullHazusResults/MapServer/0";
 
 //var fimiMoreInfoUrl = "https://fimnew.wim.usgs.gov/arcgis/rest/services/FIMMapper/fim_add_info/MapServer/1";
 var fimMoreInfoUrl = "https://fimnew.wim.usgs.gov/fim-more-info?siteno=";
