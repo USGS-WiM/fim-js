@@ -209,7 +209,7 @@ require([
                     }
                 },
                 "Depth grids": {
-                    "url" : "https://fimnew.wim.usgs.gov/server/rest/services/FIMMapper/grids_1/MapServer",
+                    "url" : "https://fim.wim.usgs.gov/server/rest/services/FIMMapper/grids_1/MapServer",
                     "options": {
                         "id": "fimGrid1",
                         "opacity": 0.7,
@@ -225,7 +225,7 @@ require([
                     }
                 },
                 "Depth grids ": {
-                    "url" : "https://fimnew.wim.usgs.gov/server/rest/services/FIMMapper/grids_2/MapServer",
+                    "url" : "https://fim.wim.usgs.gov/server/rest/services/FIMMapper/grids_2/MapServer",
                     "options": {
                         "id": "fimGrid2",
                         "opacity": 0.7,
@@ -241,7 +241,7 @@ require([
                     }
                 },
                 "Depth grids  ": {
-                    "url" : "https://fimnew.wim.usgs.gov/server/rest/services/FIMMapper/grids_3/MapServer",
+                    "url" : "https://fim.wim.usgs.gov/server/rest/services/FIMMapper/grids_3/MapServer",
                     "options": {
                         "id": "fimGrid3",
                         "opacity": 0.7,
@@ -257,9 +257,25 @@ require([
                     }
                 },
                 "Depth grids   ": {
-                    "url" : "https://fimnew.wim.usgs.gov/server/rest/services/FIMMapper/grids_4/MapServer",
+                    "url" : "https://fim.wim.usgs.gov/server/rest/services/FIMMapper/grids_4/MapServer",
                     "options": {
                         "id": "fimGrid4",
+                        "opacity": 0.7,
+                        "visible": false
+                    },
+                    "wimOptions": {//
+                        "type": "layer",
+                        "layerType": "agisDynamic",
+                        "includeInLayerList": false,
+                        "hasOpacitySlider": false,
+                        "includeLegend" : false,
+                        "legendLabel" : false
+                    }
+                },
+                "Depth grids    ": {
+                    "url" : "https://fim.wim.usgs.gov/server/rest/services/FIMMapper/grids_5/MapServer",
+                    "options": {
+                        "id": "fimGrid5",
                         "opacity": 0.7,
                         "visible": false
                     },
