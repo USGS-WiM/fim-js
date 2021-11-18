@@ -27,10 +27,11 @@ var grid1Infos;
 var grid2Infos;
 var grid3Infos;
 var grid4Infos;
+var grid5Infos;
 var gridLayerIndex;
 var gridLayerIndexArrColl = [];
 
-var gridsArray = [1,2,3,4];
+var gridsArray = [1,2,3,4,5];
 
 var siteClick;
 
@@ -614,8 +615,8 @@ require([
 		map.infoWindow.hide();
 	}
 
-	// Reset and Clear values, hide things for next time
-	var clearFTValues = function(){
+    // Reset and Clear values, hide things for next time
+    var clearFTValues = function(){
 
 		$("#floodToolsDiv").fadeOut(90);
 		setTimeout(function(){
@@ -905,8 +906,8 @@ require([
 
             var siteClick = function(evt) {   
 				
-				console.log("Site Clicked")
-				$("#floodToolsErrorMessage").hide();
+                console.log("Site Clicked")
+                $("#floodToolsErrorMessage").hide();
 
                 var feature;
                 if (evt.graphic != undefined) {
@@ -4079,23 +4080,23 @@ require([
 								if($(".ft-more-info-tab").is(":visible")){
 									$(".ft-more-info-tab").click();
 								}else if($(".ft-hydro-tab").hasClass("nws-data-hidden")){ // If hydro unavailable, open main
-                                    $(".ft-main-tab").click();
-                                }else{ // Else default to hydro if available
-                                    $(".ft-hydro-tab").click();
-                                }
+                            $(".ft-main-tab").click();
+                        }else{ // Else default to hydro if available
+                            $(".ft-hydro-tab").click();
+                        }
 
-                                $("#floodToolsDiv .panel-heading").removeClass('loading-hide');
-                                $("#floodToolsDiv .panel-body").removeClass('loading-hide');
-                                $("#floodToolsDiv").removeClass('loading-background');
-                                $("#printExecuteButton").prop('disabled', false);
-                                $(".printWarning").hide();
+                        $("#floodToolsDiv .panel-heading").removeClass('loading-hide');
+                        $("#floodToolsDiv .panel-body").removeClass('loading-hide');
+                        $("#floodToolsDiv").removeClass('loading-background');
+                        $("#printExecuteButton").prop('disabled', false);
+                        $(".printWarning").hide();
 
-								snapToFlood();
-                            })
-                            .fail(function() {
-                                //alert('there was an issue');
-                                floodToolsError();
-                            });
+                        snapToFlood();
+                    })
+                    .fail(function() {
+                        //alert('there was an issue');
+                        floodToolsError();
+                    });
 
                     }
 
@@ -4105,7 +4106,7 @@ require([
 
             map.getLayer("fimSites").on('click', siteClick);
 
-        } else if (layer == "fimGrid1" || layer == "fimGrid2" || layer == "fimGrid3" || layer == "fimGrid4") {
+        } else if (layer == "fimGrid1" || layer == "fimGrid2" || layer == "fimGrid3" || layer == "fimGrid4" || layer == "fimGrid5") {
             //var layer = evt.layer.id;
             var grids;
             switch (layer) {
@@ -4120,6 +4121,9 @@ require([
                     break;
                 case "fimGrid4":
                     grid4Infos = map.getLayer(layer).layerInfos;
+                    break;
+                case "fimGrid5":
+                    grid5Infos = map.getLayer(layer).layerInfos;
                     break;
 
             }
@@ -4541,6 +4545,9 @@ require([
                 break;
             case 4:
                 gridServ = grid4Infos;
+                break;
+            case 5:
+                gridServ = grid5Infos;
                 break;
             case null:
                 gridServ = null;
