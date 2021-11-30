@@ -398,8 +398,61 @@
 				}
 				input[type=checkbox]{
 					margin: 1px 0 0 0 !important;
+					height: 100%;
 					height: auto;
 					transform: scale(1.2);
+				}
+			}
+			
+			@media (max-width: 700px) {
+				#satBasemap{
+					width: 90px !important;
+				}
+				#gridsCheck{
+					width: 82px !important;
+				}
+				#aouCheck{
+					width: 82px;
+				}
+			}
+            
+
+            // Legend for flood tools
+            #floodToolsLegend{
+                display: flex;
+                box-sizing: border-box;
+				flex-wrap: wrap;
+				box-sizing: border-box;
+				width: 95%;
+				width: calc(~'100% - 24px');
+				margin: 4px auto 0 auto;
+				border: 1px solid #C6CEDA;
+				padding: 2px 8px;
+				border-radius: 3px;
+
+				@media (max-width: 700px) {
+					padding: 0px 2px;
+					border: none;
+					margin: 0 auto;
+				}
+
+				.ft-legend-header{
+					font-size: 11px;
+					text-align: center;
+					box-sizing: border-box;
+					font-weight: 600;
+					width: 100%;
+					margin: 0 auto;
+
+					@media (max-width: 700px) {
+						padding-bottom: 4px;
+					}
+				}
+
+				.ft-legend-items{
+					display: flex;
+					width: 100%;
+
 					@media (max-width: 700px) {
 						transform: scale(1.4);
 						margin: 0px !important;

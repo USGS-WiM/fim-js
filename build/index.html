@@ -140,6 +140,27 @@ USGS Bar
     </div><!-- /.modal-dialog -->
 </div>
 
+<div id="geosearchModalAlert" class="modal fade"  tabindex="-1" role="dialog" >
+    <div class="modal-dialog  modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" type="button" data-dismiss="modal" aria-hidden="true" style="color:gray;">&times;</button>
+                <h4 class="modal-geosearchAlertTitle" style="text-align: center;">
+                    The USGS Search is currently down.</h4><hr>
+            </div> 
+            <div  class="modal-body" style="text-align: center;">
+                Unfortunately, the Find Location tool is not available at the moment.
+            </div>
+            <hr>
+            <button class=" btn btn-default close" style="text-transform: uppercase; margin-bottom: 10px; margin-top: -15px; background-color:rgb(192, 100, 100) !important" type="button" data-dismiss="modal" aria-hidden="true">OK</button>
+ 
+        </div>
+    </div> 
+</div>
+
+
+
+
 <div class="modal fade overflow-y-hidden" id="printModal" style="display: none;" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -265,14 +286,14 @@ if (window.document.documentMode) {
 
                         <p>More information about the Flood Inundation Mapping Program can be found <a target="_blank" href="https://water.usgs.gov/osw/flood_inundation/">here</a>.</p>
 
-                        <p>Version 2.3</p>
+                        <p>Version 2.5.2</p>
 
                     </div>
                     <div role="tabpanel" class="tab-pane active" id="disclaimerTabPane">
                         <div class="new-fim-message">
                             <b>Welcome to the USGS Flood Inundation Mapper.</b>
                             <span>
-								The FIM Mapper allows users to explore the full set of inundation maps that shows where flooding would occur given a selected stream condition. Users can also access historical flood information and potential loss estimates based on the severity of the flood. The FIM Mapper helps communities visualize potential flooding scenarios, identify areas and resources that may be at risk, and enhance their local response effort during a flooding event. The legacy mapper is located <a href="https://wimcloud.usgs.gov/apps/FIM/FloodInundationMapper.html" target="_blank" alt="Legacy FIM" title="Legacy FIM">here</a>, and is slated to be decommissioned once historic flood information is added to this interface.
+								The FIM Mapper allows users to explore the full set of inundation maps that shows where flooding would occur given a selected stream condition. Users can also access historical flood information and potential loss estimates based on the severity of the flood. The FIM Mapper helps communities visualize potential flooding scenarios, identify areas and resources that may be at risk, and enhance their local response effort during a flooding event.
                             </span>
                         </div>
                         <h3>Disclaimer for Flood-Inundation Maps</h3>
@@ -889,7 +910,7 @@ if (window.document.documentMode) {
 								<!-- Opacity Slider -->
 								<div id="ftOpacitySlider">
 									<label>Flood Area Opacity:</label>
-									<input type="range" class="range-styled"/>
+									<input type="range" class="range-styled" id="floodAreaOpacitySlider" max="1" min="0" step="0.05" />
 								</div>
                                 
 								<!-- NWS Stages Legend -->
@@ -1065,6 +1086,7 @@ if (window.document.documentMode) {
                             <!-- Accordion Header -->
                             <div id="ftHistorical" class="ftmodal-content nopadding">
 							
+								<div class="no-hydro">No historical flooding data available for this library</div>
 								<!-- Tabs -->
 								<!-- Use custom function in core.js -->
 								<div class="ft-tabs no-top-border">
