@@ -5180,6 +5180,8 @@ require([
 
         $("#legendDiv").niceScroll();
 
+
+
     });
 
     require([
@@ -5713,6 +5715,21 @@ require([
                 }
             }
         }
+
+
+		// Flood Tools Opacity Slider
+		$('#floodAreaOpacitySlider').change(function (event) {
+			var currOpacity = map.getLayer("fimBreach").opacity;
+			// "fimExtents", "fimExtentsMulti", "fimExtentsThreeSites", "fimBreach", "fimBreachMulti"
+
+
+			var change = parseFloat(event.target.value);
+
+			map.getLayer("fimBreach").setOpacity(change);
+			map.getLayer("fimBreachMulti").setOpacity(change);
+
+
+		});
 
 
         //get visible and non visible layer lists

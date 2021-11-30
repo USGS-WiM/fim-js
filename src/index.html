@@ -300,7 +300,7 @@ if (window.document.documentMode) {
                         <div class="new-fim-message">
                             <b>Welcome to the USGS Flood Inundation Mapper.</b>
                             <span>
-								The FIM Mapper allows users to explore the full set of inundation maps that shows where flooding would occur given a selected stream condition. Users can also access historical flood information and potential loss estimates based on the severity of the flood. The FIM Mapper helps communities visualize potential flooding scenarios, identify areas and resources that may be at risk, and enhance their local response effort during a flooding event. The legacy mapper is located <a href="https://wimcloud.usgs.gov/apps/FIM/FloodInundationMapper.html" target="_blank" alt="Legacy FIM" title="Legacy FIM">here</a>, and is slated to be decommissioned once historic flood information is added to this interface.
+								The FIM Mapper allows users to explore the full set of inundation maps that shows where flooding would occur given a selected stream condition. Users can also access historical flood information and potential loss estimates based on the severity of the flood. The FIM Mapper helps communities visualize potential flooding scenarios, identify areas and resources that may be at risk, and enhance their local response effort during a flooding event.
                             </span>
                         </div>
                         <h3>Disclaimer for Flood-Inundation Maps</h3>
@@ -917,7 +917,7 @@ if (window.document.documentMode) {
 								<!-- Opacity Slider -->
 								<div id="ftOpacitySlider">
 									<label>Flood Area Opacity:</label>
-									<input type="range" class="range-styled"/>
+									<input type="range" class="range-styled" id="floodAreaOpacitySlider" max="1" min="0" step="0.05" />
 								</div>
                                 
 								<!-- NWS Stages Legend -->
