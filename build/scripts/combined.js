@@ -1999,9 +1999,9 @@ require([
                                 } else if (value.attributes["TYPE"] == "R") {
                                     $('#mapsReviewedBy').append("<a target='_blank' href='" + value.attributes["URL"] + "'>" + value.attributes["ENTITY"] + "</a>");
                                 } else if (value.attributes["TYPE"] == "L") {
-                                    $('#logos').append("<img src='https://s3.amazonaws.com/wimcloud.usgs.gov/FIM/logos/" + value.attributes["ENTITY"] + "'/>");
+                                    $('#logos').append("<img src='https://s3.amazonaws.com/wim.usgs.gov/FIM/logos/" + value.attributes["ENTITY"] + "'/>");
                                 } else if (value.attributes["TYPE"] == "F") {
-                                    $('#recordsLogo').attr("src", "https://s3.amazonaws.com/wimcloud.usgs.gov/FIM/logos/" + value.attributes["ENTITY"]);
+                                    $('#recordsLogo').attr("src", "https://s3.amazonaws.com/wim.usgs.gov/FIM/logos/" + value.attributes["ENTITY"]);
                                     furnished = true;
                                 }
                             });
