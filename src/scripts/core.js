@@ -3037,12 +3037,12 @@ require([
                                         $(".ghselected").show();
                                         $("#sliderSelected").show();
                                         $(".slider-min.update").show();
-                                        $("#sliderSelected").html("<small>Selected Gage Height (" + siteDatumInfo[1] + "):</small>");
+                                        $("#sliderSelected").html("<small>Selected Gage Height:</small>");
                                         $(".slider-elev-label").hide()
                                         $(".slider-elev.update").hide();
-										$("#currentValue").text("Gage Height (" + siteDatumInfo[1] + ")");
+										$("#currentValue").text("Gage Height");
                                         $("#selectedElevValue").text("Elevation (" + siteDatumInfo[1] + ")");
-                                        hydroChartYAxisLabel = "Gage height (" + siteDatumInfo[1] + ")";
+                                        hydroChartYAxisLabel = "Gage height";
                                         break;
                                     case "ngvd29_lake":
                                         $(".ghselected").hide();
