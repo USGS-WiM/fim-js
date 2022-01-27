@@ -2304,7 +2304,7 @@ require([
                       var gridTotalLoss = 0;
                       var gridBldgLoss = 0;
                       var gridContLoss = 0;
-                      var gridShelterNee = 0;
+                      var gridDebris = 0;
                       var currentGrid;
                       var hazusTableObj = [];
                       if (featureSet.features.length > 0) {
@@ -2322,18 +2322,18 @@ require([
                               totalLoss: gridTotalLoss,
                               BldgLoss: gridBldgLoss,
                               ContLoss: gridContLoss,
-                              ShelterNee: gridShelterNee,
+                              Debris: gridDebris,
                             };
                             hazusTableObj.push(tempFeature);
                             gridTotalLoss = 0;
                             gridBldgLoss = 0;
                             gridContLoss = 0;
-                            gridShelterNee = 0;
+                            gridDebris = 0;
                           }
                           gridTotalLoss += featureSet.features[i].attributes.TotalLoss;
                           gridBldgLoss += featureSet.features[i].attributes.BldgLoss;
                           gridContLoss += featureSet.features[i].attributes.ContLoss;
-                          gridShelterNee += featureSet.features[i].attributes.ShelterNee;
+                          gridDebris += featureSet.features[i].attributes.DebrisTota;
           
                           currentGrid = featureSet.features[i].attributes.gridID;
                         }
@@ -2342,7 +2342,7 @@ require([
                           totalLoss: gridTotalLoss,
                           BldgLoss: gridBldgLoss,
                           ContLoss: gridContLoss,
-                          ShelterNee: gridShelterNee,
+                          Debris: gridDebris,
                         };
                         hazusTableObj.push(tempFeature);
           
@@ -2366,42 +2366,93 @@ require([
                               "<th>Total Loss ($)</th>" + 
                               "<th>Building Loss ($)</th>" + 
                               "<th>Content Loss ($)</th> +" + 
-                              "<th>Shelter Needs</th>" + 
+                              "<th>Total Debris (tons)</th> +" +
                             "</tr>");
+
+                            for (var i = 0; i < hazusTableObj.length; i++) {
+                                var html =
+                                  "<tr id='hazus" +
+                                  hazusTableObj[i].gridID +
+                                  "'><td>" +
+                                  hazusTableObj[i].stage +
+                                  "</td><td>" +
+                                  hazusTableObj[i].totalLoss +
+                                  "</td><td>" +
+                                  hazusTableObj[i].BldgLoss +
+                                  "</td><td>" +
+                                  hazusTableObj[i].ContLoss +
+                                  "</td><td>" +
+                                  Number(hazusTableObj[i].Debris).toFixed(0).toString() +
+                                  "</td></tr>";
+                                $("#hazusTable tbody").append(html);
+                              }      
                         } else if (siteAttr.MULTI_SITE == 1) {   
-                          $("#hazusTable thead").html("<tr id='hazusTableHeader'>" +
-                              "<th>Stages (ft)<br/>(" + siteNo + ", " + siteNo_2 + ")</th>" + 
-                              "<th>Total Loss ($)</th>" + 
-                              "<th>Building Loss ($)</th>" + 
-                              "<th>Content Loss ($)</th> +" + 
-                              "<th>Shelter Needs</th>" + 
+                          $("#hazusTable thead").html("<tr>" + 
+                                "<th colspan='2'>Stages (ft)</th>" +
+                            "</tr>" + 
+                            "<tr id='hazusTableHeader'>" +
+                                "<th>" + siteNo + "</th>" +
+                                "<th>" + siteNo_2 + "</th>" +
+                                "<th>Total Loss ($)</th>" + 
+                                "<th>Building Loss ($)</th>" + 
+                                "<th>Content Loss ($)</th> +" +
+                                "<th>Total Debris (tons)</th> +" +
                             "</tr>");
-                        } else if (siteAttr.MULTI_SITE == 3) {   
-                          $("#hazusTable thead").html("<tr id='hazusTableHeader'>" +
-                              "<th>Stages (ft)<br/>(" + siteNo + ", " + siteNo_2 + ", " + siteNo_3 + ")</th>" + 
-                              "<th>Total Loss ($)</th>" + 
-                              "<th>Building Loss ($)</th>" + 
-                              "<th>Content Loss ($)</th> +" + 
-                              "<th>Shelter Needs</th>" + 
+
+                            for (var i = 0; i < hazusTableObj.length; i++) {
+                                var html =
+                                  "<tr id='hazus" +
+                                  hazusTableObj[i].gridID +
+                                  "'><td>" +
+                                  hazusTableObj[i].stage[0] +
+                                  "</td><td>" +
+                                  hazusTableObj[i].stage[1] +
+                                  "</td><td>" +
+                                  hazusTableObj[i].totalLoss +
+                                  "</td><td>" +
+                                  hazusTableObj[i].BldgLoss +
+                                  "</td><td>" +
+                                  hazusTableObj[i].ContLoss +
+                                  "</td><td>" +
+                                  Number(hazusTableObj[i].Debris).toFixed(0).toString() +
+                                  "</td></tr>";
+                                $("#hazusTable tbody").append(html);
+                              }      
+                        } else if (siteAttr.MULTI_SITE == 3) {
+                          $("#hazusTable thead").html("<tr>" + 
+                                "<th colspan='3'>Stages (ft)</th>" +
+                            "</tr>" + 
+                            "<tr id='hazusTableHeader'>" +
+                                "<th>" + siteNo + "</th>" +
+                                "<th>" + siteNo_2 + "</th>" +
+                                "<th>" + siteNo_3 + "</th>" +
+                                "<th>Total Loss ($)</th>" + 
+                                "<th>Building Loss ($)</th>" + 
+                                "<th>Content Loss ($)</th> +" +
+                                "<th>Total Debris (tons)</th> +" +
                             "</tr>");
-                        }
-          
-                        for (var i = 0; i < hazusTableObj.length; i++) {
-                          var html =
-                            "<tr id='hazus" +
-                            hazusTableObj[i].gridID +
-                            "'><td>" +
-                            hazusTableObj[i].stage +
-                            "</td><td>" +
-                            hazusTableObj[i].totalLoss +
-                            "</td><td>" +
-                            hazusTableObj[i].BldgLoss +
-                            "</td><td>" +
-                            hazusTableObj[i].ContLoss +
-                            "</td> + <td>" +
-                            hazusTableObj[i].ShelterNee +
-                            "</td></tr>";
-                          $("#hazusTable tbody").append(html);
+
+                            for (var i = 0; i < hazusTableObj.length; i++) {
+                                var html =
+                                  "<tr id='hazus" +
+                                  hazusTableObj[i].gridID +
+                                  "'><td>" +
+                                  hazusTableObj[i].stage[0] +
+                                  "</td><td>" +
+                                  hazusTableObj[i].stage[1] +
+                                  "</td><td>" +
+                                  hazusTableObj[i].stage[2] +
+                                  "</td><td>" +
+                                  hazusTableObj[i].totalLoss +
+                                  "</td><td>" +
+                                  hazusTableObj[i].BldgLoss +
+                                  "</td><td>" +
+                                  hazusTableObj[i].ContLoss +
+                                  "</td><td>" +
+                                  Number(hazusTableObj[i].Debris).toFixed(0).toString() +
+                                  "</td></tr>";
+                                $("#hazusTable tbody").append(html);
+                            }      
                         }
           
                         // Fill in min and max hazus table info
