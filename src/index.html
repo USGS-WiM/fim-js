@@ -732,10 +732,9 @@ if (window.document.documentMode) {
 									<div id='floodMin' title='Minimize'><i class="far fa-window-minimize"></i></div>
 									<!-- Half -->
 									<div id='floodHalf' title='Half Window'>
-										<i class="far fa-arrow-to-left"></i>
-										<i class="far fa-arrow-to-bottom"></i>
+										<i class="far fa-compress-arrows-alt"></i>
+										<i class="far fa-expand-arrows-alt"></i>
 									</div>
-									<div id='floodMaximize' title='Maximize'><i class="far fa-arrow-from-bottom"></i></div>
 									<div id='floodClose' title='Close'><i class="far fa-times"></i></div>
 								</div>
 							</h4>
@@ -754,19 +753,16 @@ if (window.document.documentMode) {
 						Modal body
                     -->
 					<!-- Mobile warning to minimize Flood Tools on mobile -->
-					<div class="ft-mboile-warning">
-						<p>
-							Use the <i class="far fa-window-restore"></i> buttton to toggle between full-size and minimized flood tools to better view the map.
-						</p>
-					</div>
                     <div class="panel-body" id="ftModal">
 
 						<!-- Mobile view toggle button - floats bottom -->
 						<div id="toggleMobileToolView">
 							<button id="toggleMobileToolViewTools" class="active">
+								<i class="far fa-tools"></i>
 								Tools
 							</button>
 							<button id="toggleMobileToolViewData">
+								<i class="far fa-table"></i>
 								Data
 							</button>
 						</div>
@@ -1258,7 +1254,7 @@ if (window.document.documentMode) {
 								Web Cam
 							-->
                             <div id="ftWebcam" class="ftmodal-content">
-                                <img src="" id="webcamImage"/>
+                                <img src="" id="webcamImage" onerror="this.src='images/broken.png'"/>
                             </div>
 
 							<!--

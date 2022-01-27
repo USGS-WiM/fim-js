@@ -5845,6 +5845,11 @@ require([
 			map.getLayer("fimBreach").setOpacity(change);
 			map.getLayer("fimBreachMulti").setOpacity(change);
 
+			map.getLayer("fimExtents").setOpacity(change);
+			map.getLayer("fimExtentsMulti").setOpacity(change);
+			map.getLayer("fimExtentsThreeSites").setOpacity(change);
+			
+
 
 		});
 

@@ -38,10 +38,6 @@
 				// display: none !important;
 			}
 
-			// Rotate minimize arrow
-			.fa-arrow-to-left{
-				transform: rotate(180deg);
-			}
 		}
 		&.is-minimized{
 			transition: all 0.2s ease;
@@ -1185,12 +1181,7 @@
 			min-height: 390px;
 			transition: height 0.3s ease;
 			overflow: hidden;
-			#floodHalf{
-				display: none !important;
-			}
-			#floodMaximize{
-				display: block;
-			}
+
 		}
 		&.is-minimized{
 			height: 60px !important;
@@ -1287,30 +1278,6 @@
 }
 
 
-// Mobile warning on flood ttools
-// Tell user to use minimize button
-.ft-mboile-warning{
-	display: block;
-	position: fixed;
-	top: 1vw;
-	left: 50%;
-	margin-left: -140px;
-	width: 280px;
-	background-color: #FFF;
-	border: 1px solid rgba(0,0,0,0.25);
-	z-index: 500;
-	box-sizing: border-box;
-	padding: 12px 8px 4px 8px;
-	box-shadow: 0px 6px 9px -4px rgba(30, 30, 60, 0.13);
-	text-align: center;
-	font-size: 11.5px;
-	line-height: 18px;
-	border-radius: 5px;
-
-	@media (min-width: 700px) {
-		display: none !important;
-	}
-}
 
 
 

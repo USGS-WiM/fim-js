@@ -261,18 +261,6 @@
 
 		#floodHalf{
 			margin-left: 5px;
-
-			.fa-arrow-to-left{
-				@media (max-width: 700px) {
-					display: none;
-				}
-			}
-			.fa-arrow-to-bottom{
-				display: none;
-				@media (max-width: 700px) {
-					display: block;
-				}
-			}
 		}
 		#floodMin{
 			display: none;
@@ -287,7 +275,17 @@
 	}
 
 }
-
+#floodHalf .fa-expand-arrows-alt{
+	display: none;
+}
+&.is-half{
+	.fa-compress-arrows-alt{
+		display: none !important;
+	}
+	.fa-expand-arrows-alt{
+		display: block !important;
+	}
+}
 
 
 .tooltip {
@@ -2109,6 +2107,7 @@ input[type=range].styled {
 		color: #070D27;
 		border-radius: 4px;
 		margin: 0 5px;
+		border: 1px solid rgba(0,0,0,0.4) !important;
 
 		&.active{
 			background-color: #1D6DFA;
