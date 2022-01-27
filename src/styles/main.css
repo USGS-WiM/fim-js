@@ -2267,7 +2267,7 @@ input[type=range]:focus::-ms-fill-upper {
   #ftModal #ftSliders #ftOptions .ft-option-checkboxes {
     text-align: left !important;
     display: flex !important;
-    padding: 3px 0 0 15px !important;
+    padding: 3px 0 0 5px !important;
     margin-top: 10px;
     justify-content: center;
     order: 1;
@@ -2279,14 +2279,13 @@ input[type=range]:focus::-ms-fill-upper {
   justify-content: flex-start;
   width: 100%;
   box-sizing: border-box;
-  padding: 0 12px;
+  padding: 0 5px;
 }
 @media (max-width: 700px) {
   #ftModal #ftSliders #ftOptions .ft-checkbox {
     padding: 0 6px 6px 0 !important;
     width: auto !important;
     height: fit-content !important;
-    white-space: pre;
   }
 }
 #ftModal #ftSliders #ftOptions .ft-checkbox label {
@@ -2298,7 +2297,8 @@ input[type=range]:focus::-ms-fill-upper {
 }
 @media (max-width: 700px) {
   #ftModal #ftSliders #ftOptions .ft-checkbox label {
-    padding-right: 10px;
+    padding-right: 6px;
+    line-height: 10px;
   }
 }
 #ftModal #ftSliders #ftOptions .ft-checkbox input[type=checkbox] {
@@ -2306,17 +2306,6 @@ input[type=range]:focus::-ms-fill-upper {
   height: 100%;
   height: auto;
   transform: scale(1.2);
-}
-@media (max-width: 700px) {
-  #ftModal #ftSliders #ftOptions #satBasemap {
-    width: 90px !important;
-  }
-  #ftModal #ftSliders #ftOptions #gridsCheck {
-    width: 82px !important;
-  }
-  #ftModal #ftSliders #ftOptions #aouCheck {
-    width: 82px;
-  }
 }
 #ftModal #ftSliders #ftOptions #floodToolsLegend {
   display: flex;
