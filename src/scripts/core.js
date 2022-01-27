@@ -645,6 +645,16 @@ require([
 			$("#floodToolsDiv").addClass('loading-background');
 		}, 90);
 
+		// Reset layer opacities
+		var reset = 0.7;
+		$('#floodAreaOpacitySlider').val(reset)
+		map.getLayer("fimBreach").setOpacity(reset);
+		map.getLayer("fimBreachMulti").setOpacity(reset);
+
+		map.getLayer("fimExtents").setOpacity(reset);
+		map.getLayer("fimExtentsMulti").setOpacity(reset);
+		map.getLayer("fimExtentsThreeSites").setOpacity(reset);
+
 
 		// Hide error message
 		$("#floodToolsErrorMessage").hide();
@@ -5836,9 +5846,7 @@ require([
 
 		// Flood Tools Opacity Slider
 		$('#floodAreaOpacitySlider').change(function (event) {
-			var currOpacity = map.getLayer("fimBreach").opacity;
 			// "fimExtents", "fimExtentsMulti", "fimExtentsThreeSites", "fimBreach", "fimBreachMulti"
-
 
 			var change = parseFloat(event.target.value);
 
@@ -5848,9 +5856,6 @@ require([
 			map.getLayer("fimExtents").setOpacity(change);
 			map.getLayer("fimExtentsMulti").setOpacity(change);
 			map.getLayer("fimExtentsThreeSites").setOpacity(change);
-			
-
-
 		});
 
 
