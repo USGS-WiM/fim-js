@@ -36,6 +36,7 @@ var gridsArray = [1,2,3,4,5];
 var siteClick;
 
 var extentResults = null;
+var arr4HazusTable = null;
 var libExtent = null;
 
 var siteNo;
@@ -2368,24 +2369,6 @@ require([
                               "<th>Content Loss ($)</th> +" + 
                               "<th>Total Debris (tons)</th> +" +
                             "</tr>");
-
-                            for (var i = 0; i < hazusTableObj.length; i++) {
-                                var html =
-                                  "<tr id='hazus" +
-                                  hazusTableObj[i].gridID +
-                                  "'><td>" +
-                                  hazusTableObj[i].stage +
-                                  "</td><td>" +
-                                  hazusTableObj[i].totalLoss +
-                                  "</td><td>" +
-                                  hazusTableObj[i].BldgLoss +
-                                  "</td><td>" +
-                                  hazusTableObj[i].ContLoss +
-                                  "</td><td>" +
-                                  Number(hazusTableObj[i].Debris).toFixed(0).toString() +
-                                  "</td></tr>";
-                                $("#hazusTable tbody").append(html);
-                              }      
                         } else if (siteAttr.MULTI_SITE == 1) {   
                           $("#hazusTable thead").html("<tr>" + 
                                 "<th colspan='2'>Stages (ft)</th>" +
@@ -2397,27 +2380,7 @@ require([
                                 "<th>Building Loss ($)</th>" + 
                                 "<th>Content Loss ($)</th> +" +
                                 "<th>Total Debris (tons)</th> +" +
-                            "</tr>");
-
-                            for (var i = 0; i < hazusTableObj.length; i++) {
-                                var html =
-                                  "<tr id='hazus" +
-                                  hazusTableObj[i].gridID +
-                                  "'><td>" +
-                                  hazusTableObj[i].stage[0] +
-                                  "</td><td>" +
-                                  hazusTableObj[i].stage[1] +
-                                  "</td><td>" +
-                                  hazusTableObj[i].totalLoss +
-                                  "</td><td>" +
-                                  hazusTableObj[i].BldgLoss +
-                                  "</td><td>" +
-                                  hazusTableObj[i].ContLoss +
-                                  "</td><td>" +
-                                  Number(hazusTableObj[i].Debris).toFixed(0).toString() +
-                                  "</td></tr>";
-                                $("#hazusTable tbody").append(html);
-                              }      
+                            "</tr>");      
                         } else if (siteAttr.MULTI_SITE == 3) {
                           $("#hazusTable thead").html("<tr>" + 
                                 "<th colspan='3'>Stages (ft)</th>" +
@@ -2431,30 +2394,41 @@ require([
                                 "<th>Content Loss ($)</th> +" +
                                 "<th>Total Debris (tons)</th> +" +
                             "</tr>");
-
-                            for (var i = 0; i < hazusTableObj.length; i++) {
-                                var html =
-                                  "<tr id='hazus" +
-                                  hazusTableObj[i].gridID +
-                                  "'><td>" +
-                                  hazusTableObj[i].stage[0] +
-                                  "</td><td>" +
-                                  hazusTableObj[i].stage[1] +
-                                  "</td><td>" +
-                                  hazusTableObj[i].stage[2] +
-                                  "</td><td>" +
-                                  hazusTableObj[i].totalLoss +
-                                  "</td><td>" +
-                                  hazusTableObj[i].BldgLoss +
-                                  "</td><td>" +
-                                  hazusTableObj[i].ContLoss +
-                                  "</td><td>" +
-                                  Number(hazusTableObj[i].Debris).toFixed(0).toString() +
-                                  "</td></tr>";
-                                $("#hazusTable tbody").append(html);
-                            }      
                         }
-          
+
+                        for (var i = 0; i < hazusTableObj.length; i++) {
+                            if (hazusTableObj[i].stage[0] != undefined) {
+                                var html = "";
+                                html = "<tr id='hazus" +
+                                    hazusTableObj[i].gridID +
+                                    "'><td>" +
+                                    hazusTableObj[i].stage[0] +
+                                    "</td>";
+                                if (siteAttr.MULTI_SITE == 1) {
+                                    html += "<td>" +
+                                        hazusTableObj[i].stage[1] +
+                                        "</td>";
+                                } else if (siteAttr.MULTI_SITE == 3) {
+                                    html += "<td>" +
+                                        hazusTableObj[i].stage[1] +
+                                        "</td><td>" +
+                                        hazusTableObj[i].stage[2] +
+                                        "</td>";
+                                } 
+                                html += "<td>" +
+                                    hazusTableObj[i].totalLoss +
+                                    "</td><td>" +
+                                    hazusTableObj[i].BldgLoss +
+                                    "</td><td>" +
+                                    hazusTableObj[i].ContLoss +
+                                    "</td><td>" +
+                                    Number(hazusTableObj[i].Debris).toFixed(0).toString() +
+                                    "</td></tr>";
+                                $("#hazusTable tbody").append(html);
+                            }
+                            
+                        } 
+
                         // Fill in min and max hazus table info
                         var hazusMax = featureSet.features.length - 1;
                         console.log("HAZUS MAX:");
@@ -2475,34 +2449,33 @@ require([
                       var stages = [];
                       var stageFound = false;
                       
-                      if (multisite == 0) {
-                        $.each(extentResults, function(key, value) {
-                          if (stageFound == false && Number(gridID) == value.attributes.GRIDID) {
-                            stageFound = true;
-                            stages[0] = value.attributes.STAGE;
-                          }
-                        });
-                      } else if (multisite == 1) {
-                        $.each(extentResults, function(key, value) {
-                          if (stageFound == false && Number(gridID) == value.attributes.GRIDID) {
-                            stageFound = true;
-                            stages[0] = value.attributes.STAGE_1;
-                            stages[1] = value.attributes.STAGE_2;
-                          }
-                        });
-                      } else if (multisite == 3) {
-                        $.each(extentResults, function(key, value) {
-                          if (stageFound == false && Number(gridID) == value.attributes.GRIDID) {
-                            stageFound = true;
-                            stages[0] = value.attributes.STAGE_1;
-                            stages[1] = value.attributes.STAGE_2;
-                            stages[2] = value.attributes.STAGE_3;
-                          }
-                        });
-                      }
+                        if (multisite == 0) {
+                            $.each(arr4HazusTable, function(key, value) {
+                                if (stageFound == false && Number(gridID) == Number(value.GRIDID)) {
+                                    stageFound = true;
+                                    stages[0] = value.STAGE;
+                                }
+                            });
+                        } else if (multisite == 1) {
+                            $.each(arr4HazusTable, function(key, value) {
+                                if (stageFound == false && Number(gridID) == Number(value.GRIDID)) {
+                                    stageFound = true;
+                                    stages[0] = value.STAGE_1;
+                                    stages[1] = value.STAGE_2;
+                                }
+                            });
+                        } else if (multisite == 3) {
+                            $.each(arr4HazusTable, function(key, value) {
+                                if (stageFound == false && Number(gridID) == Number(value.GRIDID)) {
+                                    stageFound = true;
+                                    stages[0] = value.STAGE_1;
+                                    stages[1] = value.STAGE_2;
+                                    stages[2] = value.STAGE_3;
+                                }
+                            });
+                        }
                       
-          
-                      return stages;
+                        return stages;
                     }
                 }
 
@@ -2576,6 +2549,19 @@ require([
 
                         results = featureSet.features;
                         extentResults = results;
+
+                        arr4HazusTable = [];
+
+                        //build object for Hazus table GRIDID translation to Stage(s)
+                        extentResults.forEach(function(item) {
+                            if (siteAttr.MULTI_SITE == 0) {
+                                arr4HazusTable.push({"STAGE": item.attributes.STAGE, "GRIDID": item.attributes.GRIDID});
+                            } if (siteAttr.MULTI_SITE == 1) {
+                                arr4HazusTable.push({"STAGE_1": item.attributes.STAGE_1, "STAGE_2": item.attributes.STAGE_2, "GRIDID": item.attributes.GRIDID});
+                            } if (siteAttr.MULTI_SITE == 3) {
+                                arr4HazusTable.push({"STAGE_1": item.attributes.STAGE_1, "STAGE_2": item.attributes.STAGE_2, "STAGE_3": item.attributes.STAGE_3, "GRIDID": item.attributes.GRIDID});
+                            }
+                        })
 
                         getHazus();
 
