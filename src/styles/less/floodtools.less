@@ -542,8 +542,10 @@
                 letter-spacing: -0.35px;
                 font-weight: 600;
                 color: black;
+				flex-grow: 3;
 				background-color: white;
 				border-right: 1px solid rgba(0,0,0,0.08);
+				border-bottom: 1px solid rgba(0,0,0,0.08);
 
 				@media (max-width: 700px) {
 					flex-grow:3;
@@ -860,28 +862,18 @@
         // Hazus
         // Hazus
         #ftHazus{
+			padding-left: 0 !important;
+			padding-right: 0 !important;
             // Hazus Table
             // Hazus Table
             // Hazus Table
-            #hazusTableLabels{
-                padding: 15px 0;
-                display: flex;
-                justify-content: space-between;
-
-                .hazus-label{
-                    width: 45%;
-
-                    span{
-                        font-weight: 700;
-                        font-size: 18px;
-                        padding-top: 7px;
-                        display: block;
-                        letter-spacing: -0.3px;
-                        font-weight: 700;
-                        color: @black;
-                    }
-                }
-            }
+            h3{
+				font-size: 16px;
+				box-sizing: border-box;
+				font-weight: 700;
+				padding: 0 10px 0px 10px;
+				text-align: center;
+			}
             #hazusTable{
                 margin: 0 0 15px 0;
                 width: 100%;
@@ -902,8 +894,9 @@
                             text-align: right;
                         }
 
+                        &:nth-child(1),
                         &:nth-child(2){
-                            width: 110px !important;
+                            width: 60px !important;
                         }
                         &:nth-child(4){
                             width: 120px;
@@ -928,6 +921,7 @@
 
                     &.active{
                         display: table-row;
+						background-color: rgba(255, 213, 0, 0.15);
 
                         td, th{
                             color: @black;
@@ -969,6 +963,10 @@
             #hideFullHazus{
                 display: none;
             }
+			#hideFullHazus,
+			#viewFullHazus{
+				margin-left: 15px;
+			}
         }
 
 

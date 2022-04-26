@@ -2399,8 +2399,20 @@ require([
                         for (var i = 0; i < hazusTableObj.length; i++) {
                             if (hazusTableObj[i].stage[0] != undefined) {
                                 var html = "";
+
+								// Set unique table row ID for hazus
+								var hazusTableRowID = hazusTableObj[i].stage[0];
+								if(siteAttr.MULTI_SITE == 1){
+									hazusTableRowID = hazusTableObj[i].stage[0].toString() + hazusTableObj[i].stage[1].toString()
+								}
+								if(siteAttr.MULTI_SITE == 3){
+									hazusTableRowID = hazusTableObj[i].stage[0].toString() + hazusTableObj[i].stage[1].toString()  + hazusTableObj[i].stage[2].toString()
+								}
+								hazusTableRowID = hazusTableRowID.toString().replace(".", "")
+
+								// Create table
                                 html = "<tr id='hazus" +
-                                    hazusTableObj[i].gridID +
+                                    hazusTableRowID +
                                     "'><td>" +
                                     hazusTableObj[i].stage[0] +
                                     "</td>";
@@ -2415,14 +2427,17 @@ require([
                                         hazusTableObj[i].stage[2] +
                                         "</td>";
                                 } 
+								var debris = Number(hazusTableObj[i].Debris).toFixed(0).toString();
+								debris = parseInt(debris).toLocaleString("en-US");
+							 
                                 html += "<td>" +
-                                    hazusTableObj[i].totalLoss +
+                                    hazusTableObj[i].totalLoss.toLocaleString("en-US") +
                                     "</td><td>" +
-                                    hazusTableObj[i].BldgLoss +
+                                    hazusTableObj[i].BldgLoss.toLocaleString("en-US") +
                                     "</td><td>" +
-                                    hazusTableObj[i].ContLoss +
+                                    hazusTableObj[i].ContLoss.toLocaleString("en-US") +
                                     "</td><td>" +
-                                    Number(hazusTableObj[i].Debris).toFixed(0).toString() +
+                                    debris +
                                     "</td></tr>";
                                 $("#hazusTable tbody").append(html);
                             }
@@ -2431,9 +2446,7 @@ require([
 
                         // Fill in min and max hazus table info
                         var hazusMax = featureSet.features.length - 1;
-                        console.log("HAZUS MAX:");
-                        console.log("HAZUS MAX:");
-                        console.log("HAZUS MAX:");
+                        console.log("Hazus Max:");
                         console.log(hazusMax);
                         $("#hazusMinLvl").html(featureSet.features[0].attributes["gridID"]);
                         $("#hazusMaxLvl").html(
@@ -2666,7 +2679,7 @@ require([
                             
 
                             //set grids layer definitions/choose the right layer here and in next input change function
-                            console.log('grid stuff');
+                            console.log('Setting up grid');
                             var gridLayer = "fimGrid" + siteAttr.GRID_SERV;
                             var gridVisLayer = [];
                             gridVisLayer.push(gridLayerIndexArrColl);
@@ -2686,12 +2699,11 @@ require([
 									$(".fts1 .flood-discharge-selected").text(results[this.value].attributes["QCFS"] || "N/A");	
 				
 									//Adjustments to hazus tab for slider change
-                                    $("#hazusTableSelectedStageLabel").text(results[this.value].attributes["STAGE"] + " ft");
                                     $("#hazusTable tr").removeClass('active');
                                     $("#hazus" + results[this.value].attributes["STAGE"]).addClass('active');
 
                                     // Show message if no hazus
-                                    // Data is avaolable at selected range
+                                    // Data is available at selected range
                                     if($("#hazus" + results[this.value].attributes["STAGE"]).length){
                                         $("#hazusRangeInfo").hide();
                                     }else{
@@ -2738,6 +2750,15 @@ require([
 											$(".fts2 .flood-discharge-selected").text(dischargeValues2[this.value].dischargeValue || "N/A");
 										}
                                     }
+
+									// Hazus Multi-Site (2)
+									// TODO!
+                                    $("#hazusTable tr").removeClass('active');
+									var activehazusrowid = "hazus" + parseFloat(gageValues[$(".fts1 #floodSlider")[0].value].gageValue) + parseFloat(gageValues2[$(".fts2 #floodSlider")[0].value].gageValue);
+									activehazusrowid = activehazusrowid.replace(".", "");
+									$("#" + activehazusrowid).addClass('active');
+                                    // Hide Hazus message 
+                                    $("#hazusRangeInfo").hide();
 
                                     // Code to determine next possible combination if current selections are not available as map in library
                                     var tempPairValue = [];
@@ -2865,6 +2886,7 @@ require([
                                     }
                                     
                                 } else if (siteAttr["MULTI_SITE"] == 3) {
+									
 
                                     if ($(this).hasClass('first-slider')) {
 										$(".fts1 .slider-min.update").text(gageValues[this.value].gageValue);
@@ -2884,6 +2906,18 @@ require([
 									    $(".fts3 .elevation-selected").text(altitudeValues3[this.value].altitudeValue || "N/A");
 										$(".fts3 .flood-discharge-selected").text(dischargeValues3[this.value].dischargeValue || "N/A");
                                     }
+
+									// Hazus Multi-Site (3)
+									// TODO!
+                                    $("#hazusTable tr").removeClass('active');
+									var activehazusrowid = "hazus" + parseFloat(gageValues[$(".fts1 #floodSlider")[0].value].gageValue) + parseFloat(gageValues2[$(".fts2 #floodSlider")[0].value].gageValue) + parseFloat(gageValues3[$(".fts3 #floodSlider")[0].value].gageValue);
+									activehazusrowid = activehazusrowid.replace(".", "");
+									$("#" + activehazusrowid).addClass('active');
+
+                                    // Hide Hazus message 
+                                    $("#hazusRangeInfo").hide();
+
+
 
                                     // Code to determine next possible combination if current selections are not available as map in library
                                     var tempPairValue = [];
@@ -3385,7 +3419,6 @@ require([
                                     return finalDataArray
                                 }
 
-                                console.log('current gage height here');
 
                                 // ======================================================
                                 // ======================================================
@@ -3393,6 +3426,7 @@ require([
                                 // ======================================================
                                 // ======================================================
                                 // Reset Vals
+                                console.log('Setting current gage height');
                                 $('#floodGage').text('N/A');
                                 $('#floodDischarge').text('N/A');
                                 // Site One
