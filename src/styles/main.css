@@ -2623,6 +2623,7 @@ input[type=range].styled:focus::-ms-fill-upper {
   box-sizing: border-box;
   padding: 5px 6px;
   font-size: 10px !important;
+  text-align: right;
 }
 #ftModal #ftData #ftHazus #hazusTable tr td:nth-child(2),
 #ftModal #ftData #ftHazus #hazusTable tr th:nth-child(2),

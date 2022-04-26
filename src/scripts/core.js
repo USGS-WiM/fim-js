@@ -2360,6 +2360,12 @@ require([
                         hazusTableObj.sort(function(a, b){
                           return a.stage - b.stage;
                         });
+
+						// Hazus Levels warning
+						$("#hazusMinLvl").html(hazusTableObj[0].stage[0]);
+						$("#hazusMaxLvl").html(
+							hazusTableObj[hazusTableObj.length - 1].stage[0]
+						);
           
                         if (siteAttr.MULTI_SITE == 0) {
                           $("#hazusTable thead").html("<tr id='hazusTableHeader'>" +
@@ -2410,6 +2416,8 @@ require([
 								}
 								hazusTableRowID = hazusTableRowID.toString().replace(".", "")
 
+								
+
 								// Create table
                                 html = "<tr id='hazus" +
                                     hazusTableRowID +
@@ -2448,10 +2456,8 @@ require([
                         var hazusMax = featureSet.features.length - 1;
                         console.log("Hazus Max:");
                         console.log(hazusMax);
-                        $("#hazusMinLvl").html(featureSet.features[0].attributes["gridID"]);
-                        $("#hazusMaxLvl").html(
-                          featureSet.features[hazusMax].attributes["gridID"]
-                        );
+
+						
                       } else {
                         $(".ft-hazus-tab").hide();
                       }
@@ -2700,11 +2706,14 @@ require([
 				
 									//Adjustments to hazus tab for slider change
                                     $("#hazusTable tr").removeClass('active');
-                                    $("#hazus" + results[this.value].attributes["STAGE"]).addClass('active');
+
+									var activeHazusRowID = "#hazus" + results[this.value].attributes["STAGE"];
+									activeHazusRowID = activeHazusRowID.replace(".","");
+                                    $(activeHazusRowID).addClass('active');
 
                                     // Show message if no hazus
                                     // Data is available at selected range
-                                    if($("#hazus" + results[this.value].attributes["STAGE"]).length){
+                                    if($(activeHazusRowID).length){
                                         $("#hazusRangeInfo").hide();
                                     }else{
                                         $("#hazusRangeInfo").show();
