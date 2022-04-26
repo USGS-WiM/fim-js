@@ -908,6 +908,7 @@ require([
 				
                 console.log("Site Clicked")
                 $("#floodToolsErrorMessage").hide();
+                $("#ftHydro").hide();
 
                 var feature;
                 if (evt.graphic != undefined) {
