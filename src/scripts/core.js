@@ -2712,6 +2712,7 @@ require([
                                     $(activeHazusRowID).addClass('active');
 									$(".inactive-visible").removeClass("inactive-visible");
                                     $(activeHazusRowID).prev().addClass('inactive-visible');
+                                    $(activeHazusRowID).prev().prev().addClass('inactive-visible');
 
                                     // Show message if no hazus
                                     // Data is available at selected range
@@ -2770,9 +2771,14 @@ require([
 									$(activeHazusRowID).addClass('active');
 									$(".inactive-visible").removeClass("inactive-visible");
                                     $(activeHazusRowID).prev().addClass('inactive-visible');
+                                    $(activeHazusRowID).prev().prev().addClass('inactive-visible');
 
                                     // Hide Hazus message 
-                                    $("#hazusRangeInfo").hide();
+                                    if($(activeHazusRowID).length){
+                                        $("#hazusRangeInfo").hide();
+                                    }else{
+                                        $("#hazusRangeInfo").show();
+                                    }
 
                                     // Code to determine next possible combination if current selections are not available as map in library
                                     var tempPairValue = [];
@@ -2929,10 +2935,15 @@ require([
 									$(activeHazusRowID).addClass('active');
 									$(".inactive-visible").removeClass("inactive-visible");
                                     $(activeHazusRowID).prev().addClass('inactive-visible');
+                                    $(activeHazusRowID).prev().prev().addClass('inactive-visible');
 
 
-                                    // Hide Hazus message 
-                                    $("#hazusRangeInfo").hide();
+									// Hide Hazus message 
+									if($(activeHazusRowID).length){
+                                        $("#hazusRangeInfo").hide();
+                                    }else{
+                                        $("#hazusRangeInfo").show();
+                                    }
 
 
 
