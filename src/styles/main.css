@@ -2300,7 +2300,7 @@ input[type=range].styled:focus::-ms-fill-upper {
   font-weight: 600;
   color: black;
   flex-grow: 3;
-  background-color: white;
+  background-color: #FFFFFF;
   border-right: 1px solid rgba(0, 0, 0, 0.08);
   border-bottom: 1px solid rgba(0, 0, 0, 0.08);
 }
@@ -2374,8 +2374,8 @@ input[type=range].styled:focus::-ms-fill-upper {
 #ftModal #ftData .ft-tabs .tab.active,
 #ftModal #ftData #ftDataTabs .ft-tab.active,
 #ftModal #ftData .ft-tabs .ft-tab.active {
-  background-color: #ededed;
-  color: black;
+  background-color: #cce4f7;
+  color: #004780;
 }
 #ftModal #ftData #ftDataTabs .tab span,
 #ftModal #ftData .ft-tabs .tab span,
@@ -2647,6 +2647,8 @@ input[type=range].styled:focus::-ms-fill-upper {
   color: rgba(16, 21, 44, 0.4) !important;
   line-height: 10px !important;
   padding-bottom: 4px;
+  font-weight: 400;
+  letter-spacing: -0.3px;
 }
 #ftModal #ftData #ftHazus #hazusTable tr td {
   font-size: 11px !important;
@@ -2663,6 +2665,11 @@ input[type=range].styled:focus::-ms-fill-upper {
   color: #10152C;
   font-size: 14px !important;
   font-weight: 700 !important;
+}
+#ftModal #ftData #ftHazus #hazusTable tr.inactive-visible,
+#ftModal #ftData #ftHazus #hazusTable tr.active + tr + tr,
+#ftModal #ftData #ftHazus #hazusTable tr.active + tr {
+  display: table-row;
 }
 #ftModal #ftData #ftHazus #hazusTable tr#hazusTableHeader {
   display: table-row;

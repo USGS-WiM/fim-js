@@ -2710,6 +2710,8 @@ require([
 									var activeHazusRowID = "#hazus" + results[this.value].attributes["STAGE"];
 									activeHazusRowID = activeHazusRowID.replace(".","");
                                     $(activeHazusRowID).addClass('active');
+									$(".inactive-visible").removeClass("inactive-visible");
+                                    $(activeHazusRowID).prev().addClass('inactive-visible');
 
                                     // Show message if no hazus
                                     // Data is available at selected range
@@ -2763,9 +2765,12 @@ require([
 									// Hazus Multi-Site (2)
 									// TODO!
                                     $("#hazusTable tr").removeClass('active');
-									var activehazusrowid = "hazus" + parseFloat(gageValues[$(".fts1 #floodSlider")[0].value].gageValue) + parseFloat(gageValues2[$(".fts2 #floodSlider")[0].value].gageValue);
-									activehazusrowid = activehazusrowid.replace(".", "");
-									$("#" + activehazusrowid).addClass('active');
+									var activeHazusRowID = "#hazus" + parseFloat(gageValues[$(".fts1 #floodSlider")[0].value].gageValue) + parseFloat(gageValues2[$(".fts2 #floodSlider")[0].value].gageValue);
+									activeHazusRowID = activeHazusRowID.replace(".", "");
+									$(activeHazusRowID).addClass('active');
+									$(".inactive-visible").removeClass("inactive-visible");
+                                    $(activeHazusRowID).prev().addClass('inactive-visible');
+
                                     // Hide Hazus message 
                                     $("#hazusRangeInfo").hide();
 
@@ -2919,9 +2924,12 @@ require([
 									// Hazus Multi-Site (3)
 									// TODO!
                                     $("#hazusTable tr").removeClass('active');
-									var activehazusrowid = "hazus" + parseFloat(gageValues[$(".fts1 #floodSlider")[0].value].gageValue) + parseFloat(gageValues2[$(".fts2 #floodSlider")[0].value].gageValue) + parseFloat(gageValues3[$(".fts3 #floodSlider")[0].value].gageValue);
-									activehazusrowid = activehazusrowid.replace(".", "");
-									$("#" + activehazusrowid).addClass('active');
+									var activeHazusRowID = "#hazus" + parseFloat(gageValues[$(".fts1 #floodSlider")[0].value].gageValue) + parseFloat(gageValues2[$(".fts2 #floodSlider")[0].value].gageValue) + parseFloat(gageValues3[$(".fts3 #floodSlider")[0].value].gageValue);
+									activeHazusRowID = activeHazusRowID.replace(".", "");
+									$(activeHazusRowID).addClass('active');
+									$(".inactive-visible").removeClass("inactive-visible");
+                                    $(activeHazusRowID).prev().addClass('inactive-visible');
+
 
                                     // Hide Hazus message 
                                     $("#hazusRangeInfo").hide();
