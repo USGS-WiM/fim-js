@@ -2431,8 +2431,10 @@ input[type=range]:focus::-ms-fill-upper {
   letter-spacing: -0.35px;
   font-weight: 600;
   color: black;
-  background-color: white;
+  flex-grow: 3;
+  background-color: #FFFFFF;
   border-right: 1px solid rgba(0, 0, 0, 0.08);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
 }
 @media (max-width: 700px) {
   #ftModal #ftData #ftDataTabs .tab,
@@ -2504,8 +2506,8 @@ input[type=range]:focus::-ms-fill-upper {
 #ftModal #ftData .ft-tabs .tab.active,
 #ftModal #ftData #ftDataTabs .ft-tab.active,
 #ftModal #ftData .ft-tabs .ft-tab.active {
-  background-color: #ededed;
-  color: black;
+  background-color: #cce4f7;
+  color: #004780;
 }
 #ftModal #ftData #ftDataTabs .tab span,
 #ftModal #ftData .ft-tabs .tab span,
@@ -2729,21 +2731,16 @@ input[type=range]:focus::-ms-fill-upper {
 #ftModal #ftData #ftHydro .highcharts-background {
   fill: transparent !important;
 }
-#ftModal #ftData #ftHazus #hazusTableLabels {
-  padding: 15px 0;
-  display: flex;
-  justify-content: space-between;
+#ftModal #ftData #ftHazus {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
 }
-#ftModal #ftData #ftHazus #hazusTableLabels .hazus-label {
-  width: 45%;
-}
-#ftModal #ftData #ftHazus #hazusTableLabels .hazus-label span {
-  font-size: 18px;
-  padding-top: 7px;
-  display: block;
-  letter-spacing: -0.3px;
+#ftModal #ftData #ftHazus h3 {
+  font-size: 16px;
+  box-sizing: border-box;
   font-weight: 700;
-  color: #10152C;
+  padding: 0 10px 0px 10px;
+  text-align: center;
 }
 #ftModal #ftData #ftHazus #hazusTable {
   margin: 0 0 15px 0;
@@ -2759,6 +2756,7 @@ input[type=range]:focus::-ms-fill-upper {
   box-sizing: border-box;
   padding: 5px 6px;
   font-size: 10px !important;
+  text-align: right;
 }
 #ftModal #ftData #ftHazus #hazusTable tr td:nth-child(2),
 #ftModal #ftData #ftHazus #hazusTable tr th:nth-child(2),
@@ -2768,9 +2766,11 @@ input[type=range]:focus::-ms-fill-upper {
 #ftModal #ftData #ftHazus #hazusTable tr th:nth-child(4) {
   text-align: right;
 }
+#ftModal #ftData #ftHazus #hazusTable tr td:nth-child(1),
+#ftModal #ftData #ftHazus #hazusTable tr th:nth-child(1),
 #ftModal #ftData #ftHazus #hazusTable tr td:nth-child(2),
 #ftModal #ftData #ftHazus #hazusTable tr th:nth-child(2) {
-  width: 110px !important;
+  width: 60px !important;
 }
 #ftModal #ftData #ftHazus #hazusTable tr td:nth-child(4),
 #ftModal #ftData #ftHazus #hazusTable tr th:nth-child(4) {
@@ -2780,6 +2780,8 @@ input[type=range]:focus::-ms-fill-upper {
   color: rgba(16, 21, 44, 0.4) !important;
   line-height: 10px !important;
   padding-bottom: 4px;
+  font-weight: 400;
+  letter-spacing: -0.3px;
 }
 #ftModal #ftData #ftHazus #hazusTable tr td {
   font-size: 11px !important;
@@ -2789,12 +2791,18 @@ input[type=range]:focus::-ms-fill-upper {
 }
 #ftModal #ftData #ftHazus #hazusTable tr.active {
   display: table-row;
+  background-color: rgba(255, 213, 0, 0.15);
 }
 #ftModal #ftData #ftHazus #hazusTable tr.active td,
 #ftModal #ftData #ftHazus #hazusTable tr.active th {
   color: #10152C;
   font-size: 14px !important;
   font-weight: 700 !important;
+}
+#ftModal #ftData #ftHazus #hazusTable tr.inactive-visible,
+#ftModal #ftData #ftHazus #hazusTable tr.active + tr + tr,
+#ftModal #ftData #ftHazus #hazusTable tr.active + tr {
+  display: table-row;
 }
 #ftModal #ftData #ftHazus #hazusTable tr#hazusTableHeader {
   display: table-row;
@@ -2816,6 +2824,10 @@ input[type=range]:focus::-ms-fill-upper {
 }
 #ftModal #ftData #ftHazus #hideFullHazus {
   display: none;
+}
+#ftModal #ftData #ftHazus #hideFullHazus,
+#ftModal #ftData #ftHazus #viewFullHazus {
+  margin-left: 15px;
 }
 #ftModal #ftData #ftServices #iwrssLogo {
   display: inline-block;
