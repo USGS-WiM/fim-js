@@ -36,6 +36,7 @@ var gridsArray = [1,2,3,4,5];
 var siteClick;
 
 var extentResults = null;
+var arr4HazusTable = null;
 var libExtent = null;
 
 var siteNo;
@@ -908,6 +909,7 @@ require([
 				
                 console.log("Site Clicked")
                 $("#floodToolsErrorMessage").hide();
+                $("#ftHydro").hide();
 
                 var feature;
                 if (evt.graphic != undefined) {
@@ -2248,7 +2250,7 @@ require([
 
                 var deferreds = [nwisCall,nwsCall];
 
-                var hazusQuery = new esriQuery();
+                /*var hazusQuery = new esriQuery();
                 hazusQuery.returnGeometry = false;
                 hazusQuery.outFields = ["*"];
                 hazusQuery.orderByFields = ["STAGE ASC"];
@@ -2285,6 +2287,215 @@ require([
 
                     } else {
                         $(".ft-hazus-tab").hide();
+                    }
+                }*/
+
+                function getHazus() {
+                    var hazusQuery = new esriQuery();
+                    hazusQuery.returnGeometry = false;
+                    hazusQuery.outFields = ["*"];
+                    hazusQuery.orderByFields = ["gridID ASC"];
+                    hazusQuery.where = "studyArea = '" + attr["SHORT_NAME"] + "'";
+          
+                    // Using fim HAZUS url found in layers.js. edit there, if needed.
+                    var hazusQueryTask = new QueryTask(fimHazusUrlTest);
+                    hazusQueryTask.execute(hazusQuery, hazusResult);
+          
+                    function hazusResult(featureSet) {
+                      //Variables to be populated with summed values for each GridID
+                      var gridTotalLoss = 0;
+                      var gridBldgLoss = 0;
+                      var gridContLoss = 0;
+                      var gridDebris = 0;
+                      var currentGrid;
+                      var hazusTableObj = [];
+                      if (featureSet.features.length > 0) {
+                        //This sums all the features for each gridID; Right now, it's not needed because I'm using pre-summed data
+                        //It works for data that doesn't come pre-summed, but QueryTask has a max feature limit of 1,000, which was causing trouble
+                        //Leaving in for now in case we figure out a way around the max count
+                        for (i = 0; i < featureSet.features.length; i++) {
+                          //Since the data are sorted by GridID, if the current ID doesn't match the previous, start summing again
+                          if (
+                            currentGrid !== featureSet.features[i].attributes.gridID &&
+                            i > 0
+                          ) {
+                            var tempFeature = {
+                              stage: stageFinder(currentGrid, siteAttr.MULTI_SITE),
+                              totalLoss: gridTotalLoss,
+                              BldgLoss: gridBldgLoss,
+                              ContLoss: gridContLoss,
+                              Debris: gridDebris,
+                            };
+                            hazusTableObj.push(tempFeature);
+                            gridTotalLoss = 0;
+                            gridBldgLoss = 0;
+                            gridContLoss = 0;
+                            gridDebris = 0;
+                          }
+                          gridTotalLoss += featureSet.features[i].attributes.TotalLoss;
+                          gridBldgLoss += featureSet.features[i].attributes.BldgLoss;
+                          gridContLoss += featureSet.features[i].attributes.ContLoss;
+                          gridDebris += featureSet.features[i].attributes.DebrisTota;
+          
+                          currentGrid = featureSet.features[i].attributes.gridID;
+                        }
+                        var tempFeature = {
+                          stage: stageFinder(currentGrid, siteAttr.MULTI_SITE),
+                          totalLoss: gridTotalLoss,
+                          BldgLoss: gridBldgLoss,
+                          ContLoss: gridContLoss,
+                          Debris: gridDebris,
+                        };
+                        hazusTableObj.push(tempFeature);
+          
+                        // Site ID and Stage Label
+                        $("#hazusTableSiteLabel").html(
+                          featureSet.features[0].attributes["USGSID"]
+                        );
+          
+                        $(".ft-hazus-tab").show();
+                        $("#hazusTable tbody").empty();
+                        // $("#hazusTable tr td").remove();
+          
+                        //sort hazusTableObj ascending by GRIDID
+                        hazusTableObj.sort(function(a, b){
+                          return a.stage - b.stage;
+                        });
+
+						// Hazus Levels warning
+						$("#hazusMinLvl").html(hazusTableObj[0].stage[0]);
+						$("#hazusMaxLvl").html(
+							hazusTableObj[hazusTableObj.length - 1].stage[0]
+						);
+          
+                        if (siteAttr.MULTI_SITE == 0) {
+                          $("#hazusTable thead").html("<tr id='hazusTableHeader'>" +
+                              "<th>Stage (ft)</th>" + 
+                              "<th>Total Loss ($)</th>" + 
+                              "<th>Building Loss ($)</th>" + 
+                              "<th>Content Loss ($)</th> +" + 
+                              "<th>Total Debris (tons)</th> +" +
+                            "</tr>");
+                        } else if (siteAttr.MULTI_SITE == 1) {   
+                          $("#hazusTable thead").html("<tr>" + 
+                                "<th colspan='2'>Stages (ft)</th>" +
+                            "</tr>" + 
+                            "<tr id='hazusTableHeader'>" +
+                                "<th>" + siteNo + "</th>" +
+                                "<th>" + siteNo_2 + "</th>" +
+                                "<th>Total Loss ($)</th>" + 
+                                "<th>Building Loss ($)</th>" + 
+                                "<th>Content Loss ($)</th> +" +
+                                "<th>Total Debris (tons)</th> +" +
+                            "</tr>");      
+                        } else if (siteAttr.MULTI_SITE == 3) {
+                          $("#hazusTable thead").html("<tr>" + 
+                                "<th colspan='3'>Stages (ft)</th>" +
+                            "</tr>" + 
+                            "<tr id='hazusTableHeader'>" +
+                                "<th>" + siteNo + "</th>" +
+                                "<th>" + siteNo_2 + "</th>" +
+                                "<th>" + siteNo_3 + "</th>" +
+                                "<th>Total Loss ($)</th>" + 
+                                "<th>Building Loss ($)</th>" + 
+                                "<th>Content Loss ($)</th> +" +
+                                "<th>Total Debris (tons)</th> +" +
+                            "</tr>");
+                        }
+
+                        for (var i = 0; i < hazusTableObj.length; i++) {
+                            if (hazusTableObj[i].stage[0] != undefined) {
+                                var html = "";
+
+								// Set unique table row ID for hazus
+								var hazusTableRowID = hazusTableObj[i].stage[0];
+								if(siteAttr.MULTI_SITE == 1){
+									hazusTableRowID = hazusTableObj[i].stage[0].toString() + hazusTableObj[i].stage[1].toString()
+								}
+								if(siteAttr.MULTI_SITE == 3){
+									hazusTableRowID = hazusTableObj[i].stage[0].toString() + hazusTableObj[i].stage[1].toString()  + hazusTableObj[i].stage[2].toString()
+								}
+								hazusTableRowID = hazusTableRowID.toString().replace(".", "")
+
+								
+
+								// Create table
+                                html = "<tr id='hazus" +
+                                    hazusTableRowID +
+                                    "'><td>" +
+                                    hazusTableObj[i].stage[0] +
+                                    "</td>";
+                                if (siteAttr.MULTI_SITE == 1) {
+                                    html += "<td>" +
+                                        hazusTableObj[i].stage[1] +
+                                        "</td>";
+                                } else if (siteAttr.MULTI_SITE == 3) {
+                                    html += "<td>" +
+                                        hazusTableObj[i].stage[1] +
+                                        "</td><td>" +
+                                        hazusTableObj[i].stage[2] +
+                                        "</td>";
+                                } 
+								var debris = Number(hazusTableObj[i].Debris).toFixed(0).toString();
+								debris = parseInt(debris).toLocaleString("en-US");
+							 
+                                html += "<td>" +
+                                    hazusTableObj[i].totalLoss.toLocaleString("en-US") +
+                                    "</td><td>" +
+                                    hazusTableObj[i].BldgLoss.toLocaleString("en-US") +
+                                    "</td><td>" +
+                                    hazusTableObj[i].ContLoss.toLocaleString("en-US") +
+                                    "</td><td>" +
+                                    debris +
+                                    "</td></tr>";
+                                $("#hazusTable tbody").append(html);
+                            }
+                            
+                        } 
+
+                        // Fill in min and max hazus table info
+                        var hazusMax = featureSet.features.length - 1;
+                        console.log("Hazus Max:");
+                        console.log(hazusMax);
+
+						
+                      } else {
+                        $(".ft-hazus-tab").hide();
+                      }
+                    }
+          
+                    //function to look up stage or stages (for multi-sites) from grid IDs
+                    function stageFinder(gridID, multisite) {
+                      var stages = [];
+                      var stageFound = false;
+                      
+                        if (multisite == 0) {
+                            $.each(arr4HazusTable, function(key, value) {
+                                if (stageFound == false && Number(gridID) == Number(value.GRIDID)) {
+                                    stageFound = true;
+                                    stages[0] = value.STAGE;
+                                }
+                            });
+                        } else if (multisite == 1) {
+                            $.each(arr4HazusTable, function(key, value) {
+                                if (stageFound == false && Number(gridID) == Number(value.GRIDID)) {
+                                    stageFound = true;
+                                    stages[0] = value.STAGE_1;
+                                    stages[1] = value.STAGE_2;
+                                }
+                            });
+                        } else if (multisite == 3) {
+                            $.each(arr4HazusTable, function(key, value) {
+                                if (stageFound == false && Number(gridID) == Number(value.GRIDID)) {
+                                    stageFound = true;
+                                    stages[0] = value.STAGE_1;
+                                    stages[1] = value.STAGE_2;
+                                    stages[2] = value.STAGE_3;
+                                }
+                            });
+                        }
+                      
+                        return stages;
                     }
                 }
 
@@ -2358,6 +2569,21 @@ require([
 
                         results = featureSet.features;
                         extentResults = results;
+
+                        arr4HazusTable = [];
+
+                        //build object for Hazus table GRIDID translation to Stage(s)
+                        extentResults.forEach(function(item) {
+                            if (siteAttr.MULTI_SITE == 0) {
+                                arr4HazusTable.push({"STAGE": item.attributes.STAGE, "GRIDID": item.attributes.GRIDID});
+                            } if (siteAttr.MULTI_SITE == 1) {
+                                arr4HazusTable.push({"STAGE_1": item.attributes.STAGE_1, "STAGE_2": item.attributes.STAGE_2, "GRIDID": item.attributes.GRIDID});
+                            } if (siteAttr.MULTI_SITE == 3) {
+                                arr4HazusTable.push({"STAGE_1": item.attributes.STAGE_1, "STAGE_2": item.attributes.STAGE_2, "STAGE_3": item.attributes.STAGE_3, "GRIDID": item.attributes.GRIDID});
+                            }
+                        })
+
+                        getHazus();
 
                         sliderSetup(results);
 
@@ -2460,7 +2686,7 @@ require([
                             
 
                             //set grids layer definitions/choose the right layer here and in next input change function
-                            console.log('grid stuff');
+                            console.log('Setting up grid');
                             var gridLayer = "fimGrid" + siteAttr.GRID_SERV;
                             var gridVisLayer = [];
                             gridVisLayer.push(gridLayerIndexArrColl);
@@ -2480,13 +2706,18 @@ require([
 									$(".fts1 .flood-discharge-selected").text(results[this.value].attributes["QCFS"] || "N/A");	
 				
 									//Adjustments to hazus tab for slider change
-                                    $("#hazusTableSelectedStageLabel").text(results[this.value].attributes["STAGE"] + " ft");
                                     $("#hazusTable tr").removeClass('active');
-                                    $("#hazus" + results[this.value].attributes["STAGE"]).addClass('active');
+
+									var activeHazusRowID = "#hazus" + results[this.value].attributes["STAGE"];
+									activeHazusRowID = activeHazusRowID.replace(".","");
+                                    $(activeHazusRowID).addClass('active');
+									$(".inactive-visible").removeClass("inactive-visible");
+                                    $(activeHazusRowID).prev().addClass('inactive-visible');
+                                    $(activeHazusRowID).prev().prev().addClass('inactive-visible');
 
                                     // Show message if no hazus
-                                    // Data is avaolable at selected range
-                                    if($("#hazus" + results[this.value].attributes["STAGE"]).length){
+                                    // Data is available at selected range
+                                    if($(activeHazusRowID).length){
                                         $("#hazusRangeInfo").hide();
                                     }else{
                                         $("#hazusRangeInfo").show();
@@ -2531,6 +2762,23 @@ require([
 										if (typeof dischargeValues2[this.value] !== 'undefined'){
 											$(".fts2 .flood-discharge-selected").text(dischargeValues2[this.value].dischargeValue || "N/A");
 										}
+                                    }
+
+									// Hazus Multi-Site (2)
+									// TODO!
+                                    $("#hazusTable tr").removeClass('active');
+									var activeHazusRowID = "#hazus" + parseFloat(gageValues[$(".fts1 #floodSlider")[0].value].gageValue) + parseFloat(gageValues2[$(".fts2 #floodSlider")[0].value].gageValue);
+									activeHazusRowID = activeHazusRowID.replace(".", "");
+									$(activeHazusRowID).addClass('active');
+									$(".inactive-visible").removeClass("inactive-visible");
+                                    $(activeHazusRowID).prev().addClass('inactive-visible');
+                                    $(activeHazusRowID).prev().prev().addClass('inactive-visible');
+
+                                    // Hide Hazus message 
+                                    if($(activeHazusRowID).length){
+                                        $("#hazusRangeInfo").hide();
+                                    }else{
+                                        $("#hazusRangeInfo").show();
                                     }
 
                                     // Code to determine next possible combination if current selections are not available as map in library
@@ -2659,6 +2907,7 @@ require([
                                     }
                                     
                                 } else if (siteAttr["MULTI_SITE"] == 3) {
+									
 
                                     if ($(this).hasClass('first-slider')) {
 										$(".fts1 .slider-min.update").text(gageValues[this.value].gageValue);
@@ -2678,6 +2927,26 @@ require([
 									    $(".fts3 .elevation-selected").text(altitudeValues3[this.value].altitudeValue || "N/A");
 										$(".fts3 .flood-discharge-selected").text(dischargeValues3[this.value].dischargeValue || "N/A");
                                     }
+
+									// Hazus Multi-Site (3)
+									// TODO!
+                                    $("#hazusTable tr").removeClass('active');
+									var activeHazusRowID = "#hazus" + parseFloat(gageValues[$(".fts1 #floodSlider")[0].value].gageValue) + parseFloat(gageValues2[$(".fts2 #floodSlider")[0].value].gageValue) + parseFloat(gageValues3[$(".fts3 #floodSlider")[0].value].gageValue);
+									activeHazusRowID = activeHazusRowID.replace(".", "");
+									$(activeHazusRowID).addClass('active');
+									$(".inactive-visible").removeClass("inactive-visible");
+                                    $(activeHazusRowID).prev().addClass('inactive-visible');
+                                    $(activeHazusRowID).prev().prev().addClass('inactive-visible');
+
+
+									// Hide Hazus message 
+									if($(activeHazusRowID).length){
+                                        $("#hazusRangeInfo").hide();
+                                    }else{
+                                        $("#hazusRangeInfo").show();
+                                    }
+
+
 
                                     // Code to determine next possible combination if current selections are not available as map in library
                                     var tempPairValue = [];
@@ -3179,7 +3448,6 @@ require([
                                     return finalDataArray
                                 }
 
-                                console.log('current gage height here');
 
                                 // ======================================================
                                 // ======================================================
@@ -3187,6 +3455,7 @@ require([
                                 // ======================================================
                                 // ======================================================
                                 // Reset Vals
+                                console.log('Setting current gage height');
                                 $('#floodGage').text('N/A');
                                 $('#floodDischarge').text('N/A');
                                 // Site One

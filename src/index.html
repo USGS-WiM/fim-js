@@ -1250,40 +1250,31 @@ if (window.document.documentMode) {
                                 -->
                             <!-- Accordion Header -->
                             <div id="ftHazus" class="ftmodal-content">
-                                <!--
-									Hazus Table
-								-->
-                                <div id="hazusTableLabels">
-                                    <div class="hazus-label">
-                                        <div class="small-label">Site Number</div>
-                                        <span id="hazusTableSiteLabel"></span>
-                                    </div>
-                                    <div class="hazus-label">
-                                        <div class="small-label">Selected Stage</div>
-                                        <span id="hazusTableSelectedStageLabel"></span>
-                                    </div>
-                                </div>
+                                <!-- Hazus Table Header -->
+								<h3>
+									Loss Estimates
+									<button id="viewFullHazus" title="Click to expand the Hazus table" class="btn btn-default" type="button" >
+										View Full Table
+                          	      	</button>
+									<button id="hideFullHazus" title="Click to hide the full Hazus table" class="btn btn-default" type="button">
+										Hide Full Table
+									</button>
+								</h3>
+
+                                <!-- Hazus Table -->
                                 <table id="hazusTable">
-                                    <thead>
-                                        <tr id="hazusTableHeader">
-                                            <th>Stage (ft)</th>
-                                            <th>Number of Buildings Damaged</th>
-                                            <th>Building Losses</th>
-                                            <th>Number of Essential Facilities Impacted</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-
-                                    </tbody>
+                                  <thead></thead>
+                                  <tbody></tbody>
                                 </table>
-
+            
                                 <div id="hazusRangeInfo">
-                                    HAZUS summary data at this site is only available for selected gage heights between <span id="hazusMinLvl"></span> and <span id="hazusMaxLvl"></span> feet.
+                                  Hazus summary data at this site is only available for
+                                  selected gage heights between
+                                  <span id="hazusMinLvl"></span> and
+                                  <span id="hazusMaxLvl"></span> feet.
                                 </div>
-
-                                <button id="viewFullHazus" title="Click to expand the Hazus table" class="btn btn-default" type="button">View Full Table</button>
-                                <button id="hideFullHazus" title="Click to hide the full Hazus table" class="btn btn-default" type="button">Hide Full Table</button>
-                            </div>
+            
+                              </div>
 
 
                             <!--
