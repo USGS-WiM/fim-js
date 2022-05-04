@@ -21,6 +21,8 @@ run `npm install` AND `bower install` to get dependencies after first cloning
 
 `gulp` to build project
 
+`gulp serve-build` to serve from the /build/ folder
+
 ## Built With
 
 * [NPM](https://www.npmjs.com/) - Dependency Management

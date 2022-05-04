@@ -1074,19 +1074,36 @@ require([
         expand: false,
         editTitle: false,
         width: 800,
-        height: 500,
+        height: 550,
         maxWidth: 800,
-        maxHeight: 500
+        maxHeight: 550
 	});
 	
 
 
+    $("#floodHalf").click(function(){
+        $("#floodToolsDiv").toggleClass("is-half")
+    });
     $("#floodMin").click(function(){
-        $("#floodToolsDiv").css("visibility", "hidden");
-        //map.getLayer("fimExtents").setVisibility(false);
-        $("#minFT").addClass('visible');
+        $("#floodToolsDiv").toggleClass("is-minimized")
+    });
+    $("#floodMaximize").click(function(){
+		if($( "#floodToolsDiv" ).hasClass( "is-minimized" )){
+			$("#floodToolsDiv").removeClass("is-minimized")
+		}else{
+			$("#floodToolsDiv").removeClass("is-half")
+		}
+    });
 
-        $('#hydroChart, #hydroChart2, #hydroChart3').hide();
+    $("#toggleMobileToolViewTools").click(function(){
+		$("#toggleMobileToolViewData").removeClass("active");
+		$(this).addClass("active");
+        $("#ftModal").removeClass("second-view")
+    });
+    $("#toggleMobileToolViewData").click(function(){
+		$(this).addClass("active");
+		$("#toggleMobileToolViewTools").removeClass("active");
+        $("#ftModal").addClass("second-view")
     });
 
     var closeFloodTools = function(){
@@ -1150,6 +1167,7 @@ require([
 
 	// Close Flood Tools
     $("#floodClose").click(function(){
+        $("#floodToolsDiv").removeClass("is-minimized")
         closeFloodTools();
         $("#printExecuteButton").prop('disabled', true);
         $(".printWarning").show();
@@ -1205,10 +1223,7 @@ require([
         }
 	});
 	
-	// Dismiss mobile FT warning
-	$("#dismissMobileFTWarning").click(function(){
-		$(".ft-mboile-warning").remove();
-	})
+	
 
     // Flood Tools Tabs
     // Flood Tools Tabs
@@ -1424,6 +1439,7 @@ require([
                     $(".fts2").hide();
                     $(".fts3").hide();
                     $("#ftSliders").attr('class', 'onesite');
+                    $("#floodToolsDiv").attr('class', 'panel panel-default floodToolsClass onesite');
                     sitePopup(evt);
                 } else if (siteAttr["MULTI_SITE"] > 0) {
 
@@ -1434,11 +1450,13 @@ require([
                         $(".fts2").show();
                         $(".fts3").hide();
                         $("#ftSliders").attr('class', 'twosite');
+                        $("#floodToolsDiv").attr('class', 'panel panel-default floodToolsClass twosite');
 
                     } else if (siteAttr["MULTI_SITE"] == 3) {
                         $(".fts2").show();
                         $(".fts3").show();
                         $("#ftSliders").attr('class', 'threesite');
+                        $("#floodToolsDiv").attr('class', 'panel panel-default floodToolsClass threesite');
                     }
                     
                     var multiSitesQuery = new esriQuery(); 
@@ -2741,6 +2759,10 @@ require([
 
                 $("#floodToolsDiv").css("visibility", "visible");
                 $("#minFT").removeClass('visible');
+                // Dismiss mobile FT warning
+				setTimeout(function(){
+					$(".ft-mboile-warning").remove();
+				}, 5000);
                 //$(".fts2").show();
                 //$(".fts3").css("visibility", "visible");
 
@@ -3080,7 +3102,8 @@ require([
 
                         sliderSetup(results);
 
-                        $("#floodToolsModalHeader").text(attr["STATE"] + ": " + attr["COMMUNITY"] + " (" + siteNo + ((siteNo_2) ? " & " + siteNo_2 : "") + ((siteNo_3) ? " & " + siteNo_3 : "") + ")");
+                        $("#floodToolsModalHeader").text(attr["STATE"] + ": " + attr["COMMUNITY"] );
+                        // $("#floodToolsModalHeader").text(attr["STATE"] + ": " + attr["COMMUNITY"] + " (" + siteNo + ((siteNo_2) ? " & " + siteNo_2 : "") + ((siteNo_3) ? " & " + siteNo_3 : "") + ")");
 						
 						$("#shareLink").click(function() {
                             showShareModal();
@@ -3768,7 +3791,7 @@ require([
                                         $("#sliderSelected").hide();
                                         $(".slider-min.update").hide();
                                         //$("#sliderSelected").html("<small>Selected Lake Water Level Elevation (NGVD29):</small>");
-                                        $(".slider-elev-label").show();
+                                        $("#elevationMeta").show();
                                         $(".slider-elev-label").html("<small>Selected Lake Water Level Elevation (NGVD29):</small>");
                                         $(".slider-elev.update").show();
 										$("#currentValue").text("Lake Water Level Elevation (NGVD29)");
@@ -3828,6 +3851,7 @@ require([
                                         $("#sliderSelected").show();
                                         $(".slider-min.update").show();
                                         $("#sliderSelected").html("<small>Selected Gage Height:</small>");
+                                        $("#elevationMeta").hide();
                                         $(".slider-elev-label").hide();
                                         $(".slider-elev.update").hide();
 										$("#currentValue").text("Gage Height");
@@ -4379,7 +4403,7 @@ require([
 					
 									
 									// Change flood tools header to site numbers
-									$("#floodToolsModalHeader").text("Site Numbers " + siteNo + " & " + siteNo_2);
+									$("#floodToolsModalHeader").text("SITES " + siteNo + " & " + siteNo_2);
                                     
                                     var sliderStages2 = getFloodStages(nwsData2, 2);
                                     var sliderMax2;
@@ -5992,6 +6016,8 @@ require([
 
         $("#legendDiv").niceScroll();
 
+
+
     });
 
     require([
@@ -6525,6 +6551,21 @@ require([
                 }
             }
         }
+
+
+		// Flood Tools Opacity Slider
+		$('#floodAreaOpacitySlider').change(function (event) {
+			var currOpacity = map.getLayer("fimBreach").opacity;
+			// "fimExtents", "fimExtentsMulti", "fimExtentsThreeSites", "fimBreach", "fimBreachMulti"
+
+
+			var change = parseFloat(event.target.value);
+
+			map.getLayer("fimBreach").setOpacity(change);
+			map.getLayer("fimBreachMulti").setOpacity(change);
+
+
+		});
 
 
         //get visible and non visible layer lists
