@@ -793,7 +793,7 @@ require([
                 var ahpsIds = [];
                 var graphics = evt.target.graphics;
                 $.each(graphics, function (index, feature) {
-                    if (feature.attributes["AHPS_ID"] != null) {
+                    if (feature.attributes["AHPS_ID"] != null && feature.attributes["AHPS_ID"] != 'NONE') {
                         ahpsIds.push("'" + feature.attributes["AHPS_ID"].toUpperCase() + "'");
                         if (feature.attributes["Public"] == 2) {
                             feature.hide();
@@ -889,6 +889,7 @@ require([
                     },
                     error: function (error) {
                         console.log("Error processing the JSON. The error is:" + error);
+                        $("#usgs-loader").hide();
                     }
                 });
 
