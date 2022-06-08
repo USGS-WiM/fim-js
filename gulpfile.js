@@ -113,7 +113,7 @@ gulp.task('serve-build', ['connectBuild'], function() {
 // Connect
 gulp.task('connect', function(){
     $.connect.server({
-        root: 'build',
+        root: 'src',
         port: 9000,
         livereload: true
     });
