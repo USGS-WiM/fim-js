@@ -729,9 +729,9 @@ require([
         $("#viewFullHazus").show();
 
         if($("#hazusTable").find("tr.active").length) {
-            $("#hazusRangeInfo").hide();
+            $(".hazus-table-warning").hide();
         }else{
-            $("#hazusRangeInfo").show();
+            $(".hazus-table-warning").show();
         }
 	});
 	
@@ -2751,7 +2751,8 @@ require([
 
                                     // Show message if no hazus
                                     // Data is available at selected range
-                                    if($(activeHazusRowID).length){
+                                        $("#hazusRangeInfoMulti").hide();
+										if($(activeHazusRowID).length){
                                         $("#hazusRangeInfo").hide();
                                     }else{
                                         $("#hazusRangeInfo").show();
@@ -2819,8 +2820,9 @@ require([
                                     // Hide Hazus message 
                                     if($(activeHazusRowID).length){
                                         $("#hazusRangeInfo").hide();
+                                        $("#hazusRangeInfoMulti").hide();
                                     }else{
-                                        $("#hazusRangeInfo").show();
+                                        $("#hazusRangeInfoMulti").show();
                                     }
 
                                     // Code to determine next possible combination if current selections are not available as map in library
@@ -2982,8 +2984,9 @@ require([
 									// Hide Hazus message 
 									if($(activeHazusRowID).length){
                                         $("#hazusRangeInfo").hide();
+                                        $("#hazusRangeInfoMulti").hide();
                                     }else{
-                                        $("#hazusRangeInfo").show();
+                                        $("#hazusRangeInfoMulti").show();
                                     }
 
                                     // Code to determine next possible combination if current selections are not available as map in library
