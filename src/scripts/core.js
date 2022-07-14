@@ -2447,7 +2447,7 @@ require([
 								if(siteAttr.MULTI_SITE == 3){
 									hazusTableRowID = hazusTableObj[i].stage[0].toString() + hazusTableObj[i].stage[1].toString()  + hazusTableObj[i].stage[2].toString()
 								}
-								hazusTableRowID = hazusTableRowID.toString().replace(".", "")
+								hazusTableRowID = hazusTableRowID.toString().replace(/\./g,"");
 
 								
 
@@ -2797,11 +2797,19 @@ require([
 										}
                                     }
 
+
 									// Hazus Multi-Site (2)
-									// TODO!
                                     $("#hazusTable tr").removeClass('active');
 									var activeHazusRowID = "#hazus" + parseFloat(gageValues[$(".fts1 #floodSlider")[0].value].gageValue) + parseFloat(gageValues2[$(".fts2 #floodSlider")[0].value].gageValue);
-									activeHazusRowID = activeHazusRowID.replace(".", "");
+
+									console.log("ACTIVE HAZUS ROW ID")
+									console.log("ACTIVE HAZUS ROW ID")
+									console.log("ACTIVE HAZUS ROW ID")
+
+
+									activeHazusRowID = activeHazusRowID.replace(/\./g, "");
+									console.log(activeHazusRowID)
+
 									$(activeHazusRowID).addClass('active');
 									$(".inactive-visible").removeClass("inactive-visible");
                                     $(activeHazusRowID).prev().addClass('inactive-visible');
@@ -2962,15 +2970,13 @@ require([
                                     }
 
 									// Hazus Multi-Site (3)
-									// TODO!
                                     $("#hazusTable tr").removeClass('active');
 									var activeHazusRowID = "#hazus" + parseFloat(gageValues[$(".fts1 #floodSlider")[0].value].gageValue) + parseFloat(gageValues2[$(".fts2 #floodSlider")[0].value].gageValue) + parseFloat(gageValues3[$(".fts3 #floodSlider")[0].value].gageValue);
-									activeHazusRowID = activeHazusRowID.replace(".", "");
+									activeHazusRowID = activeHazusRowID.replace(/\./g,"");
 									$(activeHazusRowID).addClass('active');
 									$(".inactive-visible").removeClass("inactive-visible");
                                     $(activeHazusRowID).prev().addClass('inactive-visible');
                                     $(activeHazusRowID).prev().prev().addClass('inactive-visible');
-
 
 									// Hide Hazus message 
 									if($(activeHazusRowID).length){
@@ -2978,8 +2984,6 @@ require([
                                     }else{
                                         $("#hazusRangeInfo").show();
                                     }
-
-
 
                                     // Code to determine next possible combination if current selections are not available as map in library
                                     var tempPairValue = [];
