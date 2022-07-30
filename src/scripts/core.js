@@ -793,7 +793,7 @@ require([
                 var ahpsIds = [];
                 var graphics = evt.target.graphics;
                 $.each(graphics, function (index, feature) {
-                    if (feature.attributes["AHPS_ID"] != null && feature.attributes["AHPS_ID"] != 'NONE') {
+                    if (feature.attributes["AHPS_ID"] != null) { // && feature.attributes["AHPS_ID"] != 'NONE') {
                         ahpsIds.push("'" + feature.attributes["AHPS_ID"].toUpperCase() + "'");
                         if (feature.attributes["Public"] == 2) {
                             feature.hide();
@@ -1590,7 +1590,7 @@ require([
                 $(".fts1 #usgsSiteNo").text(siteNo);
 				$(".fts1 #usgsSiteNo").attr("href", "https://waterdata.usgs.gov/monitoring-location/"+siteNo);
 				$(".fts1 #siteName").text(attr["STATE"] + ": " + attr["COMMUNITY"])
-				if(ahpsID != "NONE"){
+				if(ahpsID != "NONE" && ahpsID !== undefined){
 					$(".fts1 .nws-site-id").html("<a href='https://water.weather.gov/ahps2/hydrograph.php?gage="+ahpsID+"' target='_blank' alt='"+ahpsID+"' title='"+ahpsID+"'>"+ahpsID+"</a>");
 				}else{
 					$(".fts1 .nws-site-id").html("NONE");
@@ -1598,7 +1598,7 @@ require([
 
                 $(".fts2 #usgsSiteNo").text(siteNo_2);
                 $(".fts2 #usgsSiteNo").attr("href", "https://waterdata.usgs.gov/monitoring-location/"+siteNo_2);
-				if(ahpsID_2 != "NONE"){
+				if(ahpsID_2 != "NONE" && ahpsID_2 !== undefined){
 					$(".fts2 .nws-site-id").html("<a href='https://water.weather.gov/ahps2/hydrograph.php?gage="+ahpsID_2+"' target='_blank' alt='"+ahpsID_2+"' title='"+ahpsID_2+"'>"+ahpsID_2+"</a>");
 				}else{
 					$(".fts2 .nws-site-id").html("NONE");
@@ -1606,7 +1606,7 @@ require([
 
 				$(".fts3 #usgsSiteNo").text(siteNo_3);
                 $(".fts3 #usgsSiteNo").attr("href", "https://waterdata.usgs.gov/monitoring-location/"+siteNo_3);
-				if(ahpsID_3 != "NONE"){
+				if(ahpsID_3 != "NONE" && ahpsID_3 !== undefined){
 					$(".fts3 .nws-site-id").html("<a href='https://water.weather.gov/ahps2/hydrograph.php?gage="+ahpsID_3+"' target='_blank' alt='"+ahpsID_3+"' title='"+ahpsID_3+"'>"+ahpsID_3+"</a>");
 				}else{
 					$(".fts3 .nws-site-id").html("NONE");
@@ -4330,7 +4330,7 @@ require([
                                     // Cerate Chart
                                     var hydroChart = new Highcharts.Chart('hydroChart', chartOneOptions, function(hydroChart){
                                         console.log("Chart One Loaded");
-                                        if (floodStageBands[5]) {
+                                        if (floodStageBands[5] !== undefined) {
                                             var chartYMax = parseInt(floodStageBands[5].to);
                                         }else {
                                             var chartYMax = parseInt(floodStageBands[4].to);
@@ -4349,7 +4349,7 @@ require([
                                     // Create Chart
                                     var hydroChart2 = new Highcharts.Chart('hydroChart2', chartTwoOptions, function(hydroChart2){
                                         console.log("Chart Two Loaded")
-                                        if(floodStageBands2[5]){
+                                        if(floodStageBands2[5] !== undefined){
                                             var chartYMax = parseInt(floodStageBands2[5].to);
                                         }else{
                                             var chartYMax = parseInt(floodStageBands2[4].to);
@@ -4367,7 +4367,7 @@ require([
                                     // Create Chart
                                     var hydroChart3 = new Highcharts.Chart('hydroChart3', chartThreeOptions, function(hydroChart3){
                                         console.log("Chart Three Loaded")
-                                        if(floodStageBands3[5]){
+                                        if(floodStageBands3[5] !== undefined){
                                             var chartYMax = parseInt(floodStageBands3[5].to);
                                         }else{
                                             var chartYMax = parseInt(floodStageBands3[4].to);
