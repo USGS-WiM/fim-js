@@ -11,7 +11,7 @@ var fimHazusUrlTest = "https://fim.wim.usgs.gov/server/rest/services/FIMTest/ful
 
 //var fimiMoreInfoUrl = "https://fimnew.wim.usgs.gov/arcgis/rest/services/FIMMapper/fim_add_info/MapServer/1";
 var fimMoreInfoUrl = 'https://fimnew.wim.usgs.gov/fim-more-info?siteno=';
-var ahpsForecastUrl = "https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Observations/ahps_riv_gauges/MapServer/0";
+var ahpsForecastUrl = "https://mapservices.weather.noaa.gov/eventdriven/rest/services/water/ahps_riv_gauges/MapServer/0";
 var nwisUrl = "https://waterservices.usgs.gov/nwis/iv/?format=nwjson&period=P7D";//&parameterCd=00060,00065,62614,62615&sites=";
 var historicalUrl = "http://nwis.waterdata.usgs.gov/ms/nwis/peak?agency_cd=USGS&format=rdb&site_no=";
 var proxyUrl = "https://services.wim.usgs.gov/proxies/httpProxy/Default.aspx?";
@@ -50,7 +50,7 @@ require([
                         "opacity": 1.00,
                         "mode": FeatureLayer.MODE_SNAPSHOT,
                         "outFields": ["*"],
-                        "definitionExpression": "(Public = 1 OR Public = 2) AND (MULTI_SITE = 0 OR MULTI_SITE = 1 OR MULTI_SITE = 3)",
+                        "definitionExpression": "(Public = 0 OR Public = 1 OR Public = 2) AND (MULTI_SITE = 0 OR MULTI_SITE = 1 OR MULTI_SITE = 3)",
                         //"infoTemplate": fimInfoTemplate,
                         "visible": true
                     },
@@ -171,13 +171,13 @@ require([
                         "layerType": "agisDynamic",
                         "includeInLayerList": false,
                         "hasOpacitySlider": false,
-                        "layerDefinitions": ["(Public = 1) AND (MULTI_SITE = 0 OR MULTI_SITE = 1 OR MULTI_SITE = 3)"],
+                        "layerDefinitions": ["(Public = 0 OR Public = 1) AND (MULTI_SITE = 0 OR MULTI_SITE = 1 OR MULTI_SITE = 3)"],
                         "includeLegend" : false,
                         "legendLabel": false
                     }
                 },
                 "National Weather Service Radar": {
-                    "url" : "https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Observations/radar_base_reflectivity/MapServer",
+                    "url" : "https://mapservices.weather.noaa.gov/eventdriven/rest/services/radar/radar_base_reflectivity/MapServer",
                     "options": {
                         "id": "nwsRadar",
                         "opacity": 0.65,
@@ -192,7 +192,7 @@ require([
                     }
                 },
                 "Flood Watches and Warnings": {
-                    "url" : "https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Forecasts_Guidance_Warnings/watch_warn_adv/MapServer",
+                    "url" : "https://mapservices.weather.noaa.gov/eventdriven/rest/services/WWA/watch_warn_adv/MapServer",
                     "visibleLayers": [1],
                     "options": {
                         "id": "floodWatchWarn",
@@ -300,7 +300,7 @@ require([
             'otherLayersToggled': ['major','moderate','minor','near','noflood','obs'],
             'layers': {
                 "AHPS Forecast Sites": {
-                    "url" : "https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Observations/ahps_riv_gauges/MapServer",
+                    "url" : "https://mapservices.weather.noaa.gov/eventdriven/rest/services/water/ahps_riv_gauges/MapServer",
                     "visibleLayers": [-1],
                     "options": {
                         "id": "ahpsSites",
@@ -318,7 +318,7 @@ require([
                     }
                 },
                 'Major flooding':{
-                    'url' : 'https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Observations/ahps_riv_gauges/MapServer/1',
+                    'url' : 'https://mapservices.weather.noaa.gov/eventdriven/rest/services/water/ahps_riv_gauges/MapServer/1',
                     'options':{
                         'id': 'major',
                         "mode": FeatureLayer.MODE_SNAPSHOT,
@@ -340,7 +340,7 @@ require([
                     }
                 },
                 'Moderate flooding': {
-                    'url' : 'https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Observations/ahps_riv_gauges/MapServer/1',
+                    'url' : 'https://mapservices.weather.noaa.gov/eventdriven/rest/services/water/ahps_riv_gauges/MapServer/1',
                     'options':{
                         'id': 'moderate',
                         "mode": FeatureLayer.MODE_SNAPSHOT,
@@ -362,7 +362,7 @@ require([
                     }
                 },
                 'Minor flooding': {
-                    'url' : 'https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Observations/ahps_riv_gauges/MapServer/1',
+                    'url' : 'https://mapservices.weather.noaa.gov/eventdriven/rest/services/water/ahps_riv_gauges/MapServer/1',
                     'options':{
                         'id': 'minor',
                         "mode": FeatureLayer.MODE_SNAPSHOT,
@@ -384,7 +384,7 @@ require([
                     }
                 },
                 'Near flood': {
-                    'url' : 'https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Observations/ahps_riv_gauges/MapServer/1',
+                    'url' : 'https://mapservices.weather.noaa.gov/eventdriven/rest/services/water/ahps_riv_gauges/MapServer/1',
                     'options':{
                         'id': 'near',
                         "mode": FeatureLayer.MODE_SNAPSHOT,
@@ -406,7 +406,7 @@ require([
                     }
                 },
                 'No flooding': {
-                    'url' : 'https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Observations/ahps_riv_gauges/MapServer/1',
+                    'url' : 'https://mapservices.weather.noaa.gov/eventdriven/rest/services/water/ahps_riv_gauges/MapServer/1',
                     'options':{
                         'id': 'noflood',
                         "mode": FeatureLayer.MODE_ONDEMAND,
@@ -428,7 +428,7 @@ require([
                     }
                 }/*,
                 'observation > 24 hrs old': {
-                    'url' : 'https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Observations/ahps_riv_gauges/MapServer',
+                    'url' : 'https://mapservices.weather.noaa.gov/eventdriven/rest/services/water/ahps_riv_gauges/MapServer',
                     'visibleLayers': [0],
                     'options':{
                         'id': 'obs',
