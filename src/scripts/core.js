@@ -2616,6 +2616,14 @@ require([
                             }
                         })
 
+                        console.log("hll_id", siteAttr.HLL_ID);
+                        if (siteAttr.HLL_ID !== undefined && siteAttr.HLL_ID != null) {
+                            $("hllLink").show();
+                            $("#hllLink").html("<a target='_blank' href='https://hazards.fema.gov/hll/details?id=" + siteAttr.HLL_ID + "&hazard=flood&sort=losses-high-low'>Access full Hazus Loss Library (FEMA)</a>");
+                        } else {
+                            $("hllLink").show();
+                        }
+                        
                         getHazus();
 
                         sliderSetup(results);
