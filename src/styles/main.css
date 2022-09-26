@@ -1936,6 +1936,12 @@ input[type=range]:focus::-ms-fill-lower {
 input[type=range]:focus::-ms-fill-upper {
   background: #0d0d0d;
 }
+#geosearchUnavailable {
+  color: red;
+  text-align: center;
+  box-sizing: border-box;
+  padding: 25px 25px 40px 25px;
+}
 #floodToolsDiv {
   box-shadow: 0px 6px 27px -7px rgba(0, 10, 80, 0.55);
   height: fit-content !important;
