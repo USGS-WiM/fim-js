@@ -135,10 +135,13 @@ USGS Bar
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title">Find Location</h4>
             </div>
-            <div class="modal-body">
+            <div id="geosearchUnavailable">Geosearch Currently Unavailable</div>
+
+            <div class="modal-body" id="geosearchModalBody">
                 <div class="form-group">
                     <div id="geosearch"></div>
                 </div>
+				
                 <form id="geosearch-form" class="form-inline">
                     <!--<div class="checkbox">
                         <label>
@@ -239,135 +242,6 @@ USGS Bar
 </div>
 
 
-<!--
-    Minimized Flood Tools
-    Minimized Flood Tools
-    Minimized Flood Tools
- -->
-<div id="minFT">
-    <div class="header" id="floodToolsMax">
-        <span>Flood Tools</span>
-        <div class="max-image">
-            <img src="images/maximize.png">
-        </div>
-    </div>
-    <div class="body">
-
-
-        <!-- Site One -->
-        <div class="min-ft fts1">
-            <div class="item">
-                <label>USGS Site No:</label>
-                <a id="usgsSiteNo" class="value" target="_blank" href=""></a>
-            </div>
-            <div class="item">
-				<label>NWS Site ID:</label>
-				<div class="nws-site-id"></div>
-            </div>
-			<!-- Current Conditions -->
-            <div class="section-header">Current Conditions</div>
-            <div class="item">
-                <label>Gage height:</label>
-                <div class="value label-ft" id="floodGage"></div>
-            </div>
-            <div class="item">
-                <label>Discharge:</label>
-                <div class="value label-cfs" id="floodDischarge"></div>
-			</div>
-			<!-- Selected Conditions -->
-            <div class="section-header">Selected Conditions</div>
-			<div class="item">
-                <label>Gage height:</label>
-                <div class="value label-ft slider-min update"></div>
-            </div>
-            <div class="item">
-                <label>Discharge:</label>
-                <div class="value label-cfs flood-discharge-selected"></div>
-			</div>
-            <div class="item">
-                <label>Elevation:</label>
-                <div class="value label-cfs elevation-selected"></div>
-			</div>
-        </div>
-
-        <!-- Site Two -->
-        <div class="min-ft fts2">
-            <div class="item">
-                <label>USGS Site No:</label>
-                <a id="usgsSiteNo" class="value" target="_blank" href=""></a>
-            </div>
-            <div class="item">
-                <label>NWS Site ID:</label>
-				<div class="nws-site-id"></div>
-            </div>
-			<!-- Current Conditions -->
-            <div class="section-header">Current Conditions</div>
-            <div class="item">
-                <label>Gage height:</label>
-                <div class="value label-ft" id="floodGage"></div>
-            </div>
-            <div class="item">
-                <label>Discharge:</label>
-                <div class="value label-cfs" id="floodDischarge"></div>
-			</div>
-			<!-- Selected Conditions -->
-			<div class="section-header">Selected Conditions</div>
-			<div class="item">
-                <label>Gage height:</label>
-                <div class="value label-ft slider-min update"></div>
-            </div>
-            <div class="item">
-                <label>Discharge:</label>
-                <div class="value label-cfs flood-discharge-selected"></div>
-			</div>
-            <div class="item">
-                <label>Elevation:</label>
-                <div class="value label-cfs elevation-selected"></div>
-			</div>
-        </div>
-
-
-        <!-- Site Three -->
-        <div class="min-ft fts3">
-            <div class="item">
-                <label>USGS Site No:</label>
-                <a id="usgsSiteNo" class="value" target="_blank" href=""></a>
-            </div>
-            <div class="item">
-                <label>NWS Site ID:</label>
-				<div class="nws-site-id"></div>
-            </div>
-			<!-- Current Conditions -->
-            <div class="section-header">Current Conditions</div>
-            <div class="item">
-                <label>Gage height:</label>
-                <div class="value label-ft" id="floodGage"></div>
-            </div>
-            <div class="item">
-                <label>Discharge:</label>
-                <div class="value label-cfs" id="floodDischarge"></div>
-			</div>
-			<!-- Selected Conditions -->
-			<div class="section-header">Selected Conditions</div>
-			<div class="item">
-                <label>Gage height:</label>
-                <div class="value label-ft slider-min update"></div>
-            </div>
-            <div class="item">
-                <label>Discharge:</label>
-                <div class="value label-cfs flood-discharge-selected"></div>
-			</div>
-            <div class="item">
-                <label>Elevation:</label>
-                <div class="value label-cfs elevation-selected"></div>
-			</div>
-        </div>
-
-
-    </div>
-</div>
-
-
 <script> //To close alert
 $(".close-alert").click(function(){
     $(this).parent().slideUp(250);
@@ -450,7 +324,7 @@ if (window.document.documentMode) {
                         <div class="new-fim-message">
                             <b>Welcome to the USGS Flood Inundation Mapper.</b>
                             <span>
-								The FIM Mapper allows users to explore the full set of inundation maps that shows where flooding would occur given a selected stream condition. Users can also access historical flood information and potential loss estimates based on the severity of the flood. The FIM Mapper helps communities visualize potential flooding scenarios, identify areas and resources that may be at risk, and enhance their local response effort during a flooding event. The legacy mapper is located <a href="https://wimcloud.usgs.gov/apps/FIM/FloodInundationMapper.html" target="_blank" alt="Legacy FIM" title="Legacy FIM">here</a>, and is slated to be decommissioned once historic flood information is added to this interface.
+								The FIM Mapper allows users to explore the full set of inundation maps that shows where flooding would occur given a selected stream condition. Users can also access historical flood information and potential loss estimates based on the severity of the flood. The FIM Mapper helps communities visualize potential flooding scenarios, identify areas and resources that may be at risk, and enhance their local response effort during a flooding event.
                             </span>
                         </div>
                         <h3>Disclaimer for Flood-Inundation Maps</h3>
@@ -858,8 +732,16 @@ if (window.document.documentMode) {
 							<h4 class="flood-tools-header">
 								<span id="floodToolsModalHeader"></span>
 								<div class="flood-tools-window-controls">
-									<div id='floodMin' title='collapse'><i class="far fa-window-restore"></i></div>
-									<div id='floodClose' title='close'><i class="far fa-times"></i></div>
+									<div id='floodMin' title='Minimize'><i class="far fa-window-minimize"></i></div>
+									<!-- Half -->
+									<div id='floodHalf' title='Half Window'>
+										<i class="far fa-compress-arrows-alt"></i>
+										<i class="far fa-expand-arrows-alt"></i>
+									</div>
+									<div id='floodMaximize' title='Maximize'>
+										<i class="far fa-expand-arrows-alt"></i>
+									</div>
+									<div id='floodClose' title='Close'><i class="far fa-times"></i></div>
 								</div>
 							</h4>
 							<div class="ft-header-links">
@@ -868,22 +750,31 @@ if (window.document.documentMode) {
 							</div>
                         </div>
 					</div>
+
+					<!-- Mobile modal collapse buttons -->
 					
                     <!--
 						Modal body
 						Modal body
 						Modal body
                     -->
-					<!-- Mobile warning to minimize FT -->
-					<div class="ft-mboile-warning">
-						<p>
-							Use the <i class="far fa-window-restore"></i> buttton to toggle between full-size and minimized flood tools to better view the map.
-						</p>
-						<span class="ft-mobile-warning-dismiss">
-							<button id="dismissMobileFTWarning">Dismiss</button>
-						</span>
-					</div>
+					<!-- Mobile warning to minimize Flood Tools on mobile -->
                     <div class="panel-body" id="ftModal">
+
+						<!-- Mobile view toggle button - floats bottom -->
+						<div id="toggleMobileToolView">
+							<button id="toggleMobileToolViewTools" class="active">
+								<i class="far fa-tools"></i>
+								Tools
+							</button>
+							<button id="toggleMobileToolViewData">
+								<i class="far fa-table"></i>
+								Data
+							</button>
+						</div>
+						
+
+
                         <!-- Sliders on left side -->
                         <div id="ftSliders">
 
@@ -950,63 +841,84 @@ if (window.document.documentMode) {
 
                             <!-- Site options -->
                             <!-- Site options -->
-                            <!-- Site options -->
                             <div id="ftOptions">
+															
+								<div id="ftOptionsMeta">
+									<!-- Site No. -->
+									<div class="ft-options-row">
+										<small>Site Number:</small>
+										<div class="ft-options-flex">
+											<!-- Site One -->
+											<div id="optionData" class="fts1">
+												<label class="no-unit" id="usgsSiteNo"></label>
+											</div>
+											<!-- Site Two -->
+											<div id="optionData" class="fts2">
+												<label class="no-unit" id="usgsSiteNo"></label>
+											</div>
+											<!-- Site Three -->
+											<div id="optionData" class="fts3">
+												<label class="no-unit" id="usgsSiteNo"></label>
+											</div>
+										</div>
+									</div>
+									<!-- Selected Gage Heights -->
+									<div class="ft-options-row">
+										<div id="sliderSelected"><small>Selected Gage Height:</small></div>
+										<div class="ft-options-flex">
+											<!-- Site One -->
+											<div id="optionData" class="fts1">
+												<label for="floodSlider" class="slider-min update"></label>
+											</div>
+											<!-- Site Two -->
+											<div id="optionData" class="fts2">
+												<label for="floodSlider" class="slider-min update"></label>
+											</div>
+											<!-- Site Three -->
+											<div id="optionData" class="fts3">
+												<label for="floodSlider" class="slider-min update"></label>
+											</div>
+										</div>
+									</div>
+									<!-- Selected Elevation -->
+									<div class="ft-options-row" id="elevationMeta">
+										<div id="sliderSelected" class="slider-elev-label"><small>Selected Elevation:</small></div>
+										<div class="ft-options-flex">
+											<!-- Site One -->
+											<div id="optionData" class="fts1">
+												<label for="floodSlider" class="slider-elev update"></label>
+											</div>
+											<!-- Site Two -->
+											<div id="optionData" class="fts2">
+												<label for="floodSlider" class="slider-elev update"></label>
+											</div>
+											<!-- Site Three -->
+											<div id="optionData" class="fts3">
+												<label for="floodSlider" class="slider-elev update"></label>
+											</div>
+										</div>
+									</div>
+									<!-- Selected Discharge -->
+									<div class="ft-options-row">
+										<small>Selected Discharge:</small>
+										<div class="ft-options-flex">
+											<!-- Site One -->
+											<div id="optionData" class="fts1">
+												<label class="label-cfs flood-discharge-selected"></label>
+											</div>
+											<!-- Site Two -->
+											<div id="optionData" class="fts2">
+												<label class="label-cfs flood-discharge-selected"></label>
+											</div>
+											<!-- Site Three -->
+											<div id="optionData" class="fts3">
+												<label class="label-cfs flood-discharge-selected"></label>
+											</div>
+										</div>
+									</div>
+								</div>
 
-								<!-- Selected Gage Heights -->
-								<div class="ft-options-row">
-									<div id="sliderSelected"><small>Selected Gage Height:</small></div>
-									<div class="ft-options-flex">
-										<!-- Site One -->
-										<div id="optionData" class="fts1">
-											<label for="floodSlider" class="slider-min update"></label>
-										</div>
-										<!-- Site Two -->
-										<div id="optionData" class="fts2">
-											<label for="floodSlider" class="slider-min update"></label>
-										</div>
-										<!-- Site Three -->
-										<div id="optionData" class="fts3">
-											<label for="floodSlider" class="slider-min update"></label>
-										</div>
-									</div>
-                                </div>
-                                <!-- Selected Elevation -->
-								<div class="ft-options-row">
-									<div id="sliderSelected" class="slider-elev-label"><small>Selected Elevation:</small></div>
-									<div class="ft-options-flex">
-										<!-- Site One -->
-										<div id="optionData" class="fts1">
-											<label for="floodSlider" class="slider-elev update"></label>
-										</div>
-										<!-- Site Two -->
-										<div id="optionData" class="fts2">
-											<label for="floodSlider" class="slider-elev update"></label>
-										</div>
-										<!-- Site Three -->
-										<div id="optionData" class="fts3">
-											<label for="floodSlider" class="slider-elev update"></label>
-										</div>
-									</div>
-								</div>
-								<!-- Selected Discharge -->
-								<div class="ft-options-row">
-									<small>Selected Discharge:</small>
-									<div class="ft-options-flex">
-										<!-- Site One -->
-										<div id="optionData" class="fts1">
-											<label class="label-cfs flood-discharge-selected"></label>
-										</div>
-										<!-- Site Two -->
-										<div id="optionData" class="fts2">
-											<label class="label-cfs flood-discharge-selected"></label>
-										</div>
-										<!-- Site Three -->
-										<div id="optionData" class="fts3">
-											<label class="label-cfs flood-discharge-selected"></label>
-										</div>
-									</div>
-								</div>
+								
 
 								<!-- Checkboxes -->
 								<div class="ft-option-checkboxes">
@@ -1023,9 +935,16 @@ if (window.document.documentMode) {
 										<label for="aouCheckBox" id="aouCheck">Include Area of Uncertainty</label>
 									</div>
 								</div>
+
+
+								<!-- Opacity Slider -->
+								<div id="ftOpacitySlider">
+									<label>Flood Area Opacity:</label>
+									<input type="range" class="range-styled" id="floodAreaOpacitySlider" max="1" min="0" step="0.05" />
+								</div>
                                 
 								<!-- NWS Stages Legend -->
-                                <div id="floodToolsLegend">
+                                <div class="flood-tools-legend">
 									<div class="ft-legend-header">NWS Stages</div>
 									
 									<div class="ft-legend-items">
@@ -1049,7 +968,6 @@ if (window.document.documentMode) {
 								</div>
 
                             </div>
-
 
 
                         </div>
@@ -1104,12 +1022,12 @@ if (window.document.documentMode) {
                                 <!-- Site Info Table -->
                                 <div class="small-label">Site Info</div>
                                 <div class="tools-table">
-                                    <!-- Site No -->
-                                    <div class="box bold">USGS Site No</div>
-                                    <div class="box fts1"><a id="usgsSiteNo" target="_blank" alt="" title="" href=""></a></div>
-                                    <div class="box fts2"><a id="usgsSiteNo" target="_blank" alt="" title="" href=""></a></div>
-                                    <div class="box fts3"><a id="usgsSiteNo" target="_blank" alt="" title="" href=""></a></div>
-                                    <div class="tools-table-space"></div>
+									<!-- Site No -->
+									<div class="box bold">USGS Site No</div>
+									<div class="box fts1"><a id="usgsSiteNo" target="_blank" alt="" title="" href=""></a></div>
+									<div class="box fts2"><a id="usgsSiteNo" target="_blank" alt="" title="" href=""></a></div>
+									<div class="box fts3"><a id="usgsSiteNo" target="_blank" alt="" title="" href=""></a></div>
+									<div class="tools-table-space"></div>
                                     <!-- Site ID -->
                                     <div class="box bold">NWS Site ID</div>
                                     <div class="box fts1"><span class="nws-site-id"></span></div>
@@ -1175,7 +1093,9 @@ if (window.document.documentMode) {
                             -->
                             <!-- Accordion Header -->
                             <div id="ftHydro" class="ftmodal-content">
-                                <!-- Sites -->
+
+                                <div class="no-hydro">No historical flooding data available for this library</div>
+								<!-- Sites -->
 								<div class="fts1 chart-wrapper">
                                     <div id="hydroChart"></div>
                                 </div>
@@ -1250,48 +1170,45 @@ if (window.document.documentMode) {
                                 -->
                             <!-- Accordion Header -->
                             <div id="ftHazus" class="ftmodal-content">
-                                <!--
-									Hazus Table
-								-->
-                                <div id="hazusTableLabels">
-                                    <div class="hazus-label">
-                                        <div class="small-label">Site Number</div>
-                                        <span id="hazusTableSiteLabel"></span>
-                                    </div>
-                                    <div class="hazus-label">
-                                        <div class="small-label">Selected Stage</div>
-                                        <span id="hazusTableSelectedStageLabel"></span>
-                                    </div>
-                                </div>
+                                <div style="padding-right: 10px; text-align: right; width: 100%" id="hllLink"></div>
+                                <!-- Hazus Table Header -->
+								<h3>
+									Loss Estimates
+									<button id="viewFullHazus" title="Click to expand the Hazus table" class="btn btn-default" type="button" >
+										View Full Table
+                          	      	</button>
+									<button id="hideFullHazus" title="Click to hide the full Hazus table" class="btn btn-default" type="button">
+										Hide Full Table
+									</button>
+								</h3>
+
+                                
+
+                                <!-- Hazus Table -->
                                 <table id="hazusTable">
-                                    <thead>
-                                        <tr id="hazusTableHeader">
-                                            <th>Stage (ft)</th>
-                                            <th>Number of Buildings Damaged</th>
-                                            <th>Building Losses</th>
-                                            <th>Number of Essential Facilities Impacted</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-
-                                    </tbody>
+                                  <thead></thead>
+                                  <tbody></tbody>
                                 </table>
-
-                                <div id="hazusRangeInfo">
-                                    HAZUS summary data at this site is only available for selected gage heights between <span id="hazusMinLvl"></span> and <span id="hazusMaxLvl"></span> feet.
+            
+                                <div id="hazusRangeInfo" class="hazus-table-warning">
+                                  Hazus summary data at this site is only available for
+                                  selected gage heights between
+                                  <span id="hazusMinLvl"></span> and
+                                  <span id="hazusMaxLvl"></span> feet.
                                 </div>
-
-                                <button id="viewFullHazus" title="Click to expand the Hazus table" class="btn btn-default" type="button">View Full Table</button>
-                                <button id="hideFullHazus" title="Click to hide the full Hazus table" class="btn btn-default" type="button">Hide Full Table</button>
-                            </div>
+                                <div id="hazusRangeInfoMulti" class="hazus-table-warning">
+                                  Hazus summary data not available for current configuration.
+                                </div>
+            
+                              </div>
 
 
                             <!--
-                                    Services and Data
-                                    Services and Data
-                                    Services and Data
-                                -->
-                            <!-- Accordion Header -->
+						Services and Data
+						Services and Data
+						Services and Data
+					-->
+							<!-- Accordion Header -->
                             <div id="ftServices" class="ftmodal-content">
 
                                 <div class="ft-header">Sign up for WaterAlert for this site</div>
@@ -1341,7 +1258,7 @@ if (window.document.documentMode) {
 								Web Cam
 							-->
                             <div id="ftWebcam" class="ftmodal-content">
-                                <img src="" id="webcamImage"/>
+                                <img src="" id="webcamImage" onerror="this.src='images/broken.png'"/>
                             </div>
 
 							<!--
@@ -1350,9 +1267,12 @@ if (window.document.documentMode) {
 								More Info
 							-->
                             <div id="ftMoreInfo" class="ftmodal-content">
-                                <div id="moreInfo"></div>
+                                <div id="moreInfo">Loading...</div>
                             </div>
 
+
+							<!-- Spacer -->
+							<div id="ftDataSpacer"></div>
 
                         </div>
                     </div>
