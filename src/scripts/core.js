@@ -1142,6 +1142,11 @@ require([
                 altitudeValues2 = [];
                 altitudeValues3 = [];
 
+                dischargeValues = [];
+                dischargeValues2 = [];
+                dischargeValues3 = [];
+                
+
                 map.getLayer("fimExtents").setVisibility(false);
                 map.getLayer("fimExtentsMulti").setVisibility(false);
                 map.getLayer("fimExtentsThreeSites").setVisibility(false);
@@ -2875,8 +2880,9 @@ require([
                                                     break;
                                                 }
                                             }
+                                        } else if (currentSlider2Value < parseFloat(tempPairValue[tempPairValue.length-1].pairStage) && currentSlider2Value > parseFloat(tempPairValue[0].pairStage)) {
+                                            console.log('value falls between');
                                         }
-                                        
                                     } else if ($(this).hasClass('second-slider')) {
                                         $.each(gagePairs, function(index, value)
                                         {
@@ -2925,6 +2931,26 @@ require([
                                                     break;
                                                 }
                                             }
+                                        } else if (currentSlider1Value < parseFloat(tempPairValue[tempPairValue.length-1].pairStage) && currentSlider1Value > parseFloat(tempPairValue[0].pairStage)) {
+                                            console.log('tweener');
+                                            var tempValueDiff = 1000; //change to null and check for null or newtempValueDiff < tempValueDiff
+                                            var nearestValue = currentSlider1Value;
+                                            var i_value;
+                                            for (i=0;i<tempPairValue.length;i++) {
+                                                if (tempPairValue[i].pairStage == currentSlider1Value) {
+                                                    nearestValue = currentSlider1Value
+                                                    i_value = i;
+                                                    break;
+                                                } else {
+                                                    var newTempValueDiff = Math.abs(currentSlider1Value-tempPairValue[i].pairStage);
+                                                    if (newTempValueDiff < tempValueDiff) {
+                                                        tempValueDiff = newTempValueDiff;
+                                                        nearestValue = tempPairValue[i].pairStage;
+                                                        i_value = i;
+                                                    }
+                                                }
+                                            }
+                                            snapToFlood(nearestValue,".first-slider");
                                         }
                                         
                                     }
