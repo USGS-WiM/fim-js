@@ -7,6 +7,8 @@ var floodExtentsMultiTableUrl = "https://fimnew.wim.usgs.gov/server/rest/service
 var floodExtentsMultiThreeSitesTableUrl = "https://fimnew.wim.usgs.gov/server/rest/services/FIMMapper/floodExtentsThreeSites/MapServer/1";
 var fimHazusUrl = "https://fimnew.wim.usgs.gov/server/rest/services/FIMMapper/sites/MapServer/2";
 
+var scenariosUrl = "https://fim.wim.usgs.gov/server/rest/services/FIMMapper/sites/MapServer/3"
+
 var fimHazusUrlTest = "https://fim.wim.usgs.gov/server/rest/services/FIMTest/fullHazusResults/MapServer/0";
 
 //var fimiMoreInfoUrl = "https://fimnew.wim.usgs.gov/arcgis/rest/services/FIMMapper/fim_add_info/MapServer/1";
@@ -50,7 +52,7 @@ require([
                         "opacity": 1.00,
                         "mode": FeatureLayer.MODE_SNAPSHOT,
                         "outFields": ["*"],
-                        "definitionExpression": "(Public = 1 OR Public = 2) AND (MULTI_SITE = 0 OR MULTI_SITE = 1 OR MULTI_SITE = 3)",
+                        "definitionExpression": "(Public = 0 OR Public = 1 OR Public = 2) AND (MULTI_SITE = 0 OR MULTI_SITE = 1 OR MULTI_SITE = 3)",
                         //"infoTemplate": fimInfoTemplate,
                         "visible": true
                     },
@@ -171,7 +173,7 @@ require([
                         "layerType": "agisDynamic",
                         "includeInLayerList": false,
                         "hasOpacitySlider": false,
-                        "layerDefinitions": ["(Public = 1) AND (MULTI_SITE = 0 OR MULTI_SITE = 1 OR MULTI_SITE = 3)"],
+                        "layerDefinitions": ["(Public = 0 OR Public = 1) AND (MULTI_SITE = 0 OR MULTI_SITE = 1 OR MULTI_SITE = 3)"],
                         "includeLegend" : false,
                         "legendLabel": false
                     }

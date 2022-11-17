@@ -946,10 +946,67 @@ require([
                 var attr = feature.attributes;
                 siteAttr = attr;
 
+                siteAttr["SCENARIO"] = null;
+
+                console.log('scenarios: ' + siteAttr.HAS_SCENARIOS)
+
+                if (siteAttr.HAS_SCENARIOS != null) {
+                    console.log('this has scenarios');
+                } else if (siteAttr.HAS_SCENARIOS == null) {
+                    console.log('no scenarios here');
+                }
+
                 $("#depth_grids_legend_title").hide();
                 $("#aou_grids_legend_title").hide();
+                
+                
 
-                if (siteAttr["MULTI_SITE"] == 0) {
+                if (siteAttr["HAS_SCENARIOS"] != null) {
+                    //Get scenarios
+                    var scenariosQuery = new esriQuery();
+                    scenariosQuery.returnGeometry = false;
+                    scenariosQuery.where = "USGSID = '" + siteAttr["SITE_NO"] +"'";
+                    scenariosQuery.outFields = ["USGSID, SHORT_NAME, SCENARIO_NO"];
+                    var scenariosQueryTask;
+                    scenariosQueryTask = new QueryTask(scenariosUrl);
+
+                    scenariosQueryTask.execute(scenariosQuery, scenariosResult);
+
+                    function scenariosResult(featureSet) {
+                        //Pop up a scenario chooser here?
+                        map.infoWindow.setTitle("Available scenarios for " + siteAttr.COMMUNITY);
+                        var scenarioContent = "";
+                        for (var i = 0; i < featureSet.features.length; i++) {
+                            scenarioContent += "Scenario (<a id='scenario" + featureSet.features[i].attributes["SCENARIO_NO"] + "' title='see this scenario' href='javascript:void(0)'>" 
+                            + featureSet.features[i].attributes["SCENARIO_NO"] + "</a>) " 
+                            + featureSet.features[i].attributes["SHORT_NAME"] + ": scenario description here<br/>";
+                        }
+                        
+                        map.infoWindow.setContent(scenarioContent);
+                        
+                        for (var i = 0; i < featureSet.features.length; i++) {
+                            var scenarioInfo = featureSet.features;
+                            siteAttr["SCENARIO_INFO"] = scenarioInfo;
+                            $("#scenario" + featureSet.features[i].attributes["SCENARIO_NO"]).on("click", function handleClick(event) {
+                                var scenario = this.id.split('scenario')[1];
+                                siteAttr["SCENARIO"] = scenario;
+                                for (var i = 0; i < siteAttr["SCENARIO_INFO"].length; i++) {
+                                    if (siteAttr["SCENARIO_INFO"][i].attributes["SCENARIO_NO"] == siteAttr["SCENARIO"]) {
+                                        siteAttr["SHORT_NAME"] = siteAttr["SCENARIO_INFO"][i].attributes["SHORT_NAME"];
+                                        break;
+                                    }
+                                }
+                                $(".fts2").hide();
+                                $(".fts3").hide();
+                                $("#ftSliders").attr('class', 'onesite');
+                                $("#floodToolsDiv").attr('class', 'panel panel-default floodToolsClass onesite');
+                                sitePopup(evt);
+                            });
+                        }
+                        
+                        map.infoWindow.show(evt.target.e_graphic.geometry);
+                    }
+                } else if (siteAttr["MULTI_SITE"] == 0) {
                     $(".fts2").hide();
                     $(".fts3").hide();
                     $("#ftSliders").attr('class', 'onesite');
@@ -1578,6 +1635,9 @@ require([
                 var suppLyrsDef = [];
                 suppLyrsDef[0] = "USGSID = '" + siteNo + "'";
                 suppLyrsDef[1] = "USGSID = '" + siteNo + "'";
+                if (siteAttr["SCENARIO"] != null) {
+                    suppLyrsDef[1] += " AND SCENARIO = " + siteAttr["SCENARIO"];
+                } 
                 suppLyrsDef[2] = "USGSID = '" + siteNo + "'";
                 suppLyrs.setLayerDefinitions(suppLyrsDef);
                 suppLyrs.setVisibility(true);
@@ -2540,6 +2600,9 @@ require([
                         var floodExtentsUrl = map.getLayer("fimExtents").url + "/0";
                         extentQuery.orderByFields = ["STAGE ASC"];
                         extentQuery.where = "USGSID = '" + attr["SITE_NO"] + "'";
+                        if (siteAttr["SCENARIO"] != null) {
+                            extentQuery.where += " AND SCENARIO = " + siteAttr["SCENARIO"];
+                        }
                         break;
                     case 1:
                         var floodExtentsUrl = map.getLayer("fimExtentsMulti").url + "/0";
@@ -2628,7 +2691,13 @@ require([
 
                         sliderSetup(results);
 
-                        $("#floodToolsModalHeader").text(attr["STATE"] + ": " + attr["COMMUNITY"] );
+                        var floodToolsModalHeaderText = attr["STATE"] + ": " + attr["COMMUNITY"];
+
+                        if (attr["HAS_SCENARIOS"] == 1) {
+                            floodToolsModalHeaderText += " (Scenario " + attr["SCENARIO"] + ": " + attr["SHORT_NAME"] + ")";
+                        }
+
+                        $("#floodToolsModalHeader").text(floodToolsModalHeaderText);
                         // $("#floodToolsModalHeader").text(attr["STATE"] + ": " + attr["COMMUNITY"] + " (" + siteNo + ((siteNo_2) ? " & " + siteNo_2 : "") + ((siteNo_3) ? " & " + siteNo_3 : "") + ")");
 						
 						$("#shareLink").click(function() {
@@ -2650,6 +2719,9 @@ require([
                             
                             case 0:
                                 layerDefinitions[0] = "USGSID = '" + attr["SITE_NO"] + "' AND STAGE = " + results[0].attributes["STAGE"];
+                                if (results[0].attributes["SCENARIO"] != null) {
+                                    layerDefinitions[0] += " AND SCENARIO = " + results[0].attributes["SCENARIO"];
+                                } 
                                 map.getLayer("fimExtents").setLayerDefinitions(layerDefinitions);
                                 map.getLayer("fimBreach").setLayerDefinitions(layerDefinitions);
                                 map.getLayer("fimExtents").setVisibility(true);
@@ -2768,6 +2840,9 @@ require([
 
                                     var layerDefinitions = [];
                                     layerDefinitions[0] = "USGSID = '" + attr["SITE_NO"] + "' AND STAGE = " + results[this.value].attributes["STAGE"];
+                                    if (results[this.value].attributes["SCENARIO"] != null) {
+                                        layerDefinitions[0] += " AND SCENARIO = " + results[this.value].attributes["SCENARIO"];
+                                    }
                                     map.getLayer("fimExtents").setLayerDefinitions(layerDefinitions);
                                     map.getLayer("fimBreach").setLayerDefinitions(layerDefinitions);
 
@@ -3342,6 +3417,9 @@ require([
                                     } else if (siteData.data[key].parameter_cd == "72214") {
                                         gageIndex = key;
                                         pcodeAbbr = "igld";
+                                    } else if (siteData.data[key].parameter_cd == "72279") {
+                                        gageIndex = key;
+                                        pcodeAbbr = "navd88_tidal_elev";
                                     }
                                 });
                                 
@@ -3421,6 +3499,18 @@ require([
                                         $("#currentValue").text("Lake Water Level Elevation (IGLD)");
                                         $("#selectedElevValue").text("Lake Water Level Elevation (IGLD)");
                                         hydroChartYAxisLabel = "Lake Water Level Elevation (IGLD)";
+                                        break;
+                                    case "navd88_tidal_elev":
+                                        $(".ghselected").hide();
+                                        $("#sliderSelected").hide();
+                                        $(".slider-min.update").hide();
+                                        //$("#sliderSelected").html("<small>Selected Stream Water Level Elevation (NAVD88):</small>");
+                                        $(".slider-elev-label").show();
+                                        $(".slider-elev-label").html("<small>Selected Tidal elevation, NOS-averaged (NAVD88):</small>");
+                                        $(".slider-elev.update").show();
+                                        $("#currentValue").text("Tidal elevation, NOS-averaged (NAVD88)");
+                                        $("#selectedElevValue").text("Tidal elevation, NOS-averaged (NAVD88)");
+                                        hydroChartYAxisLabel = "Tidal elevation, NOS-averaged (NAVD88)";
                                         break;
                                     default:
                                         $(".ghselected").show();
@@ -4809,6 +4899,14 @@ require([
                 stageValues = [stage];
                 slidersToAdjust = [$(slider)];
                 if (pcodeAbbr == "gh") {
+                    if (slider == ".first-slider") {
+                        gageValuesToCheck = [gageValues];
+                    } else if (slider == ".second-slider") {
+                        gageValuesToCheck = [gageValues2];
+                    } else if (slider == ".third-slider") {
+                        gageValuesToCheck = [gageValues3];
+                    }
+                } else if (pcodeAbbr == "navd88_tidal_elev") {
                     if (slider == ".first-slider") {
                         gageValuesToCheck = [gageValues];
                     } else if (slider == ".second-slider") {
