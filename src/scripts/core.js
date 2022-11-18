@@ -828,9 +828,9 @@ require([
         $("#viewFullHazus").show();
 
         if($("#hazusTable").find("tr.active").length) {
-            $("#hazusRangeInfo").hide();
+            $(".hazus-table-warning").hide();
         }else{
-            $("#hazusRangeInfo").show();
+            $(".hazus-table-warning").show();
         }
 	});
 	
@@ -894,7 +894,7 @@ require([
                 var ahpsIds = [];
                 var graphics = evt.target.graphics;
                 $.each(graphics, function (index, feature) {
-                    if (feature.attributes["AHPS_ID"] != null && feature.attributes["AHPS_ID"] != 'NONE') {
+                    if (feature.attributes["AHPS_ID"] != null) { // && feature.attributes["AHPS_ID"] != 'NONE') {
                         ahpsIds.push("'" + feature.attributes["AHPS_ID"].toUpperCase() + "'");
                         if (feature.attributes["Public"] == 2) {
                             feature.hide();
@@ -1706,7 +1706,7 @@ require([
                 $(".fts1 #usgsSiteNo").text(siteNo);
 				$(".fts1 #usgsSiteNo").attr("href", "https://waterdata.usgs.gov/monitoring-location/"+siteNo);
 				$(".fts1 #siteName").text(attr["STATE"] + ": " + attr["COMMUNITY"])
-				if(ahpsID != "NONE"){
+				if(ahpsID != "NONE" && ahpsID !== undefined){
 					$(".fts1 .nws-site-id").html("<a href='https://water.weather.gov/ahps2/hydrograph.php?gage="+ahpsID+"' target='_blank' alt='"+ahpsID+"' title='"+ahpsID+"'>"+ahpsID+"</a>");
 				}else{
 					$(".fts1 .nws-site-id").html("NONE");
@@ -1714,7 +1714,7 @@ require([
 
                 $(".fts2 #usgsSiteNo").text(siteNo_2);
                 $(".fts2 #usgsSiteNo").attr("href", "https://waterdata.usgs.gov/monitoring-location/"+siteNo_2);
-				if(ahpsID_2 != "NONE"){
+				if(ahpsID_2 != "NONE" && ahpsID_2 !== undefined){
 					$(".fts2 .nws-site-id").html("<a href='https://water.weather.gov/ahps2/hydrograph.php?gage="+ahpsID_2+"' target='_blank' alt='"+ahpsID_2+"' title='"+ahpsID_2+"'>"+ahpsID_2+"</a>");
 				}else{
 					$(".fts2 .nws-site-id").html("NONE");
@@ -1722,7 +1722,7 @@ require([
 
 				$(".fts3 #usgsSiteNo").text(siteNo_3);
                 $(".fts3 #usgsSiteNo").attr("href", "https://waterdata.usgs.gov/monitoring-location/"+siteNo_3);
-				if(ahpsID_3 != "NONE"){
+				if(ahpsID_3 != "NONE" && ahpsID_3 !== undefined){
 					$(".fts3 .nws-site-id").html("<a href='https://water.weather.gov/ahps2/hydrograph.php?gage="+ahpsID_3+"' target='_blank' alt='"+ahpsID_3+"' title='"+ahpsID_3+"'>"+ahpsID_3+"</a>");
 				}else{
 					$(".fts3 .nws-site-id").html("NONE");
@@ -2564,7 +2564,7 @@ require([
 								if(siteAttr.MULTI_SITE == 3){
 									hazusTableRowID = hazusTableObj[i].stage[0].toString() + hazusTableObj[i].stage[1].toString()  + hazusTableObj[i].stage[2].toString()
 								}
-								hazusTableRowID = hazusTableRowID.toString().replace(".", "")
+								hazusTableRowID = hazusTableRowID.toString().replace(/\./g,"");
 
 								
 
@@ -2732,6 +2732,14 @@ require([
                             }
                         })
 
+                        console.log("hll_id", siteAttr.HLL_ID);
+                        if (siteAttr.HLL_ID !== undefined && siteAttr.HLL_ID != null) {
+                            $("hllLink").show();
+                            $("#hllLink").html("<a target='_blank' href='https://hazards.fema.gov/hll/details?id=" + siteAttr.HLL_ID + "&hazard=flood&sort=losses-high-low'>Access FEMA's Hazus data</a>");
+                        } else {
+                            $("hllLink").show();
+                        }
+                        
                         getHazus();
 
                         sliderSetup(results);
@@ -2867,7 +2875,8 @@ require([
 
                                     // Show message if no hazus
                                     // Data is available at selected range
-                                    if($(activeHazusRowID).length){
+                                        $("#hazusRangeInfoMulti").hide();
+										if($(activeHazusRowID).length){
                                         $("#hazusRangeInfo").hide();
                                     }else{
                                         $("#hazusRangeInfo").show();
@@ -2914,11 +2923,19 @@ require([
 										}
                                     }
 
+
 									// Hazus Multi-Site (2)
-									// TODO!
                                     $("#hazusTable tr").removeClass('active');
 									var activeHazusRowID = "#hazus" + parseFloat(gageValues[$(".fts1 #floodSlider")[0].value].gageValue) + parseFloat(gageValues2[$(".fts2 #floodSlider")[0].value].gageValue);
-									activeHazusRowID = activeHazusRowID.replace(".", "");
+
+									console.log("ACTIVE HAZUS ROW ID")
+									console.log("ACTIVE HAZUS ROW ID")
+									console.log("ACTIVE HAZUS ROW ID")
+
+
+									activeHazusRowID = activeHazusRowID.replace(/\./g, "");
+									console.log(activeHazusRowID)
+
 									$(activeHazusRowID).addClass('active');
 									$(".inactive-visible").removeClass("inactive-visible");
                                     $(activeHazusRowID).prev().addClass('inactive-visible');
@@ -2927,8 +2944,9 @@ require([
                                     // Hide Hazus message 
                                     if($(activeHazusRowID).length){
                                         $("#hazusRangeInfo").hide();
+                                        $("#hazusRangeInfoMulti").hide();
                                     }else{
-                                        $("#hazusRangeInfo").show();
+                                        $("#hazusRangeInfoMulti").show();
                                     }
 
                                     // Code to determine next possible combination if current selections are not available as map in library
@@ -3079,24 +3097,21 @@ require([
                                     }
 
 									// Hazus Multi-Site (3)
-									// TODO!
                                     $("#hazusTable tr").removeClass('active');
 									var activeHazusRowID = "#hazus" + parseFloat(gageValues[$(".fts1 #floodSlider")[0].value].gageValue) + parseFloat(gageValues2[$(".fts2 #floodSlider")[0].value].gageValue) + parseFloat(gageValues3[$(".fts3 #floodSlider")[0].value].gageValue);
-									activeHazusRowID = activeHazusRowID.replace(".", "");
+									activeHazusRowID = activeHazusRowID.replace(/\./g,"");
 									$(activeHazusRowID).addClass('active');
 									$(".inactive-visible").removeClass("inactive-visible");
                                     $(activeHazusRowID).prev().addClass('inactive-visible');
                                     $(activeHazusRowID).prev().prev().addClass('inactive-visible');
 
-
 									// Hide Hazus message 
 									if($(activeHazusRowID).length){
                                         $("#hazusRangeInfo").hide();
+                                        $("#hazusRangeInfoMulti").hide();
                                     }else{
-                                        $("#hazusRangeInfo").show();
+                                        $("#hazusRangeInfoMulti").show();
                                     }
-
-
 
                                     // Code to determine next possible combination if current selections are not available as map in library
                                     var tempPairValue = [];
@@ -4439,7 +4454,7 @@ require([
                                     // Cerate Chart
                                     var hydroChart = new Highcharts.Chart('hydroChart', chartOneOptions, function(hydroChart){
                                         console.log("Chart One Loaded");
-                                        if (floodStageBands[5]) {
+                                        if (floodStageBands[5] !== undefined) {
                                             var chartYMax = parseInt(floodStageBands[5].to);
                                         }else {
                                             var chartYMax = parseInt(floodStageBands[4].to);
@@ -4458,7 +4473,7 @@ require([
                                     // Create Chart
                                     var hydroChart2 = new Highcharts.Chart('hydroChart2', chartTwoOptions, function(hydroChart2){
                                         console.log("Chart Two Loaded")
-                                        if(floodStageBands2[5]){
+                                        if(floodStageBands2[5] !== undefined){
                                             var chartYMax = parseInt(floodStageBands2[5].to);
                                         }else{
                                             var chartYMax = parseInt(floodStageBands2[4].to);
@@ -4476,7 +4491,7 @@ require([
                                     // Create Chart
                                     var hydroChart3 = new Highcharts.Chart('hydroChart3', chartThreeOptions, function(hydroChart3){
                                         console.log("Chart Three Loaded")
-                                        if(floodStageBands3[5]){
+                                        if(floodStageBands3[5] !== undefined){
                                             var chartYMax = parseInt(floodStageBands3[5].to);
                                         }else{
                                             var chartYMax = parseInt(floodStageBands3[4].to);
@@ -5263,53 +5278,59 @@ require([
 
 
     // create search_api widget in element "geosearch"
-    search_api.create( "geosearch", {
-        on_result: function(o) {
-            // what to do when a location is found
-            // o.result is geojson point feature of location with properties
+	if(typeof search_api !== 'undefined'){
+		search_api.create( "geosearch", {
+			on_result: function(o) {
+				// what to do when a location is found
+				// o.result is geojson point feature of location with properties
 
-            // zoom to location
-            require(["esri/geometry/Extent"], function(Extent) {
-                var noExtents = ["GNIS_MAJOR", "GNIS_MINOR", "ZIPCODE", "AREACODE"];
-                var noExtentCheck = noExtents.indexOf(o.result.properties["Source"])
-                if (noExtentCheck == -1) {
-                    map.setExtent(
-                        new esri.geometry.Extent({
-                            xmin: o.result.properties.LonMin,
-                            ymin: o.result.properties.LatMin,
-                            xmax: o.result.properties.LonMax,
-                            ymax: o.result.properties.LatMax,
-                            spatialReference: {"wkid":4326}
-                        }),
-                        true
-                    );
-                } else {
-                    //map.setCenter();
-                    require( ["esri/geometry/Point"], function(Point) {
-                        map.centerAndZoom(
-                            new Point( o.result.properties.Lon, o.result.properties.Lat ),
-                            12
-                        );
-                        $('#geosearchModal').modal('hide');
-                    });
-                }
+				// zoom to location
+				require(["esri/geometry/Extent"], function(Extent) {
+					var noExtents = ["GNIS_MAJOR", "GNIS_MINOR", "ZIPCODE", "AREACODE"];
+					var noExtentCheck = noExtents.indexOf(o.result.properties["Source"])
+					if (noExtentCheck == -1) {
+						map.setExtent(
+							new esri.geometry.Extent({
+								xmin: o.result.properties.LonMin,
+								ymin: o.result.properties.LatMin,
+								xmax: o.result.properties.LonMax,
+								ymax: o.result.properties.LatMax,
+								spatialReference: {"wkid":4326}
+							}),
+							true
+						);
+					} else {
+						//map.setCenter();
+						require( ["esri/geometry/Point"], function(Point) {
+							map.centerAndZoom(
+								new Point( o.result.properties.Lon, o.result.properties.Lat ),
+								12
+							);
+							$('#geosearchModal').modal('hide');
+						});
+					}
 
-            });
+				});
 
-        },
-        "include_usgs_sw": true,
-        "include_usgs_gw": true,
-        "include_usgs_sp": true,
-        "include_usgs_at": true,
-        "include_usgs_ot": true,
-        "include_huc2": true,
-        "include_huc4": true,
-        "include_huc6": true,
-        "include_huc8": true,
-        "include_huc10": true,
-        "include_huc12": true
+			},
+			"include_usgs_sw": true,
+			"include_usgs_gw": true,
+			"include_usgs_sp": true,
+			"include_usgs_at": true,
+			"include_usgs_ot": true,
+			"include_huc2": true,
+			"include_huc4": true,
+			"include_huc6": true,
+			"include_huc8": true,
+			"include_huc10": true,
+			"include_huc12": true
 
-	});
+		});
+	}else{
+		// Geosearch unavailble
+		$("#geosearchUnavailable").addClass("visible");
+		$("#geosearchModalBody").addClass("hidden");
+	}
 
 
 	
