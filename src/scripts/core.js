@@ -701,8 +701,19 @@ require([
 
 	// Click Water Alert Link
     $("#waterAlertLink").click(function() {
-       $("#waterAlertLink").attr("href", "https://water.usgs.gov/wateralert/subscribe/?fim=1&intro=1&site_no=" + siteAttr.SITE_NO + "&agency_cd=USGS&type_cd=st&parms="+ siteAttr.PCODE + ":" + results[$(".fts1 #floodSlider")[0].value].attributes["STAGE"]);
+       //$("#waterAlertLink").attr("href", "https://water.usgs.gov/wateralert/subscribe/?fim=1&intro=1&site_no=" + siteAttr.SITE_NO + "&agency_cd=USGS&type_cd=st&parms="+ siteAttr.PCODE + ":" + results[$(".fts1 #floodSlider")[0].value].attributes["STAGE"]);
+       $("#waterAlertLink").attr("href", "https://accounts.waterdata.usgs.gov/wateralert/my-alerts/#siteNumber=" + siteNo);
        $("#waterAlertLink").click();
+    });
+
+    $("#waterAlertLink2").click(function() {
+        $("#waterAlertLink2").attr("href", "https://accounts.waterdata.usgs.gov/wateralert/my-alerts/#siteNumber=" + siteNo_2);
+        $("#waterAlertLink2").click();
+    });
+
+    $("#waterAlertLink3").click(function() {
+        $("#waterAlertLink3").attr("href", "https://accounts.waterdata.usgs.gov/wateralert/my-alerts/#siteNumber=" + siteNo_3);
+        $("#waterAlertLink3").click();
     });
 
 	// Click disclaimer link, show disclaimer
@@ -1148,8 +1159,23 @@ require([
                 map.getLayer("fimBreach").setVisibility(false);
                 map.getLayer("fimBreachMulti").setVisibility(false);
                 
-                
-
+                //set up Water Alert links 
+                if(siteAttr.MULTI_SITE == 0) {
+                    $("#waterAlertLink2").hide();
+                    $("#waterAlertLink3").hide();
+                    $("#waterAlertLink").html("Subscribe to WaterAlert for " + siteNo);
+                } else if (siteAttr.MULTI_SITE == 1) {
+                    $("#waterAlertLink2").show();
+                    $("#waterAlertLink3").hide();
+                    $("#waterAlertLink").html("Subscribe to WaterAlert for " + siteNo);
+                    $("#waterAlertLink2").html("Subscribe to WaterAlert for " + siteNo_2);
+                } else if (siteAttr.MULTI_SITE = 3) {
+                    $("#waterAlertLink2").show();
+                    $("#waterAlertLink3").show();
+                    $("#waterAlertLink").html("Subscribe to WaterAlert for " + siteNo);
+                    $("#waterAlertLink2").html("Subscribe to WaterAlert for " + siteNo_2);
+                    $("#waterAlertLink3").html("Subscribe to WaterAlert for " + siteNo_3);
+                }
 
                 //code to query related records for site and get logos and created/reviewed by cooperators
                 //first set anything that can be set with site attributes
