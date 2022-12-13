@@ -115,6 +115,9 @@ USGS Bar
         <button id="userGuideNav" class="btn btn-default navbar-btn pull-right" onclick="ga('send','event','navbar','click','User Guide');">
             <i class="far fa-book-spells"></i><span>User Guide</span>
         </button>
+        <button id="siteListNav" class="btn btn-default navbar-btn pull-right" onclick="ga('send','event','navbar','click','Site List');">
+          <i class="far fa-align-justify"></i><span>Site List</span>
+        </button>
 
         <!-- legend buttton for navbar. to be removed if we like the in-map legend toggle -->
         <!--<button id="legendButtonNavBar" type="button" class="btn btn-primary navbar-btn pull-right" style="margin-right: 1em;"><span class="glyphicon glyphicon-list"></span> Legend</button>-->
@@ -480,6 +483,22 @@ if (window.document.documentMode) {
 </div><!-- /.modal -->
 
 
+<!-- Site List Modal -->
+<div id="siteListModal" class="modal fade"  tabindex="-1" role="dialog" >
+  <div class="modal-dialog  modal-md">
+      <div class="modal-content">
+          <div class="modal-header">
+              <button class="close" type="button" data-dismiss="modal" aria-hidden="true" style="color:gray;">&times;</button>
+              <h4 class="modal-title">Published FIM Libraries</h4>
+          </div>
+          <div id="listOfSites" class="modal-body"></div>
+          <form id="disclaimerButtons" class="modal-footer" style="text-align:center;">
+              <button class=" btn btn-default close" type="button" data-dismiss="modal" aria-hidden="true">Close</button>
+          </form>
+
+      </div><!-- /.modal-content -->
+  </div> <!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 
 <!-- Begin page content -->

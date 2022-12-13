@@ -1046,6 +1046,36 @@ input[type="radio"] {
 #userGuideNav:hover span {
   text-decoration: underline;
 }
+/*Site List*/
+#siteListNav {
+  color: white !important;
+  background-color: transparent !important;
+  border: none !important;
+  font-weight: 500 !important;
+  transition: 0.2s !important;
+  font-size: 11px !important;
+}
+#siteListNav span {
+  margin-left: 4px;
+}
+#siteListNav:focus {
+  outline: none !important;
+}
+#siteListNav:hover span {
+  text-decoration: underline;
+}
+.siteListText {
+  text-indent: 15px;
+  font-size: small;
+}
+.siteListTextBtn {
+    font-size: small;
+    border: none;
+    background-color: inherit;
+    cursor: pointer;
+    display: inline-block;
+    color: #337ab7;
+}
 #navbar {
   background-color: #10152C !important;
 }
