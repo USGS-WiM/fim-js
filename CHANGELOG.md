@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
- -  Site List with clickable links to zoom to and open libraries
+ -  
  
 ### Changed
 
@@ -20,6 +20,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
  -  
 
 
+## [2.7](https://github.com/USGS-WiM/fim-js/releases/tag/v2.6)
+
+### Added
+
+ -  Site List with clickable links to zoom to and open libraries
+ 
+### Changed
+
+ -  Updated link to REST services in About dialog
+ 
+### Fixed
+ 
+ -  
+ 
+ 
 ## [2.6](https://github.com/USGS-WiM/fim-js/releases/tag/v2.6)
 
 ### Added
