@@ -20,7 +20,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
  -  
 
 
-## [2.7](https://github.com/USGS-WiM/fim-js/releases/tag/v2.6)
+## [2.7](https://github.com/USGS-WiM/fim-js/releases/tag/v2.7)
 
 ### Added
 
