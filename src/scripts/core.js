@@ -77,6 +77,9 @@ var sitesLayerPrint;
 var allAnnualChart;
 var topTenChart;
 
+var fimSitesLayer;
+var fim_sites = [];
+
 var usStates = [
         { name: 'ALABAMA', abbreviation: 'AL'},
         { name: 'ALASKA', abbreviation: 'AK'},
@@ -293,8 +296,8 @@ require([
     map.on('extent-change', function(evt) {
         if (site_no_param != "") {
 
-            var fim_sites = map.graphics.graphics;
-            $.each(fim_sites, function(index, value) {
+            var fim_sites_temps = map.graphics.graphics;
+            $.each(fim_sites_temps, function(index, value) {
                 if (value.attributes != undefined && value.attributes.SITE_NO == site_no_param) {
                     var screenPoint = screenUtils.toScreenGeometry(map.extent, map.width, map.height, value.geometry);
                     var event = new MouseEvent('click', {
@@ -317,6 +320,8 @@ require([
         } else {
             $(".zoom-disclaimer").hide();
         }
+
+
     })
 
     //following block forces map size to override problems with default behavior
@@ -364,10 +369,6 @@ require([
         }*/
 
     });
-
-    
-
-
 
     $('#aboutModal').modal('show');
     $('#disclaimerTab').trigger('click');
@@ -469,6 +470,15 @@ require([
         map.infoWindow.set('highlight', true);
         $('[class^="scalebar"]').attr('bottom', '40px');
     });
+
+    /*function navigateToSite(chosenSite, siteLat, siteLng) {
+        map.removeLayer(fimSitesLayer);
+        console.log("chosenSite", chosenSite);
+        site_no_param = chosenSite;
+        map.addLayer(fimSitesLayer);
+
+         $('#siteListModal').modal('hide');
+    } */
 
     function closeDialog() {
         dijitPopup.close(dialog);
@@ -767,10 +777,12 @@ require([
     //map.getLayer("fimGrid2").on("load", gridsLayerComp);
 
     map.on('layer-add', function (evt) {
+        console.log("evt on layer add", evt)
         var layer = evt.layer.id;
         var actualLayer = evt.layer;
 
         if (layer == "fimSites") {
+            fimSitesLayer = evt.layer; 
 
             var initialSiteLoad = map.getLayer(layer).on('update-end', function(evt) {
 
@@ -865,11 +877,23 @@ require([
                         initialSiteLoad.remove();
                         $("#usgs-loader").hide();
 
+                        fim_sites = map.getLayer(layer).graphics.slice(0);
+
+                        $.each(fim_sites, function (key, val) {
+                            var graphic = val;
+                            if (graphic._shape != null) {
+                                graphic._shape.rawNode.id = val.attributes["SITE_NO"];
+                            }
+                            //fim_sites.push(graphic);
+                        });
+
                         if (site_no_param != "") {
 
-                            var fim_sites = map.getLayer(layer).graphics;
                             $.each(fim_sites, function(index, value) {
                                 if (value.attributes != undefined && value.attributes.SITE_NO == site_no_param) {
+                                    console.log("value.attributes.SITE_NO", value.attributes.SITE_NO);
+                                    console.log("site_no_param", site_no_param)
+                                    console.log("VALUE", value);
                                     /*var screenPoint = screenUtils.toScreenGeometry(map.extent, map.width, map.height, value.geometry);
                                     var event = new MouseEvent('click', {
                                         'view': window,
@@ -879,9 +903,20 @@ require([
                                     var graphic = value;
                                     //$(graphic)[0].trigger('click');
                                     graphic._shape.rawNode.id = site_no_param;
+                                    //fimSitesAndShapes.push({siteno: site_no_param, shape: graphic._shape});
+                                    console.log("graphic._shape", graphic._shape)
+                                    console.log("graphic._shape.rawNode", graphic._shape.rawNode)
                                     $("#" + site_no_param).on('click', siteClick);
                                     $("#" + site_no_param).trigger('click');
-                                }
+                                    console.log($("#" + site_no_param));
+                                    console.log(document.getElementById("#" + site_no_param))
+                                } /*else {
+                                    var graphic = value;
+                                    if (graphic._shape != null) {
+                                       //graphic._shape.rawNode.id = value.attributes.SITE_NO;
+                                       fimSitesAndShapes.push({siteno: value.attributes.SITE_NO, graphic: graphic, shape: graphic._shape, rawNode: graphic._shape.rawNode});
+                                    }
+                                }*/
                             });
 
                         }
@@ -940,9 +975,22 @@ require([
                 var feature;
                 if (evt.graphic != undefined) {
                     feature = evt.graphic;
-                } else {
+                } else if (evt.target.e_graphic != undefined) {
                     feature = evt.target.e_graphic;
+                } else {
+                    feature = getFeature(site_no);
                 }
+
+                function getFeature(site_no) {
+                    var feat;
+                    $.each(fimSitesLayer.graphics, function (key, value) {
+                        if (fimSitesLayer.graphics[key].attributes["SITE_NO"] == site_no) {
+                            feat = fimSitesLayer.graphics[key];
+                        }
+                    });
+                    return feat;
+                }
+
                 var attr = feature.attributes;
                 siteAttr = attr;
 
@@ -1008,7 +1056,166 @@ require([
 				                
             }
 
+            function populateSiteList() {
+                //get the site data
+                $.getJSON("https://fim.wim.usgs.gov/server/rest/services/FIMMapper/sites/MapServer/0/query?where=PUBLIC+%3D+1&text=&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&relationParam=&outFields=SITE_NO%2C+COMMUNITY%2C+STATE%2C+STUDY_DATE&returnGeometry=true&returnTrueCurves=false&maxAllowableOffset=&geometryPrecision=&outSR=&having=&returnIdsOnly=false&returnCountOnly=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdbVersion=&historicMoment=&returnDistinctValues=false&resultOffset=&resultRecordCount=&queryByDistance=&returnExtentOnly=false&datumTransformation=%C2%B6meterValues=&rangeValues=&quantizationParameters=&f=json", function (response) {
+        
+                    //contains a json of all sites and relevant attributes
+                    var siteInfo = response.features;
+        
+                    //there's one state listed as Illinois-Kentucky
+                    //in the current online list of sites, it's listed under Illinois, so do the same here
+                    for (var siteCount = 0; siteCount < siteInfo.length; siteCount++) {
+                        console.log(siteInfo[siteCount]);
+                        if (siteInfo[siteCount].attributes.STATE == "Illinois-Kentucky") {
+                            siteInfo[siteCount].attributes.STATE = "Illinois"
+                            //add a note to the description that it belongs to both states
+                            siteInfo[siteCount].attributes.COMMUNITY += ", (IL-KY)"
+                        }
+                    }
+        
+                    //used to alphabetize the site json by state name
+                    function alphabetizeStates(siteState1, siteState2) {
+                        //assuming that longer site numbers are greater (listed after) shorter site numbers
+                        if (siteState1 == siteNo1) {
+                            //put shorter site number first if they're different lengths
+                            if (siteState1.length !== siteState2.length) {
+                                return (siteState1.length < siteState2.length) ? -1 : (siteState1.length > siteState2.length) ? 1 : 0;
+                            }
+                            //if they're the same length, sort by leader characters
+                            else {
+                                return (siteState1 < siteState2) ? -1 : (siteState1 > siteState2) ? 1 : 0;
+                            }
+                        }
+                        //don't factor length into alphabetizing state names
+                        else {
+                            return (siteState1 < siteState2) ? -1 : (siteState1 > siteState2) ? 1 : 0;
+                        }
+                    }
+                    //this variable needs to be accessed outside of the sort function
+                    var siteNo1;
+                    //sort the site info json
+                    siteInfo.sort(function(site1, site2) {
+                        //get state attributes
+                        var siteState1 = site1.attributes.STATE;
+                        var siteState2 = site2.attributes.STATE;
+                        //get site number attributes
+                        siteNo1 = site1.attributes.SITE_NO;
+                        var siteNo2 = site2.attributes.SITE_NO;
+                        //sort by site number within each state
+                        return alphabetizeStates(
+                            [alphabetizeStates(siteState1, siteState2), alphabetizeStates(siteNo1, siteNo2)],
+                            [alphabetizeStates(siteState2, siteState1), alphabetizeStates(siteNo2, siteNo1)]
+                        );
+                    })
+                    //get the relevant attributes out of the json, append them to the html so that they display in the modal
+                    for (var siteCount = 0; siteCount < siteInfo.length; siteCount++)   {
+                        var lat = siteInfo[siteCount].geometry.x;
+                        var lng = siteInfo[siteCount].geometry.y;
+                        var currentSite = siteInfo[siteCount].attributes.SITE_NO;
+                        var currentCommunity =  siteInfo[siteCount].attributes.COMMUNITY;
+                        var currentState =  siteInfo[siteCount].attributes.STATE;
+                        var currentStudyDate = siteInfo[siteCount].attributes.STUDY_DATE
+                        if (siteCount > 0) {
+                            var previousState = siteInfo[siteCount -1].attributes.STATE;
+                        }
+                        //////////will need to update this to prevent full page re-load///////////////
+                        var hrefSite = "https://fim.wim.usgs.gov/fim/?site_no=" + currentSite;
+                        //Display the name of each state once, each followed by a list of sites in that state
+                        //Always display the state name of the first site
+                        if (siteCount == 0) {
+                            $("#listOfSites").html("<b>" + currentState + "</b>" + "<div id=site" + currentSite + " class='siteListText'><a id=site" + currentSite + " href='javascript:void(0)'>" + currentSite + "</a>" + "  -  " + currentCommunity + " (" + currentStudyDate + ")</div>");
+                            
+                            $("#site" + currentSite).on('click', function(evt) {
+                                var site_no = this.id.split('site')[1];
+                                siteLinkClicked(site_no);
+                            });
+                        }
+                        if (siteCount > 0) {
+                            //If the state name is the same as the previous one, just diplay the site_no/community
+                            if (currentState == previousState) {
+                                $("#listOfSites").append("<div class='siteListText'><a id=site" + currentSite + " href='javascript:void(0)'>" + currentSite + "</a>" + "  -  " + currentCommunity + " (" + currentStudyDate + ")</div>"); 
+                                //code here to handle click on site no
+                                $("#site" + currentSite).on('click', function(evt) {
+                                    var site_no = this.id.split('site')[1];
+                                    siteLinkClicked(site_no);
+                                });
+                            }
+                            //If the state name is different than the previous state name, display it in the modal, followed by the site info
+                            else {
+                                $("#listOfSites").append("<br><b>" + currentState + "</b>" + "<div class='siteListText'><a id=site" + currentSite + " href='javascript:void(0)'>" + currentSite + "</a>" + "  -  " + currentCommunity + " (" + currentStudyDate + ")</div>");
+                                //code here to handle click on site no
+                                $("#site" + currentSite).on('click', function(evt) {
+                                    var site_no = this.id.split('site')[1];
+                                    siteLinkClicked(site_no);
+                                });
+                            }
+                            
+                        }
+        
+                        function siteLinkClicked(site_no_param) {
+
+                            $.each(fim_sites, function (key, val) {
+                                if (val.attributes != undefined && val.attributes.SITE_NO == site_no_param) {
+                                    var graphic = val;
+                                    var site_Location = new Point(graphic.geometry);
+                                    map.centerAndZoom(site_Location, 14);
+                                }
+                            });
+
+                            var extent_change = map.on('update-end', function(evt) {
+
+                                $.each(fim_sites, function (key, val) {
+                                    var graphic = val;
+                                    if (graphic._shape != null) {
+                                        graphic._shape.rawNode.id = val.attributes["SITE_NO"];
+                                    }
+                                    //fim_sites.push(graphic);
+                                });
+    
+                                if (site_no_param != "") {
+                                    
+                                    $.each(fim_sites, function(index, value) {
+                                        if (value.attributes != undefined && value.attributes.SITE_NO == site_no_param) {
+                                            console.log("value.attributes.SITE_NO", value.attributes.SITE_NO);
+                                            console.log("site_no_param", site_no_param)
+                                            console.log("VALUE", value);
+                                            /*var screenPoint = screenUtils.toScreenGeometry(map.extent, map.width, map.height, value.geometry);
+                                            var event = new MouseEvent('click', {
+                                                'view': window,
+                                                'bubbles': false,
+                                                'cancelable': true
+                                            });*/
+                                            var graphic = value;
+                                            //$(graphic)[0].trigger('click');
+                                            //graphic = findFIMSiteShape(site_no_param);
+                                            //graphic.id = site_no_param;
+                                            console.log("graphic._shape", graphic._shape)
+                                            //console.log("graphic._shape.rawNode", graphic._shape.rawNode)
+                                            //$(fimSitesAndShapes[58].shape).on('click', siteClick(evt, fimSitesAndShapes[58].siteno));
+                                            //$(fimSitesAndShapes[58].shape).trigger('click');
+                                            $("#" + site_no_param).on('click', siteClick);
+                                            $("#" + site_no_param).trigger('click');
+
+                                            $('#siteListModal').modal('hide');
+                                        }
+                                    });
+    
+                                }
+
+                                extent_change.remove();
+
+                            });
+
+                        }
+                    }
+                });
+            }
+
+            populateSiteList();
+
             var sitePopup = function(evt, sites = null) {
+                
 
                 var feature;
                 if (evt.graphic != undefined) {
@@ -5587,6 +5794,14 @@ require([
         }
         $('#userGuideNav').click(function(){
             showUserGuideModal();
+        });
+        function showSiteListModal () {
+            //open the site list modal 
+            $('#siteListModal').modal('show');
+
+        }
+        $('#siteListNav').click(function(){
+            showSiteListModal();
         });
 
         $("#html").niceScroll();
