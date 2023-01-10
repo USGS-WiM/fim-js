@@ -30,5 +30,8 @@
   },
   "dependencies": {
     "bower": "^1.8.8"
+  },
+  "overrides": {
+    "graceful-fs": "^4.2.10"
   }
 }

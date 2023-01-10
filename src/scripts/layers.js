@@ -16,6 +16,8 @@ var nwisUrl = "https://waterservices.usgs.gov/nwis/iv/?format=nwjson&period=P7D"
 var historicalUrl = "http://nwis.waterdata.usgs.gov/ms/nwis/peak?agency_cd=USGS&format=rdb&site_no=";
 var proxyUrl = "https://services.wim.usgs.gov/proxies/httpProxy/Default.aspx?";
 
+var nimsUrl = "https://jj5utwupk5.execute-api.us-east-1.amazonaws.com/prod/cameras?siteId=";
+
 require([
     "esri/geometry/Extent",
     "esri/InfoTemplate",

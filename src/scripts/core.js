@@ -1829,17 +1829,55 @@ require([
                 //Web cam check and set up
                 //Web cam check and set up
                 //Web cam check and set up
-                if(feature.attributes.HAS_WEBCAM == "1"){ //Embed
+                if (feature.attributes.HAS_NIMS == "1") {
+                    console.log('has nims');
+                    $("#webcamImage").hide();
+                    $(".ft-webcam-link-tab").hide();
+
+                    $("#nimsCam").attr('src', null);
+                    $("#nimsCam").hide();
+
+                    //code to retrieve latest webcam thumbnail timelapse gif
+                    $.ajax({
+                        dataType: 'json',
+                        type: 'GET',
+                        url: nimsUrl + siteAttr.SITE_NO,
+                        headers: {'Accept': '*/*'},
+                        success: function (data) {
+
+                            $.each(data, function(key, value) {
+                                console.log(key, value.locus);
+                            });
+
+                            var camera = data[0];
+                            
+                            if (camera.TL_enabled == true) {
+                                var nimsCamUrl = camera.tlDir + camera.camId + '_720.mp4'
+
+                                $("#nimsCam").attr('src', nimsCamUrl);
+                            } else {
+                                var nimsCamImageUrl;
+                            }
+                            
+                        },
+                        error: function (error) {
+                            console.log("Error processing the JSON. The error is:" + error);
+                        }
+                    });
+
+
+                } else if(feature.attributes.HAS_WEBCAM == "1"){ //Embed
                     $(".ft-webcam-tab").hide();
                     $(".ft-webcam-link-tab").show();
                     $(".ft-webcam-link-tab").attr("href", "https://services.wim.usgs.gov/webCam/webCamNew/Default.aspx?webCamInfo=" + feature.attributes.WEBCAM_INFO)
                     console.log("Open Webcam in new tab")
-                }else if(feature.attributes.HAS_WEBCAM == "2"){ //Image
+                } else if(feature.attributes.HAS_WEBCAM == "2"){ //Image
                     $(".ft-webcam-tab").show();
                     $(".ft-webcam-link-tab").hide();
+                    $("#webcamImage").show();
                     $("#webcamImage").attr('src', feature.attributes.WEBCAM_INFO.replace('http:', 'https:'));
                     console.log("Webcam image embedded.")
-                }else{
+                } else{
                     $(".ft-webcam-tab").hide();
                     $(".ft-webcam-link-tab").hide();
                     console.log("No webcam")
