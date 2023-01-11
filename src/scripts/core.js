@@ -977,8 +977,8 @@ require([
                         map.infoWindow.setTitle("Available scenarios for " + siteAttr.COMMUNITY);
                         var scenarioContent = "";
                         for (var i = 0; i < featureSet.features.length; i++) {
-                            scenarioContent += "Scenario (<a id='scenario" + featureSet.features[i].attributes["SCENARIO_NO"] + "' title='see this scenario' href='javascript:void(0)'>" 
-                            + featureSet.features[i].attributes["SCENARIO_NO"] + "</a>) " 
+                            scenarioContent += "<a id='scenario" + featureSet.features[i].attributes["SCENARIO_NO"] + "' title='see this scenario' href='javascript:void(0)'>" 
+                            + "Scenario (" + featureSet.features[i].attributes["SCENARIO_NO"] + ")</a> " 
                             + featureSet.features[i].attributes["SHORT_NAME"] + ": scenario description here<br/>";
                         }
                         
