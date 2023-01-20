@@ -1829,10 +1829,11 @@ require([
                 //Web cam check and set up
                 //Web cam check and set up
                 //Web cam check and set up
-                if (feature.attributes.HAS_NIMS == "1") {
+                if (feature.attributes.HAS_NIMS == "1" || feature.attributes.HAS_NIMS == "0" || feature.attributes.HAS_NIMS == null) {
                     console.log('has nims');
                     $("#webcamImage").hide();
                     $(".ft-webcam-link-tab").hide();
+                    $("#ftWebcam").html("");
 
                     $("#nimsCam").attr('src', null);
                     $("#nimsCam").hide();
@@ -1845,20 +1846,28 @@ require([
                         headers: {'Accept': '*/*'},
                         success: function (data) {
 
-                            $.each(data, function(key, value) {
-                                console.log(key, value.locus);
+                            $.each(data, function(key, camera) {
+                                console.log(key, camera.locus);
+
+                                if (camera.TL_enabled == true && camera.locus == "aws") {
+                                    $("#ftWebcam").append('<h3>' + camera.camDesc + '</h3><a target="_blank" href="https://apps.usgs.gov/hivis/camera/' + camera.camId + '">Get more details on the amazing HIVIS site!!!</a><br/><video id="nimsCam' + key + '" width="500" height="375" src="" controls></video>');
+                                    
+                                    var nimsCamUrl = camera.tlDir + camera.camId + '_720.mp4'
+                                    $("#nimsCam"+key).attr('src', nimsCamUrl);
+                                    $(".ft-webcam-tab").show();
+                                } else if (camera.TL_enabled == true && camera.locus == "umid"){
+                                    $("#ftWebcam").append('<h3>' + camera.camDesc + '</h3><a target="_blank" href="https://apps.usgs.gov/hivis/camera/' + camera.camId + '">Get more details on the amazing HIVIS site!!!</a><br/><video id="nimsCam' + key + '" width="500" height="375" src="" controls></video>');
+
+                                    var nimsCamUrl = camera.tlDir + camera.camId + '_720.mp4'
+                                    $("#nimsCam"+key).attr('src', nimsCamUrl);
+                                    $(".ft-webcam-tab").show();
+                                }
                             });
 
-                            var camera = data[0];
-                            
-                            if (camera.TL_enabled == true) {
-                                var nimsCamUrl = camera.tlDir + camera.camId + '_720.mp4'
-
-                                $("#nimsCam").attr('src', nimsCamUrl);
-                            } else {
-                                var nimsCamImageUrl;
+                            if (data.length == 0) {
+                                $(".ft-webcam-tab").hide();
                             }
-                            
+
                         },
                         error: function (error) {
                             console.log("Error processing the JSON. The error is:" + error);
