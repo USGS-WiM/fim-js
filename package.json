@@ -26,7 +26,7 @@
     "gulp-useref": "^0.4.3",
     "gulp-util": "^2.2.14",
     "open": "0.0.5",
-    "wiredep": "^1.4.4"
+    "wiredep": "^1.8.6"
   },
   "dependencies": {
     "bower": "^1.8.8"
