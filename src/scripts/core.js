@@ -583,6 +583,10 @@ require([
 	
 
 
+	$("#prePopup").click(function(){
+		$("#prePopup").toggleClass("hidden")
+	});
+
     $("#floodHalf").click(function(){
         $("#floodToolsDiv").toggleClass("is-half")
     });
@@ -6403,6 +6407,7 @@ var floodToolsError = function(type){
     $("#floodToolsDiv .panel-body").removeClass('loading-hide');
     $("#floodToolsDiv").removeClass('loading-background');
 
+    $("#prePopup").css("visibility", "hidden");
 
     // $("#floodToolsDiv").css("visibility", "hidden");
 }

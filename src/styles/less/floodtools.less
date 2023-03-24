@@ -1491,3 +1491,85 @@
 	transition: all 0.2s ease;
 	max-width: 1000px;
 }
+
+
+
+
+
+// New Jersey initial popup selector
+// New Jersey initial popup selector
+// New Jersey initial popup selector
+#prePopup:hover{
+	cursor: move;
+}
+#prePopup div header{
+	flex-direction: column;
+	justify-content: space-between;
+	transition: all 0.2s ease;
+	max-width: 1000px;
+}
+#prePopup div footer{
+	flex-direction: column;
+	justify-content: space-between;
+	transition: all 0.2s ease;
+	max-width: 1000px;
+}
+// 
+.prepopup-items{
+	display: flex;
+	width: 100%;
+
+	@media (max-width: 700px) {
+		flex-wrap: wrap;
+		justify-content: center;
+	}
+
+	.prepopup-header{
+		font-size: 11px;
+		text-align: center;
+		box-sizing: border-box;
+		font-weight: 600;
+		width: 100%;
+		margin: 0 auto;
+
+		@media (max-width: 700px) {
+			font-size: 9px;
+			text-align: center;
+			padding-bottom: 5px;
+		}
+	}
+
+	.first,
+	.last{
+		display: flex;
+		flex-direction: column;
+		justify-content: space-around;
+		width: 50%;
+		min-width: 50%;
+		max-width: 50%;
+		@media (max-width: 700px) {
+			flex-direction: row;
+			justify-content: flex-start;
+			width: auto;
+			min-width: unset;
+			max-width: unset;
+		}
+	}
+
+	.left,
+	.right{
+		display: flex;
+		flex-direction: column;
+		justify-content: space-around;
+		width: 50%;
+		min-width: 50%;
+		max-width: 50%;
+		@media (max-width: 700px) {
+			flex-direction: row;
+			justify-content: flex-start;
+			width: auto;
+			min-width: unset;
+			max-width: unset;
+		}
+	}
+}
