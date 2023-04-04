@@ -382,6 +382,11 @@ require([
         showPrintModal();
     });
 
+	$('#prePopupClose').click(function(){
+		$("#prepopupWrapper").css("display", "none");
+	});
+	
+
     $('#printExecuteButton').click(function (e) {
         e.preventDefault();
         $(this).button('loading');
@@ -583,9 +588,6 @@ require([
 	
 
 
-	$("#prePopup").click(function(){
-		$("#prePopup").toggleClass("hidden")
-	});
 
     $("#floodHalf").click(function(){
         $("#floodToolsDiv").toggleClass("is-half")
@@ -978,15 +980,30 @@ require([
 
                     function scenariosResult(featureSet) {
                         //Pop up a scenario chooser here?
-                        map.infoWindow.setTitle("Available scenarios for " + siteAttr.COMMUNITY);
+
+						$("#prepopupWrapper").css("display", "flex");
+						$("#prePopupTitle").text("Available scenarios for " + siteAttr.COMMUNITY)
+
+
+
+                        // map.infoWindow.setTitle("Available scenarios for " + siteAttr.COMMUNITY);
+                        // var scenarioContent = "";
+                        // for (var i = 0; i < featureSet.features.length; i++) {
+                        //     scenarioContent += "<a id='scenario" + featureSet.features[i].attributes["SCENARIO_NO"] + "' title='see this scenario' href='javascript:void(0)'>" 
+                        //     + "Scenario (" + featureSet.features[i].attributes["SCENARIO_NO"] + ")</a> " 
+                        //     + featureSet.features[i].attributes["SHORT_NAME"] + ": scenario description here<br/>";
+                        // }
+
+
                         var scenarioContent = "";
                         for (var i = 0; i < featureSet.features.length; i++) {
-                            scenarioContent += "<a id='scenario" + featureSet.features[i].attributes["SCENARIO_NO"] + "' title='see this scenario' href='javascript:void(0)'>" 
-                            + "Scenario (" + featureSet.features[i].attributes["SCENARIO_NO"] + ")</a> " 
-                            + featureSet.features[i].attributes["SHORT_NAME"] + ": scenario description here<br/>";
+                            scenarioContent += "<button class='ppi-item' id='scenario" + featureSet.features[i].attributes["SCENARIO_NO"] + "' title='see this scenario'>" 
+                            + "<label>Scenario (" + featureSet.features[i].attributes["SCENARIO_NO"] + ")</label><p> " 
+                            + featureSet.features[i].attributes["SHORT_NAME"] + ": scenario description here</p></button>";
                         }
+						$("#prePopupItems").html(scenarioContent);
                         
-                        map.infoWindow.setContent(scenarioContent);
+                        // map.infoWindow.setContent(scenarioContent);
                         
                         for (var i = 0; i < featureSet.features.length; i++) {
                             var scenarioInfo = featureSet.features;
@@ -1000,6 +1017,9 @@ require([
                                         break;
                                     }
                                 }
+								// Close scenario pre popup window
+								$("#prepopupWrapper").css("display", "none");
+
                                 $(".fts2").hide();
                                 $(".fts3").hide();
                                 $("#ftSliders").attr('class', 'onesite');
@@ -1007,8 +1027,7 @@ require([
                                 sitePopup(evt);
                             });
                         }
-                        
-                        map.infoWindow.show(evt.target.e_graphic.geometry);
+                        // map.infoWindow.show(evt.target.e_graphic.geometry);
                     }
                 } else if (siteAttr["MULTI_SITE"] == 0) {
                     $(".fts2").hide();
@@ -6406,8 +6425,6 @@ var floodToolsError = function(type){
     $("#floodToolsDiv .panel-heading").removeClass('loading-hide');
     $("#floodToolsDiv .panel-body").removeClass('loading-hide');
     $("#floodToolsDiv").removeClass('loading-background');
-
-    $("#prePopup").css("visibility", "hidden");
 
     // $("#floodToolsDiv").css("visibility", "hidden");
 }
