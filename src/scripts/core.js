@@ -1370,18 +1370,18 @@ require([
                 if(siteAttr.MULTI_SITE == 0) {
                     $("#waterAlertLink2").hide();
                     $("#waterAlertLink3").hide();
-                    $("#waterAlertLink").html("WaterAlert for " + siteNo);
+                    $("#waterAlertLink").html("WaterAlert for <b>" + siteNo + "</b>");
                 } else if (siteAttr.MULTI_SITE == 1) {
                     $("#waterAlertLink2").show();
                     $("#waterAlertLink3").hide();
-                    $("#waterAlertLink").html("WaterAlert for " + siteNo);
-                    $("#waterAlertLink2").html("WaterAlert for " + siteNo_2);
+                    $("#waterAlertLink").html("WaterAlert for <b>" + siteNo + "</b>");
+                    $("#waterAlertLink2").html("WaterAlert for <b>" + siteNo_2 + "</b>");
                 } else if (siteAttr.MULTI_SITE = 3) {
                     $("#waterAlertLink2").show();
                     $("#waterAlertLink3").show();
-                    $("#waterAlertLink").html("WaterAlert for " + siteNo);
-                    $("#waterAlertLink2").html("WaterAlert for " + siteNo_2);
-                    $("#waterAlertLink3").html("WaterAlert for " + siteNo_3);
+                    $("#waterAlertLink").html("WaterAlert for <b>" + siteNo + "</b>");
+                    $("#waterAlertLink2").html("WaterAlert for <b>" + siteNo_2 + "</b>");
+                    $("#waterAlertLink3").html("WaterAlert for <b>" + siteNo_3 + "</b>");
                 }
 
                 //code to query related records for site and get logos and created/reviewed by cooperators
