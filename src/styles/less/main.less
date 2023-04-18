@@ -251,3 +251,42 @@ body {
         }
     }
 }
+
+
+// Water Alert Buttons.
+#waterAlertButtons{
+	display: flex;
+	flex-wrap: wrap;
+	gap: 5px;
+
+	a{
+		font-size: 10px !important;
+		font-weight: 300 !important;
+		text-align: right;
+		margin: 0;
+		padding: 5px 6px 7px 24px !important;
+		position: relative;
+		box-sizing: border-box;
+
+		&:before{
+			font-family: 'Font Awesome 5 Pro';
+			content: '\f0f3';
+			width: auto;
+			position: absolute;
+			font-size: 16px;
+			padding: 0 5px;
+			left: 0;
+			top: 0;
+			height: 100%;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+		}
+
+		b{
+			font-size: 13px !important;
+			display: block;
+			font-weight: 600;
+		}
+	}
+}
