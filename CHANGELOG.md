@@ -16,8 +16,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
  -  
  
 ### Fixed
-
-
+ 
  -  
 
 
@@ -50,5 +49,3 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
  
  -  Temp fix for AHPS site status request failing
-
- -  Fix for QCF value reset
