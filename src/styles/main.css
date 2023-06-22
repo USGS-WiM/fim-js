@@ -1064,18 +1064,6 @@ input[type="radio"] {
 #siteListNav:hover span {
   text-decoration: underline;
 }
-.siteListText {
-  text-indent: 15px;
-  font-size: small;
-}
-.siteListTextBtn {
-    font-size: small;
-    border: none;
-    background-color: inherit;
-    cursor: pointer;
-    display: inline-block;
-    color: #337ab7;
-}
 #navbar {
   background-color: #10152C !important;
 }
@@ -3067,10 +3055,26 @@ input[type=range]:focus::-ms-fill-upper {
   font-weight: 500;
   color: #10152C;
 }
-#ftModal #ftData #ftWebcam img {
+#ftModal #ftData #ftWebcam h3 {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0;
+  padding: 0 0 6px 0;
+}
+#ftModal #ftData #ftWebcam a {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+}
+#ftModal #ftData #ftWebcam img,
+#ftModal #ftData #ftWebcam video {
   display: block;
   max-width: 100%;
   max-height: 100%;
+  margin-bottom: 55px;
+}
+#ftModal #ftData #ftWebcam video {
+  max-height: 300px;
 }
 #ftModal .ft-accordion-header {
   display: block;
