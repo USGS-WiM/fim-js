@@ -1330,10 +1330,14 @@ require([
 
                 //ahpsIds.map(function(x){ return x.toUpperCase() })
 
+                function randoInteger() {
+                    return Math.floor(Math.random() * 100000); // Generates a random integer between 0 and 99
+                }
+
                 $.ajax({
                     dataType: 'json',
                     type: 'GET',
-                    url: ahpsForecastUrl + "/query?returnGeometry=false&where=GaugeLID%20in%20%28" + ahpsIds + "%29&outFields=status%2Cgaugelid&f=json",
+                    url: ahpsForecastUrl + "/query?returnGeometry=false&where=GaugeLID%20in%20%28" + ahpsIds + "%29&outFields=status%2Cgaugelid&f=json&randInt="+randoInteger(),
                     headers: {'Accept': '*/*'},
                     success: function (data) {
 
