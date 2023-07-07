@@ -5948,8 +5948,8 @@ require([
 		});
 	}else{
 		// Geosearch unavailble
-		$("#geosearchUnavailable").addClass("visible");
-		$("#geosearchModalBody").addClass("hidden");
+		// $("#geosearchUnavailable").addClass("visible");
+		// $("#geosearchModalBody").addClass("hidden");
 	}
 
 
