@@ -1064,18 +1064,6 @@ input[type="radio"] {
 #siteListNav:hover span {
   text-decoration: underline;
 }
-.siteListText {
-  text-indent: 15px;
-  font-size: small;
-}
-.siteListTextBtn {
-    font-size: small;
-    border: none;
-    background-color: inherit;
-    cursor: pointer;
-    display: inline-block;
-    color: #337ab7;
-}
 #navbar {
   background-color: #10152C !important;
 }
@@ -4181,4 +4169,42 @@ input[type=range]:focus::-ms-fill-upper {
 }
 .sidebar-layers-item button:hover b {
   text-decoration: underline;
+}
+#waterAlertButtons {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+#waterAlertButtons a {
+  font-size: 10px !important;
+  font-weight: 300 !important;
+  text-align: right;
+  margin: 0;
+  padding: 5px 6px 7px 24px !important;
+  position: relative;
+  box-sizing: border-box;
+}
+#waterAlertButtons a:before {
+  font-family: 'Font Awesome 5 Pro';
+  content: '\f0f3';
+  width: auto;
+  position: absolute;
+  font-size: 16px;
+  padding: 0 5px;
+  left: 0;
+  top: 0;
+  height: 100%;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+  flex-direction: column;
+  -webkit-justify-content: center;
+  justify-content: center;
+}
+#waterAlertButtons a b {
+  font-size: 13px !important;
+  display: block;
+  font-weight: 600;
 }

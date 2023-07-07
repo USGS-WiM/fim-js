@@ -196,7 +196,23 @@ require([
                         "hasOpacitySlider": true,
                         "includeLegend" : true
                     }
-                },
+                }/*,
+                "NHD": {
+                    "url" : "https://mapservice.nohrsc.noaa.gov/arcgis/rest/services/national_water_model/NWM_Stream_Analysis/MapServer",
+                    "options": {
+                        "id": "nhd",
+                        "visibleLayers": [1,2,3,4,5,6,21],
+                        "opacity": 1.0,
+                        "visible": false
+                    },
+                    "wimOptions": {
+                        "type": "layer",
+                        "layerType": "agisDynamic",
+                        "includeInLayerList": true,
+                        "hasOpacitySlider": true,
+                        "includeLegend" : true
+                    }
+                }*/,
                 "FIM sites for print": {
                     "url" : "https://fimnew.wim.usgs.gov/server/rest/services/FIMPrint/fimPrintTest/MapServer",
                     "options": {
@@ -1210,8 +1226,19 @@ require([
 
 	// Click Water Alert Link
     $("#waterAlertLink").click(function() {
-       $("#waterAlertLink").attr("href", "https://water.usgs.gov/wateralert/subscribe/?fim=1&intro=1&site_no=" + siteAttr.SITE_NO + "&agency_cd=USGS&type_cd=st&parms="+ siteAttr.PCODE + ":" + results[$(".fts1 #floodSlider")[0].value].attributes["STAGE"]);
+       //$("#waterAlertLink").attr("href", "https://water.usgs.gov/wateralert/subscribe/?fim=1&intro=1&site_no=" + siteAttr.SITE_NO + "&agency_cd=USGS&type_cd=st&parms="+ siteAttr.PCODE + ":" + results[$(".fts1 #floodSlider")[0].value].attributes["STAGE"]);
+       $("#waterAlertLink").attr("href", "https://accounts.waterdata.usgs.gov/wateralert/my-alerts/#siteNumber=" + siteNo);
        $("#waterAlertLink").click();
+    });
+
+    $("#waterAlertLink2").click(function() {
+        $("#waterAlertLink2").attr("href", "https://accounts.waterdata.usgs.gov/wateralert/my-alerts/#siteNumber=" + siteNo_2);
+        $("#waterAlertLink2").click();
+    });
+
+    $("#waterAlertLink3").click(function() {
+        $("#waterAlertLink3").attr("href", "https://accounts.waterdata.usgs.gov/wateralert/my-alerts/#siteNumber=" + siteNo_3);
+        $("#waterAlertLink3").click();
     });
 
 	// Click disclaimer link, show disclaimer
@@ -1319,10 +1346,14 @@ require([
 
                 //ahpsIds.map(function(x){ return x.toUpperCase() })
 
+                function randoInteger() {
+                    return Math.floor(Math.random() * 100000); // Generates a random integer between 0 and 99
+                }
+
                 $.ajax({
                     dataType: 'json',
                     type: 'GET',
-                    url: ahpsForecastUrl + "/query?returnGeometry=false&where=GaugeLID%20in%20%28" + ahpsIds + "%29&outFields=status%2Cgaugelid&f=json",
+                    url: ahpsForecastUrl + "/query?returnGeometry=false&where=GaugeLID%20in%20%28" + ahpsIds + "%29&outFields=status%2Cgaugelid&f=json&randInt="+randoInteger(),
                     headers: {'Accept': '*/*'},
                     success: function (data) {
 
@@ -1854,8 +1885,23 @@ require([
                 map.getLayer("fimBreach").setVisibility(false);
                 map.getLayer("fimBreachMulti").setVisibility(false);
                 
-                
-
+                //set up Water Alert links 
+                if(siteAttr.MULTI_SITE == 0) {
+                    $("#waterAlertLink2").hide();
+                    $("#waterAlertLink3").hide();
+                    $("#waterAlertLink").html("WaterAlert for <b>" + siteNo + "</b>");
+                } else if (siteAttr.MULTI_SITE == 1) {
+                    $("#waterAlertLink2").show();
+                    $("#waterAlertLink3").hide();
+                    $("#waterAlertLink").html("WaterAlert for <b>" + siteNo + "</b>");
+                    $("#waterAlertLink2").html("WaterAlert for <b>" + siteNo_2 + "</b>");
+                } else if (siteAttr.MULTI_SITE = 3) {
+                    $("#waterAlertLink2").show();
+                    $("#waterAlertLink3").show();
+                    $("#waterAlertLink").html("WaterAlert for <b>" + siteNo + "</b>");
+                    $("#waterAlertLink2").html("WaterAlert for <b>" + siteNo_2 + "</b>");
+                    $("#waterAlertLink3").html("WaterAlert for <b>" + siteNo_3 + "</b>");
+                }
 
                 //code to query related records for site and get logos and created/reviewed by cooperators
                 //first set anything that can be set with site attributes
@@ -2275,9 +2321,10 @@ require([
                 }
 
                 // Google Analytics
-                /*ga('send','event','Map','click','Site clicked');*/
+                /*gtag('send','event','Map','click','Site clicked');*/
                 var dimensionValue = siteNo + ", " + state +", " + community;
-                ga('send','event','Map','click', 'Site Clicked', {'dimension1': dimensionValue});
+                gtag('send','event','Map','click', 'Site Clicked', {'dimension1': dimensionValue});
+
                 // End Google Analytics
 
                 var suppLyrs = map.getLayer("fimSuppLyrs");
@@ -3581,6 +3628,28 @@ require([
                                                     break;
                                                 }
                                             }
+                                        } else if (currentSlider2Value < parseFloat(tempPairValue[tempPairValue.length-1].pairStage) && currentSlider2Value > parseFloat(tempPairValue[0].pairStage)) {
+                                            console.log('tweener');
+                                            var tempValueDiff = 1000; //change to null and check for null or newtempValueDiff < tempValueDiff
+                                            var nearestValue = currentSlider2Value;
+                                            var i_value;
+                                            for (i=0;i<tempPairValue.length;i++) {
+                                                if (tempPairValue[i].pairStage == currentSlider2Value) {
+                                                    nearestValue = currentSlider2Value
+                                                    i_value = i;
+                                                    break;
+                                                } else {
+                                                    var newTempValueDiff = Math.abs(currentSlider2Value-tempPairValue[i].pairStage);
+                                                    if (newTempValueDiff < tempValueDiff) {
+                                                        tempValueDiff = newTempValueDiff;
+                                                        nearestValue = tempPairValue[i].pairStage;
+                                                        i_value = i;
+                                                    }
+                                                }
+                                            }
+                                            if (currentSlider2Value != nearestValue) {
+                                                snapToFlood(nearestValue,".second-slider");
+                                            }
                                         }
                                         
                                     } else if ($(this).hasClass('second-slider')) {
@@ -3630,6 +3699,28 @@ require([
 													//slideWarningShow();
                                                     break;
                                                 }
+                                            }
+                                        } else if (currentSlider1Value < parseFloat(tempPairValue[tempPairValue.length-1].pairStage) && currentSlider1Value > parseFloat(tempPairValue[0].pairStage)) {
+                                            console.log('tweener');
+                                            var tempValueDiff = 1000; //change to null and check for null or newtempValueDiff < tempValueDiff
+                                            var nearestValue = currentSlider1Value;
+                                            var i_value;
+                                            for (i=0;i<tempPairValue.length;i++) {
+                                                if (tempPairValue[i].pairStage == currentSlider1Value) {
+                                                    nearestValue = currentSlider1Value
+                                                    i_value = i;
+                                                    break;
+                                                } else {
+                                                    var newTempValueDiff = Math.abs(currentSlider1Value-tempPairValue[i].pairStage);
+                                                    if (newTempValueDiff < tempValueDiff) {
+                                                        tempValueDiff = newTempValueDiff;
+                                                        nearestValue = tempPairValue[i].pairStage;
+                                                        i_value = i;
+                                                    }
+                                                }
+                                            }
+                                            if (currentSlider1Value != nearestValue) {
+                                                snapToFlood(nearestValue,".first-slider");
                                             }
                                         }
                                         
@@ -5918,8 +6009,8 @@ require([
 		});
 	}else{
 		// Geosearch unavailble
-		$("#geosearchUnavailable").addClass("visible");
-		$("#geosearchModalBody").addClass("hidden");
+		// $("#geosearchUnavailable").addClass("visible");
+		// $("#geosearchModalBody").addClass("hidden");
 	}
 
 
@@ -6628,7 +6719,7 @@ require([
 
                     // Google Analytics
                     var dimensionValue = layerName + "";
-                    ga('send','event','layer','click', 'layer toggle', {'dimension2': dimensionValue});
+                    gtag('send','event','layer','click', 'layer toggle', {'dimension2': dimensionValue});
                     // End Google Analytics
 
                 });
