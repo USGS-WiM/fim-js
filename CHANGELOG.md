@@ -9,15 +9,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
- -  
+ -  Water Alert links for multi-site libraries
  
 ### Changed
 
- -  
+ -  Updated links for new Water Alert system
+ -  Changed Water Alert text and icons
+ -  Switched from Bower to Font Awesome Kit CDN import
+ -  Updated to new GA tracking system
  
 ### Fixed
  
- -  
+ -  Multi-sites not adjusting other slider and showing blanks maps
+ -  Eliminated caching of NWS flood conditions for sites
+ -  Removed/Fixed 'geosearch unavailable' message
 
 
 ## [2.7](https://github.com/USGS-WiM/fim-js/releases/tag/v2.7)
