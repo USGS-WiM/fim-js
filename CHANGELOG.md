@@ -9,6 +9,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
+ -  
+ 
+### Changed
+
+ -  
+ 
+### Fixed
+ 
+ -  
+
+
+## [2.7.1](https://github.com/USGS-WiM/fim-js/releases/tag/v2.7.1)
+
+### Added
+
  -  Water Alert links for multi-site libraries
  
 ### Changed
