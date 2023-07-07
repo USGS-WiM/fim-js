@@ -157,7 +157,23 @@ require([
                         "hasOpacitySlider": true,
                         "includeLegend" : true
                     }
-                },
+                }/*,
+                "NHD": {
+                    "url" : "https://mapservice.nohrsc.noaa.gov/arcgis/rest/services/national_water_model/NWM_Stream_Analysis/MapServer",
+                    "options": {
+                        "id": "nhd",
+                        "visibleLayers": [1,2,3,4,5,6,21],
+                        "opacity": 1.0,
+                        "visible": false
+                    },
+                    "wimOptions": {
+                        "type": "layer",
+                        "layerType": "agisDynamic",
+                        "includeInLayerList": true,
+                        "hasOpacitySlider": true,
+                        "includeLegend" : true
+                    }
+                }*/,
                 "FIM sites for print": {
                     "url" : "https://fimnew.wim.usgs.gov/server/rest/services/FIMPrint/fimPrintTest/MapServer",
                     "options": {
