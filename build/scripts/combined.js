@@ -196,7 +196,23 @@ require([
                         "hasOpacitySlider": true,
                         "includeLegend" : true
                     }
-                },
+                }/*,
+                "NHD": {
+                    "url" : "https://mapservice.nohrsc.noaa.gov/arcgis/rest/services/national_water_model/NWM_Stream_Analysis/MapServer",
+                    "options": {
+                        "id": "nhd",
+                        "visibleLayers": [1,2,3,4,5,6,21],
+                        "opacity": 1.0,
+                        "visible": false
+                    },
+                    "wimOptions": {
+                        "type": "layer",
+                        "layerType": "agisDynamic",
+                        "includeInLayerList": true,
+                        "hasOpacitySlider": true,
+                        "includeLegend" : true
+                    }
+                }*/,
                 "FIM sites for print": {
                     "url" : "https://fimnew.wim.usgs.gov/server/rest/services/FIMPrint/fimPrintTest/MapServer",
                     "options": {
@@ -3611,6 +3627,28 @@ require([
                                                     break;
                                                 }
                                             }
+                                        } else if (currentSlider2Value < parseFloat(tempPairValue[tempPairValue.length-1].pairStage) && currentSlider2Value > parseFloat(tempPairValue[0].pairStage)) {
+                                            console.log('tweener');
+                                            var tempValueDiff = 1000; //change to null and check for null or newtempValueDiff < tempValueDiff
+                                            var nearestValue = currentSlider2Value;
+                                            var i_value;
+                                            for (i=0;i<tempPairValue.length;i++) {
+                                                if (tempPairValue[i].pairStage == currentSlider2Value) {
+                                                    nearestValue = currentSlider2Value
+                                                    i_value = i;
+                                                    break;
+                                                } else {
+                                                    var newTempValueDiff = Math.abs(currentSlider2Value-tempPairValue[i].pairStage);
+                                                    if (newTempValueDiff < tempValueDiff) {
+                                                        tempValueDiff = newTempValueDiff;
+                                                        nearestValue = tempPairValue[i].pairStage;
+                                                        i_value = i;
+                                                    }
+                                                }
+                                            }
+                                            if (currentSlider2Value != nearestValue) {
+                                                snapToFlood(nearestValue,".second-slider");
+                                            }
                                         }
                                         
                                     } else if ($(this).hasClass('second-slider')) {
@@ -3660,6 +3698,28 @@ require([
 													//slideWarningShow();
                                                     break;
                                                 }
+                                            }
+                                        } else if (currentSlider1Value < parseFloat(tempPairValue[tempPairValue.length-1].pairStage) && currentSlider1Value > parseFloat(tempPairValue[0].pairStage)) {
+                                            console.log('tweener');
+                                            var tempValueDiff = 1000; //change to null and check for null or newtempValueDiff < tempValueDiff
+                                            var nearestValue = currentSlider1Value;
+                                            var i_value;
+                                            for (i=0;i<tempPairValue.length;i++) {
+                                                if (tempPairValue[i].pairStage == currentSlider1Value) {
+                                                    nearestValue = currentSlider1Value
+                                                    i_value = i;
+                                                    break;
+                                                } else {
+                                                    var newTempValueDiff = Math.abs(currentSlider1Value-tempPairValue[i].pairStage);
+                                                    if (newTempValueDiff < tempValueDiff) {
+                                                        tempValueDiff = newTempValueDiff;
+                                                        nearestValue = tempPairValue[i].pairStage;
+                                                        i_value = i;
+                                                    }
+                                                }
+                                            }
+                                            if (currentSlider1Value != nearestValue) {
+                                                snapToFlood(nearestValue,".first-slider");
                                             }
                                         }
                                         
