@@ -35,7 +35,7 @@ gulp.task('styles', function () {
 
 // Icons
 gulp.task('icons', function () {
-    return gulp.src(['src/bower_components/bootstrap/dist/fonts/*.*', 'src/bower_components/fontawesome/fonts/*.*'])
+    return gulp.src(['src/bower_components/bootstrap/dist/fonts/*.*'])
         .pipe(gulp.dest('build/fonts'));
 });
 

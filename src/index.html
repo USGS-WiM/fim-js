@@ -54,21 +54,20 @@
     <script src="scripts/core.js"></script>
     <!-- endbuild -->
 
-    <!-- Google Analytics -->
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-232G9MDQL1"></script>
     <script>
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
 
-        ga('create', 'UA-61219868-23', 'auto');
-        ga('send', 'pageview');
-
+	gtag('config', 'G-232G9MDQL1');
     </script>
     <!-- End Google Analytics -->
 
     <!-- Font Awesome Pro CDN -->
-	<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.2/css/all.css" integrity="sha384-XxNLWSzCxOe/CFcHcAiJAZ7LarLmw3f4975gOO6QkxvULbGGNDoSOTzItGUG++Q+" crossorigin="anonymous">
+	<!-- <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.2/css/all.css" integrity="sha384-XxNLWSzCxOe/CFcHcAiJAZ7LarLmw3f4975gOO6QkxvULbGGNDoSOTzItGUG++Q+" crossorigin="anonymous"> -->
+	<script src="https://kit.fontawesome.com/38af08b53b.js" crossorigin="anonymous"></script>
 
 
 </head>
@@ -82,7 +81,7 @@ USGS Bar
         <img src="images/USGS_ID_white.png" alt="United States Geological Survey (USGS) Logo" title="USGS Home Page" />
     </a>
     <button id="geosearchNav" type="button" class="btn btn-primary navbar-btn pull-right"
-        onclick="ga('send','event','navbar','click','Find Location Modal Opened');">
+        onclick="gtag('send','event','navbar','click','Find Location Modal Opened');">
         <i class="fa fa-search"></i>
         <span id="geosearchButtonText">Find Location</span>
     </button>
@@ -99,7 +98,7 @@ USGS Bar
             </div>
         </div>
 
-        <!-- <button id="geosearchNav" type="button" class="btn btn-primary navbar-btn pull-right" onclick="ga('send','event','navbar','click','Find Location Modal Opened');">
+        <!-- <button id="geosearchNav" type="button" class="btn btn-primary navbar-btn pull-right" onclick="gtag('send','event','navbar','click','Find Location Modal Opened');">
             <i class="fa fa-search"></i>
             <span id="geosearchButtonText">Find Location</span>
         </button> -->
@@ -109,13 +108,13 @@ USGS Bar
             <span id="printButtonText"> Print</span>
         </button>
 
-        <button id="aboutNav" class="btn btn-default navbar-btn pull-right" onclick="ga('send','event','navbar','click','About Modal');">
+        <button id="aboutNav" class="btn btn-default navbar-btn pull-right" onclick="gtag('send','event','navbar','click','About Modal');">
             <i class="far fa-question-circle"></i><span>About</span>
         </button>
-        <button id="userGuideNav" class="btn btn-default navbar-btn pull-right" onclick="ga('send','event','navbar','click','User Guide');">
+        <button id="userGuideNav" class="btn btn-default navbar-btn pull-right" onclick="gtag('send','event','navbar','click','User Guide');">
             <i class="far fa-book-spells"></i><span>User Guide</span>
         </button>
-        <button id="siteListNav" class="btn btn-default navbar-btn pull-right" onclick="ga('send','event','navbar','click','Site List');">
+        <button id="siteListNav" class="btn btn-default navbar-btn pull-right" onclick="gtag('send','event','navbar','click','Site List');">
           <i class="far fa-align-justify"></i><span>Site List</span>
         </button>
 
@@ -138,7 +137,7 @@ USGS Bar
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title">Find Location</h4>
             </div>
-            <div id="geosearchUnavailable">Geosearch Currently Unavailable</div>
+            <!-- <div id="geosearchUnavailable">Geosearch Currently Unavailable</div> -->
 
             <div class="modal-body" id="geosearchModalBody">
                 <div class="form-group">
@@ -152,7 +151,7 @@ USGS Bar
                         </label>
                     </div>-->
                     <div class="geosearch-form-buttons">
-                      <button id="btnGeosearch" type="button" class="btn btn-success btn-fixed" data-dismiss="modal" onclick="ga('send','event','navbar','click','Find Location Search Performed');"> Go </button>
+                      <button id="btnGeosearch" type="button" class="btn btn-success btn-fixed" data-dismiss="modal" onclick="gtag('send','event','navbar','click','Find Location Search Performed');"> Go </button>
                     </div>
 
                     <div class="search-help">
@@ -287,7 +286,7 @@ if (window.document.documentMode) {
             <div id="aboutModalBody" class="modal-body">
                 <ul class="nav nav-tabs" id="aboutModalTabs">
                     <li role="presentation"><a id="aboutTab" href="#aboutTabPane" data-toggle="tab"><i class="fa fa-question-circle"></i>&nbsp;About the application</a></li>
-                    <li role="presentation" class="active"><a id="disclaimerTab" href="#disclaimerTabPane" data-toggle="tab" onclick="ga('send','event','About Modal','click','Disclaimer');"><i class="fa fa-exclamation-circle"></i>&nbsp;Welcome & Disclaimer</a></li>
+                    <li role="presentation" class="active"><a id="disclaimerTab" href="#disclaimerTabPane" data-toggle="tab" onclick="gtag('send','event','About Modal','click','Disclaimer');"><i class="fa fa-exclamation-circle"></i>&nbsp;Welcome & Disclaimer</a></li>
                 </ul>
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane" id="aboutTabPane">
@@ -996,35 +995,35 @@ if (window.document.documentMode) {
 
                             <!-- Tabs / navigation for flood tools -->
                             <div id="ftDataTabs">
-                                <div class="ft-tab ft-main-tab active" data-toggle="ftTools" onclick="ga('send','event','Flood Tools Panel','click','Flood Tools');">
+                                <div class="ft-tab ft-main-tab active" data-toggle="ftTools" onclick="gtag('send','event','Flood Tools Panel','click','Flood Tools');">
                                     <span>Site Info & Conditions</span>
 									<i class="ft-main-tab-triangle"><div class="inner-triangle"></div></i>
                                 </div>
-                                <div class="ft-tab ft-hydro-tab" data-toggle="ftHydro" onclick="ga('send','event','Hydrograph Panel','click','Hydrograph');">
+                                <div class="ft-tab ft-hydro-tab" data-toggle="ftHydro" onclick="gtag('send','event','Hydrograph Panel','click','Hydrograph');">
                                     <span>Hydrograph</span>
                                     <i class="far fa-chart-line"></i>
                                 </div>
-                                <div id="historicTab" class="ft-tab ft-historic-tab" data-toggle="ftHistorical" onclick="ga('send','event','Historical Panel','click','Historical');">
+                                <div id="historicTab" class="ft-tab ft-historic-tab" data-toggle="ftHistorical" onclick="gtag('send','event','Historical Panel','click','Historical');">
                                     <span>Historical Flooding</span>
                                     <i class="far fa-chart-bar"></i>
                                 </div>
-                                <div class="ft-tab ft-hazus-tab" data-toggle="ftHazus" onclick="ga('send','event','Hazus Panel','click','HAZUS');">
+                                <div class="ft-tab ft-hazus-tab" data-toggle="ftHazus" onclick="gtag('send','event','Hazus Panel','click','HAZUS');">
                                     <span>Hazus</span>
                                     <i class="far fa-building"></i>
                                 </div>
-                                <div class="ft-tab ft-services-tab" data-toggle="ftServices" onclick="ga('send','event','Services&Data Panel','click','Services and Data');">
+                                <div class="ft-tab ft-services-tab" data-toggle="ftServices" onclick="gtag('send','event','Services&Data Panel','click','Services and Data');">
                                     <span>Services & Data</span>
                                     <i class="far fa-server"></i>
                                 </div>
-                                <div class="ft-tab ft-webcam-tab" data-toggle="ftWebcam" onclick="ga('send','event','Webcam Panel','click','Webcam');">
+                                <div class="ft-tab ft-webcam-tab" data-toggle="ftWebcam" onclick="gtag('send','event','Webcam Panel','click','Webcam');">
                                     <span>Webcam</span>
                                     <i class="far fa-video"></i>
                                 </div>
-                                <a class="ft-tab ft-webcam-link-tab" href="" target="_blank" onclick="ga('send','event','Webcam Panel','click','Webcam');">
+                                <a class="ft-tab ft-webcam-link-tab" href="" target="_blank" onclick="gtag('send','event','Webcam Panel','click','Webcam');">
                                     <span>Webcam</span>
                                     <i class="far fa-video"></i>
                                 </a>
-                                <div class="ft-tab ft-more-info-tab" data-toggle="ftMoreInfo" onclick="ga('send','event','More Info Panel','click','More Info');">
+                                <div class="ft-tab ft-more-info-tab" data-toggle="ftMoreInfo" onclick="gtag('send','event','More Info Panel','click','More Info');">
                                     <span>More Info</span>
                                     <i class="far fa-question-circle"></i>
                                 </div>
@@ -1233,9 +1232,13 @@ if (window.document.documentMode) {
                                 <div class="ft-header">Sign up for WaterAlert for this site</div>
                                 <img src="images/IWRSSlogo.png" id="iwrssLogo"/>
                                 <p>
-                                    Get water information texted directly to you...
+                                    Get notifications for changes in water conditions based on thresholds
                                 </p>
-                                <a id="waterAlertLink" target="_blank" class="ft-button" href="">Subscribe to WaterAlert!</a>
+								<div id="waterAlertButtons">
+									<a id="waterAlertLink" title="Go to the WaterAlert subscription page for this site" target="_blank" class="ft-button" href="">Subscribe to WaterAlert!</a><br/>
+									<a id="waterAlertLink2" title="Go to the WaterAlert subscription page for this site" target="_blank" class="ft-button" href="">Subscribe to WaterAlert!</a><br/>
+									<a id="waterAlertLink3" title="Go to the WaterAlert subscription page for this site" target="_blank" class="ft-button" href="">Subscribe to WaterAlert!</a>
+								</div>
 
                                 <div class="ft-space"></div>
 
@@ -1306,8 +1309,8 @@ if (window.document.documentMode) {
 
             </div>
 
-            <div onclick="ga('send','event','Map Button','click','Home icon');"><div id="homeButton"></div></div>
-            <div onclick="ga('send','event','Map Button','click','Location icon');"><div id="locateButton"></div></div>
+            <div onclick="gtag('send','event','Map Button','click','Home icon');"><div id="homeButton"></div></div>
+            <div onclick="gtag('send','event','Map Button','click','Location icon');"><div id="locateButton"></div></div>
 
             <div id="latLngScale" class="latLngScale">
                 <span class="hover-content"> <b>Map scale </b></span>
