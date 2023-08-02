@@ -1860,17 +1860,64 @@ require([
                 //Web cam check and set up
                 //Web cam check and set up
                 //Web cam check and set up
-                if(feature.attributes.HAS_WEBCAM == "1"){ //Embed
+                if (feature.attributes.HAS_NIMS == "1" || feature.attributes.HAS_NIMS == "0" || feature.attributes.HAS_NIMS == null) {
+                    console.log('has nims');
+                    $("#webcamImage").hide();
+                    $(".ft-webcam-link-tab").hide();
+                    $("#ftWebcam").html("");
+
+                    $("#nimsCam").attr('src', null);
+                    $("#nimsCam").hide();
+
+                    //code to retrieve latest webcam thumbnail timelapse gif
+                    $.ajax({
+                        dataType: 'json',
+                        type: 'GET',
+                        url: nimsUrl + siteAttr.SITE_NO,
+                        headers: {'Accept': '*/*'},
+                        success: function (data) {
+
+                            $.each(data, function(key, camera) {
+                                console.log(key, camera.locus);
+
+                                if (camera.TL_enabled == true && camera.locus == "aws") {
+                                    $("#ftWebcam").append('<h3>' + camera.camDesc + '</h3><a target="_blank" href="https://apps.usgs.gov/hivis/camera/' + camera.camId + '">Access USGS HIVIS data</a><video id="nimsCam' + key + '" width="500" height="375" src="" controls></video>');
+                                    
+                                    var nimsCamUrl = camera.tlDir + camera.camId + '_720.mp4'
+                                    $("#nimsCam"+key).attr('src', nimsCamUrl);
+                                    $(".ft-webcam-tab").show();
+                                } else if (camera.TL_enabled == true && camera.locus == "umid"){
+                                    $("#ftWebcam").append('<h3>' + camera.camDesc + '</h3><a target="_blank" href="https://apps.usgs.gov/hivis/camera/' + camera.camId + '">Access USGS HIVIS data</a><video id="nimsCam' + key + '" width="500" height="375" src="" controls></video>');
+
+                                    var nimsCamUrl = camera.tlDir + camera.camId + '_720.mp4'
+                                    $("#nimsCam"+key).attr('src', nimsCamUrl);
+                                    $(".ft-webcam-tab").show();
+                                }
+                            });
+
+                            if (data.length == 0) {
+                                $(".ft-webcam-tab").hide();
+                            }
+
+                        },
+                        error: function (error) {
+                            console.log("Error processing the JSON. The error is:" + error);
+                        }
+                    });
+
+
+                } else if(feature.attributes.HAS_WEBCAM == "1"){ //Embed
                     $(".ft-webcam-tab").hide();
                     $(".ft-webcam-link-tab").show();
                     $(".ft-webcam-link-tab").attr("href", "https://services.wim.usgs.gov/webCam/webCamNew/Default.aspx?webCamInfo=" + feature.attributes.WEBCAM_INFO)
                     console.log("Open Webcam in new tab")
-                }else if(feature.attributes.HAS_WEBCAM == "2"){ //Image
+                } else if(feature.attributes.HAS_WEBCAM == "2"){ //Image
                     $(".ft-webcam-tab").show();
                     $(".ft-webcam-link-tab").hide();
+                    $("#webcamImage").show();
                     $("#webcamImage").attr('src', feature.attributes.WEBCAM_INFO.replace('http:', 'https:'));
                     console.log("Webcam image embedded.")
-                }else{
+                } else{
                     $(".ft-webcam-tab").hide();
                     $(".ft-webcam-link-tab").hide();
                     console.log("No webcam")
