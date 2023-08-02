@@ -2398,13 +2398,13 @@ require([
                                 console.log(key, camera.locus);
 
                                 if (camera.TL_enabled == true && camera.locus == "aws") {
-                                    $("#ftWebcam").append('<h3>' + camera.camDesc + '</h3><a target="_blank" href="https://apps.usgs.gov/hivis/camera/' + camera.camId + '">Get more details on the amazing HIVIS site!!!</a><video id="nimsCam' + key + '" width="500" height="375" src="" controls></video>');
+                                    $("#ftWebcam").append('<h3>' + camera.camDesc + '</h3><a target="_blank" href="https://apps.usgs.gov/hivis/camera/' + camera.camId + '">Access USGS HIVIS data</a><video id="nimsCam' + key + '" width="500" height="375" src="" controls></video>');
                                     
                                     var nimsCamUrl = camera.tlDir + camera.camId + '_720.mp4'
                                     $("#nimsCam"+key).attr('src', nimsCamUrl);
                                     $(".ft-webcam-tab").show();
                                 } else if (camera.TL_enabled == true && camera.locus == "umid"){
-                                    $("#ftWebcam").append('<h3>' + camera.camDesc + '</h3><a target="_blank" href="https://apps.usgs.gov/hivis/camera/' + camera.camId + '">Get more details on the amazing HIVIS site!!!</a><video id="nimsCam' + key + '" width="500" height="375" src="" controls></video>');
+                                    $("#ftWebcam").append('<h3>' + camera.camDesc + '</h3><a target="_blank" href="https://apps.usgs.gov/hivis/camera/' + camera.camId + '">Access USGS HIVIS data</a><video id="nimsCam' + key + '" width="500" height="375" src="" controls></video>');
 
                                     var nimsCamUrl = camera.tlDir + camera.camId + '_720.mp4'
                                     $("#nimsCam"+key).attr('src', nimsCamUrl);
